@@ -1,0 +1,37 @@
+.panel-curriculum:hover, .list-group-item:hover{
+    background-color: #e8eaf6;
+}
+
+.list-group-item:hover span{
+    float: right;
+    color: #ff0000;
+    display: inline;
+}
+
+.list-group-item span{
+    display: none;
+}
+
+.pointer{
+    cursor: pointer;
+}
+
+.admin_phdCycle_submenu:hover, .admin_phdCurriculum_submenu:hover, .phdCycle_submenu:hover, .admin_phd_user_submenu:hover{
+    background-color: #e8eaf6;
+    cursor: pointer;
+}
+
+.admin_phdCycle_submenu, .admin_phdCurriculum_submenu, .phdCycle_submenu, .admin_phd_user_submenu{
+    padding: 7px;
+    margin-top: 0px !important;
+}
+
+.hidden_menu{
+    display: none;
+}
+
+.homeList{
+    max-height: 200px;
+    overflow-y: auto;
+}
+
