@@ -8,7 +8,7 @@ package it.unisa.dottorato.phdCourse;
 
 /**
  *
- * @author Giuseppe
+ * @author Giuseppe Picciocchi
  */
 
 /*La classe Course identifica il corso del calendario*/
