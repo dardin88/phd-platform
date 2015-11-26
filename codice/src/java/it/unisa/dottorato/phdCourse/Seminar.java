@@ -31,7 +31,7 @@ public class Seminar implements Serializable{
     }
     
     // metodo per settare l'id della lezione
-    public void setIdLesson(int id){
+    public void setIdSeminar(int id){
         this.idSeminar = id;
     }
     
