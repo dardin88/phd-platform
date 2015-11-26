@@ -16,7 +16,6 @@ import java.util.Date;
 public class Lesson implements Serializable{
     
     private int idLesson;// variabile per identificare l'id della lezione (chiave primaria)
-   
     private Date data; // variabile per identificare la data di una lezione
     private int startTime;// variabile per identificare l'inizio della lezione
     private int endTime;  // variabile per identificare la fine della lezione
@@ -24,7 +23,7 @@ public class Lesson implements Serializable{
     private String classroom;// variabile per identificare la classe in cui si svolgerà la lezione
     private String description;// variabile per identificare la descrizione della lezione
     private int cycle;// variabile per identificare il ciclo a cui appartiene la lezione
-    private int curriculum;// variabile per identificare il curriculum a cui appartiene la lezione
+    private String curriculum;// variabile per identificare il curriculum a cui appartiene la lezione
     private int FK_course;// variabile per identificare la chiave esterna al corso della lezione
     
     
@@ -111,12 +110,12 @@ public class Lesson implements Serializable{
     }
     
     // metodo utilizzato per restituire il curriculum della lezione
-    public int getCurriculum(){
+    public String getCurriculum(){
         return curriculum;            
     }
     
     // metodo per settare il curriculum della lezione
-    public void setCurriculum(int curri){
+    public void setCurriculum(String curri){
         this.curriculum = curri;
     }
     
