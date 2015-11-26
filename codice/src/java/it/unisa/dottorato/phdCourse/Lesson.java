@@ -5,10 +5,7 @@
  */
 package it.unisa.dottorato.phdCourse;
 
-import java.text.SimpleDateFormat;
-import java.util.Date;
 import java.io.Serializable;
-import java.text.ParseException;
 import java.util.Date;
 /**
  *
@@ -19,10 +16,10 @@ import java.util.Date;
 public class Lesson implements Serializable{
     
     private int idLesson;// variabile per identificare l'id della lezione (chiave primaria)
-    private SimpleDateFormat sdf = new SimpleDateFormat(); // variabile per l'utilizzo delle date
    
-    private Date startDate;// variabile per identificare l'inizio della lezione
-    private Date endDate;  // variabile per identificare la fine della lezione
+    private Date data; // variabile per identificare la data di una lezione
+    private int startTime;// variabile per identificare l'inizio della lezione
+    private int endTime;  // variabile per identificare la fine della lezione
     private String name; // variabile per identificare il nome della lezione
     private String classroom;// variabile per identificare la classe in cui si svolgerà la lezione
     private String description;// variabile per identificare la descrizione della lezione
@@ -41,32 +38,35 @@ public class Lesson implements Serializable{
         this.idLesson = id;
     }
     
-    // metodo utilizzato per restituire la data di inizio lezione
-    public String getStartDate(){
-            String dataStr = sdf.format(startDate);
-            sdf.applyPattern("dd MMMM yyyy-HH.mm");
-            return dataStr;
+    // metodo utilizzato per restituire la data della lezione
+    public Date getData(){
+        return data;            
     }
     
-    // metodo utilizzato per settare la data di inizio lezione
-    public void setStartDate(String data) throws ParseException{
-            sdf.applyPattern("dd MMMM yyyy-HH.mm");
-            this.startDate = sdf.parse(data);
+    // metodo per settare la data di una lezione
+    public void setDate(Date date){
+        this.data = date;
     }
     
-     // metodo utilizzato per restituire la data di fine lezione
-    public String getEndDate(){
-            String dataStr = sdf.format(endDate);
-            sdf.applyPattern("dd MMMM yyyy-HH.mm");
-            return dataStr;
+    // metodo utilizzato per restituire l'ora di inizio lezione
+    public int getStartTime(){
+        return startTime;            
     }
     
-    // metodo utilizzato per settare la data di fine lezione
-    public void setEndDate(String data) throws ParseException{
-            sdf.applyPattern("dd MMMM yyyy-HH.mm");
-            this.endDate = sdf.parse(data);
+    // metodo per settare l'ora di inizio di lezione
+    public void setStartTime(int start_time){
+        this.startTime = start_time;
     }
     
+    // metodo utilizzato per restituire l'ora di fine lezione
+    public int getEndTime(){
+        return endTime;            
+    }
+    
+    // metodo per settare l'ora di fine lezione
+    public void setEndTime(int end_time){
+        this.endTime = end_time;
+    }
     
      // metodo utilizzato per restituire il nome della lezione
     public String getName(){
