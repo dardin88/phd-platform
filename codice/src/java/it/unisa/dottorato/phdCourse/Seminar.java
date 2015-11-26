@@ -5,9 +5,7 @@
  */
 package it.unisa.dottorato.phdCourse;
 
-import java.text.SimpleDateFormat;
 import java.io.Serializable;
-import java.text.ParseException;
 import java.util.Date;
 /**
  *
@@ -17,9 +15,9 @@ import java.util.Date;
 public class Seminar implements Serializable{
     
     private int idSeminar;// variabile per identificare l'id del seminario (chiave primaria)
-    private SimpleDateFormat sdf = new SimpleDateFormat(); // variabile per l'utilizzo delle date
-    private Date startDate;// variabile per identificare l'inizio del seminario
-    private Date endDate;  // variabile per identificare la fine del seminario
+    private Date data; // variabile per identificare la data di un seminario
+    private int startTime;// variabile per identificare l'inizio di un seminario
+    private int endTime;  // variabile per identificare la fine di un seminario
     private String name; // variabile per identificare il nome del seminario
     private String namespeacker;// variabile per identificare lo speaker del seminario
     private String description;// variabile per identificare la descrizione del seminario
@@ -37,31 +35,36 @@ public class Seminar implements Serializable{
         this.idSeminar = id;
     }
     
-    // metodo utilizzato per restituire la data di inizio seminario
-    public String getStartDate(){
-            String dataStr = sdf.format(startDate);
-            sdf.applyPattern("dd MMMM yyyy-HH.mm");
-            return dataStr;
+    // metodo utilizzato per restituire la data di un seminario
+    public Date getData(){
+        return data;            
     }
     
-    // metodo utilizzato per settare la data di inizio seminario
-    public void setStartDate(String data) throws ParseException{
-            sdf.applyPattern("dd MMMM yyyy-HH.mm");
-            this.startDate = sdf.parse(data);
+    // metodo per settare la data di un seminario
+    public void setDate(Date date){
+        this.data = date;
     }
     
-     // metodo utilizzato per restituire la data di fine seminario
-    public String getEndDate(){
-            String dataStr = sdf.format(endDate);
-            sdf.applyPattern("dd MMMM yyyy-HH.mm");
-            return dataStr;
+    // metodo utilizzato per restituire l'ora di inizio seminario
+    public int getStartTime(){
+        return startTime;            
     }
     
-    // metodo utilizzato per settare la data di fine seminario
-    public void setEndDate(String data) throws ParseException{
-            sdf.applyPattern("dd MMMM yyyy-HH.mm");
-            this.endDate = sdf.parse(data);
+    // metodo per settare l'ora di inizio seminario
+    public void setStartTime(int start_time){
+        this.startTime = start_time;
     }
+    
+    // metodo utilizzato per restituire l'ora di fine seminario
+    public int getEndTime(){
+        return endTime;            
+    }
+    
+    // metodo per settare l'ora di fine seminario
+    public void setEndTime(int end_time){
+        this.endTime = end_time;
+    }
+    
     
      // metodo utilizzato per restituire il nome del seminario
     public String getName(){
