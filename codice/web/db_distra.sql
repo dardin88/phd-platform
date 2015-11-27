@@ -337,7 +337,7 @@ INSERT INTO keep (professor,lesson)VALUES
 create table IF not EXIsts presence(
 phdstudent			varchar(50) not null,
 lesson	 			integer	not null,
-ispresent			boolean default false,
+ispresent			boolean default false ,
 primary key(phdstudent, lesson),
 foreign key (phdstudent) references phdstudent(email) on delete no action on update cascade,
 foreign key (lesson) references lesson(idlesson) on delete cascade on update cascade);
