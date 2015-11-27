@@ -65,7 +65,7 @@ public class CalendarManager {
              */
             String tSql = "INSERT INTO "
                     + CalendarManager.TABLE_COURSE
-                    + " ( idcourse, curriculum, cycle, name)"
+                    + " ( idCourse, fkCurriculum, fkCycle, name)"
                     + " VALUES ('"
                     + pCourse.getIdCourse()
                     + "','"
@@ -94,7 +94,7 @@ public class CalendarManager {
              */
             String tSql = "INSERT INTO "
                     + CalendarManager.TABLE_LESSON
-                    + " ( idlesson, date, starttime, endtime, name, classroom, desription, cycle, curriculum, course)"
+                    + " ( idLesson, date, startTime, endTime, name, classroom, desription, cycle, curriculum, fkCourse)"
                     + " VALUES ('"
                     + pLesson.getIdLesson() // int
                     + "','"
@@ -136,7 +136,7 @@ public class CalendarManager {
              */
             String tSql = "INSERT INTO "
                     + CalendarManager.TABLE_SEMINAR
-                    + " ( idseminar, date, starttime, endtime, name, namespeacker, desription, place, course)"
+                    + " ( iDseminar, date, startTime, endTime, name, namespeacker, desription, place, fkCourse)"
                     + " VALUES ('"
                     + pSeminar.getIdSeminar() // int
                     + "','"
@@ -176,13 +176,13 @@ public class CalendarManager {
              */
             String tSql = "UPDATE "
                     + CalendarManager.TABLE_LESSON
-                    + " set idlesson = '"
+                    + " set idLesson = '"
                     + pLesson.getIdLesson()
                     + "', date = '"
                     + pLesson.getData()
-                    + "', starttime = '"
+                    + "', startTime = '"
                     + pLesson.getStartTime()
-                    + "', endtime = '"
+                    + "', endTime = '"
                     + pLesson.getEndTime()
                     + "', name = '"
                     + Utility.Replace(pLesson.getName())
@@ -194,7 +194,7 @@ public class CalendarManager {
                     + pLesson.getCycle()
                     + "', curriculum = '"
                     + Utility.Replace(pLesson.getCurriculum())
-                    + "', course = '"
+                    + "', fkCourse = '"
                     + pLesson.getFK_course()
                     + "' WHERE idLesson = "
                     + oldLessonID;           
@@ -218,13 +218,13 @@ public class CalendarManager {
              */
             String tSql = "UPDATE "
                     + CalendarManager.TABLE_SEMINAR
-                    + " set idseminar = '"
+                    + " set idSeminar = '"
                     + pSeminar.getIdSeminar()
                     + "', date = '"
                     + pSeminar.getData()
-                    + "', starttime = '"
+                    + "', startTime = '"
                     + pSeminar.getStartTime()
-                    + "', endtime = '"
+                    + "', endTime = '"
                     + pSeminar.getEndTime()
                     + "', name = '"
                     + Utility.Replace(pSeminar.getName())
@@ -234,7 +234,7 @@ public class CalendarManager {
                     + Utility.Replace(pSeminar.getDescription())
                     + "', place = '"
                     + Utility.Replace(pSeminar.getPlace())
-                    + "', course = '"
+                    + "', fkCourse = '"
                     + pSeminar.getFK_course()
                     + "' WHERE idLesson = "
                     + oldSeminarID;           
@@ -261,7 +261,7 @@ public class CalendarManager {
              */
             String tSql = "DELETE FROM "
                     + CalendarManager.TABLE_LESSON
-                    + " WHERE idCollaboration = '"
+                    + " WHERE idLesson = '"
                     + idLesson + "'";
 
             //Inviamo la Query al DataBase
@@ -287,7 +287,7 @@ public class CalendarManager {
              */
             String tSql = "DELETE FROM "
                     + CalendarManager.TABLE_LESSON
-                    + " WHERE idCollaboration = '"
+                    + " WHERE idSeminar = '"
                     + idSeminar + "'";
 
             //Inviamo la Query al DataBase
@@ -314,23 +314,23 @@ public class CalendarManager {
              */
             String tSql = "SELECT * FROM "
                     + CalendarManager.TABLE_LESSON
-                    + " WHERE idCollaboration = '"
+                    + " WHERE idLesson = '"
                     + pLessonID + "'";
 
             //Inviamo la Query al DataBase
             ResultSet result = Utility.queryOperation(connect, tSql);
 
             if (result.next()) {
-                lesson.setIdLesson(result.getInt("idlesson"));
+                lesson.setIdLesson(result.getInt("idLesson"));
                 lesson.setDate(result.getDate("date"));
-                lesson.setStartTime(result.getInt("starttime"));
-                lesson.setEndTime(result.getInt("endtime"));
+                lesson.setStartTime(result.getInt("startTime"));
+                lesson.setEndTime(result.getInt("endTime"));
                 lesson.setName(result.getString("name"));
                 lesson.setClassroom(result.getString("classroom"));
                 lesson.setDescription(result.getString("description"));
                 lesson.setCycle(result.getInt("cycle"));
                 lesson.setCurriculum(result.getString("curriculum"));
-                lesson.setFK_course(result.getInt("course"));
+                lesson.setFK_course(result.getInt("fkCourse"));
             }
 
             return lesson;
@@ -355,22 +355,22 @@ public class CalendarManager {
              */
             String tSql = "SELECT * FROM "
                     + CalendarManager.TABLE_SEMINAR
-                    + " WHERE idCollaboration = '"
+                    + " WHERE idSeminar = '"
                     + pSeminarID + "'";
 
             //Inviamo la Query al DataBase
             ResultSet result = Utility.queryOperation(connect, tSql);
 
             if (result.next()) {
-                seminar.setIdSeminar(result.getInt("idseminar"));
+                seminar.setIdSeminar(result.getInt("idSeminar"));
                 seminar.setDate(result.getDate("date"));
-                seminar.setStartTime(result.getInt("starttime"));
-                seminar.setEndTime(result.getInt("endtime"));
+                seminar.setStartTime(result.getInt("startTime"));
+                seminar.setEndTime(result.getInt("endTime"));
                 seminar.setName(result.getString("name"));
                 seminar.setNameSpeacker(result.getString("namespeacker"));
                 seminar.setDescription(result.getString("description"));
                 seminar.setPlace(result.getString("place"));
-                seminar.setFK_course(result.getInt("course"));
+                seminar.setFK_course(result.getInt("fkCourse"));
             }
 
             return seminar;
