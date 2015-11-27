@@ -1,63 +1,52 @@
 CREATE DATABASE IF NOT EXISTS Phd_platform_db;
 USE Phd_platform_db;
--- creo la tabbela news
-create table IF not EXIsts news(
-idnews     integer PRIMARY kEY check(idnews>=0),
-description       text not null);
 
-INSERT INTO news (idnews,description)VALUES
+-- creo la tabella news
+create table IF not EXIsts news(
+idNews     integer PRIMARY kEY check(idnews>=0),
+description       text not null);
+--popolo la tabella news
+INSERT INTO news (idNews,description)VALUES
 (1,'Avviso: corsi di is2 interrotti perchè il gatto si è ferito una gamba'),
 (2,'News:il direttore procederà a conferire il premio');
--- struttra della tabella acount
 
+--creo la tabella degli account
 create table IF not EXIsts account(
-secondaryemail      varchar(50) primary key,
+secondaryEmail      varchar(50) primary key,
 email 				varchar(50),
 surname				varchar(25) not null,
 name				varchar(25) not null,
-password			varchar(16));
+password			varchar(16),
+typeAccount			varchar(20),
+isAdministrator		boolean default false);
 
--- inseriamo account 
+--popolo la tabella degli account
+INSERT INTO account (secondaryEmail,email,surname,name,password,typeAccount,isAdministrator )VALUES
+('test@hotmail.it',null, 'Rossi', 'Mario', null,null,false),
+('ballo@hotmail.it','ballo@unisa.it', 'Conti','Carlo', 'test1','dottorando',false),
+('wrestler@hotmail.it','wrestler@unisa.it', 'Cena', 'John', 'test3','docente',false),
+('dracula@hotmail.it','dracula@unisa.it', 'Conte', 'Dracula', 'test4','docente',true),
+('adelucia@hotmail.it','adelucia@unisa.it', 'DeLucia', 'Andrea', 'test5','docente',true),
+('dinucci@hotmail.it','dinucci@unisa.it','Dario','Dinucci','test6','dottorando',false);
 
-INSERT INTO account (secondaryemail,email,surname,name,password )VALUES
-('test1@gmail.com','test@unisa.it', 'Rossi', 'Mario', 'test'),
-('ballo1@hotmail.it','ballo@unisa.it', 'Conti','Carlo', 'test1'),
-('elyx241@hotmail.it','elyx24@unisa.it', 'Magalli', 'GianCarlo', 'test2'),
-('wrestler1@hotmail.it','wrestler@unisa.it', 'Cena', 'John', 'test3'),
-('dracula1@hotmail.it','dracula@unisa.it', 'Conte', 'Dracula', 'test4'),
-('adelucia1@hotmail.it','adelucia@unisa.it', 'DeLucia', 'Andrea', 'test5'),
-('dinucci1@gmail.com','dinucci@unisa.it','Dario','Dinucci','test6');
--- creiamo la tabella professori
+--creo la tabella  dei professori
 create table if not exists professor(
-email 				varchar(50) primary key,
-secondaryemail		varchar(50) not null unique,
-surname				varchar(25) not null,
-name				varchar(25) not null,
-password			varchar(16) not null,
+fkAccount			varchar(50) primary key,
 link 				varchar(150),
 department 			varchar(60) not null,
-isadministrator		boolean default false);
+foreign key(fkAccount) references account(secondaryEmail) on delete cascade on update cascade);
+
+--popolo la tabella  dei professori
+INSERT INTO professor (fkAccount,link,department)VALUES
+('wrestler@hotmail.it','https://it.wikipedia.org/wiki/John_Cena','Dipartimento di Mazzate'),
+('dracula@hotmail.it','https://it.wikipedia.org/wiki/Conte_Dracula','Dipartimento di Giurisprudenza'),
+('adelucia@hotmail.it','http://www.unisa.it/docenti/andreadelucia/index','Dipartimento di Informatica');
 
 
--- inseriamo i professori 
-INSERT INTO professor (email, secondaryemail,surname,name,password,link,department,isadministrator )VALUES
-('wrestler@unisa.it','wrestler1@hotmail.it', 'Cena', 'John', 'test3',
-'https://it.wikipedia.org/wiki/John_Cena','Dipartimento di Mazzate',false),
-
-('dracula@unisa.it','dracula1@hotmail.it', 'Conte', 'Dracula', 'test4',
-'https://it.wikipedia.org/wiki/Conte_Dracula','Dipartimento di Giurisprudenza',false),
-
-('adelucia@unisa.it','adelucia1@hotmail.it', 'DeLucia', 
-'Andrea', 'test5',
-'http://www.unisa.it/docenti/andreadelucia/index',
-'Dipartimento di Informatica',true);
-
--- creiamo una tabella curriculum
 create table if not exists curriculum(
 name 				varchar(100) primary key,
 description			text not null);
 
--- inseriamo il nome di un  curriculum per i cicli
 INSERT INTO curriculum (name,description)VALUES
 ('Informatica, Sistemi Informativi e Tecnologie del Software',
  'Il curriculum, Informatica, Sistemi Informativi e Tecnologie del Software, ha l’obiettivo di formare figure professionali dotate di una preparazione scientifica teorica e pratica idonea ad operare con piena professionalità e competenza, sia in ambito accademico che industriale, nelle varie fasi che caratterizzano la ricerca, lo sviluppo, il controllo di qualità e la produzione nel settore dei sistemi informativi e delle tecnologie del software. In particolare, il corso di dottorato di ricerca mira alla formazione di ricercatori con elevata conoscenza degli aspetti teorici, metodologici, sperimentali e applicativi di settore quali quelli dei sistemi informativi e delle basi di dati, dell’ingegneria del software, dell''ingegneria della conoscenza, del web engineering e dell''interazione uomo-macchina, con una elevata capacità di trasferire i risultati della ricerca in ambito industriale e di applicarli
@@ -103,25 +92,22 @@ INSERT INTO curriculum (name,description)VALUES
  processi di marketing e di comunicazione; ricoprire funzioni direzionali all’interno delle organizzazioni imprenditoriali e delle istituzioni nel ruolo di sviluppo delle strategie di marketing e della comunicazione.');
 
 
-
--- creiamo la tabella cicli
 create table if not exists cycle(
 number				integer primary key,
 description			text not null,
 year				varchar(4) not null,
-coordinator			varchar(50),
-foreign key (coordinator) references professor(email) on delete no action on update cascade);
+fkProfessor			varchar(50),
+foreign key (fkProfessor) references professor(fkAccount) on delete set null on update cascade);
 
--- inseriamo i cicli
-INSERT INTO cycle (number,description,year,coordinator)VALUES
- (15, 'Il corso di Dottorato di Ricerca in Management 
+INSERT INTO cycle (number,description,year, fkProfessor)VALUES
+(15, 'Il corso di Dottorato di Ricerca in Management 
  & Information Technology ha come obiettivo la formazione
  di specialisti della ricerca in ambito economico-aziendale
  ed informatico. Il corso è strutturato in tre curricula, 
  denominati (i) Economia e Direzione delle Aziende Pubbliche,
  (i) Marketing e Comunicazione e (iii)
  Informatica, Sistemi Informativi e Tecnologie del Software. Attraverso i tre curricula, il corso di Dottorato intende formare figure professionali diverse, ma che riescano ad interagire per la soluzione di problemi complessi in ambito economico-aziendale, grazie all''utilizzo di tecnologie dell''informazione innovative e ad un approccio inter-disciplinare che favorisca la reciproca condivisione di idee e competenze. Il primo curriculum mira a formare specialisti nel settore del management di enti, istituzioni ed aziende afferenti al settore pubblico, con conoscenze relative a principi, teorie e modelli di gestione dei processi di innovazione nella Pubblica Amministrazione. Il secondo curriculum mira a formare specialisti in grado di utilizzare le più avanzate, innovative ed affidabili metodologie di ricerca scientifica in campo economico-sociale, con particolare riferimento al marketing ed alla comunicazione. Infine, il terzo curriculum mira a formare specialisti nel settore dell''Informatica, con conoscenza degli aspetti teorici, metodologici e sperimentali dei sistemi informativi, dell''ingegneria del software, dei dati e della conoscenza, dell''elaborazione di immagini e dell''interazione uomo-macchina, con applicazioni in particolare alla economia e alla gestione aziendale.Il completamento del Corso di Dottorato ed il superamento dell''esame finale consente per tutti e tre i curricula lo svolgimento di attività di ricerca in ambito accademico, nei settori dell''economia aziendale e dell''informatica, costituendo un titolo legalmente riconosciuto nei concorsi universitari, nonché in enti di ricerca e nelle divisioni ricerca e sviluppo di aziende. Inoltre, la qualità del percorso formativo e le competenze specialistiche acquisite consentono l''inserimento dei dottori di ricerca anche nel mondo del lavoro e delle professioni, nella Pubblica Amministrazione e nelle aziende.',
- '2015', 'adelucia@unisa.it'),
+ '2015', 'adelucia@hotmail.it'),
  
 (16, 'Il corso di Dottorato di Ricerca in Management &
  Information Technology ha come obiettivo la formazione
@@ -157,97 +143,87 @@ INSERT INTO cycle (number,description,year,coordinator)VALUES
  dell''informatica, costituendo un
  titolo legalmente riconosciuto nei concorsi universitari, 
  nonché in enti di ricerca e nelle divisioni ricerca e sviluppo di aziende. Inoltre, la qualità del percorso formativo e le competenze specialistiche acquisite consentono l''inserimento dei dottori di ricerca anche nel mondo del lavoro e delle professioni, nella Pubblica Amministrazione e nelle aziende.'
- , '2015', 'dracula@unisa.it');
+ , '2015', 'dracula@hotmail.it');
 
  
- -- inseiramo i curriculm dei cicli 
 create table if not exists curriculumcic(
-curriculum 			varchar(100),
-cycle				integer,
-coordinator			varchar(50),
-primary key (curriculum,cycle),
-foreign key (curriculum) references curriculum(name) on delete cascade on update cascade,
-foreign key (cycle) references cycle(number) on delete cascade on update cascade,
-foreign key (coordinator) references professor(email) on delete no action on update cascade);
+fkCurriculum 		varchar(100),
+fkCycle				integer,
+fkProfessor			varchar(50),
+primary key (fkCurriculum,fkCycle),
+foreign key (fkCurriculum) references curriculum(name) on delete cascade on update cascade,
+foreign key (fkCycle) references cycle(number) on delete cascade on update cascade,
+foreign key (fkProfessor) references professor(fkAccount) on delete set null on update cascade);
 
--- inseriamo  i curriculum dei cicli tenuti da un proff
-INSERT INTO curriculumcic (curriculum,cycle,coordinator)VALUES
-('Informatica, Sistemi Informativi e Tecnologie del Software',15,'adelucia@unisa.it');
 
--- creiamo una tabella insegnamento
+INSERT INTO curriculumcic (fkCurriculum,fkCycle,fkProfessor)VALUES
+('Informatica, Sistemi Informativi e Tecnologie del Software',15,'adelucia@hotmail.it');
+
+
 create table if not exists teach(
-curriculum 			varchar(100),
-cycle				integer,
-professor			varchar(50),
-primary key (curriculum,cycle,professor),
-foreign key (curriculum) references curriculumcic(curriculum) on delete cascade on update cascade,
-foreign key (cycle) references curriculumcic(cycle) on delete cascade on update cascade,
-foreign key (professor) references professor(email) on delete no action on update cascade);
--- inseriamo l'insegnamento sul ciclo di un curri
-INSERT INTO teach (curriculum,cycle,professor)VALUES
-('Informatica, Sistemi Informativi e Tecnologie del Software',15,'adelucia@unisa.it');
+fkCurriculum 		varchar(100),
+fkCycle				integer,
+fkProfessor			varchar(50),
+primary key (fkCurriculum,fkCycle,fkProfessor),
+foreign key (fkCurriculum) references curriculumcic(fkCurriculum) on delete cascade on update cascade,
+foreign key (fkCycle) references curriculumcic(fkCycle) on delete cascade on update cascade,
+foreign key (fkProfessor) references professor(fkAccount) on delete no action on update cascade);
 
--- creiamo la tabella corso
+INSERT INTO teach (fkCurriculum,fkCycle,fkProfessor	)VALUES
+('Informatica, Sistemi Informativi e Tecnologie del Software',15,'adelucia@hotmail.it');
+
 
 create table if not exists course(
-idcourse			integer	primary key,
-curriculum 			varchar(100) not null,
-cycle				integer not null,
-name				varchar(50) not null,
-unique (curriculum,cycle,name),
-foreign key (curriculum) references curriculumcic(curriculum) on delete cascade on update cascade,
-foreign key (cycle) references curriculumcic(cycle) on delete cascade on update cascade);
+idCourse				integer	primary key,
+fkCurriculum 			varchar(100) not null,
+fkCycle					integer not null,
+name					varchar(50) not null,
+unique (fkCurriculum,fkCycle,name),
+foreign key (fkCurriculum) references curriculumcic(fkCurriculum) on delete cascade on update cascade,
+foreign key (fkCycle) references curriculumcic(fkCycle) on delete cascade on update cascade);
 
--- inseriamo i corsi
 
-INSERT INTO course (idcourse,curriculum,cycle,name)VALUES
+INSERT INTO course (idCourse,fkCurriculum,fkCycle,name)VALUES
 (1,'Informatica, Sistemi Informativi e Tecnologie del Software',15,'IS2');
 
 -- creiamo la tabella studente
 create table IF not EXIsts phdstudent(
-email 			   	varchar(50) primary key,
-secondaryemail		varchar(50) not null,
-surname				varchar(25) not null,
-name				varchar(25) not null,
-password			varchar(16) not null,
-telephone			varchar(15),
-isactive			boolean default true,
-link 				varchar(150),
-deparment			varchar(50) not null,
-isadministrator		boolean default false,
-researchinterest	text,
-cycle 				integer,
-curriculum 			varchar(100),
-tutor				varchar(50),
-foreign key (tutor) references professor(email) on delete no action on update cascade,
-foreign key (curriculum) references curriculumcic(curriculum) on delete no action on update cascade,
-foreign key (cycle) references curriculumcic(cycle) on delete no action on update cascade);
+fkAccount 				varchar(50) primary key,
+telephone				varchar(15),
+link 					varchar(150),
+deparment				varchar(50) not null,
+researchInterest		text,
+fkCycle 				integer,
+fkCurriculum 			varchar(100),
+fkProfessor				varchar(50),
+foreign key (fkAccount) references account(secondaryEmail) on delete cascade on update cascade,
+foreign key (fkProfessor) references professor(fkAccount) on delete set null on update cascade,
+foreign key (fkCurriculum) references curriculumcic(fkCurriculum) on delete set null on update cascade,
+foreign key (fkCycle) references curriculumcic(fkCycle) on delete set null on update cascade);
 
 -- inseriamo il phdstudent
-INSERT INTO phdstudent(email, secondaryemail,surname,name,password,telephone,isactive,link,deparment,isadministrator,researchinterest,cycle,curriculum,tutor)VALUES
-('ballo@unisa.it','ballo@hotmail.it', 'Conti','Carlo', 'test1','3881144567',true,null,'Dipartimento di Informatica',null,null,null,null,null),
+INSERT INTO phdstudent(fkAccount,telephone,link,deparment,researchInterest,fkCycle,fkCurriculum,fkProfessor)VALUES
+('ballo@hotmail.it','3881144567',null,'Informatica',null,15,'Informatica, Sistemi Informativi e Tecnologie del Software','adelucia@hotmail.it'),
 
-('dinucci@unisa.it','dinucci@gmail.com','Dario','Dinucci','test6','3881144567',true,'http://www.sesa.unisa.it/people/ddinucci/
-','Dipartimento di Informatica',true,'He is
- an open-source enthusiast who likes to work
- on challenging project. In 2014 he completed 
-the 10th edition of Google Summer
- of Code working on Gnome Maps and GraphHopper.',15,'Informatica, Sistemi Informativi e Tecnologie del Software','adelucia@unisa.it');
+('dinucci@hotmail.it','3881144567','http://www.sesa.unisa.it/people/ddinucci/','Informatica','He is
+ an open-source enthusiast who likes to work on challenging project. In 2014 he completed the 10th edition 
+ of Google Summer of Code working on Gnome Maps and GraphHopper.',15,'Informatica, Sistemi Informativi e Tecnologie del Software',null);
 
--- creiamo la tabella publication
+
 create table IF not EXIsts publication(
-idpublication 		integer	primary key,
+idPublication 		integer	primary key,
 title 				varchar(50) not null,
 year				varchar(4) not null,
-numberpage    		integer not null check(numberpage>0),
+numberPage    		integer not null check(numberpage>0),
 link				varchar(150),
 type				varchar(20),
-otherauthors 		varchar(255),
+otherAuthors 		varchar(255),
 abstract			text not null,
-phdstudent 			varchar(50) not null,
-foreign key (phdstudent) references phdstudent(email) on delete cascade on update cascade);
--- inseriamo pubblicaione
-INSERT INTO publication(idpublication,title,year,numberpage,link,type,otherauthors,abstract,phdstudent )VALUES
+fkPhdstudent 		varchar(50) not null,
+foreign key (fkPhdstudent) references phdstudent(fkAccount) on delete cascade on update cascade);
+
+
+INSERT INTO publication(idPublication,title,year,numberPage,link,type,otherAuthors,abstract,fkPhdstudent )VALUES
 (1,'ICSE 2015 Trip Summary','2015',1,'http://www.sesa.unisa.it/people/ddinucci/pdf/3_trip-report_SEN.pdf',
  'Ricerca',null,
  'Abstract ICSE 2015 has been my first conference and in my opinion it has
@@ -258,89 +234,87 @@ For my PhD studies, I am working on Search Based Software Testing
 and Mining Software Repositories. Thus, the formula MSR +
 SBST + ICSE was perfect for quickly approaching problems and
 meet top researchers in these fields.
-In this paper I am going to summarize my experience in brief','dinucci@unisa.it');
+In this paper I am going to summarize my experience in brief','dinucci@hotmail.it');
 
--- creiamo la tabbelaa missioni
+
 create table IF not EXIsts mission(
-idmission	 		integer	primary key,
+idMission	 		integer	primary key,
 description 		text not null,
-startdate			date not null,
-enddate				date not null,
+startDate			date not null,
+endDate				date not null,
 reference			varchar(255),
 place				varchar(70) not null,
-phdstudent 			varchar(50) not null,
-foreign key (phdstudent) references phdstudent(email) on delete cascade on update cascade);
--- insieriamo le missioni
-INSERT INTO mission (idmission,description,startdate,enddate,reference,place,phdstudent)VALUES
-(1,'la ricerca dei numeri primi','2016-05-25','2017-06-25',null,'Roma','dinucci@unisa.it');
+fkPhdstudent 		varchar(50) not null,
+foreign key (fkPhdstudent) references phdstudent(fkAccount) on delete cascade on update cascade);
+
+INSERT INTO mission (idMission,description,startDate,endDate,reference,place,fkPhdstudent)VALUES
+(1,'la ricerca dei numeri primi','2016-05-25','2017-06-25',null,'Roma','dinucci@hotmail.it');
+
 
 create table IF not EXIsts collaboration(
-idcollaboration	 		integer	primary key,
+idCollaboration	 	integer	primary key,
 description 		text not null,
-startdate			date not null,
-enddate				date not null,
+startDate			date not null,
+endDate				date not null,
 istitution 			varchar(70),
-phdstudent 			varchar(50) not null,
-foreign key (phdstudent) references phdstudent(email) on delete cascade on update cascade);
--- creiamo la tabella collaboraioni
-INSERT INTO collaboration (idcollaboration,description,startdate,enddate,istitution,phdstudent)VALUES
-(1,'Studio dei bit al contrario','2016-05-25','2017-06-25','Dipartimento di Informatica','dinucci@unisa.it')       ;
+fkPhdstudent 		varchar(50) not null,
+foreign key (fkPhdstudent) references phdstudent(fkAccount) on delete cascade on update cascade);
+
+INSERT INTO collaboration (idCollaboration,description,startDate,endDate,istitution,fkPhdstudent)VALUES
+(1,'Studio dei bit al contrario','2016-05-25','2017-06-25','Dipartimento di Informatica','dinucci@hotmail.it')       ;
 
 
--- creiamo un seminario
 create table IF not EXIsts seminar(
-idseminar	 		integer	primary key,
+idSeminar	 		integer	primary key,
 date				date not null,
-starttime			char(5) not null,
-endtime				char(5) not null,
+startTime			char(5) not null,
+endTime				char(5) not null,
 name				varchar(70) not null,
-namespeacker 		varchar(50) not null,
+nameSpeacker 		varchar(50) not null,
 desription 			text not null,
 place				varchar(50) not null,
-course				integer not null,
-foreign key (course) references course(idcourse) on delete cascade on update cascade);
--- inseriamo un seminario
-INSERT INTO seminar (idseminar,date,starttime,endtime,name,namespeacker,desription,place,course)VALUES
+fkCourse			integer not null,
+foreign key (fkCourse) references course(idCourse) on delete cascade on update cascade);
+
+INSERT INTO seminar (idSeminar,date,startTime,endTime,name,nameSpeacker,desription,place,fkCourse)VALUES
 (1,'2016-05-28','10:15','15:10','Come prepararsi ad un colloquio','Gerardo Gallesi','Consigli su 
 come prepararsi ad un colloqui nel migliore dei modi',
 'Aula P16',1 );
--- creiamo una tabella lezione
+
+
 create table IF not EXIsts lesson(
-idlesson	 		integer	primary key,
+idLesson	 		integer	primary key,
 date				date not null,
-starttime			char(5) not null,
-endtime				char(5) not null,
+startTime			char(5) not null,
+endTime				char(5) not null,
 name				varchar(70) not null,
 classroom			varchar(30) not null,
 desription 			text not null,
-cycle				integer not null,
-curriculum			varchar(100) not null,
-course				integer not null,
-foreign key (course) references course(idcourse) on delete cascade on update cascade);
--- inseriamo una lezione
-INSERT INTO lesson (idlesson,date,starttime,endtime	,name,classroom,desription,cycle,curriculum,course)VALUES
-(1,'2016-05-2','9:10','12:10','ISTS','P12',
-'introduzione al corso','15','Informatica, Sistemi Informativi 
-e Tecnologie del Software',1);
--- relazione fra proff e lezione
-create table IF not EXIsts keep(
-professor			varchar(50) not null,
-lesson	 			integer	not null,
-primary key(professor, lesson),
-foreign key (professor) references professor(email) on delete no action on update cascade,
-foreign key (lesson) references lesson(idlesson) on delete cascade on update cascade);
--- insieriamo il collegamento
-INSERT INTO keep (professor,lesson)VALUES
-('adelucia@unisa.it',1) ;
+fkCourse			integer not null,
+foreign key (fkCourse) references course(idCourse) on delete cascade on update cascade);
 
--- creiamo le presenze
+INSERT INTO lesson (idLesson,date,startTime,endTime	,name,classroom,desription,fkCourse)VALUES
+(1,'2016-05-2','9:10','12:10','ISTS','P12','introduzione al corso',1);
+
+
+create table IF not EXIsts keep(
+fkProfessor			varchar(50) not null,
+fkLesson	 		integer	not null,
+primary key (fkProfessor, fkLesson),
+foreign key (fkProfessor) references professor(fkAccount) on delete no action on update cascade,
+foreign key (fkLesson) references lesson(idLesson) on delete cascade on update cascade);
+
+INSERT INTO keep (fkProfessor,fkLesson)VALUES
+('adelucia@hotmail.it',1) ;
+
+
 create table IF not EXIsts presence(
-phdstudent			varchar(50) not null,
-lesson	 			integer	not null,
-ispresent			boolean default false ,
-primary key(phdstudent, lesson),
-foreign key (phdstudent) references phdstudent(email) on delete no action on update cascade,
-foreign key (lesson) references lesson(idlesson) on delete cascade on update cascade);
--- inserimo le presenze
-INSERT INTO presence (phdstudent,lesson,ispresent)VALUES
-('dinucci@unisa.it',1,false);
+fkPhdstudent			varchar(50) not null,
+fkLesson	 			integer	not null,
+isPresent				boolean default false ,
+primary key(fkPhdstudent, fkLesson),
+foreign key (fkPhdstudent) references phdstudent(fkAccount) on delete no action on update cascade,
+foreign key (fkLesson) references lesson(idLesson) on delete cascade on update cascade);
+
+INSERT INTO presence (fkPhdstudent,fkLesson,isPresent)VALUES
+('dinucci@hotmail.it',1,false);
