@@ -6,7 +6,7 @@ import java.sql.Connection;
 import java.sql.ResultSet;
 import java.sql.SQLException;
 import java.sql.Statement;
-import it.unisa.integrazione.model.Person;
+import it.unisa.integrazione.model.*;
 
 /**
  *
@@ -25,13 +25,14 @@ public class AccountManager {
 
     }
 
-    public Person login(String pUsername, String pPassword) throws SQLException, ConnectionException {
+    public Account login(String pUsername, String pPassword) throws SQLException, ConnectionException {
         Connection connection = null;
         Statement stmt = null;
         ResultSet rs = null;
-        Person person = null;
-
+        
         String query = "select * from account where email='" + pUsername + "' and password='" + pPassword + "'";
+        String queryPhd = "select * from phdstudent where fkAccount ='";
+        String queryProfessor = "selecy * from professor where fkAccount ='";
 
         try {
             connection = DBConnection.getConnection();
@@ -44,27 +45,57 @@ public class AccountManager {
             rs = stmt.executeQuery(query);
 
             if (rs.next()) {
-                Account account = new Account();
-                account.setEmail(rs.getString("email"));
-                account.setPassword(rs.getString("password"));
-                account.setTypeOfAccount(rs.getString("typeOfAccount"));
-                account.setActive(rs.getBoolean("active"));
-                
-                person = PersonManager.getInstance().getPersonByEmail(account.getEmail());
-                
+                switch(rs.getString("typeAccount")) {
+                    case "dottorando":
+                       queryPhd += rs.getString("secondaryEmail") +"'";
+                       ResultSet rt = stmt.executeQuery(queryPhd);
+                       if(rt.next()) {
+                           PhdStudent phd = new PhdStudent();
+                           phd.setName(rs.getString("name"));
+                           phd.setSurname(rs.getString("surname"));
+                           phd.setPassword(rs.getString("password"));
+                           phd.setTypeOfAccount(rs.getString("typeAccount"));
+                           phd.setAdmin(rs.getBoolean("isAdministrator"));
+                           phd.setFK_account(rs.getString("secondaryEmail"));
+                           phd.setTelephone(rt.getString("telephone"));
+                           phd.setDepartment(rt.getString("deparment"));
+                           phd.setResearchInterest(rt.getString("researchInterest"));
+                           phd.setLink(rt.getString("link"));
+                           phd.setFK_cycle(rt.getInt("fkCycle"));
+                           phd.setFK_professor(rt.getString("fkProfessor"));
+                           phd.setFK_curriculum(rt.getString("fkCurriculum"));
+                           return phd;                      
+                   }
+                    
+                    case "docente":
+                        queryProfessor += rs.getString("secondaryEmail") + "'";
+                        rt = stmt.executeQuery(queryProfessor);
+                        if(rt.next()) {
+                            Professor professor = new Professor();
+                            professor.setName(rs.getString("name"));
+                            professor.setSurname(rs.getString("surname"));
+                            professor.setPassword(rs.getString("password"));
+                            professor.setTypeOfAccount(rs.getString("typeAccount"));
+                            professor.setAdmin(rs.getBoolean("isAdministrator"));
+                            professor.setFK_account(rs.getString("secondaryEmail"));
+                            professor.setDepartment(rt.getString("department"));
+                            professor.setLink(rt.getString("link"));
+                            return professor;
+                        }
+                }
             }
-
         } finally {
             DBConnection.releaseConnection(connection);
         }
         
-        return person;
+        return null;
     }
 
     public void add(Account pAccount) throws SQLException {
         Connection connect = DBConnection.getConnection();
 
-        String sql = "INSERT INTO account (email, account.password, typeOfAccount, account.active) VALUES ('" + pAccount.getEmail() + "','" + pAccount.getPassword() + "','" + pAccount.getTypeOfAccount() + "'," + pAccount.isActive() + ")";
+        String sql = "INSERT INTO account (email, secondaryemail, surname, name, password,typeAccount,isAdministrator) VALUES ('" + pAccount.getSecondaryEmail() + "','" + pAccount.getEmail() + "','" +
+                pAccount.getTypeOfAccount() + "','" + pAccount.isAdmin() + "')";
 
         try {
             Statement stmt = connect.createStatement();
@@ -75,7 +106,7 @@ public class AccountManager {
         }
     } 
     
-    public Account getAccoutnByEmail(String pEmail) throws SQLException, ConnectionException {
+    public Account getAccountByEmail(String pEmail) throws SQLException, ConnectionException {
         Statement stmt = null;
         ResultSet rs = null;
         Connection connection = null;
@@ -94,12 +125,7 @@ public class AccountManager {
             rs = stmt.executeQuery(query);
 
             if (rs.next()) {
-                account = new Account();
-                
-                account.setActive(rs.getBoolean("active"));
-                account.setEmail(rs.getString("email"));
-                account.setPassword(rs.getString("password"));
-                account.setTypeOfAccount(rs.getString("typeOfAccount"));
+               
             }
         } finally {
 
