@@ -7,21 +7,48 @@ package it.unisa.integrazione.model;
 
 /**
  *
- * @author gemmacatolino
+ * @author ariemmov
  */
 public class Account {
 
     private String email;
+    private String secondaryEmail;
     private String password;
+    private String name;
+    private String surname;
     private String typeOfAccount;
-    private boolean active;
+    private boolean isAdmin;
 
     public String getEmail() {
         return email;
     }
-
+    
     public void setEmail(String email) {
         this.email = email;
+    }
+      
+    public String getSecondaryEmail() {
+        return secondaryEmail;
+    }
+    
+    public void setSecondaryEmail(String secondary) {
+        secondaryEmail = secondary;
+    }
+
+    public String getName() {
+        return name;
+    }
+    
+    public void setName(String name) {
+        this.name = name;
+    }
+    
+    public String getSurname() {
+        return surname;
+    }
+    
+    public void setSurname(String surname) {
+        this.surname = surname;
     }
 
     public String getPassword() {
@@ -30,23 +57,21 @@ public class Account {
 
     public void setPassword(String password) {
         this.password = password;
+    }  
+
+    public void setTypeOfAccount(String typeOfAccount) {
+        this.typeOfAccount = typeOfAccount;
     }
 
     public String getTypeOfAccount() {
         return typeOfAccount;
     }
-
-    public void setTypeOfAccount(String typerOfAccount) {
-        this.typeOfAccount = typerOfAccount;
-    }
-
-    public boolean isActive() {
-        return active;
-    }
-
-    public void setActive(boolean active) {
-        this.active = active;
-    }
-
     
+    public boolean isAdmin() {
+        return isAdmin;
+    }
+    
+    public void setAdmin(boolean var) {
+        isAdmin = var;
+    }
 }
