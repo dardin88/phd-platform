@@ -17,7 +17,7 @@ import java.util.logging.Logger;
  * @version 1.0
  */
 public class DBConnection {
-    private static String dbPath = "jdbc:mysql://localhost:3306/db_distra";
+    private static String dbPath = "jdbc:mysql://localhost:3306/Phd_platform_db";
     private static String dbUsername = "root";
     private static String dbPassword = ""; 
 
