@@ -3,12 +3,13 @@ USE Phd_platform_db;
 
 -- creo la tabella news
 create table IF not EXIsts news(
-idNews     integer PRIMARY kEY check(idnews>=0),
-description       text not null);
+idNews             integer PRIMARY kEY check(idnews>=0),
+title         varchar(50) not null,      
+description         text not null);
 --popolo la tabella news
 INSERT INTO news (idNews,description)VALUES
-(1,'Avviso: corsi di is2 interrotti perchè il gatto si è ferito una gamba'),
-(2,'News:il direttore procederà a conferire il premio');
+(1,'avviso1','Avviso: corsi di is2 interrotti perchè il gatto si è ferito una gamba'),
+(2,'new1','News:il direttore procederà a conferire il premio');
 
 --creo la tabella degli account
 create table IF not EXIsts account(
