@@ -110,7 +110,7 @@ Statement stmt = null;
         Statement stmt = null;
         ResultSet rs = null;
         
-        News avviso= avviso.getNewsByNumber(idnews);
+        News oldavviso= avviso.getNewsByNumber(idnews);
         String titolo=avviso.getTitle();
         String content=avviso.getContent();
         Connection connection = null;
