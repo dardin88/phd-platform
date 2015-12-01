@@ -106,11 +106,11 @@ Statement stmt = null;
     }
    // Modificherò appena  inizio con le form
     /*
-   public News modNews(News avviso) {
+   public News modNews(int idnews) {
         Statement stmt = null;
         ResultSet rs = null;
         
-        int aidnews=avviso.getId();
+        News avviso= avviso.getNewsByNumber(idnews);
         String titolo=avviso.getTitle();
         String content=avviso.getContent();
         Connection connection = null;
