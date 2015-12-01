@@ -4,7 +4,7 @@
  * and open the template in the editor.
  */
 package it.unisa.integrazione.database;
-
+import it.unisa.integrazione.database.exception.MissingDataEccezione;
 import it.unisa.integrazione.model.News;
 import com.sun.mail.iap.ConnectionException;
 import it.unisa.integrazione.model.Person;
@@ -33,7 +33,7 @@ public class Database_Avvisi {
     }
 
 
-    public void add(News anews) throws SQLException {
+    public void add(News anews) throws SQLException, MissingDataEccezione {
         Connection connect = DBConnection.getConnection();
         
 
@@ -44,12 +44,17 @@ public class Database_Avvisi {
             Statement stmt = connect.createStatement();
             stmt.executeUpdate(sql);
             connect.commit();
-        } finally {
+        }
+        catch(Exception exc){
+        exc.printStackTrace();
+        throw new   MissingDataEccezione("mancano i dati");
+        }
+        finally {
             DBConnection.releaseConnection(connect);
         }
     }
 
-    public News getNewsByNumber(int aidnews) throws SQLException, ConnectionException {
+    public News getNewsByNumber(int aidnews) throws SQLException, ConnectionException, MissingDataEccezione {
         Statement stmt = null;
         ResultSet rs = null;
         Connection connection = null;
@@ -72,6 +77,7 @@ public class Database_Avvisi {
                 anews.setId(rs.getInt("idnews"));
                 anews.setTitle(rs.getString("title"));
             }
+            else throw new   MissingDataEccezione("Avviso non trovato");
         } finally {
 
             DBConnection.releaseConnection(connection);
@@ -128,7 +134,7 @@ Statement stmt = null;
                 }
             } catch (SQLException ex) {
                 ex.printStackTrace();
-                throw new RuntimeException("Read Query failed!");
+                throw new RuntimeException("Avviso not found");
             } finally {
                 DBConnection.releaseConnection(connection);
             }
