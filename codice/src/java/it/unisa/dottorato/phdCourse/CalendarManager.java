@@ -136,7 +136,7 @@ public class CalendarManager {
              */
             String tSql = "INSERT INTO "
                     + CalendarManager.TABLE_SEMINAR
-                    + " ( iDseminar, date, startTime, endTime, name, namespeacker, desription, place, fkCourse)"
+                    + " ( idSeminar, date, startTime, endTime, name, namespeacker, desription, place, fkCourse)"
                     + " VALUES ('"
                     + pSeminar.getIdSeminar() // int
                     + "','"
