@@ -19,15 +19,23 @@ import java.util.Date;
 public class News implements Serializable{
     private int id;
     private String title;
-  private String content;
+  private String description;
  public News(){
     
   }
 
-    public News(int id, String title, String content) {
+    public void setDescription(String description) {
+        this.description = description;
+    }
+
+    public String getDescription() {
+        return description;
+    }
+
+    public News(int id, String title, String description) {
         this.id = id;
         this.title = title;
-        this.content = content;
+        this.description= description;
     }
 
     
@@ -40,13 +48,8 @@ public class News implements Serializable{
         this.title = title;
     }
 
-   public String getContent() {
-        return content;
-    }
-
-    public void setContent(String content) {
-        this.content = content;
-    }
+   
+    
 
     public int getId() {
         return id;

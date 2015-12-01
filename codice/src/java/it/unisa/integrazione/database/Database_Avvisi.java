@@ -37,7 +37,7 @@ public class Database_Avvisi {
         Connection connect = DBConnection.getConnection();
         
 
-        String sql = "INSERT INTO news (idnews, title,description) VALUES ('" + anews.getId() + "','" + anews.getTitle() + "','"+anews.getContent()+ "')";
+        String sql = "INSERT INTO news (idnews, title,description) VALUES ('" + anews.getId() + "','" + anews.getTitle() + "','"+anews.getDescription()+ "')";
                                                                          //  ('"+codice +"','"+descrizione +"','"+ora +"','"+costo +"','"+iscritti+"')");
 
         try {
@@ -160,7 +160,7 @@ Statement stmt = null;
                 avviso = new News();
                 avviso.setId(rs.getInt("idnews"));
                 avviso.setTitle(rs.getString("title"));
-                avviso.setContent(rs.getString("description"));
+                avviso.setDescription(rs.getString("description"));
                
                 
                listAvviso.add(avviso);
