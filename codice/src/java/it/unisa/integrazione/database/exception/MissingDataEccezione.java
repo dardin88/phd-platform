@@ -12,7 +12,7 @@ package it.unisa.integrazione.database.exception;
 public class MissingDataEccezione extends Exception{
     
      public MissingDataEccezione() {
-        super("Data is missing!");
+        super("Data is missing! ");
     }
    
      public MissingDataEccezione(String pMessage) {

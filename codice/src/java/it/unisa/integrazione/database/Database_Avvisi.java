@@ -134,7 +134,7 @@ Statement stmt = null;
                 }
             } catch (SQLException ex) {
                 ex.printStackTrace();
-                throw new RuntimeException("Avviso not found");
+                throw new RuntimeException("Avviso not found ");
             } finally {
                 DBConnection.releaseConnection(connection);
             }
