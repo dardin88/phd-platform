@@ -62,17 +62,17 @@ public class CollaborationManager {
              */
             String tSql = "INSERT INTO "
                     + CollaborationManager.TABLE_COLLABORATION
-                    + " (istitution, description, startDate, endDate, FK_Student)"
+                    + " (description, startDate, endDate, istitution, fkPhdstudent)"
                     + " VALUES ('"
-                    + Utility.Replace(pCollaboration.getIstitution())
-                    + "','"
                     + Utility.Replace(pCollaboration.getDescription())
                     + "','"
                     + pCollaboration.getStartDate()
                     + "','"
                     + pCollaboration.getEndDate() 
                     + "','"
-                    + pCollaboration.getFK_Strudent()
+                    + Utility.Replace(pCollaboration.getIstitution())
+                    + "','"
+                    + pCollaboration.getFkPhdstudent()
                     + "')";
 
             System.out.println("La query: " +tSql);
@@ -92,14 +92,14 @@ public class CollaborationManager {
              */
             String tSql = "UPDATE "
                     + CollaborationManager.TABLE_COLLABORATION
-                    + " set istitution = '"
-                    + Utility.Replace(pCollaboration.getIstitution())
-                    + "', description = '"
+                    + " set description = '"
                     + Utility.Replace(pCollaboration.getDescription())
                     + "', startDate = '"
                     + pCollaboration.getStartDate()
                     + "', endDate = '"
                     + pCollaboration.getEndDate()
+                    + "', istitution = '"
+                    + Utility.Replace(pCollaboration.getIstitution())
                     + "' WHERE idCollaboration = "
                     + oldCollaborationID;           
 
@@ -156,11 +156,11 @@ public class CollaborationManager {
 
             if (result.next()) {
                 collaboration.setIdCollaboration(result.getInt("idCollaboration"));
-                collaboration.setIstitution(result.getString("istitution"));
                 collaboration.setDescription(result.getString("description"));
                 collaboration.setStartDate(result.getDate("startDate"));
                 collaboration.setEndDate(result.getDate("endDate"));
-                collaboration.setFK_Strudent(result.getString("FK_Student"));
+                collaboration.setIstitution(result.getString("istitution"));
+                collaboration.setFkPhdstudent(result.getString("fkPhdstudent"));
             }
 
             return collaboration;
@@ -170,7 +170,7 @@ public class CollaborationManager {
         }
     }
     
-    public synchronized List<Collaboration> getAllCollaborationOf(Person pPerson) throws SQLException {
+    public synchronized List<Collaboration> getAllCollaborationOf(Person pPerson) throws SQLException { //da modificare dato Person
         List<Collaboration> collaborations = new ArrayList<Collaboration>();
         
         Connection connect = null;
@@ -184,8 +184,8 @@ public class CollaborationManager {
              */
             String tSql = "SELECT * FROM "
                     + CollaborationManager.TABLE_COLLABORATION
-                    + " WHERE FK_Student = '"
-                    + pPerson.getSsn() + "'";
+                    + " WHERE fkPhdstudent = '"
+                    + pPerson.getSsn() + "'"; //da modificare ancora
 
             //Inviamo la Query al DataBase
             ResultSet result = Utility.queryOperation(connect, tSql);
@@ -194,11 +194,11 @@ public class CollaborationManager {
                 Collaboration collaboration = new Collaboration();
                 
                 collaboration.setIdCollaboration(result.getInt("idCollaboration"));
-                collaboration.setIstitution(result.getString("istitution"));
                 collaboration.setDescription(result.getString("description"));
                 collaboration.setStartDate(result.getDate("startDate"));
                 collaboration.setEndDate(result.getDate("endDate"));
-                collaboration.setFK_Strudent(result.getString("FK_Student"));
+                collaboration.setIstitution(result.getString("istitution"));
+                collaboration.setFkPhdstudent(result.getString("fkPhdstudent"));
                 
                 collaborations.add(collaboration);
             }
