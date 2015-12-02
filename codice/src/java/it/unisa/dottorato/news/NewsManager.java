@@ -3,11 +3,12 @@
  * To change this template file, choose Tools | Templates
  * and open the template in the editor.
  */
-package it.unisa.integrazione.database;
-import it.unisa.integrazione.database.exception.MissingDataEccezione;
-import it.unisa.integrazione.model.News;
+package it.unisa.dottorato.news;
 import com.sun.mail.iap.ConnectionException;
+import it.unisa.dottorato.utility.Utility;
+import it.unisa.integrazione.database.DBConnection;
 import it.unisa.integrazione.model.Person;
+import java.io.IOException;
 import java.sql.Connection;
 import java.sql.ResultSet;
 import java.sql.SQLException;
@@ -33,7 +34,7 @@ public class NewsManager {
     }
 
 
-    public void add(News anews) throws SQLException, MissingDataEccezione {
+    public void insert(News anews) throws SQLException, MissingDataEccezione {
         Connection connect = DBConnection.getConnection();
         
 
@@ -90,7 +91,7 @@ public class NewsManager {
      * @param aidnews
      * @return
      */
-   boolean cancellaAvvisi (int aidnews) {
+   boolean deleteAvvisi (int aidnews) {
         
 Statement stmt = null;
         Connection connection = null;
@@ -110,12 +111,28 @@ Statement stmt = null;
         return false;
         
     }
-   // Modificherò appena  inizio con le form
-    /*
-   public News modNews(int idnews) {
+   // Modificherò appena  inizio con le form 
+   public synchronized void update_news(int oldNewsId, News pNews) throws ClassNotFoundException, SQLException, IOException {
+        try (Connection connect = DBConnection.getConnection()) {
+
+           
+            
+   String tSql = "UPDATE news SET title='"+ Utility.Replace(pNews.getTitle()) +"' AND SET description='"+Utility.Replace(pNews.getDescription())+"'WHERE idnews="+oldNewsId+"'";
+                           
+
+            System.out.println(tSql);
+            //Inviamo la Query al DataBase
+            Utility.executeOperation(connect, tSql);
+
+            connect.commit();
+        }
+    }
+     
+   
+   /*public News modNews(int idnews) {
         Statement stmt = null;
         ResultSet rs = null;
-        
+        News oldavviso= new News();
         News oldavviso= avviso.getNewsByNumber(idnews);
         String titolo=avviso.getTitle();
         String content=avviso.getContent();
@@ -165,7 +182,7 @@ Statement stmt = null;
 
             while (rs.next()) {
                 avviso = new News();
-                avviso.setId(/*rs.getInt("idnews")*/);
+                avviso.getId();
                 avviso.setTitle(rs.getString("title"));
                 avviso.setDescription(rs.getString("description"));
                
