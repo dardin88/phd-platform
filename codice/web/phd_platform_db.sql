@@ -7,7 +7,7 @@ idNews             integer PRIMARY kEY check(idnews>=0),
 title              varchar(50) not null,      
 description        text not null);
 --popolo la tabella news
-INSERT INTO news (idNews,description)VALUES
+INSERT INTO news (idNews,title,description)VALUES
 (1,'avviso1','Avviso: corsi di is2 interrotti perchè il gatto si è ferito una gamba'),
 (2,'new1','News:il direttore procederà a conferire il premio');
 
