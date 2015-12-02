@@ -39,7 +39,7 @@ public class NewsManager {
 
         String sql = "INSERT INTO news (idnews, title,description) VALUES ('" + anews.getId() + "','" + anews.getTitle() + "','"+anews.getDescription()+ "')";
                                                                          //  ('"+codice +"','"+descrizione +"','"+ora +"','"+costo +"','"+iscritti+"')");
-
+         anews.setId();
         try {
             Statement stmt = connect.createStatement();
             stmt.executeUpdate(sql);
@@ -143,6 +143,7 @@ Statement stmt = null;
     }
 */
     // anche questa aspetto di creare le form per una visione + pulita
+   
    public ArrayList<News> getNewsByTypeOfTitle(String title) throws SQLException, it.unisa.integrazione.database.exception.ConnectionException {
         Statement stmt = null;
         ResultSet rs = null;

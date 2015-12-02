@@ -17,12 +17,18 @@ import java.util.Date;
  * @author Rembor
  */
 public class News implements Serializable{
-    private int id=0;
+    private int id;
     private String title;
   private String description;
  public News(){
     
   }
+ public News( String title, String description) {
+        this.id = 0;
+        this.title = title;
+        this.description= description;
+    }
+
 
     public void setDescription(String description) {
         this.description = description;
@@ -32,12 +38,7 @@ public class News implements Serializable{
         return description;
     }
 
-    public News( String title, String description) {
-        //this.id = id;
-        this.title = title;
-        this.description= description;
-    }
-
+    
     
 
     public String getTitle() {
