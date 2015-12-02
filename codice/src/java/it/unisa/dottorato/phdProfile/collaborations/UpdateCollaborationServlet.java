@@ -46,14 +46,14 @@ public class UpdateCollaborationServlet extends HttpServlet {
             try {
                 response.setContentType("text/html;charset=UTF-8");
 
-                int collaborationID = Integer.parseInt("" + request.getSession().getAttribute("idCollaboration"));
-                String istitution = request.getParameter("istitution");
+                int collaborationID = Integer.parseInt("" + request.getSession().getAttribute("idCollaboration"));  
                 String description = request.getParameter("description");
                 String startDate = request.getParameter("startDate");
                 String endDate = request.getParameter("endDate");
+                String istitution = request.getParameter("istitution");
 
                 HttpSession session = request.getSession();
-                Person loggedPerson = (Person) session.getAttribute("person");
+                Person loggedPerson = (Person) session.getAttribute("person"); // da modificare ancora
 
                 Collaboration collaboration = new Collaboration();
 
@@ -63,7 +63,7 @@ public class UpdateCollaborationServlet extends HttpServlet {
                 collaboration.setStartDate(java.sql.Date.valueOf(startDate));
                 collaboration.setEndDate(java.sql.Date.valueOf(endDate));
 
-                collaboration.setFK_Strudent(loggedPerson.getSsn());
+                collaboration.setFkPhdstudent(loggedPerson.getSsn()); //da modificare ancora
 
                 CollaborationManager.getInstance().update(collaborationID, collaboration);
                 result.put("result", true);

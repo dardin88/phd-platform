@@ -46,9 +46,9 @@ public class GetAllCollaborationsServlet extends HttpServlet {
             try {
                 
                 HttpSession session = request.getSession();
-                Person person = (Person) session.getAttribute("person");
+                Person person = (Person) session.getAttribute("person"); // da modificare ancora
                 
-                ArrayList<Collaboration> collaborations = (ArrayList<Collaboration>) CollaborationManager.getInstance().getAllCollaborationOf(person);
+                ArrayList<Collaboration> collaborations = (ArrayList<Collaboration>) CollaborationManager.getInstance().getAllCollaborationOf(person); // da modificare ancora
                 JSONArray resultArray = new JSONArray(collaborations);
                 result.put("collaborations", resultArray);
                 out.write(result.toString());
