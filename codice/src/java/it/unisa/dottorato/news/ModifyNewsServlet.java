@@ -24,8 +24,8 @@ import org.json.JSONObject;
  *
  * @author Giuseppe Picciocchi
  */
-@WebServlet(name = "UpdateNewsServlet", urlPatterns = {"/UpdateNewsServlet"})
-public class UpdateNewsServlet extends HttpServlet {
+@WebServlet(name = "ModifyNewsServlet", urlPatterns = {"/UpdateNewsServlet"})
+public class ModifyNewsServlet extends HttpServlet {
 
     /**
      * Processes requests for both HTTP <code>GET</code> and <code>POST</code>
@@ -61,7 +61,7 @@ public class UpdateNewsServlet extends HttpServlet {
             out.write(result.toString());
 
         } catch (JSONException ex) {
-            Logger.getLogger(UpdateNewsServlet.class.getName()).log(Level.SEVERE, null, ex);
+            Logger.getLogger(ModifyNewsServlet.class.getName()).log(Level.SEVERE, null, ex);
         }
     }
 

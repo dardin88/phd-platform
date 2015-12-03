@@ -4,10 +4,9 @@
  * and open the template in the editor.
  */
 package it.unisa.dottorato.news;
-import com.sun.mail.iap.ConnectionException;
 import it.unisa.dottorato.utility.Utility;
 import it.unisa.integrazione.database.DBConnection;
-import it.unisa.integrazione.model.Person;
+import it.unisa.integrazione.database.exception.ConnectionException;
 import java.io.IOException;
 import java.sql.Connection;
 import java.sql.ResultSet;
@@ -34,7 +33,7 @@ public class NewsManager {
     }
 
 
-    public void insert(News anews) throws SQLException, MissingDataEccezione {
+    public void insertNews(News anews) throws SQLException, MissingDataEccezione {
         Connection connect = DBConnection.getConnection();
         
 
@@ -91,7 +90,7 @@ public class NewsManager {
      * @param aidnews
      * @return
      */
-   boolean deleteAvvisi (int aidnews) {
+   boolean deleteNews (int aidnews) {
         
 Statement stmt = null;
         Connection connection = null;

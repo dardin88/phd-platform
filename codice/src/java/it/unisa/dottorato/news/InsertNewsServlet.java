@@ -25,8 +25,8 @@ import org.json.JSONObject;
  *
  * @author Giuseppe Picciocchi 
  */
-@WebServlet(name = "AddNewsServlet", urlPatterns = {"/AddNewsServlet"})
-public class AddNewsServlet extends HttpServlet {
+@WebServlet(name = "InsertNewsServlet", urlPatterns = {"/InsertNewsServlet"})
+public class InsertNewsServlet extends HttpServlet {
 
     /**
      * Processes requests for both HTTP <code>GET</code> and <code>POST</code>
@@ -62,7 +62,7 @@ public class AddNewsServlet extends HttpServlet {
             news.setDescription(description);
             
             //inseriamo l'oggetto nella gestione calendario
-            NewsManager.getInstance().insert(news);
+            NewsManager.getInstance().insertNews(news);
             
             out.println("<script type=\"text/javascript\">");
             out.println("alert('La news è stata inserita');");
@@ -70,7 +70,7 @@ public class AddNewsServlet extends HttpServlet {
             out.println("</script>");
             
         } catch (SQLException ex) {
-            Logger.getLogger(AddNewsServlet.class.getName()).log(Level.SEVERE, null, ex);
+            Logger.getLogger(InsertNewsServlet.class.getName()).log(Level.SEVERE, null, ex);
             
         }
     }
@@ -90,7 +90,7 @@ public class AddNewsServlet extends HttpServlet {
         try {
             processRequest(request, response);
         } catch (MissingDataEccezione ex) {
-            Logger.getLogger(AddNewsServlet.class.getName()).log(Level.SEVERE, null, ex);
+            Logger.getLogger(InsertNewsServlet.class.getName()).log(Level.SEVERE, null, ex);
         }
     }
 
@@ -108,7 +108,7 @@ public class AddNewsServlet extends HttpServlet {
         try {
             processRequest(request, response);
         } catch (MissingDataEccezione ex) {
-            Logger.getLogger(AddNewsServlet.class.getName()).log(Level.SEVERE, null, ex);
+            Logger.getLogger(InsertNewsServlet.class.getName()).log(Level.SEVERE, null, ex);
         }
     }
 
