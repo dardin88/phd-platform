@@ -39,6 +39,7 @@ public class AddMissionServlet extends HttpServlet {
     protected void processRequest(HttpServletRequest request, HttpServletResponse response)
             throws ServletException, IOException {
         response.setContentType("text/html;charset=UTF-8");
+        
         JSONObject result = new JSONObject();
         PrintWriter out = response.getWriter();
         
@@ -46,21 +47,25 @@ public class AddMissionServlet extends HttpServlet {
             try {
                 response.setContentType("text/html;charset=UTF-8");
 
-                String place = request.getParameter("place");
+                
                 String description = request.getParameter("description");
                 String startDate = request.getParameter("startDate");
                 String endDate = request.getParameter("endDate");
-
+                String reference = request.getParameter("reference");
+                String place = request.getParameter("place");
+                
                 HttpSession session = request.getSession();
-                Person loggedPerson = (Person) session.getAttribute("person");
+                Person loggedPerson = (Person) session.getAttribute("person"); // da modificare ancora
 
                 Mission mission = new Mission();
 
-                mission.setPlace(place);
+                
                 mission.setDescription(description);
                 mission.setStartDate(java.sql.Date.valueOf(startDate));
                 mission.setEndDate(java.sql.Date.valueOf(endDate));
-                mission.setFK_Student(loggedPerson.getSsn());
+                mission.setReference(reference);
+                mission.setPlace(place);
+                mission.setFkPhdstudent(loggedPerson.getSsn()); // da modificare ancora
 
                 MissionManager.getInstance().insert(mission);
                 result.put("result", true);

@@ -6,11 +6,12 @@ import java.util.Date;
 public class Mission implements Serializable{
     
     private int idMission;
-    private String place;
     private String description;
     private Date startDate;
     private Date endDate;
-    private String FK_Student;
+    private String reference;
+    private String place;
+    private String fkPhdstudent;
 
     public int getIdMission() {
         return idMission;
@@ -18,14 +19,6 @@ public class Mission implements Serializable{
 
     public void setIdMission(int idMission) {
         this.idMission = idMission;
-    }
-
-    public String getPlace() {
-        return place;
-    }
-
-    public void setPlace(String place) {
-        this.place = place;
     }
 
     public String getDescription() {
@@ -51,13 +44,28 @@ public class Mission implements Serializable{
     public void setEndDate(Date endDate) {
         this.endDate = endDate;
     }
-
-    public String getFK_Student() {
-        return FK_Student;
+    
+    public String getReference() {
+        return reference;
     }
 
-    public void setFK_Student(String FK_Student) {
-        this.FK_Student = FK_Student;
-    }  
+    public void setReference(String reference) {
+        this.reference = reference;
+    }
     
+    public String getPlace() {
+        return place;
+    }
+
+    public void setPlace(String place) {
+        this.place = place;
+    }
+    public String getFkPhdstudent() {
+        return fkPhdstudent;
+    }
+
+    public void setFkPhdstudent(String fkPhdstudent) {
+        this.fkPhdstudent = fkPhdstudent;
+    }  
+
 }

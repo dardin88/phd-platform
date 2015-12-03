@@ -62,17 +62,19 @@ public class MissionManager {
              */
             String tSql = "INSERT INTO "
                     + MissionManager.TABLE_MISSION
-                    + " (place, description, startDate, endDate, FK_Student)"
+                    + " (description, startDate, endDate, reference, place, fkPhdstudent)"
                     + " VALUES ('"
-                    + Utility.Replace(pMission.getPlace())
-                    + "','"
                     + Utility.Replace(pMission.getDescription())
                     + "','"
                     + pMission.getStartDate()
                     + "','"
                     + pMission.getEndDate() 
                     + "','"
-                    + pMission.getFK_Student()
+                    + Utility.Replace(pMission.getReference())
+                    + "','"
+                    + Utility.Replace(pMission.getPlace())
+                    + "','"
+                    + pMission.getFkPhdstudent()
                     + "')";
 
             System.out.println("La query: " +tSql);
@@ -92,14 +94,16 @@ public class MissionManager {
              */
             String tSql = "UPDATE "
                     + MissionManager.TABLE_MISSION
-                    + " set place = '"
-                    + Utility.Replace(pMission.getPlace())
-                    + "', description = '"
+                    + " set description = '"
                     + Utility.Replace(pMission.getDescription())
                     + "', startDate = '"
                     + pMission.getStartDate()
                     + "', endDate = '"
                     + pMission.getEndDate()
+                    + "', reference = '"
+                    + Utility.Replace(pMission.getReference())
+                    + "', place = '"
+                    + Utility.Replace(pMission.getPlace())
                     + "' WHERE idMission = "
                     + oldMissionID + "";           
 
@@ -156,11 +160,12 @@ public class MissionManager {
 
             if (result.next()) {
                 mission.setIdMission(result.getInt("idMission"));
-                mission.setPlace(result.getString("place"));
                 mission.setDescription(result.getString("description"));
                 mission.setStartDate(result.getDate("startDate"));
                 mission.setEndDate(result.getDate("endDate"));
-                mission.setFK_Student(result.getString("FK_Student"));
+                mission.setReference(result.getString("reference"));
+                mission.setPlace(result.getString("place"));
+                mission.setFkPhdstudent(result.getString("fkPhdstudent"));
             }
 
             return mission;
@@ -184,8 +189,8 @@ public class MissionManager {
              */
             String tSql = "SELECT * FROM "
                     + MissionManager.TABLE_MISSION
-                    + " WHERE FK_Student = '"
-                    + pPerson.getSsn() + "'";
+                    + " WHERE fkPhdstudent = '"
+                    + pPerson.getSsn() + "'"; // da modificare ancora
 
             //Inviamo la Query al DataBase
             ResultSet result = Utility.queryOperation(connect, tSql);
@@ -194,11 +199,12 @@ public class MissionManager {
                 Mission mission = new Mission();
                 
                 mission.setIdMission(result.getInt("idMission"));
-                mission.setPlace(result.getString("place"));
                 mission.setDescription(result.getString("description"));
                 mission.setStartDate(result.getDate("startDate"));
                 mission.setEndDate(result.getDate("endDate"));
-                mission.setFK_Student(result.getString("FK_Student"));
+                mission.setReference(result.getString("reference"));
+                mission.setPlace(result.getString("place"));
+                mission.setFkPhdstudent(result.getString("fkPhdstudent"));
                 
                 missions.add(mission);
             }

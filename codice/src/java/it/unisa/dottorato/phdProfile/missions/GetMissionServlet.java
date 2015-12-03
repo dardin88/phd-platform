@@ -1,11 +1,5 @@
-/*
- * To change this license header, choose License Headers in Project Properties.
- * To change this template file, choose Tools | Templates
- * and open the template in the editor.
- */
 package it.unisa.dottorato.phdProfile.missions;
 
-import it.unisa.integrazione.model.Person;
 import java.io.IOException;
 import java.io.PrintWriter;
 import java.sql.SQLException;
@@ -16,15 +10,15 @@ import javax.servlet.annotation.WebServlet;
 import javax.servlet.http.HttpServlet;
 import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpServletResponse;
-import javax.servlet.http.HttpSession;
+import org.json.JSONException;
 import org.json.JSONObject;
 
 /**
- *
- * @author gemmacatolino
+ * @author andre
  */
-@WebServlet(name = "UpdateMissionServlet", urlPatterns = {"/dottorato/UpdateMissionServlet"})
-public class UpdateMissionServlet extends HttpServlet {
+
+@WebServlet(name = "GetMission", urlPatterns = {"/dottorato/GetMissionServlet"})
+public class GetMissionServlet extends HttpServlet {
 
     /**
      * Processes requests for both HTTP <code>GET</code> and <code>POST</code>
@@ -35,45 +29,27 @@ public class UpdateMissionServlet extends HttpServlet {
      * @throws ServletException if a servlet-specific error occurs
      * @throws IOException if an I/O error occurs
      */
+    
     protected void processRequest(HttpServletRequest request, HttpServletResponse response)
             throws ServletException, IOException {
         response.setContentType("text/html;charset=UTF-8");
-        JSONObject result = new JSONObject();
-        PrintWriter out = response.getWriter();
-
-        try {
-            response.setContentType("text/html;charset=UTF-8");
-            
-            int missionID = Integer.parseInt("" + request.getSession().getAttribute("idMission"));
-            
-            String description = request.getParameter("description");
-            String startDate = request.getParameter("startDate");
-            String endDate = request.getParameter("endDate");
-            String reference = request.getParameter("reference");
-            String place = request.getParameter("place");
-            
-            HttpSession session = request.getSession();
-            Person loggedPerson = (Person) session.getAttribute("person"); // da modificare ancora
-            
-            Mission mission = new Mission();
-            
-            mission.setDescription(description);
-            mission.setStartDate(java.sql.Date.valueOf(startDate));
-            mission.setEndDate(java.sql.Date.valueOf(endDate));
-            mission.setReference(reference);
-            mission.setPlace(place);
-            mission.setFkPhdstudent(loggedPerson.getSsn()); // da modificare ancora
-            
-            MissionManager.getInstance().update(missionID, mission);
-            
-            out.println("<script type=\"text/javascript\">");
-            out.println("alert('La missione è stata modificata.');");
-            out.println("location='missionActivity.jsp';");
-            out.println("</script>");
-        } catch (SQLException | ClassNotFoundException ex) {
-            Logger.getLogger(UpdateMissionServlet.class.getName()).log(Level.SEVERE, null, ex);
-            
-        } 
+        try (PrintWriter out = response.getWriter()) {
+            int missId = Integer.parseInt(request.getParameter("idMission"));
+            JSONObject result = new JSONObject();
+            try {
+                Mission m = MissionManager.getInstance().getMissionById(missId);
+                result.put("idMission", m.getIdMission());
+                result.put("description", m.getDescription()) ;
+                result.put("startDate", m.getStartDate());
+                result.put("endDate", m.getEndDate());
+                result.put("reference", m.getReference());
+                result.put("place", m.getPlace());
+                result.put("fkPhdstudent", m.getFkPhdstudent());
+                out.write(result.toString());
+            } catch (ClassNotFoundException | SQLException | JSONException ex) {
+                Logger.getLogger(GetMissionServlet.class.getName()).log(Level.SEVERE, null, ex);
+            }
+        }
     }
 
     // <editor-fold defaultstate="collapsed" desc="HttpServlet methods. Click on the + sign on the left to edit the code.">
@@ -114,5 +90,4 @@ public class UpdateMissionServlet extends HttpServlet {
     public String getServletInfo() {
         return "Short description";
     }// </editor-fold>
-
 }

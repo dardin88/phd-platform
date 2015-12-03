@@ -41,7 +41,7 @@ public class DeletePublicationServlet extends HttpServlet {
         try {
 
             JSONObject result = new JSONObject();
-            String idPublication = request.getParameter("id");
+            String idPublication = request.getParameter("idPublication");
 
             result.put("result", true);
 

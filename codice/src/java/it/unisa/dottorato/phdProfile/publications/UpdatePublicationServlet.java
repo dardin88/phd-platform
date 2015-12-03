@@ -48,27 +48,28 @@ public class UpdatePublicationServlet extends HttpServlet {
 
                 int idPublication = Integer.parseInt("" + request.getSession().getAttribute("idPublication"));
                 String title = request.getParameter("title");
-                String authors = request.getParameter("authors");
-                String abstractText = request.getParameter("abstractText");
-                
-                String year = request.getParameter("pubYear");
+                String publicationIssue = request.getParameter("publicationIsse");
+                String year = request.getParameter("year");
+                String numberPage = request.getParameter("numberPage");
+                String link = request.getParameter("link");
                 String type = request.getParameter("type");
-                String issue = request.getParameter("issue");
-                String numberPages = request.getParameter("numberPages");
+                String authors = request.getParameter("otherAuthors");
+                String pAbstract = request.getParameter("abstract");
 
                 HttpSession session = request.getSession();
-                Person loggedPerson = (Person) session.getAttribute("person");
+                Person loggedPerson = (Person) session.getAttribute("person"); // da modificare ancora 
 
                 Publication publication = new Publication();
 
                 publication.setTitle(title);
-                publication.setAuthors(authors);
-                publication.setAbstractText(abstractText);
+                publication.setPublicationIssue(publicationIssue);
                 publication.setYear(year);
+                publication.setNumberPages(Integer.parseInt(numberPage));
+                publication.setLink(link);
                 publication.setType(type);
-                publication.setPublicationIssue(issue);
-                publication.setNumberPages(Integer.parseInt(numberPages));
-                publication.setFK_Student(loggedPerson.getSsn());
+                publication.setAuthors(authors);
+                publication.setAbstract(pAbstract);
+                publication.setFkPhdstudent(loggedPerson.getSsn()); // da modificare ancora
 
                 PublicationManager.getInstance().update(idPublication, publication);
                 result.put("result", true);

@@ -62,23 +62,25 @@ public class PublicationManager {
              */
             String tSql = "INSERT INTO "
                     + PublicationManager.TABLE_PUBLICATION
-                    + " (title, authors, abstract, year, type, publicationIssue, numberPages, FK_Student)"
+                    + " (title, publicationIssue, year, numberPage, link, type, otherAuthors, abstract, fkPhdstudent)"
                     + " VALUES ('"
                     + Utility.Replace(pPublication.getTitle())
                     + "','"
-                    + Utility.Replace(pPublication.getAuthors())
-                    + "','"
-                    + Utility.Replace(pPublication.getAbstractText())
+                    + Utility.Replace(pPublication.getPublicationIssue())
                     + "','"
                     + Utility.Replace(pPublication.getYear())
                     + "','"
-                    + Utility.Replace(pPublication.getType())
-                    + "','"
-                    + Utility.Replace(pPublication.getPublicationIssue())
-                    + "',"
                     + pPublication.getNumberPages()
                     + ",'"
-                    + pPublication.getFK_Strudent()
+                    + Utility.Replace(pPublication.getLink())
+                    + "','"
+                    + Utility.Replace(pPublication.getType())
+                    + "','"
+                    + Utility.Replace(pPublication.getAuthors())
+                    + "','"
+                    + Utility.Replace(pPublication.getAbstract())
+                    + "','"
+                    + pPublication.getFkPhdstudent()
                     + "')";
 
             System.out.println("La query: " +tSql);
@@ -100,18 +102,20 @@ public class PublicationManager {
                     + PublicationManager.TABLE_PUBLICATION
                     + " set title = '"
                     + Utility.Replace(pPublication.getTitle())
-                    + "', authors = '"
-                    + Utility.Replace(pPublication.getAuthors())
-                    + "', abstract = '"
-                    + Utility.Replace(pPublication.getAbstractText())
-                    + "', year = '"
-                    + pPublication.getYear()
-                    + "', type = '"
-                    + Utility.Replace(pPublication.getType())
                     + "', publicationIssue = '"
                     + Utility.Replace(pPublication.getPublicationIssue())
+                    + "', year = '"
+                    + pPublication.getYear()
                     + "', numberPages = "
                     + pPublication.getNumberPages()
+                    + "', link = '"
+                    + Utility.Replace(pPublication.getLink())
+                    + "', type = '"
+                    + Utility.Replace(pPublication.getType())
+                    + "', otherAuthors = '"
+                    + Utility.Replace(pPublication.getAuthors())
+                    + "', abstract = '"
+                    + Utility.Replace(pPublication.getAbstract())
                     + " WHERE idPublication = "
                     + oldPublicationID + "";           
 
@@ -169,14 +173,14 @@ public class PublicationManager {
             if (result.next()) {
                 publication.setIdPublication(result.getInt("idPublication"));
                 publication.setTitle(result.getString("title"));
-                publication.setAuthors(result.getString("authors"));
-                publication.setAbstractText(result.getString("abstract"));
-                publication.setFilePath(result.getString("file"));
-                publication.setYear(result.getString("year"));
-                publication.setType(result.getString("type"));
                 publication.setPublicationIssue(result.getString("publicationIssue"));
-                publication.setNumberPages(result.getInt("numberPages"));
-                publication.setFK_Student(result.getString("FK_Student"));
+                publication.setYear(result.getString("year"));
+                publication.setNumberPages(result.getInt("numberPage"));
+                publication.setLink(result.getString("link"));
+                publication.setType(result.getString("type"));
+                publication.setAuthors(result.getString("otherAuthors"));
+                publication.setAbstract(result.getString("abstract"));
+                publication.setFkPhdstudent(result.getString("fkPhdstudent"));
             }
 
             return publication;
@@ -200,8 +204,8 @@ public class PublicationManager {
              */
             String tSql = "SELECT * FROM "
                     + PublicationManager.TABLE_PUBLICATION
-                    + " WHERE FK_Student = '"
-                    + pPerson.getSsn() + "'";
+                    + " WHERE fkPhdstudent = '"
+                    + pPerson.getSsn() + "'"; // da modificare ancora
 
             //Inviamo la Query al DataBase
             ResultSet result = Utility.queryOperation(connect, tSql);
@@ -211,14 +215,14 @@ public class PublicationManager {
                 
                 publication.setIdPublication(result.getInt("idPublication"));
                 publication.setTitle(result.getString("title"));
-                publication.setAuthors(result.getString("authors"));
-                publication.setAbstractText(result.getString("abstract"));
-                publication.setFilePath(result.getString("file"));
-                publication.setYear(result.getString("year"));
-                publication.setType(result.getString("type"));
                 publication.setPublicationIssue(result.getString("publicationIssue"));
-                publication.setNumberPages(result.getInt("numberPages"));
-                publication.setFK_Student(result.getString("FK_Student"));
+                publication.setYear(result.getString("year"));
+                publication.setNumberPages(result.getInt("numberPage"));
+                publication.setLink(result.getString("link"));
+                publication.setType(result.getString("type"));
+                publication.setAuthors(result.getString("otherAuthors"));
+                publication.setAbstract(result.getString("abstract"));
+                publication.setFkPhdstudent(result.getString("fkPhdstudent"));
                 
                 publications.add(publication);
             }

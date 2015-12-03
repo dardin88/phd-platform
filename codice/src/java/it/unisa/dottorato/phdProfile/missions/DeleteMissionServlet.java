@@ -38,7 +38,7 @@ public class DeleteMissionServlet extends HttpServlet {
         response.setContentType("text/html;charset=UTF-8");
         PrintWriter out = response.getWriter();
         JSONObject result = new JSONObject();
-        String idMission = request.getParameter("id");
+        String idMission = request.getParameter("idMission");
         try {
             MissionManager.getInstance().delete(idMission);
         } catch (ClassNotFoundException | SQLException ex) {

@@ -46,9 +46,9 @@ public class GetAllPublicationsServlet extends HttpServlet {
             try {
                 
                 HttpSession session = request.getSession();
-                Person person = (Person) session.getAttribute("person");
+                Person person = (Person) session.getAttribute("person"); // da modificare ancora 
                 
-                ArrayList<Publication> publications = (ArrayList<Publication>) PublicationManager.getInstance().getAllPublicationsOf(person);
+                ArrayList<Publication> publications = (ArrayList<Publication>) PublicationManager.getInstance().getAllPublicationsOf(person); // da modificare ancora
                 JSONArray resultArray = new JSONArray(publications);
                 result.put("publications", resultArray);
                 out.write(result.toString());

@@ -46,10 +46,10 @@ public class GetAllMissionsServlet extends HttpServlet {
             try {
                 
                 HttpSession session = request.getSession();
-                Person person = (Person) session.getAttribute("person");
+                Person person = (Person) session.getAttribute("person"); // da modificare ancora
                 
-                ArrayList<Mission> collaborations = (ArrayList<Mission>) MissionManager.getInstance().getAllMissionsOf(person);
-                JSONArray resultArray = new JSONArray(collaborations);
+                ArrayList<Mission> missions = (ArrayList<Mission>) MissionManager.getInstance().getAllMissionsOf(person); //da modificare ancora
+                JSONArray resultArray = new JSONArray(missions);
                 result.put("missions", resultArray);
                 out.write(result.toString());
             } catch (SQLException | JSONException ex) {
