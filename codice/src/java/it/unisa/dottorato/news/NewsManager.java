@@ -7,7 +7,6 @@ package it.unisa.dottorato.news;
 import com.sun.mail.iap.ConnectionException;
 import it.unisa.dottorato.utility.Utility;
 import it.unisa.integrazione.database.DBConnection;
-import it.unisa.integrazione.model.Person;
 import java.io.IOException;
 import java.sql.Connection;
 import java.sql.ResultSet;
