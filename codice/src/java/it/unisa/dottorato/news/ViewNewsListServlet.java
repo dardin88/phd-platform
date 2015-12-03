@@ -5,9 +5,7 @@
  */
 package it.unisa.dottorato.news;
 
-import it.unisa.dottorato.phdClass.GetPhdClassListServlet;
-import it.unisa.dottorato.phdClass.PhdClass;
-import it.unisa.dottorato.phdClass.PhdClassManager;
+
 import it.unisa.integrazione.database.exception.ConnectionException;
 import java.io.IOException;
 import java.io.PrintWriter;
