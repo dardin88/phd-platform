@@ -4,9 +4,9 @@
  * and open the template in the editor.
  */
 package it.unisa.dottorato.news;
-import com.sun.mail.iap.ConnectionException;
 import it.unisa.dottorato.utility.Utility;
 import it.unisa.integrazione.database.DBConnection;
+import it.unisa.integrazione.database.exception.ConnectionException;
 import java.io.IOException;
 import java.sql.Connection;
 import java.sql.ResultSet;
