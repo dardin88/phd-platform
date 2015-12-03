@@ -33,7 +33,7 @@ public class NewsManager {
     }
 
 
-    public void insert(News anews) throws SQLException, MissingDataEccezione {
+    public void insertNews(News anews) throws SQLException, MissingDataEccezione {
         Connection connect = DBConnection.getConnection();
         
 
@@ -90,7 +90,7 @@ public class NewsManager {
      * @param aidnews
      * @return
      */
-   boolean deleteAvvisi (int aidnews) {
+   boolean deleteNews (int aidnews) {
         
 Statement stmt = null;
         Connection connection = null;
