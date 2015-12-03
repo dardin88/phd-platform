@@ -24,7 +24,7 @@ public class Curriculumcic implements Serializable{
         return fkCycle;
     }
 
-    public void setFK_PhdCycle(int fkCycle) {
+    public void setfkCycle(int fkCycle) {
         this.fkCycle = fkCycle;
     }
 

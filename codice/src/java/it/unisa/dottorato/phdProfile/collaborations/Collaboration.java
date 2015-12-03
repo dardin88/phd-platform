@@ -6,11 +6,11 @@ import java.util.Date;
 public class Collaboration implements Serializable {
     
     private int idCollaboration;
-    private String istitution;
     private String description;
     private Date startDate;
     private Date endDate;
-    private String FK_Strudent;
+    private String istitution;
+    private String fkPhdstudent;
 
     public int getIdCollaboration() {
         return idCollaboration;
@@ -52,12 +52,12 @@ public class Collaboration implements Serializable {
         this.endDate = endDate;
     }
 
-    public String getFK_Strudent() {
-        return FK_Strudent;
+    public String getFkPhdstudent() {
+        return fkPhdstudent;
     }
 
-    public void setFK_Strudent(String FK_Strudent) {
-        this.FK_Strudent = FK_Strudent;
+    public void setFkPhdstudent(String fkPhdstudent) {
+        this.fkPhdstudent = fkPhdstudent;
     }  
     
 }
