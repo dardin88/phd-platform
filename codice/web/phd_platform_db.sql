@@ -214,6 +214,7 @@ INSERT INTO phdstudent(fkAccount,telephone,link,deparment,researchInterest,fkCyc
 create table IF not EXIsts publication(
 idPublication 		integer	primary key,
 title 				varchar(50) not null,
+publicatioIssue                 varchar(60) not null,
 year				varchar(4) not null,
 numberPage    		integer not null check(numberpage>0),
 link				varchar(150),
@@ -224,8 +225,8 @@ fkPhdstudent 		varchar(50) not null,
 foreign key (fkPhdstudent) references phdstudent(fkAccount) on delete cascade on update cascade);
 
 
-INSERT INTO publication(idPublication,title,year,numberPage,link,type,otherAuthors,abstract,fkPhdstudent )VALUES
-(1,'ICSE 2015 Trip Summary','2015',1,'http://www.sesa.unisa.it/people/ddinucci/pdf/3_trip-report_SEN.pdf',
+INSERT INTO publication(idPublication,title,publicationIssue,year,numberPage,link,type,otherAuthors,abstract,fkPhdstudent )VALUES
+(1,'ICSE 2015 Trip Summary','ICSE 2015 SIGSOFT CAPS Report','2015',1,'http://www.sesa.unisa.it/people/ddinucci/pdf/3_trip-report_SEN.pdf',
  'Ricerca',null,
  'Abstract ICSE 2015 has been my first conference and in my opinion it has
 been amazing! My agenda in the period 16th
