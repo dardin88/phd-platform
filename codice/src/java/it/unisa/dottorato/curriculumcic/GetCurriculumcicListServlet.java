@@ -3,6 +3,7 @@ package it.unisa.dottorato.curriculumcic;
 import java.io.IOException;
 import java.io.PrintWriter;
 import java.sql.SQLException;
+import java.util.ArrayList;
 import java.util.logging.Level;
 import java.util.logging.Logger;
 import javax.servlet.ServletException;
@@ -10,15 +11,16 @@ import javax.servlet.annotation.WebServlet;
 import javax.servlet.http.HttpServlet;
 import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpServletResponse;
+import org.json.JSONArray;
 import org.json.JSONException;
 import org.json.JSONObject;
 
 /**
  *
- * @author Elisa D'Eugenio
+ * @author Tommaso Minichiello
  */
-@WebServlet(name = "InsertPhdClass", urlPatterns = {"/dottorato/InsertPhdClass"})
-public class InsertPhdClassServlet extends HttpServlet {
+@WebServlet(name = "GetCurriculumcicList", urlPatterns = {"/dottorato/GetCurriculumcicList"})
+public class GetCurriculumcicListServlet extends HttpServlet {
 
     /**
      * Processes requests for both HTTP <code>GET</code> and <code>POST</code>
@@ -31,36 +33,17 @@ public class InsertPhdClassServlet extends HttpServlet {
      */
     protected void processRequest(HttpServletRequest request, HttpServletResponse response)
             throws ServletException, IOException {
-        
-        
         response.setContentType("text/html;charset=UTF-8");
-
-        PrintWriter out = response.getWriter();
-        try {
-
+        try (PrintWriter out = response.getWriter()) {
             JSONObject result = new JSONObject();
-        String idPhdCycle = request.getParameter("idPhdCycle");
-        String idPhdCurriculum = request.getParameter("idPhdCurriculum");
-        
-        Curriculumcic aPhdClass = new Curriculumcic();
-        aPhdClass.setFK_PhdCycle(Integer.parseInt(idPhdCycle));
-        aPhdClass.setFK_PhdCurriculum(idPhdCurriculum);
-        
-        result.put("result", true);
-
-        try {
-            CurriculumcicManager.getInstance().insert(aPhdClass);
-        } catch (ClassNotFoundException | SQLException ex) {
-            result.put("result", false);
-            Logger.getLogger(InsertPhdClassServlet.class.getName()).log(Level.SEVERE, null, ex);
-        }
-        
-        out.write(result.toString());
-
-        } catch (JSONException ex) {
-            Logger.getLogger(InsertPhdClassServlet.class.getName()).log(Level.SEVERE, null, ex);
-        } finally {
-            out.close();
+            try {
+                ArrayList<Curriculumcic> curriculumcicList = CurriculumcicManager.getInstance().getCurriculumcicList();
+                JSONArray resultArray = new JSONArray(curriculumcicList);
+                result.put("CurriculumcicList", resultArray);
+                out.write(result.toString());
+            } catch (ClassNotFoundException | SQLException | JSONException ex) {
+                Logger.getLogger(GetCurriculumcicListServlet.class.getName()).log(Level.SEVERE, null, ex);
+            }
         }
     }
 

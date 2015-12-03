@@ -1,6 +1,5 @@
 package it.unisa.dottorato.curriculumcic;
 
-import it.unisa.dottorato.phdCurriculum.GetPhdCurriculumsNamesByPhdCycleServlet;
 import java.io.IOException;
 import java.io.PrintWriter;
 import java.sql.SQLException;
@@ -18,8 +17,8 @@ import org.json.JSONObject;
  *
  * @author Elisa D'Eugenio
  */
-@WebServlet(name = "GetPhdClassBySSN", urlPatterns = {"/dottorato/GetPhdClassBySSN"})
-public class GetPhdClassBySSNServlet extends HttpServlet {
+@WebServlet(name = "DeleteCurriculumcic", urlPatterns = {"/dottorato/DeleteCurriculumcic"})
+public class DeleteCurriculumcicServlet extends HttpServlet {
 
     /**
      * Processes requests for both HTTP <code>GET</code> and <code>POST</code>
@@ -34,19 +33,31 @@ public class GetPhdClassBySSNServlet extends HttpServlet {
             throws ServletException, IOException {
 
         response.setContentType("text/html;charset=UTF-8");
-        try (PrintWriter out = response.getWriter()) {
-            String pSSN = request.getParameter("SSN");
+
+        PrintWriter out = response.getWriter();
+        try {
+
             JSONObject result = new JSONObject();
+            String number = request.getParameter("number");
+            String name = request.getParameter("name");
+            
+            result.put("result", true);
+
             try {
-                Curriculumcic aClass = CurriculumcicManager.getInstance().getPhdClassBySSN(pSSN);
-                result.put("idClass", aClass.getIdClass());
-                result.put("FK_PhdCurriculum", aClass.getFK_PhdCurriculum());
-                result.put("FK_PhdCycle", aClass.getFK_PhdCycle());
-                out.write(result.toString());
-            } catch (ClassNotFoundException | SQLException | JSONException ex) {
-                Logger.getLogger(GetPhdCurriculumsNamesByPhdCycleServlet.class.getName()).log(Level.SEVERE, null, ex);
+                CurriculumcicManager.getInstance().delete(Integer.parseInt(number), name);
+            } catch (ClassNotFoundException | SQLException ex) {
+                result.put("result", false);
+                Logger.getLogger(DeleteCurriculumcicServlet.class.getName()).log(Level.SEVERE, null, ex);
             }
+            
+            out.write(result.toString());
+
+        } catch (JSONException ex) {
+            Logger.getLogger(DeleteCurriculumcicServlet.class.getName()).log(Level.SEVERE, null, ex);
+        }finally {
+            out.close();
         }
+        
     }
 
     // <editor-fold defaultstate="collapsed" desc="HttpServlet methods. Click on the + sign on the left to edit the code.">

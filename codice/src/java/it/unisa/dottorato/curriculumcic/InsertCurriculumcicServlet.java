@@ -3,7 +3,6 @@ package it.unisa.dottorato.curriculumcic;
 import java.io.IOException;
 import java.io.PrintWriter;
 import java.sql.SQLException;
-import java.util.ArrayList;
 import java.util.logging.Level;
 import java.util.logging.Logger;
 import javax.servlet.ServletException;
@@ -11,16 +10,15 @@ import javax.servlet.annotation.WebServlet;
 import javax.servlet.http.HttpServlet;
 import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpServletResponse;
-import org.json.JSONArray;
 import org.json.JSONException;
 import org.json.JSONObject;
 
 /**
  *
- * @author Elisa D'Eugenio
+ * @author Tommaso Minichiello
  */
-@WebServlet(name = "GetPhdClassList", urlPatterns = {"/dottorato/GetPhdClassList"})
-public class GetPhdClassListServlet extends HttpServlet {
+@WebServlet(name = "InsertPhdClass", urlPatterns = {"/dottorato/InsertPhdClass"})
+public class InsertCurriculumcicServlet extends HttpServlet {
 
     /**
      * Processes requests for both HTTP <code>GET</code> and <code>POST</code>
@@ -33,17 +31,38 @@ public class GetPhdClassListServlet extends HttpServlet {
      */
     protected void processRequest(HttpServletRequest request, HttpServletResponse response)
             throws ServletException, IOException {
+        
+        
         response.setContentType("text/html;charset=UTF-8");
-        try (PrintWriter out = response.getWriter()) {
+
+        PrintWriter out = response.getWriter();
+        try {
+
             JSONObject result = new JSONObject();
-            try {
-                ArrayList<Curriculumcic> phdClassList = CurriculumcicManager.getInstance().getPhdClassList();
-                JSONArray resultArray = new JSONArray(phdClassList);
-                result.put("phdClassList", resultArray);
-                out.write(result.toString());
-            } catch (ClassNotFoundException | SQLException | JSONException ex) {
-                Logger.getLogger(GetPhdClassListServlet.class.getName()).log(Level.SEVERE, null, ex);
-            }
+        String number = request.getParameter("number");
+        String name = request.getParameter("name");
+        String professor = request.getParameter("fkAccount");
+        
+        Curriculumcic aCurriculumcic = new Curriculumcic();
+        aCurriculumcic.setfkCycle(Integer.parseInt(number));
+        aCurriculumcic.setfkCurriculum(name);
+        aCurriculumcic.setfkProfessor(professor);
+        
+        result.put("result", true);
+
+        try {
+            CurriculumcicManager.getInstance().insert(aCurriculumcic);
+        } catch (ClassNotFoundException | SQLException ex) {
+            result.put("result", false);
+            Logger.getLogger(InsertCurriculumcicServlet.class.getName()).log(Level.SEVERE, null, ex);
+        }
+        
+        out.write(result.toString());
+
+        } catch (JSONException ex) {
+            Logger.getLogger(InsertCurriculumcicServlet.class.getName()).log(Level.SEVERE, null, ex);
+        } finally {
+            out.close();
         }
     }
 
