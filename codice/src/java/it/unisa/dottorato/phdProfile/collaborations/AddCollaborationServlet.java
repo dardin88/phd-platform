@@ -2,7 +2,6 @@
  * To change this license header, choose License Headers in Project Properties.
  * To change this template file, choose Tools | Templates
  * and open the template in the editor.
- TEST COMMIT
  */
 package it.unisa.dottorato.phdProfile.collaborations;
 
@@ -55,7 +54,7 @@ public class AddCollaborationServlet extends HttpServlet {
             String endDate = request.getParameter("endDate");
             
             HttpSession session = request.getSession();
-            Person loggedPerson = (Person) session.getAttribute("person");
+            Person loggedPerson = (Person) session.getAttribute("person"); // da modificare ancora
             
             Collaboration collaboration = new Collaboration();
             
@@ -63,7 +62,7 @@ public class AddCollaborationServlet extends HttpServlet {
             collaboration.setDescription(description);
             collaboration.setStartDate(java.sql.Date.valueOf(startDate));
             collaboration.setEndDate(java.sql.Date.valueOf(endDate));
-            collaboration.setFK_Strudent(loggedPerson.getSsn());
+            collaboration.setFkPhdstudent(loggedPerson.getSsn()); //da modificare ancora
             
             CollaborationManager.getInstance().insert(collaboration);
             

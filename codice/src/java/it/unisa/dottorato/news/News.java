@@ -3,7 +3,7 @@
  * To change this template file, choose Tools | Templates
  * and open the template in the editor.
  */
-package it.unisa.integrazione.model;
+package it.unisa.dottorato.news;
 
 /**
  *
@@ -23,6 +23,12 @@ public class News implements Serializable{
  public News(){
     
   }
+ public News( String title, String description) {
+        this.id = 0;
+        this.title = title;
+        this.description= description;
+    }
+
 
     public void setDescription(String description) {
         this.description = description;
@@ -32,12 +38,7 @@ public class News implements Serializable{
         return description;
     }
 
-    public News(int id, String title, String description) {
-        this.id = id;
-        this.title = title;
-        this.description= description;
-    }
-
+    
     
 
     public String getTitle() {
@@ -55,8 +56,14 @@ public class News implements Serializable{
         return id;
     }
 
-    public void setId(int id) {
-        this.id = id;
+    public void setId() {
+        this.id = id++;
     }
 
+    @Override
+    public String toString() {
+        return "News{" + "id=" + id + ", title=" + title + ", description=" + description + '}';
+    }
+
+    
 }
