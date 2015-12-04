@@ -386,4 +386,91 @@ public class CalendarManager {
         }
     }
     
+     
+     // metodo che restituisce un seminario in base all'Id
+     public synchronized Course getCourseById(int pCourseID) throws ClassNotFoundException, SQLException, IOException {
+        Connection connect = null;
+        try {
+            Course course = new Course();
+            // Otteniamo una Connessione al DataBase
+            connect = DBConnection.getConnection();
+
+            /*
+             * Prepariamo la stringa SQL per modificare un record 
+             * nella tabella phdCycle
+             */
+            String tSql = "SELECT * FROM "
+                    + CalendarManager.TABLE_COURSE
+                    + " WHERE idCourse = '"
+                    + pCourseID + "'";
+
+            //Inviamo la Query al DataBase
+            ResultSet result = Utility.queryOperation(connect, tSql);
+
+            if (result.next()) {
+                course.setIdCourse(result.getInt("idCourse"));
+                course.setName(result.getString("name"));
+                course.setFK_curriculum(result.getString("fkCurriculum"));
+                course.setFK_cycle(result.getInt("fkCycle"));
+                course.setDescription(result.getString("description"));
+                course.setStartDate(result.getDate("startDate"));
+                course.setEndDate(result.getDate("endDate"));
+            }
+
+            return course;
+
+        } finally {
+            DBConnection.releaseConnection(connect);
+        }
+    }
+     
+     
+      public synchronized List<Lesson> getAllLessonOf(Course pCourse) throws SQLException { //da modificare dato Person
+        List<Lesson> lessons = new ArrayList<Lesson>();
+        
+        Connection connect = null;
+        try {
+            // Otteniamo una Connessione al DataBase
+            connect = DBConnection.getConnection();
+
+            /*
+             * Prepariamo la stringa SQL per modificare un record 
+             * nella tabella phdCycle
+             */
+            String tSql = "SELECT * FROM "
+                    + CalendarManager.TABLE_LESSON
+                    + " WHERE fkCourse = '"
+                    + pCourse.getIdCourse() + "'"; //da modificare ancora
+
+            //Inviamo la Query al DataBase
+            ResultSet result = Utility.queryOperation(connect, tSql);
+
+            while (result.next()) {
+                Lesson lesson = new Lesson();
+                
+                lesson.setIdLesson(result.getInt("idLesson"));
+                lesson.setDate(result.getDate("date"));
+                lesson.setStartTime(result.getInt("startTime"));
+                lesson.setEndTime(result.getInt("endTime"));
+                lesson.setName(result.getString("name"));
+                lesson.setClassroom(result.getString("classroom"));
+                lesson.setDescription(result.getString("description"));
+                lesson.setCycle(result.getInt("cycle"));
+                lesson.setCurriculum(result.getString("curriculum"));
+                lesson.setFK_course(result.getInt("fkCourse"));
+                
+                lessons.add(lesson);
+            }
+
+        } finally {
+            DBConnection.releaseConnection(connect);
+        }
+        
+        
+        return lessons;
+    }
+      
+      
+      
 }
+
