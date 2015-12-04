@@ -1,10 +1,10 @@
-package it.unisa.dottorato.phdCycle;
+package it.unisa.dottorato.Cycle;
 
 import java.io.Serializable;
 
 /**
  *
- * @author Elisa D'Eugenio
+ * @author Tommaso Minichiello
  */
 public class Cycle implements Serializable {
 

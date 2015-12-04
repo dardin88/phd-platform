@@ -1,7 +1,7 @@
 package it.unisa.dottorato.phdCurriculum;
 
-import it.unisa.dottorato.phdCycle.DeletePhdCycleServlet;
-import it.unisa.dottorato.phdCycle.UpdatePhdCycleServlet;
+import it.unisa.dottorato.Cycle.DeletePhdCycleServlet;
+import it.unisa.dottorato.Cycle.UpdatePhdCycleServlet;
 import java.io.IOException;
 import java.io.PrintWriter;
 import java.sql.SQLException;

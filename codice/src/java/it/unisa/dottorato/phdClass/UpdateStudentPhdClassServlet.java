@@ -1,6 +1,6 @@
 package it.unisa.dottorato.phdClass;
 
-import it.unisa.dottorato.phdCycle.UpdatePhdCycleServlet;
+import it.unisa.dottorato.Cycle.UpdatePhdCycleServlet;
 import java.io.IOException;
 import java.io.PrintWriter;
 import java.sql.SQLException;
