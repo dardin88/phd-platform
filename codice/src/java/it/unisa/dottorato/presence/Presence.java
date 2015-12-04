@@ -22,10 +22,19 @@ public class Presence implements Serializable {
     private String fkPhdstudent ;
     private String fkLesson;
     public boolean isPresent=false;
+    public boolean setPermission=false;
+
+    public boolean isSetPermission() {
+        return setPermission;
+    }
+
+    public void setSetPermission(boolean setPermission) {
+        this.setPermission = setPermission;
+    }
     
     
-      public Presence(){
-        }
+    
+     
 
     public String getFkPhdstudent() {
         return fkPhdstudent;
@@ -42,16 +51,7 @@ public class Presence implements Serializable {
     public void setFkLesson(String fkLesson) {
         this.fkLesson = fkLesson;
     }
-
-  
-
-    
-    
-    
-  
-
-    
-    public boolean isIsPresent() {
+     public boolean isIsPresent() {
         return isPresent;
     }
 

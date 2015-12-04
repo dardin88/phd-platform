@@ -4,6 +4,7 @@
  * and open the template in the editor.
  */
 package it.unisa.dottorato.presence;
+import it.unisa.dottorato.phdCourse.Lesson;
 import it.unisa.dottorato.utility.Utility;
 import it.unisa.integrazione.database.DBConnection;
 import java.io.IOException;
@@ -21,7 +22,7 @@ public class PresenceManager {
   private static final String TABLE_Presence="presence";
   private static final String TABLE_Course="course";
   private static PresenceManager instance;
-  
+   Presence checkPermission;
   // singleton
   private PresenceManager() {
         super();
@@ -34,7 +35,7 @@ public class PresenceManager {
         return instance;
     }
   
-  public synchronized ArrayList<Presence> getPresenceList() throws ClassNotFoundException, SQLException, IOException {
+  public synchronized ArrayList<Presence> getPresenceList( ) throws ClassNotFoundException, SQLException, IOException {
         Connection connect = null;
         try {
             ArrayList<Presence> classList = new ArrayList<Presence>();
@@ -69,27 +70,27 @@ public class PresenceManager {
         }
     }
     
+  public synchronized boolean getPermission() throws ExceptionPermissionDenied{
+     this.checkPermission=new Presence();
+     boolean permission= this.checkPermission.isIsPresent();
+      if (permission=false){
+          throw new ExceptionPermissionDenied();
+          
+      }
+      else return true;
+      }
+
   
-  /* non lo so
-  
-  public synchronized void setPermission() throws ClassNotFoundException, SQLException, IOException {
-  Connection connect = null;
-  Presence registro;
-            
-           try{
-               // Otteniamo una Connessione al DataBase
-            connect = DBConnection.getConnection();
-            
-            String tSql = "SELECT isPresent FROM "
-                    + PresenceManager.TABLE_Presence;
-            
-            ResultSet result = Utility.queryOperation(connect, tSql);
-            
-           }
-            finally {
-            DBConnection.releaseConnection(connect);
-        }
-   }*/
+  public synchronized void ChangePermission(boolean permission)  {
+        
+      if(permission==false){
+       
+       checkPermission.setSetPermission(true);
+   }
+       else checkPermission.setSetPermission(false);
+          
+       
+  }
    
    //si fara con una combo box
    public synchronized ArrayList<String> getPresenceCourse() throws ClassNotFoundException, SQLException, IOException {
@@ -124,6 +125,39 @@ public class PresenceManager {
         }
     }
    
-   
+   public synchronized ArrayList<Presence> getPresence(int lesson) throws SQLException{
+       Connection connect = null;
+        try {
+            ArrayList<Presence> classList = new ArrayList<Presence>();
+          Presence registro;
+            // Otteniamo una Connessione al DataBase
+            connect = DBConnection.getConnection();
+
+            /*
+             * Prepariamo la stringa SQL per la ricerca dei record 
+             * nella tabella presence
+             */
+            String tSql = "SELECT phd.fkAccount,pre.isPresent FROM phdstudent.phd present.pre lesson.les "
+                    + "WHERE pre.fkLesson="
+                    + lesson
+                    + " ORDER BY fkAccount ";
+
+            //Inviamo la Query al DataBase
+            ResultSet result = Utility.queryOperation(connect, tSql);
+
+            while (result.next()) {
+                 registro = new Presence();
+                  registro.setFkPhdstudent(result.getString("fkPhdstudent"));
+                 registro.setIsPresent(result.getBoolean("isPresent"));
+
+                classList.add(registro);
+            }
+
+            return classList;
+
+        } finally {
+            DBConnection.releaseConnection(connect);
+        }
+   }
    
 }
