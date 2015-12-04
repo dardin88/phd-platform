@@ -29,6 +29,23 @@ public class CurriculumcicManager {
         super();
     }
     
+      /**
+     * Metodo della classe incaricato della produzione degli oggetti, tale
+     * metodo deve essere chiamato per restituire l'istanza del Singleton.
+     * L'oggetto Singleton sara' istanziato solo alla prima invocazione del
+     * metodo. Nelle successive invocazioni, invece, sara' restituito un
+     * riferimento allo stesso oggetto.
+     *
+     * @return L'istanza della classe
+     */
+    public static synchronized CurriculumcicManager getInstance() {
+        if (instance == null) {
+            instance = new CurriculumcicManager();
+        }
+        return instance;
+    }
+
+    
     /**
      * Metodo della classe incaricato dell'inserimento di un record
      * nella tabella teach
@@ -64,6 +81,133 @@ public class CurriculumcicManager {
         }
     }
     
+     /**
+     * Metodo della classe incaricato dell'inserimento di un record
+     * nella tabella teach
+     * @param pCurriculumcic
+     * @param fkProfessor 
+     * @throws java.lang.ClassNotFoundException
+     * @throws java.sql.SQLException
+     * @throws java.io.IOException
+     */
+    public synchronized void insertCurriculumcicCoordinator(Curriculumcic pCurriculumcic, String fkProfessor) throws
+            ClassNotFoundException, SQLException, IOException {
+        try (Connection connect = DBConnection.getConnection()) {
+
+            /*
+             * Prepariamo la stringa SQL per effettuare la modifica alla 
+             * tabella phdstudent
+             */
+           String tSql = "UPDATE "
+                    + CurriculumcicManager.TABLE_CURRICULUMCIC
+                    + " SET fkProfessor = '"
+                    + fkProfessor
+                    + "' WHERE fkCurriculum= '"
+                    + pCurriculumcic.getfkCurriculum()
+                    + "' AND fkCycle ="
+                    + pCurriculumcic.getfkCycle();
+
+            //Inviamo la Query al DataBase
+            Utility.executeOperation(connect, tSql);
+
+            connect.commit();
+        }
+    }
+     /**
+     * Metodo della classe incaricato dell'inserimento di un record
+     * nella tabella teach
+     * @param pCurriculumcic
+     * @throws java.lang.ClassNotFoundException
+     * @throws java.sql.SQLException
+     * @throws java.io.IOException
+     */
+    public synchronized void deleteCurriculumcicCoordinator(Curriculumcic pCurriculumcic) throws
+            ClassNotFoundException, SQLException, IOException {
+        try (Connection connect = DBConnection.getConnection()) {
+
+            /*
+             * Prepariamo la stringa SQL per effettuare la modifica alla 
+             * tabella phdstudent
+             */
+           String tSql = "UPDATE "
+                    + CurriculumcicManager.TABLE_CURRICULUMCIC
+                    + " SET fkProfessor = null WHERE fkCurriculum= '"
+                    + pCurriculumcic.getfkCurriculum()
+                    + "' AND fkCycle ="
+                    + pCurriculumcic.getfkCycle();
+
+            //Inviamo la Query al DataBase
+            Utility.executeOperation(connect, tSql);
+
+            connect.commit();
+        }
+    } 
+    
+    /**
+     * Metodo della classe incaricato dell'inserimento di un record
+     * nella tabella teach
+     * @param pCurriculumcic
+     * @throws java.lang.ClassNotFoundException
+     * @throws java.sql.SQLException
+     * @throws java.io.IOException
+     */
+    public synchronized void viewCurriculumcicCoordinator(Curriculumcic pCurriculumcic) throws
+            ClassNotFoundException, SQLException, IOException {
+        try (Connection connect = DBConnection.getConnection()) {
+
+            /*
+             * Prepariamo la stringa SQL per effettuare la modifica alla 
+             * tabella phdstudent
+             */
+           String tSql = "SELECT fkProfessor FROM "
+                    + CurriculumcicManager.TABLE_CURRICULUMCIC
+                    + " WHERE fkCurriculum= '"
+                    + pCurriculumcic.getfkCurriculum()
+                    + "' AND fkCycle ="
+                    + pCurriculumcic.getfkCycle();
+
+            //Inviamo la Query al DataBase
+            Utility.executeOperation(connect, tSql);
+
+            connect.commit();
+        }
+    } 
+    
+    /**
+     * Metodo della classe incaricato dell'inserimento di un record
+     * nella tabella teach
+     * @param pCurriculumcic
+     * @param fkProfessor 
+     * @throws java.lang.ClassNotFoundException
+     * @throws java.sql.SQLException
+     * @throws java.io.IOException
+     */
+    public synchronized void DeleteProfessor(Curriculumcic pCurriculumcic, String fkProfessor) throws
+            ClassNotFoundException, SQLException, IOException {
+        try (Connection connect = DBConnection.getConnection()) {
+
+            /*
+             * Prepariamo la stringa SQL per effettuare la modifica alla 
+             * tabella phdstudent
+             */
+           String tSql = "DELETE * FROM "
+                    + CurriculumcicManager.TABLE_TEACH
+                    + " WHERE fkCurriculum = '"
+                    + pCurriculumcic.getfkCurriculum()
+                    + "' AND fkCycle = "
+                    + pCurriculumcic.getfkCycle()
+                    + " AND fkProfessor ='"
+                    + fkProfessor
+                    + "'";
+
+            //Inviamo la Query al DataBase
+            Utility.executeOperation(connect, tSql);
+
+            connect.commit();
+        }
+    }
+    
+    
     /**
      * Metodo della classe incaricato dell'inserimento in un record della
      * tabella pdhstudent dei campi fkCurriculum e fkCycle
@@ -98,6 +242,86 @@ public class CurriculumcicManager {
     }
     
     /**
+     * Metodo della classe incaricato della ricerca dei cicli esistenti.
+     *@param curriculumcic  
+     * @return
+     * @throws java.lang.ClassNotFoundException
+     * @throws java.sql.SQLException
+     * @throws java.io.IOException
+     */
+    public synchronized ArrayList<String> viewProfessorList(Curriculumcic curriculumcic) throws ClassNotFoundException, SQLException, IOException {
+        Connection connect = null;
+        try {
+            ArrayList<String> prof = new ArrayList<>();
+            // Otteniamo una Connessione al DataBase
+            connect = DBConnection.getConnection();
+
+            /*
+             * Prepariamo la stringa SQL per modificare un record 
+             * nella tabella phdCycle
+             */
+             String tSql = "SELECT fkAccount FROM "
+                    + CurriculumcicManager.TABLE_TEACH
+                    + " WHERE fkCycle = "
+                    + curriculumcic.getfkCycle()
+                    +"' AND fkCurriculum = '"
+                    + curriculumcic.getfkCurriculum()
+                    +"'";
+
+            //Inviamo la Query al DataBase
+            ResultSet result = Utility.queryOperation(connect, tSql);
+            while (result.next()) {
+                prof.add(result.getString("fkAccount"));
+            }
+
+            return prof;
+
+        } finally {
+            DBConnection.releaseConnection(connect);
+        }
+    }
+    
+    /**
+     * Metodo della classe incaricato della ricerca dei cicli esistenti.
+     *@param curriculumcic  
+     * @return
+     * @throws java.lang.ClassNotFoundException
+     * @throws java.sql.SQLException
+     * @throws java.io.IOException
+     */
+    public synchronized ArrayList<String> viewPhdstudentCurriculumcic(Curriculumcic curriculumcic) throws ClassNotFoundException, SQLException, IOException {
+        Connection connect = null;
+        try {
+            ArrayList<String> prof = new ArrayList<>();
+            // Otteniamo una Connessione al DataBase
+            connect = DBConnection.getConnection();
+
+            /*
+             * Prepariamo la stringa SQL per modificare un record 
+             * nella tabella phdCycle
+             */
+             String tSql = "SELECT fkAccount FROM "
+                    + CurriculumcicManager.TABLE_PHDSTUDENT
+                    + " WHERE fkCycle = "
+                    + curriculumcic.getfkCycle()
+                    +"' AND fkCurriculum = '"
+                    + curriculumcic.getfkCurriculum()
+                    +"'";
+
+            //Inviamo la Query al DataBase
+            ResultSet result = Utility.queryOperation(connect, tSql);
+            while (result.next()) {
+                prof.add(result.getString("fkAccount"));
+            }
+
+            return prof;
+
+        } finally {
+            DBConnection.releaseConnection(connect);
+        }
+    }
+    
+    /**
      * Metodo della classe incaricato della cancellazione in un record della
      * tabella pdhstudent dei campi fkCurriculum e fkCycle
      *
@@ -128,138 +352,5 @@ public class CurriculumcicManager {
             connect.commit();
         }
     }
-    
-    
-    /**
-     * Metodo della classe incaricato della produzione degli oggetti, tale
-     * metodo deve essere chiamato per restituire l'istanza del Singleton.
-     * L'oggetto Singleton sara' istanziato solo alla prima invocazione del
-     * metodo. Nelle successive invocazioni, invece, sara' restituito un
-     * riferimento allo stesso oggetto.
-     *
-     * @return L'istanza della classe
-     */
-    public static synchronized CurriculumcicManager getInstance() {
-        if (instance == null) {
-            instance = new CurriculumcicManager();
-        }
-        return instance;
-    }
 
-      
-    /**
-     * Metodo della classe incaricato dell'inserimento di una nuova entita'
-     * nella tabella phdlass del database.
-     *
-     * @param pCurriculumcic
-     * @throws java.lang.ClassNotFoundException
-     * @throws java.sql.SQLException
-     * @throws java.io.IOException
-     */
-    public synchronized void insert(Curriculumcic pCurriculumcic) throws 
-            ClassNotFoundException, SQLException, IOException {
-        try (Connection connect = DBConnection.getConnection()) {
-
-            /*
-             * Prepariamo la stringa SQL per inserire un nuovo record 
-             * nella tabella curriculumcic
-             */
-            String tSql = "INSERT INTO "
-                    + CurriculumcicManager.TABLE_CURRICULUMCIC
-                    + " (fkCurriculum, fkCycle, fkProfessor)"
-                    + " VALUES ('"
-                    + pCurriculumcic.getfkCurriculum()
-                    + "',"
-                    + pCurriculumcic.getfkCycle()
-                    + ",'"
-                    + pCurriculumcic.getfkProfessor()
-                    + "')";
-
-            //Inviamo la Query al DataBase
-            Utility.executeOperation(connect, tSql);
-
-            connect.commit();
-        }
-    }
-
-    
-    /**
-     * Metodo della classe incaricato della cancellazione di un'entita' nella
-     * tabella curriculumcic del database.
-     *
-     * @param fkCurriculum
-     * @param fkCycle
-     * @throws java.lang.ClassNotFoundException
-     * @throws java.sql.SQLException
-     * @throws java.io.IOException
-     */
-    public synchronized void delete(int fkCycle, String fkCurriculum) throws ClassNotFoundException, SQLException, IOException {
-        Connection connect = null;
-        try {
-            // Otteniamo una Connessione al DataBase
-            connect = DBConnection.getConnection();
-
-            /*
-             * Prepariamo la stringa SQL per modificare un record 
-             * nella tabella phdClass
-             */
-            String tSql = "DELETE FROM "
-                    + CurriculumcicManager.TABLE_CURRICULUMCIC
-                    + " WHERE fkCycle = '"
-                    + fkCycle + "' AND "
-                    +" fkCurriculum = '"
-                    + Utility.Replace(fkCurriculum) + "'";
-
-            //Inviamo la Query al DataBase
-            Utility.executeOperation(connect, tSql);
-
-            connect.commit();
-        } finally {
-            DBConnection.releaseConnection(connect);
-        }
-    }
-
-   
-    /**
-     * Metodo della classe incaricato della ricerca delle classi esistenti.
-     *
-     * @return
-     * @throws java.lang.ClassNotFoundException
-     * @throws java.sql.SQLException
-     * @throws java.io.IOException
-     */
-    public synchronized ArrayList<Curriculumcic> getCurriculumcicList() throws ClassNotFoundException, SQLException, IOException {
-        Connection connect = null;
-        try {
-            ArrayList<Curriculumcic> classList = new ArrayList<>();
-            Curriculumcic aCurriculumcic;
-            // Otteniamo una Connessione al DataBase
-            connect = DBConnection.getConnection();
-
-            /*
-             * Prepariamo la stringa SQL per la ricerca dei record 
-             * nella tabella curriculumcic
-             */
-            String tSql = "SELECT * FROM "
-                    + CurriculumcicManager.TABLE_CURRICULUMCIC
-                    + " ORDER BY fkCycle desc";
-
-            //Inviamo la Query al DataBase
-            ResultSet result = Utility.queryOperation(connect, tSql);
-
-            while (result.next()) {
-                aCurriculumcic = new Curriculumcic();
-                aCurriculumcic.setfkCycle(result.getInt("fkCycle"));
-                aCurriculumcic.setfkCurriculum(result.getString("fkCurriculum"));
-                aCurriculumcic.setfkProfessor(result.getString("fkProfessor"));
-
-                classList.add(aCurriculumcic);
-            }
-
-            return classList;
-
-        } finally {
-            DBConnection.releaseConnection(connect);
-        }
-    }
 }
