@@ -12,7 +12,7 @@ package it.unisa.integrazione.model;
 public class Professor extends Account {
     private String link;
     private String department;
-    private String FK_account;    
+    private String fkAccount;    
     private final String type = "docente";
 
 
@@ -38,11 +38,11 @@ public class Professor extends Account {
     }
 
     public void setFK_account(String FK_account) {
-        this.FK_account = FK_account;
+        this.fkAccount = fkAccount;
     }
 
     public String getFK_account() {
-        return FK_account;
+        return fkAccount;
     }
     
     

@@ -110,9 +110,11 @@ public class AccountManager {
         Statement stmt = null;
         ResultSet rs = null;
         Connection connection = null;
-        Account account = null;
-
+        
         String query = "select * from account where email = '" + pEmail + "'";
+        String queryPhd = "select * from phdstudent where fkAccount ='";
+        String queryProfessor = "selecy * from professor where fkAccount ='";
+         
 
         try {
             connection = DBConnection.getConnection();
@@ -125,13 +127,50 @@ public class AccountManager {
             rs = stmt.executeQuery(query);
 
             if (rs.next()) {
-               
+                switch(rs.getString("typeAccount")) {
+                    case "dottorando":
+                       queryPhd += rs.getString("secondaryEmail") +"'";
+                       ResultSet rt = stmt.executeQuery(queryPhd);
+                       if(rt.next()) {
+                           PhdStudent phd = new PhdStudent();
+                           phd.setName(rs.getString("name"));
+                           phd.setSurname(rs.getString("surname"));
+                           phd.setPassword(rs.getString("password"));
+                           phd.setTypeOfAccount(rs.getString("typeAccount"));
+                           phd.setAdmin(rs.getBoolean("isAdministrator"));
+                           phd.setFK_account(rs.getString("secondaryEmail"));
+                           phd.setTelephone(rt.getString("telephone"));
+                           phd.setDepartment(rt.getString("deparment"));
+                           phd.setResearchInterest(rt.getString("researchInterest"));
+                           phd.setLink(rt.getString("link"));
+                           phd.setFK_cycle(rt.getInt("fkCycle"));
+                           phd.setFK_professor(rt.getString("fkProfessor"));
+                           phd.setFK_curriculum(rt.getString("fkCurriculum"));
+                           return phd;                      
+                   }
+                    
+                    case "docente":
+                        queryProfessor += rs.getString("secondaryEmail") + "'";
+                        rt = stmt.executeQuery(queryProfessor);
+                        if(rt.next()) {
+                            Professor professor = new Professor();
+                            professor.setName(rs.getString("name"));
+                            professor.setSurname(rs.getString("surname"));
+                            professor.setPassword(rs.getString("password"));
+                            professor.setTypeOfAccount(rs.getString("typeAccount"));
+                            professor.setAdmin(rs.getBoolean("isAdministrator"));
+                            professor.setFK_account(rs.getString("secondaryEmail"));
+                            professor.setDepartment(rt.getString("department"));
+                            professor.setLink(rt.getString("link"));
+                            return professor;
+                        }
+                }
             }
         } finally {
 
          DBConnection.releaseConnection(connection);
         }
 
-        return account;
+        return null;
     }
 }
