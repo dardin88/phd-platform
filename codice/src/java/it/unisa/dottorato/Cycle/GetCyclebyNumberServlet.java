@@ -15,7 +15,7 @@ import org.json.JSONObject;
 
 /**
  *
- * @author Elisa D'Eugenio
+ * @author Tommaso Minichiello
  */
 @WebServlet(name = "GetCyclebyNumber", urlPatterns = {"/dottorato/GetCyclebyNumber"})
 public class GetCyclebyNumberServlet extends HttpServlet {
