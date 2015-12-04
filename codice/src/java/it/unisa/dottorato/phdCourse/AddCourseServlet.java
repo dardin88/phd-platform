@@ -50,6 +50,9 @@ public class AddCourseServlet extends HttpServlet {
             String curriculum = request.getParameter("curriculum");
             String cycle = request.getParameter("cycle");
             String name = request.getParameter("name");
+            String description = request.getParameter("description");
+            String startDate = request.getParameter("starttime");
+            String endDate = request.getParameter("endtime");
             
             HttpSession session = request.getSession();
             Person loggedPerson = (Person) session.getAttribute("person");
@@ -60,8 +63,10 @@ public class AddCourseServlet extends HttpServlet {
             course.setCurriculum(curriculum);
             course.setCycle(Integer.parseInt(cycle));
             course.setName(name);
+            course.setStartDate(java.sql.Date.valueOf(startDate));
+            course.setEndDate(java.sql.Date.valueOf(endDate));
             
-            //inseriamo l'oggetto nella gestione calendario
+            //inseriamo l'oggetto nell'istanza della gestione calendario
             CalendarManager.getInstance().insert_course(course);
             
             out.println("<script type=\"text/javascript\">");

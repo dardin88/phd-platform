@@ -65,7 +65,7 @@ public class CalendarManager {
              */
             String tSql = "INSERT INTO "
                     + CalendarManager.TABLE_COURSE
-                    + " ( idCourse, fkCurriculum, fkCycle, name)"
+                    + " ( idCourse, fkCurriculum, fkCycle, name,description, startDate,endDate)"
                     + " VALUES ('"
                     + pCourse.getIdCourse()
                     + "','"
@@ -74,6 +74,12 @@ public class CalendarManager {
                     + pCourse.getCycle()
                     + "','"
                     + Utility.Replace(pCourse.getName())
+                     + "','"
+                    + Utility.Replace(pCourse.getDescription()) 
+                    + "','"
+                    + pCourse.getStartDate()
+                    + "','"
+                    + pCourse.getEndDate() 
                     + "')";
 
             System.out.println("La query: " +tSql);

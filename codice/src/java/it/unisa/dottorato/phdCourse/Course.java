@@ -5,7 +5,8 @@
  */
 package it.unisa.dottorato.phdCourse;
 
-
+import java.io.Serializable;
+import java.util.Date;
 /**
  *
  * @author Giuseppe Picciocchi
@@ -13,7 +14,7 @@ package it.unisa.dottorato.phdCourse;
 
 /*La classe Course identifica il corso del calendario*/
 
-public class Course {
+public class Course implements Serializable{
     
     private int idCourse; // variabile per identificare un corso ( chiave primaria)
     private String curriculum; // variabile utilizzata per assegnare un curriculum
@@ -21,6 +22,9 @@ public class Course {
     private String name; // variabile utilizzata per assegnare un nome
     private String FK_curriculum; // variabile per la chiave esterna al "curriculum"
     private int FK_cycle; // variabile per la chiave esterna al "ciclo"
+    private String description;
+    private Date startDate;
+    private Date endDate;
     
     
     
@@ -86,5 +90,37 @@ public class Course {
     public void setFK_curriculum(int chiave_cycle){
         this.FK_cycle = chiave_cycle;
     }
+ 
     
+    
+    // metodo utilizzato per restituire la descrizione del corso
+    public String getDescription(){
+        return description;            
+    }
+    
+    // metodo per settare la decrizione del corso
+    public void setDescription(String descrizione){
+        this.description = descrizione;
+    }
+    
+    
+     // metodo utilizzato per restituire la data di inizio corso
+    public Date getStartDate(){
+        return startDate;            
+    }
+    
+    // metodo per settare la data di inizio corso
+    public void setStartDate(Date date){
+        this.startDate = date;
+    }
+    
+   // metodo utilizzato per restituire la data fine del corso
+    public Date getEndDate(){
+        return endDate;            
+    }
+    
+    // metodo per settare la data di fine corso
+    public void setEndDate(Date date){
+        this.endDate = date;
+    } 
 }
