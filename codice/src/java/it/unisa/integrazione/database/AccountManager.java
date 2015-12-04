@@ -10,7 +10,7 @@ import it.unisa.integrazione.model.*;
 
 /**
  *
- * @author gemmacatolino
+ * @author ariemmov
  */
 public class AccountManager {
 
@@ -56,14 +56,14 @@ public class AccountManager {
                            phd.setPassword(rs.getString("password"));
                            phd.setTypeOfAccount(rs.getString("typeAccount"));
                            phd.setAdmin(rs.getBoolean("isAdministrator"));
-                           phd.setFK_account(rs.getString("secondaryEmail"));
+                           phd.setfkAccount(rs.getString("secondaryEmail"));
                            phd.setTelephone(rt.getString("telephone"));
                            phd.setDepartment(rt.getString("deparment"));
                            phd.setResearchInterest(rt.getString("researchInterest"));
                            phd.setLink(rt.getString("link"));
-                           phd.setFK_cycle(rt.getInt("fkCycle"));
-                           phd.setFK_professor(rt.getString("fkProfessor"));
-                           phd.setFK_curriculum(rt.getString("fkCurriculum"));
+                           phd.setfkCycle(rt.getInt("fkCycle"));
+                           phd.setfkProfessor(rt.getString("fkProfessor"));
+                           phd.setfkCurriculum(rt.getString("fkCurriculum"));
                            return phd;                      
                    }
                     
@@ -77,7 +77,7 @@ public class AccountManager {
                             professor.setPassword(rs.getString("password"));
                             professor.setTypeOfAccount(rs.getString("typeAccount"));
                             professor.setAdmin(rs.getBoolean("isAdministrator"));
-                            professor.setFK_account(rs.getString("secondaryEmail"));
+                            professor.setfkAccount(rs.getString("secondaryEmail"));
                             professor.setDepartment(rt.getString("department"));
                             professor.setLink(rt.getString("link"));
                             return professor;
@@ -138,14 +138,14 @@ public class AccountManager {
                            phd.setPassword(rs.getString("password"));
                            phd.setTypeOfAccount(rs.getString("typeAccount"));
                            phd.setAdmin(rs.getBoolean("isAdministrator"));
-                           phd.setFK_account(rs.getString("secondaryEmail"));
+                           phd.setfkAccount(rs.getString("secondaryEmail"));
                            phd.setTelephone(rt.getString("telephone"));
                            phd.setDepartment(rt.getString("deparment"));
                            phd.setResearchInterest(rt.getString("researchInterest"));
                            phd.setLink(rt.getString("link"));
-                           phd.setFK_cycle(rt.getInt("fkCycle"));
-                           phd.setFK_professor(rt.getString("fkProfessor"));
-                           phd.setFK_curriculum(rt.getString("fkCurriculum"));
+                           phd.setfkCycle(rt.getInt("fkCycle"));
+                           phd.setfkProfessor(rt.getString("fkProfessor"));
+                           phd.setfkCurriculum(rt.getString("fkCurriculum"));
                            return phd;                      
                    }
                     
@@ -159,7 +159,7 @@ public class AccountManager {
                             professor.setPassword(rs.getString("password"));
                             professor.setTypeOfAccount(rs.getString("typeAccount"));
                             professor.setAdmin(rs.getBoolean("isAdministrator"));
-                            professor.setFK_account(rs.getString("secondaryEmail"));
+                            professor.setfkAccount(rs.getString("secondaryEmail"));
                             professor.setDepartment(rt.getString("department"));
                             professor.setLink(rt.getString("link"));
                             return professor;
