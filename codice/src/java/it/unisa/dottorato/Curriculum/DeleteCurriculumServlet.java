@@ -1,7 +1,6 @@
 package it.unisa.dottorato.Curriculum;
 
-import it.unisa.dottorato.phdCycle.DeletePhdCycleServlet;
-import it.unisa.dottorato.phdCycle.UpdatePhdCycleServlet;
+
 import java.io.IOException;
 import java.io.PrintWriter;
 import java.sql.SQLException;
@@ -48,13 +47,13 @@ public class DeleteCurriculumServlet extends HttpServlet {
                 CurriculumManager.getInstance().delete(nameCurriculum);
             } catch (ClassNotFoundException | SQLException ex) {
                 result.put("result", false);
-                Logger.getLogger(DeletePhdCycleServlet.class.getName()).log(Level.SEVERE, null, ex);
+                Logger.getLogger(DeleteCurriculumServlet.class.getName()).log(Level.SEVERE, null, ex);
             }
             
             out.write(result.toString());
 
         } catch (JSONException ex) {
-            Logger.getLogger(UpdatePhdCycleServlet.class.getName()).log(Level.SEVERE, null, ex);
+            Logger.getLogger(DeleteCurriculumServlet.class.getName()).log(Level.SEVERE, null, ex);
         }finally {
             out.close();
         }

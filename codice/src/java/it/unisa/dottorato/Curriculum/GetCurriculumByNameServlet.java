@@ -1,6 +1,5 @@
 package it.unisa.dottorato.Curriculum;
 
-import it.unisa.dottorato.phdCycle.GetPhdCycleServlet;
 import java.io.IOException;
 import java.io.PrintWriter;
 import java.sql.SQLException;
@@ -43,7 +42,7 @@ public class GetCurriculumByNameServlet extends HttpServlet {
                 result.put("CurriculumName", curriculum.getName());
                 out.write(result.toString());
             } catch (ClassNotFoundException | SQLException | JSONException ex) {
-                Logger.getLogger(GetPhdCycleServlet.class.getName()).log(Level.SEVERE, null, ex);
+                Logger.getLogger(GetCurriculumByNameServlet.class.getName()).log(Level.SEVERE, null, ex);
             }
         }
     }
