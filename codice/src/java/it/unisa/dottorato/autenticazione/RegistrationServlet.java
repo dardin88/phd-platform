@@ -1,12 +1,8 @@
 package it.unisa.dottorato.autenticazione;
-
-import it.unisa.dottorato.account.AccountManager;
-import it.unisa.integrazione.database.CycleManager;
-import it.unisa.integrazione.database.DegreeManager;
-import it.unisa.integrazione.database.DepartmentManager;
 import it.unisa.integrazione.database.exception.ConnectionException;
 import it.unisa.integrazione.database.exception.MissingDataException;
 import it.unisa.dottorato.account.Account;
+import it.unisa.dottorato.account.AccountManager;
 import java.io.IOException;
 import java.io.PrintWriter;
 import java.sql.SQLException;
@@ -40,21 +36,24 @@ public class RegistrationServlet extends HttpServlet {
         PrintWriter out = response.getWriter();
         
         try {
-
-            String email = request.getParameter("email");
-            String password = request.getParameter("password");
-            String typeOfAccount = request.getParameter("typeOfAccount");
             
+            String name = request.getParameter("name");
+            String surname = request.getParameter("surname");
+            String email = request.getParameter("email");
+            String secondaryEmail = request.getParameter("secondaryEmail");
+            String password = request.getParameter("password");            
             
             Account account = new Account();
+            account.setName(name);
+            account.setSurname(surname);
+            account.setSecondaryEmail(secondaryEmail);
             account.setEmail(email);
             account.setPassword(password);
-            account.setTypeOfAccount(typeOfAccount);
             account.setAdmin(false);
-
-         
             
-            AccountManager.getInstance().add(account);
+            AccountManager manager = AccountManager.getInstance();
+            manager.add(account);
+            
             out.println("<script type=\"text/javascript\">");
             out.println("alert('La registrazione è andata a buon fine');");
             out.println("location='login.jsp';");
@@ -63,10 +62,6 @@ public class RegistrationServlet extends HttpServlet {
            // response.sendRedirect("login.jsp");
             
         } catch (SQLException ex) {
-            Logger.getLogger(RegistrationServlet.class.getName()).log(Level.SEVERE, null, ex);
-        } catch (ConnectionException ex) {
-            Logger.getLogger(RegistrationServlet.class.getName()).log(Level.SEVERE, null, ex);
-        } catch (MissingDataException ex) {
             Logger.getLogger(RegistrationServlet.class.getName()).log(Level.SEVERE, null, ex);
         } finally {
             out.close();

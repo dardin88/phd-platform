@@ -16,7 +16,7 @@ public class Account {
     private String password;
     private String name;
     private String surname;
-    private String typeOfAccount;
+    private String typeOfAccount = "basic";
     private boolean isAdmin;
 
     public String getEmail() {
