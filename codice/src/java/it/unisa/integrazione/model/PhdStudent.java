@@ -5,8 +5,6 @@
  */
 package it.unisa.integrazione.model;
 
-import it.unisa.dottorato.phdCurriculum.PhdCurriculum;
-
 /**
  *
  * @author ariemmov
@@ -57,35 +55,35 @@ public class PhdStudent extends Account {
         this.telephone = telephone;
     }
 
-    public int getFK_cycle() {
+    public int getfkCycle() {
         return fkCycle;
     }
 
-    public String getFK_curriculum() {
+    public String getfkCurriculum() {
         return fkCurriculum;
     }
 
-    public String getFK_professor() {
+    public String getfkProfessor() {
         return fkProfessor;
     }
 
-    public void setFK_curriculum(String FK_curriculum) {
+    public void setfkCurriculum(String FK_curriculum) {
         this.fkCurriculum = FK_curriculum;
     }
 
-    public void setFK_professor(String FK_professor) {
+    public void setfkProfessor(String FK_professor) {
         this.fkProfessor = FK_professor;
     }
 
-    public void setFK_cycle(int FK_cycle) {
+    public void setfkCycle(int FK_cycle) {
         this.fkCycle = FK_cycle;
     }
 
-    public String getFK_account() {
+    public String getfkAccount() {
         return fkAccount;
     }
 
-    public void setFK_account(String FK_account) {
+    public void setfkAccount(String FK_account) {
         this.fkAccount = FK_account;
     }
     
