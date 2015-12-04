@@ -87,7 +87,7 @@ public class Course implements Serializable{
     }
     
     //metodo per settare la chiave esterna al ciclo
-    public void setFK_curriculum(int chiave_cycle){
+    public void setFK_cycle(int chiave_cycle){
         this.FK_cycle = chiave_cycle;
     }
  
