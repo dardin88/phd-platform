@@ -187,8 +187,8 @@ foreign key (fkCurriculum) references curriculumcic(fkCurriculum) on delete casc
 foreign key (fkCycle) references curriculumcic(fkCycle) on delete cascade on update cascade);
 
 
-INSERT INTO course (idCourse,fkCurriculum,fkCycle,name)VALUES
-(1,'Informatica, Sistemi Informativi e Tecnologie del Software',15,'IS2');
+INSERT INTO course (idCourse,fkCurriculum,fkCycle,name,description,startDate,endDate)VALUES
+(1,'Informatica, Sistemi Informativi e Tecnologie del Software',15,'IS2','descrizione del corso','2015-01-01','2015-09-10',);
 
 -- creiamo la tabella studente
 create table IF not EXIsts phdstudent(
