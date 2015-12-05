@@ -7,7 +7,7 @@ package it.unisa.dottorato.phdCourse;
 
 import it.unisa.dottorato.utility.Utility;
 import it.unisa.integrazione.database.DBConnection;
-import it.unisa.integrazione.model.Person;
+//import it.unisa.integrazione.model.Person;
 import java.io.IOException;
 import java.sql.Connection;
 import java.sql.ResultSet;

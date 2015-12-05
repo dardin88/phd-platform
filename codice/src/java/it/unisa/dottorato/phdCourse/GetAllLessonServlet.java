@@ -5,7 +5,7 @@
  */
 package it.unisa.dottorato.phdCourse;
 
-import it.unisa.integrazione.model.Person;
+//import it.unisa.integrazione.model.Person;
 import java.io.IOException;
 import java.io.PrintWriter;
 import java.sql.SQLException;

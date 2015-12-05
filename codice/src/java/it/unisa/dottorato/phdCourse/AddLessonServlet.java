@@ -5,7 +5,7 @@
  */
 package it.unisa.dottorato.phdCourse;
 
-import it.unisa.integrazione.model.Person;
+//import it.unisa.integrazione.model.Person;
 import java.io.IOException;
 import java.io.PrintWriter;
 import java.sql.SQLException;
@@ -58,8 +58,8 @@ public class AddLessonServlet extends HttpServlet {
             String curriculum = request.getParameter("curriculum");
             String course = request.getParameter("course");
             
-            HttpSession session = request.getSession();
-            Person loggedPerson = (Person) session.getAttribute("person");
+           // HttpSession session = request.getSession();
+            // Person loggedPerson = (Person) session.getAttribute("person");
             
             Lesson lesson = new Lesson();
             

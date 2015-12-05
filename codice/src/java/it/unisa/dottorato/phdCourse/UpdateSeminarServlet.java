@@ -5,7 +5,7 @@
  */
 package it.unisa.dottorato.phdCourse;
 
-import it.unisa.integrazione.model.Person;
+//import it.unisa.integrazione.model.Person;
 import java.io.IOException;
 import java.io.PrintWriter;
 import java.sql.SQLException;
@@ -57,8 +57,8 @@ public class UpdateSeminarServlet extends HttpServlet {
                 String place = request.getParameter("place");
                 String course = request.getParameter("course");
 
-                HttpSession session = request.getSession();
-                Person loggedPerson = (Person) session.getAttribute("person");
+           //     HttpSession session = request.getSession();
+           //     Person loggedPerson = (Person) session.getAttribute("person");
 
                 Seminar seminar = new Seminar();
 

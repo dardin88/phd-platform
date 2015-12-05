@@ -5,7 +5,7 @@
  */
 package it.unisa.dottorato.phdCourse;
 
-import it.unisa.integrazione.model.Person;
+// import it.unisa.integrazione.model.Person;
 import java.io.IOException;
 import java.io.PrintWriter;
 import java.sql.SQLException;
@@ -54,8 +54,8 @@ public class AddCourseServlet extends HttpServlet {
             String startDate = request.getParameter("starttime");
             String endDate = request.getParameter("endtime");
             
-            HttpSession session = request.getSession();
-            Person loggedPerson = (Person) session.getAttribute("person");
+           // HttpSession session = request.getSession();
+           // Person loggedPerson = (Person) session.getAttribute("person");
             
             Course course = new Course();
             
