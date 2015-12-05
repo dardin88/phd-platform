@@ -13,7 +13,6 @@ public class Professor extends Account {
     private String link;
     private String department;
     private String fkAccount;    
-    private final String type = "docente";
 
 
     public void setDepartment(String department) {
@@ -22,7 +21,7 @@ public class Professor extends Account {
     
     @Override
     public String getTypeOfAccount() {
-        return type;
+        return "docente";
     }
 
     public void setLink(String link) {

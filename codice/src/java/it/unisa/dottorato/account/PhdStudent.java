@@ -10,7 +10,6 @@ package it.unisa.dottorato.account;
  * @author ariemmov
  */
 public class PhdStudent extends Account {
-    private final String type = "dottorando";
     private String telephone;
     private String link;
     private String department;
@@ -23,7 +22,7 @@ public class PhdStudent extends Account {
  
     @Override
     public String getTypeOfAccount() {
-        return type;
+        return "phd";
     }
 
  
@@ -37,6 +36,10 @@ public class PhdStudent extends Account {
 
     public String getTelephone() {
         return telephone;
+    }
+    
+    public String getLink() {
+        return link;
     }
  
     public void setLink(String link) {

@@ -1,38 +1,45 @@
-package it.unisa.integrazione.database;
+/*
+ * To change this license header, choose License Headers in Project Properties.
+ * To change this template file, choose Tools | Templates
+ * and open the template in the editor.
+ */
+package it.unisa.dottorato.autenticazione;
 
+import it.unisa.dottorato.account.Account;
+import it.unisa.dottorato.account.PhdStudent;
+import it.unisa.dottorato.account.Professor;
+import it.unisa.integrazione.database.DBConnection;
 import it.unisa.integrazione.database.exception.ConnectionException;
-import it.unisa.integrazione.model.Account;
 import java.sql.Connection;
 import java.sql.ResultSet;
 import java.sql.SQLException;
 import java.sql.Statement;
-import it.unisa.integrazione.model.*;
 
 /**
  *
- * @author ariemmov
+ * @author Armando
  */
-public class AccountManager {
+public class LoginManager  {
+    
+    private static LoginManager instance;
 
-    private static AccountManager instance;
-
-    public static AccountManager getInstance() {
+    public static LoginManager getInstance() {
 
         if (instance == null) {
-            instance = new AccountManager();
+            instance = new LoginManager();
         }
         return instance;
 
     }
-
-    public Account login(String pUsername, String pPassword) throws SQLException, ConnectionException {
+    
+    public Account login (String pUsername, String pPassword) throws SQLException, ConnectionException {
         Connection connection = null;
         Statement stmt = null;
         ResultSet rs = null;
         
         String query = "select * from account where email='" + pUsername + "' and password='" + pPassword + "'";
         String queryPhd = "select * from phdstudent where fkAccount ='";
-        String queryProfessor = "selecy * from professor where fkAccount ='";
+        String queryProfessor = "select * from professor where fkAccount ='";
 
         try {
             connection = DBConnection.getConnection();
@@ -46,7 +53,7 @@ public class AccountManager {
 
             if (rs.next()) {
                 switch(rs.getString("typeAccount")) {
-                    case "dottorando":
+                    case "phd":
                        queryPhd += rs.getString("secondaryEmail") +"'";
                        ResultSet rt = stmt.executeQuery(queryPhd);
                        if(rt.next()) {
@@ -64,6 +71,7 @@ public class AccountManager {
                            phd.setfkCycle(rt.getInt("fkCycle"));
                            phd.setfkProfessor(rt.getString("fkProfessor"));
                            phd.setfkCurriculum(rt.getString("fkCurriculum"));
+                           phd.setAdmin(false);
                            return phd;                      
                    }
                     
@@ -80,8 +88,18 @@ public class AccountManager {
                             professor.setfkAccount(rs.getString("secondaryEmail"));
                             professor.setDepartment(rt.getString("department"));
                             professor.setLink(rt.getString("link"));
+                            professor.setAdmin(false);
                             return professor;
                         }
+                        
+                    case "basic":
+                        Account account = new Account();
+                        account.setName(rs.getString("name"));
+                        account.setSurname(rs.getString("surname"));
+                        account.setEmail(rs.getString("email"));
+                        account.setSecondaryEmail(rs.getString("secondaryEmail"));
+                        account.setAdmin(false);
+                        return account;
                 }
             }
         } finally {
@@ -90,30 +108,18 @@ public class AccountManager {
         
         return null;
     }
-
-    public void add(Account pAccount) throws SQLException {
-        Connection connect = DBConnection.getConnection();
-
-        String sql = "INSERT INTO account (email, secondaryemail, surname, name, password,typeAccount,isAdministrator) VALUES ('" + pAccount.getSecondaryEmail() + "','" + pAccount.getEmail() + "','" +
-                pAccount.getTypeOfAccount() + "','" + pAccount.isAdmin() + "')";
-
-        try {
-            Statement stmt = connect.createStatement();
-            stmt.executeUpdate(sql);
-            connect.commit();
-        } finally {
-            DBConnection.releaseConnection(connect);
-        }
-    } 
     
-    public Account getAccountByEmail(String pEmail) throws SQLException, ConnectionException {
+    
+     
+     
+     public Account getAccountByEmail(String pEmail) throws SQLException, ConnectionException {
         Statement stmt = null;
         ResultSet rs = null;
         Connection connection = null;
         
         String query = "select * from account where email = '" + pEmail + "'";
         String queryPhd = "select * from phdstudent where fkAccount ='";
-        String queryProfessor = "selecy * from professor where fkAccount ='";
+        String queryProfessor = "select * from professor where fkAccount ='";
          
 
         try {
@@ -173,4 +179,5 @@ public class AccountManager {
 
         return null;
     }
+    
 }
