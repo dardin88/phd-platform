@@ -159,5 +159,30 @@ public class PresenceManager {
             DBConnection.releaseConnection(connect);
         }
    }
+   public synchronized void modifyPresence(boolean signature,Presence old) throws SQLException {
+       try (Connection connect = DBConnection.getConnection()) {
+      
+     /*
+             * Prepariamo la stringa SQL per inserire un nuovo record 
+             * nella tabella presenze
+             */
+            String tSql = "UPDATE"
+                   +  PresenceManager.TABLE_Presence
+                    +" set isPresent = "
+                    + signature
+                     + "WHERE fkPhdstudent='"
+                    + old.getFkPhdstudent()+"',"
+                    + "fkLesson ='"
+                    +old.getFkLesson()+"'"; 
+            
+            
+
+            //Inviamo la Query al DataBase
+            Utility.executeOperation(connect, tSql);
+
+            connect.commit();
+        }
+   
+   }
    
 }

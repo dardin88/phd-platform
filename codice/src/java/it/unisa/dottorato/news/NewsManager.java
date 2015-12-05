@@ -206,4 +206,50 @@ Statement stmt = null;
 
         return listAvviso;
     }
+    public ArrayList<News> getAllNews() throws SQLException, it.unisa.integrazione.database.exception.ConnectionException {
+        Statement stmt = null;
+        ResultSet rs = null;
+        Connection connection = null;
+        News avviso = new News();
+        ArrayList<News> listAvviso = new ArrayList<>();
+
+        String query = "select * from news ";
+
+        try {
+            connection = DBConnection.getConnection();
+
+            if (connection == null) {
+                throw new it.unisa.integrazione.database.exception.ConnectionException();
+            }
+
+            stmt = connection.createStatement();
+            rs = stmt.executeQuery(query);
+
+            while (rs.next()) {
+                avviso = new News();
+                avviso.getId();
+                avviso.setTitle(rs.getString("title"));
+                avviso.setDescription(rs.getString("description"));
+               
+                
+               listAvviso.add(avviso);
+
+            }
+        } finally {
+
+            if (rs != null) {
+                rs.close();
+            }
+
+            if (stmt != null) {
+                stmt.close();
+            }
+
+            if (connection != null) {
+                connection.close();
+            }
+        }
+
+        return listAvviso;
+    }
 }
