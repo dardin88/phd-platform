@@ -67,7 +67,7 @@ public class LoginServlet extends HttpServlet {
                     session.setAttribute("loginError", "error");
                     response.sendRedirect("login.jsp");
                 }
-            }   else {
+                } else {
                     session.setAttribute("loginError", "error");
                     response.sendRedirect("login.jsp");
                 }

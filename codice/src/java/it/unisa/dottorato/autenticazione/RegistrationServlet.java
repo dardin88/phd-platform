@@ -51,8 +51,8 @@ public class RegistrationServlet extends HttpServlet {
             account.setPassword(password);
             account.setAdmin(false);
             
-            AccountManager manager = AccountManager.getInstance();
-            manager.add(account);
+            LoginManager manager = LoginManager.getInstance();
+            manager.register(account);
             
             out.println("<script type=\"text/javascript\">");
             out.println("alert('La registrazione è andata a buon fine');");

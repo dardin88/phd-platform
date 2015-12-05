@@ -36,7 +36,7 @@ public class Professor extends Account {
         return link;
     }
 
-    public void setfkAccount(String FK_account) {
+    public void setfkAccount(String fkAccount) {
         this.fkAccount = fkAccount;
     }
 

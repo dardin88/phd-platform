@@ -9,10 +9,11 @@ import java.sql.ResultSet;
 import java.sql.SQLException;
 import java.sql.Statement;
 import java.util.*;
+import java.util.logging.Level;
+import java.util.logging.Logger;
 import javax.mail.*;
 import javax.mail.internet.*;
 import javax.activation.*;
-import it.unisa.integrazione.model.*;
 
 /**
  *
@@ -31,68 +32,91 @@ public class AccountManager {
 
     }
     
-    public void update(Account pAccount) throws SQLException, ConnectionException,
+    public ArrayList<Account> getAccountList() {
+    Connection connect = null;
+    
+    try {
+         ArrayList<Account> accounts = new ArrayList<>();
+         connect = DBConnection.getConnection();
+         
+         String sql = "SELECT * FROM account"
+                 +    "ORDER BY name desc";
+         
+         ResultSet result = Utility.queryOperation(connect, sql);
+         Account temp = new Account();
+         while(result.next()){
+             temp.setName(result.getString("name"));
+             temp.setEmail(result.getString("email"));
+             temp.setSecondaryEmail(result.getString("secondaryEmail"));
+             temp.setTypeOfAccount(result.getString("typeAccount"));
+             temp.setPassword(result.getString("password"));
+             temp.setAdmin(result.getBoolean("isAdministrator"));
+             accounts.add(temp);
+         }
+          return accounts;
+
+         
+    }   catch (SQLException ex) {
+            Logger.getLogger(AccountManager.class.getName()).log(Level.SEVERE, null, ex);
+        } finally {
+        DBConnection.releaseConnection(connect);
+    }
+    return null;
+  }
+    
+    public void updateProfile(String key, Account pAccount) throws SQLException, ConnectionException,
             MissingDataException {
-                 Connection connect = null;
+        try (Connection connect = DBConnection.getConnection()) {
+      
+            String sql = "UPDATE account"
+                + "set name = '"
+                + Utility.Replace(pAccount.getName())
+                + "', surname = '"
+                + Utility.Replace(pAccount.getSurname())
+                + "', password = '"
+                + pAccount.getPassword()
+                + "', secondaryEmail = '"
+                + pAccount.getSecondaryEmail()
+                + "WHERE email = '"
+                + key + "'";
         
-        try {
-                connect = DBConnection.getConnection();
-                
-                String sql = "UPDATE account "
-                        + "set secondaryEmail = '"
-                        + pAccount.getSecondaryEmail()
-                        + "', email = '"
-                        + pAccount.getEmail()
-                        + "', surname = '"
-                        + pAccount.getSurname()
-                        + "', name = '"
-                        + pAccount.getName()
-                        + "', password = '"
-                        + pAccount.getPassword()
-                        + "', typeAccount = '"
-                        + pAccount.getTypeOfAccount()
-                        + "', isAdministrator = '"
-                        + pAccount.isAdmin()
-                        + "'";
-                
-                
-                if (pAccount instanceof PhdStudent) {
-                    sql += ", fkAccount = '"
-                            + ((PhdStudent) pAccount).getfkAccount()
-                            + "', telephone = '"
-                            + ((PhdStudent) pAccount).getTelephone()
-                            + ",  link = '"
-                            + ((PhdStudent) pAccount).getLink()
-                            + "', deparment = '"
-                            + ((PhdStudent) pAccount).getDepartment()
-                            + "', resarchInterest ='"
-                            + ((PhdStudent) pAccount).getResearchInterest()
-                            + "', fkCycle = '"
-                            + ((PhdStudent) pAccount).getfkCycle()
-                            + "', fkCurriculum = '"
-                            + ((PhdStudent) pAccount).getfkCurriculum()
-                            + "', fkProfessor = '"
-                            + ((PhdStudent) pAccount).getfkProfessor()
-                            + "'";
-                }
-                
-                else if(pAccount instanceof Professor) {
-                    sql += ", fkAccount = '"
-                            + ((Professor) pAccount).getfkAccount()
-                            + "', link = '"
-                            + ((Professor) pAccount).getLink()
-                            + "', department = '"
-                            + ((Professor) pAccount).getDepartment()
-                            + "'";
-                }
-                
-                Utility.executeOperation(connect, sql);
-                connect.commit();
-        }  finally {
-            DBConnection.releaseConnection(connect);
+        String sql2 = "UPDATE "
+                + pAccount.getTypeOfAccount();
+        
+        if(pAccount instanceof PhdStudent) {
+            sql2 += " set telephone = '"
+                    + ((PhdStudent) pAccount).getTelephone()
+                    + "', link =  '"
+                    + ((PhdStudent) pAccount).getLink()
+                    + "', deparment = '"
+                    + ((PhdStudent) pAccount).getDepartment()
+                    + "', researchInterest = '"
+                    + ((PhdStudent) pAccount).getResearchInterest()
+                    + "' WHERE fkAccount = "
+                    + ((PhdStudent)pAccount).getSecondaryEmail();
         }
+        
+        if(pAccount instanceof Professor) {
+            sql2 += " set link = '"
+                    + ((Professor) pAccount).getLink()
+                    +"', set department = '"
+                    + ((Professor) pAccount).getDepartment()
+                    +"' WHERE fkAccount = '"
+                    + ((Professor) pAccount).getSecondaryEmail()
+                    +"'";
+        }
+                
+       if(pAccount.getTypeOfAccount().equals("basic"))
+               Utility.executeOperation(connect, sql);
+       else {
+           Utility.executeOperation(connect, sql);
+           Utility.executeOperation(connect, sql2);
+        }
+        
+        connect.commit();
 
     }
+  }
     
     public void changeType(Account pAccount, String newType)
             throws SQLException, ConnectionException {
@@ -102,29 +126,7 @@ public class AccountManager {
         }
      
     
-    public void add(Account pAccount) throws SQLException {
-        Connection connect = DBConnection.getConnection();
-
-        String sql = "INSERT INTO account"
-                + "(email, secondaryemail, surname, name, password,typeAccount,isAdministrator)"
-                + " VALUES ('"
-                + pAccount.getSecondaryEmail() + "','" 
-                + pAccount.getEmail() + "','"
-                + pAccount.getSurname() + "','"
-                + pAccount.getName() + "','"
-                + pAccount.getTypeOfAccount() + "','"
-                + pAccount.isAdmin() + "')";
-
-        try {
-            Statement stmt = connect.createStatement();
-            stmt.executeUpdate(sql);
-            connect.commit();
-        } finally {
-            DBConnection.releaseConnection(connect);
-        }
-    } 
-    
-    //Per testare come inviare mail
+    //Dovrebbe inviare una mail, not tested
     public void inviteUser(String email) throws SQLException {
         String to = email;
         String from = "phdplatform@unisa.it";
@@ -142,11 +144,11 @@ public class AccountManager {
                     new InternetAddress(to));
             message.setSubject("Sei stato invitato ad iscriverti a"
                     + " Phd-platform.");
-            message.setText("bla bla bla testing 123"); //test
+            message.setText("localhost:8080/phd-platform/register.jsp"); //test
             Transport.send(message);
         } catch(MessagingException ex) {
             ex.printStackTrace();
-        }
+      }
     }
   }
 

@@ -70,24 +70,24 @@ public class PhdStudent extends Account {
         return fkProfessor;
     }
 
-    public void setfkCurriculum(String FK_curriculum) {
-        this.fkCurriculum = FK_curriculum;
+    public void setfkCurriculum(String fkCurriculum) {
+        this.fkCurriculum = fkCurriculum;
     }
 
-    public void setfkProfessor(String FK_professor) {
-        this.fkProfessor = FK_professor;
+    public void setfkProfessor(String fkProfessor) {
+        this.fkProfessor = fkProfessor;
     }
 
-    public void setfkCycle(int FK_cycle) {
-        this.fkCycle = FK_cycle;
+    public void setfkCycle(int fkCycle) {
+        this.fkCycle = fkCycle;
     }
 
     public String getfkAccount() {
         return fkAccount;
     }
 
-    public void setfkAccount(String FK_account) {
-        this.fkAccount = FK_account;
+    public void setfkAccount(String fkAccount) {
+        this.fkAccount = fkAccount;
     }
     
     

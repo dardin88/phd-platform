@@ -27,8 +27,9 @@ public class LogoutServlet extends HttpServlet {
      */
     protected void processRequest(HttpServletRequest request, HttpServletResponse response)
             throws ServletException, IOException {
+        LoginManager manager = LoginManager.getInstance();
         HttpSession session = request.getSession();
-        session.removeAttribute("account");
+        manager.logout(session);
         response.sendRedirect("index.jsp");
     }
 
