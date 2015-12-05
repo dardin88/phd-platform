@@ -5,7 +5,8 @@
  */
 package it.unisa.dottorato.news;
 
-import it.unisa.integrazione.model.Person;
+
+import it.unisa.dottorato.account.Account;
 import java.io.IOException;
 import java.io.PrintWriter;
 import java.sql.SQLException;
@@ -52,7 +53,7 @@ public class InsertNewsServlet extends HttpServlet {
             String description = request.getParameter("description");
             
             HttpSession session = request.getSession();
-            Person loggedPerson = (Person) session.getAttribute("person");
+            Account loggedPerson = (Account) session.getAttribute("account");
             
             News news = new News();
             
