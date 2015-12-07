@@ -59,7 +59,7 @@ public class AddLessonServlet extends HttpServlet {
             String course = request.getParameter("course");
             
             HttpSession session = request.getSession();
-            Professor loggedPerson = (Professor) session.getAttribute("person");
+            Professor loggedPerson = (Professor) session.getAttribute("professor");
             
             Lesson lesson = new Lesson();
             

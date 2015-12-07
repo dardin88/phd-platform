@@ -55,7 +55,7 @@ public class AddCourseServlet extends HttpServlet {
             String endDate = request.getParameter("endtime");
             
             HttpSession session = request.getSession();
-           Professor loggedPerson = (Professor) session.getAttribute("person");
+            Professor loggedPerson = (Professor) session.getAttribute("professor");
             
             Course course = new Course();
             
