@@ -54,7 +54,7 @@ public class LoginManager  {
 
             if (rs.next()) {
                 switch(rs.getString("typeAccount")) {
-                    case "phd":
+                    case "phdstudent":
                        queryPhd += rs.getString("secondaryEmail") +"'";
                        ResultSet rt = stmt.executeQuery(queryPhd);
                        if(rt.next()) {
@@ -76,7 +76,7 @@ public class LoginManager  {
                            return phd;                      
                    }
                     
-                    case "docente":
+                    case "professor":
                         queryProfessor += rs.getString("secondaryEmail") + "'";
                         rt = stmt.executeQuery(queryProfessor);
                         if(rt.next()) {
