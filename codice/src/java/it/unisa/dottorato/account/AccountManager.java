@@ -7,13 +7,11 @@ import it.unisa.integrazione.database.exception.MissingDataException;
 import java.sql.Connection;
 import java.sql.ResultSet;
 import java.sql.SQLException;
-import java.sql.Statement;
 import java.util.*;
 import java.util.logging.Level;
 import java.util.logging.Logger;
 import javax.mail.*;
 import javax.mail.internet.*;
-import javax.activation.*;
 
 /**
  *
@@ -106,7 +104,7 @@ public class AccountManager {
                     +"'";
         }
                 
-       if(pAccount.getTypeOfAccount().equals("basic"))
+       if(pAccount.getTypeOfAccount().equals("basic")) //aggiorna solo info base
                Utility.executeOperation(connect, sql);
        else {
            Utility.executeOperation(connect, sql);
