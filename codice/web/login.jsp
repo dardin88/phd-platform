@@ -8,7 +8,7 @@
 <%@taglib uri="http://java.sun.com/jsp/jstl/core" prefix="c" %>
 <%@taglib uri="http://java.sun.com/jsp/jstl/functions" prefix="fn" %>
 <c:choose>
-    <c:when test="${sessionScope.person != null}">
+    <c:when test="${sessionScope.account != null}">
         <c:redirect url="index.jsp" />
     </c:when>
 </c:choose>

@@ -62,6 +62,56 @@ public class AccountManager {
     return null;
   }
     
+  public ArrayList<Account> searchUser(String search, String type) throws SQLException {
+      Connection connect = null;
+      ArrayList<Account> accounts;
+      
+      String sql = "SELECT * from account WHERE "
+              + "name LIKE '%" + search + "%'" +
+               "AND typeAccount = '" + type + "'";
+      String sql2 = "SELECT * from account WHERE " 
+              + "typeAccount ='" + type + "'";
+      try {
+          connect = DBConnection.getConnection();
+          accounts = new ArrayList<Account>();
+          if(search.isEmpty()) {
+            ResultSet result =  Utility.queryOperation(connect, sql);
+            Account temp = new Account();
+            while(result.next()) {
+             temp.setName(result.getString("name"));
+             temp.setEmail(result.getString("email"));
+             temp.setSecondaryEmail(result.getString("secondaryEmail"));
+             temp.setTypeOfAccount(result.getString("typeAccount"));
+             temp.setPassword(result.getString("password"));
+             temp.setAdmin(result.getBoolean("isAdministrator"));
+             accounts.add(temp);
+
+          }
+       }
+          else {
+            ResultSet result =  Utility.queryOperation(connect, sql);
+            Account temp = new Account();
+            while(result.next()) {
+             temp.setName(result.getString("name"));
+             temp.setEmail(result.getString("email"));
+             temp.setSecondaryEmail(result.getString("secondaryEmail"));
+             temp.setTypeOfAccount(result.getString("typeAccount"));
+             temp.setPassword(result.getString("password"));
+             temp.setAdmin(result.getBoolean("isAdministrator"));
+             accounts.add(temp);
+            }
+          }
+          
+      } finally {
+          DBConnection.releaseConnection(connect);
+      }
+      return accounts;
+  }
+      
+      
+      
+
+    
     public void updateProfile(String key, Account pAccount) throws SQLException, ConnectionException,
             MissingDataException {
         try (Connection connect = DBConnection.getConnection()) {
@@ -170,7 +220,6 @@ public class AccountManager {
         }
         
         }
-     
     
     //Dovrebbe inviare una mail, not tested
     public void inviteUser(String email) throws SQLException {
