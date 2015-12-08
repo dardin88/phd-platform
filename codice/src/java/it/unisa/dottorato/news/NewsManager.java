@@ -13,6 +13,8 @@ import java.sql.ResultSet;
 import java.sql.SQLException;
 import java.sql.Statement;
 import java.util.ArrayList;
+import java.util.logging.Level;
+import java.util.logging.Logger;
 
 /**
  *
@@ -33,10 +35,12 @@ public class NewsManager {
     }
 
 
-    public void insertNews(News anews) throws SQLException, MissingDataEccezione {
+    public void insertNews(News anews) throws SQLException, MissingDataEccezione, ExceptionErroreIdNews, ExceptionErroreTitleNews, ExceptionErroreDescriprion {
         Connection connect = DBConnection.getConnection();
         
-
+testid(anews.getId());
+testTitle(anews.getTitle());
+testDescription(anews.getDescription());
         String sql = "INSERT INTO news (idnews, title,description) VALUES ('" + anews.getId() + "','" + anews.getTitle() + "','"+anews.getDescription()+ "')";
                                                                          //  ('"+codice +"','"+descrizione +"','"+ora +"','"+costo +"','"+iscritti+"')");
          anews.setId();
@@ -54,12 +58,12 @@ public class NewsManager {
         }
     }
 
-    public News getNewsByNumber(int aidnews) throws SQLException, ConnectionException, MissingDataEccezione {
+    public News getNewsByNumber(int aidnews) throws SQLException, ConnectionException, MissingDataEccezione, ExceptionErroreIdNews {
         Statement stmt = null;
         ResultSet rs = null;
         Connection connection = null;
         News anews = null;
-
+testid(anews.getId());
         String query = "select * from news where idnews = " + aidnews;
 
         try {
@@ -90,10 +94,11 @@ public class NewsManager {
      * @param aidnews
      * @return
      */
-   boolean deleteNews (int aidnews) {
+   boolean deleteNews (int aidnews) throws ExceptionErroreIdNews {
         
 Statement stmt = null;
         Connection connection = null;
+        testid(aidnews);
         try {
             connection = DBConnection.getConnection();
             stmt = connection.createStatement();
@@ -111,11 +116,12 @@ Statement stmt = null;
         
     }
    // Modificherò appena  inizio con le form 
-   public synchronized void update_news(int oldNewsId, News pNews) throws ClassNotFoundException, SQLException, IOException {
+   public synchronized void update_news(int oldNewsId, News pNews) throws ClassNotFoundException, SQLException, IOException, ExceptionErroreTitleNews, ExceptionErroreDescriprion {
         try (Connection connect = DBConnection.getConnection()) {
 
-           
-            
+           testid(oldNewsId);
+            testTitle(pNews.getTitle());
+            testDescription(pNews.getDescription());
    String tSql = "UPDATE news SET title='"+ Utility.Replace(pNews.getTitle()) +"' AND SET description='"+Utility.Replace(pNews.getDescription())+"'WHERE idnews="+oldNewsId+"'";
                            
 
@@ -124,6 +130,8 @@ Statement stmt = null;
             Utility.executeOperation(connect, tSql);
 
             connect.commit();
+        } catch (ExceptionErroreIdNews ex) {
+            Logger.getLogger(NewsManager.class.getName()).log(Level.SEVERE, null, ex);
         }
     }
      
@@ -170,6 +178,7 @@ Statement stmt = null;
         String query = "select * from news where title= '" + title + "'";
 
         try {
+            testTitle(title);
             connection = DBConnection.getConnection();
 
             if (connection == null) {
@@ -189,6 +198,8 @@ Statement stmt = null;
                listAvviso.add(avviso);
 
             }
+        } catch (ExceptionErroreTitleNews ex) {
+            Logger.getLogger(NewsManager.class.getName()).log(Level.SEVERE, null, ex);
         } finally {
 
             if (rs != null) {
@@ -251,5 +262,26 @@ Statement stmt = null;
         }
 
         return listAvviso;
+    }
+    
+    public void testid(int id) throws ExceptionErroreIdNews{
+        if(id<0){
+            throw new ExceptionErroreIdNews();
+        }
+        
+    }  
+    
+    public void testTitle(String title) throws ExceptionErroreTitleNews{
+        if(title.equals(null)){
+            
+            throw new ExceptionErroreTitleNews(); 
+        }
+    }
+    
+    public void testDescription(String description) throws ExceptionErroreDescriprion{
+         if(description.equals(null)){
+            
+            throw new ExceptionErroreDescriprion(); 
+        }
     }
 }

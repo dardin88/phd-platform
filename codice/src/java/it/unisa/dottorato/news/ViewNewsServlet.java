@@ -40,7 +40,9 @@ public class ViewNewsServlet {
                 out.write(result.toString());
             } catch (SQLException | JSONException ex) {
                 Logger.getLogger(ViewNewsServlet.class.getName()).log(Level.SEVERE, null, ex);
-            }
+            }     catch (ExceptionErroreIdNews ex) {
+                      Logger.getLogger(ViewNewsServlet.class.getName()).log(Level.SEVERE, null, ex);
+                  }
         }
      
      

@@ -73,6 +73,12 @@ public class InsertNewsServlet extends HttpServlet {
         } catch (SQLException ex) {
             Logger.getLogger(InsertNewsServlet.class.getName()).log(Level.SEVERE, null, ex);
             
+        } catch (ExceptionErroreIdNews ex) {
+            Logger.getLogger(InsertNewsServlet.class.getName()).log(Level.SEVERE, null, ex);
+        } catch (ExceptionErroreTitleNews ex) {
+            Logger.getLogger(InsertNewsServlet.class.getName()).log(Level.SEVERE, null, ex);
+        } catch (ExceptionErroreDescriprion ex) {
+            Logger.getLogger(InsertNewsServlet.class.getName()).log(Level.SEVERE, null, ex);
         }
     }
 
