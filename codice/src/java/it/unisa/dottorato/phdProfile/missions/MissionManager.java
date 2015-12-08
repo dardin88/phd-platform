@@ -5,9 +5,9 @@
  */
 package it.unisa.dottorato.phdProfile.missions;
 
+import it.unisa.dottorato.account.PhdStudent;
 import it.unisa.dottorato.utility.Utility;
 import it.unisa.integrazione.database.DBConnection;
-import it.unisa.integrazione.model.Person;
 import java.io.IOException;
 import java.sql.Connection;
 import java.sql.ResultSet;
@@ -175,7 +175,7 @@ public class MissionManager {
         }
     }
     
-    public synchronized List<Mission> getAllMissionsOf(Person pPerson) throws SQLException {
+    public synchronized List<Mission> getAllMissionsOf(PhdStudent phdStudent) throws SQLException {
         List<Mission> missions = new ArrayList<Mission>();
         
         Connection connect = null;
@@ -190,7 +190,7 @@ public class MissionManager {
             String tSql = "SELECT * FROM "
                     + MissionManager.TABLE_MISSION
                     + " WHERE fkPhdstudent = '"
-                    + pPerson.getSsn() + "'"; // da modificare ancora
+                    + phdStudent.getfkAccount()+ "'"; // da verificare
 
             //Inviamo la Query al DataBase
             ResultSet result = Utility.queryOperation(connect, tSql);

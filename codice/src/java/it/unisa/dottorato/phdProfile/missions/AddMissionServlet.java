@@ -5,7 +5,7 @@
  */
 package it.unisa.dottorato.phdProfile.missions;
 
-import it.unisa.integrazione.model.Person;
+import it.unisa.dottorato.account.PhdStudent;
 import java.io.IOException;
 import java.io.PrintWriter;
 import java.sql.SQLException;
@@ -55,7 +55,7 @@ public class AddMissionServlet extends HttpServlet {
                 String place = request.getParameter("place");
                 
                 HttpSession session = request.getSession();
-                Person loggedPerson = (Person) session.getAttribute("person"); // da modificare ancora
+                PhdStudent loggedPerson = (PhdStudent) session.getAttribute("phdStudent");  
 
                 Mission mission = new Mission();
 
@@ -65,7 +65,7 @@ public class AddMissionServlet extends HttpServlet {
                 mission.setEndDate(java.sql.Date.valueOf(endDate));
                 mission.setReference(reference);
                 mission.setPlace(place);
-                mission.setFkPhdstudent(loggedPerson.getSsn()); // da modificare ancora
+                mission.setFkPhdstudent(loggedPerson.getfkAccount()); // da verificare
 
                 MissionManager.getInstance().insert(mission);
                 result.put("result", true);
