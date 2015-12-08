@@ -5,7 +5,7 @@
  */
 package it.unisa.dottorato.phdProfile.collaborations;
 
-import it.unisa.integrazione.model.Person;
+import it.unisa.dottorato.account.PhdStudent;
 import java.io.IOException;
 import java.io.PrintWriter;
 import java.sql.SQLException;
@@ -22,7 +22,6 @@ import javax.servlet.http.HttpSession;
 import org.json.JSONException;
 import org.json.JSONObject;
  
-
 /**
  *
  * @author gemmacatolino
@@ -54,7 +53,7 @@ public class AddCollaborationServlet extends HttpServlet {
             String endDate = request.getParameter("endDate");
             
             HttpSession session = request.getSession();
-            Person loggedPerson = (Person) session.getAttribute("person"); // da modificare ancora
+            PhdStudent loggedPerson = (PhdStudent) session.getAttribute("phdStudent"); 
             
             Collaboration collaboration = new Collaboration();
             
@@ -62,7 +61,7 @@ public class AddCollaborationServlet extends HttpServlet {
             collaboration.setDescription(description);
             collaboration.setStartDate(java.sql.Date.valueOf(startDate));
             collaboration.setEndDate(java.sql.Date.valueOf(endDate));
-            collaboration.setFkPhdstudent(loggedPerson.getSsn()); //da modificare ancora
+            collaboration.setFkPhdstudent(loggedPerson.getfkAccount()); //da verificare
             
             CollaborationManager.getInstance().insert(collaboration);
             

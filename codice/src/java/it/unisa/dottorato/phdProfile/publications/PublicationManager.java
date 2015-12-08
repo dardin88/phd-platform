@@ -5,9 +5,9 @@
  */
 package it.unisa.dottorato.phdProfile.publications;
 
+import it.unisa.dottorato.account.PhdStudent;
 import it.unisa.dottorato.utility.Utility;
 import it.unisa.integrazione.database.DBConnection;
-import it.unisa.integrazione.model.Person;
 import java.io.IOException;
 import java.sql.Connection;
 import java.sql.ResultSet;
@@ -190,7 +190,7 @@ public class PublicationManager {
         }
     }
     
-    public synchronized List<Publication> getAllPublicationsOf(Person pPerson) throws SQLException {
+    public synchronized List<Publication> getAllPublicationsOf(PhdStudent phdStudent) throws SQLException {
         List<Publication> publications = new ArrayList<Publication>();
         
         Connection connect = null;
@@ -205,7 +205,7 @@ public class PublicationManager {
             String tSql = "SELECT * FROM "
                     + PublicationManager.TABLE_PUBLICATION
                     + " WHERE fkPhdstudent = '"
-                    + pPerson.getSsn() + "'"; // da modificare ancora
+                    + phdStudent.getfkAccount() + "'"; // da verificare
 
             //Inviamo la Query al DataBase
             ResultSet result = Utility.queryOperation(connect, tSql);

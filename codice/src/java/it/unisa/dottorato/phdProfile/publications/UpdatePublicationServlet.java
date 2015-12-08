@@ -5,7 +5,7 @@
  */
 package it.unisa.dottorato.phdProfile.publications;
 
-import it.unisa.integrazione.model.Person;
+import it.unisa.dottorato.account.PhdStudent;
 import java.io.IOException;
 import java.io.PrintWriter;
 import java.sql.SQLException;
@@ -57,7 +57,7 @@ public class UpdatePublicationServlet extends HttpServlet {
                 String pAbstract = request.getParameter("abstract");
 
                 HttpSession session = request.getSession();
-                Person loggedPerson = (Person) session.getAttribute("person"); // da modificare ancora 
+                PhdStudent loggedPerson = (PhdStudent) session.getAttribute("phdStudent"); //da verificare
 
                 Publication publication = new Publication();
 
@@ -69,7 +69,7 @@ public class UpdatePublicationServlet extends HttpServlet {
                 publication.setType(type);
                 publication.setAuthors(authors);
                 publication.setAbstract(pAbstract);
-                publication.setFkPhdstudent(loggedPerson.getSsn()); // da modificare ancora
+                publication.setFkPhdstudent(loggedPerson.getfkAccount()); // da modificare ancora
 
                 PublicationManager.getInstance().update(idPublication, publication);
                 result.put("result", true);
