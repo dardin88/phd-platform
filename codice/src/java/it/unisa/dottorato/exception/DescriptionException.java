@@ -12,7 +12,7 @@ package it.unisa.dottorato.exception;
 public class DescriptionException extends Exception{
     
      public DescriptionException () {
-        super("Il titolo e' sbagliato! ");
+        super("La descrizione e' sbagliata! ");
     }
    
      public DescriptionException(String pMessage) {
