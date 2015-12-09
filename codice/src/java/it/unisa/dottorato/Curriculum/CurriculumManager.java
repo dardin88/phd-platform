@@ -18,7 +18,6 @@ public class CurriculumManager {
      * I nomi delle tabelle
      */
     private static final String TABLE_CURRICULUM = "curriculum";
-    private static final String TABLE_CURRICULUMCIC = "curriculumcic";
 
 
     //	 istanza della classe
@@ -155,54 +154,6 @@ public class CurriculumManager {
             DBConnection.releaseConnection(connect);
         }
     }
-
-    /**
-     * Metodo della classe incaricato della ricerca delle informazioni di un
-     * curriculum relativo ad un ciclo.
-     *
-     * @param number 
-     * @return
-     * @throws java.lang.ClassNotFoundException
-     * @throws java.sql.SQLException
-     * @throws java.io.IOException
-     */
-    public synchronized ArrayList<String> getCurriculumNameByCycle(int number) throws ClassNotFoundException, SQLException, IOException {
-        Connection connect = null;
-        try {
-            ArrayList<String> curriculum = new ArrayList<>();
-            // Otteniamo una Connessione al DataBase
-            connect = DBConnection.getConnection();
-
-            /*
-             * Prepariamo la stringa SQL per modificare un record 
-             * nella tabella phdCycle
-             */
-            String tSql = "SELECT name FROM "
-                    + CurriculumManager.TABLE_CURRICULUM
-                    + "  JOIN "
-                    + CurriculumManager.TABLE_CURRICULUMCIC
-                    + " ON "
-                    + CurriculumManager.TABLE_CURRICULUM
-                    + ".name = "
-                    + CurriculumManager.TABLE_CURRICULUMCIC
-                    + ".fkCurriculum "
-                    + " WHERE fkCycle = "
-                    + number;
-
-            //Inviamo la Query al DataBase
-            ResultSet result = Utility.queryOperation(connect, tSql);
-
-            while (result.next()) {
-                curriculum.add(result.getString("name"));
-            }
-
-            return curriculum;
-
-        } finally {
-            DBConnection.releaseConnection(connect);
-        }
-    }
-    
    
     /**
      * Metodo della classe incaricato della ricerca di un curriculum esistente.

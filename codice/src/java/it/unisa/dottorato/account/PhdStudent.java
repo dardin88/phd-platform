@@ -21,7 +21,7 @@ public class PhdStudent extends Account {
 
  
     @Override
-    public String getTypeOfAccount() {
+    public String getTypeAccount() {
         return "phdstudent";
     }
 

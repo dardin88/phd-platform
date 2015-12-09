@@ -43,7 +43,7 @@ public class GetCurriculumsNamesServlet extends HttpServlet {
                 result.put("curriculumNames", resultArray);
                 out.write(result.toString());
             } catch (ClassNotFoundException | SQLException | JSONException ex) {
-                Logger.getLogger(GetCurriculumsNamesByCycleServlet.class.getName()).log(Level.SEVERE, null, ex);
+                Logger.getLogger(GetCurriculumsNamesServlet.class.getName()).log(Level.SEVERE, null, ex);
             }
         }
     }

@@ -20,7 +20,7 @@ public class Professor extends Account {
     }
     
     @Override
-    public String getTypeOfAccount() {
+    public String getTypeAccount() {
         return "professor";
     }
 

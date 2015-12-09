@@ -1,5 +1,6 @@
 package it.unisa.dottorato.Cycle;
 
+import it.unisa.dottorato.account.Account;
 import it.unisa.dottorato.curriculumcic.Curriculumcic;
 import it.unisa.dottorato.utility.Utility;
 import it.unisa.integrazione.database.DBConnection;
@@ -23,6 +24,7 @@ public class CycleManager {
     private static final String TABLE_CURRICULUMCIC = "curriculumcic";
     private static final String TABLE_TEACH = "teach";
     private static final String TABLE_PROFESSOR = "professor";
+    private static final String TABLE_ACCOUNT = "account";
     
     //	 istanza della classe
     private static CycleManager instance;
@@ -190,23 +192,45 @@ public class CycleManager {
      * @throws java.sql.SQLException
      * @throws java.io.IOException
      */
-    public synchronized void viewCycleCoordinator(Cycle cycle) throws ClassNotFoundException, SQLException, IOException {
-        try (Connection connect = DBConnection.getConnection()) {
-
-            /*
+    public synchronized Account viewCycleCoordinator(Cycle cycle) throws ClassNotFoundException, SQLException, IOException {
+        Connection connect = null;
+        try {
+           Account cord=new Account();
+           connect = DBConnection.getConnection();
+           /*
              * Prepariamo la stringa SQL per modificare un record 
              * nella tabella phdCycle
              */
-            String tSql = "SELECT fkProfessor From "
+             String tSql = "SELECT secondaryEmail, email, surname, name, password, typeAccount, isAdministrator From "
                     + CycleManager.TABLE_CYCLE
+                    +","
+                    + CycleManager.TABLE_PROFESSOR
+                    + ","
+                    + CycleManager.TABLE_ACCOUNT
                     + " WHERE number = "
-                    + cycle.getNumber();           
+                    + cycle.getNumber()
+                    +" AND fkProfessor = fkAccount AND fkAccount = secondaryEmail";   
 
             //Inviamo la Query al DataBase
             Utility.executeOperation(connect, tSql);
 
             connect.commit();
+            ResultSet result = Utility.queryOperation(connect, tSql);
+
+            if (result.next()) {
+                cord.setSecondaryEmail(result.getString("secondaryEmail"));
+                cord.setEmail(result.getString("email"));
+                cord.setSurname(result.getString("surname"));
+                cord.setName(result.getString("name"));
+                cord.setPassword(result.getString("password"));
+                cord.setTypeOfAccount(result.getString("typeAccount"));
+                cord.setAdmin(result.getBoolean("isAdministrator"));
+            }
+            return cord;
+        } finally {
+            DBConnection.releaseConnection(connect);
         }
+   
     }
     
     /**

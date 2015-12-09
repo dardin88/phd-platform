@@ -63,7 +63,7 @@ public class LoginManager  {
                            phd.setName(rs.getString("name"));
                            phd.setSurname(rs.getString("surname"));
                            phd.setPassword(rs.getString("password"));
-                           phd.setTypeOfAccount(rs.getString("typeAccount"));
+                           phd.setTypeAccount(rs.getString("typeAccount"));
                            phd.setAdmin(rs.getBoolean("isAdministrator"));
                            phd.setfkAccount(rs.getString("secondaryEmail"));
                            phd.setTelephone(rt.getString("telephone"));
@@ -85,7 +85,7 @@ public class LoginManager  {
                             professor.setName(rs.getString("name"));
                             professor.setSurname(rs.getString("surname"));
                             professor.setPassword(rs.getString("password"));
-                            professor.setTypeOfAccount(rs.getString("typeAccount"));
+                            professor.setTypeAccount(rs.getString("typeAccount"));
                             professor.setAdmin(rs.getBoolean("isAdministrator"));
                             professor.setfkAccount(rs.getString("secondaryEmail"));
                             professor.setDepartment(rt.getString("department"));
@@ -125,7 +125,7 @@ public class LoginManager  {
                 + pAccount.getSurname() + "','"
                 + pAccount.getName() + "','"
                 + pAccount.getPassword() +"','"
-                + pAccount.getTypeOfAccount() + "',"
+                + pAccount.getTypeAccount() + "',"
                 + pAccount.isAdmin() + ")";
 
         try {

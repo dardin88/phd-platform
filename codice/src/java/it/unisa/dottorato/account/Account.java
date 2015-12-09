@@ -16,7 +16,7 @@ public class Account {
     private String password;
     private String name;
     private String surname;
-    private String typeOfAccount = "basic";
+    private String typeAccount = "basic";
     private boolean isAdmin;
 
     public String getEmail() {
@@ -59,12 +59,12 @@ public class Account {
         this.password = password;
     }  
 
-    public void setTypeOfAccount(String typeOfAccount) {
-        this.typeOfAccount = typeOfAccount;
+    public void setTypeAccount(String typeAccount) {
+        this.typeAccount = typeAccount;
     }
 
-    public String getTypeOfAccount() {
-        return typeOfAccount;
+    public String getTypeAccount() {
+        return typeAccount;
     }
     
     public boolean isAdmin() {
