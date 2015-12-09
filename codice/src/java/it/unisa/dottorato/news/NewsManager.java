@@ -4,6 +4,9 @@
  * and open the template in the editor.
  */
 package it.unisa.dottorato.news;
+import it.unisa.dottorato.exception.DescriptionException;
+import it.unisa.dottorato.exception.IdException;
+import it.unisa.dottorato.exception.TitleException;
 import it.unisa.dottorato.utility.Utility;
 import it.unisa.integrazione.database.DBConnection;
 import it.unisa.integrazione.database.exception.ConnectionException;
@@ -22,9 +25,26 @@ import java.util.logging.Logger;
  */
 public class NewsManager {
  
-
+private static final String TABLE_News = "news";
     private static NewsManager instance;
 
+    /**
+     * Il costruttore della classe e' dichiarato privato, per evitare
+     * l'istanziazione di oggetti della classe .
+     */
+    private NewsManager() {
+        super();
+    }
+    
+    /**
+     * Metodo della classe incaricato della produzione degli oggetti, tale
+     * metodo deve essere chiamato per restituire l'istanza del Singleton.
+     * L'oggetto Singleton sara' istanziato solo alla prima invocazione del
+     * metodo. Nelle successive invocazioni, invece, sara' restituito un
+     * riferimento allo stesso oggetto.
+     *
+     * @return L'istanza della classe
+     */
     public static NewsManager getInstance() {
 
         if (instance == null) {
@@ -35,54 +55,82 @@ public class NewsManager {
     }
 
 
-    public void insertNews(News anews) throws SQLException, MissingDataEccezione, ExceptionErroreIdNews, ExceptionErroreTitleNews, ExceptionErroreDescriprion {
+    
+    /**
+     * 
+     *
+     * @param  anews
+     * @throws java.lang.ClassNotFoundException
+     * @throws java.sql.SQLException
+     * @throws java.io.IOException
+     * @throws IdException
+     * @throws TitleException
+     * @throws DescriptionException
+     *  
+     */
+    public void insertNews(News anews) throws SQLException{
         Connection connect = DBConnection.getConnection();
-        
-testid(anews.getId());
-testTitle(anews.getTitle());
-testDescription(anews.getDescription());
-        String sql = "INSERT INTO news (idnews, title,description) VALUES ('" + anews.getId() + "','" + anews.getTitle() + "','"+anews.getDescription()+ "')";
-                                                                         //  ('"+codice +"','"+descrizione +"','"+ora +"','"+costo +"','"+iscritti+"')");
-         anews.setId();
+                                                             
+      
         try {
+             String tSql = "INSERT INTO "
+                    + NewsManager.TABLE_News
+                    + " (id,title,description,)"
+                    + " VALUES ('"
+                    + testid(anews.getId())
+                    + "','"
+                    + Utility.Replace(testTitle(anews.getTitle()))
+                    + "','"
+                    + Utility.Replace(testDescription(anews.getDescription()))
+                    + "',"
+                     + ")";      
+            
+            
+            
             Statement stmt = connect.createStatement();
-            stmt.executeUpdate(sql);
+            stmt.executeUpdate(tSql);
             connect.commit();
         }
-        catch(Exception exc){
-        exc.printStackTrace();
-        throw new   MissingDataEccezione("mancano i dati");
-        }
-        finally {
+    catch (IdException ex) {
+        Logger.getLogger(NewsManager.class.getName()).log(Level.SEVERE, null, ex);
+    } catch (TitleException ex) {
+        Logger.getLogger(NewsManager.class.getName()).log(Level.SEVERE, null, ex);
+    } catch (DescriptionException ex) {
+        Logger.getLogger(NewsManager.class.getName()).log(Level.SEVERE, null, ex);
+    }         finally {
             DBConnection.releaseConnection(connect);
         }
     }
 
-    public News getNewsByNumber(int aidnews) throws SQLException, ConnectionException, MissingDataEccezione, ExceptionErroreIdNews {
+    public News getNewsByNumber(int aidnews) throws SQLException, ConnectionException{
         Statement stmt = null;
         ResultSet rs = null;
         Connection connection = null;
         News anews = null;
-testid(anews.getId());
-        String query = "select * from news where idnews = " + aidnews;
-
-        try {
+                try {
             connection = DBConnection.getConnection();
-
-            if (connection == null) {
+            String sql = "SELECT * From "
+                    + NewsManager.TABLE_News
+                    + " WHERE number = "
+                    +    testid(anews.getId());
+            
+                       if (connection == null) {
                 throw new ConnectionException();
             }
 
             stmt = connection.createStatement();
-            rs = stmt.executeQuery(query);
+         rs=  Utility.queryOperation(connection, sql);
 
             if (rs.next()) {
                 anews = new News();
-                anews.setId(/*rs.getInt("idnews")*/);
+                anews.setId(rs.getInt("idnews"));
                 anews.setTitle(rs.getString("title"));
+                anews.setDescription(rs.getString("description"));
             }
-            else throw new   MissingDataEccezione("Avviso non trovato");
-        } finally {
+            
+        } catch (IdException ex) {
+        Logger.getLogger(NewsManager.class.getName()).log(Level.SEVERE, null, ex);
+    } finally {
 
             DBConnection.releaseConnection(connection);
         }
@@ -94,122 +142,99 @@ testid(anews.getId());
      * @param aidnews
      * @return
      */
-   boolean deleteNews (int aidnews) throws ExceptionErroreIdNews {
-        
-Statement stmt = null;
-        Connection connection = null;
-        testid(aidnews);
+   public synchronized void deleteNews(int aidnews) {
+        Connection connect = null;
         try {
-            connection = DBConnection.getConnection();
-            stmt = connection.createStatement();
-            if (stmt.executeUpdate("DELETE FROM  news WHERE idnews='"+ aidnews+"'")==1){
-                                  //("DELETE  FROM corso WHERE CodiceCorso='"+codice +"'")
-            return true;
-            }
-        } catch (SQLException ex) {
-            ex.printStackTrace();
-            throw new RuntimeException("Delete Query failed!");
-        } finally {
-            DBConnection.releaseConnection(connection);
-        }
-        return false;
-        
-    }
-   // Modificherò appena  inizio con le form 
-   public synchronized void update_news(int oldNewsId, News pNews) throws ClassNotFoundException, SQLException, IOException, ExceptionErroreTitleNews, ExceptionErroreDescriprion {
-        try (Connection connect = DBConnection.getConnection()) {
+            
+            connect = DBConnection.getConnection();
 
-           testid(oldNewsId);
-            testTitle(pNews.getTitle());
-            testDescription(pNews.getDescription());
-   String tSql = "UPDATE news SET title='"+ Utility.Replace(pNews.getTitle()) +"' AND SET description='"+Utility.Replace(pNews.getDescription())+"'WHERE idnews="+oldNewsId+"'";
-                           
+           
+            String tSql = "DELETE FROM "
+                    + NewsManager.TABLE_News
+                    + " WHERE idNews = "
+                    + testid(aidnews);
 
-            System.out.println(tSql);
-            //Inviamo la Query al DataBase
+            
             Utility.executeOperation(connect, tSql);
 
             connect.commit();
-        } catch (ExceptionErroreIdNews ex) {
-            Logger.getLogger(NewsManager.class.getName()).log(Level.SEVERE, null, ex);
+        } catch (IdException ex) {
+        Logger.getLogger(NewsManager.class.getName()).log(Level.SEVERE, null, ex);
+    } catch (SQLException ex) {
+        Logger.getLogger(NewsManager.class.getName()).log(Level.SEVERE, null, ex);
+    } finally {
+            DBConnection.releaseConnection(connect);
         }
+    }
+   
+   
+   
+   
+   
+   public synchronized void update_news(int oldNewsId, News pNews) throws ClassNotFoundException, SQLException, IOException{
+         try (Connection connect = DBConnection.getConnection()) {
+
+            
+            String tSql = "UPDATE "
+                    + NewsManager.TABLE_News
+                    + " set title = '"
+                    + Utility.Replace(testTitle(pNews.getTitle()))
+                    + "', description = '"
+                    +Utility.Replace(testDescription(pNews.getDescription()))
+                    + "' WHERE number = "
+                    + oldNewsId;           
+
+            Utility.executeOperation(connect, tSql);
+
+            connect.commit();
+        } catch (TitleException ex) {
+        Logger.getLogger(NewsManager.class.getName()).log(Level.SEVERE, null, ex);
+    } catch (DescriptionException ex) {
+        Logger.getLogger(NewsManager.class.getName()).log(Level.SEVERE, null, ex);
+    }
     }
      
    
-   /*public News modNews(int idnews) {
-        Statement stmt = null;
-        ResultSet rs = null;
-        News oldavviso= new News();
-        News oldavviso= avviso.getNewsByNumber(idnews);
-        String titolo=avviso.getTitle();
-        String content=avviso.getContent();
-        Connection connection = null;
-        if ( aidnews<0 ) {
-            throw new IllegalArgumentException("Non esiste questo avviso");
-        } else {
-            try {
-                connection = DBConnection.getConnection();
-                stmt = connection.createStatement();
-                rs = stmt.executeQuery("SELECT * FROM news ");
-                   
-                        
-                while (rs.next()) {
-                     stmt.executeUpdate("UPDATE news SET title='"+ titolo +"' AND SET description='"+content+"'WHERE idnews="+aidnews+"'");    
-                }
-            } catch (SQLException ex) {
-                ex.printStackTrace();
-                throw new RuntimeException("Avviso not found ");
-            } finally {
-                DBConnection.releaseConnection(connection);
-            }
-        }
-        return null;
-    }
-*/
-    // anche questa aspetto di creare le form per una visione + pulita
    
-   public ArrayList<News> getNewsByTypeOfTitle(String title) throws SQLException, it.unisa.integrazione.database.exception.ConnectionException {
+
+    
+    public ArrayList<News> getNewsByTypeOfTitle(String title) throws SQLException, it.unisa.integrazione.database.exception.ConnectionException {
         Statement stmt = null;
         ResultSet rs = null;
         Connection connection = null;
         News avviso = new News();
-        ArrayList<News> listAvviso = new ArrayList<>();
+        ArrayList<News> listAvviso = new ArrayList<News>();
+ try {
+            String sql= "select * from "
+                + NewsManager.TABLE_News
+                +"where title= '" + testTitle(title) + "'";
 
-        String query = "select * from news where title= '" + title + "'";
-
-        try {
-            testTitle(title);
             connection = DBConnection.getConnection();
 
             if (connection == null) {
                 throw new it.unisa.integrazione.database.exception.ConnectionException();
             }
-
             stmt = connection.createStatement();
-            rs = stmt.executeQuery(query);
+            rs  = Utility.queryOperation(connection, sql);
 
             while (rs.next()) {
                 avviso = new News();
-                avviso.getId();
+                avviso.setId(rs.getInt("idNews"));
                 avviso.setTitle(rs.getString("title"));
                 avviso.setDescription(rs.getString("description"));
-               
-                
-               listAvviso.add(avviso);
+                  listAvviso.add(avviso);
 
             }
-        } catch (ExceptionErroreTitleNews ex) {
-            Logger.getLogger(NewsManager.class.getName()).log(Level.SEVERE, null, ex);
-        } finally {
+        } catch (TitleException ex) {
+        Logger.getLogger(NewsManager.class.getName()).log(Level.SEVERE, null, ex);
+    }  finally {
 
             if (rs != null) {
                 rs.close();
             }
-
             if (stmt != null) {
                 stmt.close();
             }
-
             if (connection != null) {
                 connection.close();
             }
@@ -217,32 +242,32 @@ Statement stmt = null;
 
         return listAvviso;
     }
+    
+    
+    
     public ArrayList<News> getAllNews() throws SQLException, it.unisa.integrazione.database.exception.ConnectionException {
         Statement stmt = null;
         ResultSet rs = null;
         Connection connection = null;
         News avviso = new News();
-        ArrayList<News> listAvviso = new ArrayList<>();
-
-        String query = "select * from news ";
+        ArrayList<News> listAvviso = new ArrayList<News>();
 
         try {
             connection = DBConnection.getConnection();
+String query = "select * from "
+        + NewsManager.TABLE_News;
 
             if (connection == null) {
                 throw new it.unisa.integrazione.database.exception.ConnectionException();
             }
-
             stmt = connection.createStatement();
             rs = stmt.executeQuery(query);
-
-            while (rs.next()) {
+               while (rs.next()) {
                 avviso = new News();
-                avviso.getId();
+                avviso.setId(rs.getInt("idNews"));
                 avviso.setTitle(rs.getString("title"));
                 avviso.setDescription(rs.getString("description"));
-               
-                
+                               
                listAvviso.add(avviso);
 
             }
@@ -264,24 +289,26 @@ Statement stmt = null;
         return listAvviso;
     }
     
-    public void testid(int id) throws ExceptionErroreIdNews{
+    public int testid(int id) throws IdException {
         if(id<0){
-            throw new ExceptionErroreIdNews();
+            throw new IdException("l'id non puo' essere minore di 0");
         }
-        
+        return id;
     }  
     
-    public void testTitle(String title) throws ExceptionErroreTitleNews{
-        if(title.equals(null)){
+    public String testTitle(String title) throws TitleException {
+        if(title.equals(null)&&title.length()>20){
             
-            throw new ExceptionErroreTitleNews(); 
+            throw new TitleException("il titolo e' sbagliato"); 
         }
+        return title;
     }
     
-    public void testDescription(String description) throws ExceptionErroreDescriprion{
+    public String testDescription(String description) throws DescriptionException{
          if(description.equals(null)){
             
-            throw new ExceptionErroreDescriprion(); 
+            throw new DescriptionException("la descrizione e' sbagliata"); 
         }
+         return description;
     }
 }

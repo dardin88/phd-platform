@@ -39,7 +39,7 @@ public class InsertNewsServlet extends HttpServlet {
      * @throws IOException if an I/O error occurs
      */
     protected void processRequest(HttpServletRequest request, HttpServletResponse response)
-            throws ServletException, IOException, MissingDataEccezione {
+            throws ServletException, IOException {
 
         JSONObject result = new JSONObject();
         PrintWriter out = response.getWriter();
@@ -73,13 +73,7 @@ public class InsertNewsServlet extends HttpServlet {
         } catch (SQLException ex) {
             Logger.getLogger(InsertNewsServlet.class.getName()).log(Level.SEVERE, null, ex);
             
-        } catch (ExceptionErroreIdNews ex) {
-            Logger.getLogger(InsertNewsServlet.class.getName()).log(Level.SEVERE, null, ex);
-        } catch (ExceptionErroreTitleNews ex) {
-            Logger.getLogger(InsertNewsServlet.class.getName()).log(Level.SEVERE, null, ex);
-        } catch (ExceptionErroreDescriprion ex) {
-            Logger.getLogger(InsertNewsServlet.class.getName()).log(Level.SEVERE, null, ex);
-        }
+        } 
     }
 
     // <editor-fold defaultstate="collapsed" desc="HttpServlet methods. Click on the + sign on the left to edit the code.">
@@ -94,11 +88,9 @@ public class InsertNewsServlet extends HttpServlet {
     @Override
     protected void doGet(HttpServletRequest request, HttpServletResponse response)
             throws ServletException, IOException {
-        try {
+       
             processRequest(request, response);
-        } catch (MissingDataEccezione ex) {
-            Logger.getLogger(InsertNewsServlet.class.getName()).log(Level.SEVERE, null, ex);
-        }
+        
     }
 
     /**
@@ -112,11 +104,9 @@ public class InsertNewsServlet extends HttpServlet {
     @Override
     protected void doPost(HttpServletRequest request, HttpServletResponse response)
             throws ServletException, IOException {
-        try {
+        
             processRequest(request, response);
-        } catch (MissingDataEccezione ex) {
-            Logger.getLogger(InsertNewsServlet.class.getName()).log(Level.SEVERE, null, ex);
-        }
+        
     }
 
     /**
