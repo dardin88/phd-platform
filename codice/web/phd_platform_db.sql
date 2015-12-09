@@ -6,12 +6,12 @@ create table IF not EXIsts news(
 idNews             integer PRIMARY kEY check(idnews>=0),
 title              varchar(50) not null,      
 description        text not null);
---popolo la tabella news
+-- popolo la tabella news
 INSERT INTO news (idNews,title,description)VALUES
 (1,'avviso1','Avviso: corsi di is2 interrotti perchè il gatto si è ferito una gamba'),
 (2,'new1','News:il direttore procederà a conferire il premio');
 
---creo la tabella degli account
+-- creo la tabella degli account
 create table IF not EXIsts account(
 secondaryEmail      varchar(50) primary key,
 email 				varchar(50),
@@ -21,23 +21,23 @@ password			varchar(16),
 typeAccount			varchar(20),
 isAdministrator		boolean default false);
 
---popolo la tabella degli account
+-- popolo la tabella degli account
 INSERT INTO account (secondaryEmail,email,surname,name,password,typeAccount,isAdministrator )VALUES
 ('test@hotmail.it',null, 'Rossi', 'Mario', null,null,false),
-('ballo@hotmail.it','ballo@unisa.it', 'Conti','Carlo', 'test1','dottorando',false),
-('wrestler@hotmail.it','wrestler@unisa.it', 'Cena', 'John', 'test3','docente',false),
-('dracula@hotmail.it','dracula@unisa.it', 'Conte', 'Dracula', 'test4','docente',true),
-('adelucia@hotmail.it','adelucia@unisa.it', 'DeLucia', 'Andrea', 'test5','docente',true),
-('dinucci@hotmail.it','dinucci@unisa.it','Dario','Dinucci','test6','dottorando',false);
+('ballo@hotmail.it','ballo@unisa.it', 'Conti','Carlo', 'test1','phdstudent',false),
+('wrestler@hotmail.it','wrestler@unisa.it', 'Cena', 'John', 'test3','professor',false),
+('dracula@hotmail.it','dracula@unisa.it', 'Conte', 'Dracula', 'test4','professor',true),
+('adelucia@hotmail.it','adelucia@unisa.it', 'DeLucia', 'Andrea', 'test5','professor',true),
+('dinucci@hotmail.it','dinucci@unisa.it','Dario','Dinucci','test6','phdstudent',false);
 
---creo la tabella  dei professori
+-- creo la tabella  dei professori
 create table if not exists professor(
 fkAccount			varchar(50) primary key,
 link 				varchar(150),
 department 			varchar(60) not null,
 foreign key(fkAccount) references account(secondaryEmail) on delete cascade on update cascade);
 
---popolo la tabella  dei professori
+-- popolo la tabella  dei professori
 INSERT INTO professor (fkAccount,link,department)VALUES
 ('wrestler@hotmail.it','https://it.wikipedia.org/wiki/John_Cena','Dipartimento di Mazzate'),
 ('dracula@hotmail.it','https://it.wikipedia.org/wiki/Conte_Dracula','Dipartimento di Giurisprudenza'),
@@ -188,7 +188,7 @@ foreign key (fkCycle) references curriculumcic(fkCycle) on delete cascade on upd
 
 
 INSERT INTO course (idCourse,fkCurriculum,fkCycle,name,description,startDate,endDate)VALUES
-(1,'Informatica, Sistemi Informativi e Tecnologie del Software',15,'IS2','descrizione del corso','2015-01-01','2015-09-10',);
+(1,'Informatica, Sistemi Informativi e Tecnologie del Software',15,'IS2','descrizione del corso','2015-01-01','2015-09-10');
 
 -- creiamo la tabella studente
 create table IF not EXIsts phdstudent(
@@ -217,7 +217,7 @@ INSERT INTO phdstudent(fkAccount,telephone,link,deparment,researchInterest,fkCyc
 create table IF not EXIsts publication(
 idPublication 		integer	primary key,
 title 				varchar(50) not null,
-publicatioIssue                 varchar(60) not null,
+publicationIssue                 varchar(60) not null,
 year				varchar(4) not null,
 numberPage    		integer not null check(numberpage>0),
 link				varchar(150),

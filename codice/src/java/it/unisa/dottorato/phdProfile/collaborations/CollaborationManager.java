@@ -5,9 +5,9 @@
  */
 package it.unisa.dottorato.phdProfile.collaborations;
 
+import it.unisa.dottorato.account.PhdStudent;
 import it.unisa.dottorato.utility.Utility;
 import it.unisa.integrazione.database.DBConnection;
-import it.unisa.integrazione.model.Person;
 import java.io.IOException;
 import java.sql.Connection;
 import java.sql.ResultSet;
@@ -170,7 +170,7 @@ public class CollaborationManager {
         }
     }
     
-    public synchronized List<Collaboration> getAllCollaborationOf(Person pPerson) throws SQLException { //da modificare dato Person
+    public synchronized List<Collaboration> getAllCollaborationOf(PhdStudent phdStudent) throws SQLException { //da verificare
         List<Collaboration> collaborations = new ArrayList<Collaboration>();
         
         Connection connect = null;
@@ -185,7 +185,7 @@ public class CollaborationManager {
             String tSql = "SELECT * FROM "
                     + CollaborationManager.TABLE_COLLABORATION
                     + " WHERE fkPhdstudent = '"
-                    + pPerson.getSsn() + "'"; //da modificare ancora
+                    + phdStudent.getfkAccount()+ "'"; //da verificare
 
             //Inviamo la Query al DataBase
             ResultSet result = Utility.queryOperation(connect, tSql);

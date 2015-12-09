@@ -5,7 +5,7 @@
  */
 package it.unisa.dottorato.phdProfile.collaborations;
 
-import it.unisa.integrazione.model.Person;
+import it.unisa.dottorato.account.PhdStudent;
 import java.io.IOException;
 import java.io.PrintWriter;
 import java.sql.SQLException;
@@ -46,9 +46,9 @@ public class GetAllCollaborationsServlet extends HttpServlet {
             try {
                 
                 HttpSession session = request.getSession();
-                Person person = (Person) session.getAttribute("person"); // da modificare ancora
+                PhdStudent phdStudent = (PhdStudent) session.getAttribute("phdStudent"); // da verificare
                 
-                ArrayList<Collaboration> collaborations = (ArrayList<Collaboration>) CollaborationManager.getInstance().getAllCollaborationOf(person); // da modificare ancora
+                ArrayList<Collaboration> collaborations = (ArrayList<Collaboration>) CollaborationManager.getInstance().getAllCollaborationOf(phdStudent); // da verificare
                 JSONArray resultArray = new JSONArray(collaborations);
                 result.put("collaborations", resultArray);
                 out.write(result.toString());

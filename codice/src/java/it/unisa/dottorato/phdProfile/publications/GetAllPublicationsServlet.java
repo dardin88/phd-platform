@@ -5,7 +5,7 @@
  */
 package it.unisa.dottorato.phdProfile.publications;
 
-import it.unisa.integrazione.model.Person;
+import it.unisa.dottorato.account.PhdStudent;
 import java.io.IOException;
 import java.io.PrintWriter;
 import java.sql.SQLException;
@@ -46,9 +46,9 @@ public class GetAllPublicationsServlet extends HttpServlet {
             try {
                 
                 HttpSession session = request.getSession();
-                Person person = (Person) session.getAttribute("person"); // da modificare ancora 
+                PhdStudent phdStudent = (PhdStudent) session.getAttribute("phdStudent"); // da verificare
                 
-                ArrayList<Publication> publications = (ArrayList<Publication>) PublicationManager.getInstance().getAllPublicationsOf(person); // da modificare ancora
+                ArrayList<Publication> publications = (ArrayList<Publication>) PublicationManager.getInstance().getAllPublicationsOf(phdStudent); // da modificare ancora
                 JSONArray resultArray = new JSONArray(publications);
                 result.put("publications", resultArray);
                 out.write(result.toString());

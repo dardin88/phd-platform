@@ -8,6 +8,7 @@ package it.unisa.dottorato.autenticazione;
 import it.unisa.dottorato.account.Account;
 import it.unisa.dottorato.account.PhdStudent;
 import it.unisa.dottorato.account.Professor;
+import it.unisa.dottorato.utility.Utility;
 import it.unisa.integrazione.database.DBConnection;
 import it.unisa.integrazione.database.exception.ConnectionException;
 import java.sql.Connection;
@@ -119,17 +120,17 @@ public class LoginManager  {
         String sql = "INSERT INTO account"
                 + "(email, secondaryemail, surname, name, password,typeAccount,isAdministrator)"
                 + " VALUES ('"
-                + pAccount.getSecondaryEmail() + "','" 
-                + pAccount.getEmail() + "','"
+                + pAccount.getEmail() + "','" 
+                + pAccount.getSecondaryEmail() + "','"
                 + pAccount.getSurname() + "','"
                 + pAccount.getName() + "','"
-                + pAccount.getTypeOfAccount() + "','"
-                + pAccount.isAdmin() + "')";
+                + pAccount.getPassword() +"','"
+                + pAccount.getTypeOfAccount() + "',"
+                + pAccount.isAdmin() + ")";
 
         try {
-            Statement stmt = connect.createStatement();
-            stmt.executeUpdate(sql);
-            connect.commit();
+            Utility.executeOperation(connect, sql);
+           
         } finally {
             DBConnection.releaseConnection(connect);
         }
