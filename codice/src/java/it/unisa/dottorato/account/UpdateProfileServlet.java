@@ -5,6 +5,8 @@
  */
 package it.unisa.dottorato.account;
 
+import it.unisa.dottorato.autenticazione.EmailException;
+import it.unisa.dottorato.autenticazione.PasswordException;
 import it.unisa.integrazione.database.exception.ConnectionException;
 import it.unisa.integrazione.database.exception.MissingDataException;
 import it.unisa.dottorato.autenticazione.RegistrationServlet;
@@ -37,7 +39,7 @@ public class UpdateProfileServlet extends HttpServlet {
      * @throws IOException if an I/O error occurs
      */
     protected void processRequest(HttpServletRequest request, HttpServletResponse response)
-            throws ServletException, IOException {
+            throws ServletException, IOException, NullAccountException, ProfileException, PasswordException, EmailException {
         response.setContentType("text/html;charset=UTF-8");
         PrintWriter out = response.getWriter();
         Account pAccount;
@@ -107,7 +109,17 @@ public class UpdateProfileServlet extends HttpServlet {
     @Override
     protected void doGet(HttpServletRequest request, HttpServletResponse response)
             throws ServletException, IOException {
-        processRequest(request, response);
+        try {
+            processRequest(request, response);
+        } catch (NullAccountException ex) {
+            Logger.getLogger(UpdateProfileServlet.class.getName()).log(Level.SEVERE, null, ex);
+        } catch (ProfileException ex) {
+            Logger.getLogger(UpdateProfileServlet.class.getName()).log(Level.SEVERE, null, ex);
+        } catch (PasswordException ex) {
+            Logger.getLogger(UpdateProfileServlet.class.getName()).log(Level.SEVERE, null, ex);
+        } catch (EmailException ex) {
+            Logger.getLogger(UpdateProfileServlet.class.getName()).log(Level.SEVERE, null, ex);
+        }
     }
 
     /**
@@ -121,7 +133,17 @@ public class UpdateProfileServlet extends HttpServlet {
     @Override
     protected void doPost(HttpServletRequest request, HttpServletResponse response)
             throws ServletException, IOException {
-        processRequest(request, response);
+        try {
+            processRequest(request, response);
+        } catch (NullAccountException ex) {
+            Logger.getLogger(UpdateProfileServlet.class.getName()).log(Level.SEVERE, null, ex);
+        } catch (ProfileException ex) {
+            Logger.getLogger(UpdateProfileServlet.class.getName()).log(Level.SEVERE, null, ex);
+        } catch (PasswordException ex) {
+            Logger.getLogger(UpdateProfileServlet.class.getName()).log(Level.SEVERE, null, ex);
+        } catch (EmailException ex) {
+            Logger.getLogger(UpdateProfileServlet.class.getName()).log(Level.SEVERE, null, ex);
+        }
     }
 
     /**

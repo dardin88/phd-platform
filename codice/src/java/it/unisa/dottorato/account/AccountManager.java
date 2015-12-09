@@ -1,5 +1,7 @@
 package it.unisa.dottorato.account;
 
+import it.unisa.dottorato.autenticazione.EmailException;
+import it.unisa.dottorato.autenticazione.PasswordException;
 import it.unisa.dottorato.utility.Utility;
 import it.unisa.integrazione.database.DBConnection;
 import it.unisa.integrazione.database.exception.ConnectionException;
@@ -113,18 +115,20 @@ public class AccountManager {
 
     
     public void updateProfile(String key, Account pAccount) throws SQLException, ConnectionException,
-            MissingDataException {
+            MissingDataException, NullAccountException, ProfileException, PasswordException, EmailException {
         try (Connection connect = DBConnection.getConnection()) {
-      
+            pAccount = testAccount(pAccount);
+
+            
             String sql = "UPDATE account"
                 + "set name = '"
-                + Utility.Replace(pAccount.getName())
+                + Utility.Replace(testProfileData(pAccount.getName()))
                 + "', surname = '"
-                + Utility.Replace(pAccount.getSurname())
+                + Utility.Replace(testProfileData(pAccount.getSurname()))
                 + "', password = '"
-                + pAccount.getPassword()
+                + testPassword(pAccount.getPassword())
                 + "', secondaryEmail = '"
-                + pAccount.getSecondaryEmail()
+                + testEmail(pAccount.getSecondaryEmail())
                 + "WHERE email = '"
                 + key + "'";
         
@@ -133,15 +137,15 @@ public class AccountManager {
         
         if(pAccount instanceof PhdStudent) {
             sql2 += " set telephone = '"
-                    + ((PhdStudent) pAccount).getTelephone()
+                    + testProfileData(((PhdStudent) pAccount).getTelephone())
                     + "', link =  '"
-                    + ((PhdStudent) pAccount).getLink()
+                    + testProfileData(((PhdStudent) pAccount).getLink())
                     + "', deparment = '"
-                    + ((PhdStudent) pAccount).getDepartment()
+                    + testProfileData(((PhdStudent) pAccount).getDepartment())
                     + "', researchInterest = '"
-                    + ((PhdStudent) pAccount).getResearchInterest()
-                    + "' WHERE fkAccount = "
-                    + ((PhdStudent)pAccount).getSecondaryEmail();
+                    + testProfileData(((PhdStudent) pAccount).getResearchInterest())
+                    + "' WHERE fkAccount = '"
+                    + testProfileData(((PhdStudent) pAccount).getSecondaryEmail());
         }
         
         if(pAccount instanceof Professor) {
@@ -169,16 +173,16 @@ public class AccountManager {
     
     
     public void changeType(Account pAccount, String newType)
-            throws SQLException, ConnectionException {
+            throws SQLException, ConnectionException, NullAccountException, EmailException {
         String demotionSql = "DELETE FROM " // cancella vecchie info
                  + pAccount.getTypeAccount()
                  + "WHERE fkAccount = '"
-                 + pAccount.getSecondaryEmail() + "'";
+                 + testEmail(pAccount.getSecondaryEmail()) + "'";
         
         String toProfessorSql = "INSERT INTO professor " //se nuovo professor
                 +"(fkAccount,link,department)"
                 + "VALUES ('"
-                + pAccount.getSecondaryEmail() + "',"
+                + testEmail(pAccount.getSecondaryEmail()) + "',"
                 +"'" + "null" + "',"
                 +"'" + "null" + "'";
         
@@ -186,7 +190,7 @@ public class AccountManager {
                 + "(fkAccount,telephone,link,deparment,researchInterest,fkCycle"
                 + "fkCurriculum, fkProfessor )" //nuovo dottorando
                 + "VALUES ('"
-                + pAccount.getSecondaryEmail() + "',"
+                + testEmail(pAccount.getSecondaryEmail()) + "',"
                 + "'" + "null" + "',"
                 + "'" + "null" + "',"
                 + "'" + "null" + "',"
@@ -202,6 +206,7 @@ public class AccountManager {
         Connection connect = null;
         try {
             connect = DBConnection.getConnection();
+            pAccount = testAccount(pAccount);
             
             if(newType.equals("phdstudent") && pAccount.getTypeAccount().equals("basic")) {
                 Utility.executeOperation(connect, toPhdSql); //diventa un dottorando
@@ -235,8 +240,9 @@ public class AccountManager {
         }
     
     //Dovrebbe inviare una mail, not tested
-    public void inviteUser(String email) throws SQLException {
-        String to = email;
+    public void inviteUser(String email) throws SQLException, EmailException {
+        String to;
+        to = testEmail(email);
         String from = "phdplatform@unisa.it";
         
         String host = "localhost"; //testing
@@ -246,6 +252,7 @@ public class AccountManager {
         Session mailSession = Session.getDefaultInstance(properties);
         
         try {
+            
             MimeMessage message = new MimeMessage(mailSession);
             message.setFrom(new InternetAddress(from));
             message.addRecipient(Message.RecipientType.TO,
@@ -258,6 +265,33 @@ public class AccountManager {
             ex.printStackTrace();
       }
     }
+    
+    public Account testAccount(Account account) throws NullAccountException {
+        if(account == null)
+            throw new NullAccountException();
+        return account;
+    }
+    
+    public String testEmail(String email) throws EmailException {
+        if(email.isEmpty() || email.length() > 50) 
+            throw new EmailException();
+        return email;
+    }
+    
+    public String testPassword(String pass) throws PasswordException {
+        if(pass.isEmpty() || pass.length() > 20)
+            throw new PasswordException();
+        return pass;
+    }
+    
+ 
+    public String testProfileData(String data) throws ProfileException {
+        if(data.isEmpty())
+            throw new ProfileException();
+        return data;
+    }
+
+
   }
 
 

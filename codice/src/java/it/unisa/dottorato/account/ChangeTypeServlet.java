@@ -5,6 +5,7 @@
  */
 package it.unisa.dottorato.account;
 
+import it.unisa.dottorato.autenticazione.EmailException;
 import it.unisa.integrazione.database.exception.ConnectionException;
 import java.io.IOException;
 import java.io.PrintWriter;
@@ -27,7 +28,7 @@ import javax.servlet.http.HttpServletResponse;
 public class ChangeTypeServlet extends HttpServlet {
     
     protected void processRequest(HttpServletRequest request, HttpServletResponse response)
-            throws ServletException, IOException, SQLException, ConnectionException {
+            throws ServletException, IOException, SQLException, ConnectionException, NullAccountException, EmailException {
         
         AccountManager manager = AccountManager.getInstance();
         ArrayList<Account> accounts = manager.getAccountList();
@@ -58,7 +59,13 @@ public class ChangeTypeServlet extends HttpServlet {
             throws ServletException, IOException {
         try {
             try {
-                processRequest(request, response);
+                try {
+                    processRequest(request, response);
+                } catch (NullAccountException ex) {
+                    Logger.getLogger(ChangeTypeServlet.class.getName()).log(Level.SEVERE, null, ex);
+                } catch (EmailException ex) {
+                    Logger.getLogger(ChangeTypeServlet.class.getName()).log(Level.SEVERE, null, ex);
+                }
             } catch (SQLException ex) {
                 Logger.getLogger(ChangeTypeServlet.class.getName()).log(Level.SEVERE, null, ex);
             }
@@ -83,6 +90,10 @@ public class ChangeTypeServlet extends HttpServlet {
         } catch (SQLException ex) {
             Logger.getLogger(ChangeTypeServlet.class.getName()).log(Level.SEVERE, null, ex);
         } catch (ConnectionException ex) {
+            Logger.getLogger(ChangeTypeServlet.class.getName()).log(Level.SEVERE, null, ex);
+        } catch (NullAccountException ex) {
+            Logger.getLogger(ChangeTypeServlet.class.getName()).log(Level.SEVERE, null, ex);
+        } catch (EmailException ex) {
             Logger.getLogger(ChangeTypeServlet.class.getName()).log(Level.SEVERE, null, ex);
         }
     }

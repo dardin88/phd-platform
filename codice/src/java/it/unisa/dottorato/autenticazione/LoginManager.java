@@ -6,6 +6,7 @@
 package it.unisa.dottorato.autenticazione;
 
 import it.unisa.dottorato.account.Account;
+import it.unisa.dottorato.account.NullAccountException;
 import it.unisa.dottorato.account.PhdStudent;
 import it.unisa.dottorato.account.Professor;
 import it.unisa.dottorato.utility.Utility;
@@ -34,10 +35,12 @@ public class LoginManager  {
 
     }
     
-    public Account login (String pUsername, String pPassword) throws SQLException, ConnectionException {
+    public Account login (String pUsername, String pPassword) throws SQLException,
+            ConnectionException, EmailException,PasswordException {
         Connection connection = null;
         Statement stmt = null;
         ResultSet rs = null;
+        ResultSet rt = null;
         
         String query = "select * from account where email='" + pUsername + "' and password='" + pPassword + "'";
         String queryPhd = "select * from phdstudent where fkAccount ='";
@@ -45,6 +48,9 @@ public class LoginManager  {
 
         try {
             connection = DBConnection.getConnection();
+            pUsername = testEmail(pUsername);
+            pPassword = testPassword(pPassword);
+
 
             if (connection == null) {
                 throw new ConnectionException();
@@ -57,7 +63,7 @@ public class LoginManager  {
                 switch(rs.getString("typeAccount")) {
                     case "phdstudent":
                        queryPhd += rs.getString("secondaryEmail") +"'";
-                       ResultSet rt = stmt.executeQuery(queryPhd);
+                       rt = stmt.executeQuery(queryPhd);
                        if(rt.next()) {
                            PhdStudent phd = new PhdStudent();
                            phd.setName(rs.getString("name"));
@@ -114,7 +120,7 @@ public class LoginManager  {
       session.removeAttribute("account");
   }
   
-  public void register(Account pAccount) throws SQLException {
+  public void register(Account pAccount) throws SQLException, NullAccountException {
         Connection connect = DBConnection.getConnection();
 
         String sql = "INSERT INTO account"
@@ -129,11 +135,30 @@ public class LoginManager  {
                 + pAccount.isAdmin() + ")";
 
         try {
+            pAccount = testAccount(pAccount);
             Utility.executeOperation(connect, sql);
            
         } finally {
             DBConnection.releaseConnection(connect);
         }
-    } 
+    }
+  
+    public Account testAccount(Account account) throws NullAccountException {
+        if(account == null)
+            throw new NullAccountException();
+        return account;
+    }
+    
+    public String testEmail(String email) throws EmailException {
+        if(email == null || email.length() > 50) 
+            throw new EmailException();
+        return email;
+    }
+    
+    public String testPassword(String pass) throws PasswordException {
+        if(pass == null || pass.length() > 20)
+            throw new PasswordException();
+        return pass;
+    }
   }
 

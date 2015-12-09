@@ -1,5 +1,6 @@
 package it.unisa.dottorato.account;
 
+import it.unisa.dottorato.autenticazione.EmailException;
 import java.io.IOException;
 import java.io.PrintWriter;
 import java.sql.SQLException;
@@ -29,7 +30,7 @@ public class InviteUserServlet extends HttpServlet {
      * @throws java.sql.SQLException
      */
     protected void processRequest(HttpServletRequest request, HttpServletResponse response)
-            throws ServletException, IOException, SQLException {
+            throws ServletException, IOException, SQLException, EmailException {
         response.setContentType("text/html;charset=UTF-8");
         PrintWriter out = response.getWriter();
         AccountManager manager = AccountManager.getInstance();
@@ -57,6 +58,8 @@ public class InviteUserServlet extends HttpServlet {
             processRequest(request, response);
         } catch (SQLException ex) {
             Logger.getLogger(InviteUserServlet.class.getName()).log(Level.SEVERE, null, ex);
+        } catch (EmailException ex) {
+            Logger.getLogger(InviteUserServlet.class.getName()).log(Level.SEVERE, null, ex);
         }
     }
 
@@ -74,6 +77,8 @@ public class InviteUserServlet extends HttpServlet {
         try {
             processRequest(request, response);
         } catch (SQLException ex) {
+            Logger.getLogger(InviteUserServlet.class.getName()).log(Level.SEVERE, null, ex);
+        } catch (EmailException ex) {
             Logger.getLogger(InviteUserServlet.class.getName()).log(Level.SEVERE, null, ex);
         }
     }
