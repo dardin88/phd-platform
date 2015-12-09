@@ -46,7 +46,7 @@ public class LoginServlet extends HttpServlet {
             LoginManager loginManager = LoginManager.getInstance();
 
             Account account = loginManager.login(username, password);
-            System.out.println(account.getTypeOfAccount());
+            System.out.println(account.getTypeAccount());
 
             if (account != null) {
                if (account instanceof Account) {
