@@ -223,7 +223,7 @@ public class CycleManager {
                 cord.setSurname(result.getString("surname"));
                 cord.setName(result.getString("name"));
                 cord.setPassword(result.getString("password"));
-                cord.setTypeOfAccount(result.getString("typeAccount"));
+                cord.setTypeAccount(result.getString("typeAccount"));
                 cord.setAdmin(result.getBoolean("isAdministrator"));
             }
             return cord;
