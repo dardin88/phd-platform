@@ -4,8 +4,6 @@
  * and open the template in the editor.
  */
 package it.unisa.dottorato.news;
-
-
 import it.unisa.integrazione.database.exception.ConnectionException;
 import java.io.IOException;
 import java.io.PrintWriter;
@@ -14,42 +12,60 @@ import java.util.logging.Level;
 import java.util.logging.Logger;
 import javax.servlet.ServletException;
 import javax.servlet.annotation.WebServlet;
+import javax.servlet.http.HttpServlet;
 import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpServletResponse;
 import org.json.JSONException;
 import org.json.JSONObject;
-
 /**
  *
  * @author Rembor
  */
-@WebServlet(name = "ViewNewsServlet", urlPatterns = {"/ViewNewsServlet"})
-public class ViewNewsServlet {
-     protected void processRequest(HttpServletRequest request, HttpServletResponse response)
-            throws ServletException, IOException, MissingDataEccezione, ConnectionException {
-         
-              response.setContentType("text/html;charset=UTF-8");
+
+@WebServlet(name = "GetNewsbyId", urlPatterns = {"/GetNewsbyId"})
+public class GetNewsByIdServlet extends HttpServlet{
+    /**
+     * Processes requests for both HTTP <code>GET</code> and <code>POST</code>
+     * methods.
+     *
+     * @param request servlet request
+     * @param response servlet response
+     * @throws ServletException if a servlet-specific error occurs
+     * @throws IOException if an I/O error occurs
+     */
+    protected void processRequest(HttpServletRequest request, HttpServletResponse response)
+            throws ServletException, IOException {
+        response.setContentType("text/html;charset=UTF-8");
         try (PrintWriter out = response.getWriter()) {
-            int newsID = Integer.parseInt(request.getParameter("idNews"));
+            int id = Integer.parseInt(request.getParameter("idNews"));
             JSONObject result = new JSONObject();
             try {
-                News avviso = NewsManager.getInstance().getNewsByNumber(newsID);
+               News avviso = NewsManager.getInstance().getNewsById(id);
                 result.put("idNews", avviso.getId());
                 result.put("title", avviso.getTitle());
                 result.put("description", avviso.getDescription());
+                
                 out.write(result.toString());
             } catch (SQLException | JSONException ex) {
-                Logger.getLogger(ViewNewsServlet.class.getName()).log(Level.SEVERE, null, ex);
-            }     catch (ExceptionErroreIdNews ex) {
-                      Logger.getLogger(ViewNewsServlet.class.getName()).log(Level.SEVERE, null, ex);
-                  }
+                Logger.getLogger(GetNewsByIdServlet.class.getName()).log(Level.SEVERE, null, ex);
+            } catch (ConnectionException ex) {
+                Logger.getLogger(GetNewsByIdServlet.class.getName()).log(Level.SEVERE, null, ex);
+            }
         }
-     
-     
-     
-     }
+    }
+
+    // <editor-fold defaultstate="collapsed" desc="HttpServlet methods. Click on the + sign on the left to edit the code.">
+    /**
+     * Handles the HTTP <code>GET</code> method.
+     *
+     * @param request servlet request
+     * @param response servlet response
+     * @throws ServletException if a servlet-specific error occurs
+     * @throws IOException if an I/O error occurs
+     */
+    @Override
     protected void doGet(HttpServletRequest request, HttpServletResponse response)
-            throws ServletException, IOException, ConnectionException, MissingDataEccezione {
+            throws ServletException, IOException {
         processRequest(request, response);
     }
 
@@ -61,9 +77,9 @@ public class ViewNewsServlet {
      * @throws ServletException if a servlet-specific error occurs
      * @throws IOException if an I/O error occurs
      */
-   
+    @Override
     protected void doPost(HttpServletRequest request, HttpServletResponse response)
-            throws ServletException, IOException, MissingDataEccezione, ConnectionException {
+            throws ServletException, IOException {
         processRequest(request, response);
     }
 
@@ -72,11 +88,10 @@ public class ViewNewsServlet {
      *
      * @return a String containing servlet description
      */
-   
+    @Override
     public String getServletInfo() {
         return "Short description";
     }// </editor-fold>
+
     
-     
-     
 }

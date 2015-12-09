@@ -22,7 +22,7 @@ import org.json.JSONObject;
  *
  * @author Giuseppe Picciocchi
  */
-@WebServlet(name = "DeleteNewsServlet", urlPatterns = {"/DeleteNewsServlet"})
+@WebServlet(name = "DeleteNews", urlPatterns = {"/DeleteNews"})
 public class DeleteNewsServlet extends HttpServlet {
 
     /**
@@ -35,7 +35,7 @@ public class DeleteNewsServlet extends HttpServlet {
      * @throws IOException if an I/O error occurs
      */
    protected void processRequest(HttpServletRequest request, HttpServletResponse response)
-            throws ServletException, IOException, ExceptionErroreIdNews {
+            throws ServletException, IOException {
         response.setContentType("text/html;charset=UTF-8");
         PrintWriter out = response.getWriter();
         JSONObject result = new JSONObject();
@@ -59,11 +59,9 @@ public class DeleteNewsServlet extends HttpServlet {
     @Override
     protected void doGet(HttpServletRequest request, HttpServletResponse response)
             throws ServletException, IOException {
-       try {
+      
            processRequest(request, response);
-       } catch (ExceptionErroreIdNews ex) {
-           Logger.getLogger(DeleteNewsServlet.class.getName()).log(Level.SEVERE, null, ex);
-       }
+      
     }
 
     /**
@@ -77,11 +75,9 @@ public class DeleteNewsServlet extends HttpServlet {
     @Override
     protected void doPost(HttpServletRequest request, HttpServletResponse response)
             throws ServletException, IOException {
-       try {
+       
            processRequest(request, response);
-       } catch (ExceptionErroreIdNews ex) {
-           Logger.getLogger(DeleteNewsServlet.class.getName()).log(Level.SEVERE, null, ex);
-       }
+       
     }
 
     /**

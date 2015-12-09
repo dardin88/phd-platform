@@ -26,7 +26,7 @@ import org.json.JSONObject;
  *
  * @author Giuseppe Picciocchi 
  */
-@WebServlet(name = "InsertNewsServlet", urlPatterns = {"/InsertNewsServlet"})
+@WebServlet(name = "InsertNews", urlPatterns = {"/InsertNews"})
 public class InsertNewsServlet extends HttpServlet {
 
     /**
@@ -41,39 +41,39 @@ public class InsertNewsServlet extends HttpServlet {
     protected void processRequest(HttpServletRequest request, HttpServletResponse response)
             throws ServletException, IOException {
 
-        JSONObject result = new JSONObject();
-        PrintWriter out = response.getWriter();
-
-        try {
+         try {
             response.setContentType("text/html;charset=UTF-8");
             
-            //conserviamo gli attributi da settare nelle variabili
-            //String idNews = request.getParameter("idNews"); non serve  il  manager se ne occupa di inserire l'id delle news
-            String title = request.getParameter("title");
-            String description = request.getParameter("description");
+            PrintWriter out = response.getWriter();
+            JSONObject result = new JSONObject();
             
-            HttpSession session = request.getSession();
-            Account loggedPerson = (Account) session.getAttribute("account");
+            int number = Integer.parseInt( request.getParameter("idNews"));
+            String  title = request.getParameter("title");
+            String description= request.getParameter("description");
+         
             
-            News news = new News();
+            News anews = new News();
+            anews.setId(number);
+             anews.setTitle(title);
+            anews.setDescription(description);
+           
             
-            //inseriamo nell'oggetto corso i valori passati come parametri precedentemente
-            news.getId();// il manager se ne occupa
-            news.setTitle(title);
-            news.setDescription(description);
             
-            //inseriamo l'oggetto nella gestione calendario
-            NewsManager.getInstance().insertNews(news);
+            result.put("result", true);
             
-            out.println("<script type=\"text/javascript\">");
-            out.println("alert('La news è stata inserita');");
-            out.println("location='collaborationActivity.jsp';"); // da modificare
-            out.println("</script>");
+            try {
+                NewsManager.getInstance().insertNews(anews);
+            } catch (SQLException ex) {
+                result.put("result", false);
+                Logger.getLogger(InsertNewsServlet.class.getName()).log(Level.SEVERE, null, ex);
+            }
             
-        } catch (SQLException ex) {
+            out.write(result.toString());
+            
+        } catch (JSONException ex) {
             Logger.getLogger(InsertNewsServlet.class.getName()).log(Level.SEVERE, null, ex);
-            
-        } 
+        }
+
     }
 
     // <editor-fold defaultstate="collapsed" desc="HttpServlet methods. Click on the + sign on the left to edit the code.">

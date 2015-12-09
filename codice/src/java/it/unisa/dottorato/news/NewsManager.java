@@ -70,9 +70,7 @@ private static final String TABLE_News = "news";
      */
     public void insertNews(News anews) throws SQLException{
         Connection connect = DBConnection.getConnection();
-                                                             
-      
-        try {
+     try {
              String tSql = "INSERT INTO "
                     + NewsManager.TABLE_News
                     + " (id,title,description,)"
@@ -102,7 +100,7 @@ private static final String TABLE_News = "news";
         }
     }
 
-    public News getNewsByNumber(int aidnews) throws SQLException, ConnectionException{
+    public News getNewsById(int aidnews) throws SQLException, ConnectionException{
         Statement stmt = null;
         ResultSet rs = null;
         Connection connection = null;
