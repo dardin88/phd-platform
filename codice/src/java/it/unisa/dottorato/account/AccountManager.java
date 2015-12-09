@@ -73,9 +73,9 @@ public class AccountManager {
               + "typeAccount ='" + type + "'";
       try {
           connect = DBConnection.getConnection();
-          accounts = new ArrayList<Account>();
+          accounts = new ArrayList<>();
           if(search.isEmpty()) {
-            ResultSet result =  Utility.queryOperation(connect, sql);
+            ResultSet result =  Utility.queryOperation(connect, sql2);
             Account temp = new Account();
             while(result.next()) {
              temp.setName(result.getString("name"));
@@ -195,24 +195,37 @@ public class AccountManager {
                 + "'" + "null" + "',"
                 + "'" + "null" + "'";
         
+        String changeTypeSql = "UPDATE account" //aggiorna il tipo
+                +"set typeAccount = '" + newType
+                + "' WHERE email = '" + pAccount.getEmail();
+        
         Connection connect = null;
         try {
             connect = DBConnection.getConnection();
             
-            if(newType.equals("phdstudent") && pAccount.getTypeOfAccount().equals("basic"))
+            if(newType.equals("phdstudent") && pAccount.getTypeOfAccount().equals("basic")) {
                 Utility.executeOperation(connect, toPhdSql); //diventa un dottorando
+                Utility.executeOperation(connect, changeTypeSql); //cambia tipo in account
+            }
             else if(newType.equals("phdstudent") && pAccount.getTypeOfAccount().equals("professor")) {
                 Utility.executeOperation(connect, demotionSql); //perde info phd
                 Utility.executeOperation(connect, toPhdSql); //nuove info prof
+                Utility.executeOperation(connect, changeTypeSql);
             }
-            else if(newType.equals("professor") && pAccount.getTypeOfAccount().equals("basic"))
+            else if(newType.equals("professor") && pAccount.getTypeOfAccount().equals("basic")) {
                 Utility.executeOperation(connect, toProfessorSql);
+                Utility.executeOperation(connect, changeTypeSql);
+            }
             else if(newType.equals("professor") && pAccount.getTypeOfAccount().equals("phdstudent")) {
                 Utility.executeOperation(connect, demotionSql);
                 Utility.executeOperation(connect, toProfessorSql);
+                Utility.executeOperation(connect, changeTypeSql);
             }
-            else if(newType.equals("basic"))
+            else if(newType.equals("basic")) {
                 Utility.executeOperation(connect, demotionSql);
+                Utility.executeOperation(connect, changeTypeSql);
+            }
+            
             
             
         } finally {

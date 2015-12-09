@@ -8,8 +8,6 @@ package it.unisa.dottorato.autenticazione;
 import it.unisa.dottorato.account.Professor;
 import it.unisa.dottorato.account.PhdStudent;
 import it.unisa.dottorato.account.Account;
-import it.unisa.dottorato.account.AccountManager;
-import it.unisa.dottorato.autenticazione.*;
 import it.unisa.integrazione.database.exception.ConnectionException;
 import java.io.IOException;
 import java.io.PrintWriter;
@@ -48,26 +46,26 @@ public class LoginServlet extends HttpServlet {
             LoginManager loginManager = LoginManager.getInstance();
 
             Account account = loginManager.login(username, password);
+            System.out.println(account.getTypeOfAccount());
 
             if (account != null) {
                if (account instanceof Account) {
                    session.removeAttribute("loginError");
                    session.setAttribute("account",account);
-                   response.sendRedirect("indexLog.jsp");
+                   response.sendRedirect("index.jsp");
                }
                if (account instanceof PhdStudent) {
                     session.removeAttribute("loginError");
                     session.setAttribute("account", account);
-                    response.sendRedirect("dottorato/index.jsp");
-                } else if (account instanceof Professor) {
+                    response.sendRedirect("index.jsp");
+                }
+                if (account instanceof Professor) {
                     session.removeAttribute("loginError");
                     session.setAttribute("account", account);
-                    response.sendRedirect("indexLog.jsp");    
-                } else {
-                    session.setAttribute("loginError", "error");
-                    response.sendRedirect("login.jsp");
+                    response.sendRedirect("index.jsp");    
                 }
-                } else {
+            }
+                 else {
                     session.setAttribute("loginError", "error");
                     response.sendRedirect("login.jsp");
                 }
