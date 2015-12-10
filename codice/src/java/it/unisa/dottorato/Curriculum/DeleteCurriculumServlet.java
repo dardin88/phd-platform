@@ -1,6 +1,7 @@
 package it.unisa.dottorato.Curriculum;
 
-
+import it.unisa.dottorato.exception.NameException;
+import it.unisa.dottorato.exception.DescriptionException;
 import java.io.IOException;
 import java.io.PrintWriter;
 import java.sql.SQLException;
@@ -32,7 +33,7 @@ public class DeleteCurriculumServlet extends HttpServlet {
      * @throws IOException if an I/O error occurs
      */
     protected void processRequest(HttpServletRequest request, HttpServletResponse response)
-            throws ServletException, IOException {
+            throws ServletException, IOException, NameException, DescriptionException {
         response.setContentType("text/html;charset=UTF-8");
 
         PrintWriter out = response.getWriter();
@@ -72,7 +73,13 @@ public class DeleteCurriculumServlet extends HttpServlet {
     @Override
     protected void doGet(HttpServletRequest request, HttpServletResponse response)
             throws ServletException, IOException {
-        processRequest(request, response);
+         try {
+            processRequest(request, response);
+        } catch (DescriptionException ex) {
+            Logger.getLogger(DeleteCurriculumServlet.class.getName()).log(Level.SEVERE, null, ex);
+        } catch (NameException ex) {
+            Logger.getLogger(DeleteCurriculumServlet.class.getName()).log(Level.SEVERE, null, ex);
+        }
     }
 
     /**
@@ -86,7 +93,13 @@ public class DeleteCurriculumServlet extends HttpServlet {
     @Override
     protected void doPost(HttpServletRequest request, HttpServletResponse response)
             throws ServletException, IOException {
-        processRequest(request, response);
+         try {
+            processRequest(request, response);
+        } catch (DescriptionException ex) {
+            Logger.getLogger(DeleteCurriculumServlet.class.getName()).log(Level.SEVERE, null, ex);
+        } catch (NameException ex) {
+            Logger.getLogger(DeleteCurriculumServlet.class.getName()).log(Level.SEVERE, null, ex);
+        }
     }
 
     /**
