@@ -1,5 +1,7 @@
 package it.unisa.dottorato.Curriculum;
 
+import it.unisa.dottorato.exception.DescriptionException;
+import it.unisa.dottorato.exception.NameException;
 import it.unisa.dottorato.utility.Utility;
 import it.unisa.integrazione.database.DBConnection;
 import java.io.IOException;
@@ -8,16 +10,16 @@ import java.sql.ResultSet;
 import java.sql.SQLException;
 import java.util.ArrayList;
 
-/** Classe per la gestione dei curriculum
+/**
  *
  * @author Tommaso Minichiello
  */
 public class CurriculumManager {
 
-    /** I nomi delle tabelle
+    /**
+     * I nomi delle tabelle
      */
     private static final String TABLE_CURRICULUM = "curriculum";
-    private static final String TABLE_CURRICULUMCIC = "curriculumcic";
 
 
     //	 istanza della classe
@@ -51,12 +53,13 @@ public class CurriculumManager {
      * Metodo della classe incaricato dell'inserimento di una nuova entita'
      * nella tabella phdCurriculum del database.
      *
-     * @param pCurriculum il nuovo curriculum
+     * @param pCurriculum
      * @throws java.lang.ClassNotFoundException
      * @throws java.sql.SQLException
      * @throws java.io.IOException
      */
-    public synchronized void insert(Curriculum pCurriculum) throws ClassNotFoundException, SQLException, IOException {
+    public synchronized void insert(Curriculum pCurriculum) 
+            throws ClassNotFoundException, SQLException, IOException , NameException, DescriptionException {
         Connection connect = null;
         try {
             // Otteniamo una Connessione al DataBase
@@ -70,9 +73,9 @@ public class CurriculumManager {
                     + CurriculumManager.TABLE_CURRICULUM
                     + " (name, description)"
                     + " VALUES ('"
-                    + Utility.Replace(pCurriculum.getName())
+                    + testName(pCurriculum.getName())
                     + "','"
-                    + Utility.Replace(pCurriculum.getDescription())
+                    + testDescription(pCurriculum.getDescription())
                     + "')";
 
             //Inviamo la Query al DataBase
@@ -88,13 +91,15 @@ public class CurriculumManager {
      * Metodo della classe incaricato della modifica di un'entita' nella tabella
      * phdCurriculum del database.
      *
-     * @param oldNameCurriculum nome del curriculum da modificare
-     * @param pCurriculum il nuovo curriculum
+     * @param oldNameCurriculum
+     * @param pCurriculum
      * @throws java.lang.ClassNotFoundException
      * @throws java.sql.SQLException
      * @throws java.io.IOException
      */
-    public synchronized void update(String oldNameCurriculum, Curriculum pCurriculum) throws ClassNotFoundException, SQLException, IOException {
+    public synchronized void update(String oldNameCurriculum, Curriculum pCurriculum) 
+            throws ClassNotFoundException, SQLException, IOException, NameException, DescriptionException
+        {
         Connection connect = null;
         try {
             // Otteniamo una Connessione al DataBase
@@ -107,11 +112,11 @@ public class CurriculumManager {
             String tSql = "UPDATE "
                     + CurriculumManager.TABLE_CURRICULUM
                     + " set name = '"
-                    + Utility.Replace(pCurriculum.getName())
+                    + testName(pCurriculum.getName())
                     + "', description = '"
-                    + Utility.Replace(pCurriculum.getDescription())
+                    + testDescription(pCurriculum.getDescription())
                     + "' WHERE name = '"
-                    + oldNameCurriculum + "'";
+                    + testName(oldNameCurriculum) + "'";
             System.out.println(tSql);
             //Inviamo la Query al DataBase
             Utility.executeOperation(connect, tSql);
@@ -123,15 +128,16 @@ public class CurriculumManager {
     }
 
     /**
-     * Metodo della classe incaricato della cancellazione di un'entita' nella
+     * Metodo della classe incaricato della cancellazopme di un'entita' nella
      * tabella Curriculum del database.
      *
-     * @param CurriculumName nome del curriculum da cancellare
+     * @param CurriculumName 
      * @throws java.lang.ClassNotFoundException
      * @throws java.sql.SQLException
      * @throws java.io.IOException
      */
-    public synchronized void delete(String CurriculumName) throws ClassNotFoundException, SQLException, IOException {
+    public synchronized void delete(String CurriculumName) 
+            throws ClassNotFoundException, SQLException, IOException, NameException {
         Connection connect = null;
         try {
             // Otteniamo una Connessione al DataBase
@@ -144,7 +150,7 @@ public class CurriculumManager {
             String tSql = "DELETE FROM "
                     + CurriculumManager.TABLE_CURRICULUM
                     + " WHERE name = '"
-                    + Utility.Replace(CurriculumName) + "'";
+                    + testName(CurriculumName) + "'";
 
             //Inviamo la Query al DataBase
             Utility.executeOperation(connect, tSql);
@@ -154,60 +160,11 @@ public class CurriculumManager {
             DBConnection.releaseConnection(connect);
         }
     }
-
-    /**
-     * Metodo della classe incaricato della ricerca delle informazioni di un
-     * curriculum relativo ad un ciclo.
-     *
-     * @param number numero del ciclo
-     * @return i curriculum del ciclo con il numero <code>number</code>
-     * @throws java.lang.ClassNotFoundException
-     * @throws java.sql.SQLException
-     * @throws java.io.IOException
-     */
-    public synchronized ArrayList<String> getCurriculumNameByCycle(int number) throws ClassNotFoundException, SQLException, IOException {
-        Connection connect = null;
-        try {
-            ArrayList<String> curriculum = new ArrayList<>();
-            // Otteniamo una Connessione al DataBase
-            connect = DBConnection.getConnection();
-
-            /*
-             * Prepariamo la stringa SQL per modificare un record 
-             * nella tabella phdCycle
-             */
-            String tSql = "SELECT name FROM "
-                    + CurriculumManager.TABLE_CURRICULUM
-                    + "  JOIN "
-                    + CurriculumManager.TABLE_CURRICULUMCIC
-                    + " ON "
-                    + CurriculumManager.TABLE_CURRICULUM
-                    + ".name = "
-                    + CurriculumManager.TABLE_CURRICULUMCIC
-                    + ".fkCurriculum "
-                    + " WHERE fkCycle = "
-                    + number;
-
-            //Inviamo la Query al DataBase
-            ResultSet result = Utility.queryOperation(connect, tSql);
-
-            while (result.next()) {
-                curriculum.add(result.getString("name"));
-            }
-
-            return curriculum;
-
-        } finally {
-            DBConnection.releaseConnection(connect);
-        }
-    }
-    
    
     /**
-     * Metodo della classe incaricato di ottenere un array list di nomi dei 
-     * curriculum esistenti.
+     * Metodo della classe incaricato della ricerca di un curriculum esistente.
      *
-     * @return lista dei nomi dei curriculum esistenti
+     * @return
      * @throws java.lang.ClassNotFoundException
      * @throws java.sql.SQLException
      * @throws java.io.IOException
@@ -245,13 +202,14 @@ public class CurriculumManager {
      * Metodo della classe incaricato della ricerca delle informazioni di un
      * curriculum contenuto nella tabella Curriculum.
      *
-     * @param CurriculumName il nome del curriculum da ricercare
-     * @return restituisce il curriculum se trovato, altrimenti lancia un eccezione
+     * @param CurriculumName 
+     * @return
      * @throws java.lang.ClassNotFoundException
      * @throws java.sql.SQLException
      * @throws java.io.IOException
      */
-    public synchronized Curriculum getCurriculumByName(String CurriculumName) throws ClassNotFoundException, SQLException, IOException {
+    public synchronized Curriculum getCurriculumByName(String CurriculumName) 
+            throws ClassNotFoundException, SQLException, IOException, NameException {
         Connection connect = null;
         try {
             Curriculum curriculum = new Curriculum();
@@ -265,7 +223,7 @@ public class CurriculumManager {
             String tSql = "SELECT * FROM "
                     + CurriculumManager.TABLE_CURRICULUM
                     + " WHERE name = '"
-                    + CurriculumName + "'";
+                    + testName(CurriculumName) + "'";
             //Inviamo la Query al DataBase
             ResultSet result = Utility.queryOperation(connect, tSql);
 
@@ -280,4 +238,17 @@ public class CurriculumManager {
             DBConnection.releaseConnection(connect);
         }
     }
+    
+    public String testName(String name) throws NameException {
+        if(name.isEmpty() || name.length() > 100) 
+            throw new NameException();
+        return name;
+    }
+    
+    public String testDescription(String description) throws DescriptionException {
+        if(description.isEmpty() || description.length() > 65536) 
+            throw new DescriptionException("Descrizione Curriculum errata.");
+        return description;
+    }
+    
 }

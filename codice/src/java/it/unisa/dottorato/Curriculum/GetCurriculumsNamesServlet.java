@@ -16,8 +16,7 @@ import org.json.JSONException;
 import org.json.JSONObject;
 
 
-/**Servlet incaricata ad effettuare la richiesta di ricerca di tutti i curriculum
- * esistenti
+/**
  *
  * @author Tommaso Minichiello
  */
@@ -44,7 +43,7 @@ public class GetCurriculumsNamesServlet extends HttpServlet {
                 result.put("curriculumNames", resultArray);
                 out.write(result.toString());
             } catch (ClassNotFoundException | SQLException | JSONException ex) {
-                Logger.getLogger(GetCurriculumsNamesByCycleServlet.class.getName()).log(Level.SEVERE, null, ex);
+                Logger.getLogger(GetCurriculumsNamesServlet.class.getName()).log(Level.SEVERE, null, ex);
             }
         }
     }
