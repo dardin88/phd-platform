@@ -70,15 +70,7 @@ public class PresenceManager {
         }
     }
     
-  public synchronized boolean getPermission() throws ExceptionPermissionDenied{
-     this.checkPermission=new Presence();
-     boolean permission= this.checkPermission.isIsPresent();
-      if (permission=false){
-          throw new ExceptionPermissionDenied();
-          
-      }
-      else return true;
-      }
+  
 
   
   public synchronized void ChangePermission(boolean permission)  {
@@ -92,7 +84,7 @@ public class PresenceManager {
        
   }
    
-   //si fara con una combo box
+  
    public synchronized ArrayList<String> getPresenceCourse() throws ClassNotFoundException, SQLException, IOException {
         Connection connect = null;
         try {
@@ -159,9 +151,10 @@ public class PresenceManager {
             DBConnection.releaseConnection(connect);
         }
    }
-   public synchronized void modifyPresence(boolean signature,Presence old) throws SQLException {
+   public synchronized void modifyPresence(boolean signature,Presence old) throws SQLException, ExceptionPermissionDenied {
        try (Connection connect = DBConnection.getConnection()) {
-      
+          
+      getPermission();
      /*
              * Prepariamo la stringa SQL per inserire un nuovo record 
              * nella tabella presenze
@@ -184,5 +177,13 @@ public class PresenceManager {
         }
    
    }
-   
+   public synchronized void getPermission() throws ExceptionPermissionDenied{
+     this.checkPermission=new Presence();
+     boolean permission= this.checkPermission.isSetPermission();
+      if (permission=false){
+          throw new ExceptionPermissionDenied();
+          
+      }
+     
+      }
 }
