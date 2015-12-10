@@ -295,7 +295,7 @@ String query = "select * from "
     }  
     
     public String testTitle(String title) throws TitleException {
-        if(title.equals(null)&&title.length()>20){
+        if(title.equals(null)&&title.length()>50){
             
             throw new TitleException("il titolo e' sbagliato"); 
         }

@@ -496,7 +496,7 @@ public class CalendarManager {
         return id;
     }  
        public String testDescription(String description) throws DescriptionException{
-         if(description.equals(null)&& description.length()<250){
+         if(description.equals(null)&& description.length()>250){
             
             throw new DescriptionException("la descrizione e' sbagliata"); 
         }
@@ -504,7 +504,7 @@ public class CalendarManager {
     }
 
     private String testDescriptionLesson(String description) throws DescriptionException {
-        if(description.equals(null)&& description.length()<30){
+        if(description.equals(null)){
             
             throw new DescriptionException("la descrizione e' sbagliata"); 
         }
@@ -518,7 +518,18 @@ public class CalendarManager {
         }
          return description;
     }
-     /*public String testData(Date data) throws DescriptionException{
+     /*non trovo un modo coretto di controllare le date il metodo dovrebbe lanciare un errore
+    se la data inserita è prima del giorno in cui si crea il corso|Lesson|Seminar
+    public String testStartData(Date data) throws DescriptionException{
+         if(data.equals(null)&&data.length()>5){
+            
+            throw new DescriptionException("la data e' sbagliata"); 
+        }
+         return data;
+    }*/
+     /*non trovo un modo coretto di controllare le date il metodo dovrebbe lanciare un errore
+    se la data inserita è dopo il giorno in cui si passa La Start Sata
+    public String testEndData(Date data) throws DescriptionException{
          if(data.equals(null)&&data.length()>5){
             
             throw new DescriptionException("la data e' sbagliata"); 
