@@ -53,7 +53,7 @@ public class ModifyPresenceServlet extends HttpServlet{
    
          
 
-         catch (JSONException ex) {
+         catch (JSONException | ExceptionPermissionDenied ex) {
             Logger.getLogger(ModifyPresenceServlet.class.getName()).log(Level.SEVERE, null, ex);
         } 
            finally {
