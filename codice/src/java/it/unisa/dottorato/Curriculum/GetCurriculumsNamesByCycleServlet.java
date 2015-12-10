@@ -1,9 +1,9 @@
 package it.unisa.dottorato.Curriculum;
 
-
 import java.io.IOException;
 import java.io.PrintWriter;
 import java.sql.SQLException;
+import java.util.ArrayList;
 import java.util.logging.Level;
 import java.util.logging.Logger;
 import javax.servlet.ServletException;
@@ -11,17 +11,18 @@ import javax.servlet.annotation.WebServlet;
 import javax.servlet.http.HttpServlet;
 import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpServletResponse;
+import org.json.JSONArray;
 import org.json.JSONException;
 import org.json.JSONObject;
 
 
-/** Servlet incaricaricata ad effettuare la richiesta di cancellazione di un 
- * curriculum dato il nome
+/** Servlet incaricata ad effettuare la richiesta di ricerca dei curriculum
+ * dato il numero di un ciclo
  *
  * @author Tommaso Minichiello
  */
-@WebServlet(name = "DeleteCurriculum", urlPatterns = {"/dottorato/DeleteCurriculum"})
-public class DeleteCurriculumServlet extends HttpServlet {
+@WebServlet(name = "GetCurriculumsNamesByCycle", urlPatterns = {"/dottorato/GetCurriculumsNamesByCycle"})
+public class GetCurriculumsNamesByCycleServlet extends HttpServlet {
 
     /**
      * Processes requests for both HTTP <code>GET</code> and <code>POST</code>
@@ -35,30 +36,18 @@ public class DeleteCurriculumServlet extends HttpServlet {
     protected void processRequest(HttpServletRequest request, HttpServletResponse response)
             throws ServletException, IOException {
         response.setContentType("text/html;charset=UTF-8");
-
-        PrintWriter out = response.getWriter();
-        try {
-
+        try (PrintWriter out = response.getWriter()) {
+            int number = Integer.parseInt(request.getParameter("number"));
             JSONObject result = new JSONObject();
-            String nameCurriculum = request.getParameter("nameCurriculum");
-            
-            result.put("result", true);
-
             try {
-                CurriculumManager.getInstance().delete(nameCurriculum);
-            } catch (ClassNotFoundException | SQLException ex) {
-                result.put("result", false);
-                Logger.getLogger(DeleteCurriculumServlet.class.getName()).log(Level.SEVERE, null, ex);
+                ArrayList<String> curriculum = CurriculumManager.getInstance().getCurriculumNameByCycle(number);
+                JSONArray resultArray = new JSONArray(curriculum);
+                result.put("curriculumNames", resultArray);
+                out.write(result.toString());
+            } catch (ClassNotFoundException | SQLException | JSONException ex) {
+                Logger.getLogger(GetCurriculumsNamesByCycleServlet.class.getName()).log(Level.SEVERE, null, ex);
             }
-            
-            out.write(result.toString());
-
-        } catch (JSONException ex) {
-            Logger.getLogger(DeleteCurriculumServlet.class.getName()).log(Level.SEVERE, null, ex);
-        }finally {
-            out.close();
         }
-
     }
 
     // <editor-fold defaultstate="collapsed" desc="HttpServlet methods. Click on the + sign on the left to edit the code.">
