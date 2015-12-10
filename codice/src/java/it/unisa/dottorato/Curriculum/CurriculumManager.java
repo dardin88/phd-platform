@@ -1,6 +1,7 @@
 package it.unisa.dottorato.Curriculum;
 
 import it.unisa.dottorato.exception.DescriptionException;
+import it.unisa.dottorato.exception.NameException;
 import it.unisa.dottorato.utility.Utility;
 import it.unisa.integrazione.database.DBConnection;
 import java.io.IOException;
@@ -245,7 +246,7 @@ public class CurriculumManager {
     }
     
     public String testDescription(String description) throws DescriptionException {
-        if(description.isEmpty() || description.length() > 100) 
+        if(description.isEmpty() || description.length() > 65536) 
             throw new DescriptionException("Descrizione Curriculum errata.");
         return description;
     }
