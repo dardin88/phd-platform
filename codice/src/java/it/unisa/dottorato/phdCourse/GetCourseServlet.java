@@ -5,6 +5,7 @@
  */
 package it.unisa.dottorato.phdCourse;
 
+import it.unisa.dottorato.exception.IdException;
 import java.io.IOException;
 import java.io.PrintWriter;
 import java.sql.SQLException;
@@ -50,7 +51,7 @@ public class GetCourseServlet extends HttpServlet {
                 result.put("startDate", c.getStartDate());
                 result.put("endDate", c.getEndDate());
                 out.write(result.toString());
-            } catch (ClassNotFoundException | SQLException | JSONException ex) {
+            } catch (ClassNotFoundException | SQLException | JSONException | IdException ex) {
                 Logger.getLogger(GetCourseServlet.class.getName()).log(Level.SEVERE, null, ex);
             }
         }

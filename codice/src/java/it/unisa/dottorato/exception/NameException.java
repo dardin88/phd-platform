@@ -8,7 +8,9 @@ package it.unisa.dottorato.exception;
 /**
  *
  * @author Rembor
- * poichè la madonna è bastarda ci sta pure nella gestione account, curriculum,seminario
+ * poichè la madonna è bastarda ci sta pure nella gestione account, curriculum,seminario, se non leggete i
+ * porco dio di commit poi elisa cazzia a me che prendo iniziative e mananggia la madonna mi sale il fascismo
+ * like a gesù cristo di muhamed
  */
 public class NameException extends Exception{
     

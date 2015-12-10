@@ -5,6 +5,9 @@
  */
 package it.unisa.dottorato.phdCourse;
 
+import it.unisa.dottorato.exception.DescriptionException;
+import it.unisa.dottorato.exception.IdException;
+import it.unisa.dottorato.exception.NameException;
 import it.unisa.dottorato.utility.Utility;
 import it.unisa.integrazione.database.DBConnection;
 //import it.unisa.integrazione.model.Person;
@@ -14,6 +17,8 @@ import java.sql.ResultSet;
 import java.sql.SQLException;
 import java.util.ArrayList;
 import java.util.List;
+import java.util.logging.Level;
+import java.util.logging.Logger;
 
 /**
  *
@@ -67,15 +72,15 @@ public class CalendarManager {
                     + CalendarManager.TABLE_COURSE
                     + " ( idCourse, fkCurriculum, fkCycle, name,description, startDate,endDate)"
                     + " VALUES ('"
-                    + pCourse.getIdCourse()
+                    + testid(pCourse.getIdCourse())
                     + "','"
                     + Utility.Replace(pCourse.getCurriculum())
                     + "','"
                     + pCourse.getCycle()
                     + "','"
-                    + Utility.Replace(pCourse.getName())
+                    + Utility.Replace(testNome(pCourse.getName()))
                      + "','"
-                    + Utility.Replace(pCourse.getDescription()) 
+                    + Utility.Replace(testDescription(pCourse.getDescription())) 
                     + "','"
                     + pCourse.getStartDate()
                     + "','"
@@ -87,6 +92,8 @@ public class CalendarManager {
             Utility.executeOperation(connect, tSql);
 
             connect.commit();
+        } catch (IdException | DescriptionException | NameException ex) {
+            Logger.getLogger(CalendarManager.class.getName()).log(Level.SEVERE, null, ex);
         }
     }
     
@@ -102,7 +109,7 @@ public class CalendarManager {
                     + CalendarManager.TABLE_LESSON
                     + " ( idLesson, date, startTime, endTime, name, classroom, desription, cycle, curriculum, fkCourse)"
                     + " VALUES ('"
-                    + pLesson.getIdLesson() // int
+                    + testid(pLesson.getIdLesson()) // int
                     + "','"
                     + pLesson.getData() // Date
                     + "','"
@@ -110,11 +117,11 @@ public class CalendarManager {
                     + "','"
                     + pLesson.getEndTime() // int 
                     + "','"
-                    + Utility.Replace(pLesson.getName()) // String
+                    + Utility.Replace(testNomeLesson(pLesson.getName())) // String
                     + "','"
                     + Utility.Replace(pLesson.getClassroom()) // String
                       + "','"
-                    + Utility.Replace(pLesson.getDescription()) // String
+                    + Utility.Replace(testDescriptionLesson(pLesson.getDescription())) // String
                       + "','"
                     + pLesson.getCycle() // int
                       + "','"
@@ -128,7 +135,9 @@ public class CalendarManager {
             Utility.executeOperation(connect, tSql);
 
             connect.commit();
-        }
+        } catch (IdException | DescriptionException | NameException ex) {
+            Logger.getLogger(CalendarManager.class.getName()).log(Level.SEVERE, null, ex);
+        } 
     }
     
     
@@ -144,7 +153,7 @@ public class CalendarManager {
                     + CalendarManager.TABLE_SEMINAR
                     + " ( idSeminar, date, startTime, endTime, name, namespeacker, desription, place, fkCourse)"
                     + " VALUES ('"
-                    + pSeminar.getIdSeminar() // int
+                    + testid(pSeminar.getIdSeminar()) // int
                     + "','"
                     + pSeminar.getData() // Date
                     + "','"
@@ -152,7 +161,7 @@ public class CalendarManager {
                     + "','"
                     + pSeminar.getEndTime() // int 
                     + "','"
-                    + Utility.Replace(pSeminar.getName()) // String
+                    + Utility.Replace(testNomeSeminar(pSeminar.getName())) // String
                     + "','"
                     + Utility.Replace(pSeminar.getNameSpeacker()) // String
                       + "','"
@@ -168,6 +177,8 @@ public class CalendarManager {
             Utility.executeOperation(connect, tSql);
 
             connect.commit();
+        } catch (IdException | NameException ex) {
+            Logger.getLogger(CalendarManager.class.getName()).log(Level.SEVERE, null, ex);
         }
     }
     
@@ -183,7 +194,7 @@ public class CalendarManager {
             String tSql = "UPDATE "
                     + CalendarManager.TABLE_LESSON
                     + " set idLesson = '"
-                    + pLesson.getIdLesson()
+                    + testid(pLesson.getIdLesson())
                     + "', date = '"
                     + pLesson.getData()
                     + "', startTime = '"
@@ -210,6 +221,8 @@ public class CalendarManager {
             Utility.executeOperation(connect, tSql);
 
             connect.commit();
+        } catch (IdException ex) {
+            Logger.getLogger(CalendarManager.class.getName()).log(Level.SEVERE, null, ex);
         }
     }
      
@@ -225,7 +238,7 @@ public class CalendarManager {
             String tSql = "UPDATE "
                     + CalendarManager.TABLE_SEMINAR
                     + " set idSeminar = '"
-                    + pSeminar.getIdSeminar()
+                    + testid(pSeminar.getIdSeminar())
                     + "', date = '"
                     + pSeminar.getData()
                     + "', startTime = '"
@@ -237,7 +250,7 @@ public class CalendarManager {
                     + "', namespeacker = '"
                     + Utility.Replace(pSeminar.getNameSpeacker())
                     + "', description = '"
-                    + Utility.Replace(pSeminar.getDescription())
+                    + Utility.Replace(seminarTestDescription(pSeminar.getDescription()))
                     + "', place = '"
                     + Utility.Replace(pSeminar.getPlace())
                     + "', fkCourse = '"
@@ -250,6 +263,8 @@ public class CalendarManager {
             Utility.executeOperation(connect, tSql);
 
             connect.commit();
+        } catch (IdException | DescriptionException ex) {
+            Logger.getLogger(CalendarManager.class.getName()).log(Level.SEVERE, null, ex);
         }
     }
      
@@ -268,12 +283,14 @@ public class CalendarManager {
             String tSql = "DELETE FROM "
                     + CalendarManager.TABLE_LESSON
                     + " WHERE idLesson = '"
-                    + idLesson + "'";
+                    + testid(idLesson) + "'";
 
             //Inviamo la Query al DataBase
             Utility.executeOperation(connect, tSql);
 
             connect.commit();
+        } catch (IdException ex) {
+            Logger.getLogger(CalendarManager.class.getName()).log(Level.SEVERE, null, ex);
         } finally {
             DBConnection.releaseConnection(connect);
         }
@@ -294,12 +311,14 @@ public class CalendarManager {
             String tSql = "DELETE FROM "
                     + CalendarManager.TABLE_LESSON
                     + " WHERE idSeminar = '"
-                    + idSeminar + "'";
+                    + testid(idSeminar) + "'";
 
             //Inviamo la Query al DataBase
             Utility.executeOperation(connect, tSql);
 
             connect.commit();
+        } catch (IdException ex) {
+            Logger.getLogger(CalendarManager.class.getName()).log(Level.SEVERE, null, ex);
         } finally {
             DBConnection.releaseConnection(connect);
         }
@@ -307,8 +326,9 @@ public class CalendarManager {
      
      
      // metodo che restituisce una lezione in base all'Id
-     public synchronized Lesson getLessonById(int pLessonID) throws ClassNotFoundException, SQLException, IOException {
+     public synchronized Lesson getLessonById(int pLessonID) throws ClassNotFoundException, SQLException, IOException, IdException {
         Connection connect = null;
+        
         try {
             Lesson lesson = new Lesson();
             // Otteniamo una Connessione al DataBase
@@ -321,7 +341,7 @@ public class CalendarManager {
             String tSql = "SELECT * FROM "
                     + CalendarManager.TABLE_LESSON
                     + " WHERE idLesson = '"
-                    + pLessonID + "'";
+                    + testid(pLessonID) + "'";
 
             //Inviamo la Query al DataBase
             ResultSet result = Utility.queryOperation(connect, tSql);
@@ -348,7 +368,7 @@ public class CalendarManager {
      
      
      // metodo che restituisce un seminario in base all'Id
-     public synchronized Seminar getSeminarById(int pSeminarID) throws ClassNotFoundException, SQLException, IOException {
+     public synchronized Seminar getSeminarById(int pSeminarID) throws ClassNotFoundException, SQLException, IOException, IdException {
         Connection connect = null;
         try {
             Seminar seminar = new Seminar();
@@ -362,7 +382,7 @@ public class CalendarManager {
             String tSql = "SELECT * FROM "
                     + CalendarManager.TABLE_SEMINAR
                     + " WHERE idSeminar = '"
-                    + pSeminarID + "'";
+                    + testid(pSeminarID) + "'";
 
             //Inviamo la Query al DataBase
             ResultSet result = Utility.queryOperation(connect, tSql);
@@ -388,7 +408,7 @@ public class CalendarManager {
     
      
      // metodo che restituisce un seminario in base all'Id
-     public synchronized Course getCourseById(int pCourseID) throws ClassNotFoundException, SQLException, IOException {
+     public synchronized Course getCourseById(int pCourseID) throws ClassNotFoundException, SQLException, IOException, IdException {
         Connection connect = null;
         try {
             Course course = new Course();
@@ -402,7 +422,7 @@ public class CalendarManager {
             String tSql = "SELECT * FROM "
                     + CalendarManager.TABLE_COURSE
                     + " WHERE idCourse = '"
-                    + pCourseID + "'";
+                    + testid(pCourseID) + "'";
 
             //Inviamo la Query al DataBase
             ResultSet result = Utility.queryOperation(connect, tSql);
@@ -425,8 +445,8 @@ public class CalendarManager {
     }
      
      
-      public synchronized List<Lesson> getAllLessonOf(Course pCourse) throws SQLException { //da modificare dato Person
-        List<Lesson> lessons = new ArrayList<Lesson>();
+      public synchronized List<Lesson> getAllLessonOf(Course pCourse) throws SQLException, IdException { //da modificare dato Person
+        List<Lesson> lessons = new ArrayList<>();
         
         Connection connect = null;
         try {
@@ -440,7 +460,7 @@ public class CalendarManager {
             String tSql = "SELECT * FROM "
                     + CalendarManager.TABLE_LESSON
                     + " WHERE fkCourse = '"
-                    + pCourse.getIdCourse() + "'"; //da modificare ancora
+                    + testid(pCourse.getIdCourse()) + "'"; //da modificare ancora
 
             //Inviamo la Query al DataBase
             ResultSet result = Utility.queryOperation(connect, tSql);
@@ -469,8 +489,65 @@ public class CalendarManager {
         
         return lessons;
     }
-      
-      
+      public int testid(int id) throws IdException {
+        if(id<0){
+            throw new IdException("l'id non puo' essere minore di 0");
+        }
+        return id;
+    }  
+       public String testDescription(String description) throws DescriptionException{
+         if(description.equals(null)&& description.length()<250){
+            
+            throw new DescriptionException("la descrizione e' sbagliata"); 
+        }
+         return description;
+    }
+
+    private String testDescriptionLesson(String description) throws DescriptionException {
+        if(description.equals(null)&& description.length()<30){
+            
+            throw new DescriptionException("la descrizione e' sbagliata"); 
+        }
+         return description;
+    }
+   
+    public String seminarTestDescription(String description) throws DescriptionException{
+         if(description.equals(null)){
+            
+            throw new DescriptionException("la descrizione e' sbagliata"); 
+        }
+         return description;
+    }
+     /*public String testData(Date data) throws DescriptionException{
+         if(data.equals(null)&&data.length()>5){
+            
+            throw new DescriptionException("la data e' sbagliata"); 
+        }
+         return data;
+    }*/
+    
+      public String testNome(String name) throws NameException{
+         if(name.equals(null)&&name.length()>50){
+            
+            throw new NameException("il nome  e' sbagliato"); 
+        }
+         return name;
+    }
+      public String testNomeLesson(String name) throws NameException{
+         if(name.equals(null)&&name.length()>70){
+            
+            throw new NameException("il nome  e' sbagliato"); 
+        }
+         return name;
+    }
+
+    private String testNomeSeminar(String name)throws NameException{
+         if(name.equals(null)&&name.length()>70){
+            
+            throw new NameException("il nome  e' sbagliato"); 
+        }
+         return name;
+    }
       
 }
 

@@ -6,6 +6,7 @@
 package it.unisa.dottorato.phdCourse;
 
 //import it.unisa.integrazione.model.Person;
+import it.unisa.dottorato.exception.IdException;
 import java.io.IOException;
 import java.io.PrintWriter;
 import java.sql.SQLException;
@@ -53,7 +54,7 @@ public class GetAllLessonServlet extends HttpServlet {
                 JSONArray resultArray = new JSONArray(lessons);
                 result.put("lessons", resultArray);
                 out.write(result.toString());
-            } catch (SQLException | JSONException ex) {
+            } catch (SQLException | JSONException | IdException ex) {
                 Logger.getLogger(GetAllLessonServlet.class.getName()).log(Level.SEVERE, null, ex);
             }
         }

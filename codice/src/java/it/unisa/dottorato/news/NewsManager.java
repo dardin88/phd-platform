@@ -100,7 +100,7 @@ private static final String TABLE_News = "news";
         }
     }
 
-    public News getNewsById(int aidnews) throws SQLException, ConnectionException{
+    public News getNewsById(int aidnews) throws SQLException, ConnectionException,ClassNotFoundException{
         Statement stmt = null;
         ResultSet rs = null;
         Connection connection = null;
