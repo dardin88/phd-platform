@@ -5,6 +5,7 @@
  */
 package it.unisa.dottorato.phdCourse;
 
+import it.unisa.dottorato.exception.DateException;
 import it.unisa.dottorato.exception.DescriptionException;
 import it.unisa.dottorato.exception.IdException;
 import it.unisa.dottorato.exception.NameException;
@@ -16,6 +17,7 @@ import java.sql.Connection;
 import java.sql.ResultSet;
 import java.sql.SQLException;
 import java.util.ArrayList;
+import java.util.Date;
 import java.util.List;
 import java.util.logging.Level;
 import java.util.logging.Logger;
@@ -82,9 +84,9 @@ public class CalendarManager {
                      + "','"
                     + Utility.Replace(testDescription(pCourse.getDescription())) 
                     + "','"
-                    + pCourse.getStartDate()
+                    + testStartData( pCourse.getStartDate())
                     + "','"
-                    + pCourse.getEndDate() 
+                    + testEndData(pCourse.getEndDate()) 
                     + "')";
 
             System.out.println("La query: " +tSql);
@@ -92,7 +94,7 @@ public class CalendarManager {
             Utility.executeOperation(connect, tSql);
 
             connect.commit();
-        } catch (IdException | DescriptionException | NameException ex) {
+        } catch (IdException | DescriptionException | NameException | DateException ex) {
             Logger.getLogger(CalendarManager.class.getName()).log(Level.SEVERE, null, ex);
         }
     }
@@ -155,7 +157,7 @@ public class CalendarManager {
                     + " VALUES ('"
                     + testid(pSeminar.getIdSeminar()) // int
                     + "','"
-                    + pSeminar.getData() // Date
+                    + testData(pSeminar.getData()) // Date
                     + "','"
                     + pSeminar.getStartTime() // int
                     + "','"
@@ -177,7 +179,7 @@ public class CalendarManager {
             Utility.executeOperation(connect, tSql);
 
             connect.commit();
-        } catch (IdException | NameException | PlaceException | DescriptionException | SpeakerException ex) {
+        } catch (IdException | NameException | PlaceException | DescriptionException | SpeakerException | DateException ex) {
             Logger.getLogger(CalendarManager.class.getName()).log(Level.SEVERE, null, ex);
         }
     }
@@ -196,7 +198,7 @@ public class CalendarManager {
                     + " set idLesson = '"
                     + testid(pLesson.getIdLesson())
                     + "', date = '"
-                    + pLesson.getData()
+                    + testData(pLesson.getData())
                     + "', startTime = '"
                     + pLesson.getStartTime()
                     + "', endTime = '"
@@ -221,7 +223,7 @@ public class CalendarManager {
             Utility.executeOperation(connect, tSql);
 
             connect.commit();
-        } catch (IdException | NameException | ClassroomException | DescriptionException ex) {
+        } catch (IdException | NameException | ClassroomException | DescriptionException | DateException ex) {
             Logger.getLogger(CalendarManager.class.getName()).log(Level.SEVERE, null, ex);
         }
     }
@@ -528,24 +530,22 @@ public class CalendarManager {
         }
          return description;
     }
-     /*non trovo un modo coretto di controllare le date il metodo dovrebbe lanciare un errore
-    se la data inserita è prima del giorno in cui si crea il corso|Lesson|Seminar
-    public String testStartData(Date data) throws DescriptionException{
-         if(data.equals(null)&&data.length()>5){
+     
+    public Date testStartData(Date data) throws DateException{
+         if(data.equals(null)){
             
-            throw new DescriptionException("la data e' sbagliata"); 
+            throw new DateException("la data di inizio e' sbagliata"); 
         }
          return data;
-    }*/
-     /*non trovo un modo coretto di controllare le date il metodo dovrebbe lanciare un errore
-    se la data inserita è dopo il giorno in cui si passa La Start Sata
-    public String testEndData(Date data) throws DescriptionException{
-         if(data.equals(null)&&data.length()>5){
+    }
+   
+    public Date testEndData(Date data) throws DateException{
+         if(data.equals(null)){
             
-            throw new DescriptionException("la data e' sbagliata"); 
+            throw new DateException("la data di fine e' sbagliata"); 
         }
          return data;
-    }*/
+    }
     
       public String testNome(String name) throws NameException{
          if(name.equals(null)&&name.length()>50){
@@ -592,6 +592,15 @@ public class CalendarManager {
         }
          return classroom;
     }
+
+    private Date testData(Date data)  throws DateException{
+         if(data.equals(null)){
+            
+            throw new DateException("la data e' sbagliata"); 
+        }
+         return data;   
+    }
+     
     
 }
 
