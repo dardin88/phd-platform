@@ -2,6 +2,9 @@ package it.unisa.dottorato.Cycle;
 
 import it.unisa.dottorato.account.Account;
 import it.unisa.dottorato.curriculumcic.Curriculumcic;
+import it.unisa.dottorato.exception.IdException;
+import it.unisa.dottorato.exception.DescriptionException;
+import it.unisa.dottorato.exception.DateException;
 import it.unisa.dottorato.utility.Utility;
 import it.unisa.integrazione.database.DBConnection;
 import java.io.IOException;
@@ -62,7 +65,8 @@ public class CycleManager {
      * @throws java.sql.SQLException
      * @throws java.io.IOException
      */
-    public synchronized void insertCycle(Cycle pCycle) throws ClassNotFoundException, SQLException, IOException {
+    public synchronized void insertCycle(Cycle pCycle) throws 
+            ClassNotFoundException, SQLException, IOException, DescriptionException, IdException, DateException {
         try (Connection connect = DBConnection.getConnection()) {
 
             /*
@@ -72,12 +76,12 @@ public class CycleManager {
             String tSql = "INSERT INTO "
                     + CycleManager.TABLE_CYCLE
                     + " (number, description, year, fkProfessor)"
-                    + " VALUES ('"
-                    + pCycle.getNumber()
+                    + " VALUES ("
+                    + testNumber(pCycle.getNumber())
+                    + ",'"
+                    + testDescription(pCycle.getDescription())
                     + "','"
-                    + Utility.Replace(pCycle.getDescription())
-                    + "','"
-                    + pCycle.getYear()
+                    + testYear(pCycle.getYear())
                     + "',"
                     + Utility.emptyValue(pCycle.getFkProfessor())
                     + ")";
@@ -100,7 +104,8 @@ public class CycleManager {
      * @throws java.sql.SQLException
      * @throws java.io.IOException
      */
-    public synchronized void updateCycle(int oldNumber, Cycle pCycle) throws ClassNotFoundException, SQLException, IOException {
+    public synchronized void updateCycle(int oldNumber, Cycle pCycle) 
+            throws ClassNotFoundException, SQLException, IOException, DescriptionException, IdException, DateException {
         try (Connection connect = DBConnection.getConnection()) {
 
             /*
@@ -110,15 +115,15 @@ public class CycleManager {
             String tSql = "UPDATE "
                     + CycleManager.TABLE_CYCLE
                     + " set description = '"
-                    + Utility.Replace(pCycle.getDescription())
+                    + testDescription(pCycle.getDescription())
                     + "', year = '"
-                    + pCycle.getYear()
+                    + testYear(pCycle.getYear())
                     + "', idPhdCycle = '"
-                    + pCycle.getNumber()
+                    + testNumber(pCycle.getNumber())
                     + "', fkProfessor = "
                     + Utility.emptyValue(pCycle.getFkProfessor())
                     + " WHERE number = "
-                    + oldNumber;           
+                    + testNumber(oldNumber);           
 
             //Inviamo la Query al DataBase
             Utility.executeOperation(connect, tSql);
@@ -541,4 +546,21 @@ public class CycleManager {
         }
     }
 
+     public Integer testNumber(int number) throws IdException {
+        if(number <=0 || number > 999) 
+            throw new IdException("il numero del ciclo è sbagliato");
+        return number;
+    }
+    
+    public String testDescription(String description) throws DescriptionException {
+        if(description.isEmpty() || description.length() > 65536) 
+            throw new DescriptionException("Descrizione ciclo errata.");
+        return description;
+    }
+    
+    public String testYear(String year) throws DateException {
+        if(year.isEmpty() || year.length() > 4) 
+            throw new DateException("Anno ciclo errato.");
+        return year;
+    }
 }
