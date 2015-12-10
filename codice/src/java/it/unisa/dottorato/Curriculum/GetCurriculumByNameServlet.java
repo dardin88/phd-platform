@@ -1,5 +1,6 @@
 package it.unisa.dottorato.Curriculum;
 
+import it.unisa.dottorato.exception.NameException;
 import java.io.IOException;
 import java.io.PrintWriter;
 import java.sql.SQLException;
@@ -14,8 +15,7 @@ import org.json.JSONException;
 import org.json.JSONObject;
 
 
-/** Servlet incaricata ad effettuare la richiesta di ricerca di un curriculum 
- * dato il nome
+/**
  *
  * @author Tommaso Minichiello
  */
@@ -32,7 +32,7 @@ public class GetCurriculumByNameServlet extends HttpServlet {
      * @throws IOException if an I/O error occurs
      */
     protected void processRequest(HttpServletRequest request, HttpServletResponse response)
-            throws ServletException, IOException {
+            throws ServletException, IOException, NameException{
         response.setContentType("text/html;charset=UTF-8");
         try (PrintWriter out = response.getWriter()) {
             String CurriculumName = request.getParameter("CurriculumName");
@@ -60,7 +60,11 @@ public class GetCurriculumByNameServlet extends HttpServlet {
     @Override
     protected void doGet(HttpServletRequest request, HttpServletResponse response)
             throws ServletException, IOException {
-        processRequest(request, response);
+        try {
+            processRequest(request, response);
+        } catch (NameException ex) {
+            Logger.getLogger(GetCurriculumByNameServlet.class.getName()).log(Level.SEVERE, null, ex);
+        }
     }
 
     /**
@@ -74,7 +78,11 @@ public class GetCurriculumByNameServlet extends HttpServlet {
     @Override
     protected void doPost(HttpServletRequest request, HttpServletResponse response)
             throws ServletException, IOException {
-        processRequest(request, response);
+        try {
+            processRequest(request, response);
+        } catch (NameException ex) {
+            Logger.getLogger(GetCurriculumByNameServlet.class.getName()).log(Level.SEVERE, null, ex);
+        }
     }
 
     /**
