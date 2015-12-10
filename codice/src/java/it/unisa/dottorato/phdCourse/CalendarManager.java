@@ -119,7 +119,7 @@ public class CalendarManager {
                     + "','"
                     + Utility.Replace(testNomeLesson(pLesson.getName())) // String
                     + "','"
-                    + Utility.Replace(pLesson.getClassroom()) // String
+                    + Utility.Replace(testClassroom(pLesson.getClassroom())) // String
                       + "','"
                     + Utility.Replace(testDescriptionLesson(pLesson.getDescription())) // String
                       + "','"
@@ -135,7 +135,7 @@ public class CalendarManager {
             Utility.executeOperation(connect, tSql);
 
             connect.commit();
-        } catch (IdException | DescriptionException | NameException ex) {
+        } catch (IdException | DescriptionException | NameException | ClassroomException ex) {
             Logger.getLogger(CalendarManager.class.getName()).log(Level.SEVERE, null, ex);
         } 
     }
@@ -163,11 +163,11 @@ public class CalendarManager {
                     + "','"
                     + Utility.Replace(testNomeSeminar(pSeminar.getName())) // String
                     + "','"
-                    + Utility.Replace(pSeminar.getNameSpeacker()) // String
+                    + Utility.Replace(testSpeakerSeminar(pSeminar.getNameSpeacker())) // String
                       + "','"
-                    + Utility.Replace(pSeminar.getDescription()) // String
+                    + Utility.Replace(seminarTestDescription(pSeminar.getDescription())) // String
                       + "','"
-                    + Utility.Replace(pSeminar.getPlace())
+                    + Utility.Replace(testPlaceSeminar(pSeminar.getPlace()))
                       + "','"
                     + pSeminar.getFK_course()
                     + "')";
@@ -177,7 +177,7 @@ public class CalendarManager {
             Utility.executeOperation(connect, tSql);
 
             connect.commit();
-        } catch (IdException | NameException ex) {
+        } catch (IdException | NameException | PlaceException | DescriptionException | SpeakerException ex) {
             Logger.getLogger(CalendarManager.class.getName()).log(Level.SEVERE, null, ex);
         }
     }
@@ -202,11 +202,11 @@ public class CalendarManager {
                     + "', endTime = '"
                     + pLesson.getEndTime()
                     + "', name = '"
-                    + Utility.Replace(pLesson.getName())
+                    + Utility.Replace(testNomeLesson(pLesson.getName()))
                     + "', classroom = '"
-                    + Utility.Replace(pLesson.getClassroom())
+                    + Utility.Replace(testClassroom(pLesson.getClassroom()))
                     + "', description = '"
-                    + Utility.Replace(pLesson.getDescription())
+                    + Utility.Replace(testDescriptionLesson(pLesson.getDescription()))
                     + "', cycle = '"
                     + pLesson.getCycle()
                     + "', curriculum = '"
@@ -221,7 +221,7 @@ public class CalendarManager {
             Utility.executeOperation(connect, tSql);
 
             connect.commit();
-        } catch (IdException ex) {
+        } catch (IdException | NameException | ClassroomException | DescriptionException ex) {
             Logger.getLogger(CalendarManager.class.getName()).log(Level.SEVERE, null, ex);
         }
     }
@@ -246,13 +246,13 @@ public class CalendarManager {
                     + "', endTime = '"
                     + pSeminar.getEndTime()
                     + "', name = '"
-                    + Utility.Replace(pSeminar.getName())
+                    + Utility.Replace(testNomeSeminar(pSeminar.getName()))
                     + "', namespeacker = '"
-                    + Utility.Replace(pSeminar.getNameSpeacker())
+                    + Utility.Replace(testSpeakerSeminar(pSeminar.getNameSpeacker()))
                     + "', description = '"
                     + Utility.Replace(seminarTestDescription(pSeminar.getDescription()))
                     + "', place = '"
-                    + Utility.Replace(pSeminar.getPlace())
+                    + Utility.Replace(testPlaceSeminar(pSeminar.getPlace()))
                     + "', fkCourse = '"
                     + pSeminar.getFK_course()
                     + "' WHERE idLesson = "
@@ -264,6 +264,12 @@ public class CalendarManager {
 
             connect.commit();
         } catch (IdException | DescriptionException ex) {
+            Logger.getLogger(CalendarManager.class.getName()).log(Level.SEVERE, null, ex);
+        } catch (NameException ex) {
+            Logger.getLogger(CalendarManager.class.getName()).log(Level.SEVERE, null, ex);
+        } catch (SpeakerException ex) {
+            Logger.getLogger(CalendarManager.class.getName()).log(Level.SEVERE, null, ex);
+        } catch (PlaceException ex) {
             Logger.getLogger(CalendarManager.class.getName()).log(Level.SEVERE, null, ex);
         }
     }
@@ -489,6 +495,10 @@ public class CalendarManager {
         
         return lessons;
     }
+      
+      
+      
+      
       public int testid(int id) throws IdException {
         if(id<0){
             throw new IdException("l'id non puo' essere minore di 0");
@@ -559,6 +569,29 @@ public class CalendarManager {
         }
          return name;
     }
-      
+    private String testPlaceSeminar(String name)throws PlaceException{
+         if(name.equals(null)&&name.length()>50){
+            
+            throw new PlaceException("il posto e' sbagliato"); 
+        }
+         return name;
+    }
+
+    private String testSpeakerSeminar(String nameSpeacker) throws SpeakerException{
+        if(nameSpeacker.equals(null)&&nameSpeacker.length()>50){
+            
+            throw new  SpeakerException("il posto e' sbagliato"); 
+        }
+         return nameSpeacker;
+    }
+
+    private String testClassroom(String classroom) throws ClassroomException {
+      if(classroom.equals(null)&&classroom.length()>50){
+            
+            throw new  ClassroomException ("la classe e' sbagliato"); 
+        }
+         return classroom;
+    }
+    
 }
 
