@@ -111,7 +111,7 @@ public class CycleManager {
      * @throws it.unisa.dottorato.exception.IdException
      * @throws it.unisa.dottorato.exception.DateException
      */
-    public synchronized void updateCycle(int oldNumber, Cycle pCycle) 
+    public synchronized void updateCycle(int Number, Cycle pCycle) 
             throws ClassNotFoundException, SQLException, IOException, DescriptionException, IdException, DateException {
         try (Connection connect = DBConnection.getConnection()) {
 
@@ -125,12 +125,8 @@ public class CycleManager {
                     + testDescription(pCycle.getDescription())
                     + "', year = '"
                     + testYear(pCycle.getYear())
-                    + "', idPhdCycle = '"
-                    + testNumber(pCycle.getNumber())
-                    + "', fkProfessor = "
-                    + Utility.emptyValue(pCycle.getFkProfessor())
-                    + " WHERE number = "
-                    + testNumber(oldNumber);           
+                    + "' WHERE number = "
+                    + testNumber(Number);           
 
             //Inviamo la Query al DataBase
             Utility.executeOperation(connect, tSql);
@@ -143,13 +139,13 @@ public class CycleManager {
      * Metodo della classe incaricato della modifica di un'entita' nella tabella
      * cycle 
      *
-     * @param cycle  il ciclo da selezionare
+     * @param number numero del il ciclo da selezionare
      * @param fkProfessor il coordinatore da inserire nel ciclo
      * @throws java.lang.ClassNotFoundException
      * @throws java.sql.SQLException
      * @throws java.io.IOException
      */
-    public synchronized void insertCycleCoordinator(Cycle cycle, String fkProfessor) throws ClassNotFoundException, SQLException, IOException {
+    public synchronized void insertCycleCoordinator(int number, String fkProfessor) throws ClassNotFoundException, SQLException, IOException {
         try (Connection connect = DBConnection.getConnection()) {
 
             /*
@@ -161,7 +157,7 @@ public class CycleManager {
                     + " set fkProfessor = "
                     + Utility.emptyValue(fkProfessor)
                     + " WHERE number = "
-                    + cycle.getNumber();           
+                    + number;           
 
             //Inviamo la Query al DataBase
             Utility.executeOperation(connect, tSql);
@@ -173,12 +169,12 @@ public class CycleManager {
      * Metodo della classe incaricato della modifica di un'entita' nella tabella
      * cycle 
      *
-     * @param cycle il ciclo da selezionare
+     * @param number numero del ciclo
      * @throws java.lang.ClassNotFoundException
      * @throws java.sql.SQLException
      * @throws java.io.IOException
      */
-    public synchronized void deleteCycleCoordinator(Cycle cycle) throws ClassNotFoundException, SQLException, IOException {
+    public synchronized void deleteCycleCoordinator(int number) throws ClassNotFoundException, SQLException, IOException {
         try (Connection connect = DBConnection.getConnection()) {
 
             /*
@@ -188,7 +184,7 @@ public class CycleManager {
             String tSql = "UPDATE "
                     + CycleManager.TABLE_CYCLE
                     + " set fkProfessor = null WHERE number = "
-                    + cycle.getNumber();           
+                    + number;           
 
             //Inviamo la Query al DataBase
             Utility.executeOperation(connect, tSql);
@@ -205,7 +201,8 @@ public class CycleManager {
      * @throws java.sql.SQLException
      * @throws java.io.IOException
      */
-    public synchronized Account viewCycleCoordinator(Cycle cycle) throws ClassNotFoundException, SQLException, IOException {
+    public synchronized Account viewCycleCoordinator(int number) throws 
+            ClassNotFoundException, SQLException, IOException, IdException {
         Connection connect = null;
         try {
            Account cord=new Account();
@@ -221,7 +218,7 @@ public class CycleManager {
                     + ","
                     + CycleManager.TABLE_ACCOUNT
                     + " WHERE number = "
-                    + cycle.getNumber()
+                    + testNumber(number)
                     +" AND fkProfessor = fkAccount AND fkAccount = secondaryEmail";   
 
             //Inviamo la Query al DataBase
@@ -496,8 +493,8 @@ public class CycleManager {
              */
             String tSql = "DELETE FROM "
                     + CycleManager.TABLE_CURRICULUMCIC
-                    + " WHERE fkCycle = '"
-                    + fkCycle + "' AND "
+                    + " WHERE fkCycle = "
+                    + fkCycle + " AND "
                     +" fkCurriculum = '"
                     + Utility.Replace(fkCurriculum) + "'";
 

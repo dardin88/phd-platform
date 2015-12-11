@@ -1,5 +1,6 @@
 package it.unisa.dottorato.Cycle;
 
+import it.unisa.dottorato.exception.IdException;
 import java.io.IOException;
 import java.io.PrintWriter;
 import java.sql.SQLException;
@@ -31,27 +32,18 @@ public class ViewCycleCoordinatorServlet extends HttpServlet {
      * @throws IOException if an I/O error occurs
      */
     protected void processRequest(HttpServletRequest request, HttpServletResponse response)
-            throws ServletException, IOException {
+            throws ServletException, IOException, IdException {
         response.setContentType("text/html;charset=UTF-8");
         PrintWriter out = response.getWriter();
         try {
 
             JSONObject result = new JSONObject();
             int number = Integer.parseInt( request.getParameter("number"));
-            String description = request.getParameter("description");
-            String year = request.getParameter("year");
-            String professor = request.getParameter("fkProfessor");
-            
-            Cycle aPhdCycle = new Cycle();
-            aPhdCycle.setNumber(number);
-            aPhdCycle.setDescription(description);
-            aPhdCycle.setYear(year);
-            aPhdCycle.setFkProfessor(professor);
             
             result.put("result", true);
 
             try {
-                CycleManager.getInstance().viewCycleCoordinator(aPhdCycle);
+                CycleManager.getInstance().viewCycleCoordinator(number);
             } catch (ClassNotFoundException | SQLException ex) {
                 result.put("result", false);
                 Logger.getLogger(ViewCycleCoordinatorServlet.class.getName()).log(Level.SEVERE, null, ex);
@@ -78,7 +70,11 @@ public class ViewCycleCoordinatorServlet extends HttpServlet {
     @Override
     protected void doGet(HttpServletRequest request, HttpServletResponse response)
             throws ServletException, IOException {
-        processRequest(request, response);
+        try {
+            processRequest(request, response);
+        }catch (IdException ex) {
+            Logger.getLogger(ViewCycleCoordinatorServlet.class.getName()).log(Level.SEVERE, null, ex);
+        }
     }
 
     /**
@@ -92,7 +88,11 @@ public class ViewCycleCoordinatorServlet extends HttpServlet {
     @Override
     protected void doPost(HttpServletRequest request, HttpServletResponse response)
             throws ServletException, IOException {
-        processRequest(request, response);
+       try {
+            processRequest(request, response);
+        }catch (IdException ex) {
+            Logger.getLogger(ViewCycleCoordinatorServlet.class.getName()).log(Level.SEVERE, null, ex);
+        }
     }
 
     /**
