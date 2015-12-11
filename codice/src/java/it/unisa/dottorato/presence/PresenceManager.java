@@ -1,8 +1,3 @@
-/*
- * To change this license header, choose License Headers in Project Properties.
- * To change this template file, choose Tools | Templates
- * and open the template in the editor.
- */
 package it.unisa.dottorato.presence;
 import it.unisa.dottorato.phdCourse.Lesson;
 import it.unisa.dottorato.utility.Utility;
@@ -12,22 +7,37 @@ import java.sql.Connection;
 import java.sql.ResultSet;
 import java.sql.SQLException;
 import java.util.ArrayList;
-/**
+/** Classe per la gestione delle presenze
  *
  * @author Rembor
  */
 public class PresenceManager {
+    /**
+     * I nomi delle tabelle
+     */
   private static final String TABLE_PHDSTUDENT="phdstudent";
   private static final String TABLE_Lesson="lesson";
   private static final String TABLE_Presence="presence";
   private static final String TABLE_Course="course";
   private static PresenceManager instance;
    Presence checkPermission;
-  // singleton
+  /**
+     * Il costruttore della classe e' dichiarato privato, per evitare
+     * l'istanziazione di oggetti della classe .
+     */
   private PresenceManager() {
         super();
     }
   
+   /**
+     * Metodo della classe incaricato della produzione degli oggetti, tale
+     * metodo deve essere chiamato per restituire l'istanza del Singleton.
+     * L'oggetto Singleton sara' istanziato solo alla prima invocazione del
+     * metodo. Nelle successive invocazioni, invece, sara' restituito un
+     * riferimento allo stesso oggetto.
+     *
+     * @return L'istanza della classe
+     */
    public static synchronized PresenceManager getInstance() {
         if (instance == null) {
             instance = new PresenceManager();
@@ -35,6 +45,13 @@ public class PresenceManager {
         return instance;
     }
   
+   /** Metodo della classe incaricato di ritornare la lista delle presenze di una lezione
+    * 
+    * @return restituisce un array list di presenze, lancia un'eccezione altrimenti
+    * @throws ClassNotFoundException
+    * @throws SQLException
+    * @throws IOException 
+    */
   public synchronized ArrayList<Presence> getPresenceList( ) throws ClassNotFoundException, SQLException, IOException {
         Connection connect = null;
         try {
@@ -72,7 +89,11 @@ public class PresenceManager {
     
   
 
-  
+ 
+  /**  Metodo della classe incaricato di cambiare il permesso per settare le presenze
+   * 
+   * @param permission 
+   */
   public synchronized void ChangePermission(boolean permission)  {
         
       if(permission==false){
@@ -84,7 +105,13 @@ public class PresenceManager {
        
   }
    
-  
+ /**  Metodo della classe incaricato di ritornare una lista delle presenze di un corso
+  * 
+  * @return restituisce un array list di presenze, lancia un'eccezione altrimenti
+  * @throws ClassNotFoundException
+  * @throws SQLException
+  * @throws IOException 
+  */ 
    public synchronized ArrayList<String> getPresenceCourse() throws ClassNotFoundException, SQLException, IOException {
         Connection connect = null;
         try {
@@ -116,7 +143,14 @@ public class PresenceManager {
             DBConnection.releaseConnection(connect);
         }
     }
-   
+  
+   /**  Metodo della classe incaricato di ritornare la lista delle presenze di una lezione
+    * dato il suo id
+    * 
+    * @param lesson l'id della lezione
+    * @return restituisce un array list di presenze, lancia un'eccezione altrimenti
+    * @throws SQLException 
+    */
    public synchronized ArrayList<Presence> getPresence(int lesson) throws SQLException{
        Connection connect = null;
         try {
@@ -151,6 +185,14 @@ public class PresenceManager {
             DBConnection.releaseConnection(connect);
         }
    }
+   
+   /**  Metodo della classe incaricato di modificare una presenza
+    * 
+    * @param signature valore booleano
+    * @param old  presenza da modificare
+    * @throws SQLException
+    * @throws ExceptionPermissionDenied 
+    */
    public synchronized void modifyPresence(boolean signature,Presence old) throws SQLException, ExceptionPermissionDenied {
        try (Connection connect = DBConnection.getConnection()) {
           
@@ -177,6 +219,12 @@ public class PresenceManager {
         }
    
    }
+   
+   /** Metodo della classe incaricato di far ottenere i permessi per settare 
+    * le presenze
+    * 
+    * @throws ExceptionPermissionDenied 
+    */
    public synchronized void getPermission() throws ExceptionPermissionDenied{
      this.checkPermission=new Presence();
      boolean permission= this.checkPermission.isSetPermission();

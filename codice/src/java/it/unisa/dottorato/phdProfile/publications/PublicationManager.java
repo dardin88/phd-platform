@@ -1,8 +1,3 @@
-/*
- * To change this license header, choose License Headers in Project Properties.
- * To change this template file, choose Tools | Templates
- * and open the template in the editor.
- */
 package it.unisa.dottorato.phdProfile.publications;
 
 import it.unisa.dottorato.account.PhdStudent;
@@ -15,7 +10,7 @@ import java.sql.SQLException;
 import java.util.ArrayList;
 import java.util.List;
 
-/**
+/**Classe per la gestione delle pubblicazioni
  *
  * @author gemmacatolino
  */
@@ -52,13 +47,18 @@ public class PublicationManager {
         }
         return instance;
     }
-    
+  
+    /** Metodo della classe incaricato di inserire una nuova pubblicazione
+     * 
+     * @param pPublication la nuova pubblicazione da inserire
+     * @throws SQLException 
+     */
     public synchronized void insert(Publication pPublication) throws SQLException {
         try (Connection connect = DBConnection.getConnection()) {
 
             /*
              * Prepariamo la stringa SQL per inserire un nuovo record 
-             * nella tabella phdCycle
+             * nella tabella publication
              */
             String tSql = "INSERT INTO "
                     + PublicationManager.TABLE_PUBLICATION
@@ -90,13 +90,21 @@ public class PublicationManager {
             connect.commit();
         }
     }
-          
+
+    /** Metodo della classe incaricato di aggiornare una pubblicazione
+     * 
+     * @param oldPublicationID l'id della pubblicazione da aggionare
+     * @param pPublication la pubblicazione aggiornata
+     * @throws ClassNotFoundException
+     * @throws SQLException
+     * @throws IOException 
+     */
     public synchronized void update(int oldPublicationID, Publication pPublication) throws ClassNotFoundException, SQLException, IOException {
         try (Connection connect = DBConnection.getConnection()) {
 
             /*
              * Prepariamo la stringa SQL per modificare un record 
-             * nella tabella phdCycle
+             * nella tabella publication
              */
             String tSql = "UPDATE "
                     + PublicationManager.TABLE_PUBLICATION
@@ -126,7 +134,14 @@ public class PublicationManager {
             connect.commit();
         }
     }
-    
+ 
+    /** Metodo della classe incaricato di cancellare una pubblicazione
+     * 
+     * @param idPublication l'id della pubblicazione da cancellare 
+     * @throws ClassNotFoundException
+     * @throws SQLException
+     * @throws IOException 
+     */
     public synchronized void delete(String idPublication) throws ClassNotFoundException, SQLException, IOException {
         Connection connect = null;
         try {
@@ -134,8 +149,8 @@ public class PublicationManager {
             connect = DBConnection.getConnection();
 
             /*
-             * Prepariamo la stringa SQL per modificare un record 
-             * nella tabella phdCycle
+             * Prepariamo la stringa SQL per cancellare un record 
+             * nella tabella publication
              */
             String tSql = "DELETE FROM "
                     + PublicationManager.TABLE_PUBLICATION
@@ -150,7 +165,15 @@ public class PublicationManager {
             DBConnection.releaseConnection(connect);
         }
     }
-    
+ 
+    /** Metodo della classe incaricato di ricercare una pubblicazione dato il suo id
+     * 
+     * @param pPublicationID l'id della pubblicazione da ricercare
+     * @return restituisce la pubblicazione se trovata, lancia un'eccezione altrimenti
+     * @throws ClassNotFoundException
+     * @throws SQLException
+     * @throws IOException 
+     */
     public synchronized Publication getPublicationById(int pPublicationID) throws ClassNotFoundException, SQLException, IOException {
         Connection connect = null;
         try {
@@ -159,8 +182,8 @@ public class PublicationManager {
             connect = DBConnection.getConnection();
 
             /*
-             * Prepariamo la stringa SQL per modificare un record 
-             * nella tabella phdCycle
+             * Prepariamo la stringa SQL per selezionare un record 
+             * nella tabella publication
              */
             String tSql = "SELECT * FROM "
                     + PublicationManager.TABLE_PUBLICATION
@@ -189,7 +212,14 @@ public class PublicationManager {
             DBConnection.releaseConnection(connect);
         }
     }
-    
+ 
+    /** Metodo della classe incaricato di ricercare tutte le pubblicazioni di un
+     * dato dottorando
+     * 
+     * @param phdStudent il dottorando
+     * @return restituisce la lista di pubblicazioni del dottorando
+     * @throws SQLException 
+     */
     public synchronized List<Publication> getAllPublicationsOf(PhdStudent phdStudent) throws SQLException {
         List<Publication> publications = new ArrayList<Publication>();
         
@@ -199,8 +229,8 @@ public class PublicationManager {
             connect = DBConnection.getConnection();
 
             /*
-             * Prepariamo la stringa SQL per modificare un record 
-             * nella tabella phdCycle
+             * Prepariamo la stringa SQL per selezionare uno o piu record 
+             * nella tabella publication
              */
             String tSql = "SELECT * FROM "
                     + PublicationManager.TABLE_PUBLICATION

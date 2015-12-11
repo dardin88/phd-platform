@@ -13,7 +13,9 @@ import javax.servlet.http.HttpServletResponse;
 import org.json.JSONException;
 import org.json.JSONObject;
 
-/**
+/**Servlet incaricata ad effettuare la richiesta di ricercare una pubblicazione 
+ * dato il suo id
+ * 
  * @author andre
  */
 
