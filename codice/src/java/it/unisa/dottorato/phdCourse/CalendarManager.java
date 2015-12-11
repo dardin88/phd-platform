@@ -1,8 +1,3 @@
-/*
- * To change this license header, choose License Headers in Project Properties.
- * To change this template file, choose Tools | Templates
- * and open the template in the editor.
- */
 package it.unisa.dottorato.phdCourse;
 
 import it.unisa.dottorato.exception.DateException;
@@ -22,7 +17,7 @@ import java.util.List;
 import java.util.logging.Level;
 import java.util.logging.Logger;
 
-/**
+/**Classe della gestione del calendario
  *
  * @author Giuseppe Picciocchi
  */
@@ -62,7 +57,11 @@ public class CalendarManager {
         return instance;
     }
     
-    // metodo per aggiungere un record alla tabella course del db
+    /** Metodo della classe incaricato di inserire un nuovo corso
+     * 
+     * @param pCourse il nuovo corso da inserire
+     * @throws SQLException 
+     */
     public synchronized void insert_course(Course pCourse) throws SQLException {
         try (Connection connect = DBConnection.getConnection()) {
 
@@ -99,13 +98,17 @@ public class CalendarManager {
         }
     }
     
-    // metodo per aggiungere un record alla tabella lesson del db
+    /** Metodo della classe incaricato di inserire una nuova lezione
+     * 
+     * @param pLesson la nuova lezione da inserire
+     * @throws SQLException 
+     */
     public synchronized void insert_lesson(Lesson pLesson) throws SQLException {
         try (Connection connect = DBConnection.getConnection()) {
 
             /*
              * Prepariamo la stringa SQL per inserire un nuovo record 
-             * nella tabella course
+             * nella tabella lesson
              */
             String tSql = "INSERT INTO "
                     + CalendarManager.TABLE_LESSON
@@ -143,13 +146,17 @@ public class CalendarManager {
     }
     
     
-    // metodo per aggiungere un record alla tabella seminar del db
+   /** Metodo della classe incaricato di inserire un nuovo seminario
+    * 
+    * @param pSeminar il nuovo seminario da inserire
+    * @throws SQLException 
+    */
     public synchronized void insert_seminar(Seminar pSeminar) throws SQLException {
         try (Connection connect = DBConnection.getConnection()) {
 
             /*
              * Prepariamo la stringa SQL per inserire un nuovo record 
-             * nella tabella course
+             * nella tabella seminar
              */
             String tSql = "INSERT INTO "
                     + CalendarManager.TABLE_SEMINAR
@@ -185,13 +192,20 @@ public class CalendarManager {
     }
     
     
-    // metodo per modificare una lezione
+    /** Metodo della classe incaricato di modificare una lezione
+     * 
+     * @param oldLessonID l'id della lezione da modificare
+     * @param pLesson la nuova lezione aggiornata
+     * @throws ClassNotFoundException
+     * @throws SQLException
+     * @throws IOException 
+     */
      public synchronized void update_lesson(int oldLessonID, Lesson pLesson) throws ClassNotFoundException, SQLException, IOException {
         try (Connection connect = DBConnection.getConnection()) {
 
             /*
              * Prepariamo la stringa SQL per modificare un record 
-             * nella tabella phdCycle
+             * nella tabella lesson
              */
             String tSql = "UPDATE "
                     + CalendarManager.TABLE_LESSON
@@ -229,13 +243,20 @@ public class CalendarManager {
     }
      
      
-      // metodo per modificare un seminario
+     /** Metodo della classe incaricato di modificare un seminario
+      * 
+      * @param oldSeminarID l'id del seminario da modificare
+      * @param pSeminar il nuovo seminario aggiornato
+      * @throws ClassNotFoundException
+      * @throws SQLException
+      * @throws IOException 
+      */
      public synchronized void update_seminar(int oldSeminarID, Seminar pSeminar) throws ClassNotFoundException, SQLException, IOException {
         try (Connection connect = DBConnection.getConnection()) {
 
             /*
              * Prepariamo la stringa SQL per modificare un record 
-             * nella tabella phdCycle
+             * nella tabella seminar
              */
             String tSql = "UPDATE "
                     + CalendarManager.TABLE_SEMINAR
@@ -277,7 +298,13 @@ public class CalendarManager {
     }
      
      
-     // metodo per eliminare un record dalla tabella lesson
+     /** Metodo della classe incaricato di cancellare una lezione
+      * 
+      * @param idLesson l'id della lezione da cancellare
+      * @throws ClassNotFoundException
+      * @throws SQLException
+      * @throws IOException 
+      */
      public synchronized void delete_lesson(int idLesson) throws ClassNotFoundException, SQLException, IOException {
         Connection connect = null;
         try {
@@ -285,8 +312,8 @@ public class CalendarManager {
             connect = DBConnection.getConnection();
 
             /*
-             * Prepariamo la stringa SQL per modificare un record 
-             * nella tabella phdCycle
+             * Prepariamo la stringa SQL per cancellare un record 
+             * nella tabella lesson
              */
             String tSql = "DELETE FROM "
                     + CalendarManager.TABLE_LESSON
@@ -305,7 +332,13 @@ public class CalendarManager {
     }
      
      
-     // metodo per eliminare un record dalla tabella seminar
+     /** Metodo della classe incaricato di cancellare un seminario
+      * 
+      * @param idSeminar l'id del seminario da cancellare
+      * @throws ClassNotFoundException
+      * @throws SQLException
+      * @throws IOException 
+      */
      public synchronized void delete_seminar(int idSeminar) throws ClassNotFoundException, SQLException, IOException {
         Connection connect = null;
         try {
@@ -313,11 +346,11 @@ public class CalendarManager {
             connect = DBConnection.getConnection();
 
             /*
-             * Prepariamo la stringa SQL per modificare un record 
-             * nella tabella phdCycle
+             * Prepariamo la stringa SQL per cancellare un record 
+             * nella tabella seminar
              */
             String tSql = "DELETE FROM "
-                    + CalendarManager.TABLE_LESSON
+                    + CalendarManager.TABLE_SEMINAR
                     + " WHERE idSeminar = '"
                     + testid(idSeminar) + "'";
 
@@ -333,7 +366,15 @@ public class CalendarManager {
     }
      
      
-     // metodo che restituisce una lezione in base all'Id
+     /** Metodo della classe incaricato di ricercare una lezione dato l'id
+      * 
+      * @param pLessonID l'id della lezione da ricercare
+      * @return restituisce la lezione se trovata, lancia un'eccezione altrimenti
+      * @throws ClassNotFoundException
+      * @throws SQLException
+      * @throws IOException
+      * @throws IdException 
+      */
      public synchronized Lesson getLessonById(int pLessonID) throws ClassNotFoundException, SQLException, IOException, IdException {
         Connection connect = null;
         
@@ -343,8 +384,8 @@ public class CalendarManager {
             connect = DBConnection.getConnection();
 
             /*
-             * Prepariamo la stringa SQL per modificare un record 
-             * nella tabella phdCycle
+             * Prepariamo la stringa SQL per ricercare un record 
+             * nella tabella lesson
              */
             String tSql = "SELECT * FROM "
                     + CalendarManager.TABLE_LESSON
@@ -375,7 +416,15 @@ public class CalendarManager {
     }
      
      
-     // metodo che restituisce un seminario in base all'Id
+     /** Metodo della classe incaricato di ricercare un seminario dato l'id
+      * 
+      * @param pSeminarID l'id del seminario da ricercare
+      * @return restituisce il seminario se trovato, lancia un'eccezione altrimenti
+      * @throws ClassNotFoundException
+      * @throws SQLException
+      * @throws IOException
+      * @throws IdException 
+      */
      public synchronized Seminar getSeminarById(int pSeminarID) throws ClassNotFoundException, SQLException, IOException, IdException {
         Connection connect = null;
         try {
@@ -384,8 +433,8 @@ public class CalendarManager {
             connect = DBConnection.getConnection();
 
             /*
-             * Prepariamo la stringa SQL per modificare un record 
-             * nella tabella phdCycle
+             * Prepariamo la stringa SQL per ricercare un record 
+             * nella tabella seminar
              */
             String tSql = "SELECT * FROM "
                     + CalendarManager.TABLE_SEMINAR
@@ -415,7 +464,15 @@ public class CalendarManager {
     }
     
      
-     // metodo che restituisce un seminario in base all'Id
+     /** Metodo della classe incaricato di ricercare un corso dato l'id
+      * 
+      * @param pCourseID l'id del corso da ricercare
+      * @return restituisce il corso se trovato, lancia un'eccezione altrimenti
+      * @throws ClassNotFoundException
+      * @throws SQLException
+      * @throws IOException
+      * @throws IdException 
+      */
      public synchronized Course getCourseById(int pCourseID) throws ClassNotFoundException, SQLException, IOException, IdException {
         Connection connect = null;
         try {
@@ -424,8 +481,8 @@ public class CalendarManager {
             connect = DBConnection.getConnection();
 
             /*
-             * Prepariamo la stringa SQL per modificare un record 
-             * nella tabella phdCycle
+             * Prepariamo la stringa SQL per ricercare un record 
+             * nella tabella course
              */
             String tSql = "SELECT * FROM "
                     + CalendarManager.TABLE_COURSE
@@ -452,7 +509,14 @@ public class CalendarManager {
         }
     }
      
-     
+     /** Metodo della classe incaricato di ritornare tutte le lezioni di un corso
+      * dato il corso
+      * 
+      * @param pCourse il corso da selezionare
+      * @return restituisce una lista di lezioni presenti nel corso
+      * @throws SQLException
+      * @throws IdException 
+      */
       public synchronized List<Lesson> getAllLessonOf(Course pCourse) throws SQLException, IdException { //da modificare dato Person
         List<Lesson> lessons = new ArrayList<>();
         
@@ -462,8 +526,8 @@ public class CalendarManager {
             connect = DBConnection.getConnection();
 
             /*
-             * Prepariamo la stringa SQL per modificare un record 
-             * nella tabella phdCycle
+             * Prepariamo la stringa SQL per ricercare uno o piu' record 
+             * nella tabella lesson
              */
             String tSql = "SELECT * FROM "
                     + CalendarManager.TABLE_LESSON
@@ -500,13 +564,25 @@ public class CalendarManager {
       
       
       
-      
+      /** Metodo della classe per il testing dell'id; non puo' essere minore di 0
+       * 
+       * @param id
+       * @return restituisce l'id se valido, lancia un'eccezione altrimenti
+       * @throws IdException 
+       */
       public int testid(int id) throws IdException {
         if(id<0){
             throw new IdException("l'id non puo' essere minore di 0");
         }
         return id;
     }  
+      /** Metodo della classe per il testing della descrizione; non puo' essere
+       * nulla o maggiore di 249 caratteri
+       * 
+       * @param description stringa da testare
+       * @return restituisce la stringa se valida, lancia un'eccezione altrimenti
+       * @throws DescriptionException 
+       */
        public String testDescription(String description) throws DescriptionException{
          if(description.equals(null)&& description.length()>250){
             
@@ -515,6 +591,13 @@ public class CalendarManager {
          return description;
     }
 
+       /** Metodo della classe per il testing della descrizione della lezione;
+        * non puo' essere nulla
+        * 
+        * @param description stringa da testare
+        * @return restituisce la stringa se valida, lancia un'eccezione altrimenti
+        * @throws DescriptionException 
+        */
     private String testDescriptionLesson(String description) throws DescriptionException {
         if(description.equals(null)){
             
@@ -522,7 +605,14 @@ public class CalendarManager {
         }
          return description;
     }
-   
+    
+   /** Metodo della classe per il testing della descrizione del seminario;
+        * non puo' essere nulla
+        * 
+        * @param description stringa da testare
+        * @return restituisce la stringa se valida, lancia un'eccezione altrimenti
+        * @throws DescriptionException 
+        */
     public String seminarTestDescription(String description) throws DescriptionException{
          if(description.equals(null)){
             
@@ -530,7 +620,13 @@ public class CalendarManager {
         }
          return description;
     }
-     
+    
+    /**Metodo della classe per il testing della data di inzio; non puo' essere nulla
+     * 
+     * @param data data da testare
+     * @return restituisce la data se valida, lancia un'eccezione altrimenti
+     * @throws DateException 
+     */
     public Date testStartData(Date data) throws DateException{
          if(data.equals(null)){
             
@@ -539,6 +635,12 @@ public class CalendarManager {
          return data;
     }
    
+    /**Metodo della classe per il testing della data di fine; non puo' essere nulla
+     * 
+     * @param data data da testare
+     * @return restituisce la data se valida, lancia un'eccezione altrimenti
+     * @throws DateException 
+     */
     public Date testEndData(Date data) throws DateException{
          if(data.equals(null)){
             
@@ -547,6 +649,13 @@ public class CalendarManager {
          return data;
     }
     
+    /** Metodo della classe per il testing della stringa name; non puo' essere
+     * nulla o maggiore di 49 caratteri
+     * 
+     * @param name la stringa da testare
+     * @return restituisce la stringa se valida, lancia un'eccezione altrimenti
+     * @throws NameException 
+     */
       public String testNome(String name) throws NameException{
          if(name.equals(null)&&name.length()>50){
             
@@ -554,6 +663,14 @@ public class CalendarManager {
         }
          return name;
     }
+      
+      /** Metodo della classe per il testing della stringa name; non puo' essere
+     * nulla o maggiore di 69 caratteri
+     * 
+     * @param name la stringa da testare
+     * @return restituisce la stringa se valida, lancia un'eccezione altrimenti
+     * @throws NameException 
+     */
       public String testNomeLesson(String name) throws NameException{
          if(name.equals(null)&&name.length()>70){
             
@@ -562,6 +679,13 @@ public class CalendarManager {
          return name;
     }
 
+       /** Metodo della classe per il testing della stringa name; non puo' essere
+     * nulla o maggiore di 69 caratteri
+     * 
+     * @param name la stringa da testare
+     * @return restituisce la stringa se valida, lancia un'eccezione altrimenti
+     * @throws NameException 
+     */
     private String testNomeSeminar(String name)throws NameException{
          if(name.equals(null)&&name.length()>70){
             
@@ -569,6 +693,14 @@ public class CalendarManager {
         }
          return name;
     }
+    
+     /** Metodo della classe per il testing della stringa name; non puo' essere
+     * nulla o maggiore di 49 caratteri
+     * 
+     * @param name la stringa da testare
+     * @return restituisce la stringa se valida, lancia un'eccezione altrimenti
+     * @throws PlaceException 
+     */
     private String testPlaceSeminar(String name)throws PlaceException{
          if(name.equals(null)&&name.length()>50){
             
@@ -577,6 +709,13 @@ public class CalendarManager {
          return name;
     }
 
+     /** Metodo della classe per il testing del nome dello speaker; non puo' essere
+     * nulla o maggiore di 49 caratteri
+     * 
+     * @param nameSpeacker la stringa da testare
+     * @return restituisce la stringa se valida, lancia un'eccezione altrimenti
+     * @throws SpeakerException 
+     */
     private String testSpeakerSeminar(String nameSpeacker) throws SpeakerException{
         if(nameSpeacker.equals(null)&&nameSpeacker.length()>50){
             
@@ -585,6 +724,13 @@ public class CalendarManager {
          return nameSpeacker;
     }
 
+     /** Metodo della classe per il testing della stringa classroom; non puo' essere
+     * nulla o maggiore di 49 caratteri
+     * 
+     * @param classroom la stringa da testare
+     * @return restituisce la stringa se valida, lancia un'eccezione altrimenti
+     * @throws ClassroomException 
+     */
     private String testClassroom(String classroom) throws ClassroomException {
       if(classroom.equals(null)&&classroom.length()>50){
             
@@ -593,6 +739,12 @@ public class CalendarManager {
          return classroom;
     }
 
+    /**Metodo della classe per il testing della data; non puo' essere nulla
+     * 
+     * @param data data da testare
+     * @return restituisce la data se valida, lancia un'eccezione altrimenti
+     * @throws DateException 
+     */
     private Date testData(Date data)  throws DateException{
          if(data.equals(null)){
             

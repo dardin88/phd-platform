@@ -1,8 +1,3 @@
-/*
- * To change this license header, choose License Headers in Project Properties.
- * To change this template file, choose Tools | Templates
- * and open the template in the editor.
- */
 package it.unisa.dottorato.phdProfile.missions;
 
 import it.unisa.dottorato.account.PhdStudent;
@@ -15,7 +10,7 @@ import java.sql.SQLException;
 import java.util.ArrayList;
 import java.util.List;
 
-/**
+/** Classe della gestione delle missioni
  *
  * @author gemmacatolino
  */
@@ -52,13 +47,18 @@ public class MissionManager {
         }
         return instance;
     }
-    
+  
+    /** Metodo della classe incaricato di inserire una nuova missione
+     * 
+     * @param pMission la nuova missione da inserire
+     * @throws SQLException 
+     */
     public synchronized void insert(Mission pMission) throws SQLException {
         try (Connection connect = DBConnection.getConnection()) {
 
             /*
              * Prepariamo la stringa SQL per inserire un nuovo record 
-             * nella tabella phdCycle
+             * nella tabella mission
              */
             String tSql = "INSERT INTO "
                     + MissionManager.TABLE_MISSION
@@ -84,13 +84,21 @@ public class MissionManager {
             connect.commit();
         }
     }
-          
+  
+    /** Metodo della classe incaricato di aggiornare una missione
+     * 
+     * @param oldMissionID l'id della missione da aggiornare
+     * @param pMission la missione aggiornata
+     * @throws ClassNotFoundException
+     * @throws SQLException
+     * @throws IOException 
+     */
     public synchronized void update(int oldMissionID, Mission pMission) throws ClassNotFoundException, SQLException, IOException {
         try (Connection connect = DBConnection.getConnection()) {
 
             /*
              * Prepariamo la stringa SQL per modificare un record 
-             * nella tabella phdCycle
+             * nella tabella mission
              */
             String tSql = "UPDATE "
                     + MissionManager.TABLE_MISSION
@@ -114,7 +122,14 @@ public class MissionManager {
             connect.commit();
         }
     }
-    
+
+    /** Metodo della classe incaricato di cancellare una missione
+     * 
+     * @param idMission la missione da cancellare
+     * @throws ClassNotFoundException
+     * @throws SQLException
+     * @throws IOException 
+     */
     public synchronized void delete(String idMission) throws ClassNotFoundException, SQLException, IOException {
         Connection connect = null;
         try {
@@ -122,8 +137,8 @@ public class MissionManager {
             connect = DBConnection.getConnection();
 
             /*
-             * Prepariamo la stringa SQL per modificare un record 
-             * nella tabella phdCycle
+             * Prepariamo la stringa SQL per rimuovere un record 
+             * nella tabella mission
              */
             String tSql = "DELETE FROM "
                     + MissionManager.TABLE_MISSION
@@ -139,6 +154,14 @@ public class MissionManager {
         }
     }
     
+    /** Metodo della classe incaricato di ricercare una missione dato il suo id
+     * 
+     * @param pMissionID id della missione da ricercare
+     * @return restituisce la missione trovata, lancia un'eccezione altrimenti
+     * @throws ClassNotFoundException
+     * @throws SQLException
+     * @throws IOException 
+     */
     public synchronized Mission getMissionById(int pMissionID) throws ClassNotFoundException, SQLException, IOException {
         Connection connect = null;
         try {
@@ -147,8 +170,8 @@ public class MissionManager {
             connect = DBConnection.getConnection();
 
             /*
-             * Prepariamo la stringa SQL per modificare un record 
-             * nella tabella phdCycle
+             * Prepariamo la stringa SQL per ricercare un record 
+             * nella tabella mission
              */
             String tSql = "SELECT * FROM "
                     + MissionManager.TABLE_MISSION
@@ -174,7 +197,13 @@ public class MissionManager {
             DBConnection.releaseConnection(connect);
         }
     }
-    
+   
+    /** Metodo della classe incaricato di ricercare tutte le missioni di un dottorando
+     * 
+     * @param phdStudent il dottorando su cui effettuare la ricerca
+     * @return restituisce una lista di missioni del dottorando, lancia un'eccezione altrimenti
+     * @throws SQLException 
+     */
     public synchronized List<Mission> getAllMissionsOf(PhdStudent phdStudent) throws SQLException {
         List<Mission> missions = new ArrayList<Mission>();
         
@@ -184,8 +213,8 @@ public class MissionManager {
             connect = DBConnection.getConnection();
 
             /*
-             * Prepariamo la stringa SQL per modificare un record 
-             * nella tabella phdCycle
+             * Prepariamo la stringa SQL per ricercare uno o piu' record 
+             * nella tabella mission
              */
             String tSql = "SELECT * FROM "
                     + MissionManager.TABLE_MISSION

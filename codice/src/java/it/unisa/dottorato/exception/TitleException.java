@@ -1,10 +1,6 @@
-/*
- * To change this license header, choose License Headers in Project Properties.
- * To change this template file, choose Tools | Templates
- * and open the template in the editor.
- */
 package it.unisa.dottorato.exception;
-/**
+/**Classe dell'oggetto TitleException che estende Exception;
+ * gestisce le eccezioni per gli attributi <code>title</code>
  *
  * @author Rembor
  */

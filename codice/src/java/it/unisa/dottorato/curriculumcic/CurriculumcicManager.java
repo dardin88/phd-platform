@@ -8,7 +8,7 @@ import java.sql.ResultSet;
 import java.sql.SQLException;
 import java.util.ArrayList;
 
-/**
+/**Classe per la gestione delle coppie curriculum-ciclo
  *
  * @author Tommaso Minichiello
  */
@@ -46,11 +46,11 @@ public class CurriculumcicManager {
     }
 
     
-    /**
+   /**
      * Metodo della classe incaricato dell'inserimento di un record
      * nella tabella teach
-     * @param pCurriculumcic
-     * @param fkProfessor 
+     * @param pCurriculumcic il curriculum-ciclo da aggiornare
+     * @param fkProfessor il nuovo professore da inserire
      * @throws java.lang.ClassNotFoundException
      * @throws java.sql.SQLException
      * @throws java.io.IOException
@@ -61,7 +61,7 @@ public class CurriculumcicManager {
 
             /*
              * Prepariamo la stringa SQL per effettuare la modifica alla 
-             * tabella phdstudent
+             * tabella teach
              */
            String tSql = "INSERT INTO "
                     + CurriculumcicManager.TABLE_TEACH
@@ -83,9 +83,9 @@ public class CurriculumcicManager {
     
      /**
      * Metodo della classe incaricato dell'inserimento di un record
-     * nella tabella teach
-     * @param pCurriculumcic
-     * @param fkProfessor 
+     * nella tabella curriculumcic
+     * @param pCurriculumcic il curriculum-ciclo da aggiornare
+     * @param fkProfessor il nuovo coordinatore da inserire
      * @throws java.lang.ClassNotFoundException
      * @throws java.sql.SQLException
      * @throws java.io.IOException
@@ -96,7 +96,7 @@ public class CurriculumcicManager {
 
             /*
              * Prepariamo la stringa SQL per effettuare la modifica alla 
-             * tabella phdstudent
+             * tabella curriculumcic
              */
            String tSql = "UPDATE "
                     + CurriculumcicManager.TABLE_CURRICULUMCIC
@@ -114,9 +114,9 @@ public class CurriculumcicManager {
         }
     }
      /**
-     * Metodo della classe incaricato dell'inserimento di un record
-     * nella tabella teach
-     * @param pCurriculumcic
+     * Metodo della classe incaricato della cancellazione di un record
+     * nella tabella curriculumcic
+     * @param pCurriculumcic il curriculum-ciclo da eliminare
      * @throws java.lang.ClassNotFoundException
      * @throws java.sql.SQLException
      * @throws java.io.IOException
@@ -127,7 +127,7 @@ public class CurriculumcicManager {
 
             /*
              * Prepariamo la stringa SQL per effettuare la modifica alla 
-             * tabella phdstudent
+             * tabella curriculumcic
              */
            String tSql = "UPDATE "
                     + CurriculumcicManager.TABLE_CURRICULUMCIC
@@ -144,9 +144,9 @@ public class CurriculumcicManager {
     } 
     
     /**
-     * Metodo della classe incaricato dell'inserimento di un record
-     * nella tabella teach
-     * @param pCurriculumcic
+     * Metodo della classe incaricato della visualizzazione di tutti i coordinatori
+     * di un curriculum-ciclo
+     * @param pCurriculumcic il curriculum-ciclo da selezionare
      * @throws java.lang.ClassNotFoundException
      * @throws java.sql.SQLException
      * @throws java.io.IOException
@@ -157,7 +157,7 @@ public class CurriculumcicManager {
 
             /*
              * Prepariamo la stringa SQL per effettuare la modifica alla 
-             * tabella phdstudent
+             * tabella curriculumcic
              */
            String tSql = "SELECT fkProfessor FROM "
                     + CurriculumcicManager.TABLE_CURRICULUMCIC
@@ -174,10 +174,10 @@ public class CurriculumcicManager {
     } 
     
     /**
-     * Metodo della classe incaricato dell'inserimento di un record
+     * Metodo della classe incaricato della cancellazione di un record
      * nella tabella teach
-     * @param pCurriculumcic
-     * @param fkProfessor 
+     * @param pCurriculumcic il curriculum-ciclo da selezionare
+     * @param fkProfessor il professore da cancellare
      * @throws java.lang.ClassNotFoundException
      * @throws java.sql.SQLException
      * @throws java.io.IOException
@@ -188,7 +188,7 @@ public class CurriculumcicManager {
 
             /*
              * Prepariamo la stringa SQL per effettuare la modifica alla 
-             * tabella phdstudent
+             * tabella teach
              */
            String tSql = "DELETE * FROM "
                     + CurriculumcicManager.TABLE_TEACH
@@ -207,13 +207,12 @@ public class CurriculumcicManager {
         }
     }
     
-    
     /**
      * Metodo della classe incaricato dell'inserimento in un record della
      * tabella pdhstudent dei campi fkCurriculum e fkCycle
      *
-     * @param pCurriculumcic
-     * @param fkPhdstudent
+     * @param pCurriculumcic il curriculum-ciclo da selezionare
+     * @param fkPhdstudent il nuovo studente da iscrivere
      * @throws java.lang.ClassNotFoundException
      * @throws java.sql.SQLException
      * @throws java.io.IOException
@@ -242,9 +241,11 @@ public class CurriculumcicManager {
     }
     
     /**
-     * Metodo della classe incaricato della ricerca dei cicli esistenti.
-     *@param curriculumcic  
-     * @return
+     * Metodo della classe incaricato della ricerca e visualizzazione
+     * dei professori di un curriculum-ciclo.
+     *@param curriculumcic il curriculum-ciclo da selezionare 
+     * @return restituisce un array list contenente i professori associati al
+     * curriculum-ciclo
      * @throws java.lang.ClassNotFoundException
      * @throws java.sql.SQLException
      * @throws java.io.IOException
@@ -258,7 +259,7 @@ public class CurriculumcicManager {
 
             /*
              * Prepariamo la stringa SQL per modificare un record 
-             * nella tabella phdCycle
+             * nella tabella teach
              */
              String tSql = "SELECT fkAccount FROM "
                     + CurriculumcicManager.TABLE_TEACH
@@ -282,9 +283,11 @@ public class CurriculumcicManager {
     }
     
     /**
-     * Metodo della classe incaricato della ricerca dei cicli esistenti.
-     *@param curriculumcic  
-     * @return
+     * Metodo della classe incaricato della ricerca e visualizzazione dei 
+     * dottorandi iscritti al curriculum-ciclo
+     *@param curriculumcic  il curriculum-ciclo da selezionare
+     * @return restituisce un array list contenente i dottorandi iscritti
+     * al curriculum-ciclo
      * @throws java.lang.ClassNotFoundException
      * @throws java.sql.SQLException
      * @throws java.io.IOException
@@ -298,7 +301,7 @@ public class CurriculumcicManager {
 
             /*
              * Prepariamo la stringa SQL per modificare un record 
-             * nella tabella phdCycle
+             * nella tabella phdstudent
              */
              String tSql = "SELECT fkAccount FROM "
                     + CurriculumcicManager.TABLE_PHDSTUDENT
@@ -322,10 +325,10 @@ public class CurriculumcicManager {
     }
     
     /**
-     * Metodo della classe incaricato della cancellazione in un record della
+     * Metodo della classe incaricato della cancellazione di un record della
      * tabella pdhstudent dei campi fkCurriculum e fkCycle
      *
-     * @param fkPhdstudent 
+     * @param fkPhdstudent il dottorando da cancellare
      * @throws java.lang.ClassNotFoundException
      * @throws java.sql.SQLException
      * @throws java.io.IOException

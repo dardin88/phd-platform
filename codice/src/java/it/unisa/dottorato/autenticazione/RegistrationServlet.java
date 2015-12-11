@@ -15,7 +15,8 @@ import javax.servlet.http.HttpServlet;
 import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpServletResponse;
 
-/**
+/**Servlet incaricata ad effettuare la richiesta di registrazione di un
+ * utente alla piattaforma
  *
  * @author gemmacatolino
  */

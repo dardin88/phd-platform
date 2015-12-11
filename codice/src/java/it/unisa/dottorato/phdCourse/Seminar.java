@@ -1,117 +1,180 @@
-/*
- * To change this license header, choose License Headers in Project Properties.
- * To change this template file, choose Tools | Templates
- * and open the template in the editor.
- */
 package it.unisa.dottorato.phdCourse;
 
 import java.io.Serializable;
 import java.util.Date;
-/**
+/**Classe dell'oggetto Seminar, che identifica un seminario all'interno del
+ * calendario; ha come attributi idSeminar, data, startTime, endTime, name,
+ * namespeacker, description, place, FK_course che rappresentano rispettivamente
+ * l'id del seminario, la data in cui si terrà, l'ora di inizio e di fine, il nome
+ * del seminario, il nome dello speaker, la descrizione, il luogo dove si terrà e
+ * l'id del corso a cui il seminario e' associato
  *
  * @author Giuseppe Picciocchi
  */
-//La classe Seminar identifica un seminario all'interno del calendario
+
 public class Seminar implements Serializable{
     
-    private int idSeminar;// variabile per identificare l'id del seminario (chiave primaria)
-    private Date data; // variabile per identificare la data di un seminario
-    private int startTime;// variabile per identificare l'inizio di un seminario
-    private int endTime;  // variabile per identificare la fine di un seminario
-    private String name; // variabile per identificare il nome del seminario
-    private String namespeacker;// variabile per identificare lo speaker del seminario
-    private String description;// variabile per identificare la descrizione del seminario
-    private String place;// variabile per identificare il posto in cui si terrà il seminario
-    private int FK_course;// variabile per identificare la chiave esterna al corso del seminario
+    private int idSeminar;
+    private Date data; 
+    private int startTime;
+    private int endTime;  
+    private String name; 
+    private String namespeacker;
+    private String description;
+    private String place;
+    private int FK_course;
     
     
-     // metodo utilizzato per restituire l'id del seminario
+    /** Metodo della classe incaricato di ritornare l'id del seminario
+     * 
+     * @return restituisce l'id del seminario
+     */
     public int getIdSeminar(){
         return idSeminar;            
     }
     
-    // metodo per settare l'id della lezione
+    /** Metodo della classe incaricato di settare l'id del seminario
+     * 
+     * @param id 
+     */
     public void setIdSeminar(int id){
         this.idSeminar = id;
     }
     
-    // metodo utilizzato per restituire la data di un seminario
+    /** Metodo della classe incaricato di ritornare la data del seminario
+     * 
+     * @return restituisce la data del seminario
+     */
     public Date getData(){
         return data;            
     }
     
-    // metodo per settare la data di un seminario
+    /** Metodo della classe incaricato di settare la data del seminario
+     * 
+     * @param date 
+     */
     public void setDate(Date date){
         this.data = date;
     }
     
-    // metodo utilizzato per restituire l'ora di inizio seminario
+   
+    /** Metodo della classe incaricato di ritornare l'ora di inizio del seminario
+     * 
+     * @return restituisce l'ora di inizio del seminario
+     */
     public int getStartTime(){
         return startTime;            
     }
     
-    // metodo per settare l'ora di inizio seminario
+    /** Metodo della classe incaricato di settare l'ora di inzio del seminario
+     * 
+     * @param start_time 
+     */
     public void setStartTime(int start_time){
         this.startTime = start_time;
     }
     
-    // metodo utilizzato per restituire l'ora di fine seminario
+   
+    /** Metodo della classe incaricato di ritornare l'ora di fine seminario
+    * 
+    * @return restituisce l'ora di fine seminario
+    */
     public int getEndTime(){
         return endTime;            
     }
     
-    // metodo per settare l'ora di fine seminario
+    /** Metodo della classe incaricato di settare l'ora di fine seminario
+     * 
+     * @param end_time 
+     */
     public void setEndTime(int end_time){
         this.endTime = end_time;
     }
     
     
-     // metodo utilizzato per restituire il nome del seminario
+    
+    /** Metodo della classe incaricato di ritornare il nome del seminario
+     * 
+     * @return restituisce il nome del seminario
+     */
     public String getName(){
         return name;            
     }
     
-    // metodo per settare il nome del seminario
+    /** Metodo della classe incaricato di settare il nome del seminario
+     * 
+     * @param nome 
+     */
     public void setName(String nome){
         this.name = nome;
     }
     
-     // metodo utilizzato per restituire lo speaker del seminario
+    /** Metodo della classe incaricato di ritornare il nome dello speaker
+     * del seminario
+     * 
+     * @return restituisce il nome dello speaker del seminario
+     */
     public String getNameSpeacker(){
         return namespeacker;            
     }
     
-    // metodo per settare lo speaker del seminario
+    /** Metodo della classe incaricato di settare il nome dello speaker
+     * del seminario
+     * 
+     * @param nome_speacker 
+     */
     public void setNameSpeacker(String nome_speacker){
         this.namespeacker = nome_speacker;
     }
     
-     // metodo utilizzato per restituire la descrizione della lezione
+    
+    /** Metodo della classe incaricato di ritornare la descrizione del seminario
+     * 
+     * @return restituisce la descrizione del seminario
+     */
     public String getDescription(){
         return description;            
     }
     
-    // metodo per settare la decrizione della lezione
+    /** Metodo della classe incaricato di settare la descrizione del seminario
+     * 
+     * @param descrizione 
+     */
     public void setDescription(String descrizione){
         this.description = descrizione;
     }
     
-     // metodo utilizzato per restituire il posto in cui si terrà il seminario
+    /** Metodo della classe incaricato di ritornare il luogo del seminario
+     * 
+     * @return restituisce il luogo del seminario
+     */
     public String getPlace(){
         return place;            
     }
     
-    // metodo per settare il posto in cui si terrà il seminario
+    /** Metodo della classe incaricato di settare il luogo del seminario
+     * 
+     * @param posto 
+     */
     public void setPlace(String posto){
         this.place = posto;
     }
     
-    // metodo utilizzato per restituire la chiave esterna al corso del seminario
+    
+   /** Metodo della classe incaricato di ritornare l'id del corso a cui il seminario
+     * e' associato
+     * 
+     * @return restituisce l'id del corso a cui il seminario e' associato
+     */
     public int getFK_course(){
         return FK_course;            
     }
     
-    // metodo per settare la chiave esterna al corso del seminario
+    /** Metodo della classe incaricato di settare l'id del corso a cui il 
+     * seminario e' associato
+     * 
+     * @param chiave_course 
+     */
     public void setFK_course(int chiave_course){
         this.FK_course = chiave_course;
     }
