@@ -555,7 +555,38 @@ public class CycleManager {
             DBConnection.releaseConnection(connect);
         }
     }
-
+    
+    /**
+     * Metodo della classe incaricato di calcolare il numero del prossimo ciclo da inserire
+     * nella tabella Cycle del database.
+     * @return restituisce il prossimo numero
+     * @throws java.lang.ClassNotFoundException
+     * @throws java.sql.SQLException
+     * @throws java.io.IOException
+     * @throws it.unisa.dottorato.exception.DescriptionException
+     * @throws it.unisa.dottorato.exception.IdException
+     * @throws it.unisa.dottorato.exception.DateException
+     * 
+     */
+    public synchronized int nextNumber() throws 
+            ClassNotFoundException, SQLException, IOException, DescriptionException, IdException, DateException {
+        int c=1;
+        
+       
+        try (Connection connect = DBConnection.getConnection()) {
+            String tSql = "SELECT number FROM "
+                    + CycleManager.TABLE_CYCLE
+                    + "ORDER BY number DESC LIMIT 1";
+            //Inviamo la Query al DataBase
+             ResultSet result = Utility.queryOperation(connect, tSql);
+            if(result.next()){
+                c = result.getInt("number")+1;
+            }
+            connect.commit();
+            return c;
+        } 
+    }
+    
     /** Metodo per il testing del numero di un ciclo; non può essere minore o uguale
      * di 0 e maggiore di 999
      * 
