@@ -15,7 +15,8 @@ import org.json.JSONArray;
 import org.json.JSONException;
 import org.json.JSONObject;
 
-/**
+/**Servlet incaricata ad effettuare la richiesta di visualizzazione della 
+ * lista del collegio dei docenti di un ciclo
  *
  * @author Tommaso Minichiello
  */

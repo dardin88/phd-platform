@@ -17,8 +17,7 @@ import org.json.JSONException;
 import org.json.JSONObject;
 
 
-/**
- *
+/** Servlet incaricata ad effettuare la richiesta di aggiornamento di un ciclo 
  * @author Tommaso Minichiello
  */
 @WebServlet(name = "UpdateCycle", urlPatterns = {"/dottorato/UpdateCycle"})

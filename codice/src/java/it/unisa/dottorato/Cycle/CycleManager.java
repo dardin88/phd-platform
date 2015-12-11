@@ -14,14 +14,14 @@ import java.sql.SQLException;
 import java.util.ArrayList;
 
 
-/**
+/**Classe per la gestione dei cicli
  *
  * @author Tommaso Minichiello
  */
 public class CycleManager {
 
     /**
-     * Il nome della tabella
+     * I nomi delle tabelle
      */
     private static final String TABLE_CYCLE = "cycle";
     private static final String TABLE_CURRICULUMCIC = "curriculumcic";
@@ -60,10 +60,14 @@ public class CycleManager {
      * Metodo della classe incaricato dell'inserimento di una nuova entita'
      * nella tabella phdCycle del database.
      *
-     * @param pCycle
+     * @param pCycle il nuovo ciclo da inserire
      * @throws java.lang.ClassNotFoundException
      * @throws java.sql.SQLException
      * @throws java.io.IOException
+     * @throws it.unisa.dottorato.exception.DescriptionException
+     * @throws it.unisa.dottorato.exception.IdException
+     * @throws it.unisa.dottorato.exception.DateException
+     * 
      */
     public synchronized void insertCycle(Cycle pCycle) throws 
             ClassNotFoundException, SQLException, IOException, DescriptionException, IdException, DateException {
@@ -98,11 +102,14 @@ public class CycleManager {
      * Metodo della classe incaricato della modifica di un'entita' nella tabella
      * phdCycle del database.
      *
-     * @param oldNumber 
-     * @param pCycle
+     * @param oldNumber numero del ciclo da selezionare
+     * @param pCycle il nuovo ciclo
      * @throws java.lang.ClassNotFoundException
      * @throws java.sql.SQLException
      * @throws java.io.IOException
+     * @throws it.unisa.dottorato.exception.DescriptionException
+     * @throws it.unisa.dottorato.exception.IdException
+     * @throws it.unisa.dottorato.exception.DateException
      */
     public synchronized void updateCycle(int oldNumber, Cycle pCycle) 
             throws ClassNotFoundException, SQLException, IOException, DescriptionException, IdException, DateException {
@@ -136,8 +143,8 @@ public class CycleManager {
      * Metodo della classe incaricato della modifica di un'entita' nella tabella
      * cycle 
      *
-     * @param cycle  
-     * @param fkProfessor 
+     * @param cycle  il ciclo da selezionare
+     * @param fkProfessor il coordinatore da inserire nel ciclo
      * @throws java.lang.ClassNotFoundException
      * @throws java.sql.SQLException
      * @throws java.io.IOException
@@ -166,7 +173,7 @@ public class CycleManager {
      * Metodo della classe incaricato della modifica di un'entita' nella tabella
      * cycle 
      *
-     * @param cycle
+     * @param cycle il ciclo da selezionare
      * @throws java.lang.ClassNotFoundException
      * @throws java.sql.SQLException
      * @throws java.io.IOException
@@ -192,7 +199,8 @@ public class CycleManager {
      /**
      * Metodo della classe incaricato di cercare il coordinatore di un ciclo
      *
-     * @param cycle
+     * @param cycle il ciclo da selezionare
+     * @return l'account del coordinatore se esistente
      * @throws java.lang.ClassNotFoundException
      * @throws java.sql.SQLException
      * @throws java.io.IOException
@@ -239,10 +247,10 @@ public class CycleManager {
     }
     
     /**
-     * Metodo della classe incaricato della cancellazopme di un'entita' nella
+     * Metodo della classe incaricato della cancellazione di un'entita' nella
      * tabella phdCycle del database.
      *
-     * @param number 
+     * @param number il numero del ciclo da cancellare
      * @throws java.lang.ClassNotFoundException
      * @throws java.sql.SQLException
      * @throws java.io.IOException
@@ -275,8 +283,9 @@ public class CycleManager {
      * Metodo della classe incaricato della ricerca delle informazioni di un
      * ciclo contenuto nella tabella phdCycle.
      *
-     * @param number 
-     * @return
+     * @param number il numero del ciclo da selezionare
+     * @return ritorna il ciclo <code>number</code> se esiste, lancia un'eccezione
+     * altrimenti
      * @throws java.lang.ClassNotFoundException
      * @throws java.sql.SQLException
      * @throws java.io.IOException
@@ -317,7 +326,7 @@ public class CycleManager {
     /**
      * Metodo della classe incaricato della ricerca dei cicli esistenti.
      *
-     * @return
+     * @return restituisce un array list di cicli
      * @throws java.lang.ClassNotFoundException
      * @throws java.sql.SQLException
      * @throws java.io.IOException
@@ -358,7 +367,7 @@ public class CycleManager {
     /**
      * Metodo della classe incaricato della ricerca dei cicli esistenti.
      *
-     * @return
+     * @return restituisce un array list dei numeri dei cicli
      * @throws java.lang.ClassNotFoundException
      * @throws java.sql.SQLException
      * @throws java.io.IOException
@@ -393,8 +402,9 @@ public class CycleManager {
     
      /**
      * Metodo della classe incaricato della ricerca dei cicli esistenti.
-     *@param number 
-     * @return
+     *@param number il numero del ciclo da ricercare
+     * @return restituisce un array list di professori che formano il collegio
+     * dei docenti del ciclo
      * @throws java.lang.ClassNotFoundException
      * @throws java.sql.SQLException
      * @throws java.io.IOException
@@ -408,7 +418,7 @@ public class CycleManager {
 
             /*
              * Prepariamo la stringa SQL per modificare un record 
-             * nella tabella phdCycle
+             * nella tabella teach
              */
              String tSql = "SELECT fkAccount FROM "
                     + CycleManager.TABLE_TEACH
@@ -432,7 +442,7 @@ public class CycleManager {
      * Metodo della classe incaricato dell'inserimento di una nuova entita'
      * nella tabella phdlass del database.
      *
-     * @param pCurriculumcic
+     * @param pCurriculumcic il nuovo curriculum da inserire
      * @throws java.lang.ClassNotFoundException
      * @throws java.sql.SQLException
      * @throws java.io.IOException
@@ -468,8 +478,8 @@ public class CycleManager {
      * Metodo della classe incaricato della cancellazione di un'entita' nella
      * tabella curriculumcic del database.
      *
-     * @param fkCurriculum
-     * @param fkCycle
+     * @param fkCurriculum il curriculum
+     * @param fkCycle il ciclo
      * @throws java.lang.ClassNotFoundException
      * @throws java.sql.SQLException
      * @throws java.io.IOException
@@ -482,7 +492,7 @@ public class CycleManager {
 
             /*
              * Prepariamo la stringa SQL per modificare un record 
-             * nella tabella phdClass
+             * nella tabella curriculumcic
              */
             String tSql = "DELETE FROM "
                     + CycleManager.TABLE_CURRICULUMCIC
@@ -503,8 +513,8 @@ public class CycleManager {
    
     /**
      * Metodo della classe incaricato della ricerca delle classi esistenti.
-     *@param number 
-     * @return 
+     *@param number il numero del ciclo da selezionare
+     * @return restituisce un array list dei curriculum del ciclo <code>number</code>
      * @throws java.lang.ClassNotFoundException
      * @throws java.sql.SQLException
      * @throws java.io.IOException
@@ -546,18 +556,40 @@ public class CycleManager {
         }
     }
 
+    /** Metodo per il testing del numero di un ciclo; non può essere minore o uguale
+     * di 0 e maggiore di 999
+     * 
+     * @param number il numero da testare
+     * @return restituisce il numero se valido, lancia un'eccezione altrimenti
+     * @throws IdException 
+     */
      public Integer testNumber(int number) throws IdException {
         if(number <=0 || number > 999) 
             throw new IdException("il numero del ciclo è sbagliato");
         return number;
     }
     
+       /**Metodo per il testing della descrizione del ciclo; verifica che la stringa
+     * <code>description</code> non sia vuota o non abbia una lunghezza superiore
+     * ai 65535 caratteri
+     * 
+     * @param description descrizione del ciclo
+     * @return restituisce la stringa se valida, lancia un'eccezione altrimenti
+     * @throws DescriptionException 
+     */
     public String testDescription(String description) throws DescriptionException {
         if(description.isEmpty() || description.length() > 65536) 
             throw new DescriptionException("Descrizione ciclo errata.");
         return description;
     }
     
+    /** Metodo per il testing dell'anno di un ciclo; non può essere una stringa
+     * vuota o maggiore di 4 caratteri
+     * 
+     * @param year la stringa da testare
+     * @return restituisce la stringa se valida, lancia un'eccezione altrimenti
+     * @throws DateException 
+     */
     public String testYear(String year) throws DateException {
         if(year.isEmpty() || year.length() > 4) 
             throw new DateException("Anno ciclo errato.");

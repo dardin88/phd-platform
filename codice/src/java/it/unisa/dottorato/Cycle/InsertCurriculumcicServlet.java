@@ -14,8 +14,8 @@ import javax.servlet.http.HttpServletResponse;
 import org.json.JSONException;
 import org.json.JSONObject;
 
-/**
- *
+/** Servlet incaricata ad effettuare la richiesta di inserimento di una coppia
+ * curriculum-ciclo (curriculumcic)
  * @author Tommaso Minichiello
  */
 @WebServlet(name = "InsertCurriculumcic", urlPatterns = {"/dottorato/InsertCurriculumcic"})

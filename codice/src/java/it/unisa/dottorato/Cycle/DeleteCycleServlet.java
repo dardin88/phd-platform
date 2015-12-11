@@ -13,7 +13,8 @@ import javax.servlet.http.HttpServletResponse;
 import org.json.JSONException;
 import org.json.JSONObject;
 
-/** 
+/** Servlet incaricata ad effettuare la richiesta di cancellazione di un 
+ * cyclo
  *
  * @author Tommaso Minichiello
  */
