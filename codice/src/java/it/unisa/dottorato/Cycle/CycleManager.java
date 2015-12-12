@@ -1,6 +1,7 @@
 package it.unisa.dottorato.Cycle;
 
 import it.unisa.dottorato.account.Account;
+import it.unisa.dottorato.account.Professor;
 import it.unisa.dottorato.curriculumcic.Curriculumcic;
 import it.unisa.dottorato.exception.IdException;
 import it.unisa.dottorato.exception.DescriptionException;
@@ -201,17 +202,17 @@ public class CycleManager {
      * @throws java.sql.SQLException
      * @throws java.io.IOException
      */
-    public synchronized Account viewCycleCoordinator(int number) throws 
+    public synchronized Professor viewCycleCoordinator(int number) throws 
             ClassNotFoundException, SQLException, IOException, IdException {
         Connection connect = null;
         try {
-           Account cord=new Account();
+            Professor cord=new Professor();
            connect = DBConnection.getConnection();
            /*
              * Prepariamo la stringa SQL per modificare un record 
              * nella tabella phdCycle
              */
-             String tSql = "SELECT secondaryEmail, email, surname, name, password, typeAccount, isAdministrator From "
+             String tSql = "SELECT email, secondaryEmail, surname, name, link, department FROM "
                     + CycleManager.TABLE_CYCLE
                     +","
                     + CycleManager.TABLE_PROFESSOR
@@ -221,20 +222,21 @@ public class CycleManager {
                     + testNumber(number)
                     +" AND fkProfessor = fkAccount AND fkAccount = secondaryEmail";   
 
-            //Inviamo la Query al DataBase
-            Utility.executeOperation(connect, tSql);
 
             connect.commit();
             ResultSet result = Utility.queryOperation(connect, tSql);
 
-            if (result.next()) {
-                cord.setSecondaryEmail(result.getString("secondaryEmail"));
+             if (result.next()) {
                 cord.setEmail(result.getString("email"));
+                cord.setSecondaryEmail(result.getString("secondaryEmail"));
                 cord.setSurname(result.getString("surname"));
                 cord.setName(result.getString("name"));
-                cord.setPassword(result.getString("password"));
-                cord.setTypeAccount(result.getString("typeAccount"));
-                cord.setAdmin(result.getBoolean("isAdministrator"));
+                cord.setLink(result.getString("link"));
+                cord.setDepartment(result.getString("department"));
+                cord.setPassword(null);
+                cord.setAdmin(false);
+                cord.setTypeAccount(null);
+                cord.setfkAccount(cord.getSecondaryEmail());
             }
             return cord;
         } finally {
@@ -406,10 +408,11 @@ public class CycleManager {
      * @throws java.sql.SQLException
      * @throws java.io.IOException
      */
-    public synchronized ArrayList<String> viewCollegeCycle(int number) throws ClassNotFoundException, SQLException, IOException {
+    public synchronized ArrayList<Professor> viewCollegeCycle(int number) throws ClassNotFoundException, SQLException, IOException {
         Connection connect = null;
         try {
-            ArrayList<String> prof = new ArrayList<>();
+            ArrayList<Professor> prof = new ArrayList<>();
+            Professor cord=new Professor();
             // Otteniamo una Connessione al DataBase
             connect = DBConnection.getConnection();
 
@@ -417,15 +420,27 @@ public class CycleManager {
              * Prepariamo la stringa SQL per modificare un record 
              * nella tabella teach
              */
-             String tSql = "SELECT fkAccount FROM "
-                    + CycleManager.TABLE_TEACH
+            String tSql = "SELECT email, secondaryEmail, surname, name, link, department FROM "
+                    + CycleManager.TABLE_TEACH+","+CycleManager.TABLE_PROFESSOR
+                    +","+CycleManager.TABLE_ACCOUNT
                     + " WHERE fkCycle = "
-                    + number;
+                    + number
+                    +" AND secondaryEmail=fkAccount AND fkAccount=fkProfessor ";
 
             //Inviamo la Query al DataBase
             ResultSet result = Utility.queryOperation(connect, tSql);
             while (result.next()) {
-                prof.add(result.getString("fkAccount"));
+                cord.setEmail(result.getString("email"));
+                cord.setSecondaryEmail(result.getString("secondaryEmail"));
+                cord.setSurname(result.getString("surname"));
+                cord.setName(result.getString("name"));
+                cord.setLink(result.getString("link"));
+                cord.setDepartment(result.getString("department"));
+                cord.setPassword(null);
+                cord.setAdmin(false);
+                cord.setTypeAccount(null);
+                cord.setfkAccount(cord.getSecondaryEmail());
+                prof.add(cord);
             }
 
             return prof;
