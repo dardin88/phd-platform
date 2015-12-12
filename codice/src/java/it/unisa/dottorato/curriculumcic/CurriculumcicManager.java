@@ -1,5 +1,7 @@
 package it.unisa.dottorato.curriculumcic;
 
+import it.unisa.dottorato.account.PhdStudent;
+import it.unisa.dottorato.account.Professor;
 import it.unisa.dottorato.utility.Utility;
 import it.unisa.integrazione.database.DBConnection;
 import java.io.IOException;
@@ -16,8 +18,10 @@ public class CurriculumcicManager {
     private static final String TABLE_TEACH="teach";
     private static final String TABLE_CURRICULUMCIC = "curriculumcic";
     private static final String TABLE_PHDSTUDENT="phdstudent";
+    private static final String TABLE_PROFESSOR="professor";
+    private static final String TABLE_ACCOUNT="account";
 
-    //	 istanza della classe
+//	 istanza della classe
     private static CurriculumcicManager instance;
 
     
@@ -151,26 +155,45 @@ public class CurriculumcicManager {
      * @throws java.sql.SQLException
      * @throws java.io.IOException
      */
-    public synchronized void viewCurriculumcicCoordinator(Curriculumcic pCurriculumcic) throws
+    public synchronized Professor viewCurriculumcicCoordinator(Curriculumcic pCurriculumcic) throws
             ClassNotFoundException, SQLException, IOException {
+        Professor cord=new Professor();
+        
         try (Connection connect = DBConnection.getConnection()) {
 
             /*
              * Prepariamo la stringa SQL per effettuare la modifica alla 
              * tabella curriculumcic
              */
-           String tSql = "SELECT fkProfessor FROM "
+           String tSql = "SELECT email, secondaryEmail, surname, name, link, department FROM "
                     + CurriculumcicManager.TABLE_CURRICULUMCIC
-                    + " WHERE fkCurriculum= '"
+                    + ","
+                    + CurriculumcicManager.TABLE_PROFESSOR+","
+                    + CurriculumcicManager.TABLE_ACCOUNT 
+                    +"WHERE fkCurriculum= '"
                     + pCurriculumcic.getfkCurriculum()
                     + "' AND fkCycle ="
-                    + pCurriculumcic.getfkCycle();
+                    + pCurriculumcic.getfkCycle()
+                    +"AND secondaryEmail=fkAccount AND fkAccount=fkProfessor";
 
             //Inviamo la Query al DataBase
-            Utility.executeOperation(connect, tSql);
+            ResultSet result = Utility.queryOperation(connect, tSql);
+            if (result.next()) {
+                cord.setEmail(result.getString("email"));
+                cord.setSecondaryEmail(result.getString("secondaryEmail"));
+                cord.setSurname(result.getString("surname"));
+                cord.setName(result.getString("name"));
+                cord.setLink(result.getString("link"));
+                cord.setDepartment(result.getString("department"));
+                cord.setPassword(null);
+                cord.setAdmin(false);
+                cord.setTypeAccount(null);
+                cord.setfkAccount(cord.getSecondaryEmail());
+            }
 
             connect.commit();
         }
+        return cord;
     } 
     
     /**
@@ -250,10 +273,11 @@ public class CurriculumcicManager {
      * @throws java.sql.SQLException
      * @throws java.io.IOException
      */
-    public synchronized ArrayList<String> viewProfessorList(Curriculumcic curriculumcic) throws ClassNotFoundException, SQLException, IOException {
+    public synchronized ArrayList<Professor> viewProfessorList(Curriculumcic curriculumcic) throws ClassNotFoundException, SQLException, IOException {
         Connection connect = null;
         try {
-            ArrayList<String> prof = new ArrayList<>();
+            ArrayList<Professor> prof = new ArrayList<>();
+            Professor cord=new Professor();
             // Otteniamo una Connessione al DataBase
             connect = DBConnection.getConnection();
 
@@ -261,18 +285,29 @@ public class CurriculumcicManager {
              * Prepariamo la stringa SQL per modificare un record 
              * nella tabella teach
              */
-             String tSql = "SELECT fkAccount FROM "
-                    + CurriculumcicManager.TABLE_TEACH
+            String tSql = "SELECT email, secondaryEmail, surname, name, link, department FROM "
+                    + CurriculumcicManager.TABLE_TEACH+","+CurriculumcicManager.TABLE_PROFESSOR
+                    +","+CurriculumcicManager.TABLE_ACCOUNT
                     + " WHERE fkCycle = "
                     + curriculumcic.getfkCycle()
                     +"' AND fkCurriculum = '"
                     + curriculumcic.getfkCurriculum()
-                    +"'";
+                    +"'AND secondaryEmail=fkAccount AND fkAccount=fkProfessor ";
 
             //Inviamo la Query al DataBase
             ResultSet result = Utility.queryOperation(connect, tSql);
             while (result.next()) {
-                prof.add(result.getString("fkAccount"));
+                cord.setEmail(result.getString("email"));
+                cord.setSecondaryEmail(result.getString("secondaryEmail"));
+                cord.setSurname(result.getString("surname"));
+                cord.setName(result.getString("name"));
+                cord.setLink(result.getString("link"));
+                cord.setDepartment(result.getString("department"));
+                cord.setPassword(null);
+                cord.setAdmin(false);
+                cord.setTypeAccount(null);
+                cord.setfkAccount(cord.getSecondaryEmail());
+                prof.add(cord);
             }
 
             return prof;
@@ -292,10 +327,12 @@ public class CurriculumcicManager {
      * @throws java.sql.SQLException
      * @throws java.io.IOException
      */
-    public synchronized ArrayList<String> viewPhdstudentCurriculumcic(Curriculumcic curriculumcic) throws ClassNotFoundException, SQLException, IOException {
+    public synchronized ArrayList<PhdStudent> viewPhdstudentCurriculumcic(Curriculumcic curriculumcic) 
+            throws ClassNotFoundException, SQLException, IOException {
         Connection connect = null;
         try {
-            ArrayList<String> prof = new ArrayList<>();
+            ArrayList<PhdStudent> stud = new ArrayList<>();
+            PhdStudent cord=new PhdStudent();
             // Otteniamo una Connessione al DataBase
             connect = DBConnection.getConnection();
 
@@ -303,21 +340,37 @@ public class CurriculumcicManager {
              * Prepariamo la stringa SQL per modificare un record 
              * nella tabella phdstudent
              */
-             String tSql = "SELECT fkAccount FROM "
-                    + CurriculumcicManager.TABLE_PHDSTUDENT
+             String tSql = "SELECT email, secondaryEmail, surname, name, telephone, researchInterest, link, department, fkProfessor FROM "
+                    + CurriculumcicManager.TABLE_PHDSTUDENT +","+ CurriculumcicManager.TABLE_ACCOUNT
                     + " WHERE fkCycle = "
                     + curriculumcic.getfkCycle()
-                    +"' AND fkCurriculum = '"
+                    +" AND fkCurriculum = '"
                     + curriculumcic.getfkCurriculum()
-                    +"'";
+                    +"' AND secondaryEmail=fkAccount";
 
             //Inviamo la Query al DataBase
             ResultSet result = Utility.queryOperation(connect, tSql);
             while (result.next()) {
-                prof.add(result.getString("fkAccount"));
+                while (result.next()) {
+                cord.setEmail(result.getString("email"));
+                cord.setSecondaryEmail(result.getString("secondaryEmail"));
+                cord.setSurname(result.getString("surname"));
+                cord.setName(result.getString("name"));
+                cord.setLink(result.getString("link"));
+                cord.setDepartment(result.getString("department"));
+                cord.setPassword(null);
+                cord.setAdmin(false);
+                cord.setTypeAccount(null);
+                cord.setfkAccount(cord.getSecondaryEmail());
+                cord.setfkCurriculum(curriculumcic.getfkCurriculum());
+                cord.setfkCycle(curriculumcic.getfkCycle());
+                cord.setfkProfessor("fkProfessor");
+                
+                stud.add(cord);
+            }
             }
 
-            return prof;
+            return stud;
 
         } finally {
             DBConnection.releaseConnection(connect);
@@ -342,9 +395,7 @@ public class CurriculumcicManager {
              * tabella phdstudent
              */
             String tSql = "UPDATE phdstudent SET"
-                    + "fkCurriculum = '"
-                    + "null',"
-                    + " fkCycle = 'null'"
+                    + "fkCurriculum = null, fkCycle = null"
                     + " WHERE fkAccount = '"
                     + fkPhdstudent
                     + "'";

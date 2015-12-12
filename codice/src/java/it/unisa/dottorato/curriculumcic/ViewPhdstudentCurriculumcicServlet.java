@@ -1,5 +1,6 @@
 package it.unisa.dottorato.curriculumcic;
 
+import it.unisa.dottorato.account.PhdStudent;
 import java.io.IOException;
 import java.io.PrintWriter;
 import java.sql.SQLException;
@@ -47,7 +48,7 @@ public class ViewPhdstudentCurriculumcicServlet extends HttpServlet {
              
             JSONObject result = new JSONObject();
             try {
-                ArrayList<String> phdstudent = CurriculumcicManager.getInstance().viewPhdstudentCurriculumcic(curr);
+                ArrayList<PhdStudent> phdstudent = CurriculumcicManager.getInstance().viewPhdstudentCurriculumcic(curr);
                 JSONArray resultArray = new JSONArray(phdstudent);
                 result.put("cyclesIds", resultArray);
                 out.write(result.toString());

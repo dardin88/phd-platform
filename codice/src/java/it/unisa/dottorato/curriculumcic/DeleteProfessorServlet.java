@@ -41,14 +41,13 @@ public class DeleteProfessorServlet extends HttpServlet {
             JSONObject result = new JSONObject();
             int number = Integer.parseInt( request.getParameter("fkCycle"));
             String name = request.getParameter("fkCurriculum");
-            String coordinatore = request.getParameter("fkProfessor");
             
             String prof= request.getParameter("teach");
             
             Curriculumcic curr=new Curriculumcic();
             curr.setfkCycle(number);
             curr.setfkCurriculum(name);
-            curr.setfkProfessor(coordinatore);
+            curr.setfkProfessor(null);
             
             
             result.put("result", true);

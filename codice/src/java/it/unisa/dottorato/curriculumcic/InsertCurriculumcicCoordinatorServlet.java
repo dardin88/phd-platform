@@ -42,20 +42,20 @@ public class InsertCurriculumcicCoordinatorServlet extends HttpServlet {
             JSONObject result = new JSONObject();
             int number = Integer.parseInt( request.getParameter("fkCycle"));
             String name = request.getParameter("fkCurriculum");
-            String coordinatore = request.getParameter("fkProfessor");
+            String newcoordinatore = request.getParameter("fkProfessor");
             
-            String prof= request.getParameter("teach");
+            
             
             Curriculumcic curr=new Curriculumcic();
             curr.setfkCycle(number);
             curr.setfkCurriculum(name);
-            curr.setfkProfessor(coordinatore);
+            curr.setfkProfessor(null);
             
             
             result.put("result", true);
             
             try {
-                CurriculumcicManager.getInstance().insertCurriculumcicCoordinator(curr,prof);
+                CurriculumcicManager.getInstance().insertCurriculumcicCoordinator(curr,newcoordinatore);
             } catch (ClassNotFoundException | SQLException ex) {
                 result.put("result", false);
                 Logger.getLogger(DeleteProfessorServlet.class.getName()).log(Level.SEVERE, null, ex);
