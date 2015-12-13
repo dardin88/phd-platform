@@ -1,7 +1,6 @@
 package it.unisa.dottorato.curriculumcic;
 
-import it.unisa.dottorato.curriculumcic.CurriculumcicManager;
-import it.unisa.dottorato.curriculumcic.Curriculumcic;
+import it.unisa.dottorato.account.Professor;
 import java.io.IOException;
 import java.io.PrintWriter;
 import java.sql.SQLException;
@@ -17,7 +16,8 @@ import org.json.JSONArray;
 import org.json.JSONException;
 import org.json.JSONObject;
 
-/**
+/**Servlet incaricata ad effettuare la richiesta di visualizzazione dei 
+ * professori di un curriculum-ciclo
  *
  * @author Tommaso Minichiello
  */
@@ -48,7 +48,7 @@ public class ViewProfessorListServlet extends HttpServlet {
              
             JSONObject result = new JSONObject();
             try {
-                ArrayList<String> prof = CurriculumcicManager.getInstance().viewProfessorList(curr);
+                ArrayList<Professor> prof = CurriculumcicManager.getInstance().viewProfessorList(curr);
                 JSONArray resultArray = new JSONArray(prof);
                 result.put("cyclesIds", resultArray);
                 out.write(result.toString());

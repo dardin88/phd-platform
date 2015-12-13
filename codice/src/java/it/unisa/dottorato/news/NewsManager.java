@@ -1,8 +1,3 @@
-/*
- * To change this license header, choose License Headers in Project Properties.
- * To change this template file, choose Tools | Templates
- * and open the template in the editor.
- */
 package it.unisa.dottorato.news;
 import it.unisa.dottorato.exception.DescriptionException;
 import it.unisa.dottorato.exception.IdException;
@@ -19,13 +14,14 @@ import java.util.ArrayList;
 import java.util.logging.Level;
 import java.util.logging.Logger;
 
-/**
+/**Classe della gestione delle news
  *
  * @author Rembor
  */
 public class NewsManager {
  
 private static final String TABLE_News = "news";
+    //istanza della classe
     private static NewsManager instance;
 
     /**
@@ -56,21 +52,19 @@ private static final String TABLE_News = "news";
 
 
     
-    /**
+    /**Metodo della classe incaricato di inserire una nuova news
      * 
-     *
-     * @param  anews
-     * @throws java.lang.ClassNotFoundException
-     * @throws java.sql.SQLException
-     * @throws java.io.IOException
-     * @throws IdException
-     * @throws TitleException
-     * @throws DescriptionException
-     *  
+     * @param anews news da inserire
+     * @throws SQLException 
      */
     public void insertNews(News anews) throws SQLException{
+        //connessione al database
         Connection connect = DBConnection.getConnection();
      try {
+            /*
+             *stringa SQL per effettuare l'inserimento nella 
+             * tabella news
+             */
              String tSql = "INSERT INTO "
                     + NewsManager.TABLE_News
                     + " (id,title,description,)"
@@ -84,7 +78,7 @@ private static final String TABLE_News = "news";
                      + ")";      
             
             
-            
+            //esecuzione query
             Statement stmt = connect.createStatement();
             stmt.executeUpdate(tSql);
             connect.commit();
@@ -100,13 +94,26 @@ private static final String TABLE_News = "news";
         }
     }
 
+    /**Metodo della classe incaricato di ricercare una news dato il suo id
+     * 
+     * @param aidnews id della news da ricercare
+     * @return restituisce la news se trovata, lancia un'eccezione altrimenti
+     * @throws SQLException
+     * @throws ConnectionException
+     * @throws ClassNotFoundException 
+     */
     public News getNewsById(int aidnews) throws SQLException, ConnectionException,ClassNotFoundException{
         Statement stmt = null;
         ResultSet rs = null;
         Connection connection = null;
         News anews = null;
                 try {
+            //connessione al database
             connection = DBConnection.getConnection();
+            /*
+             *stringa SQL per effettuare la ricerca nella 
+             * tabella news
+             */
             String sql = "SELECT * From "
                     + NewsManager.TABLE_News
                     + " WHERE number = "
@@ -115,7 +122,7 @@ private static final String TABLE_News = "news";
                        if (connection == null) {
                 throw new ConnectionException();
             }
-
+            //esecuzione query
             stmt = connection.createStatement();
          rs=  Utility.queryOperation(connection, sql);
 
@@ -135,24 +142,27 @@ private static final String TABLE_News = "news";
 
         return anews;
     }
-    /**
+    /**Metodo della classe incaricato di cancellare una news dato il suo id
      *
-     * @param aidnews
-     * @return
+     * @param aidnews l'id della news da cancellare
+     * 
      */
    public synchronized void deleteNews(int aidnews) {
         Connection connect = null;
         try {
-            
+            //connessione al database
             connect = DBConnection.getConnection();
-
-           
+            
+            /*
+             *stringa SQL per effettuare l'aggiornamento nella 
+             * tabella news
+             */
             String tSql = "DELETE FROM "
                     + NewsManager.TABLE_News
                     + " WHERE idNews = "
                     + testid(aidnews);
 
-            
+            //esecuzione query
             Utility.executeOperation(connect, tSql);
 
             connect.commit();
@@ -168,11 +178,21 @@ private static final String TABLE_News = "news";
    
    
    
-   
+   /** Metodo della classe incaricato di aggiornare una news
+    * 
+    * @param oldNewsId l'id della news da aggiornare
+    * @param pNews news aggiornata
+    * @throws ClassNotFoundException
+    * @throws SQLException
+    * @throws IOException 
+    */
    public synchronized void update_news(int oldNewsId, News pNews) throws ClassNotFoundException, SQLException, IOException{
          try (Connection connect = DBConnection.getConnection()) {
 
-            
+            /*
+             *stringa SQL per effettuare l'aggiornamento nella 
+             * tabella news
+             */
             String tSql = "UPDATE "
                     + NewsManager.TABLE_News
                     + " set title = '"
@@ -181,7 +201,7 @@ private static final String TABLE_News = "news";
                     +Utility.Replace(testDescription(pNews.getDescription()))
                     + "' WHERE number = "
                     + oldNewsId;           
-
+            //esecuzione query
             Utility.executeOperation(connect, tSql);
 
             connect.commit();
@@ -194,8 +214,13 @@ private static final String TABLE_News = "news";
      
    
    
-
-    
+    /** Metodo della classe incaricato di ricercare news dato il titolo
+     * 
+     * @param title titolo delle news da ricercare
+     * @return restituisce un array list di news, lancia un'eccezione altrimenti
+     * @throws SQLException
+     * @throws it.unisa.integrazione.database.exception.ConnectionException 
+     */
     public ArrayList<News> getNewsByTypeOfTitle(String title) throws SQLException, it.unisa.integrazione.database.exception.ConnectionException {
         Statement stmt = null;
         ResultSet rs = null;
@@ -203,15 +228,20 @@ private static final String TABLE_News = "news";
         News avviso = new News();
         ArrayList<News> listAvviso = new ArrayList<News>();
  try {
+            /*
+             *stringa SQL per effettuare la ricerca nella 
+             * tabella news
+             */
             String sql= "select * from "
                 + NewsManager.TABLE_News
                 +"where title= '" + testTitle(title) + "'";
-
+            //connessione al database
             connection = DBConnection.getConnection();
 
             if (connection == null) {
                 throw new it.unisa.integrazione.database.exception.ConnectionException();
             }
+            //esecuzione query
             stmt = connection.createStatement();
             rs  = Utility.queryOperation(connection, sql);
 
@@ -242,7 +272,13 @@ private static final String TABLE_News = "news";
     }
     
     
-    
+    /** Metodo della classe incaricato di visualizzare tutte le news 
+     * presenti nella piattaforma
+     * 
+     * @return restituisce un array list di tutte le news
+     * @throws SQLException
+     * @throws it.unisa.integrazione.database.exception.ConnectionException 
+     */
     public ArrayList<News> getAllNews() throws SQLException, it.unisa.integrazione.database.exception.ConnectionException {
         Statement stmt = null;
         ResultSet rs = null;
@@ -251,13 +287,19 @@ private static final String TABLE_News = "news";
         ArrayList<News> listAvviso = new ArrayList<News>();
 
         try {
+            //connessione al database
             connection = DBConnection.getConnection();
-String query = "select * from "
+            /*
+             *stringa SQL per effettuare la ricerca nella 
+             * tabella news
+             */
+        String query = "select * from "
         + NewsManager.TABLE_News;
 
             if (connection == null) {
                 throw new it.unisa.integrazione.database.exception.ConnectionException();
             }
+            //esecuzione query
             stmt = connection.createStatement();
             rs = stmt.executeQuery(query);
                while (rs.next()) {
@@ -287,6 +329,12 @@ String query = "select * from "
         return listAvviso;
     }
     
+    /** Metodo della classe per il testing dell'id; non può essere minore di 0
+     * 
+     * @param id id da testare
+     * @return restituisce l'id se valido, lancia un'eccezione altrimenti
+     * @throws IdException 
+     */
     public int testid(int id) throws IdException {
         if(id<0){
             throw new IdException("l'id non puo' essere minore di 0");
@@ -294,6 +342,13 @@ String query = "select * from "
         return id;
     }  
     
+    /**Metodo della classe per il testing del titolo; non puo' essere
+     * <code>null</code> o avere una lunghezza maggiore di 49 caratteri
+     * 
+     * @param title stringa da testare
+     * @return restituisce la stringa se valida, lancia un'eccezione altrimenti
+     * @throws TitleException 
+     */
     public String testTitle(String title) throws TitleException {
         if(title.equals(null)&&title.length()>50){
             
@@ -302,6 +357,12 @@ String query = "select * from "
         return title;
     }
     
+    /**Metodo della classe per il testing della descrizione; non puo' essere nulla
+     * 
+     * @param description descrizione da testare
+     * @return restituisce la stringa se valida, lancia un'eccezione altrimenti
+     * @throws DescriptionException 
+     */
     public String testDescription(String description) throws DescriptionException{
          if(description.equals(null)){
             

@@ -1,8 +1,4 @@
-/*
- * To change this license header, choose License Headers in Project Properties.
- * To change this template file, choose Tools | Templates
- * and open the template in the editor.
- */
+
 package it.unisa.dottorato.phdProfile.collaborations;
 
 import it.unisa.dottorato.account.PhdStudent;
@@ -15,7 +11,7 @@ import java.sql.SQLException;
 import java.util.ArrayList;
 import java.util.List;
 
-/**
+/**Classe per la gestione delle collaborazioni
  *
  * @author gemmacatolino
  */
@@ -52,13 +48,18 @@ public class CollaborationManager {
         }
         return instance;
     }
-    
+   
+    /** Metodo della classe incaricato di inserire una nuova collaborazione
+     * 
+     * @param pCollaboration la nuova collaborazione
+     * @throws SQLException 
+     */
     public synchronized void insert(Collaboration pCollaboration) throws SQLException {
         try (Connection connect = DBConnection.getConnection()) {
 
             /*
              * Prepariamo la stringa SQL per inserire un nuovo record 
-             * nella tabella phdCycle
+             * nella tabella collaboration
              */
             String tSql = "INSERT INTO "
                     + CollaborationManager.TABLE_COLLABORATION
@@ -82,13 +83,21 @@ public class CollaborationManager {
             connect.commit();
         }
     }
-          
+   
+    /** Metodo della classe incaricato di aggiornare una collaborazione
+     * 
+     * @param oldCollaborationID l'id della collaborazione da aggiornare
+     * @param pCollaboration la collaborazione aggiornata
+     * @throws ClassNotFoundException
+     * @throws SQLException
+     * @throws IOException 
+     */
     public synchronized void update(int oldCollaborationID, Collaboration pCollaboration) throws ClassNotFoundException, SQLException, IOException {
         try (Connection connect = DBConnection.getConnection()) {
 
             /*
              * Prepariamo la stringa SQL per modificare un record 
-             * nella tabella phdCycle
+             * nella tabella collaboration
              */
             String tSql = "UPDATE "
                     + CollaborationManager.TABLE_COLLABORATION
@@ -111,6 +120,13 @@ public class CollaborationManager {
         }
     }
     
+    /** Metodo della classe incaricato di cancellare una collaborazione
+     * 
+     * @param idCollaboration l'id della collaborazione da cancellare
+     * @throws ClassNotFoundException
+     * @throws SQLException
+     * @throws IOException 
+     */
     public synchronized void delete(String idCollaboration) throws ClassNotFoundException, SQLException, IOException {
         Connection connect = null;
         try {
@@ -118,8 +134,8 @@ public class CollaborationManager {
             connect = DBConnection.getConnection();
 
             /*
-             * Prepariamo la stringa SQL per modificare un record 
-             * nella tabella phdCycle
+             * Prepariamo la stringa SQL per cancellare un record 
+             * nella tabella collaboration
              */
             String tSql = "DELETE FROM "
                     + CollaborationManager.TABLE_COLLABORATION
@@ -135,6 +151,15 @@ public class CollaborationManager {
         }
     }
     
+    /** Metodo della classe incaricato di ricercare una collaborazione dato
+     * il suo id
+     * 
+     * @param pCollaborationID l'id della collaborazione da ricercare
+     * @return restituisce la collaborazione se trovata, lancia un'eccezione altrimenti
+     * @throws ClassNotFoundException
+     * @throws SQLException
+     * @throws IOException 
+     */
     public synchronized Collaboration getCollaborationById(int pCollaborationID) throws ClassNotFoundException, SQLException, IOException {
         Connection connect = null;
         try {
@@ -143,8 +168,8 @@ public class CollaborationManager {
             connect = DBConnection.getConnection();
 
             /*
-             * Prepariamo la stringa SQL per modificare un record 
-             * nella tabella phdCycle
+             * Prepariamo la stringa SQL per ricercare un record 
+             * nella tabella collaboration
              */
             String tSql = "SELECT * FROM "
                     + CollaborationManager.TABLE_COLLABORATION
@@ -170,6 +195,14 @@ public class CollaborationManager {
         }
     }
     
+    /** Metodo della classe incaricato di ricercare tutte le collaborazioni
+     * dato un dottorando
+     * 
+     * @param phdStudent dottorando di cui si vogliono conoscere le collaborazioni
+     * @return restituisce una lista di tutte le collaborazioni del dottorando,
+     * lancia un'eccezione altrimenti
+     * @throws SQLException 
+     */
     public synchronized List<Collaboration> getAllCollaborationOf(PhdStudent phdStudent) throws SQLException { //da verificare
         List<Collaboration> collaborations = new ArrayList<Collaboration>();
         
@@ -179,8 +212,8 @@ public class CollaborationManager {
             connect = DBConnection.getConnection();
 
             /*
-             * Prepariamo la stringa SQL per modificare un record 
-             * nella tabella phdCycle
+             * Prepariamo la stringa SQL per ricercare un record 
+             * nella tabella collaboration
              */
             String tSql = "SELECT * FROM "
                     + CollaborationManager.TABLE_COLLABORATION

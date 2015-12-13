@@ -1,5 +1,6 @@
 package it.unisa.dottorato.Cycle;
 
+import it.unisa.dottorato.account.Professor;
 import java.io.IOException;
 import java.io.PrintWriter;
 import java.sql.SQLException;
@@ -15,7 +16,8 @@ import org.json.JSONArray;
 import org.json.JSONException;
 import org.json.JSONObject;
 
-/**
+/**Servlet incaricata ad effettuare la richiesta di visualizzazione della 
+ * lista del collegio dei docenti di un ciclo
  *
  * @author Tommaso Minichiello
  */
@@ -38,7 +40,7 @@ public class ViewCollegeCycleServlet extends HttpServlet {
              int number = Integer.parseInt(request.getParameter("number"));
             JSONObject result = new JSONObject();
             try {
-                ArrayList<String> prof = CycleManager.getInstance().viewCollegeCycle(number);
+                ArrayList<Professor> prof = CycleManager.getInstance().viewCollegeCycle(number);
                 JSONArray resultArray = new JSONArray(prof);
                 result.put("cyclesIds", resultArray);
                 out.write(result.toString());

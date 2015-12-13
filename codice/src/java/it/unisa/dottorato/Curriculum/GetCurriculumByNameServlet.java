@@ -15,7 +15,8 @@ import org.json.JSONException;
 import org.json.JSONObject;
 
 
-/**
+/** Servlet incaricata ad effettuare la richiesta di ricerca di un curriculum 
+ * dato il nome
  *
  * @author Tommaso Minichiello
  */

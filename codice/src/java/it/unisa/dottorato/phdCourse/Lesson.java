@@ -1,132 +1,197 @@
-/*
- * To change this license header, choose License Headers in Project Properties.
- * To change this template file, choose Tools | Templates
- * and open the template in the editor.
- */
 package it.unisa.dottorato.phdCourse;
 
 import java.io.Serializable;
 import java.util.Date;
-/**
+/** Classe dell'oggetto Lesson; rappresenta una lezione del calendario
+ * Ha come attributi idLesson, data, startTime, endTime, name, classroom,
+ * description, cycle, curriculum e FK_course che rappresentano rispettivamente
+ * l'id della lezione, la data, l'ora di inizio e di fine, il nome della lezione, 
+ * la classe, la descrizione della lezione, il ciclo e il curriculum ad esso associato, 
+ * ed il corso di cui fa parte (chiave esterna a course)
  *
  * @author Giuseppe Picciocchi
  */
 
-//La classe lesson rappresenta una lezione del calendario
 public class Lesson implements Serializable{
     
-    private int idLesson;// variabile per identificare l'id della lezione (chiave primaria)
-    private Date data; // variabile per identificare la data di una lezione
-    private int startTime;// variabile per identificare l'inizio della lezione
-    private int endTime;  // variabile per identificare la fine della lezione
-    private String name; // variabile per identificare il nome della lezione
-    private String classroom;// variabile per identificare la classe in cui si svolgerà la lezione
-    private String description;// variabile per identificare la descrizione della lezione
-    private int cycle;// variabile per identificare il ciclo a cui appartiene la lezione
-    private String curriculum;// variabile per identificare il curriculum a cui appartiene la lezione
-    private int FK_course;// variabile per identificare la chiave esterna al corso della lezione
+    private int idLesson;
+    private Date data; 
+    private int startTime;
+    private int endTime;  
+    private String name; 
+    private String classroom;
+    private String description;
+    private int cycle;
+    private String curriculum;
+    private int FK_course;    
     
-    
-    // metodo utilizzato per restituire l'id della lezione
+   /**Metodo della classe incaricato di ritornare l'id della lezione
+    * 
+    * @return restituisce l'id della lezione
+    */
     public int getIdLesson(){
         return idLesson;            
     }
     
-    // metodo per settare l'id della lezione
+   /** Metodo della classe incaricato di settare l'id della lezione
+    * 
+    * @param id 
+    */
     public void setIdLesson(int id){
         this.idLesson = id;
     }
     
-    // metodo utilizzato per restituire la data della lezione
+    /** Metodo della classe incaricato di ritornare la data della lezione
+     * 
+     * @return restituisce la data della lezione
+     */
     public Date getData(){
         return data;            
     }
     
-    // metodo per settare la data di una lezione
+    /** Metodo della classe incaricato di settare la data della lezione
+     * 
+     * @param date 
+     */
     public void setDate(Date date){
         this.data = date;
     }
     
-    // metodo utilizzato per restituire l'ora di inizio lezione
+    /** Metodo della classe incaricato di ritornare l'ora di inizio di lezione
+     * 
+     * @return restituisce l'ora di inizio della lezione
+     */
     public int getStartTime(){
         return startTime;            
     }
     
-    // metodo per settare l'ora di inizio di lezione
+    /** Metodo della classe incaricato di settare l'ora di inzio della lezione
+     * 
+     * @param start_time 
+     */
     public void setStartTime(int start_time){
         this.startTime = start_time;
     }
     
-    // metodo utilizzato per restituire l'ora di fine lezione
+   /** Metodo della classe incaricato di ritornare l'ora di fine lezione
+    * 
+    * @return restituisce l'ora di fine lezione
+    */
     public int getEndTime(){
         return endTime;            
     }
     
-    // metodo per settare l'ora di fine lezione
+    /** Metodo della classe incaricato di settare l'ora di fine lezione
+     * 
+     * @param end_time 
+     */
     public void setEndTime(int end_time){
         this.endTime = end_time;
     }
     
-     // metodo utilizzato per restituire il nome della lezione
+    /** Metodo della classe incaricato di ritornare il nome della lezione
+     * 
+     * @return restituisce il nome della lezione
+     */
     public String getName(){
         return name;            
     }
     
-    // metodo per settare il nome della lezione
+    /** Metodo della classe incaricato di settare il nome della lezione
+     * 
+     * @param nome 
+     */
     public void setName(String nome){
         this.name = nome;
     }
     
     
-     // metodo utilizzato per restituire la classe della lezione
+    /** Metodo della classe incaricato di ritornare la classe dove si svolge
+     * la lezione
+     * 
+     * @return restituisce la classe dove si svolge la lezione
+     */
     public String getClassroom(){
         return classroom;            
     }
     
-    // metodo per settare la classe della lezione
+    /** Metodo della classe incaricato di settare la classe dove si svolge la lezione
+     * 
+     * @param classe 
+     */
     public void setClassroom(String classe){
         this.classroom = classe;
     }
     
     
-     // metodo utilizzato per restituire la descrizione della lezione
+    /** Metodo della classe incaricato di ritornare la descrizione della lezione
+     * 
+     * @return restituisce la descrizione della lezione
+     */
     public String getDescription(){
         return description;            
     }
     
-    // metodo per settare la decrizione della lezione
+    /** Metodo della classe incaricato di settare la descrizione della lezione
+     * 
+     * @param descrizione 
+     */
     public void setDescription(String descrizione){
         this.description = descrizione;
     }
     
-     // metodo utilizzato per restituire il ciclo della lezione
+    /** Metodo della classe incaricato di ritornare il numero del ciclo a cui la lezione 
+     * e' associata
+     * 
+     * @return restituisce il numero del ciclo a cui la lezione e' associata
+     */
     public int getCycle(){
         return cycle;            
     }
     
-    // metodo per settare il ciclo della lezione
+    /** Metodo della classe incaricato di settare il numero del ciclo a cui
+     * la lezione e' associata
+     * 
+     * @param ciclo 
+     */
     public void setCycle(int ciclo){
         this.cycle = ciclo;
     }
     
-    // metodo utilizzato per restituire il curriculum della lezione
+    /** Metodo della classe incaricato di ritornare il curriculum a cui la lezione
+     * e' associata
+     * 
+     * @return restituisce il curriculum a cui la lezione e' associata
+     */
     public String getCurriculum(){
         return curriculum;            
     }
     
-    // metodo per settare il curriculum della lezione
+    /** Metodo della classe incaricato di settare il curriculum a cui la lezione
+     * e' associata
+     * 
+     * @param curri 
+     */
     public void setCurriculum(String curri){
         this.curriculum = curri;
     }
     
-    // metodo utilizzato per restituire la chiave esterna al corso della lezione
+    /** Metodo della classe incaricato di ritornare l'id del corso a cui la lezione
+     * e' associata
+     * 
+     * @return restituisce l'id del corso a cui la lezione e' associata
+     */
     public int getFK_course(){
         return FK_course;            
     }
     
-    // metodo per settare la chiave esterna al corso della lezione
+    /** Metodo della classe incaricato di settare l'id del corso a cui la 
+     * lezione e' associata
+     * 
+     * @param chiave_course 
+     */
     public void setFK_course(int chiave_course){
         this.FK_course = chiave_course;
     }
-                                            }
+ }
     

@@ -13,7 +13,8 @@ import javax.servlet.http.HttpServletResponse;
 import org.json.JSONException;
 import org.json.JSONObject;
 
-/** 
+/** Servlet incaricata ad effettuare la richiesta di cancellazione di un 
+ * coordinatore di un ciclo
  *
  * @author Tommaso Minichiello
  */
@@ -37,20 +38,10 @@ public class DeleteCycleCoordinatorServlet extends HttpServlet {
 
             JSONObject result = new JSONObject();
             int number = Integer.parseInt( request.getParameter("number"));
-            String description = request.getParameter("description");
-            String year = request.getParameter("year");
-            String professor = request.getParameter("fkProfessor");
-            
-            Cycle aPhdCycle = new Cycle();
-            aPhdCycle.setNumber(number);
-            aPhdCycle.setDescription(description);
-            aPhdCycle.setYear(year);
-            aPhdCycle.setFkProfessor(professor);
-            
+   
             result.put("result", true);
-
             try {
-                CycleManager.getInstance().deleteCycleCoordinator(aPhdCycle);
+                CycleManager.getInstance().deleteCycleCoordinator(number);
             } catch (ClassNotFoundException | SQLException ex) {
                 result.put("result", false);
                 Logger.getLogger(DeleteCycleCoordinatorServlet.class.getName()).log(Level.SEVERE, null, ex);

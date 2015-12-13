@@ -19,7 +19,8 @@ import javax.servlet.http.HttpServlet;
 import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpServletResponse;
 
-/**
+/**Servlet incaricata ad effettuare la richiesta di aggiornamento di un tipo di account
+ * di un account
  *
  * @author Armando
  */

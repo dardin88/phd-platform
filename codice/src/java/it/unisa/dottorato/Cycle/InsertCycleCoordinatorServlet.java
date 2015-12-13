@@ -13,7 +13,8 @@ import javax.servlet.http.HttpServletResponse;
 import org.json.JSONException;
 import org.json.JSONObject;
 
-/** 
+/** Servlet incaricata ad effettuare la richiesta di inserimento di un 
+ * coordinatore in un ciclo
  *
  * @author Tommaso Minichiello
  */
@@ -37,21 +38,14 @@ public class InsertCycleCoordinatorServlet extends HttpServlet {
 
             JSONObject result = new JSONObject();
             int number = Integer.parseInt( request.getParameter("number"));
-            String description = request.getParameter("description");
-            String year = request.getParameter("year");
             String professor = request.getParameter("fkProfessor");
-            String newProf = request.getParameter("newFkProfessor");
             
-            Cycle aPhdCycle = new Cycle();
-            aPhdCycle.setNumber(number);
-            aPhdCycle.setDescription(description);
-            aPhdCycle.setYear(year);
-            aPhdCycle.setFkProfessor(professor);
+           
             
             result.put("result", true);
 
             try {
-                CycleManager.getInstance().insertCycleCoordinator(aPhdCycle,newProf);
+                CycleManager.getInstance().insertCycleCoordinator(number,professor);
             } catch (ClassNotFoundException | SQLException ex) {
                 result.put("result", false);
                 Logger.getLogger(InsertCycleCoordinatorServlet.class.getName()).log(Level.SEVERE, null, ex);

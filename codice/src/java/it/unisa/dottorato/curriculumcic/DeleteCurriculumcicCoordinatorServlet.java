@@ -14,7 +14,8 @@ import org.json.JSONException;
 import org.json.JSONObject;
 
 
-/**
+/**Servlet incaricata ad effettuare la richiesta di cancellazione di un
+ * coordinatore di un curriculum-ciclo
  *
  * @author Tommaso Minichiello
  */
@@ -40,12 +41,11 @@ public class DeleteCurriculumcicCoordinatorServlet extends HttpServlet {
             JSONObject result = new JSONObject();
             int number = Integer.parseInt( request.getParameter("fkCycle"));
             String name = request.getParameter("fkCurriculum");
-            String coordinatore = request.getParameter("fkProfessor");
             
             Curriculumcic curr=new Curriculumcic();
             curr.setfkCycle(number);
             curr.setfkCurriculum(name);
-            curr.setfkProfessor(coordinatore);
+            curr.setfkProfessor(null);
             
             
             result.put("result", true);

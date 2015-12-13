@@ -14,7 +14,8 @@ import org.json.JSONException;
 import org.json.JSONObject;
 
 
-/**
+/**Servlet incaricata ad effettuare la richiesta di visualizzazione dei 
+ * coordinatori di un curriculum-ciclo
  *
  * @author Tommaso Minichiello
  */

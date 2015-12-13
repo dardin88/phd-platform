@@ -1,8 +1,3 @@
-/*
- * To change this license header, choose License Headers in Project Properties.
- * To change this template file, choose Tools | Templates
- * and open the template in the editor.
- */
 package it.unisa.dottorato.autenticazione;
 
 import it.unisa.dottorato.account.Account;
@@ -18,14 +13,23 @@ import java.sql.SQLException;
 import java.sql.Statement;
 import javax.servlet.http.HttpSession;
 
-/**
+/**Classe per la gestione dei log-in
  *
  * @author Armando
  */
 public class LoginManager  {
-    
+    //istanza della classe
     private static LoginManager instance;
 
+    /**
+     * Metodo della classe incaricato della produzione degli oggetti, tale
+     * metodo deve essere chiamato per restituire l'istanza del Singleton.
+     * L'oggetto Singleton sara' istanziato solo alla prima invocazione del
+     * metodo. Nelle successive invocazioni, invece, sara' restituito un
+     * riferimento allo stesso oggetto.
+     *
+     * @return L'istanza della classe
+     */
     public static LoginManager getInstance() {
 
         if (instance == null) {
@@ -35,6 +39,18 @@ public class LoginManager  {
 
     }
     
+    /**Mentodo della classe incaricato di effettuare il login dato un nome utente
+     * e una password
+     * 
+     * @param pUsername la username dell'utente
+     * @param pPassword la password dell'utente
+     * @return restituisce l'account se l'accesso va a buon fine, lancia 
+     * un'eccezione altrimenti
+     * @throws SQLException
+     * @throws ConnectionException
+     * @throws EmailException
+     * @throws PasswordException 
+     */
     public Account login (String pUsername, String pPassword) throws SQLException,
             ConnectionException, EmailException,PasswordException {
         Connection connection = null;
@@ -42,11 +58,16 @@ public class LoginManager  {
         ResultSet rs = null;
         ResultSet rt = null;
         
+        /*
+             * stringhe SQL per selezionare piu record 
+             * nella tabella account, phdstudent e professor
+             */
         String query = "select * from account where email='" + pUsername + "' and password='" + pPassword + "'";
         String queryPhd = "select * from phdstudent where fkAccount ='";
         String queryProfessor = "select * from professor where fkAccount ='";
 
         try {
+            //connessione al database
             connection = DBConnection.getConnection();
             pUsername = testEmail(pUsername);
             pPassword = testPassword(pPassword);
@@ -55,7 +76,7 @@ public class LoginManager  {
             if (connection == null) {
                 throw new ConnectionException();
             }
-
+            //esecuzione query
             stmt = connection.createStatement();
             rs = stmt.executeQuery(query);
 
@@ -116,13 +137,29 @@ public class LoginManager  {
         return null;
   }
     
+    /** Metodo della classe incaricato di effettuare il log-out
+     * 
+     * @param session la sessione corrente
+     */
   public void logout(HttpSession session) {
       session.removeAttribute("account");
   }
   
+  /** Metodo della classe incaricato di effettuare la registrazione dato 
+   * un account
+   * 
+   * @param pAccount account da registrare
+   * @throws SQLException
+   * @throws NullAccountException 
+   */
   public void register(Account pAccount) throws SQLException, NullAccountException {
-        Connection connect = DBConnection.getConnection();
+      //connessione al database  
+      Connection connect = DBConnection.getConnection();
 
+      /*
+             * stringa SQL per inserire un record 
+             * nella tabella account
+             */
         String sql = "INSERT INTO account"
                 + "(email, secondaryemail, surname, name, password,typeAccount,isAdministrator)"
                 + " VALUES ('"
@@ -136,6 +173,7 @@ public class LoginManager  {
 
         try {
             pAccount = testAccount(pAccount);
+            //esecuzione query
             Utility.executeOperation(connect, sql);
            
         } finally {
@@ -143,18 +181,39 @@ public class LoginManager  {
         }
     }
   
+    /** Metodo della classe per il testing dell'account; l'oggetto account
+     * non deve essere <code>null</code>
+     * 
+     * @param account account da testare
+     * @return restituisce l'account se valido, lancia un'eccezione altrimenti
+     * @throws NullAccountException 
+     */
     public Account testAccount(Account account) throws NullAccountException {
         if(account == null)
             throw new NullAccountException();
         return account;
     }
-    
+  
+     /** Metodo della classe per il testing dell'email; verifica che non sia una
+     * stringa vuota o piu' lunga di 49 caratteri
+     * 
+     * @param email stringa da testare
+     * @return restituisce la stringa se valida, lancia un'eccezione altrimenti
+     * @throws EmailException 
+     */
     public String testEmail(String email) throws EmailException {
         if(email == null || email.length() > 50) 
             throw new EmailException();
         return email;
     }
-    
+   
+     /** Metodo della classe per il testing della password; verifica che non sia una
+     * stringa vuota o piu' lunga di 19 caratteri
+     * 
+     * @param pass stringa da testare
+     * @return restituisce la stringa se valida, lancia un'eccezione altrimenti
+     * @throws PasswordException 
+     */
     public String testPassword(String pass) throws PasswordException {
         if(pass == null || pass.length() > 20)
             throw new PasswordException();

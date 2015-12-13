@@ -1,6 +1,7 @@
 package it.unisa.dottorato.Cycle;
 
 import it.unisa.dottorato.account.Account;
+import it.unisa.dottorato.account.Professor;
 import it.unisa.dottorato.curriculumcic.Curriculumcic;
 import it.unisa.dottorato.exception.IdException;
 import it.unisa.dottorato.exception.DescriptionException;
@@ -14,14 +15,14 @@ import java.sql.SQLException;
 import java.util.ArrayList;
 
 
-/**
+/**Classe per la gestione dei cicli
  *
  * @author Tommaso Minichiello
  */
 public class CycleManager {
 
     /**
-     * Il nome della tabella
+     * I nomi delle tabelle
      */
     private static final String TABLE_CYCLE = "cycle";
     private static final String TABLE_CURRICULUMCIC = "curriculumcic";
@@ -60,10 +61,14 @@ public class CycleManager {
      * Metodo della classe incaricato dell'inserimento di una nuova entita'
      * nella tabella phdCycle del database.
      *
-     * @param pCycle
+     * @param pCycle il nuovo ciclo da inserire
      * @throws java.lang.ClassNotFoundException
      * @throws java.sql.SQLException
      * @throws java.io.IOException
+     * @throws it.unisa.dottorato.exception.DescriptionException
+     * @throws it.unisa.dottorato.exception.IdException
+     * @throws it.unisa.dottorato.exception.DateException
+     * 
      */
     public synchronized void insertCycle(Cycle pCycle) throws 
             ClassNotFoundException, SQLException, IOException, DescriptionException, IdException, DateException {
@@ -98,13 +103,16 @@ public class CycleManager {
      * Metodo della classe incaricato della modifica di un'entita' nella tabella
      * phdCycle del database.
      *
-     * @param oldNumber 
-     * @param pCycle
+     * @param oldNumber numero del ciclo da selezionare
+     * @param pCycle il nuovo ciclo
      * @throws java.lang.ClassNotFoundException
      * @throws java.sql.SQLException
      * @throws java.io.IOException
+     * @throws it.unisa.dottorato.exception.DescriptionException
+     * @throws it.unisa.dottorato.exception.IdException
+     * @throws it.unisa.dottorato.exception.DateException
      */
-    public synchronized void updateCycle(int oldNumber, Cycle pCycle) 
+    public synchronized void updateCycle(int Number, Cycle pCycle) 
             throws ClassNotFoundException, SQLException, IOException, DescriptionException, IdException, DateException {
         try (Connection connect = DBConnection.getConnection()) {
 
@@ -118,12 +126,8 @@ public class CycleManager {
                     + testDescription(pCycle.getDescription())
                     + "', year = '"
                     + testYear(pCycle.getYear())
-                    + "', idPhdCycle = '"
-                    + testNumber(pCycle.getNumber())
-                    + "', fkProfessor = "
-                    + Utility.emptyValue(pCycle.getFkProfessor())
-                    + " WHERE number = "
-                    + testNumber(oldNumber);           
+                    + "' WHERE number = "
+                    + testNumber(Number);           
 
             //Inviamo la Query al DataBase
             Utility.executeOperation(connect, tSql);
@@ -136,13 +140,13 @@ public class CycleManager {
      * Metodo della classe incaricato della modifica di un'entita' nella tabella
      * cycle 
      *
-     * @param cycle  
-     * @param fkProfessor 
+     * @param number numero del il ciclo da selezionare
+     * @param fkProfessor il coordinatore da inserire nel ciclo
      * @throws java.lang.ClassNotFoundException
      * @throws java.sql.SQLException
      * @throws java.io.IOException
      */
-    public synchronized void insertCycleCoordinator(Cycle cycle, String fkProfessor) throws ClassNotFoundException, SQLException, IOException {
+    public synchronized void insertCycleCoordinator(int number, String fkProfessor) throws ClassNotFoundException, SQLException, IOException {
         try (Connection connect = DBConnection.getConnection()) {
 
             /*
@@ -154,7 +158,7 @@ public class CycleManager {
                     + " set fkProfessor = "
                     + Utility.emptyValue(fkProfessor)
                     + " WHERE number = "
-                    + cycle.getNumber();           
+                    + number;           
 
             //Inviamo la Query al DataBase
             Utility.executeOperation(connect, tSql);
@@ -166,12 +170,12 @@ public class CycleManager {
      * Metodo della classe incaricato della modifica di un'entita' nella tabella
      * cycle 
      *
-     * @param cycle
+     * @param number numero del ciclo
      * @throws java.lang.ClassNotFoundException
      * @throws java.sql.SQLException
      * @throws java.io.IOException
      */
-    public synchronized void deleteCycleCoordinator(Cycle cycle) throws ClassNotFoundException, SQLException, IOException {
+    public synchronized void deleteCycleCoordinator(int number) throws ClassNotFoundException, SQLException, IOException {
         try (Connection connect = DBConnection.getConnection()) {
 
             /*
@@ -181,7 +185,7 @@ public class CycleManager {
             String tSql = "UPDATE "
                     + CycleManager.TABLE_CYCLE
                     + " set fkProfessor = null WHERE number = "
-                    + cycle.getNumber();           
+                    + number;           
 
             //Inviamo la Query al DataBase
             Utility.executeOperation(connect, tSql);
@@ -192,44 +196,47 @@ public class CycleManager {
      /**
      * Metodo della classe incaricato di cercare il coordinatore di un ciclo
      *
-     * @param cycle
+     * @param cycle il ciclo da selezionare
+     * @return l'account del coordinatore se esistente
      * @throws java.lang.ClassNotFoundException
      * @throws java.sql.SQLException
      * @throws java.io.IOException
      */
-    public synchronized Account viewCycleCoordinator(Cycle cycle) throws ClassNotFoundException, SQLException, IOException {
+    public synchronized Professor viewCycleCoordinator(int number) throws 
+            ClassNotFoundException, SQLException, IOException, IdException {
         Connection connect = null;
         try {
-           Account cord=new Account();
+            Professor cord=new Professor();
            connect = DBConnection.getConnection();
            /*
              * Prepariamo la stringa SQL per modificare un record 
              * nella tabella phdCycle
              */
-             String tSql = "SELECT secondaryEmail, email, surname, name, password, typeAccount, isAdministrator From "
+             String tSql = "SELECT email, secondaryEmail, surname, name, link, department FROM "
                     + CycleManager.TABLE_CYCLE
                     +","
                     + CycleManager.TABLE_PROFESSOR
                     + ","
                     + CycleManager.TABLE_ACCOUNT
                     + " WHERE number = "
-                    + cycle.getNumber()
+                    + testNumber(number)
                     +" AND fkProfessor = fkAccount AND fkAccount = secondaryEmail";   
 
-            //Inviamo la Query al DataBase
-            Utility.executeOperation(connect, tSql);
 
             connect.commit();
             ResultSet result = Utility.queryOperation(connect, tSql);
 
-            if (result.next()) {
-                cord.setSecondaryEmail(result.getString("secondaryEmail"));
+             if (result.next()) {
                 cord.setEmail(result.getString("email"));
+                cord.setSecondaryEmail(result.getString("secondaryEmail"));
                 cord.setSurname(result.getString("surname"));
                 cord.setName(result.getString("name"));
-                cord.setPassword(result.getString("password"));
-                cord.setTypeAccount(result.getString("typeAccount"));
-                cord.setAdmin(result.getBoolean("isAdministrator"));
+                cord.setLink(result.getString("link"));
+                cord.setDepartment(result.getString("department"));
+                cord.setPassword(null);
+                cord.setAdmin(false);
+                cord.setTypeAccount(null);
+                cord.setfkAccount(cord.getSecondaryEmail());
             }
             return cord;
         } finally {
@@ -239,10 +246,10 @@ public class CycleManager {
     }
     
     /**
-     * Metodo della classe incaricato della cancellazopme di un'entita' nella
+     * Metodo della classe incaricato della cancellazione di un'entita' nella
      * tabella phdCycle del database.
      *
-     * @param number 
+     * @param number il numero del ciclo da cancellare
      * @throws java.lang.ClassNotFoundException
      * @throws java.sql.SQLException
      * @throws java.io.IOException
@@ -275,8 +282,9 @@ public class CycleManager {
      * Metodo della classe incaricato della ricerca delle informazioni di un
      * ciclo contenuto nella tabella phdCycle.
      *
-     * @param number 
-     * @return
+     * @param number il numero del ciclo da selezionare
+     * @return ritorna il ciclo <code>number</code> se esiste, lancia un'eccezione
+     * altrimenti
      * @throws java.lang.ClassNotFoundException
      * @throws java.sql.SQLException
      * @throws java.io.IOException
@@ -317,7 +325,7 @@ public class CycleManager {
     /**
      * Metodo della classe incaricato della ricerca dei cicli esistenti.
      *
-     * @return
+     * @return restituisce un array list di cicli
      * @throws java.lang.ClassNotFoundException
      * @throws java.sql.SQLException
      * @throws java.io.IOException
@@ -358,7 +366,7 @@ public class CycleManager {
     /**
      * Metodo della classe incaricato della ricerca dei cicli esistenti.
      *
-     * @return
+     * @return restituisce un array list dei numeri dei cicli
      * @throws java.lang.ClassNotFoundException
      * @throws java.sql.SQLException
      * @throws java.io.IOException
@@ -393,32 +401,46 @@ public class CycleManager {
     
      /**
      * Metodo della classe incaricato della ricerca dei cicli esistenti.
-     *@param number 
-     * @return
+     *@param number il numero del ciclo da ricercare
+     * @return restituisce un array list di professori che formano il collegio
+     * dei docenti del ciclo
      * @throws java.lang.ClassNotFoundException
      * @throws java.sql.SQLException
      * @throws java.io.IOException
      */
-    public synchronized ArrayList<String> viewCollegeCycle(int number) throws ClassNotFoundException, SQLException, IOException {
+    public synchronized ArrayList<Professor> viewCollegeCycle(int number) throws ClassNotFoundException, SQLException, IOException {
         Connection connect = null;
         try {
-            ArrayList<String> prof = new ArrayList<>();
+            ArrayList<Professor> prof = new ArrayList<>();
+            Professor cord=new Professor();
             // Otteniamo una Connessione al DataBase
             connect = DBConnection.getConnection();
 
             /*
              * Prepariamo la stringa SQL per modificare un record 
-             * nella tabella phdCycle
+             * nella tabella teach
              */
-             String tSql = "SELECT fkAccount FROM "
-                    + CycleManager.TABLE_TEACH
+            String tSql = "SELECT email, secondaryEmail, surname, name, link, department FROM "
+                    + CycleManager.TABLE_TEACH+","+CycleManager.TABLE_PROFESSOR
+                    +","+CycleManager.TABLE_ACCOUNT
                     + " WHERE fkCycle = "
-                    + number;
+                    + number
+                    +" AND secondaryEmail=fkAccount AND fkAccount=fkProfessor ";
 
             //Inviamo la Query al DataBase
             ResultSet result = Utility.queryOperation(connect, tSql);
             while (result.next()) {
-                prof.add(result.getString("fkAccount"));
+                cord.setEmail(result.getString("email"));
+                cord.setSecondaryEmail(result.getString("secondaryEmail"));
+                cord.setSurname(result.getString("surname"));
+                cord.setName(result.getString("name"));
+                cord.setLink(result.getString("link"));
+                cord.setDepartment(result.getString("department"));
+                cord.setPassword(null);
+                cord.setAdmin(false);
+                cord.setTypeAccount(null);
+                cord.setfkAccount(cord.getSecondaryEmail());
+                prof.add(cord);
             }
 
             return prof;
@@ -432,7 +454,7 @@ public class CycleManager {
      * Metodo della classe incaricato dell'inserimento di una nuova entita'
      * nella tabella phdlass del database.
      *
-     * @param pCurriculumcic
+     * @param pCurriculumcic il nuovo curriculum da inserire
      * @throws java.lang.ClassNotFoundException
      * @throws java.sql.SQLException
      * @throws java.io.IOException
@@ -468,8 +490,8 @@ public class CycleManager {
      * Metodo della classe incaricato della cancellazione di un'entita' nella
      * tabella curriculumcic del database.
      *
-     * @param fkCurriculum
-     * @param fkCycle
+     * @param fkCurriculum il curriculum
+     * @param fkCycle il ciclo
      * @throws java.lang.ClassNotFoundException
      * @throws java.sql.SQLException
      * @throws java.io.IOException
@@ -482,12 +504,12 @@ public class CycleManager {
 
             /*
              * Prepariamo la stringa SQL per modificare un record 
-             * nella tabella phdClass
+             * nella tabella curriculumcic
              */
             String tSql = "DELETE FROM "
                     + CycleManager.TABLE_CURRICULUMCIC
-                    + " WHERE fkCycle = '"
-                    + fkCycle + "' AND "
+                    + " WHERE fkCycle = "
+                    + fkCycle + " AND "
                     +" fkCurriculum = '"
                     + Utility.Replace(fkCurriculum) + "'";
 
@@ -503,8 +525,8 @@ public class CycleManager {
    
     /**
      * Metodo della classe incaricato della ricerca delle classi esistenti.
-     *@param number 
-     * @return 
+     *@param number il numero del ciclo da selezionare
+     * @return restituisce un array list dei curriculum del ciclo <code>number</code>
      * @throws java.lang.ClassNotFoundException
      * @throws java.sql.SQLException
      * @throws java.io.IOException
@@ -545,19 +567,72 @@ public class CycleManager {
             DBConnection.releaseConnection(connect);
         }
     }
-
+    
+    /**
+     * Metodo della classe incaricato di calcolare il numero del prossimo ciclo da inserire
+     * nella tabella Cycle del database.
+     * @return restituisce il prossimo numero
+     * @throws java.lang.ClassNotFoundException
+     * @throws java.sql.SQLException
+     * @throws java.io.IOException
+     * @throws it.unisa.dottorato.exception.DescriptionException
+     * @throws it.unisa.dottorato.exception.IdException
+     * @throws it.unisa.dottorato.exception.DateException
+     * 
+     */
+    public synchronized int nextNumber() throws 
+            ClassNotFoundException, SQLException, IOException, DescriptionException, IdException, DateException {
+        int c=1;
+        
+       
+        try (Connection connect = DBConnection.getConnection()) {
+            String tSql = "SELECT number FROM "
+                    + CycleManager.TABLE_CYCLE
+                    + "ORDER BY number DESC LIMIT 1";
+            //Inviamo la Query al DataBase
+             ResultSet result = Utility.queryOperation(connect, tSql);
+            if(result.next()){
+                c = result.getInt("number")+1;
+            }
+            connect.commit();
+            return c;
+        } 
+    }
+    
+    /** Metodo per il testing del numero di un ciclo; non può essere minore o uguale
+     * di 0 e maggiore di 999
+     * 
+     * @param number il numero da testare
+     * @return restituisce il numero se valido, lancia un'eccezione altrimenti
+     * @throws IdException 
+     */
      public Integer testNumber(int number) throws IdException {
         if(number <=0 || number > 999) 
             throw new IdException("il numero del ciclo è sbagliato");
         return number;
     }
     
+       /**Metodo per il testing della descrizione del ciclo; verifica che la stringa
+     * <code>description</code> non sia vuota o non abbia una lunghezza superiore
+     * ai 65535 caratteri
+     * 
+     * @param description descrizione del ciclo
+     * @return restituisce la stringa se valida, lancia un'eccezione altrimenti
+     * @throws DescriptionException 
+     */
     public String testDescription(String description) throws DescriptionException {
         if(description.isEmpty() || description.length() > 65536) 
             throw new DescriptionException("Descrizione ciclo errata.");
         return description;
     }
     
+    /** Metodo per il testing dell'anno di un ciclo; non può essere una stringa
+     * vuota o maggiore di 4 caratteri
+     * 
+     * @param year la stringa da testare
+     * @return restituisce la stringa se valida, lancia un'eccezione altrimenti
+     * @throws DateException 
+     */
     public String testYear(String year) throws DateException {
         if(year.isEmpty() || year.length() > 4) 
             throw new DateException("Anno ciclo errato.");

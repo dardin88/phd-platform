@@ -12,7 +12,7 @@ import javax.servlet.http.HttpServlet;
 import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpServletResponse;
 
-/**
+/**Servlet incaricata ad effettuare la richiesta di invito di un utente via email
  *
  * @author gemmacatolino
  */

@@ -1,8 +1,3 @@
-/*
- * To change this license header, choose License Headers in Project Properties.
- * To change this template file, choose Tools | Templates
- * and open the template in the editor.
- */
 package it.unisa.dottorato.phdProfile.missions;
 
 import it.unisa.dottorato.account.PhdStudent;
@@ -20,7 +15,7 @@ import javax.servlet.http.HttpSession;
 import org.json.JSONException;
 import org.json.JSONObject;
 
-/**
+/**Servlet incaricata ad effettuare la richiesta di inserimento di una nuova missione
  *
  * @author gemmacatolino
  */

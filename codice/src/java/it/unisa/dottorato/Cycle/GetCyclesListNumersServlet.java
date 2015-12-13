@@ -16,7 +16,8 @@ import org.json.JSONArray;
 import org.json.JSONException;
 import org.json.JSONObject;
 
-/**
+/**Servlet incaricata ad effettuare la richiesta di visualizzazione della 
+ * lista dei numeri dei cicli esistenti
  *
  * @author Tommaso Minichiello
  */

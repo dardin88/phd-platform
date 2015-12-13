@@ -15,8 +15,8 @@ import javax.servlet.http.HttpServletResponse;
 import org.json.JSONException;
 import org.json.JSONObject;
 
-
-/**
+/** Servlet incaricaricata ad effettuare la richiesta di cancellazione di un 
+ * curriculum dato il nome
  *
  * @author Tommaso Minichiello
  */

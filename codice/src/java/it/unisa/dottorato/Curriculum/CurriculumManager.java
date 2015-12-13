@@ -10,7 +10,7 @@ import java.sql.ResultSet;
 import java.sql.SQLException;
 import java.util.ArrayList;
 
-/**
+/** Classe per la gestione dei curriculum
  *
  * @author Tommaso Minichiello
  */
@@ -49,14 +49,16 @@ public class CurriculumManager {
         return instance;
     }
 
-    /**
+     /**
      * Metodo della classe incaricato dell'inserimento di una nuova entita'
      * nella tabella phdCurriculum del database.
      *
-     * @param pCurriculum
+     * @param pCurriculum il nuovo curriculum
      * @throws java.lang.ClassNotFoundException
      * @throws java.sql.SQLException
      * @throws java.io.IOException
+     *  @throws it.unisa.dottorato.exception.NameException
+     *  @throws it.unisa.dottorato.exception.DescriptionException
      */
     public synchronized void insert(Curriculum pCurriculum) 
             throws ClassNotFoundException, SQLException, IOException , NameException, DescriptionException {
@@ -87,15 +89,17 @@ public class CurriculumManager {
         }
     }
 
-    /**
+  /**
      * Metodo della classe incaricato della modifica di un'entita' nella tabella
      * phdCurriculum del database.
      *
-     * @param oldNameCurriculum
-     * @param pCurriculum
+     * @param oldNameCurriculum nome del curriculum da modificare
+     * @param pCurriculum il nuovo curriculum
      * @throws java.lang.ClassNotFoundException
      * @throws java.sql.SQLException
      * @throws java.io.IOException
+     *  @throws it.unisa.dottorato.exception.NameException
+     *  @throws it.unisa.dottorato.exception.DescriptionException
      */
     public synchronized void update(String oldNameCurriculum, Curriculum pCurriculum) 
             throws ClassNotFoundException, SQLException, IOException, NameException, DescriptionException
@@ -107,7 +111,7 @@ public class CurriculumManager {
 
             /*
              * Prepariamo la stringa SQL per modificare un record 
-             * nella tabella phdCycle
+             * nella tabella phdCurriculum
              */
             String tSql = "UPDATE "
                     + CurriculumManager.TABLE_CURRICULUM
@@ -127,14 +131,15 @@ public class CurriculumManager {
         }
     }
 
-    /**
-     * Metodo della classe incaricato della cancellazopme di un'entita' nella
+   /**
+     * Metodo della classe incaricato della cancellazione di un'entita' nella
      * tabella Curriculum del database.
      *
-     * @param CurriculumName 
+     * @param CurriculumName nome del curriculum da cancellare
      * @throws java.lang.ClassNotFoundException
      * @throws java.sql.SQLException
      * @throws java.io.IOException
+     * @throws it.unisa.dottorato.exception.NameException
      */
     public synchronized void delete(String CurriculumName) 
             throws ClassNotFoundException, SQLException, IOException, NameException {
@@ -145,7 +150,7 @@ public class CurriculumManager {
 
             /*
              * Prepariamo la stringa SQL per modificare un record 
-             * nella tabella phdCycle
+             * nella tabella phdCurriculum
              */
             String tSql = "DELETE FROM "
                     + CurriculumManager.TABLE_CURRICULUM
@@ -161,10 +166,11 @@ public class CurriculumManager {
         }
     }
    
-    /**
-     * Metodo della classe incaricato della ricerca di un curriculum esistente.
+     /**
+     * Metodo della classe incaricato di ottenere un array list di nomi dei 
+     * curriculum esistenti.
      *
-     * @return
+     * @return lista dei nomi dei curriculum esistenti
      * @throws java.lang.ClassNotFoundException
      * @throws java.sql.SQLException
      * @throws java.io.IOException
@@ -198,15 +204,16 @@ public class CurriculumManager {
         }
     }
 
-    /**
+  /**
      * Metodo della classe incaricato della ricerca delle informazioni di un
      * curriculum contenuto nella tabella Curriculum.
      *
-     * @param CurriculumName 
-     * @return
+     * @param CurriculumName il nome del curriculum da ricercare
+     * @return restituisce il curriculum se trovato, altrimenti lancia un eccezione
      * @throws java.lang.ClassNotFoundException
      * @throws java.sql.SQLException
      * @throws java.io.IOException
+     * @throws it.unisa.dottorato.exception.NameException
      */
     public synchronized Curriculum getCurriculumByName(String CurriculumName) 
             throws ClassNotFoundException, SQLException, IOException, NameException {
@@ -239,12 +246,28 @@ public class CurriculumManager {
         }
     }
     
+    /**Metodo per il testing del nome del curriculum; verifica che la stringa
+     * <code>name</code> non sia vuota o non abbia una lunghezza superiore
+     * ai 99 caratteri
+     * 
+     * @param name nome del curriculum
+     * @return restituisce la stringa se valida, lancia un'eccezione altrimenti
+     * @throws NameException 
+     */
     public String testName(String name) throws NameException {
         if(name.isEmpty() || name.length() > 100) 
             throw new NameException();
         return name;
     }
     
+    /**Metodo per il testing della descrizione del curriculum; verifica che la stringa
+     * <code>description</code> non sia vuota o non abbia una lunghezza superiore
+     * ai 65535 caratteri
+     * 
+     * @param description descrizione del curriculum
+     * @return restituisce la stringa se valida, lancia un'eccezione altrimenti
+     * @throws DescriptionException 
+     */
     public String testDescription(String description) throws DescriptionException {
         if(description.isEmpty() || description.length() > 65536) 
             throw new DescriptionException("Descrizione Curriculum errata.");

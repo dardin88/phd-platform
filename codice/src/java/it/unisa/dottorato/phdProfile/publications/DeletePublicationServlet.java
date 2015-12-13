@@ -1,8 +1,3 @@
-/*
- * To change this license header, choose License Headers in Project Properties.
- * To change this template file, choose Tools | Templates
- * and open the template in the editor.
- */
 package it.unisa.dottorato.phdProfile.publications;
 
 import java.io.IOException;
@@ -18,7 +13,7 @@ import javax.servlet.http.HttpServletResponse;
 import org.json.JSONException;
 import org.json.JSONObject;
 
-/**
+/** Servlet incaricata ad effettuare la richiesta di cancellazione di una pubblicazione
  *
  * @author gemmacatolino
  */

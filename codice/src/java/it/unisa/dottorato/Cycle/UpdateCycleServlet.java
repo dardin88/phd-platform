@@ -17,8 +17,7 @@ import org.json.JSONException;
 import org.json.JSONObject;
 
 
-/**
- *
+/** Servlet incaricata ad effettuare la richiesta di aggiornamento di un ciclo 
  * @author Tommaso Minichiello
  */
 @WebServlet(name = "UpdateCycle", urlPatterns = {"/dottorato/UpdateCycle"})
@@ -41,22 +40,20 @@ public class UpdateCycleServlet extends HttpServlet {
 
             JSONObject result = new JSONObject();
 
-            int oldNumber = Integer.parseInt(request.getParameter("oldNumber"));
-            int newNumber =Integer.parseInt( request.getParameter("newNumber"));
+            int number = Integer.parseInt(request.getParameter("number"));
             String description = request.getParameter("description");
             String year = request.getParameter("year");
-            String professor = request.getParameter("fkProfessor");
 
             Cycle aPhdCycle = new Cycle();
-            aPhdCycle.setNumber(newNumber);
+            aPhdCycle.setNumber(number);
             aPhdCycle.setYear(year);
             aPhdCycle.setDescription(description);
-            aPhdCycle.setFkProfessor(professor);
+            aPhdCycle.setFkProfessor(null);
 
             result.put("result", true);
 
             try {
-                CycleManager.getInstance().updateCycle(oldNumber, aPhdCycle);
+                CycleManager.getInstance().updateCycle(number, aPhdCycle);
 
             } catch (ClassNotFoundException | SQLException ex) {
                 result.put("result", false);

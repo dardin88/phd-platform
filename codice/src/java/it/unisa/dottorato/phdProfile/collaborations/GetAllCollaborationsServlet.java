@@ -1,8 +1,3 @@
-/*
- * To change this license header, choose License Headers in Project Properties.
- * To change this template file, choose Tools | Templates
- * and open the template in the editor.
- */
 package it.unisa.dottorato.phdProfile.collaborations;
 
 import it.unisa.dottorato.account.PhdStudent;
@@ -22,7 +17,8 @@ import org.json.JSONArray;
 import org.json.JSONException;
 import org.json.JSONObject;
 
-/**
+/**Servlet incaricata ad effettuare la richiesta di visualizzazioni di tutte le 
+ * collaborazioni di un dottorando
  *
  * @author gemmacatolino
  */
