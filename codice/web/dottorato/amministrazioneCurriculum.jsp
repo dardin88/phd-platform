@@ -15,7 +15,7 @@
         <meta name="description" content="Xenon Boostrap Admin Panel" />
         <meta name="author" content="Andrea Fedele" />
         
-        <title>Pannello Amministrazione Curriculum</title>
+        <title>Amministrazione Curriculum</title>
    
         <link rel="stylesheet" href="http://fonts.googleapis.com/css?family=Arimo:400,700,400italic">
         <link rel="stylesheet" href="../assets/css/fonts/linecons/css/linecons.css">
@@ -33,11 +33,65 @@
                                                                                  
     </head>
     
-    <body>
+    <body class="page-body">
+            <!-- Inclusione della pagina contenente il menù superiore -->
+            <div class="page-container">
+        
             <!-- Inclusione della pagina contenente il menù laterale --> 
             <jsp:include page="leftBar.jsp"/>  
 	
-	
+                <div class="main-content" id="content">
+                    
+                    <div class="row">
+                            <div class="panel-heading">
+                                <h1>Gestione Curriculum</h1> 
+                            </div>
+                        </div>
+                    <div class="row" style="margin-left:5px " >    
+                            <button type="button" class="btn btn-default btn-secondary " >
+                                <span class="glyphicon glyphicon-plus" aria-hidden="true" ></span>
+                                Aggiungi Curriculum
+                            </button> 
+                    </div>
+                    <div class="row" style="margin-left:5px ">
+                        <div class="dropdown" >
+                            <button class="btn btn-default dropdown-toggle" type="button" id="dropdownMenu1" data-toggle="dropdown" aria-haspopup="true" aria-expanded="true">
+                              -- seleziona uno fra i curriculum attivi nel dottorato di ricerca -- 
+                              <span class="caret" ></span>
+                            </button>
+                            <ul class="dropdown-menu" aria-labelledby="dropdownMenu2">
+                              <li><a href="#">Action</a></li>
+                              <li><a href="#">Another action</a></li>
+                              <li><a href="#">Something else here</a></li>
+                            </ul>
+                        </div>
+                        
+                    </div>
+                        
+                    <div class="row" style="margin-left: 5px"> 
+                        <div class="panel panel-default">
+                            <div class="panel-heading">
+                                <h3 class="panel-title">Nome Curriculum: <span style="font-style: italic" id="CurriculumNameField"> -- Curriculum selezionato -- </h3> 
+                            </div>
+                            <div class="panel-body">
+                                <p id="CurriculumDescriptionField"> 
+                                    Descrizione curriculum selezionato
+                            </div>
+                            <div class="panel-footer" style="background-color: transparent">
+                                <button type="button" class="btn btn-default btn-red"  style="margin-top: 10px">
+                                <span class="glyphicon glyphicon-remove-sign" aria-hidden="true"></span>
+                                Rimuovi Curriculum
+                            </button> 
+                            <button type="button" class="btn btn-default btn-orange" style="margin-top: 10px">
+                                <span class="glyphicon glyphicon-pencil" aria-hidden="true" ></span>
+                                Modifica Curriculum
+                            </button> 
+                            </div>
+                          </div>
+                    </div>
+                </div> 
+            </div> 
+
       
     <!-- Bottom Scripts -->
             <script src="../assets/js/bootstrap.min.js"></script>
@@ -48,5 +102,6 @@
             <script src="../assets/js/xenon-toggles.js"></script>
 
             <!-- JavaScripts initializations and stuff -->
-            <script src="../assets/js/xenon-custom.js"></script>            
+            <script src="../assets/js/xenon-custom.js"></script>     
+    </body>
 </html>

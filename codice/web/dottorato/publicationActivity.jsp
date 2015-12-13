@@ -98,7 +98,7 @@
                                     <tr>
                                         <td><%= publication.getTitle()%></td>
                                         <td><%= publication.getAuthors()%> </td>		
-                                        <td><%= publication.getAbstractText()%></td>
+                                        <td><%= publication.getAbstract()%></td>
                                         <td><%= publication.getYear()%></td>
                                         <td><%= publication.getType()%></td>
                                         <td><%= publication.getPublicationIssue()%></td>		

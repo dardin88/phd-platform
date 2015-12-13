@@ -15,7 +15,7 @@
         <meta name="description" content="Xenon Boostrap Admin Panel" />
         <meta name="author" content="Andrea Fedele" />
         
-        <title>Pannello Amministrazione Avvisi</title>
+        <title>Amministrazione Avvisi</title>
    
         <link rel="stylesheet" href="http://fonts.googleapis.com/css?family=Arimo:400,700,400italic">
         <link rel="stylesheet" href="../assets/css/fonts/linecons/css/linecons.css">
@@ -33,11 +33,24 @@
                                                                                  
     </head>
     
-    <body>
+        <body class="page-body">
+            <!-- Inclusione della pagina contenente il menù superiore -->
+            <div class="page-container">
+        
             <!-- Inclusione della pagina contenente il menù laterale --> 
             <jsp:include page="leftBar.jsp"/>  
 	
-	
+                <div class="main-content" id="content">
+                    <div class="row">
+                        <div class="panel-heading">
+                            <h1>Gestione Avvisi</h1> 
+                        </div>
+                    </div>
+                    
+                        
+                </div> 
+            </div> 
+
       
     <!-- Bottom Scripts -->
             <script src="../assets/js/bootstrap.min.js"></script>
@@ -48,5 +61,6 @@
             <script src="../assets/js/xenon-toggles.js"></script>
 
             <!-- JavaScripts initializations and stuff -->
-            <script src="../assets/js/xenon-custom.js"></script>            
+            <script src="../assets/js/xenon-custom.js"></script>     
+    </body>        
 </html>

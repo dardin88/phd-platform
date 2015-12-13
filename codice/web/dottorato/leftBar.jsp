@@ -35,7 +35,7 @@
                         </a>
                      </li>
                      <li>
-                        <a href="amministrazione Avvisi.jsp">
+                        <a href="amministrazioneAvvisi.jsp">
 	                   <span class="title">Gestione Avvisi</span>
                         </a>
                      </li>
