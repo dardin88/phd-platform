@@ -50,12 +50,7 @@
 
     <!--Qui chiama servlet update che prende infomazioni Account--> 
                
-           <%  
-             ArrayList<Account>  rAccount = AccountManager.getInstance().getAccountList();
-                String semail = null;
-                String nome = null;
-                String cognome = null;
-            %>
+         
    
 
 <div class="container-fluid">
