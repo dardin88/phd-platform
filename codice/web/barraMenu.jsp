@@ -43,7 +43,7 @@
             <c:choose>
                 <c:when test="${sessionScope.account != null}">
                     <% Account loggedPerson = ((Account) session.getAttribute("account"));
-                        if (loggedPerson.getTypeOfAccount().equals("phdstudent") || loggedPerson.getTypeOfAccount().equals("professor")) {
+                        if (loggedPerson.getTypeAccount().equals("phdstudent") || loggedPerson.getTypeAccount().equals("professor")) {
                     %>  
                     
                     <li id="funzionalitaBase">
