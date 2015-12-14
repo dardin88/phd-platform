@@ -44,7 +44,7 @@
   
     <body class="page-body">
         <!-- Inclusione della pagina contenente il menù superiore -->
-      
+   
       
         
         <!-- jQuery (necessary for Bootstrap's JavaScript plugins) -->
@@ -59,17 +59,25 @@
         <form class="form-inline" action="#" method="post">
             <div class="input-group col-lg-8 col-md-8 col-sm-8 pull-left col-xs-8">
                 <input id="word" class="form-control" type="text" value="" placeholder="Search" name="q" autofocus="autofocus" />
+                
+                
                 <div class="input-group-btn">
                     
                     <button type="button" class="btn btn-default dropdown-toggle" id="x" data-toggle="dropdown">Seleziona il tipo di utente<span class="caret"></span>
             </button>
+                         <% 
+                List<Account> rAccount = AccountManager.getInstance().getAccountList();
+
+            %>  
                     
                     <ul class="dropdown-menu">
                         <li><a href="#">Docente</a>
-
+<% //rAccount = AccountManager.getInstance().getProfessors(); 
+%>
                         </li>
                         <li><a href="#">Dottorando</a>
-
+<%  //rAccount = AccountManager.getInstance().getPhdStudents(); 
+%>
                         </li>
                         
                     </ul>
@@ -77,10 +85,11 @@
                 <!-- /btn-group -->
             </div>
             <button id="search" data-style="slide-left" class="btn btn-success col-lg-3 col-md-3 col-sm-3 col-xs-3 pull-right" type="submit"> <i id="icon" class="fa fa-search"></i>Search</button>
-                <% 
-                List<Account> rAccount = AccountManager.getInstance().getAccountList();
-
-            %>       
+                 <% 
+                String names = request.getParameter("word");
+                
+                rAccount = AccountManager.getInstance().searchUser(names,null);
+                %>  
         </form>
     </div>
     <div id="results" class="well col-lg-8 col-lg-offset-2 col-md-8 col-md-offset-2 col-sm-10 col-sm-offset-1 col-xs-12">
@@ -88,20 +97,23 @@
             <thead>
                 <tr>
                     <th></th>
-                    <th>Tipo di Account</th>
-                    <th>First Name</th>
-                    <th>Last Name</th>
-                    <th>Email</th>
+                    <th data-field="typeAccount" data-sortable="true">Tipo di Account</th>
+                    <th data-field="name" data-sortable="true">Nome</th>
+                    <th data-field= "surname" data-sortable="true">Cognome</th>
+                    <th data-field="email" data-sortable="true">Email</th>
                 </tr>
             </thead>
             <tbody>
                 <% for (Account rsAccount : rAccount) {%>
+                
                 <tr>
+                    
+                    <td><%= rsAccount.getTypeAccount()%></td>
+                    <td><%= rsAccount.getName() %></td>
+                    <td><%= rsAccount.getSurname()%></td>
                     <td><%= rsAccount.getEmail()%></td>
-                    <td></td>
-                    <td></td>
-                    <td></td>
-                    <td></td>
+                    
+                    
                 </tr><% }%>
             </tbody>
         </table>
