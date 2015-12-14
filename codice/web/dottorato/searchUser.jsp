@@ -71,12 +71,13 @@
             %>  
                     
                     <ul class="dropdown-menu">
-                        <li><a href="#">Docente</a>
-<% //rAccount = AccountManager.getInstance().getProfessors(); 
+                        <li><a<% String type="professor"; %> href="#">Docente</a>
+<% //rAccount = AccountManager.getInstance().getProfessors();
+  // String type= request.getParameter("professor")
 %>
                         </li>
-                        <li><a href="#">Dottorando</a>
-<%  //rAccount = AccountManager.getInstance().getPhdStudents(); 
+                        <li><a <%  type="phdstudent"; %>href="#">Dottorando</a>
+<%  //rAccount = AccountManager.getInstance().getPhdStudents(); type= request.getParameter("phdstudent")
 %>
                         </li>
                         
@@ -87,9 +88,11 @@
             <button id="search" data-style="slide-left" class="btn btn-success col-lg-3 col-md-3 col-sm-3 col-xs-3 pull-right" type="submit"> <i id="icon" class="fa fa-search"></i>Search</button>
                  <% 
                 String names = request.getParameter("word");
+                 if(request.getParameter("submit") != null) {
+                rAccount = AccountManager.getInstance().searchUser(names,type);
                 
-                rAccount = AccountManager.getInstance().searchUser(names,null);
-                %>  
+                
+                 } %>  
         </form>
     </div>
     <div id="results" class="well col-lg-8 col-lg-offset-2 col-md-8 col-md-offset-2 col-sm-10 col-sm-offset-1 col-xs-12">
