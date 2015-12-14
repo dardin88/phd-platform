@@ -83,6 +83,117 @@ public class AccountManager {
     return null;
   }
     
+    public ArrayList<String> viewProfile(Account pAccount) throws SQLException {
+        Connection connect = null;
+        
+        String sql = "SELECT * from " + pAccount.getTypeAccount()
+                + "WHERE fkAccount  = '" + pAccount.getSecondaryEmail() + "'";
+        
+        try {
+        ArrayList<String> profile = new ArrayList<>();
+        connect = DBConnection.getConnection();
+        ResultSet rs = Utility.queryOperation(connect, sql);
+        
+        while(rs.next()) {
+            if(pAccount.getTypeAccount().equals("phdstudent")) {
+                profile.add(rs.getString("telephone"));
+                profile.add(rs.getString("link"));
+                profile.add(rs.getString("department"));
+                profile.add(rs.getString("researchInterest"));
+                profile.add(rs.getString("fkCurriculum"));
+                profile.add(rs.getString("fkCycle"));
+                profile.add(rs.getString("fkProfessor"));
+                profile.add(rs.getString("fkAccount"));
+            }
+            
+            if(pAccount.getTypeAccount().equals("professor")) {
+                profile.add(rs.getString("link"));
+                profile.add(rs.getString("department"));
+                profile.add(rs.getString("fkAccount"));
+            }
+        }
+        
+        return profile;
+        
+    } catch (SQLException ex) {
+            Logger.getLogger(AccountManager.class.getName()).log(Level.SEVERE, null, ex);
+        } finally {
+        DBConnection.releaseConnection(connect);
+    }
+        
+    return null;
+ }
+    
+    public ArrayList<Account> getPhdStudents() {
+            Connection connect = null;
+           
+            try {
+         ArrayList<Account> students = new ArrayList<>();
+         //Connessione al database
+         connect = DBConnection.getConnection();
+          /*
+             * stringa SQL per selezionare piu record 
+             * nella tabella account
+             */
+         String sql = "SELECT * FROM account "
+                 +    "WHERE typeAccount = 'phdstudent'";
+         //esecuzione della query
+         ResultSet result = Utility.queryOperation(connect, sql);
+         PhdStudent temp = new PhdStudent();
+         while(result.next()){
+             temp.setName(result.getString("name"));
+             temp.setEmail(result.getString("email"));
+             temp.setSecondaryEmail(result.getString("secondaryEmail"));
+             temp.setTypeAccount(result.getString("typeAccount"));
+             temp.setPassword(result.getString("password"));
+             temp.setAdmin(result.getBoolean("isAdministrator"));
+             students.add(temp);
+         }
+         return students; 
+    }   catch (SQLException ex) {
+            Logger.getLogger(AccountManager.class.getName()).log(Level.SEVERE, null, ex);
+        } finally {
+        DBConnection.releaseConnection(connect);
+    }
+    return null;
+    }
+    
+    
+        public ArrayList<Account> getProfessors() {
+            Connection connect = null;
+           
+            try {
+         ArrayList<Account> professors = new ArrayList<>();
+         //Connessione al database
+         connect = DBConnection.getConnection();
+          /*
+             * stringa SQL per selezionare piu record 
+             * nella tabella account
+             */
+         String sql = "SELECT * FROM account "
+                 +    "WHERE typeAccount = 'professor'";
+         //esecuzione della query
+         ResultSet result = Utility.queryOperation(connect, sql);
+         PhdStudent temp = new PhdStudent();
+         while(result.next()){
+             temp.setName(result.getString("name"));
+             temp.setEmail(result.getString("email"));
+             temp.setSecondaryEmail(result.getString("secondaryEmail"));
+             temp.setTypeAccount(result.getString("typeAccount"));
+             temp.setPassword(result.getString("password"));
+             temp.setAdmin(result.getBoolean("isAdministrator"));
+             professors.add(temp);
+         }
+         return professors; 
+    }   catch (SQLException ex) {
+            Logger.getLogger(AccountManager.class.getName()).log(Level.SEVERE, null, ex);
+        } finally {
+        DBConnection.releaseConnection(connect);
+    }
+    return null;
+    }
+    
+    
   /** Metodo della classe incaricato alla ricerca di un utente dato il suo nome
    * e il suo tipo di account
    * 
