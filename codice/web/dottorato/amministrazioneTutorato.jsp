@@ -35,11 +35,12 @@
     
         <body class="page-body">
             <!-- Inclusione della pagina contenente il menù superiore -->
+            <!--da modificare con la nuova -->
             <div class="page-container">
         
             <!-- Inclusione della pagina contenente il menù laterale --> 
             <jsp:include page="leftBar.jsp"/>  
-	
+            
                     <div class="main-content" id="content">
                         
                         <div class="row">
@@ -48,25 +49,26 @@
                             </div>
                         </div>
                        
-                    <div class="row" style="margin-left:5px ">
+                    <div class="row">
+                    <div class=" col-lg-4 col-lg-offset-0 col-md-8 col-md-offset-2 col-sm-10 col-sm-offset-1 col-xs-12">
                         <div class="dropdown" >
                             <button class="btn btn-default dropdown-toggle" type="button" id="dropdownMenu1" data-toggle="dropdown" aria-haspopup="true" aria-expanded="true">
                               -- seleziona il dottorando interessato -- 
                               <span class="caret" ></span>
                             </button>
                             <ul class="dropdown-menu" aria-labelledby="dropdownMenu2">
-                              <li><a href="#">Action</a></li>
+                                <li><a href="#">Action</a></li>
                               <li><a href="#">Another action</a></li>
                               <li><a href="#">Something else here</a></li>
                             </ul>
                         </div>
                     </div>
                         
-                    <div class="row" style="margin-left: 5px"> 
+                    <div class="col-lg-8 col-lg-offset-0 col-md-8 col-md-offset-2 col-sm-10 col-sm-offset-1 col-xs-12">    
                         <div class="panel panel-default">
                             <div class="panel-heading">
                                 <h3 class="panel-title">Tutor: <span style="font-style: italic" id="TutorNameField"> -- tutor selezionato -- <button type="button" class="btn btn-default btn-red">
-                                            <span class="glyphicon glyphicon-remove-sign" aria-hidden="true" style="margin-top: 2px"></span> Rimuovi tutor
+                                            <span class="glyphicon glyphicon-remove-sign" aria-hidden="true" ></span> Rimuovi tutor
                                                 </button> </span></h3> 
                             </div>
                             <div class="panel-body">
@@ -80,6 +82,7 @@
                                 </table>
                             </div>
                           </div>
+                    </div>
                     </div>
                         
                 </div> 
