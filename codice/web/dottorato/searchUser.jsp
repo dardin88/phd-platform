@@ -4,6 +4,7 @@
     Author     : Rembor
 --%>
 
+<%@page import="java.util.List"%>
 <%@page import="it.unisa.dottorato.account.Account"%>
 <%@page import="java.util.ArrayList"%>
 <%@page contentType="text/html" pageEncoding="UTF-8"%>
@@ -49,7 +50,7 @@
         <!-- jQuery (necessary for Bootstrap's JavaScript plugins) -->
 
     <!--Qui chiama servlet update che prende infomazioni Account--> 
-               
+              
          
    
 
@@ -76,6 +77,10 @@
                 <!-- /btn-group -->
             </div>
             <button id="search" data-style="slide-left" class="btn btn-success col-lg-3 col-md-3 col-sm-3 col-xs-3 pull-right" type="submit"> <i id="icon" class="fa fa-search"></i>Search</button>
+                <% 
+                List<Account> rAccount = AccountManager.getInstance().getAccountList();
+
+            %>       
         </form>
     </div>
     <div id="results" class="well col-lg-8 col-lg-offset-2 col-md-8 col-md-offset-2 col-sm-10 col-sm-offset-1 col-xs-12">
@@ -90,13 +95,14 @@
                 </tr>
             </thead>
             <tbody>
+                <% for (Account rsAccount : rAccount) {%>
                 <tr>
+                    <td><%= rsAccount.getEmail()%></td>
                     <td></td>
                     <td></td>
                     <td></td>
                     <td></td>
-                    <td></td>
-                </tr>
+                </tr><% }%>
             </tbody>
         </table>
     </div>
