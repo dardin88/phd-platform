@@ -4,6 +4,9 @@
     Author     : andre
 --%>
 
+<%@page import="it.unisa.dottorato.Curriculum.CurriculumManager"%>
+<%@page import="it.unisa.dottorato.Curriculum.Curriculum"%>
+<%@page import="java.util.ArrayList"%>
 <%@page contentType="text/html" pageEncoding="UTF-8"%>
 <!DOCTYPE html>
 <html lang="en">
@@ -35,10 +38,13 @@
     
     <body class="page-body">
             <!-- Inclusione della pagina contenente il menù superiore -->
+            <!--da modificare con la nuova -->
             <div class="page-container">
         
             <!-- Inclusione della pagina contenente il menù laterale --> 
             <jsp:include page="leftBar.jsp"/>  
+            
+          
 	
                 <div class="main-content" id="content">
                     
@@ -47,16 +53,24 @@
                                 <h1>Gestione Curriculum</h1> 
                             </div>
                         </div>
-                    <div class="row" style="margin-left:5px " >    
-                            <button type="button" class="btn btn-default btn-secondary " >
+                    
+                    
+                    <div class="row"  > 
+                        <div class="well-small col-lg-12 col-lg-offset-0 col-md-8 col-md-offset-2 col-sm-10 col-sm-offset-1 col-xs-12">
+                            <button type="button" class="btn btn-default btn-secondary btn-block " >
                                 <span class="glyphicon glyphicon-plus" aria-hidden="true" ></span>
                                 Aggiungi Curriculum
                             </button> 
+                        </div>    
+                    
                     </div>
-                    <div class="row" style="margin-left:5px ">
+                    
+                      
+                    <div class="row" style="margin-top: 10px">
+                        <div class="well-small col-lg-4 col-lg-offset-0 col-md-8 col-md-offset-2 col-sm-10 col-sm-offset-1 col-xs-12">
                         <div class="dropdown" >
                             <button class="btn btn-default dropdown-toggle" type="button" id="dropdownMenu1" data-toggle="dropdown" aria-haspopup="true" aria-expanded="true">
-                              -- seleziona uno fra i curriculum attivi nel dottorato di ricerca -- 
+                              -- seleziona uno dei curriculum attivi nel dottorato di ricerca -- 
                               <span class="caret" ></span>
                             </button>
                             <ul class="dropdown-menu" aria-labelledby="dropdownMenu2">
@@ -65,10 +79,10 @@
                               <li><a href="#">Something else here</a></li>
                             </ul>
                         </div>
+                        </div>
+                         
                         
-                    </div>
-                        
-                    <div class="row" style="margin-left: 5px"> 
+                        <div class="well-small col-lg-7 col-lg-offset-1 col-md-8 col-md-offset-6 col-sm-10 col-sm-offset-1 col-xs-12">
                         <div class="panel panel-default">
                             <div class="panel-heading">
                                 <h3 class="panel-title">Nome Curriculum: <span style="font-style: italic" id="CurriculumNameField"> -- Curriculum selezionato -- </h3> 
@@ -88,6 +102,7 @@
                             </button> 
                             </div>
                           </div>
+                        </div>
                     </div>
                 </div> 
             </div> 
