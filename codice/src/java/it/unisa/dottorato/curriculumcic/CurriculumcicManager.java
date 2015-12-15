@@ -1,7 +1,12 @@
 package it.unisa.dottorato.curriculumcic;
 
 import it.unisa.dottorato.account.PhdStudent;
+import it.unisa.dottorato.Curriculum.CurriculumManager;
+import it.unisa.dottorato.Cycle.CycleManager;
+import it.unisa.dottorato.exception.ReferenceException;
 import it.unisa.dottorato.account.Professor;
+import it.unisa.dottorato.exception.IdException;
+import it.unisa.dottorato.exception.NameException;
 import it.unisa.dottorato.utility.Utility;
 import it.unisa.integrazione.database.DBConnection;
 import java.io.IOException;
@@ -9,6 +14,8 @@ import java.sql.Connection;
 import java.sql.ResultSet;
 import java.sql.SQLException;
 import java.util.ArrayList;
+import java.util.logging.Level;
+import java.util.logging.Logger;
 
 /**Classe per la gestione delle coppie curriculum-ciclo
  *
@@ -62,7 +69,7 @@ public class CurriculumcicManager {
     public synchronized void insertProfessor(Curriculumcic pCurriculumcic, String fkProfessor) throws
             ClassNotFoundException, SQLException, IOException {
         try (Connection connect = DBConnection.getConnection()) {
-
+            testCurriculucic(pCurriculumcic);
             /*
              * Prepariamo la stringa SQL per effettuare la modifica alla 
              * tabella teach
@@ -71,17 +78,25 @@ public class CurriculumcicManager {
                     + CurriculumcicManager.TABLE_TEACH
                     + " (fkCurriculum, fkCycle, fkProfessor)"
                     + " VALUES ('"
-                    + pCurriculumcic.getfkCurriculum()
+                    + CurriculumManager.getInstance().testName(pCurriculumcic.getfkCurriculum())
                     + "',"
-                    + pCurriculumcic.getfkCycle()
+                    + CycleManager.getInstance().testNumber(pCurriculumcic.getfkCycle())
                     + ",'"
-                    + fkProfessor
+                    + CycleManager.getInstance().testFkProfessor(fkProfessor)
                     + "')";
 
             //Inviamo la Query al DataBase
             Utility.executeOperation(connect, tSql);
 
             connect.commit();
+        } catch (CurriculumcicException ex) {
+            Logger.getLogger(CurriculumcicManager.class.getName()).log(Level.SEVERE, null, ex);
+        } catch (NameException ex) {
+            Logger.getLogger(CurriculumcicManager.class.getName()).log(Level.SEVERE, null, ex);
+        } catch (ReferenceException ex) {
+            Logger.getLogger(CurriculumcicManager.class.getName()).log(Level.SEVERE, null, ex);
+        } catch (IdException ex) {
+            Logger.getLogger(CurriculumcicManager.class.getName()).log(Level.SEVERE, null, ex);
         }
     }
     
@@ -97,7 +112,7 @@ public class CurriculumcicManager {
     public synchronized void insertCurriculumcicCoordinator(Curriculumcic pCurriculumcic, String fkProfessor) throws
             ClassNotFoundException, SQLException, IOException {
         try (Connection connect = DBConnection.getConnection()) {
-
+            testCurriculucic(pCurriculumcic);
             /*
              * Prepariamo la stringa SQL per effettuare la modifica alla 
              * tabella curriculumcic
@@ -105,16 +120,24 @@ public class CurriculumcicManager {
            String tSql = "UPDATE "
                     + CurriculumcicManager.TABLE_CURRICULUMCIC
                     + " SET fkProfessor = '"
-                    + fkProfessor
+                    + CycleManager.getInstance().testFkProfessor(fkProfessor)
                     + "' WHERE fkCurriculum= '"
-                    + pCurriculumcic.getfkCurriculum()
+                    + CurriculumManager.getInstance().testName(pCurriculumcic.getfkCurriculum())
                     + "' AND fkCycle ="
-                    + pCurriculumcic.getfkCycle();
+                    + CycleManager.getInstance().testNumber(pCurriculumcic.getfkCycle());
 
             //Inviamo la Query al DataBase
             Utility.executeOperation(connect, tSql);
 
             connect.commit();
+        } catch (NameException ex) {
+            Logger.getLogger(CurriculumcicManager.class.getName()).log(Level.SEVERE, null, ex);
+        } catch (ReferenceException ex) {
+            Logger.getLogger(CurriculumcicManager.class.getName()).log(Level.SEVERE, null, ex);
+        } catch (IdException ex) {
+            Logger.getLogger(CurriculumcicManager.class.getName()).log(Level.SEVERE, null, ex);
+        } catch (CurriculumcicException ex) {
+            Logger.getLogger(CurriculumcicManager.class.getName()).log(Level.SEVERE, null, ex);
         }
     }
      /**
@@ -128,7 +151,7 @@ public class CurriculumcicManager {
     public synchronized void deleteCurriculumcicCoordinator(Curriculumcic pCurriculumcic) throws
             ClassNotFoundException, SQLException, IOException {
         try (Connection connect = DBConnection.getConnection()) {
-
+            testCurriculucic(pCurriculumcic);
             /*
              * Prepariamo la stringa SQL per effettuare la modifica alla 
              * tabella curriculumcic
@@ -136,14 +159,20 @@ public class CurriculumcicManager {
            String tSql = "UPDATE "
                     + CurriculumcicManager.TABLE_CURRICULUMCIC
                     + " SET fkProfessor = null WHERE fkCurriculum= '"
-                    + pCurriculumcic.getfkCurriculum()
+                    + CurriculumManager.getInstance().testName(pCurriculumcic.getfkCurriculum())
                     + "' AND fkCycle ="
-                    + pCurriculumcic.getfkCycle();
+                    + CycleManager.getInstance().testNumber(pCurriculumcic.getfkCycle());
 
             //Inviamo la Query al DataBase
             Utility.executeOperation(connect, tSql);
 
             connect.commit();
+        } catch (CurriculumcicException ex) {
+            Logger.getLogger(CurriculumcicManager.class.getName()).log(Level.SEVERE, null, ex);
+        } catch (NameException ex) {
+            Logger.getLogger(CurriculumcicManager.class.getName()).log(Level.SEVERE, null, ex);
+        } catch (IdException ex) {
+            Logger.getLogger(CurriculumcicManager.class.getName()).log(Level.SEVERE, null, ex);
         }
     } 
     
@@ -160,7 +189,7 @@ public class CurriculumcicManager {
         Professor cord=new Professor();
         
         try (Connection connect = DBConnection.getConnection()) {
-
+            testCurriculucic(pCurriculumcic);
             /*
              * Prepariamo la stringa SQL per effettuare la modifica alla 
              * tabella curriculumcic
@@ -171,9 +200,9 @@ public class CurriculumcicManager {
                     + CurriculumcicManager.TABLE_PROFESSOR+","
                     + CurriculumcicManager.TABLE_ACCOUNT 
                     +"WHERE fkCurriculum= '"
-                    + pCurriculumcic.getfkCurriculum()
+                    + CurriculumManager.getInstance().testName(pCurriculumcic.getfkCurriculum())
                     + "' AND fkCycle ="
-                    + pCurriculumcic.getfkCycle()
+                    + CycleManager.getInstance().testNumber(pCurriculumcic.getfkCycle())
                     +"AND secondaryEmail=fkAccount AND fkAccount=fkProfessor";
 
             //Inviamo la Query al DataBase
@@ -192,6 +221,12 @@ public class CurriculumcicManager {
             }
 
             connect.commit();
+        } catch (IdException ex) {
+            Logger.getLogger(CurriculumcicManager.class.getName()).log(Level.SEVERE, null, ex);
+        } catch (NameException ex) {
+            Logger.getLogger(CurriculumcicManager.class.getName()).log(Level.SEVERE, null, ex);
+        } catch (CurriculumcicException ex) {
+            Logger.getLogger(CurriculumcicManager.class.getName()).log(Level.SEVERE, null, ex);
         }
         return cord;
     } 
@@ -208,7 +243,7 @@ public class CurriculumcicManager {
     public synchronized void DeleteProfessor(Curriculumcic pCurriculumcic, String fkProfessor) throws
             ClassNotFoundException, SQLException, IOException {
         try (Connection connect = DBConnection.getConnection()) {
-
+            testCurriculucic(pCurriculumcic);
             /*
              * Prepariamo la stringa SQL per effettuare la modifica alla 
              * tabella teach
@@ -216,17 +251,25 @@ public class CurriculumcicManager {
            String tSql = "DELETE * FROM "
                     + CurriculumcicManager.TABLE_TEACH
                     + " WHERE fkCurriculum = '"
-                    + pCurriculumcic.getfkCurriculum()
+                    + CurriculumManager.getInstance().testName(pCurriculumcic.getfkCurriculum())
                     + "' AND fkCycle = "
-                    + pCurriculumcic.getfkCycle()
+                    + CycleManager.getInstance().testNumber(pCurriculumcic.getfkCycle())
                     + " AND fkProfessor ='"
-                    + fkProfessor
+                    + CycleManager.getInstance().testFkProfessor(fkProfessor)
                     + "'";
 
             //Inviamo la Query al DataBase
             Utility.executeOperation(connect, tSql);
 
             connect.commit();
+        } catch (ReferenceException ex) {
+            Logger.getLogger(CurriculumcicManager.class.getName()).log(Level.SEVERE, null, ex);
+        } catch (IdException ex) {
+            Logger.getLogger(CurriculumcicManager.class.getName()).log(Level.SEVERE, null, ex);
+        } catch (NameException ex) {
+            Logger.getLogger(CurriculumcicManager.class.getName()).log(Level.SEVERE, null, ex);
+        } catch (CurriculumcicException ex) {
+            Logger.getLogger(CurriculumcicManager.class.getName()).log(Level.SEVERE, null, ex);
         }
     }
     
@@ -243,23 +286,32 @@ public class CurriculumcicManager {
     public synchronized void insertPhdSudent(Curriculumcic pCurriculumcic, String fkPhdstudent) throws
             ClassNotFoundException, SQLException, IOException {
         try (Connection connect = DBConnection.getConnection()) {
+            testCurriculucic(pCurriculumcic);
             /*
              * Prepariamo la stringa SQL per effettuare la modifica alla 
              * tabella phdstudent
              */
             String tSql = "UPDATE phdstudent SET"
                     + "fkCurriculum = '"
-                    + pCurriculumcic.getfkCurriculum()
+                    + CurriculumManager.getInstance().testName(pCurriculumcic.getfkCurriculum())
                     + "',fkCycle = "
-                    + pCurriculumcic.getfkCycle()
+                    + CycleManager.getInstance().testNumber(pCurriculumcic.getfkCycle())
                     + " WHERE fkAccount = '"
-                    + fkPhdstudent
+                    + testFkPhdstudent(fkPhdstudent)
                     + "'";
 
             //Inviamo la Query al DataBase
             Utility.executeOperation(connect, tSql);
 
             connect.commit();
+        } catch (IdException ex) {
+            Logger.getLogger(CurriculumcicManager.class.getName()).log(Level.SEVERE, null, ex);
+        } catch (ReferenceException ex) {
+            Logger.getLogger(CurriculumcicManager.class.getName()).log(Level.SEVERE, null, ex);
+        } catch (CurriculumcicException ex) {
+            Logger.getLogger(CurriculumcicManager.class.getName()).log(Level.SEVERE, null, ex);
+        } catch (NameException ex) {
+            Logger.getLogger(CurriculumcicManager.class.getName()).log(Level.SEVERE, null, ex);
         }
     }
     
@@ -275,8 +327,10 @@ public class CurriculumcicManager {
      */
     public synchronized ArrayList<Professor> viewProfessorList(Curriculumcic curriculumcic) throws ClassNotFoundException, SQLException, IOException {
         Connection connect = null;
+        ArrayList<Professor> prof=null;
         try {
-            ArrayList<Professor> prof = new ArrayList<>();
+            testCurriculucic(curriculumcic);
+             prof= new ArrayList<>();
             Professor cord=new Professor();
             // Otteniamo una Connessione al DataBase
             connect = DBConnection.getConnection();
@@ -289,9 +343,9 @@ public class CurriculumcicManager {
                     + CurriculumcicManager.TABLE_TEACH+","+CurriculumcicManager.TABLE_PROFESSOR
                     +","+CurriculumcicManager.TABLE_ACCOUNT
                     + " WHERE fkCycle = "
-                    + curriculumcic.getfkCycle()
+                    + CycleManager.getInstance().testNumber(curriculumcic.getfkCycle())
                     +"' AND fkCurriculum = '"
-                    + curriculumcic.getfkCurriculum()
+                    + CurriculumManager.getInstance().testName(curriculumcic.getfkCurriculum())
                     +"'AND secondaryEmail=fkAccount AND fkAccount=fkProfessor ";
 
             //Inviamo la Query al DataBase
@@ -312,9 +366,16 @@ public class CurriculumcicManager {
 
             return prof;
 
+        } catch (CurriculumcicException ex) {
+            Logger.getLogger(CurriculumcicManager.class.getName()).log(Level.SEVERE, null, ex);
+        } catch (IdException ex) {
+            Logger.getLogger(CurriculumcicManager.class.getName()).log(Level.SEVERE, null, ex);
+        } catch (NameException ex) {
+            Logger.getLogger(CurriculumcicManager.class.getName()).log(Level.SEVERE, null, ex);
         } finally {
             DBConnection.releaseConnection(connect);
         }
+        return prof;
     }
     
     /**
@@ -330,8 +391,9 @@ public class CurriculumcicManager {
     public synchronized ArrayList<PhdStudent> viewPhdstudentCurriculumcic(Curriculumcic curriculumcic) 
             throws ClassNotFoundException, SQLException, IOException {
         Connection connect = null;
+        ArrayList<PhdStudent> stud=null;
         try {
-            ArrayList<PhdStudent> stud = new ArrayList<>();
+            stud = new ArrayList<>();
             PhdStudent cord=new PhdStudent();
             // Otteniamo una Connessione al DataBase
             connect = DBConnection.getConnection();
@@ -343,9 +405,9 @@ public class CurriculumcicManager {
              String tSql = "SELECT email, secondaryEmail, surname, name, telephone, researchInterest, link, department, fkProfessor FROM "
                     + CurriculumcicManager.TABLE_PHDSTUDENT +","+ CurriculumcicManager.TABLE_ACCOUNT
                     + " WHERE fkCycle = "
-                    + curriculumcic.getfkCycle()
+                    + CycleManager.getInstance().testNumber(curriculumcic.getfkCycle())
                     +" AND fkCurriculum = '"
-                    + curriculumcic.getfkCurriculum()
+                    + CurriculumManager.getInstance().testName(curriculumcic.getfkCurriculum())
                     +"' AND secondaryEmail=fkAccount";
 
             //Inviamo la Query al DataBase
@@ -372,9 +434,14 @@ public class CurriculumcicManager {
 
             return stud;
 
+        } catch (IdException ex) {
+            Logger.getLogger(CurriculumcicManager.class.getName()).log(Level.SEVERE, null, ex);
+        } catch (NameException ex) {
+            Logger.getLogger(CurriculumcicManager.class.getName()).log(Level.SEVERE, null, ex);
         } finally {
             DBConnection.releaseConnection(connect);
         }
+        return stud;
     }
     
     /**
@@ -397,13 +464,15 @@ public class CurriculumcicManager {
             String tSql = "UPDATE phdstudent SET"
                     + "fkCurriculum = null, fkCycle = null"
                     + " WHERE fkAccount = '"
-                    + fkPhdstudent
+                    + testFkPhdstudent(fkPhdstudent)
                     + "'";
 
             //Inviamo la Query al DataBase
             Utility.executeOperation(connect, tSql);
 
             connect.commit();
+        } catch (ReferenceException ex) {
+            Logger.getLogger(CurriculumcicManager.class.getName()).log(Level.SEVERE, null, ex);
         }
     }
     
@@ -411,6 +480,11 @@ public class CurriculumcicManager {
         if(c==null)
             throw new CurriculumcicException();
         return c;
+    }
+    public String testFkPhdstudent(String s) throws ReferenceException{
+        if(s.length()<10 || s.length()>50 || s.indexOf("@")==-1)
+            throw new ReferenceException();
+        return s;
     }
 
 }
