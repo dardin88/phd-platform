@@ -66,7 +66,7 @@
                     <%}  if (loggedPerson.isAdmin()) { %>
 
                     <li id="funzionalita3Permission_0">
-                        <a href="dottorato/amministrazione.jsp">
+                        <a href="dottorato/amministrazioneCurriculum.jsp">
                             <i class="linecons-key"></i>
                             <span class="title">Pannello amministratore</span>
                         </a>
