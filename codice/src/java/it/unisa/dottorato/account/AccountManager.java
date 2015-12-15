@@ -148,6 +148,7 @@ public class AccountManager {
          while(result.next()){
              PhdStudent temp = new PhdStudent();
              temp.setName(result.getString("name"));
+             temp.setSurname(result.getString("surname"));
              temp.setEmail(result.getString("email"));
              temp.setSecondaryEmail(result.getString("secondaryEmail"));
              temp.setTypeAccount(result.getString("typeAccount"));
@@ -183,6 +184,7 @@ public class AccountManager {
          while(result.next()){
              Professor temp = new Professor();
              temp.setName(result.getString("name"));
+             temp.setSurname(result.getString("surname"));
              temp.setEmail(result.getString("email"));
              temp.setSecondaryEmail(result.getString("secondaryEmail"));
              temp.setTypeAccount(result.getString("typeAccount"));
