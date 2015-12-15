@@ -8,7 +8,7 @@
 <%@page import="it.unisa.dottorato.account.Account"%>
 <%@page import="java.util.ArrayList"%>
 <%@page contentType="text/html" pageEncoding="UTF-8"%>
-<%@page import="it.unisa.dottorato.account.*"%>
+<%@page import="it.unisa.dottorato.account.AccountManager"%>
 <!DOCTYPE html>
 <html>
     <head>
@@ -44,7 +44,7 @@
   
     <body class="page-body">
         <!-- Inclusione della pagina contenente il menù superiore -->
-   <jsp:include page="../barraMenu.jsp"/>
+   
       
         
         <!-- jQuery (necessary for Bootstrap's JavaScript plugins) -->
@@ -67,19 +67,11 @@
             </button>
                          <% 
                 List<Account> rAccount = AccountManager.getInstance().getAccountList();
-
-            %>  
+                             %>  
                     
                     <ul class="dropdown-menu">
-                        <li><a<% String type="professor"; %> href="#">Docente</a>
-<% //rAccount = AccountManager.getInstance().getProfessors();
-  // String type= request.getParameter("professor")
-%>
-                        </li>
-                        <li><a <%  type="phdstudent"; %>href="#">Dottorando</a>
-<%  //rAccount = AccountManager.getInstance().getPhdStudents(); type= request.getParameter("phdstudent")
-%>
-                        </li>
+                        <li>Docente                      </li>
+                        <li>Dottorando                      </li>
                         
                     </ul>
                 </div>
@@ -89,7 +81,7 @@
                  <% 
                 String names = request.getParameter("word");
                  if(request.getParameter("submit") != null) {
-                rAccount = AccountManager.getInstance().searchUser(names,type);
+                rAccount = AccountManager.getInstance().searchUser(names,null);
                 
                 
                  } %>  
@@ -99,7 +91,7 @@
         <table id="results" class="table table-hover table-striped table-condensed">
             <thead>
                 <tr>
-                    <th></th>
+                    
                     <th data-field="typeAccount" data-sortable="true">Tipo di Account</th>
                     <th data-field="name" data-sortable="true">Nome</th>
                     <th data-field= "surname" data-sortable="true">Cognome</th>
