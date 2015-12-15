@@ -8,7 +8,7 @@ import it.unisa.dottorato.curriculumcic.CurriculumcicException;
 import it.unisa.dottorato.exception.IdException;
 import it.unisa.dottorato.exception.DescriptionException;
 import it.unisa.dottorato.exception.DateException;
-import it.unisa.dottorato.exception.FkProfessorException;
+import it.unisa.dottorato.exception.ReferenceException;
 import it.unisa.dottorato.exception.NameException;
 import it.unisa.dottorato.utility.Utility;
 import it.unisa.integrazione.database.DBConnection;
@@ -190,7 +190,7 @@ public class CycleManager {
             connect.commit();
         }catch (IdException ex) {
             Logger.getLogger(CycleManager.class.getName()).log(Level.SEVERE, null, ex);
-        }catch (FkProfessorException ex) {
+        }catch (ReferenceException ex) {
             Logger.getLogger(CycleManager.class.getName()).log(Level.SEVERE, null, ex);
         }finally {
             DBConnection.releaseConnection(connect);
@@ -535,7 +535,7 @@ public class CycleManager {
             connect.commit();
         }catch (CurriculumcicException ex) {
             Logger.getLogger(CycleManager.class.getName()).log(Level.SEVERE, null, ex);
-        }catch (FkProfessorException ex) {
+        }catch (ReferenceException ex) {
             Logger.getLogger(CycleManager.class.getName()).log(Level.SEVERE, null, ex);
         }catch (NameException ex) {
             Logger.getLogger(CycleManager.class.getName()).log(Level.SEVERE, null, ex);
@@ -732,9 +732,9 @@ public class CycleManager {
             throw new CycleException();
     }
     
-    public String testFkProfessor(String s) throws FkProfessorException{
+    public String testFkProfessor(String s) throws ReferenceException{
         if(s.length()<10 || s.length()>50 || s.indexOf("@")==-1)
-            throw new FkProfessorException();
+            throw new ReferenceException();
         return s;
     }
 }
