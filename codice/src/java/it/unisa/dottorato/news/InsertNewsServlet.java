@@ -1,12 +1,11 @@
 package it.unisa.dottorato.news;
 
 
-import it.unisa.dottorato.account.Account;
+
 import java.io.IOException;
 import java.io.PrintWriter;
 import java.sql.SQLException;
-import java.text.ParseException;
-import java.text.SimpleDateFormat;
+
 import java.util.logging.Level;
 import java.util.logging.Logger;
 import javax.servlet.ServletException;
@@ -14,7 +13,6 @@ import javax.servlet.annotation.WebServlet;
 import javax.servlet.http.HttpServlet;
 import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpServletResponse;
-import javax.servlet.http.HttpSession;
 import org.json.JSONException;
 import org.json.JSONObject;
 /**Servlet incaricata ad effettuare la richiesta di inserimento di una news
@@ -42,13 +40,12 @@ public class InsertNewsServlet extends HttpServlet {
             PrintWriter out = response.getWriter();
             JSONObject result = new JSONObject();
             
-            int number = Integer.parseInt( request.getParameter("idNews"));
             String  title = request.getParameter("title");
             String description= request.getParameter("description");
          
             
             News anews = new News();
-            anews.setId(number);
+            anews.setId(0);
              anews.setTitle(title);
             anews.setDescription(description);
            
