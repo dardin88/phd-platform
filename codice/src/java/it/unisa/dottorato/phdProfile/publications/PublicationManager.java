@@ -5,7 +5,9 @@ import it.unisa.dottorato.exception.IdException;
 import it.unisa.dottorato.exception.LinkException;
 import it.unisa.dottorato.exception.NumberPageException;
 import it.unisa.dottorato.exception.OtherAuthorsException;
+import it.unisa.dottorato.exception.PublicationException;
 import it.unisa.dottorato.exception.PublicationIssueException;
+import it.unisa.dottorato.exception.ReferenceException;
 import it.unisa.dottorato.exception.TitleException;
 import it.unisa.dottorato.exception.TypeException;
 import it.unisa.dottorato.exception.YearException;
@@ -13,11 +15,14 @@ import it.unisa.dottorato.exception.pAbstractException;
 import it.unisa.dottorato.utility.Utility;
 import it.unisa.integrazione.database.DBConnection;
 import java.io.IOException;
+import static java.lang.Integer.parseInt;
 import java.sql.Connection;
 import java.sql.ResultSet;
 import java.sql.SQLException;
 import java.util.ArrayList;
 import java.util.List;
+import java.util.logging.Level;
+import java.util.logging.Logger;
 
 /**Classe per la gestione delle pubblicazioni
  *
@@ -65,6 +70,7 @@ public class PublicationManager {
     public synchronized void insert(Publication pPublication) throws SQLException {
         try (Connection connect = DBConnection.getConnection()) {
 
+            testPublication(pPublication);
             /*
              * Prepariamo la stringa SQL per inserire un nuovo record 
              * nella tabella publication
@@ -73,23 +79,23 @@ public class PublicationManager {
                     + PublicationManager.TABLE_PUBLICATION
                     + " (title, publicationIssue, year, numberPage, link, type, otherAuthors, abstract, fkPhdstudent)"
                     + " VALUES ('"
-                    + Utility.Replace(pPublication.getTitle())
+                    + Utility.Replace(PublicationManager.getInstance().testTitle(pPublication.getTitle()))
                     + "','"
-                    + Utility.Replace(pPublication.getPublicationIssue())
+                    + Utility.Replace(PublicationManager.getInstance().testPubliocationIssue(pPublication.getPublicationIssue()))
                     + "','"
-                    + Utility.Replace(pPublication.getYear())
+                    + Utility.Replace(PublicationManager.getInstance().testYear(pPublication.getYear()))
                     + "','"
-                    + pPublication.getNumberPages()
+                    + PublicationManager.getInstance().testNumberPage(pPublication.getNumberPages())
                     + ",'"
-                    + Utility.Replace(pPublication.getLink())
+                    + Utility.Replace(PublicationManager.getInstance().testLink(pPublication.getLink()))
                     + "','"
-                    + Utility.Replace(pPublication.getType())
+                    + Utility.Replace(PublicationManager.getInstance().testType(pPublication.getType()))
                     + "','"
-                    + Utility.Replace(pPublication.getAuthors())
+                    + Utility.Replace(PublicationManager.getInstance().testOtherAutors(pPublication.getAuthors()))
                     + "','"
-                    + Utility.Replace(pPublication.getAbstract())
+                    + Utility.Replace(PublicationManager.getInstance().testAbstract(pPublication.getAbstract()))
                     + "','"
-                    + pPublication.getFkPhdstudent()
+                    + PublicationManager.getInstance().testfkPhdStudent(pPublication.getFkPhdstudent())
                     + "')";
 
             System.out.println("La query: " +tSql);
@@ -97,6 +103,26 @@ public class PublicationManager {
             Utility.executeOperation(connect, tSql);
 
             connect.commit();
+        } catch (PublicationException ex) {
+            Logger.getLogger(PublicationManager.class.getName()).log(Level.SEVERE, null, ex);
+        } catch (TitleException ex) {
+            Logger.getLogger(PublicationManager.class.getName()).log(Level.SEVERE, null, ex);
+        } catch (PublicationIssueException ex) {
+            Logger.getLogger(PublicationManager.class.getName()).log(Level.SEVERE, null, ex);
+        } catch (YearException ex) {
+            Logger.getLogger(PublicationManager.class.getName()).log(Level.SEVERE, null, ex);
+        } catch (NumberPageException ex) {
+            Logger.getLogger(PublicationManager.class.getName()).log(Level.SEVERE, null, ex);
+        } catch (ReferenceException ex) {
+            Logger.getLogger(PublicationManager.class.getName()).log(Level.SEVERE, null, ex);
+        } catch (LinkException ex) {
+            Logger.getLogger(PublicationManager.class.getName()).log(Level.SEVERE, null, ex);
+        } catch (TypeException ex) {
+            Logger.getLogger(PublicationManager.class.getName()).log(Level.SEVERE, null, ex);
+        } catch (OtherAuthorsException ex) {
+            Logger.getLogger(PublicationManager.class.getName()).log(Level.SEVERE, null, ex);
+        } catch (pAbstractException ex) {
+            Logger.getLogger(PublicationManager.class.getName()).log(Level.SEVERE, null, ex);
         }
     }
 
@@ -110,7 +136,9 @@ public class PublicationManager {
      */
     public synchronized void update(int oldPublicationID, Publication pPublication) throws ClassNotFoundException, SQLException, IOException {
         try (Connection connect = DBConnection.getConnection()) {
-
+            
+            testId(oldPublicationID);
+            testPublication(pPublication);
             /*
              * Prepariamo la stringa SQL per modificare un record 
              * nella tabella publication
@@ -118,21 +146,21 @@ public class PublicationManager {
             String tSql = "UPDATE "
                     + PublicationManager.TABLE_PUBLICATION
                     + " set title = '"
-                    + Utility.Replace(pPublication.getTitle())
+                    + Utility.Replace(PublicationManager.getInstance().testTitle(pPublication.getTitle()))
                     + "', publicationIssue = '"
-                    + Utility.Replace(pPublication.getPublicationIssue())
+                    + Utility.Replace(PublicationManager.getInstance().testPubliocationIssue(pPublication.getPublicationIssue()))
                     + "', year = '"
-                    + pPublication.getYear()
+                    + Utility.Replace(PublicationManager.getInstance().testYear(pPublication.getYear()))
                     + "', numberPages = "
-                    + pPublication.getNumberPages()
+                    + PublicationManager.getInstance().testNumberPage(pPublication.getNumberPages())
                     + "', link = '"
-                    + Utility.Replace(pPublication.getLink())
+                    + Utility.Replace(PublicationManager.getInstance().testLink(pPublication.getLink()))
                     + "', type = '"
-                    + Utility.Replace(pPublication.getType())
+                    + Utility.Replace(PublicationManager.getInstance().testType(pPublication.getType()))
                     + "', otherAuthors = '"
-                    + Utility.Replace(pPublication.getAuthors())
+                    + Utility.Replace(PublicationManager.getInstance().testOtherAutors(pPublication.getAuthors()))
                     + "', abstract = '"
-                    + Utility.Replace(pPublication.getAbstract())
+                    + Utility.Replace(PublicationManager.getInstance().testAbstract(pPublication.getAbstract()))
                     + " WHERE idPublication = "
                     + oldPublicationID + "";           
 
@@ -141,6 +169,26 @@ public class PublicationManager {
             Utility.executeOperation(connect, tSql);
 
             connect.commit();
+        } catch (IdException ex) {
+            Logger.getLogger(PublicationManager.class.getName()).log(Level.SEVERE, null, ex);
+        } catch (PublicationException ex) {
+            Logger.getLogger(PublicationManager.class.getName()).log(Level.SEVERE, null, ex);
+        } catch (TitleException ex) {
+            Logger.getLogger(PublicationManager.class.getName()).log(Level.SEVERE, null, ex);
+        } catch (PublicationIssueException ex) {
+            Logger.getLogger(PublicationManager.class.getName()).log(Level.SEVERE, null, ex);
+        } catch (YearException ex) {
+            Logger.getLogger(PublicationManager.class.getName()).log(Level.SEVERE, null, ex);
+        } catch (NumberPageException ex) {
+            Logger.getLogger(PublicationManager.class.getName()).log(Level.SEVERE, null, ex);
+        } catch (LinkException ex) {
+            Logger.getLogger(PublicationManager.class.getName()).log(Level.SEVERE, null, ex);
+        } catch (TypeException ex) {
+            Logger.getLogger(PublicationManager.class.getName()).log(Level.SEVERE, null, ex);
+        } catch (OtherAuthorsException ex) {
+            Logger.getLogger(PublicationManager.class.getName()).log(Level.SEVERE, null, ex);
+        } catch (pAbstractException ex) {
+            Logger.getLogger(PublicationManager.class.getName()).log(Level.SEVERE, null, ex);
         }
     }
  
@@ -157,6 +205,8 @@ public class PublicationManager {
             // Otteniamo una Connessione al DataBase
             connect = DBConnection.getConnection();
 
+            int id = parseInt(idPublication);
+            testId(id);
             /*
              * Prepariamo la stringa SQL per cancellare un record 
              * nella tabella publication
@@ -170,6 +220,8 @@ public class PublicationManager {
             Utility.executeOperation(connect, tSql);
 
             connect.commit();
+        } catch (IdException ex) {
+            Logger.getLogger(PublicationManager.class.getName()).log(Level.SEVERE, null, ex);
         } finally {
             DBConnection.releaseConnection(connect);
         }
@@ -185,11 +237,13 @@ public class PublicationManager {
      */
     public synchronized Publication getPublicationById(int pPublicationID) throws ClassNotFoundException, SQLException, IOException {
         Connection connect = null;
+        Publication publication = new Publication();
         try {
-            Publication publication = new Publication();
+            
             // Otteniamo una Connessione al DataBase
             connect = DBConnection.getConnection();
 
+            testId(pPublicationID);
             /*
              * Prepariamo la stringa SQL per selezionare un record 
              * nella tabella publication
@@ -215,11 +269,12 @@ public class PublicationManager {
                 publication.setFkPhdstudent(result.getString("fkPhdstudent"));
             }
 
-            return publication;
-
+        } catch (IdException ex) {
+            Logger.getLogger(PublicationManager.class.getName()).log(Level.SEVERE, null, ex);
         } finally {
             DBConnection.releaseConnection(connect);
         }
+        return publication;
     }
  
     /** Metodo della classe incaricato di ricercare tutte le pubblicazioni di un
@@ -400,7 +455,33 @@ public class PublicationManager {
         return pAbstract;
     }
     
+    /**Metodo della classe per il testing dell'attributo pubblicazione; non puo' essere nulla
+     * 
+     * @param p pubblicazione da testare
+     * @return restituisce la pubblicazione se valida, lancia un'eccezione altrimenti
+     * @throws PublicationException 
+     */
+    public Publication testPublication(Publication p) throws PublicationException{
+        if(p==null)
+            throw new PublicationException("errore oggetto Missione");
+        return p;
+    }
     
+    
+    /**Metodo della classe per il testing della chiave esterna per la tabella PhdStudent; non puo' essere
+     * <code>null</code> o avere una lunghezza maggiore di 49 caratteri
+     * 
+     * @param fkPhdstudent stringa da testare
+     * @return restituisce la stringa se valida, lancia un'eccezione altrimenti
+     * @throws ReferenceException 
+     */
+    public String testfkPhdStudent(String fkPhdstudent) throws ReferenceException {
+        if(fkPhdstudent.equals(null)&&fkPhdstudent.length()>50){
+            
+            throw new ReferenceException("il campo per il riferimento al PhdStudent e' sbagliato"); 
+        }
+        return fkPhdstudent;
+    }   
     
     
 }
