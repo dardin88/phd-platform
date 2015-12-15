@@ -63,12 +63,12 @@ public class AccountManager {
              * stringa SQL per selezionare piu record 
              * nella tabella account
              */
-         String sql = "SELECT * FROM account"
-                 +    "ORDER BY name desc";
+         String sql = "SELECT * FROM account ";
+                
          //esecuzione della query
          ResultSet result = Utility.queryOperation(connect, sql);
-         Account temp = new Account();
          while(result.next()){
+             Account temp = new Account();
              temp.setName(result.getString("name"));
              temp.setEmail(result.getString("email"));
              temp.setSecondaryEmail(result.getString("secondaryEmail"));
