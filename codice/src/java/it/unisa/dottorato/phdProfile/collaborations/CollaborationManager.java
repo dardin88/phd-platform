@@ -6,7 +6,6 @@ import it.unisa.dottorato.exception.DateException;
 import it.unisa.dottorato.exception.DescriptionException;
 import it.unisa.dottorato.exception.IdException;
 import it.unisa.dottorato.exception.IstitutionException;
-import it.unisa.dottorato.exception.fkPhdstudentException;
 import it.unisa.dottorato.utility.Utility;
 import it.unisa.integrazione.database.DBConnection;
 import java.io.IOException;
@@ -317,21 +316,6 @@ public class CollaborationManager {
             throw new IstitutionException("L'istituzione e' sbagliata"); 
         }
         return istitution;
-    }
-    
-    /**Metodo della classe per il testing della chiave esterna per la tabella PhdStudent; non puo' essere
-     * <code>null</code> o avere una lunghezza maggiore di 49 caratteri
-     * 
-     * @param fkPhdstudent stringa da testare
-     * @return restituisce la stringa se valida, lancia un'eccezione altrimenti
-     * @throws Exception 
-     */
-    public String testfkPhdStudent(String fkPhdstudent) throws fkPhdstudentException {
-        if(fkPhdstudent.equals(null)&&fkPhdstudent.length()>50){
-            
-            throw new fkPhdstudentException("il campo per il riferimento al PhdStudent e' sbagliato"); 
-        }
-        return fkPhdstudent;
     }
     
 }
