@@ -38,7 +38,7 @@
     
     <body class="page-body">
             <!-- Inclusione della pagina contenente il menù superiore -->
-            <!--da modificare con la nuova -->
+            <jsp:include page="../barraMenu.jsp"/><!--da modificare con la nuova -->
             <div class="page-container">
         
             <!-- Inclusione della pagina contenente il menù laterale --> 
@@ -83,7 +83,7 @@
                          
                         
                         <div class="well-small col-lg-7 col-lg-offset-1 col-md-8 col-md-offset-6 col-sm-10 col-sm-offset-1 col-xs-12">
-                        <div class="panel panel-default">
+                        <div class="panel panel-default " >
                             <div class="panel-heading">
                                 <h3 class="panel-title">Nome Curriculum: <span style="font-style: italic" id="CurriculumNameField"> -- Curriculum selezionato -- </h3> 
                             </div>
