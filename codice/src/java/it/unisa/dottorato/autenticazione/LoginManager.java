@@ -55,6 +55,7 @@ public class LoginManager  {
             ConnectionException, EmailException,PasswordException {
         Connection connection = null;
         Statement stmt = null;
+        Statement stmt2 = null;
         ResultSet rs = null;
         ResultSet rt = null;
         
@@ -84,7 +85,8 @@ public class LoginManager  {
                 switch(rs.getString("typeAccount")) {
                     case "phdstudent":
                        queryPhd += rs.getString("secondaryEmail") +"'";
-                       rt = stmt.executeQuery(queryPhd);
+                       stmt2 = connection.createStatement();
+                       rt = stmt2.executeQuery(queryPhd);
                        if(rt.next()) {
                            PhdStudent phd = new PhdStudent();
                            phd.setName(rs.getString("name"));
@@ -106,7 +108,8 @@ public class LoginManager  {
                     
                     case "professor":
                         queryProfessor += rs.getString("secondaryEmail") + "'";
-                        rt = stmt.executeQuery(queryProfessor);
+                        stmt2 = connection.createStatement();
+                        rt = stmt2.executeQuery(queryProfessor);
                         if(rt.next()) {
                             Professor professor = new Professor();
                             professor.setName(rs.getString("name"));

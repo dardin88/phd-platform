@@ -35,7 +35,7 @@
     
         <body class="page-body">
             <!-- Inclusione della pagina contenente il menù superiore -->
-            <!--da modificare con la nuova -->
+            <jsp:include page="../barraMenu.jsp"/><!--da modificare con la nuova -->
             <div class="page-container">
                 
         
@@ -74,17 +74,13 @@
                                                     <th>Nome</th>
                                                     <th>Tipologia</th>
                                                     <th>Email</th>
-                                                    <th>Stato</th>
+                                                    
                                                 </tr>
                                         </thead>
                                     </table>
                                  </div>
                                  <div class="panel-footer" style="background-color: transparent">
-                                <button type="button" class="btn btn-default btn-orange "  style="margin-top: 10px">
-                                <span class="glyphicon glyphicon-edit" aria-hidden="true"></span>
-                                Cambia lo stato
-                            </button> 
-                            <button type="button" class="btn btn-default btn-orange " style="margin-top: 10px">
+                            <button type="button" class="btn btn-default btn-orange btn-block" style="margin-top: 10px">
                                 <span class="glyphicon glyphicon-edit" aria-hidden="true" ></span>
                                 Cambia tipologia
                             </button> 
