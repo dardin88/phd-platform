@@ -641,7 +641,6 @@ public class CycleManager {
      * Metodo della classe incaricato di calcolare il numero del prossimo ciclo da inserire
      * nella tabella Cycle del database.
      * @return restituisce il prossimo numero
-     * @throws java.lang.ClassNotFoundException
      * @throws java.sql.SQLException
      * @throws java.io.IOException
      * 

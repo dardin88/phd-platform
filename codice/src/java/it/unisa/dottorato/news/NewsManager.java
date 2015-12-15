@@ -69,7 +69,7 @@ private static final String TABLE_News = "news";
                     + NewsManager.TABLE_News
                     + " (id,title,description,)"
                     + " VALUES ('"
-                    + testid(anews.getId())
+                    + testid(nextNumber())
                     + "','"
                     + Utility.Replace(testTitle(anews.getTitle()))
                     + "','"
@@ -88,6 +88,8 @@ private static final String TABLE_News = "news";
     } catch (TitleException ex) {
         Logger.getLogger(NewsManager.class.getName()).log(Level.SEVERE, null, ex);
     } catch (DescriptionException ex) {
+        Logger.getLogger(NewsManager.class.getName()).log(Level.SEVERE, null, ex);
+    } catch (IOException ex) {
         Logger.getLogger(NewsManager.class.getName()).log(Level.SEVERE, null, ex);
     }         finally {
             DBConnection.releaseConnection(connect);
@@ -369,5 +371,31 @@ private static final String TABLE_News = "news";
             throw new DescriptionException("la descrizione e' sbagliata"); 
         }
          return description;
+    }
+    
+    /**
+     * Metodo della classe incaricato di calcolare il numero della prossima news
+     * nella tabella Cycle del database.
+     * @return restituisce il prossimo numero
+     * @throws java.sql.SQLException
+     * @throws java.io.IOException
+     * 
+     */
+    public synchronized int nextNumber() throws SQLException, IOException {
+        int c=1;
+        
+       
+        try (Connection connect = DBConnection.getConnection()) {
+            String tSql = "SELECT number FROM "
+                    + NewsManager.TABLE_News
+                    + "ORDER BY idNews DESC LIMIT 1";
+            //Inviamo la Query al DataBase
+             ResultSet result = Utility.queryOperation(connect, tSql);
+            if(result.next()){
+                c = result.getInt("IdNews")+1;
+            }
+            connect.commit();
+            return c;
+        } 
     }
 }
