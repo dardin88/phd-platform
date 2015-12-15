@@ -6,6 +6,7 @@ import it.unisa.dottorato.utility.Utility;
 import it.unisa.integrazione.database.DBConnection;
 import it.unisa.integrazione.database.exception.ConnectionException;
 import it.unisa.integrazione.database.exception.MissingDataException;
+import java.io.IOException;
 import java.sql.Connection;
 import java.sql.ResultSet;
 import java.sql.SQLException;
@@ -20,6 +21,9 @@ import javax.mail.internet.*;
  * @author ariemmov
  */
 public class AccountManager {
+    
+    private static final String TABLE_PROFESSOR_STUDENT = "professor_student";
+    private static final String TABLE_STUDENT = "PhdStudent";
     //istanza della classe
     private static AccountManager instance;
 
@@ -40,6 +44,7 @@ public class AccountManager {
         return instance;
 
     }
+    private Object account;
     
     /** Metodo della classe incaricato di ricercare tutti gli account presenti
      * nella piattaforma
@@ -450,6 +455,157 @@ public class AccountManager {
       }
     }
     
+    
+     /**
+     * Metodo della classe incaricato dell'inserimento di una nuova entita'
+     * nella tabella professor_student del database.
+     *
+     * @param tutor
+     * @throws java.lang.ClassNotFoundException
+     * @throws java.sql.SQLException
+     * @throws java.io.IOException
+     */
+    public synchronized void insertStudentTutor(Professor_student tutor) throws ClassNotFoundException, SQLException, IOException {
+        Connection connect = null;
+        try {
+            // Otteniamo una Connessione al DataBase
+            connect = DBConnection.getConnection();
+
+            /*
+             * Prepariamo la stringa SQL per inserire un nuovo record 
+             * nella tabella professor_student
+             */
+            String tSql = "INSERT INTO "
+                    + AccountManager.TABLE_PROFESSOR_STUDENT
+                    + " (FK_Professor, FK_Student)"
+                    + " VALUES ('"
+                    + tutor.getFK_Professor()
+                    + "','"
+                    + tutor.getFK_Student()
+                    + "')";
+
+            //Inviamo la Query al DataBase
+            Utility.executeOperation(connect, tSql);
+
+            connect.commit();
+        } finally {
+            DBConnection.releaseConnection(connect);
+        }
+    }
+    
+     /**
+     * Metodo della classe incaricato della ricerca delle informazioni del tutor
+     * relativo a uno studente.
+     *
+     * @param idStudent
+     * @return
+     * @throws java.lang.ClassNotFoundException
+     * @throws java.sql.SQLException
+     * @throws java.io.IOException
+     */
+    public synchronized Account getTutor(String idStudent) throws ClassNotFoundException, SQLException, IOException {
+        Connection connect = null;
+        try {
+            Account professor = null;
+            // Otteniamo una Connessione al DataBase
+            connect = DBConnection.getConnection();
+
+            /*
+             * Prepariamo la stringa SQL per la ricerca di un record 
+             * nella tabella professor_Student
+             */
+            String tSql = "SELECT * FROM "
+                    + AccountManager.TABLE_STUDENT
+                    + "  JOIN "
+                    + AccountManager.TABLE_PROFESSOR_STUDENT
+                    + " ON "
+                    + AccountManager.TABLE_STUDENT
+                    + "fkAccount = "
+                    + AccountManager.TABLE_PROFESSOR_STUDENT
+                    + ".FK_Professor "
+                    + " WHERE FK_Student = '"
+                    + idStudent + "'";
+
+            //Inviamo la Query al DataBase
+            ResultSet result = Utility.queryOperation(connect, tSql);
+
+            while (result.next()) {
+                professor = new Account();
+                professor.setEmail(result.getString("ssn"));
+                professor.setName(result.getString("name"));
+                professor.setSurname(result.getString("surname"));
+            }
+
+            return professor;
+
+        } finally {
+            DBConnection.releaseConnection(connect);
+        }
+
+    }
+    
+    /**
+     * Metodo della classe incaricato della modifica di un'entita' nella tabella
+     * professor_student del database.
+     *
+     * @param tutor
+     * @throws java.lang.ClassNotFoundException
+     * @throws java.sql.SQLException
+     * @throws java.io.IOException
+     */
+    public synchronized void updateStudentTutor(Professor_student tutor) throws ClassNotFoundException, SQLException, IOException {
+        try (Connection connect = DBConnection.getConnection()) {
+
+            /*
+             * Prepariamo la stringa SQL per modificare un record 
+             * nella tabella professor_student
+             */
+            String tSql = "UPDATE "
+                    + AccountManager.TABLE_PROFESSOR_STUDENT
+                    + " set FK_Professor = '"
+                    + tutor.getFK_Professor()
+                    + "' WHERE FK_Student = '"
+                    + tutor.getFK_Student() + "'";
+
+            //Inviamo la Query al DataBase
+            Utility.executeOperation(connect, tSql);
+
+            connect.commit();
+        }
+    }
+    
+     /**
+     * Metodo della classe incaricato della cancellazopme di un'entita' nella
+     * tabella professor_student del database.
+     *
+     * @param idStudent
+     * @throws java.lang.ClassNotFoundException
+     * @throws java.sql.SQLException
+     * @throws java.io.IOException
+     */
+    public synchronized void deleteStudentTutor(String idStudent) throws ClassNotFoundException, SQLException, IOException {
+        Connection connect = null;
+        try {
+            // Otteniamo una Connessione al DataBase
+            connect = DBConnection.getConnection();
+
+            /*
+             * Prepariamo la stringa SQL per la cancellazione di un record 
+             * nella tabella professor_student
+             */
+            String tSql = "DELETE FROM "
+                    + AccountManager.TABLE_PROFESSOR_STUDENT
+                    + " WHERE FK_Student = '"
+                    + idStudent + "'";
+
+            //Inviamo la Query al DataBase
+            Utility.executeOperation(connect, tSql);
+
+            connect.commit();
+        } finally {
+            DBConnection.releaseConnection(connect);
+        }
+    }
     /** Metodo della classe per il testing dell'account; verifica che l'account non sia 
      * <code>null</code>
      * 
