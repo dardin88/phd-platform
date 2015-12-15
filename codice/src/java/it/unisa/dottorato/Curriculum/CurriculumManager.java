@@ -9,6 +9,8 @@ import java.sql.Connection;
 import java.sql.ResultSet;
 import java.sql.SQLException;
 import java.util.ArrayList;
+import java.util.logging.Logger;
+import java.util.logging.Level;
 
 /** Classe per la gestione dei curriculum
  *
@@ -57,16 +59,14 @@ public class CurriculumManager {
      * @throws java.lang.ClassNotFoundException
      * @throws java.sql.SQLException
      * @throws java.io.IOException
-     *  @throws it.unisa.dottorato.exception.NameException
-     *  @throws it.unisa.dottorato.exception.DescriptionException
      */
     public synchronized void insert(Curriculum pCurriculum) 
-            throws ClassNotFoundException, SQLException, IOException , NameException, DescriptionException {
+            throws ClassNotFoundException, SQLException, IOException {
         Connection connect = null;
         try {
             // Otteniamo una Connessione al DataBase
             connect = DBConnection.getConnection();
-
+               testCurriculum(pCurriculum);
             /*
              * Prepariamo la stringa SQL per inserire un nuovo record 
              * nella tabella phdCurriculum
@@ -84,7 +84,13 @@ public class CurriculumManager {
             Utility.executeOperation(connect, tSql);
 
             connect.commit();
-        } finally {
+        }catch (CurriculumException ex) {
+            Logger.getLogger(CurriculumManager.class.getName()).log(Level.SEVERE, null, ex);
+        }catch (NameException ex) {
+            Logger.getLogger(CurriculumManager.class.getName()).log(Level.SEVERE, null, ex);
+        }catch (DescriptionException ex) {
+            Logger.getLogger(CurriculumManager.class.getName()).log(Level.SEVERE, null, ex);
+        }finally {
             DBConnection.releaseConnection(connect);
         }
     }
@@ -102,13 +108,13 @@ public class CurriculumManager {
      *  @throws it.unisa.dottorato.exception.DescriptionException
      */
     public synchronized void update(String oldNameCurriculum, Curriculum pCurriculum) 
-            throws ClassNotFoundException, SQLException, IOException, NameException, DescriptionException
+            throws ClassNotFoundException, SQLException, IOException
         {
         Connection connect = null;
         try {
             // Otteniamo una Connessione al DataBase
             connect = DBConnection.getConnection();
-
+               testCurriculum(pCurriculum);
             /*
              * Prepariamo la stringa SQL per modificare un record 
              * nella tabella phdCurriculum
@@ -126,7 +132,13 @@ public class CurriculumManager {
             Utility.executeOperation(connect, tSql);
 
             connect.commit();
-        } finally {
+        }catch (CurriculumException ex) {
+            Logger.getLogger(CurriculumManager.class.getName()).log(Level.SEVERE, null, ex);
+        }catch (NameException ex) {
+            Logger.getLogger(CurriculumManager.class.getName()).log(Level.SEVERE, null, ex);
+        }catch (DescriptionException ex) {
+            Logger.getLogger(CurriculumManager.class.getName()).log(Level.SEVERE, null, ex);
+        }finally {
             DBConnection.releaseConnection(connect);
         }
     }
@@ -142,7 +154,7 @@ public class CurriculumManager {
      * @throws it.unisa.dottorato.exception.NameException
      */
     public synchronized void delete(String CurriculumName) 
-            throws ClassNotFoundException, SQLException, IOException, NameException {
+            throws ClassNotFoundException, SQLException, IOException {
         Connection connect = null;
         try {
             // Otteniamo una Connessione al DataBase
@@ -161,7 +173,9 @@ public class CurriculumManager {
             Utility.executeOperation(connect, tSql);
 
             connect.commit();
-        } finally {
+        }catch (NameException ex) {
+            Logger.getLogger(CurriculumManager.class.getName()).log(Level.SEVERE, null, ex);
+        }finally {
             DBConnection.releaseConnection(connect);
         }
     }
@@ -213,13 +227,13 @@ public class CurriculumManager {
      * @throws java.lang.ClassNotFoundException
      * @throws java.sql.SQLException
      * @throws java.io.IOException
-     * @throws it.unisa.dottorato.exception.NameException
      */
     public synchronized Curriculum getCurriculumByName(String CurriculumName) 
-            throws ClassNotFoundException, SQLException, IOException, NameException {
+            throws ClassNotFoundException, SQLException, IOException {
         Connection connect = null;
+        Curriculum curriculum = new Curriculum();
         try {
-            Curriculum curriculum = new Curriculum();
+           
             // Otteniamo una Connessione al DataBase
             connect = DBConnection.getConnection();
 
@@ -241,10 +255,20 @@ public class CurriculumManager {
 
             return curriculum;
 
-        } finally {
+        }catch (NameException ex) {
+            Logger.getLogger(CurriculumManager.class.getName()).log(Level.SEVERE, null, ex);
+        }finally {
             DBConnection.releaseConnection(connect);
-        }
+        }  
+        return curriculum;
     }
+    
+    public void testCurriculum(Curriculum c)throws CurriculumException{
+        if (c==null)
+            throw new CurriculumException();
+    }
+    
+    
     
     /**Metodo per il testing del nome del curriculum; verifica che la stringa
      * <code>name</code> non sia vuota o non abbia una lunghezza superiore
@@ -274,4 +298,27 @@ public class CurriculumManager {
         return description;
     }
     
+    public boolean existCurriculum(Curriculum c)throws ClassNotFoundException, SQLException, IOException{
+         Connection connect = null;
+        try {         
+            connect = DBConnection.getConnection();
+            /*
+             * Prepariamo la stringa SQL per ricercare il curriculum c
+             * nella tabella Curriculum
+             */
+            String tSql = "SELECT * FROM "
+                    + CurriculumManager.TABLE_CURRICULUM
+                    + " WHERE name = '"
+                    + c.getName() + "'";
+            //Inviamo la Query al DataBase
+            ResultSet result = Utility.queryOperation(connect, tSql);
+
+            if (result.next()) {
+               return true;
+            }
+            return false;
+        } finally {
+            DBConnection.releaseConnection(connect);
+        }
+    }
 }

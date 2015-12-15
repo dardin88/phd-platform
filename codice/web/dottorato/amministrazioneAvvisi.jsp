@@ -34,7 +34,8 @@
     </head>
     
         <body class="page-body">
-            <!-- Inclusione della pagina contenente il menù superiore -->
+            <!-- Inclusione della pagina contenente il menù superiore 
+            <!--da modificare con la nuova -->
             <div class="page-container">
         
             <!-- Inclusione della pagina contenente il menù laterale --> 
@@ -47,6 +48,36 @@
                         </div>
                     </div>
                     
+                    
+                    
+                    <div class="row" style="margin-left:5px " >    
+                            <button type="button" class="btn btn-default btn-secondary " >
+                                <span class="glyphicon glyphicon-plus" aria-hidden="true" ></span>
+                                Aggiungi Avviso
+                            </button> 
+                    </div>
+                    
+                    
+                    <div class="row" style="margin-top: 10px">
+                        <div class="panel panel-default">
+                            <!-- Default panel contents -->
+                              
+                                 <div class="panel-body">
+                                 <!-- Table -->
+                                    <table class="table">
+                                        <thead>
+                                                <tr>
+                                                    <th>Titolo</th>
+                                                    <th>Visualizza</th>
+                                                    <th>Elimina</th>
+                                                    <th>Modifica</th>
+                                                </tr>
+                                        </thead>
+                                    </table>
+                                 </div>
+                                 
+                        </div>
+                    </div>
                         
                 </div> 
             </div> 

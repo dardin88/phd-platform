@@ -406,5 +406,11 @@ public class CurriculumcicManager {
             connect.commit();
         }
     }
+    
+    public Curriculumcic testCurriculucic(Curriculumcic c) throws CurriculumcicException{
+        if(c==null)
+            throw new CurriculumcicException();
+        return c;
+    }
 
 }

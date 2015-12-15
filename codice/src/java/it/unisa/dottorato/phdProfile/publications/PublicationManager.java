@@ -1,6 +1,15 @@
 package it.unisa.dottorato.phdProfile.publications;
 
 import it.unisa.dottorato.account.PhdStudent;
+import it.unisa.dottorato.exception.IdException;
+import it.unisa.dottorato.exception.LinkException;
+import it.unisa.dottorato.exception.NumberPageException;
+import it.unisa.dottorato.exception.OtherAuthorsException;
+import it.unisa.dottorato.exception.PublicationIssueException;
+import it.unisa.dottorato.exception.TitleException;
+import it.unisa.dottorato.exception.TypeException;
+import it.unisa.dottorato.exception.YearException;
+import it.unisa.dottorato.exception.pAbstractException;
 import it.unisa.dottorato.utility.Utility;
 import it.unisa.integrazione.database.DBConnection;
 import java.io.IOException;
@@ -264,4 +273,134 @@ public class PublicationManager {
         
         return publications;
     }
+    
+    /** Metodo della classe per il testing dell'id; non può essere minore di 0
+     * 
+     * @param id id da testare
+     * @return restituisce l'id se valido, lancia un'eccezione altrimenti
+     * @throws IdException 
+     */
+    public int testId(int id) throws IdException {
+        if(id<0){
+            throw new IdException("L'id non puo' essere minore di 0");
+        }
+        return id;
+    } 
+    
+    /**Metodo della classe per il testing del campo place; non puo' essere
+     * <code>null</code> o avere una lunghezza maggiore di 50 caratteri
+     * 
+     * @param title stringa da testare
+     * @return restituisce la stringa se valida, lancia un'eccezione altrimenti
+     * @throws TitleException 
+     */
+    public String testTitle(String title) throws TitleException {
+        if(title.equals(null)&&title.length()>50){
+            
+            throw new TitleException("il posto e' sbagliato"); 
+        }
+        return title;
+    }
+    
+    /**Metodo della classe per il testing del campo publicationIssue; non puo' essere
+     * <code>null</code> o avere una lunghezza maggiore di 60 caratteri
+     * 
+     * @param publicationIssue stringa da testare
+     * @return restituisce la stringa se valida, lancia un'eccezione altrimenti
+     * @throws PublicationIssueException 
+     */
+    public String testPubliocationIssue(String publicationIssue) throws PublicationIssueException {
+        if(publicationIssue.equals(null)&&publicationIssue.length()>50){
+            
+            throw new PublicationIssueException("il campo pubblicationIssue e' sbagliato"); 
+        }
+        return publicationIssue;
+    }
+    
+    /** Metodo della classe per il testing dell'anno; non può essere maggiore di 4 e non puo' essere <code>null</code>
+     * 
+     * @param year stringa da testare
+     * @return restituisce la stringa, lancia un'eccezione altrimenti
+     * @throws YearException 
+     */
+    public String testYear(String year) throws YearException {
+        if((year.length()>4)&&(year.equals(null))){
+            throw new YearException("L'anno è sbagliato");
+        }
+        return year;
+    } 
+    
+    /** Metodo della classe per il testing del numero delle pagine; non può essere minore di 0
+     * 
+     * @param numberPage id da testare
+     * @return restituisce il numero di pagine se valido, lancia un'eccezione altrimenti
+     * @throws NumberPageException 
+     */
+    public int testNumberPage(int numberPage) throws NumberPageException {
+        if(numberPage<0){
+            throw new NumberPageException("Il numero delle pagine è sbagliato");
+        }
+        return numberPage;
+    }
+    
+    /**Metodo della classe per il testing del campo link; non puo' avere una lunghezza maggiore di 150 caratteri
+     * 
+     * @param link stringa da testare
+     * @return restituisce la stringa se valida, lancia un'eccezione altrimenti
+     * @throws LinkException 
+     */
+    public String testLink(String link) throws LinkException {
+        if(link.length()>150){
+            
+            throw new LinkException("il link e' sbagliato"); 
+        }
+        return link;
+    }
+    
+    /**Metodo della classe per il testing del campo type; non puo' avere una lunghezza maggiore di 20 caratteri
+     * 
+     * @param type stringa da testare
+     * @return restituisce la stringa se valida, lancia un'eccezione altrimenti
+     * @throws TypeException 
+     */
+    public String testType(String type) throws TypeException {
+        if(type.length()>20){
+            
+            throw new TypeException("il tipo e' sbagliato"); 
+        }
+        return type;
+    }
+    
+    
+    /**Metodo della classe per il testing del campo otherAutors; non puo' avere una lunghezza maggiore di 255 caratteri
+     * 
+     * @param otherAutors stringa da testare
+     * @return restituisce la stringa se valida, lancia un'eccezione altrimenti
+     * @throws OtherAuthorsException 
+     */
+    public String testOtherAutors(String otherAutors) throws OtherAuthorsException {
+        if(otherAutors.length()>255){
+            
+            throw new OtherAuthorsException("il campo degli altri autori e' sbagliato"); 
+        }
+        return otherAutors;
+    }
+    
+    /**Metodo della classe per il testing del campo pAbstract; non puo' essere <code>null</code>
+     * 
+     * @param pAbstract stringa da testare
+     * @return restituisce la stringa se valida, lancia un'eccezione altrimenti
+     * @throws pAbstractException 
+     */
+    public String testAbstract(String pAbstract) throws pAbstractException {
+        if(pAbstract.equals(null)){
+            
+            throw new pAbstractException("il campo dell'abstract e' sbagliato"); 
+        }
+        return pAbstract;
+    }
+    
+    
+    
+    
 }

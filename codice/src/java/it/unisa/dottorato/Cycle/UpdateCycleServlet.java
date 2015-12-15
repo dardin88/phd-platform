@@ -33,7 +33,7 @@ public class UpdateCycleServlet extends HttpServlet {
      * @throws IOException if an I/O error occurs
      */
     protected void processRequest(HttpServletRequest request, HttpServletResponse response)
-            throws ServletException, IOException, IdException, DateException, DescriptionException {
+            throws ServletException, IOException {
         response.setContentType("text/html;charset=UTF-8");
         PrintWriter out = response.getWriter();
         try {
@@ -81,15 +81,7 @@ public class UpdateCycleServlet extends HttpServlet {
     @Override
     protected void doGet(HttpServletRequest request, HttpServletResponse response)
             throws ServletException, IOException {
-        try {
             processRequest(request, response);
-        } catch (DescriptionException ex) {
-            Logger.getLogger(UpdateCycleServlet.class.getName()).log(Level.SEVERE, null, ex);
-        } catch (DateException ex) {
-            Logger.getLogger(UpdateCycleServlet.class.getName()).log(Level.SEVERE, null, ex);
-        }catch (IdException ex) {
-            Logger.getLogger(UpdateCycleServlet.class.getName()).log(Level.SEVERE, null, ex);
-        }
     }
 
     /**
@@ -103,15 +95,7 @@ public class UpdateCycleServlet extends HttpServlet {
     @Override
     protected void doPost(HttpServletRequest request, HttpServletResponse response)
             throws ServletException, IOException {
-          try {
             processRequest(request, response);
-        } catch (DescriptionException ex) {
-            Logger.getLogger(UpdateCycleServlet.class.getName()).log(Level.SEVERE, null, ex);
-        } catch (DateException ex) {
-            Logger.getLogger(UpdateCycleServlet.class.getName()).log(Level.SEVERE, null, ex);
-        }catch (IdException ex) {
-            Logger.getLogger(UpdateCycleServlet.class.getName()).log(Level.SEVERE, null, ex);
-        }
     }
 
     /**

@@ -1,11 +1,15 @@
 package it.unisa.dottorato.Cycle;
 
-import it.unisa.dottorato.account.Account;
+import it.unisa.dottorato.Curriculum.CurriculumManager;
+import it.unisa.dottorato.curriculumcic.CurriculumcicManager;
 import it.unisa.dottorato.account.Professor;
 import it.unisa.dottorato.curriculumcic.Curriculumcic;
+import it.unisa.dottorato.curriculumcic.CurriculumcicException;
 import it.unisa.dottorato.exception.IdException;
 import it.unisa.dottorato.exception.DescriptionException;
 import it.unisa.dottorato.exception.DateException;
+import it.unisa.dottorato.exception.FkProfessorException;
+import it.unisa.dottorato.exception.NameException;
 import it.unisa.dottorato.utility.Utility;
 import it.unisa.integrazione.database.DBConnection;
 import java.io.IOException;
@@ -13,6 +17,8 @@ import java.sql.Connection;
 import java.sql.ResultSet;
 import java.sql.SQLException;
 import java.util.ArrayList;
+import java.util.logging.Level;
+import java.util.logging.Logger;
 
 
 /**Classe per la gestione dei cicli
@@ -65,15 +71,13 @@ public class CycleManager {
      * @throws java.lang.ClassNotFoundException
      * @throws java.sql.SQLException
      * @throws java.io.IOException
-     * @throws it.unisa.dottorato.exception.DescriptionException
-     * @throws it.unisa.dottorato.exception.IdException
-     * @throws it.unisa.dottorato.exception.DateException
      * 
      */
-    public synchronized void insertCycle(Cycle pCycle) throws 
-            ClassNotFoundException, SQLException, IOException, DescriptionException, IdException, DateException {
-        try (Connection connect = DBConnection.getConnection()) {
-
+    public synchronized void insertCycle(Cycle pCycle) throws ClassNotFoundException, SQLException, IOException {
+        Connection connect=null;
+        try{
+            connect = DBConnection.getConnection();
+            testCycle(pCycle);
             /*
              * Prepariamo la stringa SQL per inserire un nuovo record 
              * nella tabella phdCycle
@@ -96,6 +100,16 @@ public class CycleManager {
             Utility.executeOperation(connect, tSql);
 
             connect.commit();
+        }catch (CycleException ex) {
+            Logger.getLogger(CycleManager.class.getName()).log(Level.SEVERE, null, ex);
+        }catch (IdException ex) {
+            Logger.getLogger(CycleManager.class.getName()).log(Level.SEVERE, null, ex);
+        }catch (DateException ex) {
+            Logger.getLogger(CycleManager.class.getName()).log(Level.SEVERE, null, ex);
+        }catch (DescriptionException ex) {
+            Logger.getLogger(CycleManager.class.getName()).log(Level.SEVERE, null, ex);
+        }finally {
+            DBConnection.releaseConnection(connect);
         }
     }
 
@@ -103,19 +117,18 @@ public class CycleManager {
      * Metodo della classe incaricato della modifica di un'entita' nella tabella
      * phdCycle del database.
      *
-     * @param oldNumber numero del ciclo da selezionare
+     * @param Number  numero del ciclo da selezionare
      * @param pCycle il nuovo ciclo
      * @throws java.lang.ClassNotFoundException
      * @throws java.sql.SQLException
      * @throws java.io.IOException
-     * @throws it.unisa.dottorato.exception.DescriptionException
-     * @throws it.unisa.dottorato.exception.IdException
-     * @throws it.unisa.dottorato.exception.DateException
      */
     public synchronized void updateCycle(int Number, Cycle pCycle) 
-            throws ClassNotFoundException, SQLException, IOException, DescriptionException, IdException, DateException {
-        try (Connection connect = DBConnection.getConnection()) {
-
+            throws ClassNotFoundException, SQLException, IOException {
+        Connection connect=null;
+        try{
+            connect = DBConnection.getConnection();
+            testCycle(pCycle);
             /*
              * Prepariamo la stringa SQL per modificare un record 
              * nella tabella phdCycle
@@ -133,6 +146,16 @@ public class CycleManager {
             Utility.executeOperation(connect, tSql);
 
             connect.commit();
+        }catch (CycleException ex) {
+            Logger.getLogger(CycleManager.class.getName()).log(Level.SEVERE, null, ex);
+        }catch (IdException ex) {
+            Logger.getLogger(CycleManager.class.getName()).log(Level.SEVERE, null, ex);
+        }catch (DateException ex) {
+            Logger.getLogger(CycleManager.class.getName()).log(Level.SEVERE, null, ex);
+        }catch (DescriptionException ex) {
+            Logger.getLogger(CycleManager.class.getName()).log(Level.SEVERE, null, ex);
+        }finally {
+            DBConnection.releaseConnection(connect);
         }
     }
 
@@ -147,23 +170,30 @@ public class CycleManager {
      * @throws java.io.IOException
      */
     public synchronized void insertCycleCoordinator(int number, String fkProfessor) throws ClassNotFoundException, SQLException, IOException {
-        try (Connection connect = DBConnection.getConnection()) {
-
+        Connection connect=null;
+        try{
+            connect = DBConnection.getConnection();
             /*
              * Prepariamo la stringa SQL per modificare un record 
              * nella tabella phdCycle
              */
             String tSql = "UPDATE "
                     + CycleManager.TABLE_CYCLE
-                    + " set fkProfessor = "
-                    + Utility.emptyValue(fkProfessor)
-                    + " WHERE number = "
-                    + number;           
+                    + " set fkProfessor = '"
+                    + testFkProfessor(fkProfessor)
+                    + "' WHERE number = "
+                    + testNumber(number);           
 
             //Inviamo la Query al DataBase
             Utility.executeOperation(connect, tSql);
 
             connect.commit();
+        }catch (IdException ex) {
+            Logger.getLogger(CycleManager.class.getName()).log(Level.SEVERE, null, ex);
+        }catch (FkProfessorException ex) {
+            Logger.getLogger(CycleManager.class.getName()).log(Level.SEVERE, null, ex);
+        }finally {
+            DBConnection.releaseConnection(connect);
         }
     }
       /**
@@ -176,7 +206,9 @@ public class CycleManager {
      * @throws java.io.IOException
      */
     public synchronized void deleteCycleCoordinator(int number) throws ClassNotFoundException, SQLException, IOException {
-        try (Connection connect = DBConnection.getConnection()) {
+        Connection connect=null;
+        try{
+            connect = DBConnection.getConnection();
 
             /*
              * Prepariamo la stringa SQL per modificare un record 
@@ -185,18 +217,22 @@ public class CycleManager {
             String tSql = "UPDATE "
                     + CycleManager.TABLE_CYCLE
                     + " set fkProfessor = null WHERE number = "
-                    + number;           
+                    + testNumber(number);           
 
             //Inviamo la Query al DataBase
             Utility.executeOperation(connect, tSql);
 
             connect.commit();
+        }catch (IdException ex) {
+            Logger.getLogger(CycleManager.class.getName()).log(Level.SEVERE, null, ex);
+        }finally {
+            DBConnection.releaseConnection(connect);
         }
     }
      /**
      * Metodo della classe incaricato di cercare il coordinatore di un ciclo
      *
-     * @param cycle il ciclo da selezionare
+     * @param number  il ciclo da selezionare
      * @return l'account del coordinatore se esistente
      * @throws java.lang.ClassNotFoundException
      * @throws java.sql.SQLException
@@ -205,8 +241,9 @@ public class CycleManager {
     public synchronized Professor viewCycleCoordinator(int number) throws 
             ClassNotFoundException, SQLException, IOException, IdException {
         Connection connect = null;
+        Professor cord=null;
         try {
-            Professor cord=new Professor();
+            cord=new Professor();
            connect = DBConnection.getConnection();
            /*
              * Prepariamo la stringa SQL per modificare un record 
@@ -239,10 +276,12 @@ public class CycleManager {
                 cord.setfkAccount(cord.getSecondaryEmail());
             }
             return cord;
+        }catch (IdException ex) {
+            Logger.getLogger(CycleManager.class.getName()).log(Level.SEVERE, null, ex);
         } finally {
             DBConnection.releaseConnection(connect);
         }
-   
+        return cord;
     }
     
     /**
@@ -267,12 +306,14 @@ public class CycleManager {
             String tSql = "DELETE FROM "
                     + CycleManager.TABLE_CYCLE
                     + " WHERE number = "
-                    + number;
+                    + testNumber(number);
 
             //Inviamo la Query al DataBase
             Utility.executeOperation(connect, tSql);
 
             connect.commit();
+        }catch (IdException ex) {
+            Logger.getLogger(CycleManager.class.getName()).log(Level.SEVERE, null, ex);
         } finally {
             DBConnection.releaseConnection(connect);
         }
@@ -291,8 +332,9 @@ public class CycleManager {
      */
     public synchronized Cycle getCycleByNumber(int number) throws ClassNotFoundException, SQLException, IOException {
         Connection connect = null;
+        Cycle cycle=null;
         try {
-            Cycle cycle = new Cycle();
+            cycle = new Cycle();
             // Otteniamo una Connessione al DataBase
             connect = DBConnection.getConnection();
 
@@ -303,7 +345,7 @@ public class CycleManager {
             String tSql = "SELECT * FROM "
                     + CycleManager.TABLE_CYCLE
                     + " WHERE number = "
-                    + number;
+                    + testNumber(number);
 
             //Inviamo la Query al DataBase
             ResultSet result = Utility.queryOperation(connect, tSql);
@@ -317,9 +359,12 @@ public class CycleManager {
 
             return cycle;
 
+        }catch (IdException ex) {
+            Logger.getLogger(CycleManager.class.getName()).log(Level.SEVERE, null, ex);
         } finally {
             DBConnection.releaseConnection(connect);
         }
+        return cycle;
     }
 
     /**
@@ -410,8 +455,9 @@ public class CycleManager {
      */
     public synchronized ArrayList<Professor> viewCollegeCycle(int number) throws ClassNotFoundException, SQLException, IOException {
         Connection connect = null;
+        ArrayList<Professor> prof=null;
         try {
-            ArrayList<Professor> prof = new ArrayList<>();
+            prof = new ArrayList<>();
             Professor cord=new Professor();
             // Otteniamo una Connessione al DataBase
             connect = DBConnection.getConnection();
@@ -424,7 +470,7 @@ public class CycleManager {
                     + CycleManager.TABLE_TEACH+","+CycleManager.TABLE_PROFESSOR
                     +","+CycleManager.TABLE_ACCOUNT
                     + " WHERE fkCycle = "
-                    + number
+                    + testNumber(number)
                     +" AND secondaryEmail=fkAccount AND fkAccount=fkProfessor ";
 
             //Inviamo la Query al DataBase
@@ -445,9 +491,12 @@ public class CycleManager {
 
             return prof;
 
+        }catch (IdException ex) {
+            Logger.getLogger(CycleManager.class.getName()).log(Level.SEVERE, null, ex);
         } finally {
             DBConnection.releaseConnection(connect);
         }
+        return prof;
     }
        
     /**
@@ -461,8 +510,10 @@ public class CycleManager {
      */
     public synchronized void insertCurriculumcic(Curriculumcic pCurriculumcic) throws 
             ClassNotFoundException, SQLException, IOException {
-        try (Connection connect = DBConnection.getConnection()) {
-
+        Connection connect=null;
+        try{
+            connect = DBConnection.getConnection(); 
+            CurriculumcicManager.getInstance().testCurriculucic(pCurriculumcic);
             /*
              * Prepariamo la stringa SQL per inserire un nuovo record 
              * nella tabella curriculumcic
@@ -471,17 +522,27 @@ public class CycleManager {
                     + CycleManager.TABLE_CURRICULUMCIC
                     + " (fkCurriculum, fkCycle, fkProfessor)"
                     + " VALUES ('"
-                    + pCurriculumcic.getfkCurriculum()
+                    + CurriculumManager.getInstance().testName(pCurriculumcic.getfkCurriculum())
                     + "',"
-                    + pCurriculumcic.getfkCycle()
+                    + testNumber(pCurriculumcic.getfkCycle())
                     + ",'"
-                    + pCurriculumcic.getfkProfessor()
+                    + testFkProfessor(pCurriculumcic.getfkProfessor())
                     + "')";
 
             //Inviamo la Query al DataBase
             Utility.executeOperation(connect, tSql);
 
             connect.commit();
+        }catch (CurriculumcicException ex) {
+            Logger.getLogger(CycleManager.class.getName()).log(Level.SEVERE, null, ex);
+        }catch (FkProfessorException ex) {
+            Logger.getLogger(CycleManager.class.getName()).log(Level.SEVERE, null, ex);
+        }catch (NameException ex) {
+            Logger.getLogger(CycleManager.class.getName()).log(Level.SEVERE, null, ex);
+        }catch (IdException ex) {
+            Logger.getLogger(CycleManager.class.getName()).log(Level.SEVERE, null, ex);
+        } finally {
+            DBConnection.releaseConnection(connect);
         }
     }
 
@@ -509,14 +570,18 @@ public class CycleManager {
             String tSql = "DELETE FROM "
                     + CycleManager.TABLE_CURRICULUMCIC
                     + " WHERE fkCycle = "
-                    + fkCycle + " AND "
+                    + testNumber(fkCycle) + " AND "
                     +" fkCurriculum = '"
-                    + Utility.Replace(fkCurriculum) + "'";
+                    + CurriculumManager.getInstance().testName(fkCurriculum) + "'";
 
             //Inviamo la Query al DataBase
             Utility.executeOperation(connect, tSql);
 
             connect.commit();
+        }catch (IdException ex) {
+            Logger.getLogger(CycleManager.class.getName()).log(Level.SEVERE, null, ex);
+        }catch (NameException ex) {
+            Logger.getLogger(CycleManager.class.getName()).log(Level.SEVERE, null, ex);
         } finally {
             DBConnection.releaseConnection(connect);
         }
@@ -533,8 +598,9 @@ public class CycleManager {
      */
     public synchronized ArrayList<Curriculumcic> getCurriculumcicList(int number) throws ClassNotFoundException, SQLException, IOException {
         Connection connect = null;
+        ArrayList<Curriculumcic> classList=null;
         try {
-            ArrayList<Curriculumcic> classList = new ArrayList<>();
+             classList= new ArrayList<>();
             Curriculumcic aCurriculumcic;
             // Otteniamo una Connessione al DataBase
             connect = DBConnection.getConnection();
@@ -546,7 +612,7 @@ public class CycleManager {
             String tSql = "SELECT * FROM "
                     + CycleManager.TABLE_CURRICULUMCIC
                     + "WHERE fkCycle ="
-                    + number
+                    + testNumber(number)
                     +" ORDER BY fkCycle desc";
 
             //Inviamo la Query al DataBase
@@ -563,25 +629,23 @@ public class CycleManager {
 
             return classList;
 
+        }catch (IdException ex) {
+            Logger.getLogger(CycleManager.class.getName()).log(Level.SEVERE, null, ex);
         } finally {
             DBConnection.releaseConnection(connect);
         }
+        return classList;
     }
     
     /**
      * Metodo della classe incaricato di calcolare il numero del prossimo ciclo da inserire
      * nella tabella Cycle del database.
      * @return restituisce il prossimo numero
-     * @throws java.lang.ClassNotFoundException
      * @throws java.sql.SQLException
      * @throws java.io.IOException
-     * @throws it.unisa.dottorato.exception.DescriptionException
-     * @throws it.unisa.dottorato.exception.IdException
-     * @throws it.unisa.dottorato.exception.DateException
      * 
      */
-    public synchronized int nextNumber() throws 
-            ClassNotFoundException, SQLException, IOException, DescriptionException, IdException, DateException {
+    public synchronized int nextNumber() throws SQLException, IOException {
         int c=1;
         
        
@@ -637,5 +701,40 @@ public class CycleManager {
         if(year.isEmpty() || year.length() > 4) 
             throw new DateException("Anno ciclo errato.");
         return year;
+    }
+    
+    public boolean existCycle(Cycle c)throws ClassNotFoundException, SQLException, IOException{
+         Connection connect = null;
+        try {         
+            connect = DBConnection.getConnection();
+            /*
+             * Prepariamo la stringa SQL per ricercare il curriculum c
+             * nella tabella Curriculum
+             */
+            String tSql = "SELECT * FROM "
+                    + CycleManager.TABLE_CYCLE
+                    + " WHERE name = '"
+                    + c.getNumber()+ "'";
+            //Inviamo la Query al DataBase
+            ResultSet result = Utility.queryOperation(connect, tSql);
+
+            if (result.next()) {
+               return true;
+            }
+            return false;
+        } finally {
+            DBConnection.releaseConnection(connect);
+        }
+    }
+    
+    public void testCycle(Cycle c)throws CycleException{
+        if (c==null)
+            throw new CycleException();
+    }
+    
+    public String testFkProfessor(String s) throws FkProfessorException{
+        if(s.length()<10 || s.length()>50 || s.indexOf("@")==-1)
+            throw new FkProfessorException();
+        return s;
     }
 }

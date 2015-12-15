@@ -1,5 +1,14 @@
-package it.unisa.dottorato.Cycle;
+/*
+ * To change this license header, choose License Headers in Project Properties.
+ * To change this template file, choose Tools | Templates
+ * and open the template in the editor.
+ */
+package it.unisa.dottorato.Tutorate;
 
+
+import it.unisa.dottorato.Account.*;
+import it.unisa.dottorato.account.Account;
+import it.unisa.dottorato.account.AccountManager;
 import java.io.IOException;
 import java.io.PrintWriter;
 import java.sql.SQLException;
@@ -13,13 +22,12 @@ import javax.servlet.http.HttpServletResponse;
 import org.json.JSONException;
 import org.json.JSONObject;
 
-
-/**Servlet incaricata ad effettuare la richiesta di inserimento di un ciclo
+/**
  *
- * @author Tommaso Minichiello
+ * @author Giuseppe Picciocchi
  */
-@WebServlet(name = "InsertCycle", urlPatterns = {"/dottorato/InsertCycle"})
-public class InsertCycleServlet extends HttpServlet {
+@WebServlet(name = "GetTutorServlet", urlPatterns = {"/GetTutorServlet"})
+public class GetTutorServlet extends HttpServlet {
 
     /**
      * Processes requests for both HTTP <code>GET</code> and <code>POST</code>
@@ -31,38 +39,22 @@ public class InsertCycleServlet extends HttpServlet {
      * @throws IOException if an I/O error occurs
      */
     protected void processRequest(HttpServletRequest request, HttpServletResponse response)
-            throws ServletException, IOException, SQLException {
-
-        try {
-            response.setContentType("text/html;charset=UTF-8");
-            
-            PrintWriter out = response.getWriter();
+            throws ServletException, IOException {
+        response.setContentType("text/html;charset=UTF-8");
+        try (PrintWriter out = response.getWriter()) {
+            String aStudent = request.getParameter("fkAccount");
             JSONObject result = new JSONObject();
-            
-            int number = CycleManager.getInstance().nextNumber();
-            String description = request.getParameter("description");
-            String year = request.getParameter("year");
-            String professor = request.getParameter("fkProfessor");
-            
-            Cycle aPhdCycle = new Cycle();
-            aPhdCycle.setNumber(number);
-            aPhdCycle.setDescription(description);
-            aPhdCycle.setYear(year);
-            aPhdCycle.setFkProfessor(professor);
-            
             try {
-                CycleManager.getInstance().insertCycle(aPhdCycle);
-            } catch (ClassNotFoundException | SQLException ex)  {
-                result.put("result", false);
-                Logger.getLogger(InsertCycleServlet.class.getName()).log(Level.SEVERE, null, ex);
-            }
-            
-            out.write(result.toString());
-            
-        } catch (JSONException ex) {
-            Logger.getLogger(InsertCycleServlet.class.getName()).log(Level.SEVERE, null, ex);
-        }
+                Account aPerson = AccountManager.getInstance().getTutor(aStudent);
+                result.put("fkAccount", aPerson.getEmail());
+                result.put("name", aPerson.getName());
+                result.put("surname", aPerson.getSurname());
+                out.write(result.toString());
+            } catch (SQLException | JSONException | ClassNotFoundException ex) {
+                Logger.getLogger(GetTutorServlet.class.getName()).log(Level.SEVERE, null, ex);
 
+            } 
+        }
     }
 
     // <editor-fold defaultstate="collapsed" desc="HttpServlet methods. Click on the + sign on the left to edit the code.">
@@ -76,12 +68,8 @@ public class InsertCycleServlet extends HttpServlet {
      */
     @Override
     protected void doGet(HttpServletRequest request, HttpServletResponse response)
-            throws ServletException, IOException{
-           try {
-            processRequest(request, response);
-        } catch (SQLException ex) {
-            Logger.getLogger(UpdateCycleServlet.class.getName()).log(Level.SEVERE, null, ex);
-        }
+            throws ServletException, IOException {
+        processRequest(request, response);
     }
 
     /**
@@ -95,11 +83,7 @@ public class InsertCycleServlet extends HttpServlet {
     @Override
     protected void doPost(HttpServletRequest request, HttpServletResponse response)
             throws ServletException, IOException {
-            try {
-            processRequest(request, response);
-        } catch (SQLException ex) {
-            Logger.getLogger(UpdateCycleServlet.class.getName()).log(Level.SEVERE, null, ex);
-        }
+        processRequest(request, response);
     }
 
     /**
