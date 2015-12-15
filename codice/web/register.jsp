@@ -139,7 +139,7 @@
                                 </div>
 
                                 <div align="center">
-                                    <input type="submit" id="register" class="btn btn-red" value="Registrati"> 
+                                    <input type="submit" id="register" class="btn btn-blue" value="Registrati"> 
 
                                 </div>
                             </div>

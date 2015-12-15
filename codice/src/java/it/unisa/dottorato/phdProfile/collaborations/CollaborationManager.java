@@ -2,19 +2,24 @@
 package it.unisa.dottorato.phdProfile.collaborations;
 
 import it.unisa.dottorato.account.PhdStudent;
+import it.unisa.dottorato.exception.CollaborationException;
 import it.unisa.dottorato.exception.DateException;
 import it.unisa.dottorato.exception.DescriptionException;
 import it.unisa.dottorato.exception.IdException;
 import it.unisa.dottorato.exception.IstitutionException;
+import it.unisa.dottorato.exception.ReferenceException;
 import it.unisa.dottorato.utility.Utility;
 import it.unisa.integrazione.database.DBConnection;
 import java.io.IOException;
+import static java.lang.Integer.parseInt;
 import java.sql.Connection;
 import java.sql.ResultSet;
 import java.sql.SQLException;
 import java.util.ArrayList;
 import java.util.Date;
 import java.util.List;
+import java.util.logging.Level;
+import java.util.logging.Logger;
 
 /**Classe per la gestione delle collaborazioni
  *
@@ -62,6 +67,7 @@ public class CollaborationManager {
     public synchronized void insert(Collaboration pCollaboration) throws SQLException {
         try (Connection connect = DBConnection.getConnection()) {
 
+            testCollaboration(pCollaboration);
             /*
              * Prepariamo la stringa SQL per inserire un nuovo record 
              * nella tabella collaboration
@@ -70,15 +76,15 @@ public class CollaborationManager {
                     + CollaborationManager.TABLE_COLLABORATION
                     + " (description, startDate, endDate, istitution, fkPhdstudent)"
                     + " VALUES ('"
-                    + Utility.Replace(pCollaboration.getDescription())
+                    + Utility.Replace(CollaborationManager.getInstance().testDescription(pCollaboration.getDescription()))
                     + "','"
-                    + pCollaboration.getStartDate()
+                    + CollaborationManager.getInstance().testStartDate(pCollaboration.getStartDate())
                     + "','"
-                    + pCollaboration.getEndDate() 
+                    + CollaborationManager.getInstance().testEndDate(pCollaboration.getEndDate())
                     + "','"
-                    + Utility.Replace(pCollaboration.getIstitution())
+                    + Utility.Replace(CollaborationManager.getInstance().testIstitution(pCollaboration.getIstitution()))
                     + "','"
-                    + pCollaboration.getFkPhdstudent()
+                    + CollaborationManager.getInstance().testfkPhdStudent(pCollaboration.getFkPhdstudent())
                     + "')";
 
             System.out.println("La query: " +tSql);
@@ -86,7 +92,18 @@ public class CollaborationManager {
             Utility.executeOperation(connect, tSql);
 
             connect.commit();
+        } catch (CollaborationException ex) {
+            Logger.getLogger(CollaborationManager.class.getName()).log(Level.SEVERE, null, ex);
+        } catch (DateException ex) {
+            Logger.getLogger(CollaborationManager.class.getName()).log(Level.SEVERE, null, ex);
+        } catch (ReferenceException ex) {
+            Logger.getLogger(CollaborationManager.class.getName()).log(Level.SEVERE, null, ex);
+        } catch (DescriptionException ex) {
+            Logger.getLogger(CollaborationManager.class.getName()).log(Level.SEVERE, null, ex);
+        } catch (IstitutionException ex) {
+            Logger.getLogger(CollaborationManager.class.getName()).log(Level.SEVERE, null, ex);
         }
+        
     }
    
     /** Metodo della classe incaricato di aggiornare una collaborazione
@@ -99,7 +116,9 @@ public class CollaborationManager {
      */
     public synchronized void update(int oldCollaborationID, Collaboration pCollaboration) throws ClassNotFoundException, SQLException, IOException {
         try (Connection connect = DBConnection.getConnection()) {
-
+            
+            testId(oldCollaborationID);
+            testCollaboration(pCollaboration);
             /*
              * Prepariamo la stringa SQL per modificare un record 
              * nella tabella collaboration
@@ -107,13 +126,13 @@ public class CollaborationManager {
             String tSql = "UPDATE "
                     + CollaborationManager.TABLE_COLLABORATION
                     + " set description = '"
-                    + Utility.Replace(pCollaboration.getDescription())
+                    + Utility.Replace(CollaborationManager.getInstance().testDescription(pCollaboration.getDescription()))
                     + "', startDate = '"
-                    + pCollaboration.getStartDate()
+                    + CollaborationManager.getInstance().testStartDate(pCollaboration.getStartDate())
                     + "', endDate = '"
-                    + pCollaboration.getEndDate()
+                    + CollaborationManager.getInstance().testEndDate(pCollaboration.getEndDate())
                     + "', istitution = '"
-                    + Utility.Replace(pCollaboration.getIstitution())
+                    + Utility.Replace(CollaborationManager.getInstance().testIstitution(pCollaboration.getIstitution()))
                     + "' WHERE idCollaboration = "
                     + oldCollaborationID;           
 
@@ -122,6 +141,16 @@ public class CollaborationManager {
             Utility.executeOperation(connect, tSql);
 
             connect.commit();
+        } catch (IdException ex) {
+            Logger.getLogger(CollaborationManager.class.getName()).log(Level.SEVERE, null, ex);
+        } catch (CollaborationException ex) {
+            Logger.getLogger(CollaborationManager.class.getName()).log(Level.SEVERE, null, ex);
+        } catch (DescriptionException ex) {
+            Logger.getLogger(CollaborationManager.class.getName()).log(Level.SEVERE, null, ex);
+        } catch (DateException ex) {
+            Logger.getLogger(CollaborationManager.class.getName()).log(Level.SEVERE, null, ex);
+        } catch (IstitutionException ex) {
+            Logger.getLogger(CollaborationManager.class.getName()).log(Level.SEVERE, null, ex);
         }
     }
     
@@ -137,7 +166,8 @@ public class CollaborationManager {
         try {
             // Otteniamo una Connessione al DataBase
             connect = DBConnection.getConnection();
-
+            int id = parseInt(idCollaboration);
+            testId(id);
             /*
              * Prepariamo la stringa SQL per cancellare un record 
              * nella tabella collaboration
@@ -151,6 +181,8 @@ public class CollaborationManager {
             Utility.executeOperation(connect, tSql);
 
             connect.commit();
+        } catch (IdException ex) {
+            Logger.getLogger(CollaborationManager.class.getName()).log(Level.SEVERE, null, ex);
         } finally {
             DBConnection.releaseConnection(connect);
         }
@@ -167,11 +199,13 @@ public class CollaborationManager {
      */
     public synchronized Collaboration getCollaborationById(int pCollaborationID) throws ClassNotFoundException, SQLException, IOException {
         Connection connect = null;
+        Collaboration collaboration = new Collaboration();
+        
         try {
-            Collaboration collaboration = new Collaboration();
             // Otteniamo una Connessione al DataBase
             connect = DBConnection.getConnection();
-
+            
+            testId(pCollaborationID);
             /*
              * Prepariamo la stringa SQL per ricercare un record 
              * nella tabella collaboration
@@ -193,11 +227,13 @@ public class CollaborationManager {
                 collaboration.setFkPhdstudent(result.getString("fkPhdstudent"));
             }
 
-            return collaboration;
-
+            
+        } catch (IdException ex) {
+            Logger.getLogger(CollaborationManager.class.getName()).log(Level.SEVERE, null, ex);
         } finally {
             DBConnection.releaseConnection(connect);
         }
+        return collaboration;
     }
     
     /** Metodo della classe incaricato di ricercare tutte le collaborazioni
@@ -318,4 +354,31 @@ public class CollaborationManager {
         return istitution;
     }
     
+    /**Metodo della classe per il testing dell'attributo collaborazione; non puo' essere nulla
+     * 
+     * @param c collaborazione da testare
+     * @return restituisce la collaborazione se valida, lancia un'eccezione altrimenti
+     * @throws CollaborationException 
+     */
+    public Collaboration testCollaboration(Collaboration c) throws CollaborationException{
+        if(c==null)
+            throw new CollaborationException();
+        return c;
+    }
+    
+    
+    /**Metodo della classe per il testing della chiave esterna per la tabella PhdStudent; non puo' essere
+     * <code>null</code> o avere una lunghezza maggiore di 49 caratteri
+     * 
+     * @param fkPhdstudent stringa da testare
+     * @return restituisce la stringa se valida, lancia un'eccezione altrimenti
+     * @throws ReferenceException 
+     */
+    public String testfkPhdStudent(String fkPhdstudent) throws ReferenceException {
+        if(fkPhdstudent.equals(null)&&fkPhdstudent.length()>50){
+            
+            throw new ReferenceException("il campo per il riferimento al PhdStudent e' sbagliato"); 
+        }
+        return fkPhdstudent;
+    }    
 }

@@ -70,6 +70,7 @@ public class AccountManager {
          while(result.next()){
              Account temp = new Account();
              temp.setName(result.getString("name"));
+             temp.setSurname(result.getString("surname"));
              temp.setEmail(result.getString("email"));
              temp.setSecondaryEmail(result.getString("secondaryEmail"));
              temp.setTypeAccount(result.getString("typeAccount"));
@@ -144,9 +145,10 @@ public class AccountManager {
                  +    "WHERE typeAccount = 'phdstudent'";
          //esecuzione della query
          ResultSet result = Utility.queryOperation(connect, sql);
-         PhdStudent temp = new PhdStudent();
          while(result.next()){
+             PhdStudent temp = new PhdStudent();
              temp.setName(result.getString("name"));
+             temp.setSurname(result.getString("surname"));
              temp.setEmail(result.getString("email"));
              temp.setSecondaryEmail(result.getString("secondaryEmail"));
              temp.setTypeAccount(result.getString("typeAccount"));
@@ -179,12 +181,15 @@ public class AccountManager {
                  +    "WHERE typeAccount = 'professor'";
          //esecuzione della query
          ResultSet result = Utility.queryOperation(connect, sql);
-         PhdStudent temp = new PhdStudent();
          while(result.next()){
+             Professor temp = new Professor();
              temp.setName(result.getString("name"));
+             temp.setSurname(result.getString("surname"));
              temp.setEmail(result.getString("email"));
              temp.setSecondaryEmail(result.getString("secondaryEmail"));
              temp.setTypeAccount(result.getString("typeAccount"));
+             temp.setDepartment(result.getString("department"));
+             temp.setLink(result.getString("link"));
              temp.setPassword(result.getString("password"));
              temp.setAdmin(result.getBoolean("isAdministrator"));
              professors.add(temp);
@@ -217,18 +222,15 @@ public class AccountManager {
       String sql = "SELECT * from account WHERE "
               + "name LIKE '%" + search + "%'" +
                "AND typeAccount = '" + type + "'";
-      String sql2 = "SELECT * from account WHERE " 
-              + "typeAccount ='" + type + "'";
       try {
           //connesione al database
           connect = DBConnection.getConnection();
           accounts = new ArrayList<>();
-          if(search.isEmpty()) {
-              //esecuzione della query
-            ResultSet result =  Utility.queryOperation(connect, sql2);
-            Account temp = new Account();
-            while(result.next()) {
+          ResultSet result =  Utility.queryOperation(connect, sql); 
+          while(result.next()) {
+             Account temp = new Account();   
              temp.setName(result.getString("name"));
+             temp.setSurname(result.getString("surname"));
              temp.setEmail(result.getString("email"));
              temp.setSecondaryEmail(result.getString("secondaryEmail"));
              temp.setTypeAccount(result.getString("typeAccount"));
@@ -236,23 +238,7 @@ public class AccountManager {
              temp.setAdmin(result.getBoolean("isAdministrator"));
              accounts.add(temp);
 
-          }
-       }
-          else {
-               //esecuzione della query
-            ResultSet result =  Utility.queryOperation(connect, sql);
-            Account temp = new Account();
-            while(result.next()) {
-             temp.setName(result.getString("name"));
-             temp.setEmail(result.getString("email"));
-             temp.setSecondaryEmail(result.getString("secondaryEmail"));
-             temp.setTypeAccount(result.getString("typeAccount"));
-             temp.setPassword(result.getString("password"));
-             temp.setAdmin(result.getBoolean("isAdministrator"));
-             accounts.add(temp);
-            }
-          }
-          
+          }          
       } finally {
           DBConnection.releaseConnection(connect);
       }
@@ -353,28 +339,28 @@ public class AccountManager {
              */
         String demotionSql = "DELETE FROM " // cancella vecchie info
                  + pAccount.getTypeAccount()
-                 + "WHERE fkAccount = '"
+                 + " WHERE fkAccount = '"
                  + testEmail(pAccount.getSecondaryEmail()) + "'";
         
         String toProfessorSql = "INSERT INTO professor " //se nuovo professor
                 +"(fkAccount,link,department)"
                 + "VALUES ('"
                 + testEmail(pAccount.getSecondaryEmail()) + "',"
-                +"'" + "null" + "',"
-                +"'" + "null" + "'";
+                +"'',"
+                +"''";
         
         String toPhdSql = "INSERT INTO phdstudent "
                 + "(fkAccount,telephone,link,deparment,researchInterest,fkCycle"
                 + "fkCurriculum, fkProfessor )" //nuovo dottorando
                 + "VALUES ('"
                 + testEmail(pAccount.getSecondaryEmail()) + "',"
-                + "'" + "null" + "',"
-                + "'" + "null" + "',"
-                + "'" + "null" + "',"
-                + "'" + "null" + "',"
-                + "'" + "null" + "',"
-                + "'" + "null" + "',"
-                + "'" + "null" + "'";
+                + "'',"
+                + "'',"
+                + "'',"
+                + "'',"
+                + "'',"
+                + "'',"
+                + "''";
         
         String changeTypeSql = "UPDATE account" //aggiorna il tipo
                 +"set typeAccount = '" + newType
@@ -448,7 +434,7 @@ public class AccountManager {
                     new InternetAddress(to));
             message.setSubject("Sei stato invitato ad iscriverti a"
                     + " Phd-platform.");
-            message.setText("localhost:8080/phd-platform/register.jsp"); //test
+            message.setText("localhost:8080/phd-platform/codice/register.jsp"); //test
             Transport.send(message);
         } catch(MessagingException ex) {
             ex.printStackTrace();
