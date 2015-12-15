@@ -23,7 +23,7 @@
             </li>
 
             <li>
-                <a href="ricerca.jsp"> <!-- anche se non esiste ancora -->
+                <a href="dottorato/searchUser.jsp"> <!-- anche se non esiste ancora -->
                     <i class="linecons-search"></i>
                     <span class="title">Ricerca Utente</span>
                 </a>
@@ -47,7 +47,7 @@
                     %>  
                     
                     <li id="funzionalitaBase">
-                          <a href="gestionepresenze.jsp">
+                          <a href="dottorato/gestionepresenze.jsp">
                           <i class="linecons-wallet"></i>
                              <span class="title">Gestione Presenze</span>
                           </a>
@@ -57,7 +57,7 @@
                     <li id="funzionalita3Permission_0">
                         <a href="#">
                             <i class="linecons-calendar"></i>
-                            <span class="title">Calendario <br> corsi e seminari</span>
+                            <span class="title">Calendario corsi e seminari</span>
                         </a>
                     </li>
                                      
@@ -66,23 +66,23 @@
                     <%}  if (loggedPerson.isAdmin()) { %>
 
                     <li id="funzionalita3Permission_0">
-                        <a href="amministrazione.jsp">
+                        <a href="dottorato/amministrazione.jsp">
                             <i class="linecons-key"></i>
-                            <span class="title">Pannello <br> amministratore</span>
+                            <span class="title">Pannello amministratore</span>
                         </a>
                     </li>
                     <%}%>
                     
                      <li class="navbar-right" id="menu_profilo">
-                        <a href="profile.jsp">
+                        <a href="dottorato/profile.jsp">
                             <i class="linecons-user"></i>
-                            <span class="title" id="prova">Ciao <%{loggedPerson.getName();}%> !</span>
+                            <span class="title" id="prova">Ciao <% loggedPerson.getName();%> !</span>
                         </a>
                     </li>
                     
-                    <li id="">
-                        <a href="/logout">
-                            <i class =linecons-key"></i>
+                    <li class="navbar-right" id="logout">
+                        <a href="logout">
+                            <i class ="linecons-key"></i>
                             <span class="logout" id ="prova">Logout</span>
                         </a>
                     </li>

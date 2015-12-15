@@ -43,28 +43,31 @@ public class LoginServlet extends HttpServlet {
             LoginManager loginManager = LoginManager.getInstance();
 
             Account account = loginManager.login(username, password);
-            System.out.println(account.getTypeAccount());
 
             if (account != null) {
                if (account instanceof Account) {
                    session.removeAttribute("loginError");
                    session.setAttribute("account",account);
                    response.sendRedirect("index.jsp");
+                   return;
                }
                if (account instanceof PhdStudent) {
                     session.removeAttribute("loginError");
                     session.setAttribute("account", account);
                     response.sendRedirect("index.jsp");
+                    return;
                 }
                 if (account instanceof Professor) {
                     session.removeAttribute("loginError");
                     session.setAttribute("account", account);
-                    response.sendRedirect("index.jsp");    
+                    response.sendRedirect("index.jsp");   
+                    return;
                 }
             }
                  else {
                     session.setAttribute("loginError", "error");
                     response.sendRedirect("login.jsp");
+                    return;
                 }
         } catch (SQLException sqlException) {
             out.print("<h1>SQL Exception: </h1>" + sqlException.getMessage());
