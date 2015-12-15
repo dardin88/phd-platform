@@ -227,7 +227,6 @@ public class CurriculumManager {
      * @throws java.lang.ClassNotFoundException
      * @throws java.sql.SQLException
      * @throws java.io.IOException
-     * @throws it.unisa.dottorato.exception.NameException
      */
     public synchronized Curriculum getCurriculumByName(String CurriculumName) 
             throws ClassNotFoundException, SQLException, IOException {
@@ -304,7 +303,7 @@ public class CurriculumManager {
         try {         
             connect = DBConnection.getConnection();
             /*
-             * Prepariamo la stringa SQL per ricercare il curriucul c
+             * Prepariamo la stringa SQL per ricercare il curriculum c
              * nella tabella Curriculum
              */
             String tSql = "SELECT * FROM "

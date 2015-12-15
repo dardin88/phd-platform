@@ -1,8 +1,5 @@
 package it.unisa.dottorato.Cycle;
 
-import it.unisa.dottorato.exception.DateException;
-import it.unisa.dottorato.exception.DescriptionException;
-import it.unisa.dottorato.exception.IdException;
 import java.io.IOException;
 import java.io.PrintWriter;
 import java.sql.SQLException;
@@ -34,8 +31,7 @@ public class InsertCycleServlet extends HttpServlet {
      * @throws IOException if an I/O error occurs
      */
     protected void processRequest(HttpServletRequest request, HttpServletResponse response)
-            throws ServletException, IOException, IdException, DateException,
-            DescriptionException, ClassNotFoundException, SQLException {
+            throws ServletException, IOException, SQLException {
 
         try {
             response.setContentType("text/html;charset=UTF-8");
@@ -54,11 +50,9 @@ public class InsertCycleServlet extends HttpServlet {
             aPhdCycle.setYear(year);
             aPhdCycle.setFkProfessor(professor);
             
-            result.put("result", true);
-            
             try {
                 CycleManager.getInstance().insertCycle(aPhdCycle);
-            } catch (ClassNotFoundException | SQLException ex) {
+            } catch (ClassNotFoundException | SQLException ex)  {
                 result.put("result", false);
                 Logger.getLogger(InsertCycleServlet.class.getName()).log(Level.SEVERE, null, ex);
             }
@@ -82,19 +76,11 @@ public class InsertCycleServlet extends HttpServlet {
      */
     @Override
     protected void doGet(HttpServletRequest request, HttpServletResponse response)
-            throws ServletException, IOException {
-        try {
+            throws ServletException, IOException{
+           try {
             processRequest(request, response);
-        } catch (DescriptionException ex) {
-            Logger.getLogger(InsertCycleServlet.class.getName()).log(Level.SEVERE, null, ex);
-        } catch (DateException ex) {
-            Logger.getLogger(InsertCycleServlet.class.getName()).log(Level.SEVERE, null, ex);
-        } catch (ClassNotFoundException ex) {
-            Logger.getLogger(InsertCycleServlet.class.getName()).log(Level.SEVERE, null, ex);
         } catch (SQLException ex) {
-            Logger.getLogger(InsertCycleServlet.class.getName()).log(Level.SEVERE, null, ex);
-        }catch (IdException ex) {
-            Logger.getLogger(InsertCycleServlet.class.getName()).log(Level.SEVERE, null, ex);
+            Logger.getLogger(UpdateCycleServlet.class.getName()).log(Level.SEVERE, null, ex);
         }
     }
 
@@ -109,18 +95,10 @@ public class InsertCycleServlet extends HttpServlet {
     @Override
     protected void doPost(HttpServletRequest request, HttpServletResponse response)
             throws ServletException, IOException {
-          try {
+            try {
             processRequest(request, response);
-        } catch (DescriptionException ex) {
-            Logger.getLogger(InsertCycleServlet.class.getName()).log(Level.SEVERE, null, ex);
-        } catch (DateException ex) {
-            Logger.getLogger(InsertCycleServlet.class.getName()).log(Level.SEVERE, null, ex);
-        } catch (ClassNotFoundException ex) {
-            Logger.getLogger(InsertCycleServlet.class.getName()).log(Level.SEVERE, null, ex);
         } catch (SQLException ex) {
-            Logger.getLogger(InsertCycleServlet.class.getName()).log(Level.SEVERE, null, ex);
-        }catch (IdException ex) {
-            Logger.getLogger(InsertCycleServlet.class.getName()).log(Level.SEVERE, null, ex);
+            Logger.getLogger(UpdateCycleServlet.class.getName()).log(Level.SEVERE, null, ex);
         }
     }
 
