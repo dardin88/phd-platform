@@ -22,7 +22,7 @@ import org.json.JSONObject;
  * @author Tommaso Minichiello
  */
 @WebServlet(name = "GetCurriculumsNames", urlPatterns = {"/dottorato/GetCurriculumsNames"})
-public class GetCurriculumsNamesServlet extends HttpServlet {
+public class GetCurriculumListServlet extends HttpServlet {
 
     /**
      * Processes requests for both HTTP <code>GET</code> and <code>POST</code>
@@ -39,12 +39,12 @@ public class GetCurriculumsNamesServlet extends HttpServlet {
         try (PrintWriter out = response.getWriter()) {
             JSONObject result = new JSONObject();
             try {
-                ArrayList<String> curriculumNames = CurriculumManager.getInstance().getCurriculumNames();
+                ArrayList<Curriculum> curriculumNames = CurriculumManager.getInstance().getCurriculumList();
                 JSONArray resultArray = new JSONArray(curriculumNames);
                 result.put("curriculumNames", resultArray);
                 out.write(result.toString());
             } catch (ClassNotFoundException | SQLException | JSONException ex) {
-                Logger.getLogger(GetCurriculumsNamesServlet.class.getName()).log(Level.SEVERE, null, ex);
+                Logger.getLogger(GetCurriculumListServlet.class.getName()).log(Level.SEVERE, null, ex);
             }
         }
     }
