@@ -44,7 +44,7 @@
   
     <body class="page-body">
         <!-- Inclusione della pagina contenente il menù superiore -->
-   
+   <jsp:include page="../barraMenu.jsp"/>
       
         
         <!-- jQuery (necessary for Bootstrap's JavaScript plugins) -->
