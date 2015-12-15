@@ -35,7 +35,7 @@
     
         <body class="page-body">
             <!-- Inclusione della pagina contenente il menù superiore 
-            <!--da modificare con la nuova -->
+            <jsp:include page="../barraMenu.jsp"/><!--da modificare con la nuova -->
             <div class="page-container">
         
             <!-- Inclusione della pagina contenente il menù laterale --> 
