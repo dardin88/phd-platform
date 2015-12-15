@@ -2,6 +2,11 @@
 package it.unisa.dottorato.phdProfile.collaborations;
 
 import it.unisa.dottorato.account.PhdStudent;
+import it.unisa.dottorato.exception.DateException;
+import it.unisa.dottorato.exception.DescriptionException;
+import it.unisa.dottorato.exception.IdException;
+import it.unisa.dottorato.exception.IstitutionException;
+import it.unisa.dottorato.exception.fkPhdstudentException;
 import it.unisa.dottorato.utility.Utility;
 import it.unisa.integrazione.database.DBConnection;
 import java.io.IOException;
@@ -9,6 +14,7 @@ import java.sql.Connection;
 import java.sql.ResultSet;
 import java.sql.SQLException;
 import java.util.ArrayList;
+import java.util.Date;
 import java.util.List;
 
 /**Classe per la gestione delle collaborazioni
@@ -243,4 +249,89 @@ public class CollaborationManager {
         
         return collaborations;
     }
+    
+    /** Metodo della classe per il testing dell'id; non può essere minore di 0
+     * 
+     * @param id id da testare
+     * @return restituisce l'id se valido, lancia un'eccezione altrimenti
+     * @throws IdException 
+     */
+    public int testId(int id) throws IdException {
+        if(id<0){
+            throw new IdException("L'id non puo' essere minore di 0");
+        }
+        return id;
+    } 
+    
+    /**Metodo della classe per il testing della descrizione; non puo' essere nulla
+     * 
+     * @param description descrizione da testare
+     * @return restituisce la stringa se valida, lancia un'eccezione altrimenti
+     * @throws DescriptionException 
+     */
+    public String testDescription(String description) throws DescriptionException{
+         if(description.equals(null)){
+            
+            throw new DescriptionException("la descrizione e' sbagliata"); 
+        }
+         return description;
+    }
+    
+    /**Metodo della classe per il testing della data di inizio; non puo' essere nulla
+     * 
+     * @param startDate data da testare
+     * @return restituisce la data se valida, lancia un'eccezione altrimenti
+     * @throws DateException 
+     */
+    public Date testStartDate(Date startDate) throws DateException{
+         if(startDate.equals(null)){
+            
+            throw new DateException("la data e' nulla"); 
+        }
+         return startDate;
+    }
+    
+    /**Metodo della classe per il testing della data di inizio; non puo' essere nulla
+     * 
+     * @param endDate data da testare
+     * @return restituisce la data se valida, lancia un'eccezione altrimenti
+     * @throws DateException 
+     */
+    public Date testEndDate(Date endDate) throws DateException{
+         if(endDate.equals(null)){
+            
+            throw new DateException("la data e' nulla"); 
+        }
+         return endDate;
+    }
+    
+    /**Metodo della classe per il testing del campo istitution; non puo' avere una lunghezza maggiore di 70 caratteri
+     * 
+     * @param title stringa da testare
+     * @return restituisce la stringa se valida, lancia un'eccezione altrimenti
+     * @throws IstitutionException 
+     */
+    public String testIstitution(String istitution) throws IstitutionException {
+        if(istitution.length()>70){
+            
+            throw new IstitutionException("L'istituzione e' sbagliata"); 
+        }
+        return istitution;
+    }
+    
+    /**Metodo della classe per il testing della chiave esterna per la tabella PhdStudent; non puo' essere
+     * <code>null</code> o avere una lunghezza maggiore di 49 caratteri
+     * 
+     * @param fkPhdstudent stringa da testare
+     * @return restituisce la stringa se valida, lancia un'eccezione altrimenti
+     * @throws Exception 
+     */
+    public String testfkPhdStudent(String fkPhdstudent) throws fkPhdstudentException {
+        if(fkPhdstudent.equals(null)&&fkPhdstudent.length()>50){
+            
+            throw new fkPhdstudentException("il campo per il riferimento al PhdStudent e' sbagliato"); 
+        }
+        return fkPhdstudent;
+    }
+    
 }
