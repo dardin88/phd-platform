@@ -77,8 +77,10 @@ public class PublicationManager {
              */
             String tSql = "INSERT INTO "
                     + PublicationManager.TABLE_PUBLICATION
-                    + " (title, publicationIssue, year, numberPage, link, type, otherAuthors, abstract, fkPhdstudent)"
-                    + " VALUES ('"
+                    + " (idPublication,title, publicationIssue, year, numberPage, link, type, otherAuthors, abstract, fkPhdstudent)"
+                    + " VALUES ("
+                    + testId(nextNumber())
+                    + ",'"
                     + Utility.Replace(PublicationManager.getInstance().testTitle(pPublication.getTitle()))
                     + "','"
                     + Utility.Replace(PublicationManager.getInstance().testPubliocationIssue(pPublication.getPublicationIssue()))
@@ -122,6 +124,10 @@ public class PublicationManager {
         } catch (OtherAuthorsException ex) {
             Logger.getLogger(PublicationManager.class.getName()).log(Level.SEVERE, null, ex);
         } catch (pAbstractException ex) {
+            Logger.getLogger(PublicationManager.class.getName()).log(Level.SEVERE, null, ex);
+        } catch (IOException ex) {
+            Logger.getLogger(PublicationManager.class.getName()).log(Level.SEVERE, null, ex);
+        } catch (IdException ex) {
             Logger.getLogger(PublicationManager.class.getName()).log(Level.SEVERE, null, ex);
         }
     }
@@ -482,6 +488,30 @@ public class PublicationManager {
         }
         return fkPhdstudent;
     }   
-    
+    /**
+     * Metodo della classe incaricato di calcolare il numero della prossima pubblicazione da inserire
+     * nella tabella Cycle del database.
+     * @return restituisce il prossimo numero
+     * @throws java.sql.SQLException
+     * @throws java.io.IOException
+     * 
+     */
+    public synchronized int nextNumber() throws SQLException, IOException {
+        int c=1;
+        
+       
+        try (Connection connect = DBConnection.getConnection()) {
+            String tSql = "SELECT idPublication FROM "
+                    + PublicationManager.TABLE_PUBLICATION
+                    + "ORDER BY idPublication DESC LIMIT 1";
+            //Inviamo la Query al DataBase
+             ResultSet result = Utility.queryOperation(connect, tSql);
+            if(result.next()){
+                c = result.getInt("idPublication")+1;
+            }
+            connect.commit();
+            return c;
+        } 
+    }
     
 }

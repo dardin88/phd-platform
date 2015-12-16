@@ -1,5 +1,6 @@
 package it.unisa.dottorato.phdProfile.missions;
 
+import it.unisa.dottorato.exception.IdException;
 import java.io.IOException;
 import java.io.PrintWriter;
 import java.sql.SQLException;
@@ -38,6 +39,8 @@ public class DeleteMissionServlet extends HttpServlet {
             MissionManager.getInstance().delete(idMission);
         } catch (ClassNotFoundException | SQLException ex) {
             
+            Logger.getLogger(DeleteMissionServlet.class.getName()).log(Level.SEVERE, null, ex);
+        } catch (IdException ex) {
             Logger.getLogger(DeleteMissionServlet.class.getName()).log(Level.SEVERE, null, ex);
         }
         out.println("<script type=\"text/javascript\">");

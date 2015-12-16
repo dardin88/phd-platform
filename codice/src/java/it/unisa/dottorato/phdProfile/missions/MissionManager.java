@@ -74,8 +74,10 @@ public class MissionManager {
              */
             String tSql = "INSERT INTO "
                     + MissionManager.TABLE_MISSION
-                    + " (description, startDate, endDate, reference, place, fkPhdstudent)"
-                    + " VALUES ('"
+                    + " (idMission,description, startDate, endDate, reference, place, fkPhdstudent)"
+                    + " VALUES ("
+                    + testId(nextNumber())
+                    + ",'"
                     + Utility.Replace(MissionManager.getInstance().testDescription(pMission.getDescription()))
                     + "','"
                     + MissionManager.getInstance().testStartDate(pMission.getStartDate())
@@ -105,6 +107,10 @@ public class MissionManager {
         } catch (PlaceException ex) {
             Logger.getLogger(MissionManager.class.getName()).log(Level.SEVERE, null, ex);
         } catch (ReferenceAttributeException ex) {
+            Logger.getLogger(MissionManager.class.getName()).log(Level.SEVERE, null, ex);
+        } catch (IdException ex) {
+            Logger.getLogger(MissionManager.class.getName()).log(Level.SEVERE, null, ex);
+        } catch (IOException ex) {
             Logger.getLogger(MissionManager.class.getName()).log(Level.SEVERE, null, ex);
         } 
     }
@@ -296,8 +302,8 @@ public class MissionManager {
      * @throws IdException 
      */
     public int testId(int id) throws IdException {
-        if(id<0){
-            throw new IdException("L'id non puo' essere minore di 0");
+        if(id<0 ||id >999999){
+            throw new IdException("L'id non puo' essere minore di 0 o maggiore di 999999");
         }
         return id;
     } 
@@ -399,6 +405,32 @@ public class MissionManager {
             throw new ReferenceException("il campo per il riferimento al PhdStudent e' sbagliato"); 
         }
         return fkPhdstudent;
-    }    
+    }   
+    
+    /**
+     * Metodo della classe incaricato di calcolare il numero della prossima missione da inserire
+     * nella tabella Cycle del database.
+     * @return restituisce il prossimo numero
+     * @throws java.sql.SQLException
+     * @throws java.io.IOException
+     * 
+     */
+    public synchronized int nextNumber() throws SQLException, IOException {
+        int c=1;
+        
+       
+        try (Connection connect = DBConnection.getConnection()) {
+            String tSql = "SELECT number FROM "
+                    + MissionManager.TABLE_MISSION
+                    + "ORDER BY idMission DESC LIMIT 1";
+            //Inviamo la Query al DataBase
+             ResultSet result = Utility.queryOperation(connect, tSql);
+            if(result.next()){
+                c = result.getInt("number")+1;
+            }
+            connect.commit();
+            return c;
+        } 
+    }
     
 }

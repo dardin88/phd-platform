@@ -74,8 +74,10 @@ public class CollaborationManager {
              */
             String tSql = "INSERT INTO "
                     + CollaborationManager.TABLE_COLLABORATION
-                    + " (description, startDate, endDate, istitution, fkPhdstudent)"
-                    + " VALUES ('"
+                    + " (idCollaboration,description, startDate, endDate, istitution, fkPhdstudent)"
+                    + " VALUES ("
+                    + testId(nextNumber())
+                    + ",'"
                     + Utility.Replace(CollaborationManager.getInstance().testDescription(pCollaboration.getDescription()))
                     + "','"
                     + CollaborationManager.getInstance().testStartDate(pCollaboration.getStartDate())
@@ -101,6 +103,10 @@ public class CollaborationManager {
         } catch (DescriptionException ex) {
             Logger.getLogger(CollaborationManager.class.getName()).log(Level.SEVERE, null, ex);
         } catch (IstitutionException ex) {
+            Logger.getLogger(CollaborationManager.class.getName()).log(Level.SEVERE, null, ex);
+        } catch (IOException ex) {
+            Logger.getLogger(CollaborationManager.class.getName()).log(Level.SEVERE, null, ex);
+        } catch (IdException ex) {
             Logger.getLogger(CollaborationManager.class.getName()).log(Level.SEVERE, null, ex);
         }
         
@@ -380,5 +386,22 @@ public class CollaborationManager {
             throw new ReferenceException("il campo per il riferimento al PhdStudent e' sbagliato"); 
         }
         return fkPhdstudent;
-    }    
+    }
+     public synchronized int nextNumber() throws SQLException, IOException {
+        int c=1;
+        
+       
+        try (Connection connect = DBConnection.getConnection()) {
+            String tSql = "SELECT idMission FROM "
+                    + CollaborationManager.TABLE_COLLABORATION
+                    + "ORDER BY idMission DESC LIMIT 1";
+            //Inviamo la Query al DataBase
+             ResultSet result = Utility.queryOperation(connect, tSql);
+            if(result.next()){
+                c = result.getInt("idMission")+1;
+            }
+            connect.commit();
+            return c;
+        } 
+     }
 }
