@@ -1,8 +1,3 @@
-/*
- * To change this license header, choose License Headers in Project Properties.
- * To change this template file, choose Tools | Templates
- * and open the template in the editor.
- */
 package it.unisa.dottorato.account;
 
 import it.unisa.integrazione.database.exception.ConnectionException;
@@ -21,20 +16,22 @@ import org.json.JSONArray;
 import org.json.JSONException;
 import org.json.JSONObject;
 
-/**Servlet incaricata ad effettuare la richiesta di ricerca di un utente
+/**Servlet incaricata ad effettuare la richiesta di visualizzazione della 
+ * lista dei account esistenti
  *
- * @author Rembor
+ * @author Armando
  */
-@WebServlet(name = "SearchUser", urlPatterns = {"/dottorato/SearchUser"})
-public class SearchUserServlet extends HttpServlet{
+@WebServlet(name = "getAccountList", urlPatterns = {"/dottorato/getAccountList"})
+
+public class GetAccountListServlet extends HttpServlet {
+    
     protected void processRequest(HttpServletRequest request, HttpServletResponse response)
             throws ServletException, IOException, SQLException, ConnectionException {
         
         response.setContentType("text/html;charset=UTF-8");
         try (PrintWriter out = response.getWriter()) {
             JSONObject result = new JSONObject();
-            String name = request.getParameter("name");
-            ArrayList<Account> cycles = AccountManager.getInstance().searchUser(name);
+            ArrayList<Account> cycles = AccountManager.getInstance().getAccountList();
                 JSONArray resultArray = new JSONArray(cycles);
                 
                 result.put("account", resultArray);
@@ -49,9 +46,6 @@ public class SearchUserServlet extends HttpServlet{
        
     
     }
-    
-    
-    
     
     // <editor-fold defaultstate="collapsed" desc="HttpServlet methods. Click on the + sign on the left to edit the code.">
     /**
@@ -107,4 +101,5 @@ public class SearchUserServlet extends HttpServlet{
         return "Short description";
     }// </editor-fold>
 
+    
 }

@@ -212,7 +212,7 @@ public class AccountManager {
    * @return restituisce un array list di account di tutti gli utenti trovati, lancia un'eccezione altrimenti
    * @throws SQLException 
    */
-  public ArrayList<Account> searchUser(String search, String type) throws SQLException {
+  public ArrayList<Account> searchUser(String search) throws SQLException {
       Connection connect = null;
       ArrayList<Account> accounts;
        /*
@@ -220,8 +220,7 @@ public class AccountManager {
              * nella tabella account
              */
       String sql = "SELECT * from account WHERE "
-              + "name LIKE '%" + search + "%'" +
-               "AND typeAccount = '" + type + "'";
+              + "name LIKE '%" + search + "%'";
       try {
           //connesione al database
           connect = DBConnection.getConnection();
