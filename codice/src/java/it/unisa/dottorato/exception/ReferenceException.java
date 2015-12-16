@@ -1,7 +1,7 @@
 package it.unisa.dottorato.exception;
 
 /**Classe dell'oggetto IstitutionException che estende Exception;
- * gestisce le eccezioni per gli attributi <code>reference</code>
+ * gestisce le eccezioni per gli attributi <code>fkPhdstudent</code>
  *
  * @author andre
  */

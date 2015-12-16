@@ -104,8 +104,6 @@ public class CurriculumManager {
      * @throws java.lang.ClassNotFoundException
      * @throws java.sql.SQLException
      * @throws java.io.IOException
-     *  @throws it.unisa.dottorato.exception.NameException
-     *  @throws it.unisa.dottorato.exception.DescriptionException
      */
     public synchronized void update(String oldNameCurriculum, Curriculum pCurriculum) 
             throws ClassNotFoundException, SQLException, IOException
@@ -151,7 +149,6 @@ public class CurriculumManager {
      * @throws java.lang.ClassNotFoundException
      * @throws java.sql.SQLException
      * @throws java.io.IOException
-     * @throws it.unisa.dottorato.exception.NameException
      */
     public synchronized void delete(String CurriculumName) 
             throws ClassNotFoundException, SQLException, IOException {
@@ -189,10 +186,12 @@ public class CurriculumManager {
      * @throws java.sql.SQLException
      * @throws java.io.IOException
      */
-    public synchronized ArrayList<String> getCurriculumNames() throws ClassNotFoundException, SQLException, IOException {
+    public synchronized ArrayList<Curriculum> getCurriculumList() throws ClassNotFoundException, SQLException, IOException {
         Connection connect = null;
+        ArrayList<Curriculum> curriculum=null;
         try {
-            ArrayList<String> curriculum = new ArrayList<>();
+            curriculum = new ArrayList<>();
+            Curriculum c=new Curriculum();
             // Otteniamo una Connessione al DataBase
             connect = DBConnection.getConnection();
 
@@ -200,15 +199,16 @@ public class CurriculumManager {
              * Prepariamo la stringa SQL per modificare un record 
              * nella tabella phdCurriculum
              */
-            String tSql = "SELECT name FROM "
-                    + CurriculumManager.TABLE_CURRICULUM
-                    + " ORDER BY name desc";
+            String tSql = "SELECT * FROM "
+                    + CurriculumManager.TABLE_CURRICULUM;
 
             //Inviamo la Query al DataBase
             ResultSet result = Utility.queryOperation(connect, tSql);
 
             while (result.next()) {
-                curriculum.add(result.getString("name"));
+                c.setName(result.getString("name"));
+                c.setName(result.getString("description"));
+                curriculum.add(c);
             }
 
             return curriculum;

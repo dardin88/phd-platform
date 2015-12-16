@@ -6,7 +6,6 @@
 package it.unisa.dottorato.Tutorate;
 
 import it.unisa.dottorato.account.AccountManager;
-import it.unisa.dottorato.account.Professor_student;
 import java.io.IOException;
 import java.io.PrintWriter;
 import java.sql.SQLException;
@@ -48,14 +47,10 @@ public class UpdateTutorServlet extends HttpServlet {
             String idProfessor = request.getParameter("idProfessor");
             String idStudent = request.getParameter("idStudent");
 
-            Professor_student tutor = new Professor_student();
-            tutor.setFK_Professor(idProfessor);
-            tutor.setFK_Student(idStudent);
-
             result.put("result", true);
 
             try {
-                AccountManager.getInstance().updateStudentTutor(tutor);
+                AccountManager.getInstance().updateStudentTutor(idStudent, idProfessor);
 
             } catch (ClassNotFoundException | SQLException ex) {
                 result.put("result", false);

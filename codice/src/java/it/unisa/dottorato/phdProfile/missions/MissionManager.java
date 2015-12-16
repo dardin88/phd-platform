@@ -4,17 +4,22 @@ import it.unisa.dottorato.account.PhdStudent;
 import it.unisa.dottorato.exception.DateException;
 import it.unisa.dottorato.exception.DescriptionException;
 import it.unisa.dottorato.exception.IdException;
+import it.unisa.dottorato.exception.MissionException;
 import it.unisa.dottorato.exception.PlaceException;
+import it.unisa.dottorato.exception.ReferenceAttributeException;
 import it.unisa.dottorato.exception.ReferenceException;
 import it.unisa.dottorato.utility.Utility;
 import it.unisa.integrazione.database.DBConnection;
 import java.io.IOException;
+import static java.lang.Integer.parseInt;
 import java.sql.Connection;
 import java.sql.ResultSet;
 import java.sql.SQLException;
 import java.util.ArrayList;
 import java.util.Date;
 import java.util.List;
+import java.util.logging.Level;
+import java.util.logging.Logger;
 
 /** Classe della gestione delle missioni
  *
@@ -62,25 +67,28 @@ public class MissionManager {
     public synchronized void insert(Mission pMission) throws SQLException {
         try (Connection connect = DBConnection.getConnection()) {
 
+            testMission(pMission);
             /*
              * Prepariamo la stringa SQL per inserire un nuovo record 
              * nella tabella mission
              */
             String tSql = "INSERT INTO "
                     + MissionManager.TABLE_MISSION
-                    + " (description, startDate, endDate, reference, place, fkPhdstudent)"
-                    + " VALUES ('"
-                    + Utility.Replace(pMission.getDescription())
+                    + " (idMission,description, startDate, endDate, reference, place, fkPhdstudent)"
+                    + " VALUES ("
+                    + testId(nextNumber())
+                    + ",'"
+                    + Utility.Replace(MissionManager.getInstance().testDescription(pMission.getDescription()))
                     + "','"
-                    + pMission.getStartDate()
+                    + MissionManager.getInstance().testStartDate(pMission.getStartDate())
                     + "','"
-                    + pMission.getEndDate() 
+                    + MissionManager.getInstance().testEndDate(pMission.getEndDate())
                     + "','"
-                    + Utility.Replace(pMission.getReference())
+                    + Utility.Replace(MissionManager.getInstance().testReference(pMission.getReference()))
                     + "','"
-                    + Utility.Replace(pMission.getPlace())
+                    + Utility.Replace(MissionManager.getInstance().testPlace(pMission.getPlace()))
                     + "','"
-                    + pMission.getFkPhdstudent()
+                    + MissionManager.getInstance().testfkPhdStudent(pMission.getFkPhdstudent())
                     + "')";
 
             System.out.println("La query: " +tSql);
@@ -88,7 +96,23 @@ public class MissionManager {
             Utility.executeOperation(connect, tSql);
 
             connect.commit();
-        }
+        } catch (MissionException ex) {
+            Logger.getLogger(MissionManager.class.getName()).log(Level.SEVERE, null, ex);
+        } catch (DescriptionException ex) {
+            Logger.getLogger(MissionManager.class.getName()).log(Level.SEVERE, null, ex);
+        } catch (DateException ex) {
+            Logger.getLogger(MissionManager.class.getName()).log(Level.SEVERE, null, ex);
+        } catch (ReferenceException ex) {
+            Logger.getLogger(MissionManager.class.getName()).log(Level.SEVERE, null, ex);
+        } catch (PlaceException ex) {
+            Logger.getLogger(MissionManager.class.getName()).log(Level.SEVERE, null, ex);
+        } catch (ReferenceAttributeException ex) {
+            Logger.getLogger(MissionManager.class.getName()).log(Level.SEVERE, null, ex);
+        } catch (IdException ex) {
+            Logger.getLogger(MissionManager.class.getName()).log(Level.SEVERE, null, ex);
+        } catch (IOException ex) {
+            Logger.getLogger(MissionManager.class.getName()).log(Level.SEVERE, null, ex);
+        } 
     }
   
     /** Metodo della classe incaricato di aggiornare una missione
@@ -102,6 +126,8 @@ public class MissionManager {
     public synchronized void update(int oldMissionID, Mission pMission) throws ClassNotFoundException, SQLException, IOException {
         try (Connection connect = DBConnection.getConnection()) {
 
+            testId(oldMissionID);
+            testMission(pMission);
             /*
              * Prepariamo la stringa SQL per modificare un record 
              * nella tabella mission
@@ -109,15 +135,15 @@ public class MissionManager {
             String tSql = "UPDATE "
                     + MissionManager.TABLE_MISSION
                     + " set description = '"
-                    + Utility.Replace(pMission.getDescription())
+                    + Utility.Replace(MissionManager.getInstance().testDescription(pMission.getDescription()))
                     + "', startDate = '"
-                    + pMission.getStartDate()
+                    + MissionManager.getInstance().testStartDate(pMission.getStartDate())
                     + "', endDate = '"
-                    + pMission.getEndDate()
+                    + MissionManager.getInstance().testEndDate(pMission.getEndDate())
                     + "', reference = '"
-                    + Utility.Replace(pMission.getReference())
+                    + Utility.Replace(MissionManager.getInstance().testReference(pMission.getReference()))
                     + "', place = '"
-                    + Utility.Replace(pMission.getPlace())
+                    + Utility.Replace(MissionManager.getInstance().testPlace(pMission.getPlace()))
                     + "' WHERE idMission = "
                     + oldMissionID + "";           
 
@@ -126,6 +152,18 @@ public class MissionManager {
             Utility.executeOperation(connect, tSql);
 
             connect.commit();
+        } catch (IdException ex) {
+            Logger.getLogger(MissionManager.class.getName()).log(Level.SEVERE, null, ex);
+        } catch (MissionException ex) {
+            Logger.getLogger(MissionManager.class.getName()).log(Level.SEVERE, null, ex);
+        } catch (DescriptionException ex) {
+            Logger.getLogger(MissionManager.class.getName()).log(Level.SEVERE, null, ex);
+        } catch (DateException ex) {
+            Logger.getLogger(MissionManager.class.getName()).log(Level.SEVERE, null, ex);
+        } catch (ReferenceAttributeException ex) {
+            Logger.getLogger(MissionManager.class.getName()).log(Level.SEVERE, null, ex);
+        } catch (PlaceException ex) {
+            Logger.getLogger(MissionManager.class.getName()).log(Level.SEVERE, null, ex);
         }
     }
 
@@ -136,12 +174,14 @@ public class MissionManager {
      * @throws SQLException
      * @throws IOException 
      */
-    public synchronized void delete(String idMission) throws ClassNotFoundException, SQLException, IOException {
+    public synchronized void delete(String idMission) throws ClassNotFoundException, SQLException, IOException, IdException {
         Connection connect = null;
         try {
             // Otteniamo una Connessione al DataBase
             connect = DBConnection.getConnection();
 
+            int id = parseInt(idMission);
+            testId(id);
             /*
              * Prepariamo la stringa SQL per rimuovere un record 
              * nella tabella mission
@@ -170,11 +210,13 @@ public class MissionManager {
      */
     public synchronized Mission getMissionById(int pMissionID) throws ClassNotFoundException, SQLException, IOException {
         Connection connect = null;
+        Mission mission = new Mission();
         try {
-            Mission mission = new Mission();
+           
             // Otteniamo una Connessione al DataBase
             connect = DBConnection.getConnection();
 
+            testId(pMissionID);
             /*
              * Prepariamo la stringa SQL per ricercare un record 
              * nella tabella mission
@@ -197,11 +239,12 @@ public class MissionManager {
                 mission.setFkPhdstudent(result.getString("fkPhdstudent"));
             }
 
-            return mission;
-
+        } catch (IdException ex) {
+            Logger.getLogger(MissionManager.class.getName()).log(Level.SEVERE, null, ex);
         } finally {
             DBConnection.releaseConnection(connect);
         }
+        return mission;
     }
    
     /** Metodo della classe incaricato di ricercare tutte le missioni di un dottorando
@@ -259,8 +302,8 @@ public class MissionManager {
      * @throws IdException 
      */
     public int testId(int id) throws IdException {
-        if(id<0){
-            throw new IdException("L'id non puo' essere minore di 0");
+        if(id<0 ||id >999999){
+            throw new IdException("L'id non puo' essere minore di 0 o maggiore di 999999");
         }
         return id;
     } 
@@ -311,12 +354,12 @@ public class MissionManager {
      * 
      * @param reference stringa da testare
      * @return restituisce la stringa se valida, lancia un'eccezione altrimenti
-     * @throws ReferenceException 
+     * @throws ReferenceAttributeException 
      */
-    public String referenceIstitution(String reference) throws ReferenceException {
+    public String testReference(String reference) throws ReferenceAttributeException {
         if(reference.length()>255){
             
-            throw new ReferenceException("Il campo delle referenze e' sbagliato"); 
+            throw new ReferenceAttributeException("il campo degli altri autori e' sbagliato"); 
         }
         return reference;
     }
@@ -334,6 +377,60 @@ public class MissionManager {
             throw new PlaceException("il posto e' sbagliato"); 
         }
         return place;
+    }
+    
+     /**Metodo della classe per il testing dell'attributo missione; non puo' essere nulla
+     * 
+     * @param m missione da testare
+     * @return restituisce la missione se valida, lancia un'eccezione altrimenti
+     * @throws MissionException 
+     */
+    public Mission testMission(Mission m) throws MissionException{
+        if(m==null)
+            throw new MissionException("errore oggetto Missione");
+        return m;
+    }
+    
+    
+    /**Metodo della classe per il testing della chiave esterna per la tabella PhdStudent; non puo' essere
+     * <code>null</code> o avere una lunghezza maggiore di 49 caratteri
+     * 
+     * @param fkPhdstudent stringa da testare
+     * @return restituisce la stringa se valida, lancia un'eccezione altrimenti
+     * @throws ReferenceException 
+     */
+    public String testfkPhdStudent(String fkPhdstudent) throws ReferenceException {
+        if(fkPhdstudent.equals(null)&&fkPhdstudent.length()>50){
+            
+            throw new ReferenceException("il campo per il riferimento al PhdStudent e' sbagliato"); 
+        }
+        return fkPhdstudent;
+    }   
+    
+    /**
+     * Metodo della classe incaricato di calcolare il numero della prossima missione da inserire
+     * nella tabella Cycle del database.
+     * @return restituisce il prossimo numero
+     * @throws java.sql.SQLException
+     * @throws java.io.IOException
+     * 
+     */
+    public synchronized int nextNumber() throws SQLException, IOException {
+        int c=1;
+        
+       
+        try (Connection connect = DBConnection.getConnection()) {
+            String tSql = "SELECT number FROM "
+                    + MissionManager.TABLE_MISSION
+                    + "ORDER BY idMission DESC LIMIT 1";
+            //Inviamo la Query al DataBase
+             ResultSet result = Utility.queryOperation(connect, tSql);
+            if(result.next()){
+                c = result.getInt("number")+1;
+            }
+            connect.commit();
+            return c;
+        } 
     }
     
 }

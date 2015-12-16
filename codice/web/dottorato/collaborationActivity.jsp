@@ -7,7 +7,7 @@
 <%@page import="it.unisa.dottorato.phdProfile.collaborations.Collaboration"%>
 <%@page import="it.unisa.dottorato.phdProfile.collaborations.CollaborationManager"%>
 <%@page import="java.util.List"%>
-<%@page import="it.unisa.integrazione.model.Person"%>
+<%@page import="it.unisa.dottorato.account.*"%>
 <%@ taglib prefix="c" uri="http://java.sun.com/jsp/jstl/core" %>
 <%@page contentType="text/html" pageEncoding="UTF-8"%>
 <!DOCTYPE html>
@@ -45,14 +45,13 @@
     <body class="page-body">
 
         <!-- Inclusione della pagina contenente il menù superiore --> 
-        <jsp:include page="topMenu.jsp" flush="true"/> 
+        <jsp:include page="../barraMenu.jsp" flush="true"/> 
         <div class="page-container">
 
             <!-- Inclusione della pagina contenente il menù laterale --> 
-            <jsp:include page="lateralMenu.jsp"/> 
 
-            <% Person loggedPerson = ((Person) session.getAttribute("person"));
-                List<Collaboration> collaborations = CollaborationManager.getInstance().getAllCollaborationOf(loggedPerson);
+            <% Account loggedPerson = ((Account) session.getAttribute("account"));
+                List<Collaboration> collaborations = CollaborationManager.getInstance().getAllCollaborationOf((PhdStudent)loggedPerson);
 
             %>
 
