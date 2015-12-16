@@ -79,7 +79,7 @@
                     </ul>
                    <ul class="navbar-nav navbar-right"> 
                      <li class="navbar-right" id="menu_profilo">
-                        <a href="/codice/dottorato/profile.jsp">
+                        <a href="/codice/dottorato/profileNuovo.jsp">
                             <i class="linecons-user"></i>
                             <span class="title" id="prova"> <b><% out.println(loggedPerson.getName());%>
                                       <%out.println(loggedPerson.getSurname());%></b></span>
