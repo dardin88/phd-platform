@@ -21,9 +21,9 @@ import javax.mail.internet.*;
  * @author ariemmov
  */
 public class AccountManager {
-    
-    private static final String TABLE_PROFESSOR_STUDENT = "professor_student";
-    private static final String TABLE_STUDENT = "PhdStudent";
+    private static final String TABLE_PROFESSOR = "professor";
+    private static final String TABLE_ACCOUNT = "account";
+    private static final String TABLE_STUDENT = "phdstudent";
     //istanza della classe
     private static AccountManager instance;
 
@@ -451,7 +451,7 @@ public class AccountManager {
      * @throws java.sql.SQLException
      * @throws java.io.IOException
      */
-    public synchronized void insertStudentTutor(Professor_student tutor) throws ClassNotFoundException, SQLException, IOException {
+    public synchronized void insertStudentTutor(String fkPhdstudent, String fkProfessor) throws ClassNotFoundException, SQLException, IOException {
         Connection connect = null;
         try {
             // Otteniamo una Connessione al DataBase
@@ -461,14 +461,13 @@ public class AccountManager {
              * Prepariamo la stringa SQL per inserire un nuovo record 
              * nella tabella professor_student
              */
-            String tSql = "INSERT INTO "
-                    + AccountManager.TABLE_PROFESSOR_STUDENT
-                    + " (FK_Professor, FK_Student)"
-                    + " VALUES ('"
-                    + tutor.getFK_Professor()
-                    + "','"
-                    + tutor.getFK_Student()
-                    + "')";
+            String tSql = "update  "
+                    + AccountManager.TABLE_STUDENT
+                    + " set fkProfessor ='"
+                    + fkProfessor
+                    + "' where fkAccount = '"
+                    + fkPhdstudent
+                    +",";
 
             //Inviamo la Query al DataBase
             Utility.executeOperation(connect, tSql);
@@ -489,10 +488,11 @@ public class AccountManager {
      * @throws java.sql.SQLException
      * @throws java.io.IOException
      */
-    public synchronized Account getTutor(String idStudent) throws ClassNotFoundException, SQLException, IOException {
+    public synchronized Professor getTutor(String idStudent) throws ClassNotFoundException, SQLException, IOException {
         Connection connect = null;
+        Professor cord = null;
         try {
-            Account professor = null;
+            
             // Otteniamo una Connessione al DataBase
             connect = DBConnection.getConnection();
 
@@ -500,29 +500,37 @@ public class AccountManager {
              * Prepariamo la stringa SQL per la ricerca di un record 
              * nella tabella professor_Student
              */
-            String tSql = "SELECT * FROM "
-                    + AccountManager.TABLE_STUDENT
-                    + "  JOIN "
-                    + AccountManager.TABLE_PROFESSOR_STUDENT
-                    + " ON "
-                    + AccountManager.TABLE_STUDENT
-                    + "fkAccount = "
-                    + AccountManager.TABLE_PROFESSOR_STUDENT
-                    + ".FK_Professor "
-                    + " WHERE FK_Student = '"
-                    + idStudent + "'";
+           String tSql = "SELECT account.email, account.secondaryEmail, account.surname, account.name, professor.link, professor.department FROM "
+                    +AccountManager.TABLE_PROFESSOR
+                    + ","
+                    + AccountManager.TABLE_STUDENT 
+                    + "," 
+                    + AccountManager.TABLE_ACCOUNT 
+                    + " WHERE phdstudent.fkAccount = "
+                    + idStudent
+                    +"' AND fkProfessor = professor.fkAccount AND professor.fkAccount = secondaryEmail";   
 
-            //Inviamo la Query al DataBase
+
+            connect.commit();
             ResultSet result = Utility.queryOperation(connect, tSql);
 
-            while (result.next()) {
-                professor = new Account();
-                professor.setEmail(result.getString("ssn"));
-                professor.setName(result.getString("name"));
-                professor.setSurname(result.getString("surname"));
+             if (result.next()) {
+                cord.setEmail(result.getString("email"));
+                cord.setSecondaryEmail(result.getString("secondaryEmail"));
+                cord.setSurname(result.getString("surname"));
+                cord.setName(result.getString("name"));
+                cord.setLink(result.getString("link"));
+                cord.setDepartment(result.getString("department"));
+                cord.setPassword(null);
+                cord.setAdmin(false);
+                cord.setTypeAccount(null);
+                cord.setfkAccount(cord.getSecondaryEmail());
             }
 
-            return professor;
+            //Inviamo la Query al DataBase
+            
+
+            return cord;
 
         } finally {
             DBConnection.releaseConnection(connect);
@@ -539,19 +547,20 @@ public class AccountManager {
      * @throws java.sql.SQLException
      * @throws java.io.IOException
      */
-    public synchronized void updateStudentTutor(Professor_student tutor) throws ClassNotFoundException, SQLException, IOException {
+    public synchronized void updateStudentTutor(String fkPhdstudent, String Tutor) throws ClassNotFoundException, SQLException, IOException {
         try (Connection connect = DBConnection.getConnection()) {
 
             /*
              * Prepariamo la stringa SQL per modificare un record 
              * nella tabella professor_student
              */
-            String tSql = "UPDATE "
-                    + AccountManager.TABLE_PROFESSOR_STUDENT
-                    + " set FK_Professor = '"
-                    + tutor.getFK_Professor()
-                    + "' WHERE FK_Student = '"
-                    + tutor.getFK_Student() + "'";
+           String tSql = "update  "
+                    + AccountManager.TABLE_STUDENT
+                    + " set fkProfessor ='"
+                    + Tutor
+                    + "' where fkAccount = '"
+                    + fkPhdstudent
+                    +",";
 
             //Inviamo la Query al DataBase
             Utility.executeOperation(connect, tSql);
@@ -579,10 +588,11 @@ public class AccountManager {
              * Prepariamo la stringa SQL per la cancellazione di un record 
              * nella tabella professor_student
              */
-            String tSql = "DELETE FROM "
-                    + AccountManager.TABLE_PROFESSOR_STUDENT
-                    + " WHERE FK_Student = '"
-                    + idStudent + "'";
+           String tSql = "update  "
+                    + AccountManager.TABLE_STUDENT
+                    + " set fkProfessor ='null' where fkAccount = '"
+                    + idStudent
+                    +",";
 
             //Inviamo la Query al DataBase
             Utility.executeOperation(connect, tSql);
