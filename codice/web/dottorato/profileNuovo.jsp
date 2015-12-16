@@ -61,13 +61,16 @@
                     <div class="col-sm-10">
                         <!--Qui chiama servlet update che prende infomazioni person--> 
                         <% Account loggedPerson = ((Account) session.getAttribute("account"));
-                            
+                          
                         %>
                         <div class="panel panel-default">
                             <div class="panel-heading">
-                                <h1> <%= loggedPerson.getName()%> <%= loggedPerson.getSurname()%>  <span class="glyphicon glyphicon-cog pointer" aria-hidden="true" onclick="location.href = 'editProfile.jsp'" style="float: right; display: inline;"></span></h1>
+                                <h1> <%= loggedPerson.getName()%> <%= loggedPerson.getSurname() %>  <span class="glyphicon glyphicon-cog pointer" aria-hidden="true" onclick="location.href = 'editProfile.jsp'" style="float: right; display: inline;"></span></h1>
+                                 <%  if(loggedPerson.getTypeAccount().equals("phdstudent")) { %>
                                  <h4> <%= ((PhdStudent)loggedPerson).getfkCycle()%>° ciclo di dottorato in <%= ((PhdStudent)loggedPerson).getfkCurriculum()%></h4>
-                               
+                               <% } else if(loggedPerson.getTypeAccount().equals("professor")) { %>
+                                     <h4><%= ((Professor)loggedPerson).getDepartment()%></h4>
+                                   <% } %>
                             </div>
                             <div class="panel-body">
                                 <table width="97%" align="center">
@@ -75,8 +78,9 @@
                                         <td width="180px" >
                                             <img class="img-polaroid" style='width: 150px ; height: 150px ;' src="../Immagini/scam_facebook_fake_tutela_amici.jpg" alt="nome immagine" >
                                         </td>
+                                       <% if(loggedPerson.getTypeAccount().equals("phdstudent")) { %>
                                         <td>
-                                            <h3 > Contatti </h3>
+                                            <h3> Contatti </h3>
                                             <p> 
                                                 Telefono: <%= ((PhdStudent)loggedPerson).getTelephone()%> <br>
                                                 E-mail: <%= loggedPerson.getSecondaryEmail()%> <br>
@@ -86,14 +90,35 @@
                                                     if (((PhdStudent)loggedPerson).getDepartment() != null) {%>
                                                 <%= ((PhdStudent)loggedPerson).getDepartment() %> <br>
                                                 <% }%>
+                                            
 
                                             </p>
                                         </td>
+                                         <% } %>
+                                        <% if(loggedPerson.getTypeAccount().equals("professor")) { %>
+                                            <td>
+                                                <h3> Contatti</h3>
+                                            <p> 
+                     
+                                                E-mail: <%= loggedPerson.getSecondaryEmail()%> <br>
+                                                <% if (((Professor)loggedPerson).getLink() != null) {%>
+                                                Sito web: <a href="<%= ((Professor)loggedPerson).getLink()%>" target="_blank"><%= ((Professor)loggedPerson).getLink()%></a> <br>
+                                                <%}
+                                                    if (((Professor)loggedPerson).getDepartment() != null) {%>
+                                                <%= ((Professor)loggedPerson).getDepartment() %> <br>
+                                                <% }%>
+
+                                            </p>
+                                            </td>
+                                        <% } %>
+                                            
                                     </tr>
+                                    
+                                    <% if(loggedPerson.getTypeAccount().equals("phdstudent")) { %>
                                     <tr>
                                         <td colspan="2">
                                             <br>
-                                            <h3> Interessi di ricerca </h3> <br>
+                                            <h3> Attività di ricerca </h3> <br>
                                             <p class="text-justify" > 
                                                 <%= ((PhdStudent)loggedPerson).getResearchInterest()%> <br> <br>
                                             </p>
@@ -103,6 +128,7 @@
                                             </p>
                                         </td>
                                     </tr>
+                                  <% } %>
                                 </table>
                             </div>
                         </div>
