@@ -9,7 +9,7 @@
             <!-- add class "multiple-expanded" to allow multiple submenus to open -->
             <!-- class "auto-inherit-active-class" will automatically add "active" class for parent elements who are marked already with class "active" -->
              <div class="navbar-brand">
-                 <a href="index.jsp" class="logo">
+                 <a href="/codice/index.jsp" class="logo">
                     <img src="/codice/assets/images/mitforsite.png" width="80" alt="" class="hidden-xs" />
                     <img src="/codice/assets/images/mitforsitemini.png" width="80" alt="" class="visible-xs" />
                  </a>

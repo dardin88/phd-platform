@@ -78,6 +78,13 @@
                                         <td width="180px" >
                                             <img class="img-polaroid" style='width: 150px ; height: 150px ;' src="../Immagini/scam_facebook_fake_tutela_amici.jpg" alt="nome immagine" >
                                         </td>
+                                        
+                                       <% if(loggedPerson.getTypeAccount().equals("basic")) { %>
+                                       <td>
+                                          <h3> Contatti </h3>
+                                          E-mail: <%= loggedPerson.getSecondaryEmail()%> <br>
+                                          
+                                          <% } %>
                                        <% if(loggedPerson.getTypeAccount().equals("phdstudent")) { %>
                                         <td>
                                             <h3> Contatti </h3>
