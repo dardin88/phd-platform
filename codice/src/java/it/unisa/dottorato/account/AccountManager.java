@@ -10,6 +10,7 @@ import java.io.IOException;
 import java.sql.Connection;
 import java.sql.ResultSet;
 import java.sql.SQLException;
+import java.sql.Statement;
 import java.util.*;
 import java.util.logging.Level;
 import java.util.logging.Logger;
@@ -45,6 +46,58 @@ public class AccountManager {
 
     }
     private Object account;
+    
+    /** Metodo della classe incaricato di ricercare  un account presente
+     * nella piattaforma in base all'email
+     * 
+     * @return restituisce un   account in base all'email passata
+     * nella piattaforma
+     */
+    
+    public Account getAccountByEmail(String sEmail) throws SQLException, ConnectionException,ClassNotFoundException{
+        Statement stmt = null;
+        ResultSet rs = null;
+        Connection connection = null;
+        Account anews = null;
+                try {
+            //connessione al database
+            connection = DBConnection.getConnection();
+            /*
+             *stringa SQL per effettuare la ricerca nella 
+             * tabella news
+             */
+            String sql = "SELECT * From account"
+                    
+                    + " WHERE number = "
+                    +    sEmail;
+            
+                       if (connection == null) {
+                throw new ConnectionException();
+            }
+            //esecuzione query
+            stmt = connection.createStatement();
+         rs=  Utility.queryOperation(connection, sql);
+
+            if (rs.next()) {
+                anews = new Account();
+                
+             anews.setName(rs.getString("name"));
+            anews.setSurname(rs.getString("surname"));
+             anews.setEmail(rs.getString("email"));
+             anews.setSecondaryEmail(rs.getString("secondaryEmail"));
+             anews.setTypeAccount(rs.getString("typeAccount"));
+             anews.setPassword(rs.getString("password"));
+             anews.setAdmin(rs.getBoolean("isAdministrator"));
+            }
+            
+        }  finally {
+
+            DBConnection.releaseConnection(connection);
+        }
+
+        return anews;
+    }
+    
     
     /** Metodo della classe incaricato di ricercare tutti gli account presenti
      * nella piattaforma
