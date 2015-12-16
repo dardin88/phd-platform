@@ -78,7 +78,7 @@ public class UpdateProfileServlet extends HttpServlet {
                                    
             out.println("<script type=\"text/javascript\">");
             out.println("alert('La modifica è andata a buon fine');");
-            out.println("location='profile.jsp';");
+            out.println("location='profileNuovo.jsp';");
             out.println("</script>");
 
            // response.sendRedirect("login.jsp");

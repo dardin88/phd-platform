@@ -316,25 +316,26 @@ public class AccountManager {
             MissingDataException, NullAccountException, ProfileException, PasswordException, EmailException {
         try (Connection connect = DBConnection.getConnection()) {
             pAccount = testAccount(pAccount);
+            key = testEmail(key);
 
              /*
              * stringa SQL per aggiornare un record 
              * nella tabella account
              */
-            String sql = "UPDATE account"
+            String sql = "UPDATE account "
                 + "set name = '"
-                + Utility.Replace(testProfileData(pAccount.getName()))
+                + testProfileData(pAccount.getName())
                 + "', surname = '"
-                + Utility.Replace(testProfileData(pAccount.getSurname()))
+                + testProfileData(pAccount.getSurname())
                 + "', password = '"
                 + testPassword(pAccount.getPassword())
                 + "', secondaryEmail = '"
                 + testEmail(pAccount.getSecondaryEmail())
-                + "WHERE email = '"
+                + "' WHERE email = '"
                 + key + "'";
         
         String sql2 = "UPDATE "
-                + pAccount.getTypeAccount();
+                + pAccount.getTypeAccount() +" ";
         
         if(pAccount instanceof PhdStudent) {
             sql2 += " set telephone = '"
@@ -346,16 +347,16 @@ public class AccountManager {
                     + "', researchInterest = '"
                     + testProfileData(((PhdStudent) pAccount).getResearchInterest())
                     + "' WHERE fkAccount = '"
-                    + testProfileData(((PhdStudent) pAccount).getSecondaryEmail());
+                    + testProfileData(((PhdStudent) pAccount).getSecondaryEmail()) + "'";
         }
         
         if(pAccount instanceof Professor) {
             sql2 += " set link = '"
                     + ((Professor) pAccount).getLink()
-                    +"', set department = '"
-                    + ((Professor) pAccount).getDepartment()
+                    +"', department = '"
+                    + testProfileData(((Professor) pAccount).getDepartment())
                     +"' WHERE fkAccount = '"
-                    + ((Professor) pAccount).getSecondaryEmail()
+                    + testProfileData(((Professor) pAccount).getSecondaryEmail())
                     +"'";
         }
                 
@@ -688,7 +689,7 @@ public class AccountManager {
      * @throws PasswordException 
      */
     public String testPassword(String pass) throws PasswordException {
-        if(pass.isEmpty() || pass.length() > 20)
+        if(pass.isEmpty() || (pass.length() > 20 && pass.length() < 8))
             throw new PasswordException();
         return pass;
     }
