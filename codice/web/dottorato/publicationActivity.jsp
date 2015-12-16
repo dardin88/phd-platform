@@ -8,7 +8,7 @@
 <%@page import="it.unisa.dottorato.phdProfile.publications.Publication"%>
 <%@page import="java.util.List"%>
 <%@page import="it.unisa.dottorato.phdProfile.publications.PublicationManager"%>
-<%@page import="it.unisa.integrazione.model.Person"%>
+<%@page import="it.unisa.dottorato.account.*"%>
 <%@ taglib prefix="c" uri="http://java.sun.com/jsp/jstl/core" %>
 <%@page contentType="text/html" pageEncoding="UTF-8"%>
 <!DOCTYPE html>
@@ -46,14 +46,13 @@
     <body class="page-body">
 
         <!-- Inclusione della pagina contenente il menù superiore --> 
-        <jsp:include page="topMenu.jsp" flush="true"/> 
+        <jsp:include page="../barraMenu.jsp" flush="true"/> 
         <div class="page-container">
 
             <!-- Inclusione della pagina contenente il menù laterale --> 
-            <jsp:include page="lateralMenu.jsp"/> 
 
-            <% Person loggedPerson = ((Person) session.getAttribute("person"));
-                List<Publication> publications = PublicationManager.getInstance().getAllPublicationsOf(loggedPerson);
+            <% Account loggedPerson = ((Account) session.getAttribute("account"));
+                List<Publication> publications = PublicationManager.getInstance().getAllPublicationsOf((PhdStudent)loggedPerson);
 
             %>
 
