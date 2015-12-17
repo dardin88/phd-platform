@@ -10,6 +10,7 @@ import java.io.IOException;
 import java.sql.Connection;
 import java.sql.ResultSet;
 import java.sql.SQLException;
+import java.sql.Statement;
 import java.util.*;
 import java.util.logging.Level;
 import java.util.logging.Logger;
@@ -45,6 +46,58 @@ public class AccountManager {
 
     }
     private Object account;
+    
+    /** Metodo della classe incaricato di ricercare  un account presente
+     * nella piattaforma in base all'email
+     * 
+     * @return restituisce un   account in base all'email passata
+     * nella piattaforma
+     */
+    
+    public Account getAccountByEmail(String sEmail) throws SQLException, ConnectionException,ClassNotFoundException{
+        Statement stmt = null;
+        ResultSet rs = null;
+        Connection connection = null;
+        Account anews = null;
+                try {
+            //connessione al database
+            connection = DBConnection.getConnection();
+            /*
+             *stringa SQL per effettuare la ricerca nella 
+             * tabella news
+             */
+            String sql = "SELECT * From account"
+                    
+                    + " WHERE number = "
+                    +    sEmail;
+            
+                       if (connection == null) {
+                throw new ConnectionException();
+            }
+            //esecuzione query
+            stmt = connection.createStatement();
+         rs=  Utility.queryOperation(connection, sql);
+
+            if (rs.next()) {
+                anews = new Account();
+                
+             anews.setName(rs.getString("name"));
+            anews.setSurname(rs.getString("surname"));
+             anews.setEmail(rs.getString("email"));
+             anews.setSecondaryEmail(rs.getString("secondaryEmail"));
+             anews.setTypeAccount(rs.getString("typeAccount"));
+             anews.setPassword(rs.getString("password"));
+             anews.setAdmin(rs.getBoolean("isAdministrator"));
+            }
+            
+        }  finally {
+
+            DBConnection.releaseConnection(connection);
+        }
+
+        return anews;
+    }
+    
     
     /** Metodo della classe incaricato di ricercare tutti gli account presenti
      * nella piattaforma
@@ -129,6 +182,12 @@ public class AccountManager {
         
     return null;
  }
+    /** Metodo della classe incaricato di ricercare tutti gli account  dei phdStudent presenti
+     * nella piattaforma
+     * 
+     * @return restituisce un array list di account di tutti gli account dei phdStudent presenti
+     * nella piattaforma
+     */
     
     public ArrayList<Account> getPhdStudents() {
             Connection connect = null;
@@ -164,7 +223,15 @@ public class AccountManager {
     }
     return null;
     }
+  
     
+     
+      /** Metodo della classe incaricato di ricercare tutti gli account  dei professori presenti
+     * nella piattaforma
+     * 
+     * @return restituisce un array list di account di tutti gli account dei professori presenti
+     * nella piattaforma
+     */
     
         public ArrayList<Account> getProfessors() {
             Connection connect = null;
@@ -212,7 +279,7 @@ public class AccountManager {
    * @return restituisce un array list di account di tutti gli utenti trovati, lancia un'eccezione altrimenti
    * @throws SQLException 
    */
-  public ArrayList<Account> searchUser(String search, String type) throws SQLException {
+  public ArrayList<Account> searchUser(String search) throws SQLException {
       Connection connect = null;
       ArrayList<Account> accounts;
        /*
@@ -220,8 +287,7 @@ public class AccountManager {
              * nella tabella account
              */
       String sql = "SELECT * from account WHERE "
-              + "name LIKE '%" + search + "%'" +
-               "AND typeAccount = '" + type + "'";
+              + "name LIKE '%" + search + "%'";
       try {
           //connesione al database
           connect = DBConnection.getConnection();
@@ -264,25 +330,26 @@ public class AccountManager {
             MissingDataException, NullAccountException, ProfileException, PasswordException, EmailException {
         try (Connection connect = DBConnection.getConnection()) {
             pAccount = testAccount(pAccount);
+            key = testEmail(key);
 
              /*
              * stringa SQL per aggiornare un record 
              * nella tabella account
              */
-            String sql = "UPDATE account"
+            String sql = "UPDATE account "
                 + "set name = '"
-                + Utility.Replace(testProfileData(pAccount.getName()))
+                + testProfileData(pAccount.getName())
                 + "', surname = '"
-                + Utility.Replace(testProfileData(pAccount.getSurname()))
+                + testProfileData(pAccount.getSurname())
                 + "', password = '"
                 + testPassword(pAccount.getPassword())
                 + "', secondaryEmail = '"
                 + testEmail(pAccount.getSecondaryEmail())
-                + "WHERE email = '"
+                + "' WHERE email = '"
                 + key + "'";
         
         String sql2 = "UPDATE "
-                + pAccount.getTypeAccount();
+                + pAccount.getTypeAccount() +" ";
         
         if(pAccount instanceof PhdStudent) {
             sql2 += " set telephone = '"
@@ -294,16 +361,16 @@ public class AccountManager {
                     + "', researchInterest = '"
                     + testProfileData(((PhdStudent) pAccount).getResearchInterest())
                     + "' WHERE fkAccount = '"
-                    + testProfileData(((PhdStudent) pAccount).getSecondaryEmail());
+                    + testProfileData(((PhdStudent) pAccount).getSecondaryEmail()) + "'";
         }
         
         if(pAccount instanceof Professor) {
             sql2 += " set link = '"
                     + ((Professor) pAccount).getLink()
-                    +"', set department = '"
-                    + ((Professor) pAccount).getDepartment()
+                    +"', department = '"
+                    + testProfileData(((Professor) pAccount).getDepartment())
                     +"' WHERE fkAccount = '"
-                    + ((Professor) pAccount).getSecondaryEmail()
+                    + testProfileData(((Professor) pAccount).getSecondaryEmail())
                     +"'";
         }
                 
@@ -636,7 +703,7 @@ public class AccountManager {
      * @throws PasswordException 
      */
     public String testPassword(String pass) throws PasswordException {
-        if(pass.isEmpty() || pass.length() > 20)
+        if(pass.isEmpty() || (pass.length() > 20 && pass.length() < 8))
             throw new PasswordException();
         return pass;
     }

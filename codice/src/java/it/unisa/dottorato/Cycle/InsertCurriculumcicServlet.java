@@ -25,7 +25,12 @@ public class InsertCurriculumcicServlet extends HttpServlet {
      * Processes requests for both HTTP <code>GET</code> and <code>POST</code>
      * methods.
      *
-     * @param request servlet request
+     * @param request oggetto request per accedere ai parametri inviati attraverso
+     * il metodo getParameter per ottenere il numero del ciclo <code>number</code> 
+     * e il nome del curriculum <code>name</code> per effettuare l'inserimento di 
+     * una nuova coppia curriculum-ciclo; la chiave esterna all'email di un docente
+     * (cioè il coordinatore della coppia curriculumn-ciclo) è posta inizialmente
+     * a <code>null</code>
      * @param response servlet response
      * @throws ServletException if a servlet-specific error occurs
      * @throws IOException if an I/O error occurs

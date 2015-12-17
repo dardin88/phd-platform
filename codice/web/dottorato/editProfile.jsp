@@ -38,19 +38,48 @@
                 <script src="https://oss.maxcdn.com/html5shiv/3.7.2/html5shiv.min.js"></script>
                 <script src="https://oss.maxcdn.com/respond/1.4.2/respond.min.js"></script>
         <![endif]-->
+        <script language="Javascript" type="text/javascript">
+            function testpass(modulo) {
+                // Verifico che il campo password sia valorizzato in caso contrario
+                // avverto dell'errore tramite un Alert
+                if (modulo.password.value === "") {
+                    alert("Errore: inserire una password!");
+                    modulo.password.focus();
+                    return false;
+                }
+                // Verifico che le due password siano uguali, in caso contrario avverto
+                // dell'errore con un Alert
+                if (modulo.password.value !== modulo.password_2.value) {
+                    alert("La password inserita non coincide con la prima!");
+                    modulo.password.focus();
+                    modulo.password.select();
+                    return false;
+                }
+
+                var re = /^(([^<>()[\]\\.,;:\s@\"]+(\.[^<>()[\]\\.,;:\s@\"]+)*)|(\".+\"))@((\[[0-9]{1,3}\.[0-9]{1,3}\.[0-9]{1,3}\.[0-9]{1,3}\])|(([a-zA-Z\-0-9]+\.)+[a-zA-Z]{2,}))$/;
+                var patt = new RegExp(re);
+
+                if (patt.test(modulo.email.value) === false) {
+                    alert("L'e-mail inserita non è corretta!");
+                    modulo.email.focus();
+                    return false;
+                }
+
+                return true;
+            }
+        </script>
 
     </head>
     <body class="page-body">
 
         <!-- Inclusione della pagina contenente il menù superiore -->
-        <jsp:include page="topMenu.jsp" flush="true"/>
+        <jsp:include page="../barraMenu.jsp" flush="true"/>
         <div class="page-container">
 
             <!-- Inclusione della pagina contenente il menù laterale -->
-            <jsp:include page="lateralMenu.jsp"/>
 
             <!-- Contenuto della pagina -->
-            <% Person loggedPerson = ((Person) session.getAttribute("person"));
+            <% Account loggedPerson = ((Account) session.getAttribute("account"));
             %>
 
             <div class="main-content" id="content">
@@ -66,7 +95,7 @@
                                 <h1> Modifica profilo</h1>
                             </div>
                             <div class="panel-body">
-                                <form class="form-horizontal" method="POST" action="UpdateProfileServlet">
+                                <form class="form-horizontal" method="POST" action="UpdateProfileServlet" onsubmit="return testpass(this)>
                                     <div class="form-group">
                                         <table width="90%" align="center">
                                             <tr><td>
@@ -84,34 +113,74 @@
                                                     </div>
                                                     <br>
                                                     <br>
-                                                    <p >Telefono:</p>
+                                                    <p>Password:</p>
                                                     <div class="input-group">
                                                         <span class="input-group-addon"></span>
-                                                        <input class="form-control" name="phone" type="text" value="<%= loggedPerson.getPhone()%>" required>
+                                                        <input class="form-control" name="password" type="text" value="<%= loggedPerson.getPassword()%>" required>
                                                     </div>
                                                     <br>
                                                     <br>
-                                                    <p>Email:</p>
+                                                    <p>Conferma Password:</p>
                                                     <div class="input-group">
                                                         <span class="input-group-addon"></span>
-                                                        <input class="form-control" name="email" type="text" value="<%= loggedPerson.getAccount().getEmail()%>" required>
+                                                        <input class="form-control" name="password_2" type="text" value="<%= loggedPerson.getPassword()%>" required>
+                                                    </div>
+                                                    <br>
+                                                    <br>
+                                    
+                                                    <p>Email Secondaria:</p>
+                                                    <div class="input-group">
+                                                        <span class="input-group-addon"></span>
+                                                        <input class="form-control" name="secondaryEmail" type="text" value="<%= loggedPerson.getSecondaryEmail()%>" required>
+                                                    </div>
+                                                    <br>
+                                                    <br>
+                                               <% if(loggedPerson.getTypeAccount().equals("professor")) { %>
+                                                    <p>Web Page:</p>
+                                                    <div class="input-group">
+                                                    <span class="input-group-addon"></span>
+                                                    <input class="form-control" name="link" type="text" value="<%= ((Professor)loggedPerson).getLink()%>" >
+                                                    </div>
+                                                    <br>
+                                                    <br>
+                                                    <p>Dipartimento:</p>
+                                                    <div class="input-group">
+                                                    <span class="input-group-addon"></span>
+                                                    <input class="form-control" name="department" type="text" value="<%= ((Professor)loggedPerson).getDepartment()%>" >
+                                                    </div>
+                                                    <br>
+                                                    <br>
+                                                <% } %>
+                                                <% if(loggedPerson.getTypeAccount().equals("phdstudent")) { %>
+                                                    <p >Telefono:</p>
+                                                    <div class="input-group">
+                                                        <span class="input-group-addon"></span>
+                                                        <input class="form-control" name="telephone" type="text" value="<%= ((PhdStudent)loggedPerson).getTelephone()%>" required>
                                                     </div>
                                                     <br>
                                                     <br>
                                                     <p>Web Page:</p>
                                                     <div class="input-group">
                                                         <span class="input-group-addon"></span>
-                                                        <input class="form-control" name="webPage" type="text" value="<%= loggedPerson.getWebPage()%>" >
+                                                        <input class="form-control" name="link" type="text" value="<%= ((PhdStudent)loggedPerson).getLink()%>" >
+                                                    </div>
+                                                    <br>
+                                                    <br>
+                                                     <p>Dipartimento:</p>
+                                                    <div class="input-group">
+                                                    <span class="input-group-addon"></span>
+                                                    <input class="form-control" name="department" type="text" value="<%= ((PhdStudent)loggedPerson).getDepartment()%>" >
                                                     </div>
                                                     <br>
                                                     <br>
                                                     <p>Interessi di Ricerca:</p>
                                                     <div class="input-group">
                                                         <span class="input-group-addon"></span>
-                                                        <textarea class="form-control" name="coverLetter" rows="5" cols="40"> <%= loggedPerson.getCoverLetter()%> </textarea>
+                                                        <textarea class="form-control" name="researchInterest" rows="5" cols="40"> <%= ((PhdStudent)loggedPerson).getResearchInterest()%> </textarea>
                                                     </div>
                                                     <br>
                                                     <br>
+                                                 <% } %>
 
                                                     <div>
                                                         <input type="submit"class="btn btn-blue" value="Modifica">

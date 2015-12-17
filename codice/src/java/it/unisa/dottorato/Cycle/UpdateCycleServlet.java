@@ -27,7 +27,11 @@ public class UpdateCycleServlet extends HttpServlet {
      * Processes requests for both HTTP <code>GET</code> and <code>POST</code>
      * methods.
      *
-     * @param request servlet request
+     * @param request  oggetto request per accedere ai parametri inviati attraverso
+     * il metodo getParameter per ottenere il numero del ciclo <code>number</code>, 
+     * la descrizione del ciclo <code>description</code> e l'anno del ciclo <code>year</code>
+     * per effettuare l'aggiornamento di unciclo; la chiave esterna all'email di un docente
+     * (cioè il coordinatore del ciclo) è posta inizialmente a <code>null</code>
      * @param response servlet response
      * @throws ServletException if a servlet-specific error occurs
      * @throws IOException if an I/O error occurs
