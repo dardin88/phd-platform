@@ -23,9 +23,13 @@ public class UpdateCurriculumServlet extends HttpServlet {
 
     /**
      * Processes requests for both HTTP <code>GET</code> and <code>POST</code>
-     * methods.
+     * methods
+     * Aggiorna un oggetto curriculum
      *
-     * @param request servlet request
+     * @param request oggetto request per accedere ai parametri inviati attraverso
+     * il metodo getParameter per ottenere il nome del vecchio curriculum 
+     * <code>oldNameCurriculum</code>, il nome del nuovo curriculum <code>newNameCurriculum</code>,
+     * la nuova descrizione <code>description</code> per effettuare l'aggiornamento
      * @param response servlet response
      * @throws ServletException if a servlet-specific error occurs
      * @throws IOException if an I/O error occurs

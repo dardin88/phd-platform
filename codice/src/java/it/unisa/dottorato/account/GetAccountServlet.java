@@ -1,5 +1,10 @@
-package it.unisa.dottorato.Cycle;
-
+/*
+ * To change this license header, choose License Headers in Project Properties.
+ * To change this template file, choose Tools | Templates
+ * and open the template in the editor.
+ */
+package it.unisa.dottorato.account;
+import it.unisa.integrazione.database.exception.ConnectionException;
 import java.io.IOException;
 import java.io.PrintWriter;
 import java.sql.SQLException;
@@ -12,54 +17,45 @@ import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpServletResponse;
 import org.json.JSONException;
 import org.json.JSONObject;
-
-/** Servlet incaricata ad effettuare la richiesta di inserimento di un 
- * coordinatore in un ciclo
+/**Servlet incaricata ad effettuare la richiesta di ricerca di account dato un'email
  *
- * @author Tommaso Minichiello
+ *
+ * @author Rembor
  */
-@WebServlet(name = "InsertCycleCoordinator", urlPatterns = {"/dottorato/InsertCycleCoordinator"})
-public class InsertCycleCoordinatorServlet extends HttpServlet {
+@WebServlet(name = "GetAccountbyEmail", urlPatterns = {"/GetAccountbyEmail"})
 
+public class GetAccountServlet extends HttpServlet {
     /**
      * Processes requests for both HTTP <code>GET</code> and <code>POST</code>
      * methods.
      *
-     * @param request oggetto request per accedere ai parametri inviati attraverso
-     * il metodo getParameter per ottenere il numero del ciclo <code>number</code> 
-     * e l'emai del professore <code>fkProfessore</code> per effettuare l'inserimento di 
-     * un nuovo coordinatore del ciclo
+     * @param request servlet request
      * @param response servlet response
      * @throws ServletException if a servlet-specific error occurs
      * @throws IOException if an I/O error occurs
      */
+    
     protected void processRequest(HttpServletRequest request, HttpServletResponse response)
             throws ServletException, IOException {
         response.setContentType("text/html;charset=UTF-8");
-        PrintWriter out = response.getWriter();
-        try {
-
+        try (PrintWriter out = response.getWriter()) {
+            String id = request.getParameter("idNews");
             JSONObject result = new JSONObject();
-            int number = Integer.parseInt( request.getParameter("number"));
-            String professor = request.getParameter("fkProfessor");
-            
-           
-            
-            result.put("result", true);
-
             try {
-                CycleManager.getInstance().insertCycleCoordinator(number,professor);
-            } catch (ClassNotFoundException | SQLException ex) {
-                result.put("result", false);
-                Logger.getLogger(InsertCycleCoordinatorServlet.class.getName()).log(Level.SEVERE, null, ex);
+              Account avviso = AccountManager.getInstance().getAccountByEmail(id);
+                result.put("secondaryEmail", avviso.getSecondaryEmail());
+                result.put("email", avviso.getEmail());
+                result.put("surname", avviso.getSurname());
+                result.put("name", avviso.getName());
+                result.put("password", avviso.getPassword());
+                result.put("typeAccount", avviso.getTypeAccount());
+                result.put("isAdministrator", avviso.isAdmin());
+                
+                
+                out.write(result.toString());
+            } catch (SQLException | JSONException | ConnectionException | ClassNotFoundException ex) {
+                Logger.getLogger(GetAccountServlet.class.getName()).log(Level.SEVERE, null, ex);
             }
-            
-            out.write(result.toString());
-
-        } catch (JSONException ex) {
-            Logger.getLogger(InsertCycleCoordinatorServlet.class.getName()).log(Level.SEVERE, null, ex);
-        }finally {
-            out.close();
         }
     }
 
@@ -102,4 +98,7 @@ public class InsertCycleCoordinatorServlet extends HttpServlet {
         return "Short description";
     }// </editor-fold>
 
+    
+    
+    
 }

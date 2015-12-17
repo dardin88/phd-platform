@@ -24,9 +24,13 @@ public class DeleteCurriculumcicServlet extends HttpServlet {
 
     /**
      * Processes requests for both HTTP <code>GET</code> and <code>POST</code>
-     * methods.
+     * methods
+     * 
      *
-     * @param request servlet request
+     * @param request oggetto request per accedere ai parametri inviati attraverso
+     * il metodo getParameter per ottenere il numero del ciclo <code>number</code> 
+     * e il nome del curriculum <code>name</code> per effettuare la cancellazione di 
+     * una coppia curriculum-ciclo
      * @param response servlet response
      * @throws ServletException if a servlet-specific error occurs
      * @throws IOException if an I/O error occurs

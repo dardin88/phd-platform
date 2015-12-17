@@ -1,3 +1,8 @@
+/*
+ * To change this license header, choose License Headers in Project Properties.
+ * To change this template file, choose Tools | Templates
+ * and open the template in the editor.
+ */
 package it.unisa.dottorato.account;
 
 import it.unisa.integrazione.database.exception.ConnectionException;
@@ -12,27 +17,41 @@ import javax.servlet.annotation.WebServlet;
 import javax.servlet.http.HttpServlet;
 import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpServletResponse;
+import org.json.JSONArray;
+import org.json.JSONException;
+import org.json.JSONObject;
 
 /**Servlet incaricata ad effettuare la richiesta di ricerca di un utente
  *
- * @author Armando
+ * @author Rembor
  */
-@WebServlet(name = "SearchUserServlet", urlPatterns = {"/dottorato/SearchUserServlet"})
-
-public class SearchUserServlet extends HttpServlet {
-    
+@WebServlet(name = "SearchUser", urlPatterns = {"/dottorato/SearchUser"})
+public class SearchUserServlet extends HttpServlet{
     protected void processRequest(HttpServletRequest request, HttpServletResponse response)
             throws ServletException, IOException, SQLException, ConnectionException {
         
-        AccountManager manager = AccountManager.getInstance();
-        String search = request.getParameter("search");
-        String type = request.getParameter("type");
-        PrintWriter out = response.getWriter();
+        response.setContentType("text/html;charset=UTF-8");
+        try (PrintWriter out = response.getWriter()) {
+            JSONObject result = new JSONObject();
+            String name = request.getParameter("name");
+            ArrayList<Account> cycles = AccountManager.getInstance().searchUser(name);
+                JSONArray resultArray = new JSONArray(cycles);
+                
+                result.put("account", resultArray);
+                out.write(result.toString());
+            } 
+        catch (JSONException ex) {
+                Logger.getLogger(AccountManager.class.getName()).log(Level.SEVERE, null, ex);
+            }
         
-        manager.searchUser(search, type);
+        
+       
        
     
     }
+    
+    
+    
     
     // <editor-fold defaultstate="collapsed" desc="HttpServlet methods. Click on the + sign on the left to edit the code.">
     /**
@@ -88,5 +107,4 @@ public class SearchUserServlet extends HttpServlet {
         return "Short description";
     }// </editor-fold>
 
-    
 }

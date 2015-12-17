@@ -1,6 +1,6 @@
-package it.unisa.dottorato.Cycle;
+package it.unisa.dottorato.account;
 
-
+import it.unisa.integrazione.database.exception.ConnectionException;
 import java.io.IOException;
 import java.io.PrintWriter;
 import java.sql.SQLException;
@@ -17,40 +17,36 @@ import org.json.JSONException;
 import org.json.JSONObject;
 
 /**Servlet incaricata ad effettuare la richiesta di visualizzazione della 
- * lista dei numeri dei cicli esistenti
+ * lista dei account esistenti
  *
- * @author Tommaso Minichiello
+ * @author Armando
  */
-@WebServlet(name = "GetCyclesListNumers", urlPatterns = {"/dottorato/GetCyclesListNumers"})
-public class GetCyclesListNumersServlet extends HttpServlet {
+@WebServlet(name = "getAccountList", urlPatterns = {"/dottorato/getAccountList"})
 
-    /**
-     * Processes requests for both HTTP <code>GET</code> and <code>POST</code>
-     * methods
-     * Ricostruisce un array list dei numeri di tutti i cicli esistenti
-     *
-     * @param request servlet request
-     * @param response servlet response
-     * @throws ServletException if a servlet-specific error occurs
-     * @throws IOException if an I/O error occurs
-     */
+public class GetAccountListServlet extends HttpServlet {
+    
     protected void processRequest(HttpServletRequest request, HttpServletResponse response)
-            throws ServletException, IOException {
+            throws ServletException, IOException, SQLException, ConnectionException {
+        
         response.setContentType("text/html;charset=UTF-8");
         try (PrintWriter out = response.getWriter()) {
             JSONObject result = new JSONObject();
-            try {
-                ArrayList<Integer> cyclesIds = CycleManager.getInstance().getCyclesListNumers();
-                JSONArray resultArray = new JSONArray(cyclesIds);
-                result.put("cyclesIds", resultArray);
+            ArrayList<Account> cycles = AccountManager.getInstance().getAccountList();
+                JSONArray resultArray = new JSONArray(cycles);
+                
+                result.put("account", resultArray);
                 out.write(result.toString());
-            } catch (ClassNotFoundException | SQLException | JSONException ex) {
-                Logger.getLogger(GetCyclesListNumersServlet.class.getName()).log(Level.SEVERE, null, ex);
+            } 
+        catch (JSONException ex) {
+                Logger.getLogger(AccountManager.class.getName()).log(Level.SEVERE, null, ex);
             }
-
-        }
+        
+        
+       
+       
+    
     }
-
+    
     // <editor-fold defaultstate="collapsed" desc="HttpServlet methods. Click on the + sign on the left to edit the code.">
     /**
      * Handles the HTTP <code>GET</code> method.
@@ -59,11 +55,20 @@ public class GetCyclesListNumersServlet extends HttpServlet {
      * @param response servlet response
      * @throws ServletException if a servlet-specific error occurs
      * @throws IOException if an I/O error occurs
+     * @throws java.sql.SQLException
      */
     @Override
     protected void doGet(HttpServletRequest request, HttpServletResponse response)
             throws ServletException, IOException {
-        processRequest(request, response);
+        try {
+            try {
+                processRequest(request, response);
+            } catch (SQLException ex) {
+                Logger.getLogger(ChangeTypeServlet.class.getName()).log(Level.SEVERE, null, ex);
+            }
+        } catch (ConnectionException ex) {
+            Logger.getLogger(ChangeTypeServlet.class.getName()).log(Level.SEVERE, null, ex);
+        }
     }
 
     /**
@@ -77,7 +82,13 @@ public class GetCyclesListNumersServlet extends HttpServlet {
     @Override
     protected void doPost(HttpServletRequest request, HttpServletResponse response)
             throws ServletException, IOException {
-        processRequest(request, response);
+        try {
+            processRequest(request, response);
+        } catch (SQLException ex) {
+            Logger.getLogger(ChangeTypeServlet.class.getName()).log(Level.SEVERE, null, ex);
+        } catch (ConnectionException ex) {
+            Logger.getLogger(ChangeTypeServlet.class.getName()).log(Level.SEVERE, null, ex);
+        }
     }
 
     /**
@@ -90,4 +101,5 @@ public class GetCyclesListNumersServlet extends HttpServlet {
         return "Short description";
     }// </editor-fold>
 
+    
 }

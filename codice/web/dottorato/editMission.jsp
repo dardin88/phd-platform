@@ -55,12 +55,11 @@
     <body class="page-body">
 
         <!-- Inclusione della pagina contenente il menù superiore -->
-        <jsp:include page="topMenu.jsp" flush="true"/>
+        <jsp:include page="../barraMenu.jsp" flush="true"/>
         <div class="page-container">
 
             <!-- Inclusione della pagina contenente il menù laterale -->
-            <jsp:include page="lateralMenu.jsp"/>
-<%
+             <%
                 int missionID = (Integer.parseInt("" + session.getAttribute("idMission")));
                 Mission mission = MissionManager.getInstance().getMissionById(missionID) ;%>
             <!-- Contenuto della pagina -->

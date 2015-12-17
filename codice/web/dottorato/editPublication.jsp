@@ -103,7 +103,7 @@
                                                     <p>Pubblication Issue:</p>
                                                     <div class="input-group">
                                                         <span class="input-group-addon"></span>
-                                                        <input class="form-control" name="issue" type="text" value="<%= publication.getPublicationIssue()%>" required>
+                                                        <input class="form-control" name="pubblicationIssue" type="text" value="<%= publication.getPublicationIssue()%>" required>
                                                     </div>
                                                     <br>
                                                     <br>
@@ -117,7 +117,7 @@
                                                     <p>Abstract:</p>
                                                     <div class="input-group">
                                                         <span class="input-group-addon"></span>
-                                                        <textarea class="form-control" name="abstractText" rows="5" cols="40"><%= publication.getAbstractText()%> </textarea>
+                                                        <textarea class="form-control" name="abstractText" rows="5" cols="40"><%= publication.getAbstract()%> </textarea>
                                                     </div>
                                                     <br>
 

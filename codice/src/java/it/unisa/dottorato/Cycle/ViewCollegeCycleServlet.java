@@ -26,9 +26,14 @@ public class ViewCollegeCycleServlet extends HttpServlet {
 
     /**
      * Processes requests for both HTTP <code>GET</code> and <code>POST</code>
-     * methods.
+     * methods
+     * Ricostruisce un array list di professori che formano il collegio docenti 
+     * di un ciclo
      *
-     * @param request servlet request
+     * @param request  oggetto request per accedere ai parametri inviati attraverso
+     * il metodo getParameter per ottenere il numero del ciclo <code>number</code> 
+     * per effettuare la ricerca dei professori che formano il collegio dei docenti
+     * del ciclo
      * @param response servlet response
      * @throws ServletException if a servlet-specific error occurs
      * @throws IOException if an I/O error occurs
