@@ -29,7 +29,7 @@
         <link rel="stylesheet" href="style/dottorato.css">
         
         <script src="../assets/js/jquery-1.11.1.min.js"></script>
-        <script type="text/javascript" src="script/amministrazione.js"></script> <!-- da modificare -->
+        <script type="text/javascript" src="script/amministrazioneTutorato.js"></script> <!-- da modificare -->
                                                                                  
     </head>
     
@@ -37,9 +37,11 @@
             <!-- Inclusione della pagina contenente il menù superiore -->
             <jsp:include page="../barraMenu.jsp"/><!--da modificare con la nuova -->
             <div class="page-container">
-        
+                
             <!-- Inclusione della pagina contenente il menù laterale --> 
             <jsp:include page="leftBar.jsp"/>  
+            
+            
             
                     <div class="main-content" id="content">
                         
@@ -51,21 +53,22 @@
                        
                     <div class="row">
                     <div class=" col-lg-4 col-lg-offset-0 col-md-8 col-md-offset-2 col-sm-10 col-sm-offset-1 col-xs-12">
-                        <div class="dropdown" >
-                            <button class="btn btn-default dropdown-toggle" type="button" id="dropdownMenu1" data-toggle="dropdown" aria-haspopup="true" aria-expanded="true">
-                              -- seleziona il dottorando interessato -- 
-                              <span class="caret" ></span>
-                            </button>
-                            <ul class="dropdown-menu" aria-labelledby="dropdownMenu2">
-                                <li><a href="#">Action</a></li>
-                              <li><a href="#">Another action</a></li>
-                              <li><a href="#">Something else here</a></li>
-                            </ul>
-                        </div>
+                        <div class="form-group">
+                                    
+                                    <label for="sel1">Seleziona il dottorando interessato:</label>
+                                    <select class="form-control" id="sel1" onchange="myFunction()">
+                                        
+                                        <option value="default"> default </option>
+                                        
+                                         
+                                        
+                                    </select>
+                                      <p id="demo"></p>
+                              </div>
                     </div>
                         
                     <div class="col-lg-8 col-lg-offset-0 col-md-8 col-md-offset-2 col-sm-10 col-sm-offset-1 col-xs-12">    
-                        <div class="panel panel-default">
+                        <div class="panel panel-default" id="panelDiv">
                             <div class="panel-heading">
                                 <h3 class="panel-title">Tutor: <span style="font-style: italic" id="TutorNameField"> -- tutor selezionato -- <button type="button" class="btn btn-default btn-red">
                                             <span class="glyphicon glyphicon-remove-sign" aria-hidden="true" ></span> Rimuovi tutor
