@@ -14,7 +14,7 @@ import org.json.JSONException;
 import org.json.JSONObject;
 
 /** Servlet incaricata ad effettuare la richiesta di cancellazione di un 
- * cyclo
+ * ciclo
  *
  * @author Tommaso Minichiello
  */
@@ -25,7 +25,9 @@ public class DeleteCycleServlet extends HttpServlet {
      * Processes requests for both HTTP <code>GET</code> and <code>POST</code>
      * methods.
      *
-     * @param request servlet request
+     * @param request oggetto request per accedere ai parametri inviati attraverso
+     * il metodo getParameter per ottenere il numero del ciclo <code>number</code> 
+     * per effettuare la cancellazione di un coppia ciclo
      * @param response servlet response
      * @throws ServletException if a servlet-specific error occurs
      * @throws IOException if an I/O error occurs

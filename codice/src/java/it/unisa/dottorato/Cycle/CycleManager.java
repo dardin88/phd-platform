@@ -703,13 +703,21 @@ public class CycleManager {
         return year;
     }
     
+     /** Metodo della classe incaricato di verificare l'esistenza di un ciclo
+     * 
+     * @param c il ciclo da ricercare
+     * @return restituisce true se il ciclo esiste, false altrimenti
+     * @throws ClassNotFoundException
+     * @throws SQLException
+     * @throws IOException 
+     */
     public boolean existCycle(Cycle c)throws ClassNotFoundException, SQLException, IOException{
          Connection connect = null;
         try {         
             connect = DBConnection.getConnection();
             /*
-             * Prepariamo la stringa SQL per ricercare il curriculum c
-             * nella tabella Curriculum
+             * Prepariamo la stringa SQL per ricercare il ciclo c
+             * nella tabella cycle
              */
             String tSql = "SELECT * FROM "
                     + CycleManager.TABLE_CYCLE
@@ -726,12 +734,25 @@ public class CycleManager {
             DBConnection.releaseConnection(connect);
         }
     }
-    
+    /** Metodo della classe per il testing di un ciclo; verifica che il ciclo non 
+     * sia <code>null</code>
+     * 
+     * @param c il ciclo da testare
+     * @throws CycleException 
+     */
     public void testCycle(Cycle c)throws CycleException{
         if (c==null)
             throw new CycleException();
     }
     
+    /** Metodo della classe per il testing dell'email del professore; verifica che 
+     * non sia di lunghezza minore di 10 caratteri o maggiore di 50 caratteri, e che ci
+     * sia il carattere '@'
+     * 
+     * @param s stringa da testare
+     * @return restituisce la stringa s se valida, lancia un'eccezione altrimenti
+     * @throws ReferenceException 
+     */
     public String testFkProfessor(String s) throws ReferenceException{
         if(s.length()<10 || s.length()>50 || s.indexOf("@")==-1)
             throw new ReferenceException();

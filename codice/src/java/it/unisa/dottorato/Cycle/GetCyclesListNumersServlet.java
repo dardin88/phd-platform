@@ -26,7 +26,8 @@ public class GetCyclesListNumersServlet extends HttpServlet {
 
     /**
      * Processes requests for both HTTP <code>GET</code> and <code>POST</code>
-     * methods.
+     * methods
+     * Ricostruisce un array list dei numeri di tutti i cicli esistenti
      *
      * @param request servlet request
      * @param response servlet response

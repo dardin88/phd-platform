@@ -25,7 +25,9 @@ public class DeleteCycleCoordinatorServlet extends HttpServlet {
      * Processes requests for both HTTP <code>GET</code> and <code>POST</code>
      * methods.
      *
-     * @param request servlet request
+     * @param request oggetto request per accedere ai parametri inviati attraverso
+     * il metodo getParameter per ottenere il numero del ciclo <code>number</code> 
+     * per effettuare la cancellazione del coordinatore del ciclo
      * @param response servlet response
      * @throws ServletException if a servlet-specific error occurs
      * @throws IOException if an I/O error occurs
