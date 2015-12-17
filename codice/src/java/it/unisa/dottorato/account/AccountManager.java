@@ -182,6 +182,12 @@ public class AccountManager {
         
     return null;
  }
+    /** Metodo della classe incaricato di ricercare tutti gli account  dei phdStudent presenti
+     * nella piattaforma
+     * 
+     * @return restituisce un array list di account di tutti gli account dei phdStudent presenti
+     * nella piattaforma
+     */
     
     public ArrayList<Account> getPhdStudents() {
             Connection connect = null;
@@ -217,7 +223,15 @@ public class AccountManager {
     }
     return null;
     }
+  
     
+     
+      /** Metodo della classe incaricato di ricercare tutti gli account  dei professori presenti
+     * nella piattaforma
+     * 
+     * @return restituisce un array list di account di tutti gli account dei professori presenti
+     * nella piattaforma
+     */
     
         public ArrayList<Account> getProfessors() {
             Connection connect = null;
