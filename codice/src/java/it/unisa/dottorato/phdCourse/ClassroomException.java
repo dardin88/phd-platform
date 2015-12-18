@@ -1,19 +1,24 @@
-/*
- * To change this license header, choose License Headers in Project Properties.
- * To change this template file, choose Tools | Templates
- * and open the template in the editor.
- */
 package it.unisa.dottorato.phdCourse;
 
-/**
+/** Classe per la gestione delle eccezioni delle classi
  *
  * @author Rembor
  */
 class ClassroomException extends Exception {
+    
+    /**Metodo della classe incaricato di ritornare alla superclasse
+     * Exception il messaggio 'La classe e' sbagliata! '
+     * 
+     */
     public ClassroomException() {
         super("La classe e' Sbagliata! ");
     }
-   
+    
+    /**Metodo della classe incaricato di ritornare alla superclasse
+     * Exception il messaggio pMessage
+     * @param pMessage
+     * 
+     */
      public ClassroomException(String pMessage) {
         super(pMessage);
     }

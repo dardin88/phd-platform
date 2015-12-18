@@ -1,8 +1,3 @@
-/*
- * To change this license header, choose License Headers in Project Properties.
- * To change this template file, choose Tools | Templates
- * and open the template in the editor.
- */
 package it.unisa.dottorato.account;
 
 import it.unisa.dottorato.autenticazione.EmailException;
@@ -27,7 +22,22 @@ import javax.servlet.http.HttpServletResponse;
 @WebServlet(name = "ChangeTypeServlet", urlPatterns = {"/dottorato/ChangeTypeServlet"})
 
 public class ChangeTypeServlet extends HttpServlet {
-    
+    /**
+     * Processes requests for both HTTP <code>GET</code> and <code>POST</code>
+     * methods.
+     *
+     * @param request oggetto request per accedere ai parametri inviati attraverso
+     * il metodo getParameter per ottenere l'email dell'account <code>index</code>
+     * e il nuovo tipo di account <code>newType</code> per cambiare il tipo di 
+     * account
+     * @param response servlet response
+     * @throws ServletException if a servlet-specific error occurs
+     * @throws IOException if an I/O error occurs
+     * @throws SQLException if a sql error occurs
+     * @throws ConnectionException if a connection error occurs
+     * @throws NullAccountException if an account error occurs
+     * @throws EmailException if an email error occurs
+     */
     protected void processRequest(HttpServletRequest request, HttpServletResponse response)
             throws ServletException, IOException, SQLException, ConnectionException, NullAccountException, EmailException {
         

@@ -21,7 +21,19 @@ import org.json.JSONObject;
  */
 @WebServlet(name = "ModifyPresence", urlPatterns = {"/ModifyPresence"})
 public class ModifyPresenceServlet extends HttpServlet{
-    
+    /**
+     * Processes requests for both HTTP <code>GET</code> and <code>POST</code>
+     * methods.
+     *
+     * @param request oggetto request per accedere ai parametri inviati attraverso
+     * il metodo getParameter per ottenere il nuovo parametro booleano per settare
+     * la presenza, newSignature, l'email del dottorando, il nome della lezione
+     * per effettuare la richiesta di modifica di una presenza
+     * @param response servlet response
+     * @throws ServletException if a servlet-specific error occurs
+     * @throws IOException if an I/O error occurs
+     * @throws JSONException if a JSON error occurs
+     */
      protected void processRequest(HttpServletRequest request, HttpServletResponse response)
             throws ServletException, IOException, JSONException {
         response.setContentType("text/html;charset=UTF-8");
