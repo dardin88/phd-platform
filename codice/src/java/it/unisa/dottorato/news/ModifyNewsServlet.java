@@ -27,7 +27,10 @@ public class ModifyNewsServlet extends HttpServlet {
      * Processes requests for both HTTP <code>GET</code> and <code>POST</code>
      * methods.
      *
-     * @param request servlet request
+     * @param request oggetto request per accedere ai parametri inviati attraverso
+     * il metodo getParameter per ottenere il titolo della news title e la
+     * descrizione della news description per effettuare la richiesta 
+     * di cancellazione della news
      * @param response servlet response
      * @throws ServletException if a servlet-specific error occurs
      * @throws IOException if an I/O error occurs

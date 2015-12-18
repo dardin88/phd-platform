@@ -65,6 +65,7 @@ public class CurriculumcicManager {
      * @throws java.lang.ClassNotFoundException
      * @throws java.sql.SQLException
      * @throws java.io.IOException
+     * 
      */
     public synchronized void insertProfessor(Curriculumcic pCurriculumcic, String fkProfessor) throws
             ClassNotFoundException, SQLException, IOException {
@@ -177,9 +178,10 @@ public class CurriculumcicManager {
     } 
     
     /**
-     * Metodo della classe incaricato della visualizzazione di tutti i coordinatori
+     * Metodo della classe incaricato della visualizzazione del coordinatore
      * di un curriculum-ciclo
      * @param pCurriculumcic il curriculum-ciclo da selezionare
+     * @return restituisce il profilo del coordinatore se trovato, lancia un'eccezione altrimenti
      * @throws java.lang.ClassNotFoundException
      * @throws java.sql.SQLException
      * @throws java.io.IOException
@@ -476,11 +478,26 @@ public class CurriculumcicManager {
         }
     }
     
+    /** Metodo della classe per il testing dell'oggetto curriculumcic; verifica
+     * che non sia <code>null</code>
+     * 
+     * @param c il curriculumcic da testare
+     * @return restituisce l'oggetto curriculumcic se valido, lancia un'eccezione altrimenti
+     * @throws CurriculumcicException 
+     */
     public Curriculumcic testCurriculucic(Curriculumcic c) throws CurriculumcicException{
         if(c==null)
             throw new CurriculumcicException();
         return c;
     }
+    
+    /** Metodo della classe per il testing dell'email del dottorando; verifica che 
+     * non sia di lunghezza minore di 10 e maggiore di 50 caratteri, e che ci sia il
+     * carattere '@'
+     * @param s stringa da testare
+     * @return restituisce la stringa se valida, lancia un'eccezione altrimenti
+     * @throws ReferenceException 
+     */
     public String testFkPhdstudent(String s) throws ReferenceException{
         if(s.length()<10 || s.length()>50 || s.indexOf("@")==-1)
             throw new ReferenceException();

@@ -23,9 +23,13 @@ public class InsertCurriculumServlet extends HttpServlet {
 
     /**
      * Processes requests for both HTTP <code>GET</code> and <code>POST</code>
-     * methods.
+     * methods
+     * Inserisce un nuovo oggetto curriculum
      *
-     * @param request servlet request
+     * @param request oggetto request per accedere ai parametri inviati attraverso
+     * il metodo getParameter per ottenere il nome del curriculum 
+     * <code>name</code> e la descrizione del curriculum <code>description</code>
+     * per effettuare l'inserimento di un nuovo curriculum
      * @param response servlet response
      * @throws ServletException if a servlet-specific error occurs
      * @throws IOException if an I/O error occurs
