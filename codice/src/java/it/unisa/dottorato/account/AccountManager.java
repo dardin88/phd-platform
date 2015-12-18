@@ -246,6 +246,7 @@ public class AccountManager {
              */
          String sql = "SELECT * FROM account "
                  +    "WHERE typeAccount = 'professor'";
+         System.out.println("querylog" + sql);
          //esecuzione della query
          ResultSet result = Utility.queryOperation(connect, sql);
          while(result.next()){
@@ -255,13 +256,13 @@ public class AccountManager {
              temp.setEmail(result.getString("email"));
              temp.setSecondaryEmail(result.getString("secondaryEmail"));
              temp.setTypeAccount(result.getString("typeAccount"));
-             temp.setDepartment(result.getString("department"));
-             temp.setLink(result.getString("link"));
              temp.setPassword(result.getString("password"));
              temp.setAdmin(result.getBoolean("isAdministrator"));
              professors.add(temp);
          }
-         return professors; 
+         
+         return professors;
+         
     }   catch (SQLException ex) {
             Logger.getLogger(AccountManager.class.getName()).log(Level.SEVERE, null, ex);
         } finally {
@@ -573,15 +574,15 @@ public class AccountManager {
                     + AccountManager.TABLE_STUDENT 
                     + "," 
                     + AccountManager.TABLE_ACCOUNT 
-                    + " WHERE phdstudent.fkAccount = "
+                    + " WHERE phdstudent.fkAccount = '"
                     + idStudent
                     +"' AND fkProfessor = professor.fkAccount AND professor.fkAccount = secondaryEmail";   
-
 
             connect.commit();
             ResultSet result = Utility.queryOperation(connect, tSql);
 
              if (result.next()) {
+                cord = new Professor();
                 cord.setEmail(result.getString("email"));
                 cord.setSecondaryEmail(result.getString("secondaryEmail"));
                 cord.setSurname(result.getString("surname"));

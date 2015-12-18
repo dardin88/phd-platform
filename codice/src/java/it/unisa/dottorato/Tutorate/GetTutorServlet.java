@@ -8,6 +8,7 @@ package it.unisa.dottorato.Tutorate;
 
 import it.unisa.dottorato.account.Account;
 import it.unisa.dottorato.account.AccountManager;
+import it.unisa.dottorato.account.Professor;
 import java.io.IOException;
 import java.io.PrintWriter;
 import java.sql.SQLException;
@@ -25,7 +26,7 @@ import org.json.JSONObject;
  *
  * @author Giuseppe Picciocchi
  */
-@WebServlet(name = "GetTutorServlet", urlPatterns = {"/GetTutorServlet"})
+@WebServlet(name = "GetTutorServlet", urlPatterns = {"/dottorato/GetTutorServlet"})
 public class GetTutorServlet extends HttpServlet {
 
     /**
@@ -44,7 +45,7 @@ public class GetTutorServlet extends HttpServlet {
             String aStudent = request.getParameter("fkAccount");
             JSONObject result = new JSONObject();
             try {
-                Account aPerson = AccountManager.getInstance().getTutor(aStudent);
+                Professor aPerson = AccountManager.getInstance().getTutor(aStudent);
                 result.put("fkAccount", aPerson.getEmail());
                 result.put("name", aPerson.getName());
                 result.put("surname", aPerson.getSurname());

@@ -56,27 +56,30 @@
                         <div class="form-group">
                                     
                                     <label for="sel1">Seleziona il dottorando interessato:</label>
-                                    <select class="form-control" id="phdStudentsList">
+                                    <select class="form-control" id="phdStudentsList" onclick="selectedItem()">
+                                        <option value="default" >  --------------------------  </option>
                                     </select>
                                       
                               </div>
                     </div>
                         
                     <div class="col-lg-8 col-lg-offset-0 col-md-8 col-md-offset-2 col-sm-10 col-sm-offset-1 col-xs-12">    
-                        <div class="panel panel-default" id="panelDiv">
+                        <div class="panel panel-default" id="panelDiv" hidden>
                             <div class="panel-heading">
-                                <h3 class="panel-title">Tutor: <span style="font-style: italic" id="TutorNameField"> -- tutor selezionato -- <button type="button" class="btn btn-default btn-red">
+                                <h3 class="panel-title">Tutor: <span style="font-style: italic" id="TutorNameField"> </span> <button type="button" class="btn btn-default btn-red" id="removeTutorButton" onclick="removeTutorButton">
                                             <span class="glyphicon glyphicon-remove-sign" aria-hidden="true" ></span> Rimuovi tutor
-                                                </button> </span></h3> 
+                                                </button> </h3> 
                             </div>
                             <div class="panel-body">
-                                <table class="table">
+                                <table class="table" >
                                     <thead>
                                         <tr>
                                            <th>Nome</th>
                                            <th>Cognome</th>
+                                           <th></th>
                                         </tr>
                                     </thead>
+                                    <tbody id="professorListTable"> </tbody>
                                 </table>
                                 <div class="panel-footer" style="background-color: transparent">
                                   <p class="text-center"> -- Seleziona il tutor -- 

@@ -5,30 +5,66 @@
  */
 
 $(document).ready(function () {
-    alert("ci siamo");
-    $.getJSON("GetPhdStudentList", function (data) {
-                 alert("ci siamo in getJson");
-                // $("#phdStudetsList option").remove();
-                $.each(data.phdStudentsList, function (index, value) {
-                   
-                    phdstudent = "<option class='optionItem' id='" + value.fkAccount + "'> " + value.fkAccount +  " </option> ";
-                    $("#phdStudentsList").append(phdstudent);
-                });
-            });
+
+    getStudentsList();
+
 });
 
 
-/*
-function myFunction()
+function getStudentsList()
 {
-    var x = document.getElementById("sel1").value;
-    // document.getElementById("demo").innerHTML = "You selected: " + x;
-    if(x !== "default")  $("#panelDiv").show();
-    else $("#panelDiv").hide();
+
+    $.getJSON("GetPhdStudentList", function (data) {
+        // $("#phdStudetsList option").remove();
+        $.each(data.account, function (index, value) {
+            phdstudent = "<option class='optionItem' value='" + value.secondaryEmail + "'> " + value.name + " " + value.surname + " </option> ";
+            $("#phdStudentsList").append(phdstudent);
+        });
+    });
+}
+
+function selectedItem()
+{
+    $("#TutorNameField").html("nessun tutor");
+    $("#removeTutorButton").hide();
+    $("#professorListTable tr").remove();
+
+    var selectedAccount = $("#phdStudentsList option:selected").val(); // la chiave primaria di account
+    if (selectedAccount !== "default")
+    {
+        $("#panelDiv").show();
+        //servlet per richiamare il tutor
+        $.getJSON("GetTutorServlet", {fkAccount: selectedAccount}, function (data) {
+            // alert("siamo in get tutor servlet");
+            // alert(data);
+            $("#removeTutorButton").show();
+            $("#TutorNameField").html(data.name + " " + data.surname);
+        });
+
+        //servlet per riempire la tabella con tutti i professori
+        $.getJSON("GetProfessorsList", function (data) {
+            $.each(data.account, function (index, value) {
+                professor = "<tr> <td> " + value.name + "</td> <td> " + value.surname + "</td>   <td> <button class='btn' onclick='addTutorButton("+value.secondaryEmail+")' >Aggiungi </button>  </td>  </tr> ";
+                $("#professorListTable").append(professor);
+            });
+        });
+        
+        
+        
+    }
+    else
+        $("#panelDiv").hide();
+}
+
+
+/*
+funciton removeTutorButton()
+{
     
-    console.log(x);
-    //$.get("/GetTutorServlet",{fkAccount:x}, function(data){
-    //   $("#TutorNameField").html(data); 
-    //});
+}
+
+function addTutorButton()
+{
+    
 }
 */
