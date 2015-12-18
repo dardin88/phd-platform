@@ -23,6 +23,20 @@ import org.json.JSONObject;
  */
 @WebServlet(name = "getAccountList", urlPatterns = {"/dottorato/getAccountList"})
 
+/**
+     * Processes requests for both HTTP <code>GET</code> and <code>POST</code>
+     * methods
+     * Ricostruisce un array list di tutti gli account iscritti alla piattaforma
+     *
+     * @param request servlet response
+     * @param response servlet response
+     * @throws ServletException if a servlet-specific error occurs
+     * @throws IOException if an I/O error occurs
+     * @throws SQLException if a sql error occurs
+     * @throws ConnectionException if a connection error occurs
+     * @throws NullAccountException if an account error occurs
+     * @throws EmailException if an email error occurs
+     */
 public class GetAccountListServlet extends HttpServlet {
     
     protected void processRequest(HttpServletRequest request, HttpServletResponse response)

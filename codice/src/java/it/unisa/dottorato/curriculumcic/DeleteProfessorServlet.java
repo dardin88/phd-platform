@@ -26,7 +26,10 @@ public class DeleteProfessorServlet extends HttpServlet {
      * Processes requests for both HTTP <code>GET</code> and <code>POST</code>
      * methods.
      *
-     * @param request servlet request
+     * @param request  oggetto request per accedere ai parametri inviati attraverso
+     * il metodo getParameter per ottenere il numero del ciclo fkCycle, il nome
+     * del curriculum fkCurriculum e l'email del professore, per effettuare
+     * la richiesta di cancellazione di un professore dalla coppia
      * @param response servlet response
      * @throws ServletException if a servlet-specific error occurs
      * @throws IOException if an I/O error occurs

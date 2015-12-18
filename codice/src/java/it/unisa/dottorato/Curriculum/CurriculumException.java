@@ -1,19 +1,25 @@
-/*
- * To change this license header, choose License Headers in Project Properties.
- * To change this template file, choose Tools | Templates
- * and open the template in the editor.
- */
 package it.unisa.dottorato.Curriculum;
 
-/**
+/**Classe per la gestione delle eccezioni sugli oggetti curriculum
  *
  * @author tommaso
  */
 public class CurriculumException extends Exception{
 
+    
+    /**Metodo della classe incaricato di ritornare alla superclasse
+     * Exception il messaggio 'Errore oggetto curriculum'
+     * 
+     */
     public CurriculumException() {
         super("Errore oggetto curriculum");
     }
+    
+    /** Metodo della classe incaricato di ritornare alla superclasse
+     * Exception il messaggio <code>pMessage</code>
+     * 
+     * @param pMessage 
+     */
     public CurriculumException(String pMessage) {
         super(pMessage);
     }
