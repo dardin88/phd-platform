@@ -1,5 +1,5 @@
 <%@page contentType="text/html" pageEncoding="UTF-8"%>                                                                 
-<%@page import="it.unisa.dottorato.account.*;"%>
+<%@page import="it.unisa.dottorato.account.*"%>
 <%@ taglib prefix="c" uri="http://java.sun.com/jsp/jstl/core" %>
 <!DOCTYPE html>
 
@@ -9,21 +9,21 @@
             <!-- add class "multiple-expanded" to allow multiple submenus to open -->
             <!-- class "auto-inherit-active-class" will automatically add "active" class for parent elements who are marked already with class "active" -->
              <div class="navbar-brand">
-                 <a href="/codice/index.jsp" class="logo">
-                    <img src="/codice/assets/images/mitforsite.png" width="80" alt="" class="hidden-xs" />
-                    <img src="/codice/assets/images/mitforsitemini.png" width="80" alt="" class="visible-xs" />
+                 <a href="/index.jsp" class="logo">
+                    <img src="assets/images/mitforsite.png" width="80" alt="" class="hidden-xs" />
+                    <img src="/assets/images/mitforsitemini.png" width="80" alt="" class="visible-xs" />
                  </a>
              </div>
 
             <li>
-                <a href="/codice/index.jsp">
+                <a href="index.jsp">
                     <i class="linecons-desktop"></i>
                     <span class="title">Home</span>
                 </a>
             </li>
 
             <li>
-                <a href="/codice/dottorato/searchUser.jsp">
+                <a href="dottorato/searchUser.jsp">
                     <i class="linecons-search"></i>
                     <span class="title">Ricerca Utente</span>
                 </a>
