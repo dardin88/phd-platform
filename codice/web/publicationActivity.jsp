@@ -24,17 +24,17 @@
         <title>DISTRA-MIT Dottorato</title>
 
         <link rel="stylesheet" href="http://fonts.googleapis.com/css?family=Arimo:400,700,400italic">
-        <link rel="stylesheet" href="../assets/css/fonts/linecons/css/linecons.css">
-        <link rel="stylesheet" href="../assets/css/fonts/fontawesome/css/font-awesome.css">
-        <link rel="stylesheet" href="../assets/css/bootstrap.css">
-        <link rel="stylesheet" href="../assets/css/xenon-core.css">
-        <link rel="stylesheet" href="../assets/css/xenon-forms.css">
-        <link rel="stylesheet" href="../assets/css/xenon-components.css">
-        <link rel="stylesheet" href="../assets/css/xenon-skins.css">
-        <link rel="stylesheet" href="../assets/css/custom.css">  
+        <link rel="stylesheet" href="assets/css/fonts/linecons/css/linecons.css">
+        <link rel="stylesheet" href="assets/css/fonts/fontawesome/css/font-awesome.css">
+        <link rel="stylesheet" href="assets/css/bootstrap.css">
+        <link rel="stylesheet" href="assets/css/xenon-core.css">
+        <link rel="stylesheet" href="assets/css/xenon-forms.css">
+        <link rel="stylesheet" href="assets/css/xenon-components.css">
+        <link rel="stylesheet" href="assets/css/xenon-skins.css">
+        <link rel="stylesheet" href="assets/css/custom.css">  
         <link rel="stylesheet" href="style/dottorato.css">
 
-        <script src="../assets/js/jquery-1.11.1.min.js"></script>
+        <script src="assets/js/jquery-1.11.1.min.js"></script>
         <script type="text/javascript" src="script/index.js"></script>
 
         <!-- HTML5 shim and Respond.js IE8 support of HTML5 elements and media queries -->
@@ -46,7 +46,7 @@
     <body class="page-body">
 
         <!-- Inclusione della pagina contenente il menù superiore --> 
-        <jsp:include page="../barraMenu.jsp" flush="true"/> 
+        <jsp:include page="barraMenu.jsp" flush="true"/> 
         <div class="page-container">
 
             <!-- Inclusione della pagina contenente il menù laterale --> 

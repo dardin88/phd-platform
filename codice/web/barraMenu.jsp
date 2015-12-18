@@ -9,9 +9,9 @@
             <!-- add class "multiple-expanded" to allow multiple submenus to open -->
             <!-- class "auto-inherit-active-class" will automatically add "active" class for parent elements who are marked already with class "active" -->
              <div class="navbar-brand">
-                 <a href="dottorato/index.jsp" class="logo">
+                 <a href="index.jsp" class="logo">
                     <img src="assets/images/mitforsite.png" width="80" alt="" class="hidden-xs" />
-                    <img src="/assets/images/mitforsitemini.png" width="80" alt="" class="visible-xs" />
+                    <img src="assets/images/mitforsitemini.png" width="80" alt="" class="visible-xs" />
                  </a>
              </div>
 
@@ -23,7 +23,7 @@
             </li>
 
             <li>
-                <a href="dottorato/searchUser.jsp">
+                <a href="searchUser.jsp">
                     <i class="linecons-search"></i>
                     <span class="title">Ricerca Utente</span>
                 </a>
@@ -34,7 +34,7 @@
                 <c:when test="${sessionScope.account == null}">
            <ul class="navbar-nav navbar-right">
             <li class="navbar-right" id ="funzionalitaBase">
-                <a href="/codice/login.jsp">
+                <a href="login.jsp">
                     <i class="linecons-key"></i>
                     <span class="title">Login</span>
                 </a>
@@ -50,7 +50,7 @@
                     %>  
                     <ul class="navbar-nav">
                     <li id="funzionalitaBase">
-                          <a href="/codice/dottorato/gestionepresenze.jsp">
+                          <a href="gestionepresenze.jsp">
                           <i class="linecons-wallet"></i>
                              <span class="title">Gestione Presenze</span>
                           </a>
@@ -58,7 +58,7 @@
                          
 
                     <li id="funzionalita3Permission_0">
-                        <a href="#">
+                        <a href="calendario.jsp">
                             <i class="linecons-calendar"></i>
                             <span class="title">Calendario corsi e seminari</span>
                         </a>
@@ -70,7 +70,7 @@
                     <%}  if (loggedPerson.isAdmin()) { %>
 
                     <li id="funzionalita3Permission_0">
-                        <a href="/codice/dottorato/amministrazioneCurriculum.jsp">
+                        <a href="amministrazioneCurriculum.jsp">
                             <i class="linecons-key"></i>
                             <span class="title">Pannello amministratore</span>
                         </a>
@@ -79,7 +79,7 @@
                     </ul>
                    <ul class="navbar-nav navbar-right"> 
                      <li class="navbar-right" id="menu_profilo">
-                        <a href="/codice/dottorato/profileNuovo.jsp">
+                        <a href="profileNuovo.jsp">
                             <i class="linecons-user"></i>
                             <span class="title" id="prova"> <b><% out.println(loggedPerson.getName());%>
                                       <%out.println(loggedPerson.getSurname());%></b></span>
@@ -87,7 +87,7 @@
                     </li>
                     
                     <li class="navbar-right" id="logout">
-                        <a href="/codice/logout">
+                        <a href="logout">
                             <i class ="linecons-key"></i>
                             <span class="logout" id ="prova">Logout</span>
                         </a>

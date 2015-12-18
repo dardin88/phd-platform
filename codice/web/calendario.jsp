@@ -16,27 +16,27 @@
         
        <!-- Bootstrap e i fogli di stile vado a fiducia  -->
        <link rel="stylesheet" href="http://fonts.googleapis.com/css?family=Arimo:400,700,400italic">
-        <link rel="stylesheet" href="../assets/css/fonts/linecons/css/linecons.css">
-        <link rel="stylesheet" href="../assets/css/fonts/fontawesome/css/font-awesome.css">
-        <link rel="stylesheet" href="../assets/css/bootstrap.css">
-        <link rel="stylesheet" href="../assets/css/xenon-core.css">
-        <link rel="stylesheet" href="../assets/css/xenon-forms.css">
-        <link rel="stylesheet" href="../assets/css/xenon-components.css">
-        <link rel="stylesheet" href="../assets/css/xenon-skins.css">
-        <link rel="stylesheet" href="../assets/css/custom.css">  
+        <link rel="stylesheet" href="assets/css/fonts/linecons/css/linecons.css">
+        <link rel="stylesheet" href="assets/css/fonts/fontawesome/css/font-awesome.css">
+        <link rel="stylesheet" href="assets/css/bootstrap.css">
+        <link rel="stylesheet" href="assets/css/xenon-core.css">
+        <link rel="stylesheet" href="assets/css/xenon-forms.css">
+        <link rel="stylesheet" href="assets/css/xenon-components.css">
+        <link rel="stylesheet" href="assets/css/xenon-skins.css">
+        <link rel="stylesheet" href="assets/css/custom.css">  
         <link rel="stylesheet" href="style/dottorato.css">
         <link rel="stylesheet" href="http://getbootstrap.com/dist/css/bootstrap.min.css" >
 	<link rel="stylesheet" href="http://getbootstrap.com/assets/css/docs.min.css">
-	<link rel="stylesheet" href="../assets/js/calendar/jin.calendar.style.css">
-        <script src="../assets/js/calendar/jin.calendar.js"></script>
+	<link rel="stylesheet" href="assets/js/calendar/jin.calendar.style.css">
+        <script src="assets/js/calendar/jin.calendar.js"></script>
       
         
-        <script src="../assets/js/jquery-1.11.1.min.js"></script>
+        <script src="assets/js/jquery-1.11.1.min.js"></script>
         <script type="text/javascript" src="script/amministrazione.js"></script>
     </head>
     <body>
         <div class="page-body">
-     <jsp:include page="../barraMenu.jsp"/>
+     <jsp:include page="barraMenu.jsp"/>
     <div class="page-container"> 
         
         

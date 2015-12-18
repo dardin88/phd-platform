@@ -1,9 +1,11 @@
 <%-- 
-    Document   : addCollaboration
-    Created on : 26-dic-2014, 17.24.01
+    Document   : editMission
+    Created on : 26-dic-2014, 17.36.48
     Author     : gemmacatolino
 --%>
 
+<%@page import="it.unisa.dottorato.phdProfile.missions.Mission"%>
+<%@page import="it.unisa.dottorato.phdProfile.missions.MissionManager"%>
 <%@ taglib prefix="c" uri="http://java.sun.com/jsp/jstl/core" %>
 <%@page contentType="text/html" pageEncoding="UTF-8"%>
 <!DOCTYPE html>
@@ -19,17 +21,17 @@
         <title>DISTRA-MIT Dottorato</title>
 
         <link rel="stylesheet" href="http://fonts.googleapis.com/css?family=Arimo:400,700,400italic">
-        <link rel="stylesheet" href="../assets/css/fonts/linecons/css/linecons.css">
-        <link rel="stylesheet" href="../assets/css/fonts/fontawesome/css/font-awesome.css">
-        <link rel="stylesheet" href="../assets/css/bootstrap.css">
-        <link rel="stylesheet" href="../assets/css/xenon-core.css">
-        <link rel="stylesheet" href="../assets/css/xenon-forms.css">
-        <link rel="stylesheet" href="../assets/css/xenon-components.css">
-        <link rel="stylesheet" href="../assets/css/xenon-skins.css">
-        <link rel="stylesheet" href="../assets/css/custom.css">
+        <link rel="stylesheet" href="assets/css/fonts/linecons/css/linecons.css">
+        <link rel="stylesheet" href="assets/css/fonts/fontawesome/css/font-awesome.css">
+        <link rel="stylesheet" href="assets/css/bootstrap.css">
+        <link rel="stylesheet" href="assets/css/xenon-core.css">
+        <link rel="stylesheet" href="assets/css/xenon-forms.css">
+        <link rel="stylesheet" href="assets/css/xenon-components.css">
+        <link rel="stylesheet" href="assets/css/xenon-skins.css">
+        <link rel="stylesheet" href="assets/css/custom.css">
         <link rel="stylesheet" href="style/dottorato.css">
 
-        <script src="../assets/js/jquery-1.11.1.min.js"></script>
+        <script src="assets/js/jquery-1.11.1.min.js"></script>
         <script type="text/javascript" src="script/index.js"></script>
 
         <!-- HTML5 shim and Respond.js IE8 support of HTML5 elements and media queries -->
@@ -44,7 +46,7 @@
                 var end = new Date($("#end-date").val());
                 
                 if(start > end) {
-                    alert('La data di fine della collaborazione è precedente alla data di inizio!');
+                    alert('La data di fine della missione è precedente alla data di inizio!');
                 }
             };
         </script>
@@ -53,12 +55,13 @@
     <body class="page-body">
 
         <!-- Inclusione della pagina contenente il menù superiore -->
-        <jsp:include page="topMenu.jsp" flush="true"/>
+        <jsp:include page="../barraMenu.jsp" flush="true"/>
         <div class="page-container">
 
             <!-- Inclusione della pagina contenente il menù laterale -->
-            <jsp:include page="lateralMenu.jsp"/>
-
+             <%
+                int missionID = (Integer.parseInt("" + session.getAttribute("idMission")));
+                Mission mission = MissionManager.getInstance().getMissionById(missionID) ;%>
             <!-- Contenuto della pagina -->
 
             <div class="main-content" id="content">
@@ -71,44 +74,44 @@
 
                         <div class="panel panel-default">
                             <div class="panel-heading">
-                                <h1>Inserisci Collaborazione</h1>
+                                <h1>Modifica Mission</h1>
                             </div>
                             <div class="panel-body">
-                                <form class="form-horizontal" method="POST" action="AddCollaboration">
+                                <form class="form-horizontal" method="POST" action="UpdateMissionServlet">
                                     <div class="form-group">
                                         <table width="90%" align="center">
                                             <tr><td>
-                                                    <p>Istituzione:</p>
+                                                    <p>Luogo:</p>
                                                     <div class="input-group">
                                                         <span class="input-group-addon"></span>
-                                                        <input class="form-control" name="istitution" type="text" required>
+                                                        <input class="form-control" name="place" type="text" value="<%= mission.getPlace()%>" required>
                                                     </div>
                                                     <br>
                                                     <br>
-                                                    <p>Descrizione</p>
+                                                    <p>Descrizione:</p>
                                                     <div class="input-group">
                                                         <span class="input-group-addon"></span>
-                                                        <textarea class="form-control" name="description" rows="5" cols="40" required> </textarea>
+                                                        <textarea class="form-control" name="description" rows="5" cols="40" required><%= mission.getDescription() %></textarea>
                                                     </div>
                                                     <br>
                                                     <br>
-                                                    <p>Data di inizio:</p>
+                                                    <p>Data Di Inizio:</p>
                                                     <div class="input-group">
                                                         <span class="input-group-addon"></span>
-                                                        <input class="form-control" id="start-date" name="startDate" type="date" placeholder="aaaa-mm-gg" required>
+                                                        <input class="form-control" id="start-date" name="startDate" type="date" value="<%= mission.getStartDate() %>" required>
                                                     </div>
                                                     <br>
                                                     <br>
-                                                    <p>Data di fine:</p>
+                                                    <p>Data Di Fine:</p>
                                                     <div class="input-group">
                                                         <span class="input-group-addon"></span>
-                                                        <input class="form-control" id="end-date" name="endDate" onblur="checkDate()" type="date" onsubmit="checkDate()" placeholder="aaaa-mm-gg" required>
+                                                        <input class="form-control" id="end-date" name="endDate" onblur="checkDate()" type="date" value="<%= mission.getEndDate() %>" required>
                                                     </div>
                                                     <br>
                                                     <br>
 
                                                     <div>
-                                                        <input type="submit" class="btn btn-blue" value="Inserisci"> 
+                                                        <input type="submit" class="btn btn-blue" value="Modifica"> 
                                                         <br>
                                                         <br>
 
@@ -126,6 +129,8 @@
 
                 </div>
             </div>
-        </div>
+
     </body>
 </html>
+
+

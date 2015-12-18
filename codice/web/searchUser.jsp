@@ -20,17 +20,17 @@
 
     <!-- Bootstrap e i fogli di stile vado a fiducia  -->
        <link rel="stylesheet" href="http://fonts.googleapis.com/css?family=Arimo:400,700,400italic">
-        <link rel="stylesheet" href="../assets/css/fonts/linecons/css/linecons.css">
-        <link rel="stylesheet" href="../assets/css/fonts/fontawesome/css/font-awesome.css">
-        <link rel="stylesheet" href="../assets/css/bootstrap.css">
-        <link rel="stylesheet" href="../assets/css/xenon-core.css">
-        <link rel="stylesheet" href="../assets/css/xenon-forms.css">
-        <link rel="stylesheet" href="../assets/css/xenon-components.css">
-        <link rel="stylesheet" href="../assets/css/xenon-skins.css">
-        <link rel="stylesheet" href="../assets/css/custom.css">  
+        <link rel="stylesheet" href="assets/css/fonts/linecons/css/linecons.css">
+        <link rel="stylesheet" href="assets/css/fonts/fontawesome/css/font-awesome.css">
+        <link rel="stylesheet" href="assets/css/bootstrap.css">
+        <link rel="stylesheet" href="assets/css/xenon-core.css">
+        <link rel="stylesheet" href="assets/css/xenon-forms.css">
+        <link rel="stylesheet" href="assets/css/xenon-components.css">
+        <link rel="stylesheet" href="assets/css/xenon-skins.css">
+        <link rel="stylesheet" href="assets/css/custom.css">  
         <link rel="stylesheet" href="style/dottorato.css">
         
-        <script src="../assets/js/jquery-1.11.1.min.js"></script>
+        <script src="assets/js/jquery-1.11.1.min.js"></script>
         <script type="text/javascript" src="script/amministrazione.js"></script>
 
     <!-- HTML5 shim and Respond.js for IE8 support of HTML5 elements and media queries -->
@@ -58,7 +58,7 @@
   
 
 <div class="page-body">
-     <jsp:include page="../barraMenu.jsp"/>
+     <jsp:include page="barraMenu.jsp"/>
     <div class="page-container"> 
      <div  class="well col-lg-8 col-lg-offset-2 col-md-8 col-md-offset-2 col-sm-10 col-sm-offset-1 col-xs-12">
          
