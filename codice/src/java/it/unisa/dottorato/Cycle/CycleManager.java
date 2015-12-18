@@ -754,6 +754,7 @@ public class CycleManager {
      * @throws ReferenceException 
      */
     public String testFkProfessor(String s) throws ReferenceException{
+        if (s==null) return s;
         if(s.length()<10 || s.length()>50 || s.indexOf("@")==-1)
             throw new ReferenceException();
         return s;

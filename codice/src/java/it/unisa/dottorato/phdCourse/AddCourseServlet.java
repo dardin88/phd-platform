@@ -61,6 +61,7 @@ public class AddCourseServlet extends HttpServlet {
             course.setCurriculum(curriculum);
             course.setCycle(Integer.parseInt(cycle));
             course.setName(name);
+            course.setDescription(description);
             course.setStartDate(java.sql.Date.valueOf(startDate));
             course.setEndDate(java.sql.Date.valueOf(endDate));
             
