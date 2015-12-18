@@ -56,14 +56,9 @@
                         <div class="form-group">
                                     
                                     <label for="sel1">Seleziona il dottorando interessato:</label>
-                                    <select class="form-control" id="sel1" onchange="myFunction()">
-                                        
-                                        <option value="default"> default </option>
-                                        
-                                         
-                                        
+                                    <select class="form-control" id="phdStudentsList">
                                     </select>
-                                      <p id="demo"></p>
+                                      
                               </div>
                     </div>
                         
