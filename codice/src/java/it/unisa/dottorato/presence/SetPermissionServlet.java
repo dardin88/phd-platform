@@ -21,17 +21,6 @@ import org.json.JSONObject;
  */
 @WebServlet(name = "SetPermission", urlPatterns = {"/SetPermission"})
 public class SetPermissionServlet extends HttpServlet{
-    /**
-     * Processes requests for both HTTP <code>GET</code> and <code>POST</code>
-     * methods.
-     *
-     * @param request oggetto request per accedere ai parametri inviati attraverso
-     * il metodo getParameter per ottenere il setPermission, parametro booleano
-     * per settare i permessi di raccolta presenze
-     * @param response servlet response
-     * @throws ServletException if a servlet-specific error occurs
-     * @throws IOException if an I/O error occurs
-     */
      protected void processRequest(HttpServletRequest request, HttpServletResponse response)
             throws ServletException, IOException {
         response.setContentType("text/html;charset=UTF-8");

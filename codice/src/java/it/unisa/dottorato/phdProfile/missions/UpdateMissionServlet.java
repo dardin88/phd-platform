@@ -25,10 +25,7 @@ public class UpdateMissionServlet extends HttpServlet {
      * Processes requests for both HTTP <code>GET</code> and <code>POST</code>
      * methods.
      *
-     * @param request oggetto request per accedere ai parametri inviati attraverso
-     * il metodo getParameter per ottenere la descrizione, la data di inizio e 
-     * di fine, la referenza e il luogo di una missione per effettuare la
-     * richiesta di modifica di una missione
+     * @param request servlet request
      * @param response servlet response
      * @throws ServletException if a servlet-specific error occurs
      * @throws IOException if an I/O error occurs

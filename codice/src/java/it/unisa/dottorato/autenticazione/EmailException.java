@@ -1,15 +1,15 @@
+/*
+ * To change this license header, choose License Headers in Project Properties.
+ * To change this template file, choose Tools | Templates
+ * and open the template in the editor.
+ */
 package it.unisa.dottorato.autenticazione;
 
-/**Classe per la gestione delle eccezioni sulle email
+/**
  *
  * @author Armando
  */
 public class EmailException extends Exception {
-    
-    /**Metodo della classe incaricato di ritornare alla superclasse
-     * Exception il messaggio 'Email is wrong.'
-     * 
-     */
     public EmailException() {
         super("Email is wrong.");
     }

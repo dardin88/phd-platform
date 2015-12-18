@@ -28,10 +28,7 @@ public class AddLessonServlet extends HttpServlet {
      * Processes requests for both HTTP <code>GET</code> and <code>POST</code>
      * methods.
      *
-     * @param request oggetto request per accedere ai parametri inviati attraverso
-     * il metodo getParameter per ottenere il nome del curriculum, il numero del
-     * ciclo, il nome, la descrizione, la classe, l'ora di inizio, di fine e la data della
-     * lezione per effettuare la richiesta di aggiunta di un nuovo corso
+     * @param request servlet request
      * @param response servlet response
      * @throws ServletException if a servlet-specific error occurs
      * @throws IOException if an I/O error occurs

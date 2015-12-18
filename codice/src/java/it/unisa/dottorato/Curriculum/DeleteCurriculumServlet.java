@@ -23,13 +23,9 @@ public class DeleteCurriculumServlet extends HttpServlet {
 
     /**
      * Processes requests for both HTTP <code>GET</code> and <code>POST</code>
-     * methods 
-     * Effettua la cancellazione di un curriculum dato il nome
-     * 
+     * methods.
      *
-     * @param request oggetto request per accedere ai parametri inviati attraverso
-     * il metodo getParameter per ottenere il nome del curriculum 
-     * <code>nameCurriculum</code> per effettuare la cancellazione
+     * @param request servlet request
      * @param response servlet response
      * @throws ServletException if a servlet-specific error occurs
      * @throws IOException if an I/O error occurs

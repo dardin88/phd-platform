@@ -1,25 +1,33 @@
+/*
+ * To change this license header, choose License Headers in Project Properties.
+ * To change this template file, choose Tools | Templates
+ * and open the template in the editor.
+ */
 package it.unisa.dottorato.presence;
 
-/**Classe per la gestione delle eccezioni dei permessi negati
+/**
  *
  * @author Rembor
  */
 public class ExceptionPermissionDenied extends Exception {
 
-  
+    /**
+     * 
+     */
+    private static final long serialVersionUID = -6593436034986073011L;
 
-    /**Metodo della classe incaricato di ritornare alla superclasse
-     * Exception il messaggio 'permesso negato!'
+    /**
      * 
      */
     public ExceptionPermissionDenied() {
         super("permesso negato!");
     }
 
-    /**Metodo della classe incaricato di ritornare alla superclasse
-     * Exception il messaggio pMessage
-     * @param pMessage
+    /**
+     * Genera l'eccezione con un messagio di errore associato
      * 
+     * @param pMessage
+     *            Il messaggio di errore che deve essere associato all'eccezione
      */
     public ExceptionPermissionDenied(String pMessage) {
         super(pMessage);

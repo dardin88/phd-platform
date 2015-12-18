@@ -298,15 +298,6 @@ public class CurriculumManager {
         return description;
     }
     
-    /** Metodo della classe incaricato di verificare l'esistenza di un curriculum
-     * 
-     * 
-     * @param c il curriculum da ricercare
-     * @return restituisce true se il curriculum esiste, false altrimenti
-     * @throws ClassNotFoundException
-     * @throws SQLException
-     * @throws IOException 
-     */
     public boolean existCurriculum(Curriculum c)throws ClassNotFoundException, SQLException, IOException{
          Connection connect = null;
         try {         

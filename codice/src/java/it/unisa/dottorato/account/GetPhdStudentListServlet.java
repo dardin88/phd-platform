@@ -1,3 +1,8 @@
+/*
+ * To change this license header, choose License Headers in Project Properties.
+ * To change this template file, choose Tools | Templates
+ * and open the template in the editor.
+ */
 package it.unisa.dottorato.account;
 
 import it.unisa.integrazione.database.exception.ConnectionException;
@@ -23,19 +28,7 @@ import org.json.JSONObject;
  */
 @WebServlet(name = "GetPhdStudentList", urlPatterns = {"/dottorato/GetPhdStudentList"})
 public class GetPhdStudentListServlet extends HttpServlet{
-    
-    /**
-     * Processes requests for both HTTP <code>GET</code> and <code>POST</code>
-     * methods
-     * Ricostruisce un array list di tutti i dottorandi iscritti alla piattaforma
-     *
-     * @param request servlet response
-     * @param response servlet response
-     * @throws ServletException if a servlet-specific error occurs
-     * @throws IOException if an I/O error occurs
-     * @throws SQLException if a sql error occurs
-     * @throws ConnectionException if a connection error occurs
-     */
+     
     protected void processRequest(HttpServletRequest request, HttpServletResponse response)
             throws ServletException, IOException, SQLException, ConnectionException {
         

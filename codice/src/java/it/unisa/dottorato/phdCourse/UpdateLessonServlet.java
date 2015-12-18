@@ -26,11 +26,7 @@ public class UpdateLessonServlet extends HttpServlet {
      * Processes requests for both HTTP <code>GET</code> and <code>POST</code>
      * methods.
      *
-     * @param request oggetto request per accedere ai parametri inviati attraverso
-     * il metodo getParameter per ottenere la data, l'ora di inizio e di fine,
-     * il nome, la classe e la descrizione della lezione, il ciclo , il curriculum
-     * e il corso a cui la lezione e' associata per effettuare la richiesta di
-     * modifica di una lezione
+     * @param request servlet request
      * @param response servlet response
      * @throws ServletException if a servlet-specific error occurs
      * @throws IOException if an I/O error occurs

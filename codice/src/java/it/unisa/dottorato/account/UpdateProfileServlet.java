@@ -29,17 +29,10 @@ public class UpdateProfileServlet extends HttpServlet {
      * Processes requests for both HTTP <code>GET</code> and <code>POST</code>
      * methods.
      *
-     * @param request oggetto request per accedere ai parametri inviati attraverso
-     * il metodo getParameter per ottenere il nome, il cognome, l'email secondaria
-     * e la password di un account; in seguit si verifica se e' un dottorando o 
-     * un professore ottenendo altri attributi a seconda della verifica
+     * @param request servlet request
      * @param response servlet response
      * @throws ServletException if a servlet-specific error occurs
      * @throws IOException if an I/O error occurs
-     * @throws PasswordException if a password error occurs
-     * @throws NullAccountException if an account error occurs
-     * @throws EmailException if an email error occurs
-     * @throws ProfileException if a profile error occurs
      */
     protected void processRequest(HttpServletRequest request, HttpServletResponse response)
             throws ServletException, IOException, NullAccountException, ProfileException, PasswordException, EmailException {

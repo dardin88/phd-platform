@@ -9,7 +9,7 @@ import java.util.Date;
  * la data di inizio e di fine, e l'istituzione della collaborazione, infine l'email
  * del dottorando a cui ha preso parte
  * 
- * @author ariemmov
+ * @author ???
  */
 public class Collaboration implements Serializable {
     

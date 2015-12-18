@@ -47,14 +47,13 @@ public class AccountManager {
     }
     private Object account;
     
-    /** Metodo della classe incaricato di ricercare un account data l'email
+    /** Metodo della classe incaricato di ricercare  un account presente
+     * nella piattaforma in base all'email
      * 
-     * @param sEmail email dell'account da ricercare
-     * @return restituisce l'account se trovato, lancia un'eccezione altrimenti
-     * @throws SQLException
-     * @throws ConnectionException
-     * @throws ClassNotFoundException 
-     */    
+     * @return restituisce un   account in base all'email passata
+     * nella piattaforma
+     */
+    
     public Account getAccountByEmail(String sEmail) throws SQLException, ConnectionException,ClassNotFoundException{
         Statement stmt = null;
         ResultSet rs = null;
@@ -65,7 +64,7 @@ public class AccountManager {
             connection = DBConnection.getConnection();
             /*
              *stringa SQL per effettuare la ricerca nella 
-             * tabella account
+             * tabella news
              */
             String sql = "SELECT * From account"
                     
@@ -142,27 +141,16 @@ public class AccountManager {
     }
     return null;
   }
-    /**Metodo della classe incaricato di effettuare la visualizzazione di un 
-     * profilo dato il suo account
-     * 
-     * @param pAccount account da ricercare
-     * @return restituisce un array list di tutti gli attributi dell'account
-     * <code>pAccount</code>
-     * @throws SQLException 
-     */
+    
     public ArrayList<String> viewProfile(Account pAccount) throws SQLException {
         Connection connect = null;
-        /** Stringa sql per selezionare un record dalla tabella phdstudent o 
-         * professor
-         * 
-         */
+        
         String sql = "SELECT * from " + pAccount.getTypeAccount()
                 + "WHERE fkAccount  = '" + pAccount.getSecondaryEmail() + "'";
         
         try {
         ArrayList<String> profile = new ArrayList<>();
         connect = DBConnection.getConnection();
-        //esecuzione della query
         ResultSet rs = Utility.queryOperation(connect, sql);
         
         while(rs.next()) {
@@ -284,18 +272,18 @@ public class AccountManager {
     
     
   /** Metodo della classe incaricato alla ricerca di un utente dato il suo nome
-   * 
+   * e il suo tipo di account
    * 
    * @param search il nome dell'utente da ricercare
-   * @return restituisce un array list di account di tutti gli utenti trovati, 
-   * lancia un'eccezione altrimenti
+   * @param type il tipo di account da ricercare
+   * @return restituisce un array list di account di tutti gli utenti trovati, lancia un'eccezione altrimenti
    * @throws SQLException 
    */
   public ArrayList<Account> searchUser(String search) throws SQLException {
       Connection connect = null;
       ArrayList<Account> accounts;
        /*
-             * stringa SQL per selezionare piu record 
+             * stringhe SQL per selezionare piu record 
              * nella tabella account
              */
       String sql = "SELECT * from account WHERE "
@@ -525,8 +513,7 @@ public class AccountManager {
      * Metodo della classe incaricato dell'inserimento di una nuova entita'
      * nella tabella professor_student del database.
      *
-     * @param fkPhdstudent email del dottorando
-     * @param fkProfessor email del professore
+     * @param tutor
      * @throws java.lang.ClassNotFoundException
      * @throws java.sql.SQLException
      * @throws java.io.IOException
@@ -562,8 +549,8 @@ public class AccountManager {
      * Metodo della classe incaricato della ricerca delle informazioni del tutor
      * relativo a uno studente.
      *
-     * @param idStudent email dello studente da ricercare
-     * @return restituisce il tutor dello studente
+     * @param idStudent
+     * @return
      * @throws java.lang.ClassNotFoundException
      * @throws java.sql.SQLException
      * @throws java.io.IOException
@@ -622,8 +609,7 @@ public class AccountManager {
      * Metodo della classe incaricato della modifica di un'entita' nella tabella
      * professor_student del database.
      *
-     * @param fkPhdstudent email del dottorando
-     * @param Tutor email del professore
+     * @param tutor
      * @throws java.lang.ClassNotFoundException
      * @throws java.sql.SQLException
      * @throws java.io.IOException
@@ -697,7 +683,7 @@ public class AccountManager {
     }
     
     /** Metodo della classe per il testing dell'email; verifica che non sia una
-     * stringa vuota o piu' lunga di 50 caratteri
+     * stringa vuota o piu' lunga di 49 caratteri
      * 
      * @param email stringa da testare
      * @return restituisce la stringa se valida, lancia un'eccezione altrimenti
@@ -710,7 +696,7 @@ public class AccountManager {
     }
     
      /** Metodo della classe per il testing della password; verifica che non sia una
-     * stringa vuota o piu' lunga di 20 caratteri o piu' corta di 8
+     * stringa vuota o piu' lunga di 19 caratteri
      * 
      * @param pass stringa da testare
      * @return restituisce la stringa se valida, lancia un'eccezione altrimenti

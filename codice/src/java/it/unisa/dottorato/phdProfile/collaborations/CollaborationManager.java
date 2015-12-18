@@ -348,7 +348,7 @@ public class CollaborationManager {
     
     /**Metodo della classe per il testing del campo istitution; non puo' avere una lunghezza maggiore di 70 caratteri
      * 
-     * @param istitution stringa da testare
+     * @param title stringa da testare
      * @return restituisce la stringa se valida, lancia un'eccezione altrimenti
      * @throws IstitutionException 
      */

@@ -26,10 +26,7 @@ public class UpdatePublicationServlet extends HttpServlet {
      * Processes requests for both HTTP <code>GET</code> and <code>POST</code>
      * methods.
      *
-     * @param request oggetto request per accedere ai parametri inviati attraverso
-     * il metodo getParameter per ottenere il titolo, la publicationIssue, l'anno,
-     * il numero di pagine, il link, il tipo, gli altri autori e l'abstract di una
-     * pubblicazione per effettuare la richiesta di modifica di una nuova pubblicazione
+     * @param request servlet request
      * @param response servlet response
      * @throws ServletException if a servlet-specific error occurs
      * @throws IOException if an I/O error occurs

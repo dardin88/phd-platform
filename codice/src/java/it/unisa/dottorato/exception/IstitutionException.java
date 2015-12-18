@@ -7,19 +7,10 @@ package it.unisa.dottorato.exception;
  */
 public class IstitutionException extends Exception{
     
-    /**Metodo della classe incaricato di ritornare alla superclasse
-     * Exception il messaggio 'L'istituzione è sbagliata'
-     * 
-     */
      public IstitutionException () {
         super("L'istituzione è sbagliata");
     }
    
-     /**Metodo della classe incaricato di ritornare alla superclasse
-     * Exception il messaggio pMessage
-     * @param pMessage
-     * 
-     */
      public IstitutionException(String pMessage) {
         super(pMessage);
     }

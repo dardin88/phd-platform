@@ -26,9 +26,7 @@ public class GetCurriculumListServlet extends HttpServlet {
 
     /**
      * Processes requests for both HTTP <code>GET</code> and <code>POST</code>
-     * methods
-     * Ricostruisce un array list dei nomi di tutti i curriculum presenti nella
-     * piattaforma
+     * methods.
      *
      * @param request servlet request
      * @param response servlet response

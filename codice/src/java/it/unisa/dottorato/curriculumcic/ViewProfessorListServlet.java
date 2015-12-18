@@ -28,10 +28,7 @@ public class ViewProfessorListServlet extends HttpServlet {
      * Processes requests for both HTTP <code>GET</code> and <code>POST</code>
      * methods.
      *
-     * @param request oggetto request per accedere ai parametri inviati attraverso
-     * il metodo getParameter per ottenere il numero del ciclo fkCycle, il nome
-     * del curriculum fkCurriculum e l'email del coordinatore, per poter ricercare
-     * la coppia curriculum-ciclo e visualizzarne i professori
+     * @param request servlet request
      * @param response servlet response
      * @throws ServletException if a servlet-specific error occurs
      * @throws IOException if an I/O error occurs
