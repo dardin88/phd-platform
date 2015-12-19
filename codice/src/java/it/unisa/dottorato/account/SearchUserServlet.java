@@ -20,7 +20,7 @@ import org.json.JSONObject;
  *
  * @author Rembor
  */
-@WebServlet(name = "SearchUser", urlPatterns = {"/dottorato/SearchUser"})
+@WebServlet(name = "SearchUser", urlPatterns = {"/SearchUser"})
 public class SearchUserServlet extends HttpServlet{
     
     /**

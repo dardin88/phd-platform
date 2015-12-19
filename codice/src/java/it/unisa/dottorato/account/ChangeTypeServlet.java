@@ -19,7 +19,7 @@ import javax.servlet.http.HttpServletResponse;
  *
  * @author Armando
  */
-@WebServlet(name = "ChangeTypeServlet", urlPatterns = {"/dottorato/ChangeTypeServlet"})
+@WebServlet(name = "ChangeTypeServlet", urlPatterns = {"/ChangeTypeServlet"})
 
 public class ChangeTypeServlet extends HttpServlet {
     /**

@@ -1,12 +1,11 @@
 <%-- 
     Document   : profile
-    Created on : 25-dic-2014, 11.54.56
-    Author     : gemmacatolino
+    Author     : armando
 --%>
 
-<%@page import="it.unisa.dottorato.account.*;"%>
-<%@page import="it.unisa.dottorato.Cycle.*;"%>
-<%@page import="it.unisa.dottorato.Curriculum.*;"%>
+<%@page import="it.unisa.dottorato.account.*"%>
+<%@page import="it.unisa.dottorato.Cycle.*"%>
+<%@page import="it.unisa.dottorato.Curriculum.*"%>
 
 <%@ taglib prefix="c" uri="http://java.sun.com/jsp/jstl/core" %>
 <%@page contentType="text/html" pageEncoding="UTF-8"%>
@@ -59,7 +58,6 @@
                     <div class="col-sm-1"></div>
                     
                     <div class="col-sm-10">
-                        <!--Qui chiama servlet update che prende infomazioni person--> 
                         <% Account loggedPerson = ((Account) session.getAttribute("account"));
                           
                         %>

@@ -21,7 +21,7 @@ import org.json.JSONObject;
  *
  * @author Armando
  */
-@WebServlet(name = "getAccountList", urlPatterns = {"/dottorato/getAccountList"})
+@WebServlet(name = "getAccountList", urlPatterns = {"/getAccountList"})
 
 /**
      * Processes requests for both HTTP <code>GET</code> and <code>POST</code>

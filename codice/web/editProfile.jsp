@@ -135,6 +135,10 @@
                                                     </div>
                                                     <br>
                                                     <br>
+                                                    
+                                                    <div class="form-group-separator"></div>
+                                                    <br>
+                                
                                                <% if(loggedPerson.getTypeAccount().equals("professor")) { %>
                                                     <p>Web Page:</p>
                                                     <div class="input-group">

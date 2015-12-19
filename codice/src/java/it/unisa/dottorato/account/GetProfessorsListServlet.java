@@ -25,7 +25,7 @@ import org.json.JSONObject;
  *
  * @author Rembor
  */
-@WebServlet(name = "GetProfessorsList", urlPatterns = {"/dottorato/GetProfessorsList"})
+@WebServlet(name = "GetProfessorsList", urlPatterns = {"/GetProfessorsList"})
 public class GetProfessorsListServlet  extends HttpServlet{
      
     /**

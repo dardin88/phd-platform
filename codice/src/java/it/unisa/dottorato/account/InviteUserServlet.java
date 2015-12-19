@@ -16,7 +16,7 @@ import javax.servlet.http.HttpServletResponse;
  *
  * @author gemmacatolino
  */
-@WebServlet(name = "InviteUserServlet", urlPatterns = {"/dottorato/InviteUserServlet"})
+@WebServlet(name = "InviteUserServlet", urlPatterns = {"/InviteUserServlet"})
 public class InviteUserServlet extends HttpServlet {
 
     /**
