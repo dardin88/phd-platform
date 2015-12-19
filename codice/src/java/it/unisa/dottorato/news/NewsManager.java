@@ -67,7 +67,7 @@ private static final String TABLE_News = "news";
              */
              String tSql = "INSERT INTO "
                     + NewsManager.TABLE_News
-                    + " (id,title,description,)"
+                    + " (idNews,title,description,)"
                     + " VALUES ('"
                     + testid(nextNumber())
                     + "','"
@@ -118,7 +118,7 @@ private static final String TABLE_News = "news";
              */
             String sql = "SELECT * From "
                     + NewsManager.TABLE_News
-                    + " WHERE number = "
+                    + " WHERE idNews = "
                     +    testid(anews.getId());
             
                        if (connection == null) {
@@ -201,7 +201,7 @@ private static final String TABLE_News = "news";
                     + Utility.Replace(testTitle(pNews.getTitle()))
                     + "', description = '"
                     +Utility.Replace(testDescription(pNews.getDescription()))
-                    + "' WHERE number = "
+                    + "' WHERE idNews = "
                     + oldNewsId;           
             //esecuzione query
             Utility.executeOperation(connect, tSql);
