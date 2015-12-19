@@ -95,7 +95,7 @@
                                 <h1> Modifica profilo</h1>
                             </div>
                             <div class="panel-body">
-                                <form class="form-horizontal" method="POST" action="UpdateProfileServlet" onsubmit="return testpass(this)>
+                                <form class="form-horizontal" name ="profileform" method="POST" action="UpdateProfileServlet" onsubmit="return testpass(this) enctype="multipart/form-data"">
                                     <div class="form-group">
                                         <table width="90%" align="center">
                                             <tr><td>
@@ -136,7 +136,8 @@
                                                     <br>
                                                     <br>
                                                     
-                                                    <div class="form-group-separator"></div>
+                                                    <p>Modifica Contatti</p>
+                                                    <div class="form-group-separator" value=""></div>
                                                     <br>
                                 
                                                <% if(loggedPerson.getTypeAccount().equals("professor")) { %>
@@ -183,7 +184,8 @@
                                                         <textarea class="form-control" name="researchInterest" rows="5" cols="40"> <%= ((PhdStudent)loggedPerson).getResearchInterest()%> </textarea>
                                                     </div>
                                                     <br>
-                                                    <br>
+                                                    <br>                                       
+                           
                                                  <% } %>
 
                                                     <div>
@@ -197,6 +199,8 @@
 
                                     </div>
                                 </form>
+                                                 
+                                <form class="form-group" action="UploadFile" enctype="multipart/form-data"
                             </div>
                         </div>
                     </div>

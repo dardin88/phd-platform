@@ -3,6 +3,13 @@
     Author     : armando
 --%>
 
+<%@page import="it.unisa.dottorato.phdProfile.collaborations.CollaborationManager"%>
+<%@page import="it.unisa.dottorato.phdProfile.missions.MissionManager"%>
+<%@page import="it.unisa.dottorato.phdProfile.collaborations.Collaboration"%>
+<%@page import="it.unisa.dottorato.phdProfile.missions.Mission"%>
+<%@page import="it.unisa.dottorato.phdProfile.publications.PublicationManager"%>
+<%@page import="it.unisa.dottorato.phdProfile.publications.Publication"%>
+<%@page import="java.util.List"%>
 <%@page import="it.unisa.dottorato.account.*"%>
 <%@page import="it.unisa.dottorato.Cycle.*"%>
 <%@page import="it.unisa.dottorato.Curriculum.*"%>
@@ -30,10 +37,77 @@
         <link rel="stylesheet" href="assets/css/xenon-components.css">
         <link rel="stylesheet" href="assets/css/xenon-skins.css">
         <link rel="stylesheet" href="assets/css/custom.css">  
+        <link rel="stylesheet" href="//code.jquery.com/ui/1.11.4/themes/smoothness/jquery-ui.css">
         <link rel="stylesheet" href="style/dottorato.css">
+        <link rel="stylesheet" href="/resources/demos/style.css">
 
-        <script src="assets/js/jquery-1.11.1.min.js"></script>
-        <script type="text/javascript" src="script/index.js"></script>
+        <script type="text/javascript">
+            function show() {
+                var x = document.getElementById("rawr");
+
+                if (x.style.display === 'block')
+                    x.style.display = 'none';
+                else
+                    x.style.display = 'block';
+
+                if (document.getElementById("showArrow").className === 'glyphicon glyphicon-chevron-down pointer') {
+                    document.getElementById("showArrow").className = 'glyphicon glyphicon-chevron-up pointer';
+                } else
+                    document.getElementById("showArrow").className = 'glyphicon glyphicon-chevron-down pointer';
+            }
+            function display(x) {
+                if (x === 'table-pub') {
+                    document.getElementsByTagName("li")[0].className = 'active';
+                    var blessed = document.getElementById(x);
+                    var other = document.getElementById("table-coll");
+                    var other1 = document.getElementById("table-miss");
+                    blessed.style.display = 'block';
+                    other.style.display = 'none';
+                    other1.style.display = 'none';
+                }
+                if (x === 'table-coll') {
+                     document.getElementsByTagName("li")[1].className = 'active';
+                    var blessed = document.getElementById(x);
+                    var other = document.getElementById('table-pub');
+                    var other1 = document.getElementById('table-miss');
+                    blessed.style.display = 'block';
+                    other.style.display = 'none';
+                    other1.style.display = 'none';
+                }
+                if (x === 'table-miss') {
+                     document.getElementsByTagName("li")[2].className = 'active';
+                    var blessed = document.getElementById(x);
+                    var other = document.getElementById('table-coll');
+                    var other1 = document.getElementById('table-pub');
+                    blessed.style.display = 'block';
+                    other.style.display = 'none';
+                    other1.style.display = 'none';
+                }
+
+            }
+
+
+
+
+        </script>
+
+        <style>
+            #rawr {
+                display: none;
+            }
+
+            #table-coll {
+                display:none;
+            }
+
+            #table-miss {
+                display:none;
+            }
+        </style>
+
+
+
+
 
         <!-- HTML5 shim and Respond.js IE8 support of HTML5 elements and media queries -->
         <!--[if lt IE 9]>
@@ -54,21 +128,21 @@
             <div class="main-content" id="content">
 
                 <div class="row">
-                    
+
                     <div class="col-sm-1"></div>
-                    
+
                     <div class="col-sm-10">
                         <% Account loggedPerson = ((Account) session.getAttribute("account"));
-                          
+
                         %>
                         <div class="panel panel-default">
                             <div class="panel-heading">
-                                <h1> <%= loggedPerson.getName()%> <%= loggedPerson.getSurname() %>  <span class="glyphicon glyphicon-cog pointer" aria-hidden="true" onclick="location.href = 'editProfile.jsp'" style="float: right; display: inline;"></span></h1>
-                                 <%  if(loggedPerson.getTypeAccount().equals("phdstudent")) { %>
-                                 <h4> <%= ((PhdStudent)loggedPerson).getfkCycle()%>° ciclo di dottorato in <%= ((PhdStudent)loggedPerson).getfkCurriculum()%></h4>
-                               <% } else if(loggedPerson.getTypeAccount().equals("professor")) { %>
-                                     <h4><%= ((Professor)loggedPerson).getDepartment()%></h4>
-                                   <% } %>
+                                <h1> <%= loggedPerson.getName()%> <%= loggedPerson.getSurname()%>  <span class="glyphicon glyphicon-cog pointer" aria-hidden="true" onclick="location.href = 'editProfile.jsp'" style="float: right; display: inline;"></span></h1>
+                                    <%  if (loggedPerson.getTypeAccount().equals("phdstudent")) {%>
+                                <h4> <%= ((PhdStudent) loggedPerson).getfkCycle()%>° ciclo di dottorato in <%= ((PhdStudent) loggedPerson).getfkCurriculum()%></h4>
+                                <% } else if (loggedPerson.getTypeAccount().equals("professor")) {%>
+                                <h4><%= ((Professor) loggedPerson).getDepartment()%></h4>
+                                <% } %>
                             </div>
                             <div class="panel-body">
                                 <table width="97%" align="center">
@@ -76,75 +150,207 @@
                                         <td width="180px" >
                                             <img class="img-polaroid" style='width: 150px ; height: 150px ;' src="Immagini/scam_facebook_fake_tutela_amici.jpg" alt="nome immagine" >
                                         </td>
-                                        
-                                       <% if(loggedPerson.getTypeAccount().equals("basic")) { %>
-                                       <td>
-                                          <h3> Contatti </h3>
-                                          E-mail: <%= loggedPerson.getSecondaryEmail()%> <br>
-                                          
-                                          <% } %>
-                                       <% if(loggedPerson.getTypeAccount().equals("phdstudent")) { %>
+
+                                        <% if (loggedPerson.getTypeAccount().equals("basic")) {%>
+                                        <td>
+                                            <h3> Contatti </h3>
+                                            E-mail: <%= loggedPerson.getSecondaryEmail()%> <br>
+
+                                            <% } %>
+                                            <% if (loggedPerson.getTypeAccount().equals("phdstudent")) {%>
                                         <td>
                                             <h3> Contatti </h3>
                                             <p> 
-                                                Telefono: <%= ((PhdStudent)loggedPerson).getTelephone()%> <br>
+                                                Telefono: <%= ((PhdStudent) loggedPerson).getTelephone()%> <br>
                                                 E-mail: <%= loggedPerson.getSecondaryEmail()%> <br>
-                                                <% if (((PhdStudent)loggedPerson).getLink() != null) {%>
-                                                Sito web: <a href="<%= ((PhdStudent)loggedPerson).getLink()%>" target="_blank"><%= ((PhdStudent)loggedPerson).getLink()%></a> <br>
+                                                <% if (((PhdStudent) loggedPerson).getLink() != null) {%>
+                                                Sito web: <a href="<%= ((PhdStudent) loggedPerson).getLink()%>" target="_blank"><%= ((PhdStudent) loggedPerson).getLink()%></a> <br>
                                                 <%}
-                                                    if (((PhdStudent)loggedPerson).getDepartment() != null) {%>
-                                                <%= ((PhdStudent)loggedPerson).getDepartment() %> <br>
+                                                    if (((PhdStudent) loggedPerson).getDepartment() != null) {%>
+                                                <%= ((PhdStudent) loggedPerson).getDepartment()%> <br>
                                                 <% }%>
-                                            
+
 
                                             </p>
                                         </td>
-                                         <% } %>
-                                        <% if(loggedPerson.getTypeAccount().equals("professor")) { %>
-                                            <td>
-                                                <h3> Contatti</h3>
+                                        <% } %>
+                                        <% if (loggedPerson.getTypeAccount().equals("professor")) {%>
+                                        <td>
+                                            <h3> Contatti</h3>
                                             <p> 
-                     
+
                                                 E-mail: <%= loggedPerson.getSecondaryEmail()%> <br>
-                                                <% if (((Professor)loggedPerson).getLink() != null) {%>
-                                                Sito web: <a href="<%= ((Professor)loggedPerson).getLink()%>" target="_blank"><%= ((Professor)loggedPerson).getLink()%></a> <br>
+                                                <% if (((Professor) loggedPerson).getLink() != null) {%>
+                                                Sito web: <a href="<%= ((Professor) loggedPerson).getLink()%>" target="_blank"><%= ((Professor) loggedPerson).getLink()%></a> <br>
                                                 <%}
-                                                    if (((Professor)loggedPerson).getDepartment() != null) {%>
-                                                <%= ((Professor)loggedPerson).getDepartment() %> <br>
+                                                    if (((Professor) loggedPerson).getDepartment() != null) {%>
+                                                <%= ((Professor) loggedPerson).getDepartment()%> <br>
                                                 <% }%>
 
                                             </p>
-                                            </td>
+                                        </td>
                                         <% } %>
-                                            
+
                                     </tr>
-                                    
-                                    <% if(loggedPerson.getTypeAccount().equals("phdstudent")) { %>
+
+                                    <% if (loggedPerson.getTypeAccount().equals("phdstudent")) {%>
+
+                                    <%
+                                        List<Publication> publications = PublicationManager.getInstance().getAllPublicationsOf((PhdStudent) loggedPerson);
+                                        List<Collaboration> collaborations = CollaborationManager.getInstance().getAllCollaborationOf((PhdStudent) loggedPerson);
+                                        List<Mission> missions = MissionManager.getInstance().getAllMissionsOf((PhdStudent) loggedPerson);
+                                    %>
                                     <tr>
                                         <td colspan="2">
                                             <br>
-                                            <h3> Attività di ricerca </h3> <br>
+                                            <h3 id = "diocane"> Attività di ricerca </h3> <br>
                                             <p class="text-justify" > 
-                                                <%= ((PhdStudent)loggedPerson).getResearchInterest()%> <br> <br>
+                                                <%= ((PhdStudent) loggedPerson).getResearchInterest()%> <br> <br>
                                             </p>
 
                                             <p class="text-justify"> 
-                                            <h3>Registro attività: <span class="glyphicon glyphicon-eye-open pointer" aria-hidden="true" onclick="location.href = 'publicationActivity.jsp'"></span></h3>
+                                            <h3>Registro attività: <span id ="showArrow" class="glyphicon glyphicon-chevron-down pointer" aria-hidden="true" onclick="show();"></span></h3>
                                             </p>
+                                            <div id="rawr">
+                                                <div class="panel-heading">
+                                                    <ul class="nav nav-tabs" >
+                                                        <li role="presentation" onclick="display('table-pub')"><a>Pubblicazioni</a></li>
+                                                        <li role="presentation" onclick="display('table-coll')"><a>Collaborazioni</a></li>
+                                                        <li role="presentation" onclick="display('table-miss')"><a>Mission</a></li>
+                                                    </ul>
+                                                    <br>
+
+
+
+                                                </div>
+                                                <div class="panel-body" id="table-pub">
+                                                    <button type="button" class="btn btn-xs" aria-label="Left Align" onclick="location.href='addPublication.jsp'">
+                                                        <span id="showArrow" class="glyphicon glyphicon-plus" aria-hidden="true"> </span> Aggiungi pubblicazione
+                                                    </button>
+                                                    <table class="table table-hover" width="98%" align="center" >
+                                                        <thead>
+                                                        <th width="15%">Titolo</th>
+                                                        <th width="15%">Autori</th>		
+                                                        <th width="30%">Abstract</th>
+                                                        <th width="10%">Anno</th>
+                                                        <th width="10%">Type</th>
+                                                        <th width="10%">Pubblication Issue</th>
+                                                        <th width="10%">Numero Pagine</th>
+                                                        </thead>
+
+                                                        <% for (Publication publication : publications) {%>
+                                                        <tr>
+                                                            <td><%= publication.getTitle()%></td>
+                                                            <td><%= publication.getAuthors()%> </td>		
+                                                            <td><%= publication.getAbstract()%></td>
+                                                            <td><%= publication.getYear()%></td>
+                                                            <td><%= publication.getType()%></td>
+                                                            <td><%= publication.getPublicationIssue()%></td>		
+                                                            <td><%= publication.getNumberPages()%></td>
+
+                                                            <% session.setAttribute("idPublication", publication.getIdPublication());%>
+
+                                                            <td width="20px"> <button type="button" class="btn btn-white" title="modifica">
+                                                                    <span class="glyphicon glyphicon-cog" aria-hidden="true" onclick="location.href = 'editPublication.jsp'" ></span>
+                                                                </button>
+                                                            </td>
+                                                            <td width="20px">
+                                                                <button type="button" class="btn btn-white"title="delete">
+                                                                    <span class="glyphicon glyphicon-remove" aria-hidden="true" onclick="location.href = '<%= "DeletePublicationServlet?id=" + publication.getIdPublication()%>'" ></span>
+                                                                </button>
+                                                            </td>
+                                                        </tr>
+                                                        <% }%>
+                                                    </table>
+                                                </div>
+
+                                                <div class="panel-body" id="table-coll">
+                                                    <button type="button" class="btn btn-xs " aria-label="Left Align" onclick="location.href = 'addCollaboration.jsp'">
+                                                        <span class="glyphicon glyphicon-plus" aria-hidden="true" ></span> Aggiungi collaborazione
+                                                    </button>
+                                                    <table class="table table-hover" width="98%" align="center" >
+                                                        <thead>
+                                                        <th>Istituzione</th>
+                                                        <th>Descrizione</th>		
+                                                        <th>Data Di Inizio</th>
+                                                        <th>Data Di Fine</th>
+                                                        </thead>
+
+                                                        <% for (Collaboration collaboration : collaborations) {%>
+                                                        <tr>
+                                                            <td><%= collaboration.getIstitution()%></td>
+                                                            <td><%= collaboration.getDescription()%></td>		
+                                                            <td><%= collaboration.getStartDate()%></td>
+                                                            <td><%= collaboration.getEndDate()%></td>
+
+                                                            <% session.setAttribute("idCollaboration", collaboration.getIdCollaboration());%>
+
+                                                            <td width="20px"> <button type="button" class="btn btn-white" title="modifica">
+                                                                    <span class="glyphicon glyphicon-cog" aria-hidden="true" onclick="location.href = 'editCollaboration.jsp'" ></span>
+                                                                </button>
+                                                            </td>
+                                                            <td width="20px">
+                                                                <button type="button" class="btn btn-white" title="delete">
+                                                                    <span class="glyphicon glyphicon-remove" aria-hidden="true" onclick="location.href = '<%= "DeleteCollaborationServlet?id=" + collaboration.getIdCollaboration()%>'" ></span>
+                                                                </button>
+                                                            </td>
+                                                        </tr>
+                                                        <% }%>
+                                                    </table>
+                                                </div>
+                                                <div class="panel-body" id="table-miss">
+                                                    <button type="button" class="btn btn-xs" aria-label="Left Align" onclick="location.href = 'addMission.jsp'">
+                                                        <span class="glyphicon glyphicon-plus" aria-hidden="true" ></span> Aggiungi mission
+                                                    </button>
+                                                    <table class="table table-hover" width="98%" align="center" >
+                                                        <thead>
+                                                        <th>Luogo</th>
+                                                        <th>Descrizione</th>		
+                                                        <th>Data Di Inizio</th>
+                                                        <th>Data Di Fine</th>
+                                                        </thead>
+
+                                                        <% for (Mission mission : missions) {%>
+
+                                                        <tr>
+                                                            <td><%= mission.getPlace()%></td>
+                                                            <td><%= mission.getDescription()%></td>		
+                                                            <td><%= mission.getStartDate()%></td>
+                                                            <td><%= mission.getEndDate()%></td>
+
+                                                            <% session.setAttribute("idMission", mission.getIdMission());%>
+
+
+
+                                                            <td width="20px"> <button type="button" class="btn btn-white" title="modifica">
+                                                                    <span class="glyphicon glyphicon-cog" aria-hidden="true"onclick="location.href = 'editMission.jsp'" ></span>
+                                                                </button>
+                                                            </td>
+                                                            <td width="20px">
+                                                                <button type="button" class="btn btn-white"title="delete">
+                                                                    <span class="glyphicon glyphicon-remove" aria-hidden="true" onclick="location.href = '<%= "DeleteMissionServlet?id=" + mission.getIdMission()%>'" ></span>
+                                                                </button>
+                                                            </td>
+                                                        </tr>
+                                                        <% }%>
+
+                                                    </table>
+                                                </div>
+                                            </div>
                                         </td>
                                     </tr>
-                                  <% } %>
+                                    <% }%>
+
                                 </table>
                             </div>
                         </div>
                     </div>
-                                                
+
                     <div class="col-sm-1"></div>
-                    
+
                 </div>
             </div>
 
-        </div>
-
+        </div>                          
     </body>
 </html>
