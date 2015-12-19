@@ -69,7 +69,7 @@ public class AccountManager {
              */
             String sql = "SELECT * From account"
                     
-                    + " WHERE number = "
+                    + " WHERE email = "
                     +    sEmail;
             
                        if (connection == null) {
@@ -77,13 +77,12 @@ public class AccountManager {
             }
             //esecuzione query
             stmt = connection.createStatement();
-         rs=  Utility.queryOperation(connection, sql);
+            rs=  Utility.queryOperation(connection, sql);
 
             if (rs.next()) {
-                anews = new Account();
-                
+             anews = new Account();  
              anews.setName(rs.getString("name"));
-            anews.setSurname(rs.getString("surname"));
+             anews.setSurname(rs.getString("surname"));
              anews.setEmail(rs.getString("email"));
              anews.setSecondaryEmail(rs.getString("secondaryEmail"));
              anews.setTypeAccount(rs.getString("typeAccount"));
@@ -201,11 +200,11 @@ public class AccountManager {
      * nella piattaforma
      */
     
-    public ArrayList<Account> getPhdStudents() {
+    public ArrayList<PhdStudent> getPhdStudents() {
             Connection connect = null;
            
             try {
-         ArrayList<Account> students = new ArrayList<>();
+         ArrayList<PhdStudent> students = new ArrayList<>();
          //Connessione al database
          connect = DBConnection.getConnection();
           /*
@@ -213,7 +212,9 @@ public class AccountManager {
              * nella tabella account
              */
          String sql = "SELECT * FROM account "
-                 +    "WHERE typeAccount = 'phdstudent'";
+                 +    "WHERE typeAccount = 'phdstudent'"
+                 +    "INNER JOIN phdstudent"
+                 +    "ON account.email = phdstudent.fkAccount";
          //esecuzione della query
          ResultSet result = Utility.queryOperation(connect, sql);
          while(result.next()){
@@ -221,6 +222,13 @@ public class AccountManager {
              temp.setName(result.getString("name"));
              temp.setSurname(result.getString("surname"));
              temp.setEmail(result.getString("email"));
+             temp.setLink(result.getString("link"));
+             temp.setDepartment(result.getString("department"));
+             temp.setResearchInterest(result.getString("researchInterest"));
+             temp.setfkAccount(result.getString("fkAccount"));
+             temp.setfkCycle(result.getInt("fkCycle"));
+             temp.setfkCurriculum(result.getString("fkCurriculum"));
+             temp.setfkProfessor(result.getString("fkProfessor"));
              temp.setSecondaryEmail(result.getString("secondaryEmail"));
              temp.setTypeAccount(result.getString("typeAccount"));
              temp.setPassword(result.getString("password"));
@@ -245,11 +253,11 @@ public class AccountManager {
      * nella piattaforma
      */
     
-        public ArrayList<Account> getProfessors() {
+        public ArrayList<Professor> getProfessors() {
             Connection connect = null;
            
             try {
-         ArrayList<Account> professors = new ArrayList<>();
+         ArrayList<Professor> professors = new ArrayList<>();
          //Connessione al database
          connect = DBConnection.getConnection();
           /*
@@ -257,7 +265,9 @@ public class AccountManager {
              * nella tabella account
              */
          String sql = "SELECT * FROM account "
-                 +    "WHERE typeAccount = 'professor'";
+                 +    "WHERE typeAccount = 'professor'"
+                 +    "INNER JOIN professor"
+                 +    "ON account.email = professor.fkAccount";
          System.out.println("querylog" + sql);
          //esecuzione della query
          ResultSet result = Utility.queryOperation(connect, sql);
@@ -266,6 +276,8 @@ public class AccountManager {
              temp.setName(result.getString("name"));
              temp.setSurname(result.getString("surname"));
              temp.setEmail(result.getString("email"));
+             temp.setLink(result.getString("link"));
+             temp.setDepartment(result.getString("department"));
              temp.setSecondaryEmail(result.getString("secondaryEmail"));
              temp.setTypeAccount(result.getString("typeAccount"));
              temp.setPassword(result.getString("password"));
