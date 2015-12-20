@@ -68,6 +68,9 @@ public class CurriculumManagerTest {
         cur.setName("Curriculmtest");
         cur.setDescription("il Curriculum è di prova");  
         instance.insert(cur);
+        Curriculum result=instance.getCurriculumByName("Curriculumtest");
+        assertEquals(result, cur);
+        tearDown();
     }
     
     /**
@@ -83,6 +86,9 @@ public class CurriculumManagerTest {
         c.setName("");        
         c.setDescription("il Curriculum è di prova");  
         instance.insert(c);
+        
+        Curriculum result=instance.getCurriculumByName("");
+        assertNull(result);
     }
     
     /**
@@ -99,6 +105,9 @@ public class CurriculumManagerTest {
                 + "ciaosofdffrio,ho sbagliato ad inserire il nome del curriculum");
         c.setDescription("il Curriculum è di prova");  
         instance.insert(c);
+        Curriculum result=instance.getCurriculumByName("ciaosonomario,ho sbagliato ad inserire il nome del curriculum"
+                + "ciaosofdffrio,ho sbagliato ad inserire il nome del curriculum");
+        assertNull(result);
     }
     
     /**
@@ -106,7 +115,7 @@ public class CurriculumManagerTest {
      * @throws java.lang.Exception
      */
     @Test
-    public void testInserPresent() throws Exception {
+    public void testInsertPresent() throws Exception {
         
         System.out.println("insert");
         CurriculumManager instance = CurriculumManager.getInstance();
@@ -114,7 +123,8 @@ public class CurriculumManagerTest {
         c.setName("Marketing e Comunicazione");
         c.setDescription("il Curriculum è di prova"); 
         instance.insert(c);
-        
+        Curriculum result=instance.getCurriculumByName("Marketing e Comunicazione");
+        assertNotEquals(result,c);
     }
     
      /**
@@ -127,9 +137,11 @@ public class CurriculumManagerTest {
         System.out.println("insert");
         CurriculumManager instance = CurriculumManager.getInstance();
         Curriculum c=new Curriculum();
-        c.setName("Marketing e Comunicazione");
+        c.setName("Curriculumtest");
         c.setDescription(testsup65536());
         instance.insert(c);
+        Curriculum result=instance.getCurriculumByName("Curriculumtest");
+        assertNull(result);
         
     }
    
@@ -147,6 +159,8 @@ public class CurriculumManagerTest {
         pCurriculum.setDescription("descrizione prova update");
         CurriculumManager instance = CurriculumManager.getInstance();
         instance.update(oldNameCurriculum, pCurriculum);
+        Curriculum result=instance.getCurriculumByName("Curriculum prova update");
+        assertEquals(result, pCurriculum);
     }
 
     /**
@@ -158,10 +172,12 @@ public class CurriculumManagerTest {
         System.out.println("update");
         String oldNameCurriculum = "ciao";
         Curriculum pCurriculum = new Curriculum();
-        pCurriculum.setName("curriculum prova update");
+        pCurriculum.setName("curriculum prova update2");
         pCurriculum.setDescription("descrizione prova update");
         CurriculumManager instance = CurriculumManager.getInstance();
         instance.update(oldNameCurriculum, pCurriculum);
+        Curriculum result=instance.getCurriculumByName("Curriculum prova update2");
+        assertNull(result);
     }
     /**
      * Test of update method, of class CurriculumManager.
@@ -172,10 +188,12 @@ public class CurriculumManagerTest {
         System.out.println("update");
         String oldNameCurriculum = "";
         Curriculum pCurriculum = new Curriculum();
-        pCurriculum.setName("curriculum prova update");
+        pCurriculum.setName("curriculum prova update3");
         pCurriculum.setDescription("descrizione prova update");
         CurriculumManager instance = CurriculumManager.getInstance();
         instance.update(oldNameCurriculum, pCurriculum);
+        Curriculum result=instance.getCurriculumByName("Curriculum prova update3");
+        assertNull(result);
     }
     
     /**
@@ -192,6 +210,9 @@ public class CurriculumManagerTest {
         pCurriculum.setDescription("descrizione prova update");
         CurriculumManager instance = CurriculumManager.getInstance();
         instance.update(oldNameCurriculum, pCurriculum);
+        Curriculum result=instance.getCurriculumByName("ciaosonomario,ho sbagliato ad inserire il nome del curriculum" 
+                                                     + "ciaosofdffrio,ho sbagliato ad inserire il nome del curriculum");
+        assertNull(result);
     }
     
     /**
@@ -207,6 +228,8 @@ public class CurriculumManagerTest {
         pCurriculum.setName("");
         pCurriculum.setDescription("descrizione prova update");
         instance.update(oldNameCurriculum, pCurriculum);
+        Curriculum result=instance.getCurriculumByName("Marketing e Comunicazione");
+        assertNotNull(result);
     }
     
      /**
@@ -223,6 +246,8 @@ public class CurriculumManagerTest {
                 + "ciaosofdffrio,ho sbagliato ad inserire il nome del curriculum");
         pCurriculum.setDescription("descrizione prova update");
         instance.update(oldNameCurriculum, pCurriculum);
+        Curriculum result=instance.getCurriculumByName("Marketing e Comunicazione");
+        assertNotNull(result);
     }
     
      /**
@@ -238,6 +263,8 @@ public class CurriculumManagerTest {
         pCurriculum.setName("curriculum prova update");
         pCurriculum.setDescription(testsup65536());
         instance.update(oldNameCurriculum, pCurriculum);
+        Curriculum result=instance.getCurriculumByName("Marketing e Comunicazione");
+        assertNotNull(result);
     }
     
     /**
@@ -247,9 +274,10 @@ public class CurriculumManagerTest {
     @Test
     public void testDeleteEmptyName() throws Exception {
         System.out.println("delete");
-        String CurriculumName = "";
+        String CurriculumName = null;
         CurriculumManager instance = CurriculumManager.getInstance();
         instance.delete(CurriculumName);
+        assertNull(CurriculumName);
         
     }
     
@@ -259,11 +287,14 @@ public class CurriculumManagerTest {
      */
     @Test
     public void testDeleteNameMax() throws Exception {
+        CurriculumManager instance = CurriculumManager.getInstance();
         System.out.println("delete");
         String CurriculumName = "ciaosonomario,ho sbagliato ad inserire il nome del curriculum"
                               + "ciaosofdffrio,ho sbagliato ad inserire il nome del curriculum";
-        CurriculumManager instance = CurriculumManager.getInstance();
+        Curriculum result=instance.getCurriculumByName(CurriculumName);
         instance.delete(CurriculumName);
+        assertNull(result);
+  
     }
 
     /**
@@ -275,7 +306,9 @@ public class CurriculumManagerTest {
         System.out.println("delete");
         String CurriculumName = "ciaooooooooo";
         CurriculumManager instance = CurriculumManager.getInstance();
+        Curriculum result=instance.getCurriculumByName(CurriculumName);
         instance.delete(CurriculumName);
+        assertNull(result);
     }
     
     /**
@@ -287,7 +320,10 @@ public class CurriculumManagerTest {
         System.out.println("delete");
         String CurriculumName = "Curriculmtest";
         CurriculumManager instance = CurriculumManager.getInstance();
+        Curriculum result=instance.getCurriculumByName(CurriculumName);
         instance.delete(CurriculumName);
+        Curriculum result2=instance.getCurriculumByName(CurriculumName);
+        assertNotEquals(result2, result);
     }
     
     /**
@@ -299,11 +335,7 @@ public class CurriculumManagerTest {
         System.out.println("getCurriculumList");
         CurriculumManager instance = CurriculumManager.getInstance();
         ArrayList<Curriculum> result = instance.getCurriculumList();
-        for(Curriculum c: result){
-            System.out.println("Nome: "+c.getName());
-            System.out.println("Descrizione: "+c.getDescription());
-            System.out.println("");
-        }
+        assertNotNull(result);
     }
 
     /**
@@ -316,8 +348,7 @@ public class CurriculumManagerTest {
         String CurriculumName = "";
         CurriculumManager instance = CurriculumManager.getInstance();
         Curriculum result = instance.getCurriculumByName(CurriculumName);
-        System.out.println("Nome: "+result.getName());
-        System.out.println("Descrizione: "+result.getDescription());
+        assertNull(result);
     }
 
     /**
@@ -331,8 +362,7 @@ public class CurriculumManagerTest {
                               + "ciaosonomario,ho sbagliato ad inserire il nome del curriculum";
         CurriculumManager instance = CurriculumManager.getInstance();
         Curriculum result = instance.getCurriculumByName(CurriculumName);
-        System.out.println("Nome: "+result.getName());
-        System.out.println("Descrizione: "+result.getDescription());
+        assertNull(result);
     }
 
     /**
@@ -345,8 +375,7 @@ public class CurriculumManagerTest {
         String CurriculumName = "ciaooooooooo";
         CurriculumManager instance = CurriculumManager.getInstance();
         Curriculum result = instance.getCurriculumByName(CurriculumName);
-        System.out.println("Nome: "+result.getName());
-        System.out.println("Descrizione: "+result.getDescription());
+        assertNull(result);
     }
 
      /**
@@ -359,8 +388,8 @@ public class CurriculumManagerTest {
         String CurriculumName = "Marketing e Comunicazione";
         CurriculumManager instance = CurriculumManager.getInstance();
         Curriculum result = instance.getCurriculumByName(CurriculumName);
-        System.out.println("Nome: "+result.getName());
-        System.out.println("Descrizione: "+result.getDescription());
+        assertNotNull(result);
+        
     }
     private String testsup65536() {
         String c="dsdffdffdf";
