@@ -42,7 +42,7 @@ public class GetPhdStudentListServlet extends HttpServlet{
         response.setContentType("text/html;charset=UTF-8");
         try (PrintWriter out = response.getWriter()) {
             JSONObject result = new JSONObject();
-            ArrayList<Account> cycles = AccountManager.getInstance().getPhdStudents();
+            ArrayList<PhdStudent> cycles = AccountManager.getInstance().getPhdStudents();
                 JSONArray resultArray = new JSONArray(cycles);
                 
                 result.put("account", resultArray);
