@@ -31,7 +31,7 @@
         <link rel="stylesheet" href="style/dottorato.css">
         
         <script src="assets/js/jquery-1.11.1.min.js"></script>
-        <script type="text/javascript" src="script/amministrazione.js"></script>
+        <script type="text/javascript" src="script/search.js"></script>
 
     <!-- HTML5 shim and Respond.js for IE8 support of HTML5 elements and media queries -->
     <!-- WARNING: Respond.js doesn't work if you view the page via file:// -->
@@ -66,27 +66,24 @@
             <div class="input-group col-lg-8 col-md-8 col-sm-8 pull-left col-xs-8">
                 <input id="word" class="form-control" type="text" value="" placeholder="Search" name="q" autofocus="autofocus" />
                 
+         
                 
-                <div class="input-group-btn">
-                    
-                    <button type="button" class="btn btn-default dropdown-toggle" id="x" data-toggle="dropdown">Seleziona il tipo di utente<span class="caret"></span>
-            </button>
-                         
-                 
-                    <ul class="dropdown-menu">
-                        <li class="selected" ><a  href="#" <%//rAccount = AccountManager.getInstance().getProfessors() ; %> > Docente    </a>                  </li>
-                        <li class="selected"> <a href="#" <%// rAccount = AccountManager.getInstance().getPhdStudents() ;%> >Dottorando     </a>                  </li>
-                        
-                    </ul>
-                      
-                </div>
+                
+                <div class="input-group-btn" >
+  <select class="form-control" id="sel1"  name="sel1" >
+    <option value=null>Seleziona il tipo di utente</option>
+    <option value="Dottorando">Dottorando</option>
+    <option value="Docente">Docente</option>
+</select>
+
+</div>  
                 <!-- /btn-group -->
             </div>
             <button id="search" data-style="slide-left" class="btn btn-success col-lg-3 col-md-3 col-sm-3 col-xs-3 pull-right" type="submit"> <i id="icon" class="fa fa-search"></i>Search</button>
                  <% 
                 String names = request.getParameter("word");
                  if(request.getParameter("submit") != null) {
-                rAccount = AccountManager.getInstance().searchUser(names,null);
+                rAccount = AccountManager.getInstance().searchUser(names);
                 
                 
                  } %>  
@@ -103,7 +100,7 @@
                     <th data-field="email" data-sortable="true">Email</th>
                 </tr>
             </thead>
-            <tbody>
+            <tbody id="gattini">
                 <% for (Account rsAccount : rAccount) {%>
                 
                 <tr>

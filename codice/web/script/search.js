@@ -5,13 +5,29 @@
  */
 
 $(document).ready(function() {
+    
+   getAccountList();
+   searchForName();
+    
+   });
+
+function getAccountList()
+{
     var dot="Dottorando";
     $('#sel1').on('change', function() {
         if (this.value==dot){ 
+             alert("dio porco");
             
-            alert("dio porco");
+             $.getJSON("GetPhdStudentList", function (data) {
+       
+        $.each(data.account, function (index, value) {
+           account = "<tr>  <td> " + value.typeAccount + "</td>  <td> " + value.name + "</td> <td> " + value.surname + "</td>    <td> " + value.email + "</td> ";
+                $("#gattini").append(account);
+        });
+    });
+           
             
-        
+        }
         
         
            /* alert(result.item1+" "+result.item2+" "+result.item3);
@@ -19,17 +35,26 @@ $(document).ready(function() {
 	 $('#gattini').append('<p> nome: ' + a. + '</p>');*/
        
      
-}
+
   else alert(" Mannaggia la madonna");      
     });
             
         
      // alert( this.value +dot); // or $(this).val()
-  });
-  
+ 
+}
 
-
-
+function getAccountList()
+{
+    
+     $.getJSON("getAccountList", function (data) {
+            $.each(data.account, function (index, value) {
+                account = "<tr>  <td> " + value.typeAccount + "</td>  <td> " + value.name + "</td> <td> " + value.surname + "</td>    <td> " + value.email + "</td> ";
+                $("#gattini").append(account);
+            });
+        });
+        
+}
 /*
 
 function initSearchUser() {
