@@ -211,10 +211,8 @@ public class AccountManager {
              * stringa SQL per selezionare piu record 
              * nella tabella account
              */
-         String sql = "SELECT * FROM account "
-                 +    "WHERE typeAccount = 'phdstudent'"
-                 +    "INNER JOIN phdstudent"
-                 +    "ON account.email = phdstudent.fkAccount";
+         String sql = "SELECT * FROM account  INNER JOIN phdstudent ON account.secondaryEmail=phdstudent.fkAccount   WHERE typeAccount = 'phdstudent'";
+
          //esecuzione della query
          ResultSet result = Utility.queryOperation(connect, sql);
          while(result.next()){
@@ -234,6 +232,7 @@ public class AccountManager {
              temp.setPassword(result.getString("password"));
              temp.setAdmin(result.getBoolean("isAdministrator"));
              students.add(temp);
+             System.out.println(temp);
          }
          return students; 
     }   catch (SQLException ex) {
@@ -264,10 +263,7 @@ public class AccountManager {
              * stringa SQL per selezionare piu record 
              * nella tabella account
              */
-         String sql = "SELECT * FROM account "
-                 +    "WHERE typeAccount = 'professor'"
-                 +    "INNER JOIN professor"
-                 +    "ON account.email = professor.fkAccount";
+         String sql = "SELECT * FROM account  INNER JOIN professor ON account.secondaryEmail=professor.fkAccount   WHERE typeAccount = 'professor'";
          System.out.println("querylog" + sql);
          //esecuzione della query
          ResultSet result = Utility.queryOperation(connect, sql);
@@ -381,7 +377,7 @@ public class AccountManager {
                     + testProfileData(((PhdStudent) pAccount).getTelephone())
                     + "', link =  '"
                     + testProfileData(((PhdStudent) pAccount).getLink())
-                    + "', deparment = '"
+                    + "', department = '"
                     + testProfileData(((PhdStudent) pAccount).getDepartment())
                     + "', researchInterest = '"
                     + testProfileData(((PhdStudent) pAccount).getResearchInterest())
@@ -442,7 +438,7 @@ public class AccountManager {
                 +"''";
         
         String toPhdSql = "INSERT INTO phdstudent "
-                + "(fkAccount,telephone,link,deparment,researchInterest,fkCycle"
+                + "(fkAccount,telephone,link,department,researchInterest,fkCycle"
                 + "fkCurriculum, fkProfessor )" //nuovo dottorando
                 + "VALUES ('"
                 + testEmail(pAccount.getSecondaryEmail()) + "',"
