@@ -1,3 +1,4 @@
+<%@page import="it.unisa.dottorato.account.AccountManager"%>
 <%@ taglib prefix="c" uri="http://java.sun.com/jsp/jstl/core" %>
 <%@page contentType="text/html" pageEncoding="UTF-8"%>
 <!DOCTYPE html>
@@ -30,6 +31,8 @@
         <jsp:include page="barraMenu.jsp" flush="true"/>
 
         <!--BODY-->
+        
+      
 
         <div class="page-container">
             <div class="main-content">

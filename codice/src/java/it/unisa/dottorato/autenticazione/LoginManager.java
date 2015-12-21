@@ -92,6 +92,8 @@ public class LoginManager  {
                            phd.setName(rs.getString("name"));
                            phd.setSurname(rs.getString("surname"));
                            phd.setPassword(rs.getString("password"));
+                           phd.setEmail(rs.getString("email"));
+                           phd.setSecondaryEmail(rs.getString("secondaryEMail"));
                            phd.setTypeAccount(rs.getString("typeAccount"));
                            phd.setAdmin(rs.getBoolean("isAdministrator"));
                            phd.setfkAccount(rs.getString("secondaryEmail"));
@@ -112,8 +114,10 @@ public class LoginManager  {
                         rt = stmt2.executeQuery(queryProfessor);
                         if(rt.next()) {
                             Professor professor = new Professor();
+                            professor.setEmail(rs.getString("email"));
                             professor.setName(rs.getString("name"));
                             professor.setSurname(rs.getString("surname"));
+                            professor.setSecondaryEmail(rs.getString("secondaryEmail"));
                             professor.setPassword(rs.getString("password"));
                             professor.setTypeAccount(rs.getString("typeAccount"));
                             professor.setAdmin(rs.getBoolean("isAdministrator"));

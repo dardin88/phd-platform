@@ -28,7 +28,7 @@
         <link rel="stylesheet" href="assets/css/custom.css">
 
         <script src="assets/js/jquery-1.11.1.min.js"></script>
-        
+
 
         <script language="Javascript" type="text/javascript">
             function testpass(modulo) {
@@ -96,8 +96,8 @@
                                         <span id="surname" style="color:#cc3f44"></span>
                                     </div>
                                 </div>
-                   
-         
+
+
                                 <div class="form-group-separator"></div>
                                 <br>
 
@@ -108,19 +108,19 @@
                                         <span id="email" style="color:#cc3f44"></span>
                                     </div>
                                 </div>
-                                
+
                                 <div class ="form-group">
                                     <label class="col-sm-2 control-label">E-mail Secondaria: </label>
                                     <div class="col-sm-10">
-                                        <input type="text" class="form-control" id ="secondaryEmail" name="secondaryEmail" style="width: 75%"/>
+                                        <input type="text" class="form-control phd-required company-required student-required professor-required" id ="secondaryEmail" name="secondaryEmail" style="width: 75%"/>
                                     </div>
                                 </div>
-                                
-                                
+
+
                                 <div class="form-group-separator"></div>
                                 <br>
-                                
-                        
+
+
 
                                 <div class="form-group">
                                     <label class="col-sm-2 control-label">Password: </label>
@@ -145,41 +145,41 @@
                             </div>
 
                             </form>
-                        
+
+                        </div>
                     </div>
+                    <div class="col-sm-2"></div>
                 </div>
-                <div class="col-sm-2"></div>
+                <footer class="main-footer sticky footer-type-1">
+                    <div class="footer-inner">
+                        <!-- Add your copyright text here -->
+                        <div class="footer-text">
+                            &copy;
+                            <a href="http://www.unisa.it" target="_blank"><strong>Unisa</strong> </a>
+                        </div>
+                        <!-- Go to Top Link, just add rel="go-top" to any link to add this functionality -->
+                        <div class="go-up">
+                            <a href="#" rel="go-top">
+                                <i class="fa-angle-up"></i>
+                            </a>
+                        </div>
+                    </div>
+                </footer>
             </div>
-            <footer class="main-footer sticky footer-type-1">
-                <div class="footer-inner">
-                    <!-- Add your copyright text here -->
-                    <div class="footer-text">
-                        &copy;
-                        <a href="http://www.unisa.it" target="_blank"><strong>Unisa</strong> </a>
-                    </div>
-                    <!-- Go to Top Link, just add rel="go-top" to any link to add this functionality -->
-                    <div class="go-up">
-                        <a href="#" rel="go-top">
-                            <i class="fa-angle-up"></i>
-                        </a>
-                    </div>
-                </div>
-            </footer>
         </div>
-    </div>
 
 
-    <!-- Bottom Scripts -->
-    <script src="assets/js/bootstrap.min.js"></script>
-    <script src="assets/js/TweenMax.min.js"></script>
-    <script src="assets/js/resizeable.js"></script>
-    <script src="assets/js/joinable.js"></script>
-    <script src="assets/js/xenon-api.js"></script>
-    <script src="assets/js/xenon-toggles.js"></script>
-    <script src="assets/js/jquery-ui/jquery-ui.min.js"></script>
+        <!-- Bottom Scripts -->
+        <script src="assets/js/bootstrap.min.js"></script>
+        <script src="assets/js/TweenMax.min.js"></script>
+        <script src="assets/js/resizeable.js"></script>
+        <script src="assets/js/joinable.js"></script>
+        <script src="assets/js/xenon-api.js"></script>
+        <script src="assets/js/xenon-toggles.js"></script>
+        <script src="assets/js/jquery-ui/jquery-ui.min.js"></script>
 
-    <!-- JavaScripts initializations and stuff -->
-    <script src="assets/js/xenon-custom.js"></script>
+        <!-- JavaScripts initializations and stuff -->
+        <script src="assets/js/xenon-custom.js"></script>
 
-</body>
+    </body>
 </html>
