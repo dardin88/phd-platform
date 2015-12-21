@@ -195,7 +195,7 @@ create table IF not EXIsts phdstudent(
 fkAccount 				varchar(50) primary key,
 telephone				varchar(15),
 link 					varchar(150),
-deparment				varchar(50) not null,
+department				varchar(50) not null,
 researchInterest		text,
 fkCycle 				integer,
 fkCurriculum 			varchar(100),
@@ -206,7 +206,7 @@ foreign key (fkCurriculum) references curriculumcic(fkCurriculum) on delete set 
 foreign key (fkCycle) references curriculumcic(fkCycle) on delete set null on update cascade);
 
 -- inseriamo il phdstudent
-INSERT INTO phdstudent(fkAccount,telephone,link,deparment,researchInterest,fkCycle,fkCurriculum,fkProfessor)VALUES
+INSERT INTO phdstudent(fkAccount,telephone,link,department,researchInterest,fkCycle,fkCurriculum,fkProfessor)VALUES
 ('ballo@hotmail.it','3881144567',null,'Informatica',null,15,'Informatica, Sistemi Informativi e Tecnologie del Software','adelucia@hotmail.it'),
 
 ('dinucci@hotmail.it','3881144567','http://www.sesa.unisa.it/people/ddinucci/','Informatica','He is
