@@ -102,8 +102,8 @@ public class AccountManagerTest {
     public void testGetPhdStudents() {
         System.out.println("getPhdStudents");
         AccountManager instance = new AccountManager();
-        ArrayList<Account> expResult = null;
-        ArrayList<Account> result = instance.getPhdStudents();
+        ArrayList<PhdStudent> expResult = null;
+        ArrayList<PhdStudent> result = instance.getPhdStudents();
         assertEquals(expResult, result);
         // TODO review the generated test code and remove the default call to fail.
         fail("The test case is a prototype.");
@@ -116,8 +116,8 @@ public class AccountManagerTest {
     public void testGetProfessors() {
         System.out.println("getProfessors");
         AccountManager instance = new AccountManager();
-        ArrayList<Account> expResult = null;
-        ArrayList<Account> result = instance.getProfessors();
+        ArrayList<Professor> expResult = null;
+        ArrayList<Professor> result = instance.getProfessors();
         assertEquals(expResult, result);
         // TODO review the generated test code and remove the default call to fail.
         fail("The test case is a prototype.");
