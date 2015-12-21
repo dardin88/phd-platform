@@ -212,9 +212,9 @@ public class AccountManager {
              * nella tabella account
              */
          String sql = "SELECT * FROM account "
-                 +    "WHERE typeAccount = 'phdstudent'"
                  +    "INNER JOIN phdstudent"
-                 +    "ON account.email = phdstudent.fkAccount";
+                 +    "ON account.secondaryEmail = phdstudent.fkAccount"
+                 +    "AND account.typeAccount = 'phdstudent'";
          //esecuzione della query
          ResultSet result = Utility.queryOperation(connect, sql);
          while(result.next()){
@@ -265,9 +265,10 @@ public class AccountManager {
              * nella tabella account
              */
          String sql = "SELECT * FROM account "
-                 +    "WHERE typeAccount = 'professor'"
                  +    "INNER JOIN professor"
-                 +    "ON account.email = professor.fkAccount";
+                 +    "ON account.secondaryEmail = professor.fkAccount"
+                 +    "AND account.typeAccount = 'professor'";
+         
          System.out.println("querylog" + sql);
          //esecuzione della query
          ResultSet result = Utility.queryOperation(connect, sql);
