@@ -984,7 +984,7 @@ public class CalendarManagerTest {
     
     @Test
     public void testDeleteMinIdLesson() throws Exception {
-        int oldId = -1;
+        String oldId = "-1";
         try{
             instance.delete_lesson(oldId);
             fail("sono riuscito a fare l' op");
@@ -995,7 +995,7 @@ public class CalendarManagerTest {
     
     @Test
     public void testDeleteMaxIdLesson() throws Exception {
-        int oldId = supint100();
+        String oldId = testsup100();
         try{
             instance.delete_lesson(oldId);
             fail("sono riuscito a fare l' op");
@@ -1004,20 +1004,11 @@ public class CalendarManagerTest {
         }
     }
     
-    @Test
-    public void testDeleteFormatIdLesson() throws Exception {
-        int oldId = testint("wfreg*TG&@");
-        try{
-            instance.delete_lesson(oldId);
-            fail("sono riuscito a fare l' op");
-        }catch(Exception x){
-            assertTrue(true);    
-        }
-    }
+    
     
     @Test
     public void testDeleteLessonok() throws Exception {
-        int oldId = 11;
+        String oldId = "11";
         try{
             instance.delete_lesson(oldId);
             fail("sono riuscito a fare l' op");
@@ -1588,7 +1579,7 @@ public class CalendarManagerTest {
     
     @Test
     public void testDeleteMinIdSeminar() throws Exception {
-        int oldId = -1;
+        String oldId = "-1";
         try{
             instance.delete_seminar(oldId);
             fail("sono riuscito a fare l' op");
@@ -1599,7 +1590,7 @@ public class CalendarManagerTest {
     
     @Test
     public void testDeleteMaxIdSeminar() throws Exception {
-        int oldId = supint100();
+        String oldId = testsup100();
         try{
             instance.delete_seminar(oldId);
             fail("sono riuscito a fare l' op");
@@ -1608,20 +1599,11 @@ public class CalendarManagerTest {
         }
     }
     
-    @Test
-    public void testDeleteFormatIdSeminar() throws Exception {
-        int oldId = testint("777777#@7");
-        try{
-            instance.delete_seminar(oldId);
-            fail("sono riuscito a fare l' op");
-        }catch(Exception x){
-            assertTrue(true);    
-        }
-    }
+   
     
     @Test
     public void testDeleteSeminarok() throws Exception {
-        int oldId = 2;
+        String oldId = "2";
         try{
             instance.delete_seminar(oldId);
             fail("sono riuscito a fare l' op");
@@ -1632,7 +1614,7 @@ public class CalendarManagerTest {
    
     
     
-    /////////
+    ///////// metodi di utilità
     
     
     public Date convertStringToDate(String dateString) throws ParseException
