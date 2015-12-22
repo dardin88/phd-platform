@@ -45,13 +45,11 @@ public class InsertCycleServlet extends HttpServlet {
             int number = CycleManager.getInstance().nextNumber();
             String description = request.getParameter("description");
             String year = request.getParameter("year");
-            String professor = request.getParameter("fkProfessor");
             
             Cycle aPhdCycle = new Cycle();
             aPhdCycle.setNumber(number);
             aPhdCycle.setDescription(description);
             aPhdCycle.setYear(year);
-            aPhdCycle.setFkProfessor(professor);
             
             try {
                 CycleManager.getInstance().insertCycle(aPhdCycle);

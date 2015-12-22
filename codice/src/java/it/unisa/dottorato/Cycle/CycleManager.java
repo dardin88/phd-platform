@@ -93,9 +93,7 @@ public class CycleManager {
                     + testDescription(pCycle.getDescription())
                     + "','"
                     + testYear(pCycle.getYear())
-                    + "','"
-                    + Utility.emptyValue(pCycle.getFkProfessor())
-                    + "')";
+                    + "',null";
 
             
             //Inviamo la Query al DataBase
@@ -527,17 +525,13 @@ public class CycleManager {
                     + CurriculumManager.getInstance().testName(pCurriculumcic.getfkCurriculum())
                     + "',"
                     + testNumber(pCurriculumcic.getfkCycle())
-                    + ",'"
-                    + testFkProfessor(pCurriculumcic.getfkProfessor())
-                    + "')";
+                    + ",null";
 
             //Inviamo la Query al DataBase
             Utility.executeOperation(connect, tSql);
 
             connect.commit();
         }catch (CurriculumcicException ex) {
-            Logger.getLogger(CycleManager.class.getName()).log(Level.SEVERE, null, ex);
-        }catch (ReferenceException ex) {
             Logger.getLogger(CycleManager.class.getName()).log(Level.SEVERE, null, ex);
         }catch (NameException ex) {
             Logger.getLogger(CycleManager.class.getName()).log(Level.SEVERE, null, ex);

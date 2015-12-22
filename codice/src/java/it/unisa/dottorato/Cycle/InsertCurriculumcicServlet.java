@@ -52,7 +52,6 @@ public class InsertCurriculumcicServlet extends HttpServlet {
         Curriculumcic aCurriculumcic = new Curriculumcic();
         aCurriculumcic.setfkCycle(number);
         aCurriculumcic.setfkCurriculum(name);
-        aCurriculumcic.setfkProfessor(null);
         
         result.put("result", true);
 
