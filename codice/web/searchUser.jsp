@@ -94,10 +94,10 @@
                     <th data-field="email" data-sortable="true">Email</th>
                 </tr>
             </thead>
-            <tbody id="gattini">
+            <tbody id="resultbody">
                 <% for (Account rsAccount : rAccount) {%>
                 
-                <tr>
+                <tr >
                     
                     <td><%= rsAccount.getTypeAccount()%></td>
                     <td><%= rsAccount.getName() %></td>
