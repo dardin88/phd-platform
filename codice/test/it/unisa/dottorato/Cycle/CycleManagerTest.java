@@ -5,6 +5,7 @@
  */
 package it.unisa.dottorato.Cycle;
 
+import it.unisa.dottorato.Curriculum.Curriculum;
 import it.unisa.dottorato.account.Professor;
 import it.unisa.dottorato.curriculumcic.Curriculumcic;
 import java.util.ArrayList;
@@ -228,8 +229,8 @@ public class CycleManagerTest {
         System.out.println("getCurriculumcicList");
         int number = 0;
         CycleManager instance = null;
-        ArrayList<Curriculumcic> expResult = null;
-        ArrayList<Curriculumcic> result = instance.getCurriculumcicList(number);
+        ArrayList<Curriculum> expResult = null;
+        ArrayList<Curriculum> result = instance.getCurriculumcicList(number);
         assertEquals(expResult, result);
         // TODO review the generated test code and remove the default call to fail.
         fail("The test case is a prototype.");

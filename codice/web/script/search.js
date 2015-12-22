@@ -83,7 +83,7 @@ function searchForName()
                 
     var   account = "<tr>  <td> " + value.typeAccount + "</td>  <td> " + value.name + "</td> <td> " + value.surname + "</td>  <td> " + value.email + "</td> </tr>";
            
-                $("#resultbody tbody").append(account);
+                $("#resultbody").append(account);
            
         
                 

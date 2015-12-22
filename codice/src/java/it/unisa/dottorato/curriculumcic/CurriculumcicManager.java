@@ -197,9 +197,8 @@ public class CurriculumcicManager {
              * tabella curriculumcic
              */
            String tSql = "SELECT email, secondaryEmail, surname, name, link, department FROM "
-                    + CurriculumcicManager.TABLE_CURRICULUMCIC
-                    + ","
-                    + CurriculumcicManager.TABLE_PROFESSOR+","
+                    + CurriculumcicManager.TABLE_CURRICULUMCIC+ ","
+                    + CurriculumcicManager.TABLE_PROFESSOR+ ","
                     + CurriculumcicManager.TABLE_ACCOUNT 
                     +"WHERE fkCurriculum= '"
                     + CurriculumManager.getInstance().testName(pCurriculumcic.getfkCurriculum())
@@ -216,9 +215,6 @@ public class CurriculumcicManager {
                 cord.setName(result.getString("name"));
                 cord.setLink(result.getString("link"));
                 cord.setDepartment(result.getString("department"));
-                cord.setPassword(null);
-                cord.setAdmin(false);
-                cord.setTypeAccount(null);
                 cord.setfkAccount(cord.getSecondaryEmail());
             }
 
@@ -415,7 +411,6 @@ public class CurriculumcicManager {
             //Inviamo la Query al DataBase
             ResultSet result = Utility.queryOperation(connect, tSql);
             while (result.next()) {
-                while (result.next()) {
                 cord.setEmail(result.getString("email"));
                 cord.setSecondaryEmail(result.getString("secondaryEmail"));
                 cord.setSurname(result.getString("surname"));
@@ -429,9 +424,7 @@ public class CurriculumcicManager {
                 cord.setfkCurriculum(curriculumcic.getfkCurriculum());
                 cord.setfkCycle(curriculumcic.getfkCycle());
                 cord.setfkProfessor("fkProfessor");
-                
                 stud.add(cord);
-            }
             }
 
             return stud;
@@ -464,7 +457,7 @@ public class CurriculumcicManager {
              * tabella phdstudent
              */
             String tSql = "UPDATE phdstudent SET"
-                    + "fkCurriculum = null, fkCycle = null"
+                    + " fkCurriculum = null, fkCycle = null"
                     + " WHERE fkAccount = '"
                     + testFkPhdstudent(fkPhdstudent)
                     + "'";

@@ -1,5 +1,6 @@
 package it.unisa.dottorato.Cycle;
 
+import it.unisa.dottorato.Curriculum.Curriculum;
 import it.unisa.dottorato.Curriculum.CurriculumManager;
 import it.unisa.dottorato.curriculumcic.CurriculumcicManager;
 import it.unisa.dottorato.account.Professor;
@@ -35,6 +36,7 @@ public class CycleManager {
     private static final String TABLE_TEACH = "teach";
     private static final String TABLE_PROFESSOR = "professor";
     private static final String TABLE_ACCOUNT = "account";
+    private static final String TABLE_CURRICULUM = "curriculum";
     
     //	 istanza della classe
     private static CycleManager instance;
@@ -91,9 +93,9 @@ public class CycleManager {
                     + testDescription(pCycle.getDescription())
                     + "','"
                     + testYear(pCycle.getYear())
-                    + "',"
+                    + "','"
                     + Utility.emptyValue(pCycle.getFkProfessor())
-                    + ")";
+                    + "')";
 
             
             //Inviamo la Query al DataBase
@@ -351,7 +353,7 @@ public class CycleManager {
             ResultSet result = Utility.queryOperation(connect, tSql);
 
             if (result.next()) {
-                cycle.setNumber(result.getInt("idPhdCycle"));
+                cycle.setNumber(result.getInt("number"));
                 cycle.setDescription(result.getString("description"));
                 cycle.setYear(result.getString("year"));
                 cycle.setFkProfessor(result.getString("fkProfessor"));
@@ -596,12 +598,12 @@ public class CycleManager {
      * @throws java.sql.SQLException
      * @throws java.io.IOException
      */
-    public synchronized ArrayList<Curriculumcic> getCurriculumcicList(int number) throws ClassNotFoundException, SQLException, IOException {
+    public synchronized ArrayList<Curriculum> getCurriculumcicList(int number) throws ClassNotFoundException, SQLException, IOException {
         Connection connect = null;
-        ArrayList<Curriculumcic> classList=null;
+        ArrayList<Curriculum> List=null;
         try {
-             classList= new ArrayList<>();
-            Curriculumcic aCurriculumcic;
+            List= new ArrayList<>();
+            Curriculum c=new Curriculum();
             // Otteniamo una Connessione al DataBase
             connect = DBConnection.getConnection();
 
@@ -609,32 +611,30 @@ public class CycleManager {
              * Prepariamo la stringa SQL per la ricerca dei record 
              * nella tabella curriculumcic
              */
-            String tSql = "SELECT * FROM "
-                    + CycleManager.TABLE_CURRICULUMCIC
-                    + "WHERE fkCycle ="
-                    + testNumber(number)
-                    +" ORDER BY fkCycle desc";
-
+            String tSql = "SELECT curriculum.name, curriculum.description FROM "
+                    + CycleManager.TABLE_CURRICULUMCIC 
+                    + ","
+                    + CycleManager.TABLE_CURRICULUM
+                    + "WHERE fkCurriculum=curriculum.name AND fkCycle ="
+                    + testNumber(number);
+            
             //Inviamo la Query al DataBase
             ResultSet result = Utility.queryOperation(connect, tSql);
 
             while (result.next()) {
-                aCurriculumcic = new Curriculumcic();
-                aCurriculumcic.setfkCycle(result.getInt("fkCycle"));
-                aCurriculumcic.setfkCurriculum(result.getString("fkCurriculum"));
-                aCurriculumcic.setfkProfessor(result.getString("fkProfessor"));
-
-                classList.add(aCurriculumcic);
+                c.setName(result.getString("curriclum.name"));
+                c.setDescription(result.getString("curriculum.description"));
+                List.add(c);
             }
 
-            return classList;
+            return List;
 
         }catch (IdException ex) {
             Logger.getLogger(CycleManager.class.getName()).log(Level.SEVERE, null, ex);
         } finally {
             DBConnection.releaseConnection(connect);
         }
-        return classList;
+        return List;
     }
     
     /**

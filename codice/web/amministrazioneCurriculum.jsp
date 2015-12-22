@@ -71,27 +71,24 @@
                             <div class="form-group">
                                         <label for="sel1">Seleziona uno dei curriculum attivi nel dottorato di ricerca</label>
                                         <select class="form-control" id="CurriculumList" onclick="selectedItem()">
-                                            <option value="default" >  ---------------------------------------------------------  </option>
+                                            <option value="default" >  - seleziona -  </option>
                                         </select>
                             </div>
                         </div>
                          
                         
                         <div class="well-small col-lg-7 col-lg-offset-0 col-md-8 col-md-offset-6 col-sm-10 col-sm-offset-1 col-xs-12">
-                        <div class="panel panel-default " id="descriptionPanel" >
+                            <div class="panel panel-default " id="descriptionPanel" hidden="true" >
                             <div class="panel-heading">
-                                <h3 class="panel-title">Nome Curriculum: <span style="font-style: italic" id="CurriculumNameField"> -- Curriculum selezionato -- </h3> 
+                                <h3 class="panel-title">Nome Curriculum: <span style="text-justify: auto" id="CurriculumNameField">  </h3> 
                             </div>
                             <div class="panel-body">
                                 <p id="CurriculumDescriptionField"> 
-                                    Descrizione curriculum selezionato
+                                    
                             </div>
-                            <div class="panel-footer" style="background-color: transparent">
-                                <button type="button" class="btn btn-default btn-red"  style="margin-top: 10px">
-                                <span class="glyphicon glyphicon-remove-sign" aria-hidden="true"></span>
-                                Rimuovi Curriculum
-                            </button> 
-                            <button type="button" class="btn btn-default btn-orange" style="margin-top: 10px">
+                            <div class="panel-footer" style="background-color: transparent" id="footerPanel">
+                                
+                            <button type="button" class="btn btn-default btn-orange" >
                                 <span class="glyphicon glyphicon-pencil" aria-hidden="true" ></span>
                                 Modifica Curriculum
                             </button> 
