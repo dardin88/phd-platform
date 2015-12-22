@@ -1,3 +1,4 @@
+
 var dayData = ['Sun', 'Mon', 'Tue', 'Wed', 'Thu', 'Fri', 'Sat'];
 var MonthData = ['January', 'February', 'March', 'Aprill', 'May', 'June', 'July', 'August', 'September', 'October', 'November', 'December'];
 var testObj;
@@ -78,10 +79,12 @@ jinCalendar.getScheduleDate = function() {
 };
 
 $('#btn-prev').click(function() {
+    
 	date = new Date(date.getFullYear(), date.getMonth()-1, date.getDate());
 	setCalendar(date);
 	if(jinCalendar.prev != null) {
 		jinCalendar.prev(date);	
+              
 	}
 	
 });

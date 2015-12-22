@@ -42,7 +42,8 @@ var dot="Dottorando";
        
      
 }
-  else if(this.value==pro){ alert(" Mannaggia la madonna");
+  else if(this.value==pro){ 
+      alert(" Mannaggia la madonna");
  $("#gattini tr").remove();
             $.getJSON("GetProfessorsList", function (data) {
         alert("dio bastardo");
@@ -76,19 +77,24 @@ function searchForName()
     
    $('#search').click(function() {
      $("#gattini tr").remove();
-         nome = $("#word").val();
-   alert(nome);
+                    var   name = $("#word").val();
+
  
-     $.getJSON("SearchUser",{name: nome}, function (data) {
-           alert(data.account +"pporco i 9 divini");
-         alert(nome+"mannagia  i 7 sandali di cristo");
+ 
+     $.getJSON("SearchUser",{name: name}, function (data) {
+          
+       
+       alert(name+"mannagia  i 7 sandali di cristo");
             $.each(data.account, function (index, value) {
-                 alert(nome+"mannagia  la creatività di cristo ");
+                
+    var   account = "<tr>  <td> " + value.typeAccount + "</td>  <td> " + value.name + "</td> <td> " + value.surname + "</td>  <td> " + value.email + "</td> </tr>";
+           alert(account);
+                $("#gattini tbody").append(account);
+           
                
-                account = "<tr>  <td> " + value.typeAccount + "</td>  <td> " + value.name + "</td> <td> " + value.surname + "</td>    <td> " + value.email + "</td> ";
-             $("#gattini").append(account);
-                  
-            });
+                
+         
+          });
         });
    });
 }

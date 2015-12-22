@@ -308,7 +308,7 @@ public class AccountManager {
              * nella tabella account
              */
       String sql = "SELECT * from account WHERE "
-              + "name LIKE '%" + search + "%'";
+              + "name LIKE '" + search + "'";
       try {
           //connesione al database
           connect = DBConnection.getConnection();
@@ -331,10 +331,10 @@ public class AccountManager {
       }
       return accounts;
   }
+     
       
-      
-      
-
+     
+     
     /**Metodo della classe incaricato dell'aggiornamento di un progilo
      * 
      * @param key email dell'account da modificare
