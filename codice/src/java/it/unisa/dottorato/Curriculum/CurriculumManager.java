@@ -191,7 +191,7 @@ public class CurriculumManager {
         ArrayList<Curriculum> curriculum=null;
         try {
             curriculum = new ArrayList<>();
-            Curriculum c=new Curriculum();
+            
             // Otteniamo una Connessione al DataBase
             connect = DBConnection.getConnection();
 
@@ -206,6 +206,7 @@ public class CurriculumManager {
             ResultSet result = Utility.queryOperation(connect, tSql);
 
             while (result.next()) {
+                Curriculum c=new Curriculum();
                 c.setName(result.getString("name"));
                 c.setDescription(result.getString("description"));
                 curriculum.add(c);
