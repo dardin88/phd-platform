@@ -1,6 +1,6 @@
 package it.unisa.dottorato.Cycle;
 
-import it.unisa.dottorato.curriculumcic.Curriculumcic;
+import it.unisa.dottorato.Curriculum.Curriculum;
 import java.io.IOException;
 import java.io.PrintWriter;
 import java.sql.SQLException;
@@ -44,7 +44,7 @@ public class GetCurriculumcicListServlet extends HttpServlet {
               int number = Integer.parseInt(request.getParameter("number"));
             JSONObject result = new JSONObject();
             try {
-                ArrayList<Curriculumcic> curriculumcicList = CycleManager.getInstance().getCurriculumcicList(number);
+                ArrayList<Curriculum> curriculumcicList = CycleManager.getInstance().getCurriculumcicList(number);
                 JSONArray resultArray = new JSONArray(curriculumcicList);
                 result.put("CurriculumcicList", resultArray);
                 out.write(result.toString());
