@@ -556,7 +556,7 @@ public class AccountManager {
                     + fkProfessor
                     + "' where fkAccount = '"
                     + fkPhdstudent
-                    +",";
+                    +"'";
 
             //Inviamo la Query al DataBase
             Utility.executeOperation(connect, tSql);
@@ -650,11 +650,11 @@ public class AccountManager {
                     + Tutor
                     + "' where fkAccount = '"
                     + fkPhdstudent
-                    +",";
+                    +"'";
 
             //Inviamo la Query al DataBase
             Utility.executeOperation(connect, tSql);
-            System.out.println("la query dell'update è" +tSql);
+            
             connect.commit();
         }
     }

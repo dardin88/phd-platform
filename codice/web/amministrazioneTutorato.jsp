@@ -63,7 +63,7 @@
                             <div class="panel-heading">
                                 <h3 class="panel-title">Tutor: <span style="font-style: italic" id="TutorNameField"> </span> <button type="button" class="btn btn-default btn-red" id="removeTutorButton" onclick="removeTutorButton()">
                                             <span class="glyphicon glyphicon-remove-sign" aria-hidden="true" ></span> Rimuovi tutor
-                                                </button> </h3> 
+                                    </button> </h3>
                             </div>
                             <div class="panel-body">
                                 <table class="table" >

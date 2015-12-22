@@ -53,43 +53,35 @@ function selectedItem()
         $("#panelDiv").hide();
 }
 
-
-//funzione chiamata dall'onclick dei bottoni generali nella tabella contenente la lista dei professori
+//funzione per aggiornare il tutor, chiamata dall'onclick dei bottoni generali nella tabella contenente la lista dei professori
 function addTutorButton(newProfessorkey)
 {
-    //in key abbiamo la mail del nuovo tutor
+    //in newProfessorkey abbiamo la mail del nuovo tutor
     this.newProfessorkey = newProfessorkey;
-    alert("hai clickato su " + newProfessorkey);
-    alert("il tutor che c'è ora è " + tutorKey);
 
     var studentMail = $("#phdStudentsList option:selected").val();
-    //in selectedAccount abbiamo la mail dello studente selezionato nella select a cui bisogna assegnare il tutor 
+    //in studentMail abbiamo la mail dello studente selezionato nella select a cui bisogna assegnare il tutor 
     //in tutorKey abbiamo la mail del professore gia selezionato come tutor , se c'è (serve nel caso dobbiamo rimuoverlo)
 
     tutorName = $("#TutorNameField").html();
     if (tutorName === 'nessun tutor') { //non c'è un tutor assegnato, dobbiamo soltanto aggiungercelo
-        /*
-         //servlet per assegnare il tutor  
-         $.getJSON("InsertStudentTutor", {idStudent: studentMail, idProfessor: newProfessorkey}, function (data) {
-         
-         });
-         */
+
+        //servlet per assegnare il tutor  
+        $.getJSON("InsertStudentTutor", {idStudent: studentMail, idProfessor: newProfessorkey}, function (data) {
+            selectedItem();
+        });
+
     }
     else { //c'è gia un tutor assegnato: dobbiamo  aggiornarlo
-        // se selezioniamo lo stesso che c'è in tutorName non facciamo niente
         if (tutorKey === newProfessorkey)
         {
-            //donothing
-            messageDialog("Hai selezionato il tutor attuale"); //come funziona?
+            alert("Hai selezionato il tutor attuale");
         }
         else {
-            /*
-           //servlet per fare l'update del tutor
+            //servlet per fare l'update del tutor
             $.getJSON("UpdateTutorServlet", {idProfessor: newProfessorkey, idStudent: studentMail}, function (data) {
-                
+                selectedItem();
             });
-           */ 
-           
         }
     }
 
