@@ -309,12 +309,12 @@ public class CalendarManager {
       * @throws SQLException
       * @throws IOException 
       */
-     public synchronized void delete_lesson(int idLesson) throws ClassNotFoundException, SQLException, IOException {
+     public synchronized void delete_lesson(String idLesson) throws ClassNotFoundException, SQLException, IOException {
         Connection connect = null;
         try {
             // Otteniamo una Connessione al DataBase
             connect = DBConnection.getConnection();
-
+                int id = Integer.parseInt(idLesson);
             /*
              * Prepariamo la stringa SQL per cancellare un record 
              * nella tabella lesson
@@ -322,7 +322,7 @@ public class CalendarManager {
             String tSql = "DELETE FROM "
                     + CalendarManager.TABLE_LESSON
                     + " WHERE idLesson = '"
-                    + testid(idLesson) + "'";
+                    + testid(id) + "'";
 
             //Inviamo la Query al DataBase
             Utility.executeOperation(connect, tSql);
@@ -343,12 +343,12 @@ public class CalendarManager {
       * @throws SQLException
       * @throws IOException 
       */
-     public synchronized void delete_seminar(int idSeminar) throws ClassNotFoundException, SQLException, IOException {
+     public synchronized void delete_seminar(String idSeminar) throws ClassNotFoundException, SQLException, IOException {
         Connection connect = null;
         try {
             // Otteniamo una Connessione al DataBase
             connect = DBConnection.getConnection();
-
+            int id = Integer.parseInt(idSeminar);
             /*
              * Prepariamo la stringa SQL per cancellare un record 
              * nella tabella seminar
@@ -356,7 +356,7 @@ public class CalendarManager {
             String tSql = "DELETE FROM "
                     + CalendarManager.TABLE_SEMINAR
                     + " WHERE idSeminar = '"
-                    + testid(idSeminar) + "'";
+                    + testid(id) + "'";
 
             //Inviamo la Query al DataBase
             Utility.executeOperation(connect, tSql);
