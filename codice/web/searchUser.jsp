@@ -62,7 +62,7 @@
     <div class="page-container"> 
      <div  class="well col-lg-8 col-lg-offset-2 col-md-8 col-md-offset-2 col-sm-10 col-sm-offset-1 col-xs-12">
          
-        <form class="form-inline" action="#" method="post">
+        <form id="myForm" class="form-inline" action="#" method="post">
             <div class="input-group col-lg-8 col-md-8 col-sm-8 pull-left col-xs-8">
                 <input id="word" class="form-control" type="text" value="" placeholder="Search" name="q" autofocus="autofocus" />
                 
@@ -80,13 +80,7 @@
                 <!-- /btn-group -->
             </div>
             <button id="search" data-style="slide-left" class="btn btn-success col-lg-3 col-md-3 col-sm-3 col-xs-3 pull-right" type="submit"> <i id="icon" class="fa fa-search"></i>Search</button>
-                 <% 
-                String names = request.getParameter("word");
-                 if(request.getParameter("submit") != null) {
-                rAccount = AccountManager.getInstance().searchUser(names);
-                
-                
-                 } %>  
+               
         </form>
     </div>
     <div id="results" class="well col-lg-8 col-lg-offset-2 col-md-8 col-md-offset-2 col-sm-10 col-sm-offset-1 col-xs-12">

@@ -8,7 +8,7 @@ $(document).ready(function() {
   //getAccountList();
   
    searchForType();
-  
+  searchForName();
     
    });
 
@@ -26,7 +26,7 @@ var dot="Dottorando";
         if (this.value==dot){ 
             
             alert("dio porco");
-            
+            $("#gattini tr").remove();
               $.getJSON("GetPhdStudentList", function (data) {
         alert("i sandali di cristo");
         $.each(data.account, function (index, value) {
@@ -43,7 +43,8 @@ var dot="Dottorando";
      
 }
   else if(this.value==pro){ alert(" Mannaggia la madonna");
-   $.getJSON("GetProfessorsList", function (data) {
+ $("#gattini tr").remove();
+            $.getJSON("GetProfessorsList", function (data) {
         alert("dio bastardo");
         $.each(data.account, function (index, value) {
            professor = "<tr>  <td> "  + value.typeAccount+ "</td>  <td> " + value.name + "</td> <td> " + value.surname + "</td>    <td> " + value.email + "</td> ";
@@ -52,6 +53,8 @@ var dot="Dottorando";
           });
         }
         else {
+            alert("Quel gran bastardo di ponziopilates");
+            $("#gattini tr").remove();
              $.getJSON("getAccountList", function (data) {
             $.each(data.account, function (index, value) {
                 account = "<tr>  <td> " + value.typeAccount + "</td>  <td> " + value.name + "</td> <td> " + value.surname + "</td>    <td> " + value.email + "</td> ";
@@ -67,10 +70,26 @@ var dot="Dottorando";
    }
 
 
-/*function getAccountList()
-{
+function searchForName()
+{ 
+   
     
-    
-        
+   $('#search').click(function() {
+     $("#gattini tr").remove();
+         nome = $("#word").val();
+   alert(nome);
+ 
+     $.getJSON("SearchUser",{name: nome}, function (data) {
+           alert(data.account +"pporco i 9 divini");
+         alert(nome+"mannagia  i 7 sandali di cristo");
+            $.each(data.account, function (index, value) {
+                 alert(nome+"mannagia  la creatività di cristo ");
+               
+                account = "<tr>  <td> " + value.typeAccount + "</td>  <td> " + value.name + "</td> <td> " + value.surname + "</td>    <td> " + value.email + "</td> ";
+             $("#gattini").append(account);
+                  
+            });
+        });
+   });
 }
-*/
+
