@@ -47,10 +47,10 @@ public class CurriculumManagerTest {
         cur.setName("Curriculmtest");
         cur.setDescription("il Curriculum è di prova");
          try{
-            instance.insert(cur);
-            fail("sono riuscito a fare l' op");
+           instance.insert(cur);
+           assertTrue(true);
         }catch(Exception x){
-            assertTrue(true);
+            fail("sono riuscito a fare l' op");
         }
     }
     
@@ -133,9 +133,9 @@ public class CurriculumManagerTest {
         cur.setDescription("descrizione prova update");
         try{
             instance.update(oldNameCurriculum, cur);
-            fail("sono riuscito a fare l' op");
+            assertTrue(true);
         }catch(Exception x){
-            assertTrue(true);    
+            fail("non sono riuscito a fare l' op");
         }
     }
 
@@ -298,9 +298,9 @@ public class CurriculumManagerTest {
         String CurriculumName = "Curriculmtest";
        try{
             instance.delete(CurriculumName);
-            fail("sono riuscito a fare l' op");
+            assertTrue(true); 
         }catch(Exception x){
-            assertTrue(true);    
+            fail("sono riuscito a fare l' op");  
         }
     }
     
@@ -370,9 +370,9 @@ public class CurriculumManagerTest {
         String CurriculumName = "Marketing e Comunicazione";
         try{
             instance.getCurriculumByName(CurriculumName);
-            fail("sono riuscito a fare l' op");
+            assertTrue(true);  
         }catch(Exception x){
-            assertTrue(true);    
+            fail("non sono riuscito a fare l' op");
         }
         
     }

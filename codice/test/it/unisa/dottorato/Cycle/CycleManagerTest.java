@@ -10,31 +10,25 @@ import it.unisa.dottorato.account.Professor;
 import it.unisa.dottorato.curriculumcic.Curriculumcic;
 import java.util.ArrayList;
 import org.junit.After;
-import org.junit.AfterClass;
 import org.junit.Before;
-import org.junit.BeforeClass;
 import org.junit.Test;
 import static org.junit.Assert.*;
 
 /**
  *
- * @author Tommaso
+ * @author Tommaso Minichiello
  */
 public class CycleManagerTest {
+    private Cycle c;
+    private CycleManager instance;
     
     public CycleManagerTest() {
     }
     
-    @BeforeClass
-    public static void setUpClass() {
-    }
-    
-    @AfterClass
-    public static void tearDownClass() {
-    }
-    
     @Before
     public void setUp() {
+        c=new Cycle();
+        instance=CycleManager.getInstance();
     }
     
     @After
@@ -46,25 +40,26 @@ public class CycleManagerTest {
      */
     @Test
     public void testGetInstance() {
-        System.out.println("getInstance");
-        CycleManager expResult = null;
         CycleManager result = CycleManager.getInstance();
-        assertEquals(expResult, result);
-        // TODO review the generated test code and remove the default call to fail.
-        fail("The test case is a prototype.");
+        assertNotNull(result);
     }
 
     /**
      * Test of insertCycle method, of class CycleManager.
      */
     @Test
-    public void testInsertCycle() throws Exception {
-        System.out.println("insertCycle");
-        Cycle pCycle = null;
-        CycleManager instance = null;
-        instance.insertCycle(pCycle);
-        // TODO review the generated test code and remove the default call to fail.
-        fail("The test case is a prototype.");
+    public void testInsertCycleOk() throws Exception {
+        c.setNumber(0);
+        c.setYear("2000");
+        c.setDescription("prova");
+        c.setFkProfessor(null);
+        try{
+            instance.insertCycle(c);
+            assertTrue(true);
+        }catch (Exception e){
+            fail("non sono riuscito a fare l' op");
+        }
+        
     }
 
     /**
