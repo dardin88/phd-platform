@@ -5,9 +5,9 @@
  */
 
 $(document).ready(function () {
-    
+
     getStudentsList();
-    
+
 });
 
 //servlet per avere la lista dei phd student, per riempire la select
@@ -15,9 +15,7 @@ function getStudentsList()
 {
     $.getJSON("GetPhdStudentList", function (data) {
         // $("#phdStudetsList option").remove();
-        // alert("siamo in getphdstudentlist servlet");
         $.each(data.account, function (index, value) {
-            // alert("siamo nell'each ");
             phdstudent = "<option class='optionItem' value='" + value.secondaryEmail + "'> " + value.name + " " + value.surname + " </option> ";
             $("#phdStudentsList").append(phdstudent);
         });
@@ -27,79 +25,82 @@ function getStudentsList()
 //funzione chiamata dall'onclick della select
 function selectedItem()
 {
-    $("#TutorNameField").html("nessun tutor"); 
-    $("#removeTutorButton").hide(); 
+    $("#TutorNameField").html("nessun tutor");
+    $("#removeTutorButton").hide();
     $("#professorListTable tr").remove();
+    selectedAccount = $("#phdStudentsList option:selected").val(); // la chiave primaria di account
 
-     selectedAccount = $("#phdStudentsList option:selected").val(); // la chiave primaria di account
-    
     if (selectedAccount !== "default") //se il valore della select è default non mostriamo il div contenente le informazioni
-        {
-            $("#panelDiv").show();
+    {
+        $("#panelDiv").show();
 
-            //servlet per richiamare il tutor
-            $.getJSON("GetTutorServlet", {fkAccount: selectedAccount}, function (data) {
-                //alert("siamo in get tutor servlet");
-                //alert(data);
-                $("#removeTutorButton").show();  
-                $("#TutorNameField").html(data.name + " " + data.surname);
-                
-                tutorKey = data.fkAccount; //salviamo la mail del professore 
-                alert(tutorKey);
+        //servlet per richiamare il tutor
+        $.getJSON("GetTutorServlet", {fkAccount: selectedAccount}, function (data) {
+            $("#removeTutorButton").show();
+            $("#TutorNameField").html("  " + data.name + " " + data.surname + " ");
+            tutorKey = data.fkAccount; //salviamo la mail del professore 
+        });
+
+        //servlet per riempire la tabella con tutti i professori
+        $.getJSON("GetProfessorsList", function (data) {
+            $.each(data.account, function (index, value) {
+                professor = "<tr> <td> " + value.name + "</td> <td> " + value.surname + "</td>   <td> <button class='btn btn-orange' id=" + value.secondaryEmail + " onclick='addTutorButton(" + 'id' + ")' > Aggiorna </button>  </td>  </tr> "; // la secondaryEmail è la chiave primaria del professore che dovrà essere settato come nuovo tutor
+                $("#professorListTable").append(professor);
             });
-
-
-            //servlet per riempire la tabella con tutti i professori
-            $.getJSON("GetProfessorsList", function (data) {
-                //alert("siamo in get professor list servlet");
-                $.each(data.account, function (index, value) {
-                    newTutorkey = value.secondaryEmail;
-                    professor = "<tr> <td> " + value.name + "</td> <td> " + value.surname + "</td>   <td> <button class='btn btn-orange' onclick='addTutorButton()' > Aggiorna </button>  </td>  </tr> "; // la secondaryEmail è la chiave primaria del professore che dovrà essere settato come nuovo tutor
-                    $("#professorListTable").append(professor);
-                });
-            });
-        }
+        });
+    }
     else
         $("#panelDiv").hide();
 }
 
 
 //funzione chiamata dall'onclick dei bottoni generali nella tabella contenente la lista dei professori
-function addTutorButton()
+function addTutorButton(newProfessorkey)
 {
+    //in key abbiamo la mail del nuovo tutor
+    this.newProfessorkey = newProfessorkey;
+    alert("hai clickato su " + newProfessorkey);
+    alert("il tutor che c'è ora è " + tutorKey);
+
     var studentMail = $("#phdStudentsList option:selected").val();
     //in selectedAccount abbiamo la mail dello studente selezionato nella select a cui bisogna assegnare il tutor 
-    
     //in tutorKey abbiamo la mail del professore gia selezionato come tutor , se c'è (serve nel caso dobbiamo rimuoverlo)
-    
-     tutorName = $("#TutorNameField").html();
-     
-     if(tutorName === 'nessun tutor' ){ //non c'è un tutor assegnato, dobbiamo soltanto aggiungercelo
+
+    tutorName = $("#TutorNameField").html();
+    if (tutorName === 'nessun tutor') { //non c'è un tutor assegnato, dobbiamo soltanto aggiungercelo
+        /*
+         //servlet per assegnare il tutor  
+         $.getJSON("InsertStudentTutor", {idStudent: studentMail, idProfessor: newProfessorkey}, function (data) {
          
-        //servlet per assegnare il tutor assegnato 
-          $.getJSON("InsertStudentTutor", {idStudent: StudentMail, idProfessor: boh}, function (data) {
-               
+         });
+         */
+    }
+    else { //c'è gia un tutor assegnato: dobbiamo  aggiornarlo
+        // se selezioniamo lo stesso che c'è in tutorName non facciamo niente
+        if (tutorKey === newProfessorkey)
+        {
+            //donothing
+            messageDialog("Hai selezionato il tutor attuale"); //come funziona?
+        }
+        else {
+            /*
+           //servlet per fare l'update del tutor
+            $.getJSON("UpdateTutorServlet", {idProfessor: newProfessorkey, idStudent: studentMail}, function (data) {
+                
             });
-            
-     }
-     else { // c'è gia un tutor assegnato: dobbiamo rimuoverlo e poi aggiungerci il nuovo
-         alert("ancora niente");
-     }
-    
+           */ 
+           
+        }
+    }
+
 }
 
-
-/*
-funciton removeTutorButton()
+function removeTutorButton()
 {
-    
+    var studentMail = $("#phdStudentsList option:selected").val();
     //servlet per rimuovere il tutor assegnato 
-          $.getJSON("DeleteTutorServlet", {idStudent: secondaryEmail}, function (data) {
-                //alert("siamo in get tutor servlet");
-                // alert(data);
-                $("#removeTutorButton").show();
-                $("#TutorNameField").html(data.name + " " + data.surname);
-            });
-    
+    $.getJSON("DeleteTutorServlet", {idStudent: studentMail}, function (data) {
+        $("#removeTutorButton").hide();
+        $("#TutorNameField").html("nessun tutor");
+    });
 }
-*/

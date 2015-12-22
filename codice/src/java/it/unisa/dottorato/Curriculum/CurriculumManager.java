@@ -207,7 +207,7 @@ public class CurriculumManager {
 
             while (result.next()) {
                 c.setName(result.getString("name"));
-                c.setName(result.getString("description"));
+                c.setDescription(result.getString("description"));
                 curriculum.add(c);
             }
 

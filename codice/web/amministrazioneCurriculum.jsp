@@ -32,7 +32,7 @@
         <link rel="stylesheet" href="style/dottorato.css">
         
         <script src="assets/js/jquery-1.11.1.min.js"></script>
-        <script type="text/javascript" src="script/amministrazione.js"></script> <!-- da modificare -->
+        <script type="text/javascript" src="script/amministrazioneCurriculum.js"></script> <!-- da modificare -->
                                                                                  
     </head>
     
@@ -57,7 +57,7 @@
                     
                     <div class="row"  > 
                         <div class="well-small col-lg-12 col-lg-offset-0 col-md-8 col-md-offset-2 col-sm-10 col-sm-offset-1 col-xs-12">
-                            <button type="button" class="btn btn-default btn-secondary btn-block " >
+                            <button type="button" class="btn btn-default btn-secondary btn-block " onclick="addCurriculumButton()" >
                                 <span class="glyphicon glyphicon-plus" aria-hidden="true" ></span>
                                 Aggiungi Curriculum
                             </button> 
@@ -67,23 +67,18 @@
                     
                       
                     <div class="row" style="margin-top: 10px">
-                        <div class="well-small col-lg-4 col-lg-offset-0 col-md-8 col-md-offset-2 col-sm-10 col-sm-offset-1 col-xs-12">
-                        <div class="dropdown" >
-                            <button class="btn btn-default dropdown-toggle" type="button" id="dropdownMenu1" data-toggle="dropdown" aria-haspopup="true" aria-expanded="true">
-                              -- seleziona uno dei curriculum attivi nel dottorato di ricerca -- 
-                              <span class="caret" ></span>
-                            </button>
-                            <ul class="dropdown-menu" aria-labelledby="dropdownMenu2">
-                              <li><a href="#">Action</a></li>
-                              <li><a href="#">Another action</a></li>
-                              <li><a href="#">Something else here</a></li>
-                            </ul>
-                        </div>
+                        <div class="well-small col-lg-5 col-lg-offset-0 col-md-8 col-md-offset-2 col-sm-10 col-sm-offset-1 col-xs-12">
+                            <div class="form-group">
+                                        <label for="sel1">Seleziona uno dei curriculum attivi nel dottorato di ricerca</label>
+                                        <select class="form-control" id="CurriculumList" onclick="selectedItem()">
+                                            <option value="default" >  ---------------------------------------------------------  </option>
+                                        </select>
+                            </div>
                         </div>
                          
                         
-                        <div class="well-small col-lg-7 col-lg-offset-1 col-md-8 col-md-offset-6 col-sm-10 col-sm-offset-1 col-xs-12">
-                        <div class="panel panel-default " >
+                        <div class="well-small col-lg-7 col-lg-offset-0 col-md-8 col-md-offset-6 col-sm-10 col-sm-offset-1 col-xs-12">
+                        <div class="panel panel-default " id="descriptionPanel" >
                             <div class="panel-heading">
                                 <h3 class="panel-title">Nome Curriculum: <span style="font-style: italic" id="CurriculumNameField"> -- Curriculum selezionato -- </h3> 
                             </div>

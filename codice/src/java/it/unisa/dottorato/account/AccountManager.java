@@ -654,7 +654,7 @@ public class AccountManager {
 
             //Inviamo la Query al DataBase
             Utility.executeOperation(connect, tSql);
-
+            System.out.println("la query dell'update è" +tSql);
             connect.commit();
         }
     }
@@ -680,7 +680,7 @@ public class AccountManager {
              */
            String tSql = "update  "
                     + AccountManager.TABLE_STUDENT
-                    + " set fkProfessor ='null' where fkAccount = '"
+                    + " set fkProfessor =null where fkAccount = '"
                     + idStudent
                     +"'";
 
