@@ -411,7 +411,6 @@ public class CurriculumcicManager {
             //Inviamo la Query al DataBase
             ResultSet result = Utility.queryOperation(connect, tSql);
             while (result.next()) {
-                while (result.next()) {
                 cord.setEmail(result.getString("email"));
                 cord.setSecondaryEmail(result.getString("secondaryEmail"));
                 cord.setSurname(result.getString("surname"));
@@ -425,9 +424,7 @@ public class CurriculumcicManager {
                 cord.setfkCurriculum(curriculumcic.getfkCurriculum());
                 cord.setfkCycle(curriculumcic.getfkCycle());
                 cord.setfkProfessor("fkProfessor");
-                
                 stud.add(cord);
-            }
             }
 
             return stud;
