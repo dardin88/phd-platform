@@ -37,14 +37,14 @@ function selectedItem()
         //servlet per richiamare il tutor
         $.getJSON("GetTutorServlet", {fkAccount: selectedAccount}, function (data) {
             $("#removeTutorButton").show();
-            $("#TutorNameField").html("  " + data.name + " " + data.surname + " ");
+            $("#TutorNameField").html(" <b> " + data.name + " " + data.surname + " </b> ");
             tutorKey = data.fkAccount; //salviamo la mail del professore 
         });
 
         //servlet per riempire la tabella con tutti i professori
         $.getJSON("GetProfessorsList", function (data) {
             $.each(data.account, function (index, value) {
-                professor = "<tr> <td> " + value.name + "</td> <td> " + value.surname + "</td>   <td> <button class='btn btn-orange' id=" + value.secondaryEmail + " onclick='addTutorButton(" + 'id' + ")' > Aggiorna </button>  </td>  </tr> "; // la secondaryEmail è la chiave primaria del professore che dovrà essere settato come nuovo tutor
+                professor = "<tr> <td> " + value.name + "</td> <td> " + value.surname + "</td>   <td> <button class='btn btn-orange' id=" + value.secondaryEmail + " onclick='addTutorButton(" + 'id' + ")' > <span class='glyphicon glyphicon-sort' aria-hidden='true' ></span> Aggiorna </button>  </td>  </tr> "; // la secondaryEmail è la chiave primaria del professore che dovrà essere settato come nuovo tutor
                 $("#professorListTable").append(professor);
             });
         });
