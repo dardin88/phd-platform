@@ -264,7 +264,7 @@ public class AccountManager {
              * nella tabella account
              */
          String sql = "SELECT * FROM account  INNER JOIN professor ON account.secondaryEmail=professor.fkAccount   WHERE typeAccount = 'professor'";
-         System.out.println("querylog" + sql);
+         
          //esecuzione della query
          ResultSet result = Utility.queryOperation(connect, sql);
          while(result.next()){
@@ -308,7 +308,7 @@ public class AccountManager {
              * nella tabella account
              */
       String sql = "SELECT * from account WHERE "
-              + "name LIKE '%" + search + "%'";
+              + "name LIKE '" + search + "'";
       try {
           //connesione al database
           connect = DBConnection.getConnection();
@@ -331,10 +331,10 @@ public class AccountManager {
       }
       return accounts;
   }
+     
       
-      
-      
-
+     
+     
     /**Metodo della classe incaricato dell'aggiornamento di un progilo
      * 
      * @param key email dell'account da modificare
@@ -556,7 +556,7 @@ public class AccountManager {
                     + fkProfessor
                     + "' where fkAccount = '"
                     + fkPhdstudent
-                    +",";
+                    +"'";
 
             //Inviamo la Query al DataBase
             Utility.executeOperation(connect, tSql);
@@ -650,11 +650,11 @@ public class AccountManager {
                     + Tutor
                     + "' where fkAccount = '"
                     + fkPhdstudent
-                    +",";
+                    +"'";
 
             //Inviamo la Query al DataBase
             Utility.executeOperation(connect, tSql);
-
+            
             connect.commit();
         }
     }
@@ -680,10 +680,11 @@ public class AccountManager {
              */
            String tSql = "update  "
                     + AccountManager.TABLE_STUDENT
-                    + " set fkProfessor ='null' where fkAccount = '"
+                    + " set fkProfessor =null where fkAccount = '"
                     + idStudent
-                    +",";
+                    +"'";
 
+           System.out.println("la query di deleteStudentTutor è  " + tSql);
             //Inviamo la Query al DataBase
             Utility.executeOperation(connect, tSql);
 

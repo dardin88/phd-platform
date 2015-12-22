@@ -28,17 +28,28 @@
         <link rel="stylesheet" href="http://getbootstrap.com/dist/css/bootstrap.min.css" >
 	<link rel="stylesheet" href="http://getbootstrap.com/assets/css/docs.min.css">
 	<link rel="stylesheet" href="assets/js/calendar/jin.calendar.style.css">
+       
         <script src="assets/js/calendar/jin.calendar.js"></script>
-      
-        
         <script src="assets/js/jquery-1.11.1.min.js"></script>
         <script type="text/javascript" src="script/amministrazione.js"></script>
+    
     </head>
     <body>
         <div class="page-body">
      <jsp:include page="barraMenu.jsp"/>
     <div class="page-container"> 
-        
+          <div class="container-fluid">
+                    <div class="navbar-header">
+                        <a class="navbar-brand" href="#">Gestione Calendario </a>
+                    </div>
+                    <div>
+                        <ul class="nav navbar-nav">
+                            <li class="active"><a href="aggiungicorso.jsp">Aggiungi Corso</a></li>
+                            <li><a href="aggiungievento.jsp">Aggiungi Eventi</a></li>
+                            <li><a href="#"></a></li>
+                        </ul>
+                    </div>
+                </div>
         
 
 	<div class="div-month row">
@@ -69,15 +80,15 @@
 		</div>
 	</div>
 
-
-	
-
-	<script>
+<script>
 
 		jinCalendar.init();
 
 		
 	</script>
+	
+
+	
    </div>
 </div>
 </body>

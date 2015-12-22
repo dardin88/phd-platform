@@ -21,7 +21,7 @@ import org.json.JSONObject;
  *
  * @author Tommaso Minichiello
  */
-@WebServlet(name = "GetCurriculumsNames", urlPatterns = {"/dottorato/GetCurriculumsNames"})
+@WebServlet(name = "GetCurriculumsNames", urlPatterns = {"/GetCurriculumsNames"})
 public class GetCurriculumListServlet extends HttpServlet {
 
     /**

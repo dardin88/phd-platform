@@ -22,7 +22,7 @@ import org.json.JSONObject;
  *
  * @author Giuseppe Picciocchi
  */
-@WebServlet(name = "GetTutorServlet", urlPatterns = {"/dottorato/GetTutorServlet"})
+@WebServlet(name = "GetTutorServlet", urlPatterns = {"/GetTutorServlet"})
 public class GetTutorServlet extends HttpServlet {
 
     /**
@@ -44,7 +44,7 @@ public class GetTutorServlet extends HttpServlet {
             JSONObject result = new JSONObject();
             try {
                 Professor aPerson = AccountManager.getInstance().getTutor(aStudent);
-                result.put("fkAccount", aPerson.getEmail());
+                result.put("fkAccount", aPerson.getSecondaryEmail());
                 result.put("name", aPerson.getName());
                 result.put("surname", aPerson.getSurname());
                 out.write(result.toString());
