@@ -14,10 +14,7 @@ $(document).ready(function() {
 
 
         
-        
-           /* alert(result.item1+" "+result.item2+" "+result.item3);
-            var a= result.item1 ;
-	 $('#gattini').append('<p> nome: ' + a. + '</p>');*/
+ 
        
 function searchForType(){  
 var pro="Docente";
@@ -25,41 +22,39 @@ var dot="Dottorando";
     $('#sel1').on('change', function() {
         if (this.value==dot){ 
             
-            alert("dio porco");
-            $("#gattini tr").remove();
+          
+            $("#resultbody tr").remove();
               $.getJSON("GetPhdStudentList", function (data) {
-        alert("i sandali di cristo");
+    
         $.each(data.account, function (index, value) {
-           phdstudent = "<tr>  <td> "  + value.typeAccount+ "</td>  <td> " + value.name + "</td> <td> " + value.surname + "</td>    <td> " + value.email + "</td> ";
-                $("#gattini").append(phdstudent);
+           phdstudent = "<tr  id="+  value.secondaryEmail+">  <td> "  + value.typeAccount+ "</td>  <td> " + value.name + "</td> <td> " + value.surname + "</td>    <td> " + value.email + "</td> ";
+            
+            $("#resultbody").append(phdstudent);
         });
     });
         
         
-           /* alert(result.item1+" "+result.item2+" "+result.item3);
-            var a= result.item1 ;
-	 $('#gattini').append('<p> nome: ' + a. + '</p>');*/
+      
        
      
 }
   else if(this.value==pro){ 
-      alert(" Mannaggia la madonna");
- $("#gattini tr").remove();
+     
+ $("#resultbody tr").remove();
             $.getJSON("GetProfessorsList", function (data) {
-        alert("dio bastardo");
-        $.each(data.account, function (index, value) {
+       $.each(data.account, function (index, value) {
            professor = "<tr>  <td> "  + value.typeAccount+ "</td>  <td> " + value.name + "</td> <td> " + value.surname + "</td>    <td> " + value.email + "</td> ";
-                $("#gattini").append(professor);
+                $("#resultbody").append(professor);
         });
           });
         }
         else {
-            alert("Quel gran bastardo di ponziopilates");
-            $("#gattini tr").remove();
+      
+            $("#resultbody tr").remove();
              $.getJSON("getAccountList", function (data) {
             $.each(data.account, function (index, value) {
                 account = "<tr>  <td> " + value.typeAccount + "</td>  <td> " + value.name + "</td> <td> " + value.surname + "</td>    <td> " + value.email + "</td> ";
-                $("#gattini").append(account);
+                $("#resultbody").append(account);
             });
         });
         }
@@ -67,7 +62,7 @@ var dot="Dottorando";
     });
             
         
-     // alert( this.value +dot); // or $(this).val()
+    
    }
 
 
@@ -76,26 +71,26 @@ function searchForName()
    
     
    $('#search').click(function() {
-     $("#gattini tr").remove();
+     
+     $("#resultbody tr").remove();
                     var   name = $("#word").val();
 
- 
+
  
      $.getJSON("SearchUser",{name: name}, function (data) {
-          
-       
-       alert(name+"mannagia  i 7 sandali di cristo");
+        
             $.each(data.account, function (index, value) {
                 
     var   account = "<tr>  <td> " + value.typeAccount + "</td>  <td> " + value.name + "</td> <td> " + value.surname + "</td>  <td> " + value.email + "</td> </tr>";
-           alert(account);
-                $("#gattini tbody").append(account);
            
-               
+                $("#resultbody tbody").append(account);
+           
+        
                 
          
           });
         });
    });
+     
 }
 
