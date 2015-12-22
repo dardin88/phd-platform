@@ -19,6 +19,7 @@ $(document).ready(function() {
 function searchForType(){  
 var pro="Docente";
 var dot="Dottorando";
+var tut="Tutti";
     $('#sel1').on('change', function() {
         if (this.value==dot){ 
             
@@ -48,7 +49,7 @@ var dot="Dottorando";
         });
           });
         }
-        else {
+        else if(this.value==tut) {
       
             $("#resultbody tr").remove();
              $.getJSON("getAccountList", function (data) {
