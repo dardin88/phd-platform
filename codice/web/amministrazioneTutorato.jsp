@@ -3,7 +3,6 @@
     Created on : 12-dic-2015, 20.45.01
     Author     : andre
 --%>
-
 <%@page contentType="text/html" pageEncoding="UTF-8"%>
 <!DOCTYPE html>
 <html lang="en">
@@ -41,9 +40,7 @@
             <!-- Inclusione della pagina contenente il menù laterale --> 
             <jsp:include page="leftBar.jsp"/>  
             
-            
-            
-                    <div class="main-content" id="content">
+                <div class="main-content" id="content">
                         
                         <div class="row">
                             <div class="panel-heading">
@@ -57,7 +54,7 @@
                                     
                                     <label for="sel1">Seleziona il dottorando interessato:</label>
                                     <select class="form-control" id="phdStudentsList" onclick="selectedItem()">
-                                        <option value="default" >  --------------------------  </option>
+                                        <option value="default" >  ---------------------------------------------------------  </option>
                                     </select>
                                       
                               </div>

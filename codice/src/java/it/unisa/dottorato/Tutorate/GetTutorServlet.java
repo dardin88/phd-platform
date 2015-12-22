@@ -22,7 +22,7 @@ import org.json.JSONObject;
  *
  * @author Giuseppe Picciocchi
  */
-@WebServlet(name = "GetTutorServlet", urlPatterns = {"/dottorato/GetTutorServlet"})
+@WebServlet(name = "GetTutorServlet", urlPatterns = {"/GetTutorServlet"})
 public class GetTutorServlet extends HttpServlet {
 
     /**
