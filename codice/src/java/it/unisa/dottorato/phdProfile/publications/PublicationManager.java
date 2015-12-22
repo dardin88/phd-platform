@@ -79,7 +79,7 @@ public class PublicationManager {
                     + PublicationManager.TABLE_PUBLICATION
                     + " (idPublication,title, publicationIssue, year, numberPage, link, type, otherAuthors, abstract, fkPhdstudent)"
                     + " VALUES ("
-                    + testId(nextNumber())
+                    + testId(pPublication.getIdPublication())
                     + ",'"
                     + Utility.Replace(PublicationManager.getInstance().testTitle(pPublication.getTitle()))
                     + "','"
@@ -124,8 +124,6 @@ public class PublicationManager {
         } catch (OtherAuthorsException ex) {
             Logger.getLogger(PublicationManager.class.getName()).log(Level.SEVERE, null, ex);
         } catch (pAbstractException ex) {
-            Logger.getLogger(PublicationManager.class.getName()).log(Level.SEVERE, null, ex);
-        } catch (IOException ex) {
             Logger.getLogger(PublicationManager.class.getName()).log(Level.SEVERE, null, ex);
         } catch (IdException ex) {
             Logger.getLogger(PublicationManager.class.getName()).log(Level.SEVERE, null, ex);
@@ -211,8 +209,8 @@ public class PublicationManager {
             // Otteniamo una Connessione al DataBase
             connect = DBConnection.getConnection();
 
-            int id = parseInt(idPublication);
-            testId(id);
+            int id = Integer.parseInt(idPublication);
+            
             /*
              * Prepariamo la stringa SQL per cancellare un record 
              * nella tabella publication
@@ -220,7 +218,7 @@ public class PublicationManager {
             String tSql = "DELETE FROM "
                     + PublicationManager.TABLE_PUBLICATION
                     + " WHERE idPublication = '"
-                    + idPublication + "'";
+                    + testId(id) + "'";
 
             //Inviamo la Query al DataBase
             Utility.executeOperation(connect, tSql);
@@ -342,7 +340,7 @@ public class PublicationManager {
      * @throws IdException 
      */
     public int testId(int id) throws IdException {
-        if(id<0){
+        if(id<0|id>6){
             throw new IdException("L'id non puo' essere minore di 0");
         }
         return id;
@@ -356,7 +354,7 @@ public class PublicationManager {
      * @throws TitleException 
      */
     public String testTitle(String title) throws TitleException {
-        if(title.equals(null)&&title.length()>50){
+        if(title.isEmpty() || title.length()>50){
             
             throw new TitleException("il posto e' sbagliato"); 
         }
@@ -371,7 +369,7 @@ public class PublicationManager {
      * @throws PublicationIssueException 
      */
     public String testPubliocationIssue(String publicationIssue) throws PublicationIssueException {
-        if(publicationIssue.equals(null)&&publicationIssue.length()>50){
+        if(publicationIssue.isEmpty()||publicationIssue.length()>50){
             
             throw new PublicationIssueException("il campo pubblicationIssue e' sbagliato"); 
         }
@@ -385,7 +383,7 @@ public class PublicationManager {
      * @throws YearException 
      */
     public String testYear(String year) throws YearException {
-        if((year.length()>4)&&(year.equals(null))){
+        if((year.length()>4)|| (year.isEmpty())){
             throw new YearException("L'anno è sbagliato");
         }
         return year;
@@ -411,7 +409,7 @@ public class PublicationManager {
      * @throws LinkException 
      */
     public String testLink(String link) throws LinkException {
-        if(link.length()>150){
+        if(link.length()>150|| link.isEmpty()){
             
             throw new LinkException("il link e' sbagliato"); 
         }
@@ -425,7 +423,7 @@ public class PublicationManager {
      * @throws TypeException 
      */
     public String testType(String type) throws TypeException {
-        if(type.length()>20){
+        if(type.length()>20 || type.isEmpty()){
             
             throw new TypeException("il tipo e' sbagliato"); 
         }
@@ -440,7 +438,7 @@ public class PublicationManager {
      * @throws OtherAuthorsException 
      */
     public String testOtherAutors(String otherAutors) throws OtherAuthorsException {
-        if(otherAutors.length()>255){
+        if(otherAutors.length()>255|| otherAutors.isEmpty()){
             
             throw new OtherAuthorsException("il campo degli altri autori e' sbagliato"); 
         }
@@ -454,7 +452,7 @@ public class PublicationManager {
      * @throws pAbstractException 
      */
     public String testAbstract(String pAbstract) throws pAbstractException {
-        if(pAbstract.equals(null)){
+        if(pAbstract.isEmpty()){
             
             throw new pAbstractException("il campo dell'abstract e' sbagliato"); 
         }
@@ -482,7 +480,7 @@ public class PublicationManager {
      * @throws ReferenceException 
      */
     public String testfkPhdStudent(String fkPhdstudent) throws ReferenceException {
-        if(fkPhdstudent.equals(null)&&fkPhdstudent.length()>50){
+        if(fkPhdstudent.isEmpty()||fkPhdstudent.length()>50){
             
             throw new ReferenceException("il campo per il riferimento al PhdStudent e' sbagliato"); 
         }

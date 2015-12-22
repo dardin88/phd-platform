@@ -38,7 +38,7 @@ public class DeleteSeminarServlet extends HttpServlet {
         JSONObject result = new JSONObject();
         String idSeminar = request.getParameter("idseminar");
         try {
-            CalendarManager.getInstance().delete_seminar(Integer.parseInt(idSeminar));
+            CalendarManager.getInstance().delete_seminar((idSeminar));
         } catch (ClassNotFoundException | SQLException ex) {
             Logger.getLogger(DeleteSeminarServlet.class.getName()).log(Level.SEVERE, null, ex);
         }
