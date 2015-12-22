@@ -4,6 +4,7 @@
     Author     : gemmacatolino
 --%>
 
+<%@page import="java.io.File"%>
 <%@page import="it.unisa.dottorato.account.*"%>
 <%@ taglib prefix="c" uri="http://java.sun.com/jsp/jstl/core" %>
 <%@page contentType="text/html" pageEncoding="UTF-8"%>
@@ -32,6 +33,12 @@
 
         <script src="assets/js/jquery-1.11.1.min.js"></script>
         <script type="text/javascript" src="script/index.js"></script>
+        
+        <style>
+            #uploadDiv {
+                display: none;
+            }
+        </style>
 
         <!-- HTML5 shim and Respond.js IE8 support of HTML5 elements and media queries -->
         <!--[if lt IE 9]>
@@ -67,6 +74,9 @@
 
                 return true;
             }
+            
+            
+            
         </script>
 
     </head>
@@ -95,39 +105,39 @@
                                 <h1> Modifica profilo</h1>
                             </div>
                             <div class="panel-body">
-                                <form class="form-horizontal" name ="profileform" method="POST" action="UpdateProfileServlet" onsubmit="return testpass(this) enctype="multipart/form-data"">
+                                <form class="form-horizontal" name ="profileform" method="POST" action="UpdateProfileServlet" onsubmit="return testpass(this)">
                                     <div class="form-group">
                                         <table width="90%" align="center">
                                             <tr><td>
                                                     <p>Nome:</p>
                                                     <div class="input-group">
                                                         <span class="input-group-addon"></span>
-                                                        <input class="form-control" name="name" type="text" value="<%= loggedPerson.getName()%>" required>
+                                                        <input class="form-control phd-required company-required student-required professor-required" name="name" type="text" value="<%= loggedPerson.getName()%>" required/>
                                                     </div>
                                                     <br>
                                                     <br>
                                                     <p>Cognome:</p>
                                                     <div class="input-group">
                                                         <span class="input-group-addon"></span>
-                                                        <input class="form-control" name="surname" type="text" value="<%= loggedPerson.getSurname()%>" required>
+                                                        <input class="form-control phd-required company-required student-required professor-required" name="surname" type="text" value="<%= loggedPerson.getSurname()%>" required/>
                                                     </div>
                                                     <br>
                                                     <br>
                                                     <p>Password:</p>
                                                     <div class="input-group">
                                                         <span class="input-group-addon"></span>
-                                                        <input class="form-control" name="password" type="text" value="<%= loggedPerson.getPassword()%>" required>
+                                                        <input class="form-control phd-required company-required student-required professor-required" name="password" type="password" value="<%= loggedPerson.getPassword()%>" required/>
                                                     </div>
                                                     <br>
                                                     <br>
                                                     <p>Conferma Password:</p>
                                                     <div class="input-group">
                                                         <span class="input-group-addon"></span>
-                                                        <input class="form-control" name="password_2" type="text" value="<%= loggedPerson.getPassword()%>" required>
+                                                        <input class="form-control phd-required company-required student-required professor-required" name="password_2" type="password" value="<%= loggedPerson.getPassword()%>" required/>
                                                     </div>
                                                     <br>
                                                     <br>
-                                    
+
                                                     <p>Email Secondaria:</p>
                                                     <div class="input-group">
                                                         <span class="input-group-addon"></span>
@@ -135,61 +145,61 @@
                                                     </div>
                                                     <br>
                                                     <br>
-                                                    
+
                                                     <p>Modifica Contatti</p>
-                                                    <div class="form-group-separator" value=""></div>
+                                                    <div class="form-group-separator"></div>
                                                     <br>
-                                
-                                               <% if(loggedPerson.getTypeAccount().equals("professor")) { %>
+
+                                                    <% if (loggedPerson.getTypeAccount().equals("professor")) {%>
                                                     <p>Web Page:</p>
                                                     <div class="input-group">
-                                                    <span class="input-group-addon"></span>
-                                                    <input class="form-control" name="link" type="text" value="<%= ((Professor)loggedPerson).getLink()%>" >
+                                                        <span class="input-group-addon"></span>
+                                                        <input class="form-control" name="link" type="text" value="<%= ((Professor) loggedPerson).getLink()%>" >
                                                     </div>
                                                     <br>
                                                     <br>
                                                     <p>Dipartimento:</p>
                                                     <div class="input-group">
-                                                    <span class="input-group-addon"></span>
-                                                    <input class="form-control" name="department" type="text" value="<%= ((Professor)loggedPerson).getDepartment()%>" >
+                                                        <span class="input-group-addon"></span>
+                                                        <input class="form-control" name="department" type="text" value="<%= ((Professor) loggedPerson).getDepartment()%>" >
                                                     </div>
                                                     <br>
                                                     <br>
-                                                <% } %>
-                                                <% if(loggedPerson.getTypeAccount().equals("phdstudent")) { %>
+                                                    <% } %>
+                                                    <% if (loggedPerson.getTypeAccount().equals("phdstudent")) {%>
                                                     <p >Telefono:</p>
                                                     <div class="input-group">
                                                         <span class="input-group-addon"></span>
-                                                        <input class="form-control" name="telephone" type="text" value="<%= ((PhdStudent)loggedPerson).getTelephone()%>" required>
+                                                        <input class="form-control" name="telephone" type="text" value="<%= ((PhdStudent) loggedPerson).getTelephone()%>" required>
                                                     </div>
                                                     <br>
                                                     <br>
                                                     <p>Web Page:</p>
                                                     <div class="input-group">
                                                         <span class="input-group-addon"></span>
-                                                        <input class="form-control" name="link" type="text" value="<%= ((PhdStudent)loggedPerson).getLink()%>" >
+                                                        <input class="form-control" name="link" type="text" value="<%= ((PhdStudent) loggedPerson).getLink()%>" >
                                                     </div>
                                                     <br>
                                                     <br>
-                                                     <p>Dipartimento:</p>
+                                                    <p>Dipartimento:</p>
                                                     <div class="input-group">
-                                                    <span class="input-group-addon"></span>
-                                                    <input class="form-control" name="department" type="text" value="<%= ((PhdStudent)loggedPerson).getDepartment()%>" >
+                                                        <span class="input-group-addon"></span>
+                                                        <input class="form-control" name="department" type="text" value="<%= ((PhdStudent) loggedPerson).getDepartment()%>" >
                                                     </div>
                                                     <br>
                                                     <br>
                                                     <p>Interessi di Ricerca:</p>
                                                     <div class="input-group">
                                                         <span class="input-group-addon"></span>
-                                                        <textarea class="form-control" name="researchInterest" rows="5" cols="40"> <%= ((PhdStudent)loggedPerson).getResearchInterest()%> </textarea>
+                                                        <textarea class="form-control" name="researchInterest" rows="5" cols="40"> <%= ((PhdStudent) loggedPerson).getResearchInterest()%> </textarea>
                                                     </div>
                                                     <br>
-                                                    <br>                                       
-                           
-                                                 <% } %>
+                                                    <br>
+                                                    
+                                              <%} %>
 
                                                     <div>
-                                                        <input type="submit"class="btn btn-blue" value="Modifica">
+                                                        <input type="submit" class="btn btn-blue" value="Modifica">
                                                         <br>
                                                         <br>
 
@@ -199,8 +209,14 @@
 
                                     </div>
                                 </form>
-                                                 
-                                <form class="form-group" action="UploadFile" enctype="multipart/form-data"
+
+                                <!-- test  !-->     
+                                <div id="uploadForm">
+                                <form class="form-group" action="UploadFile" enctype="multipart/form-data" method="post" >
+                                    <input type="file" name="tesi" accept=".pdf"/>
+                                    <input type="submit" class="btn btn-blue" value="Upload"/>
+                                </form>
+                                </div>
                             </div>
                         </div>
                     </div>

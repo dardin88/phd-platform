@@ -7,6 +7,8 @@ import java.io.IOException;
 import java.io.InputStream;
 import java.io.PrintWriter;
 import java.util.Collection;
+import java.util.Iterator;
+import java.util.List;
 import java.util.logging.Level;
 import java.util.logging.Logger;
 import javax.servlet.ServletException;
@@ -15,36 +17,83 @@ import javax.servlet.annotation.WebServlet;
 import javax.servlet.http.HttpServlet;
 import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpServletResponse;
+import javax.servlet.http.HttpSession;
 import javax.servlet.http.Part;
+import org.apache.commons.fileupload.FileItem;
+import org.apache.commons.fileupload.FileUploadException;
+import org.apache.commons.fileupload.disk.DiskFileItemFactory;
+import org.apache.commons.fileupload.servlet.ServletFileUpload;
 
-/**Servlet incaricata ad effettuare la richiesta di ....???
+/**
+ * Servlet incaricata ad effettuare la richiesta di Upload File
  *
  * @author Armando
  */
 @WebServlet(name = "UploadServlet", urlPatterns = {"/UploadFile"})
 @MultipartConfig
-public class UploadServlet extends HttpServlet
-{
-  
-  //
-  
-  protected void processRequest(HttpServletRequest request, 
-   HttpServletResponse response) throws ServletException, IOException
-         { 
-    response.setContentType("text/html;charset=UTF-8"); 
-    PrintWriter out = response.getWriter();
-    String name = request.getParameter("name"); //<input type="name" name="name">
-    String description = request.getParameter("description"); //  <input type="text" name="description">
-    Part filePart = request.getPart("file"); //  <input type="file" name="file">
-    String fileName = filePart.getSubmittedFileName();
-    filePart.write("localhost/phd-platform/test/");
-    
-    out.println("<script type=\"text/javascript\">");
-            out.println("alert('Siamo Nel servlet del FILE!!!');");
-            out.println("</script>");
-   }
 
-  // <editor-fold defaultstate="collapsed" desc="HttpServlet methods. Click on the + sign on the left to edit the code.">
+public class UploadServlet extends HttpServlet {
+
+    // location to store file uploaded
+    private static final String UPLOAD_DIRECTORY = "tesi";
+
+    // upload settings
+    private static final int MEMORY_THRESHOLD = 1024 * 1024 * 3;  // 3MB
+    private static final int MAX_FILE_SIZE = 1024 * 1024 * 40; // 40MB
+    private static final int MAX_REQUEST_SIZE = 1024 * 1024 * 50; // 50MB
+
+    protected void processRequest(HttpServletRequest request,
+            HttpServletResponse response) throws ServletException, IOException, FileUploadException, Exception {
+
+        PrintWriter out = response.getWriter();
+        HttpSession session = request.getSession();
+        PhdStudent phd = (PhdStudent) session.getAttribute("account");
+        if (!ServletFileUpload.isMultipartContent(request)) {
+            PrintWriter writer = response.getWriter();
+            writer.println("Error: Form must has enctype=multipart/form-data.");
+            writer.flush();
+            return;
+        }
+        DiskFileItemFactory factory = new DiskFileItemFactory();
+        factory.setSizeThreshold(MEMORY_THRESHOLD);
+        factory.setRepository(new File(System.getProperty("java.io.tmpdir")));
+
+        ServletFileUpload upload = new ServletFileUpload(factory);
+
+        upload.setFileSizeMax(MAX_FILE_SIZE);
+        upload.setSizeMax(MAX_REQUEST_SIZE);
+        String uploadPath = getServletContext().getRealPath("")
+                + File.separator + UPLOAD_DIRECTORY;
+        File uploadDir = new File(uploadPath);
+        if (!uploadDir.exists()) {
+            uploadDir.mkdir();
+        }
+        try {
+            @SuppressWarnings("unchecked")
+            List<FileItem> formItems = upload.parseRequest(request);
+
+            if (formItems != null && formItems.size() > 0) {
+                for (FileItem item : formItems) {
+                    if (!item.isFormField()) {
+                        String[] fileNameSplits = item.getName().split("\\.");
+                        int extIndex = fileNameSplits.length - 1;
+                        String fileName = phd.getName() + "_" + phd.getSurname() + "." + fileNameSplits[extIndex];
+                        String filePath = uploadPath + File.separator + fileName;
+                        File storeFile = new File(filePath);
+                        item.write(storeFile);
+                        out.println("<script type=\"text/javascript\">");
+                        out.println("alert(L'upload è andato a buon fine');");
+                        out.println("</script>");
+                        response.sendRedirect("profileNuovo.jsp");
+                    }
+                }
+            }
+        } catch (Exception ex) {
+        }
+
+    }
+
+    // <editor-fold defaultstate="collapsed" desc="HttpServlet methods. Click on the + sign on the left to edit the code.">
     /**
      * Handles the HTTP <code>GET</code> method.
      *
@@ -56,7 +105,11 @@ public class UploadServlet extends HttpServlet
     @Override
     protected void doGet(HttpServletRequest request, HttpServletResponse response)
             throws ServletException, IOException {
-        processRequest(request, response);
+        try {
+            processRequest(request, response);
+        } catch (Exception ex) {
+            Logger.getLogger(UploadServlet.class.getName()).log(Level.SEVERE, null, ex);
+        }
     }
 
     /**
@@ -70,7 +123,11 @@ public class UploadServlet extends HttpServlet
     @Override
     protected void doPost(HttpServletRequest request, HttpServletResponse response)
             throws ServletException, IOException {
-        processRequest(request, response);
+        try {
+            processRequest(request, response);
+        } catch (Exception ex) {
+            Logger.getLogger(UploadServlet.class.getName()).log(Level.SEVERE, null, ex);
+        }
     }
 
     /**
@@ -84,4 +141,3 @@ public class UploadServlet extends HttpServlet
     }// </editor-fold>
 
 }
-

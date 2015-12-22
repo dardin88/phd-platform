@@ -264,7 +264,7 @@ public class AccountManager {
              * nella tabella account
              */
          String sql = "SELECT * FROM account  INNER JOIN professor ON account.secondaryEmail=professor.fkAccount   WHERE typeAccount = 'professor'";
-         System.out.println("querylog" + sql);
+         
          //esecuzione della query
          ResultSet result = Utility.queryOperation(connect, sql);
          while(result.next()){
@@ -682,8 +682,9 @@ public class AccountManager {
                     + AccountManager.TABLE_STUDENT
                     + " set fkProfessor ='null' where fkAccount = '"
                     + idStudent
-                    +",";
+                    +"'";
 
+           System.out.println("la query di deleteStudentTutor è  " + tSql);
             //Inviamo la Query al DataBase
             Utility.executeOperation(connect, tSql);
 

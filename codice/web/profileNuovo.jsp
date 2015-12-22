@@ -3,6 +3,7 @@
     Author     : armando
 --%>
 
+<%@page import="java.io.File"%>
 <%@page import="it.unisa.dottorato.phdProfile.collaborations.CollaborationManager"%>
 <%@page import="it.unisa.dottorato.phdProfile.missions.MissionManager"%>
 <%@page import="it.unisa.dottorato.phdProfile.collaborations.Collaboration"%>
@@ -66,7 +67,7 @@
                     other1.style.display = 'none';
                 }
                 if (x === 'table-coll') {
-                     document.getElementsByTagName("li")[1].className = 'active';
+                    document.getElementsByTagName("li")[1].className = 'active';
                     var blessed = document.getElementById(x);
                     var other = document.getElementById('table-pub');
                     var other1 = document.getElementById('table-miss');
@@ -75,7 +76,7 @@
                     other1.style.display = 'none';
                 }
                 if (x === 'table-miss') {
-                     document.getElementsByTagName("li")[2].className = 'active';
+                    document.getElementsByTagName("li")[2].className = 'active';
                     var blessed = document.getElementById(x);
                     var other = document.getElementById('table-coll');
                     var other1 = document.getElementById('table-pub');
@@ -202,6 +203,13 @@
                                     %>
                                     <tr>
                                         <td colspan="2">
+                                            <% File file = new File(getServletContext().getRealPath("") + "\\tesi" + File.separator + loggedPerson.getName() + "_" + loggedPerson.getSurname() + ".pdf");
+                                               if(file.exists()) {
+                                            %>
+                                            <br>
+                                            <br>
+                                            <a href="tesi\ <%= loggedPerson.getName() + "_" + loggedPerson.getSurname() + ".pdf"%>" download><b>Download Tesi</b></a>
+                                         <%} %>
                                             <br>
                                             <h3 id = "diocane"> Attività di ricerca </h3> <br>
                                             <p class="text-justify" > 
@@ -224,7 +232,7 @@
 
                                                 </div>
                                                 <div class="panel-body" id="table-pub">
-                                                    <button type="button" class="btn btn-xs" aria-label="Left Align" onclick="location.href='addPublication.jsp'">
+                                                    <button type="button" class="btn btn-xs" aria-label="Left Align" onclick="location.href = 'addPublication.jsp'">
                                                         <span id="showArrow" class="glyphicon glyphicon-plus" aria-hidden="true"> </span> Aggiungi pubblicazione
                                                     </button>
                                                     <table class="table table-hover" width="98%" align="center" >
