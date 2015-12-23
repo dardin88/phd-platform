@@ -4,6 +4,7 @@
     Author     : Rembor
 --%>
 
+<%@page import="it.unisa.dottorato.account.Account"%>
 <%@page contentType="text/html" pageEncoding="UTF-8"%>
 <!DOCTYPE html>
 <html>
@@ -27,7 +28,7 @@
         <link rel="stylesheet" href="assets/css/custom.css">
 
         <script src="assets/js/jquery-1.11.1.min.js"></script>
-        <script type="text/javascript" src="script/search.js"></script>
+        <script type="text/javascript" src="script/registro.js"></script>
     </head>
    
         
@@ -39,7 +40,9 @@
 
         <!--Qui chiama servlet update che prende infomazioni Account--> 
 
+<% Account loggedPerson = ((Account) session.getAttribute("account"));
 
+                        %>
 
 
         <div class="page-body">
@@ -47,8 +50,8 @@
             <div class="page-container"> 
                  <div class="well-small col-lg-5 col-lg-offset-0 col-md-8 col-md-offset-2 col-sm-10 col-sm-offset-1 col-xs-12">
                             <div class="form-group">
-                                        <h1>Seleziona un corso</h1>
-                                        <select class="form-control" id="Corso" onclick="selectedItem()">
+                                        <h1>   <%= loggedPerson.getName()%> <%= loggedPerson.getSurname()%> Seleziona un corso</h1>
+                                        <select class="form-control" id="Corso" >
                                             <option value="default" >  - selezionate il vostro  corso  -  </option>
                                         </select>
                             </div>
