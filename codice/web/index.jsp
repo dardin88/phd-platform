@@ -1,3 +1,9 @@
+<%@page import="java.util.List"%>
+<%@page import="it.unisa.dottorato.Cycle.Cycle"%>
+<%@page import="it.unisa.dottorato.Cycle.CycleManager"%>
+<%@page import="it.unisa.dottorato.Cycle.CycleManager"%>
+<%@page import="java.util.ArrayList"%>
+<%@page import="java.util.ArrayList"%>
 <%@page import="it.unisa.dottorato.account.AccountManager"%>
 <%@ taglib prefix="c" uri="http://java.sun.com/jsp/jstl/core" %>
 <%@page contentType="text/html" pageEncoding="UTF-8"%>
@@ -9,7 +15,7 @@
 
         <meta name="viewport" content="width=device-width, initial-scale=1.0" />
         <meta name="description" content="Xenon Boostrap Admin Panel" />
-        <meta name="author" content="" />
+        <meta name="author" content="matteonardone" />
 
         <title>DISTRA-MIT</title>
 
@@ -24,33 +30,50 @@
         <link rel="stylesheet" href="assets/css/custom.css">
 
         <script src="assets/js/jquery-1.11.1.min.js"></script>
-
+        <script type="text/javascript" src="script/index.js"></script>
+        
     </head>
     <body class="page-body">
 
         <jsp:include page="barraMenu.jsp" flush="true"/>
 
         <!--BODY-->
-        
+        <% List<Cycle> cycles = CycleManager.getInstance().getCycleList();
+            
+            %>
       
 
         <div class="page-container">
             <div class="main-content">
                 <div class="row">
-                    <div class="col-sm-1"></div>
-                    <div class="col-sm-10">
+                    <!--<div class="col-sm-1"></div>-->
+                    <div class="col-sm-6">
                         <div class="panel panel-default">
                             <div class="panel-heading">
-                                Titolo del Pannello (può anche essere eliminato)
+                                Benvenuto su PhD-Platform!
                             </div>
                             <div class="panel-body">
-                                <p>Folly words widow one downs few age every seven. If miss part by fact he park just shew. Discovered had get considered projection who favourable. Necessary up knowledge it tolerably.</p>
-                                <p>Unwilling departure education is be dashwoods or an. Use off agreeable law unwilling sir deficient curiosity instantly. Easy mind life fact with see has bore ten. Parish any chatty can elinor direct for former. Up as meant widow equal an share least.</p>
+                               <% for(Cycle rcycles : cycles) {%>
+                                <p><%=rcycles.getDescription()%></p>
+                                <% break; }%>
 
                             </div>
                         </div>
                     </div>
-                    <div class="col-sm-1"></div>
+                    
+                    <div class="col-md-6">
+                        <div class="panel panel-default">
+                            <div class="panel-heading">
+                                prova ciclo
+                            </div>
+                            <div class="form-group">
+                                <label for="sel1">Seleziona uno dei cicli attivi nel dottorato di ricerca</label>
+                                    <select class="form-control" id="cycleList" onclick="selectedItem()">
+                                        <option value="default" >  - seleziona -  </option>
+                                    </select>
+                            </div>
+                        </div>
+                    </div>
                 </div>
             </div>
         </div>
