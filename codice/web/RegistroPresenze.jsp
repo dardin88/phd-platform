@@ -39,19 +39,19 @@
         <!-- jQuery (necessary for Bootstrap's JavaScript plugins) -->
 
         <!--Qui chiama servlet update che prende infomazioni Account--> 
-
+<div class="page-body">
+            <jsp:include page="barraMenu.jsp"/>
 <% Account loggedPerson = ((Account) session.getAttribute("account"));
 
                         %>
 
-
-        <div class="page-body">
-            <jsp:include page="barraMenu.jsp"/>
+  <%if (loggedPerson.getTypeAccount().equals("professor")) {%>
+        
             <div class="page-container"> 
                  <div class="well-small col-lg-5 col-lg-offset-0 col-md-8 col-md-offset-2 col-sm-10 col-sm-offset-1 col-xs-12">
                             <div class="form-group">
-                                        <h1>   <%= loggedPerson.getName()%> <%= loggedPerson.getSurname()%> Seleziona un corso</h1>
-                                        <select class="form-control" id="Corso" >
+                                        <h1> Seleziona un corso</h1>
+                                        <select class="form-control" id="Corsoprofessore" >
                                             <option value="default" >  - selezionate il vostro  corso  -  </option>
                                         </select>
                             </div>
@@ -59,6 +59,21 @@
                 
             </div>
         </div>
+                                        <%  }%>
         
+        <%  else if  (loggedPerson.getTypeAccount().equals("phdstudent")) {%>   
+        <div class="page-container"> 
+                 <div class="well-small col-lg-5 col-lg-offset-0 col-md-8 col-md-offset-2 col-sm-10 col-sm-offset-1 col-xs-12">
+                            <div class="form-group">
+                                        <h1> Seleziona un corso</h1>
+                                        <select class="form-control" id="Corsostudente" >
+                                            <option value="default" >  - selezionate il vostro  corso  -  </option>
+                                        </select>
+                            </div>
+                        </div>
+                
+            </div>
+        
+        <% }%>
     </body>
 </html>
