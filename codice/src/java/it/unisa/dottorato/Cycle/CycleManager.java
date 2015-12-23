@@ -692,8 +692,16 @@ public class CycleManager {
      * @throws DateException 
      */
     public String testYear(String year) throws DateException {
-        if(year.isEmpty() || year.length() > 4) 
+        if(year.length()!=4) 
             throw new DateException("Anno ciclo errato.");
+        int n1=0;
+        for(int i=0; i<4; i++){
+            n1=Integer.parseInt(year.substring(i, i+1));
+            if(n1>=0 && n1<=9)
+                return year;
+            else
+                throw new DateException("Anno ciclo errato.");
+        }
         return year;
     }
     
