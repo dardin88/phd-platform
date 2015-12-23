@@ -568,6 +568,70 @@ public class CalendarManager {
       
       
       
+       public synchronized ArrayList<Lesson> getAllLessonOfProfessor() throws SQLException, IdException { //da modificare dato Person
+        ArrayList<Lesson> lessons = new ArrayList<>();
+        
+        Connection connect = null;
+        try {
+            // Otteniamo una Connessione al DataBase
+            connect = DBConnection.getConnection();
+
+            /*
+             * Prepariamo la stringa SQL per ricercare uno o piu' record 
+             * nella tabella lesson
+             */
+            String tSql = "SELECT DISTINCT  lesson.name, lesson.idLesson , lesson.fkCourse FROM lesson group by lesson.name "
+                    ; //da modificare ancora
+
+            //Inviamo la Query al DataBase
+            ResultSet result = Utility.queryOperation(connect, tSql);
+
+            while (result.next()) {
+                Lesson lesson = new Lesson();
+                
+                lesson.setIdLesson(result.getInt("idLesson"));
+                lesson.setName(result.getString("name"));
+                lesson.setFK_course(result.getInt("fkCourse"));
+                
+                lessons.add(lesson);
+            }
+
+        } finally {
+            DBConnection.releaseConnection(connect);
+        }
+        
+        
+        return lessons;
+    }
+       public synchronized int getAllLessonOfCourse() throws SQLException, IdException { //da modificare dato Person
+       int numerLezio=0;
+        
+        Connection connect = null;
+        try {
+            // Otteniamo una Connessione al DataBase
+            connect = DBConnection.getConnection();
+
+            /*
+             * Prepariamo la stringa SQL per ricercare uno o piu' record 
+             * nella tabella lesson
+             */
+            String tSql = "SELECT COUNT(idLesson) from lesson,Course where  FkCourse=idCourse" ;//da modificare ancora
+
+            //Inviamo la Query al DataBase
+            ResultSet result = Utility.queryOperation(connect, tSql);
+ if(result.next()){
+     numerLezio=result.getInt("COUNT(idLesson)");
+ }
+            
+
+        } finally {
+            DBConnection.releaseConnection(connect);
+        }
+        
+        
+        return numerLezio;
+    }
+       
       /** Metodo della classe per il testing dell'id; non puo' essere minore di 0
        * 
        * @param id
