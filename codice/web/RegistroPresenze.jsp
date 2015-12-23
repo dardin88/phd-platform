@@ -41,39 +41,49 @@
         <!--Qui chiama servlet update che prende infomazioni Account--> 
 <div class="page-body">
             <jsp:include page="barraMenu.jsp"/>
-<% Account loggedPerson = ((Account) session.getAttribute("account"));
 
-                        %>
-
-  <%if (loggedPerson.getTypeAccount().equals("professor")) {%>
-        
             <div class="page-container"> 
                  <div class="well-small col-lg-5 col-lg-offset-0 col-md-8 col-md-offset-2 col-sm-10 col-sm-offset-1 col-xs-12">
                             <div class="form-group">
-                                        <h1> Seleziona un corso</h1>
-                                        <select class="form-control" id="Corsoprofessore" >
-                                            <option value="default" >  - selezionate il vostro  corso  -  </option>
+                               
+                                        <h1  > Seleziona un corso</h1>
+                                        <select class="form-control" id="Corsoprofessore"  >
+                                            <option  >  - selezionate il vostro  corso  -  </option>
+
                                         </select>
                             </div>
                         </div>
+                 <div id="results" >
+                    <table id="results" class="table" style="display: inline-block; border: 1px solid; float: left; ">
+                        <thead>
+                            <tr>
+                                
+                                <th data-field="name" data-sortable="true">Nome</th>
+                                <th data-field= "surname" data-sortable="true">Cognome</th>
+                                <th data-field="email" data-sortable="true">Email</th>
+                            </tr>
+                        </thead>
+                        <tbody id="resultbody">
+                        
+
+                            <tr >
+
+                                <td>sadasd</td>
+                                <td>asd</td>
+                                <td>ada</td>
+                              
+
+
+                            </tr>
+                        </tbody>
+                    </table>
+                </div>
+                
+                
                 
             </div>
         </div>
-                                        <%  }%>
+
         
-        <%  else if  (loggedPerson.getTypeAccount().equals("phdstudent")) {%>   
-        <div class="page-container"> 
-                 <div class="well-small col-lg-5 col-lg-offset-0 col-md-8 col-md-offset-2 col-sm-10 col-sm-offset-1 col-xs-12">
-                            <div class="form-group">
-                                        <h1> Seleziona un corso</h1>
-                                        <select class="form-control" id="Corsostudente" >
-                                            <option value="default" >  - selezionate il vostro  corso  -  </option>
-                                        </select>
-                            </div>
-                        </div>
-                
-            </div>
-        
-        <% }%>
     </body>
 </html>
