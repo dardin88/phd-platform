@@ -308,7 +308,7 @@ public class AccountManager {
              * nella tabella account
              */
       String sql = "SELECT * from account WHERE "
-              + "name LIKE '" + search + "'";
+              + "name LIKE '" + search + "' or surname LIKE '"+search+"' or email LIKE '"+search+"'";
       try {
           //connesione al database
           connect = DBConnection.getConnection();
