@@ -66,11 +66,12 @@
                         <div class="input-group col-lg-8 col-md-8 col-sm-8 pull-left col-xs-8">
                             <input id="word" class="form-control" type="text" value="" placeholder="Search" name="q" autofocus="autofocus" />
 
-                            <div class="input-group-btn" >
-                                <select class="form-control" id="sel1"  name="sel1" >
-                                    <option value=null>Seleziona il tipo di utente</option>
+                            <div class="input-group col-lg-8 col-md-8 col-sm-8 pull-left col-xs-8" >
+                                <select class="form-control" id="sel1"  name="sel1"  >
+                                    <option value=null >Seleziona il tipo di utente</option>
                                     <option value="Dottorando">Dottorando</option>
                                     <option value="Docente">Docente</option>
+                                     <option value="Tutti">Tutti</option>
                                 </select>
 
                             </div>  
