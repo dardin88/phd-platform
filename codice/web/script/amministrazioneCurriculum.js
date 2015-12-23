@@ -14,7 +14,6 @@ function getCurriculumsList()
 {
     //servlet per richiamare la lista dei curriculum
     $.getJSON("GetCurriculumsNames", function (data) {
-             
             $.each(data.curriculumNames, function (index, value) {
             curriculum = "<option class='optionItem' value='" + value.name + "'> " + value.name + "  </option> ";
             $("#CurriculumList").append(curriculum);
@@ -25,6 +24,9 @@ function getCurriculumsList()
 
 function selectedItem()
 {
+    $("#removeButtonSpace button").remove();
+    $("#modifyButtonSpace button").remove();
+    $("#divPanelAddORModify").hide();
     
     
     selectedCurriculum = $("#CurriculumList option:selected").val(); // la chiave primaria di account
@@ -36,16 +38,53 @@ function selectedItem()
         $.getJSON("GetCurriculumByName", {CurriculumName: selectedCurriculum}, function (data) {
             $("#CurriculumNameField").html(" <b> " + data.CurriculumName + "  </b> ");
             $("#CurriculumDescriptionField").html(data.CurriculumDescription);
-            deleteButton = " <button type='button' class='btn btn-red' id=" +  + " onclick='removeButton(" + 'id' + ")' > <span class='glyphicon glyphicon-remove-sign' aria-hidden='true' ></span> Rimuovi Curriculum </button> ";
-            $("#footerPanel").html(deleteButton);
-            //tutorKey = data.fkAccount; //salviamo la mail del professore 
+            deleteButton = " <button  class='btn btn-red btn-block'  id='" + data.CurriculumName + "' onclick='removeButtonSelected(" + 'id' + ")'  > <span class='glyphicon glyphicon-remove-sign' aria-hidden='true' ></span> Rimuovi Curriculum </button> ";
+            modifyButton = " <button  class='btn btn-orange btn-block' id='" + data.CurriculumName  + "' onclick='modifyButtonSelected(" + 'id' + ")' > <span class='glyphicon glyphicon glyphicon-pencil' aria-hidden='true' ></span> Modifica Curriculum </button> ";
+            $("#removeButtonSpace").append(deleteButton);
+            $("#modifyButtonSpace").append(modifyButton);
+            curriculumDescription = data.CurriculumDescription;
         });
     }
     else
         $("#descriptionPanel").hide();
 }
 
+function modifyButtonSelected(curriculumName)
+{
+    this.curriculumName = curriculumName;
+    //in curriculumName abbiamo il nome del curriculum che vogliamo modificare
+    //in curriculumDescription abbiamo la descrizione del curriculum che vogliamo modificare
+    $("#descriptionPanel").hide();
+    $("#divPanelAddORModify").show();
+    $("#phdCurriculumTitle").html("Mofica del curriculum selezionato");
+    $("#phdCurriculumName").val(curriculumName);
+    $("#phdCurriculumDescription").val(curriculumDescription);
+    
+    
+}
+
+function removeButtonSelected(curriculumName)
+{
+    this.curriculumName = curriculumName;
+    alert(curriculumName);
+    //in curriculumName abbiamo il nome del curriculum che vogliamo eliminare
+}
+
 function addCurriculumButton()
 {
+    $("#phdCurriculumTitle").html("Aggiunta di un nuovo curriculum");
+    $("#phdCurriculumName").val("");
+    $("#phdCurriculumDescription").val("");
+    $("#descriptionPanel").hide();
+    $("#divPanelAddORModify").show();
     
+}
+
+//per il bottone X 
+function closeModifyORaddDiv()
+{
+    $("#divPanelAddORModify").hide();
+    $("#phdCurriculumName").val("");
+    $("#phdCurriculumDescription").val("");
+    selectedItem();
 }
