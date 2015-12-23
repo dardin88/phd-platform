@@ -49,10 +49,8 @@ public class UpdateCycleServlet extends HttpServlet {
             String year = request.getParameter("year");
 
             Cycle aPhdCycle = new Cycle();
-            aPhdCycle.setNumber(number);
             aPhdCycle.setYear(year);
             aPhdCycle.setDescription(description);
-            aPhdCycle.setFkProfessor(null);
 
             result.put("result", true);
 
