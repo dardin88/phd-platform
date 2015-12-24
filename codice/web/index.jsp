@@ -67,9 +67,16 @@
                                 prova ciclo
                             </div>
                             <div class="form-group">
-                                <label for="sel1">Seleziona uno dei cicli attivi nel dottorato di ricerca</label>
-                                    <select class="form-control" id="cycleList" onclick="selectedItem()">
-                                        <option value="default" >  - seleziona -  </option>
+                                <label for="sel1">Seleziona uno dei cicli del dottorato di ricerca</label>
+                                    <select class="form-control" id="CycleList" onclick="getCurriculumCicList()">
+                                        
+                                    </select>
+                            </div>
+                            
+                            <div class="form-group">
+                                <label for="sel1">Seleziona uno dei curriculum o tutti </label>
+                                <select class="form-control" id="CurriculumCicList" <--onclick="selectedItem()"-->>
+                                     <option class='optionItem' value='default' >  - seleziona -   </option>    
                                     </select>
                             </div>
                         </div>

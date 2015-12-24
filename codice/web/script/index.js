@@ -8,40 +8,39 @@ $(document).ready(function () {
 
 function getCycleList()
 {
+    //appendiamo il primo valore che è di defalut
+    def = "<option class='optionItem' value='" + 'default' + "'> " + '- seleziona -' + "  </option> ";
+    $("#CycleList").append(def);
     //servlet per richiamare la lista dei cicli
     $.getJSON("GetCyclesListNumers", function (data) {
             $.each(data.cyclesIds, function (index, value) {
-            cycle = "<option class='optionItem' value='" + value.number + "'> " + value.number + "  </option> ";
-            $("#cycleList").append(cycle);
+            cycles = "<option class='optionItem' value='" + value + "'> " + value + "  </option> ";
+            $("#CycleList").append(cycles);
         });
     });
 }
 
 
-function selectedItem()
+function getCurriculumCicList()
 {
-    $("#removeButtonSpace button").remove();
-    $("#modifyButtonSpace button").remove();
-    $("#divPanelAddORModify").hide();
-    
-    
-    selectedCycle = $("#cycleList option:selected").val(); // la chiave primaria di account
-    if (selectedCycle !== "default") //se il valore della select è default non mostriamo il div contenente le informazioni
+    number = $("#CycleList option:selected").val(); // la chiave primaria di account
+    if (number !== "default") //se il valore della select è default non mostriamo il div contenente le informazioni
     {
-        $("#descriptionPanel").show();
+       
         
         //servlet per richiamare le informazioni sul ciclo selezionato
-        $.getJSON("GetCyclebyNumber", {CycleNumber: selectedCycle}, function (data) {
-            $("#CycleNumberField").html(" <b> " + data.CycleIds + "  </b> ");
-            $("#CycleDescriptionField").html(data.CycleDescription);
-            
-            cycleNumber = data.CycleIds;
+        $.getJSON("GetCurriculumcicList", {numero: number}, function (data) {
+            $.each(data.curriculumcicList, function (value) {
+                 var s=number; 
+                    alert(s); 
+            currCic = "<option class='optionItem' value='" + value+ "'> " + value + "  </option> ";
+            $("#CurriculumCicList").append(currCic);
         });
-    }
-    else
-        $("#descriptionPanel").hide();
-}
+    });
 
+}
+}
+;
 function initCycle() {
     // servlet per avere le informazioni riguardanti un determinato ciclo
     $.getJSON("GetPhdCycle", {phdCycleId: $("#personCycle").val()}, function (data) {
