@@ -50,6 +50,7 @@ public class CollaborationManagerTest {
         c.setEndDate(new Date(2016,10,05));
         c.setIstitution("Dipartimento di Informatica");
         c.setStartDate(new Date(2015,10,05));
+        c.setFkPhdstudent("dinucci@hotmail.it");
         try{
             instance.insert(c);
             assertTrue(true);
@@ -654,17 +655,69 @@ public class CollaborationManagerTest {
         }catch(Exception e){
             fail("non sono riuscito a fare l' op");
         }
-    } 
+    }
+    
      /**
      * Test of getAllCollaborationOf method, of class CollaborationManager.
      * @throws java.lang.Exception
      */
     @Test
-    public void testGetAllCollaborationNull() throws Exception {
+    public void testGetAllCollaborationFkPhdStudentNull() throws Exception {
         PhdStudent phdStudent = null;
         try{
             instance.getAllCollaborationOf(phdStudent);
-            fail("non sono riuscito a fare l' op");
+            fail("sono riuscito a fare l' op");
+        }catch(Exception e){
+            assertTrue(true);
+        }
+    }
+    
+     /**
+     * Test of getAllCollaborationOf method, of class CollaborationManager.
+     * @throws java.lang.Exception
+     */
+    @Test
+    public void testGetAllCollaborationFkPhdStudentMax() throws Exception {
+        String fkPhdstuent="dinucciwerwerwerwerwerwerwerwerwerwerwerwerwerwerwerwerwerwerwerwerwerwerwerhotmail.it";
+        PhdStudent phdStudent = new PhdStudent();
+        phdStudent.setfkAccount(fkPhdstuent);
+        try{
+            instance.getAllCollaborationOf(phdStudent);
+            fail("sono riuscito a fare l' op");
+        }catch(Exception e){
+            assertTrue(true);
+        }
+    } 
+
+     /**
+     * Test of getAllCollaborationOf method, of class CollaborationManager.
+     * @throws java.lang.Exception
+     */
+    @Test
+    public void testGetAllCollaborationFkPhdStudentFormatError() throws Exception {
+        String fkPhdstuent="erwerwerwerhotmail.it";
+        PhdStudent phdStudent = new PhdStudent();
+        phdStudent.setfkAccount(fkPhdstuent);
+        try{
+            instance.getAllCollaborationOf(phdStudent);
+            fail("sono riuscito a fare l' op");
+        }catch(Exception e){
+            assertTrue(true);
+        }
+    } 
+    
+    /**
+     * Test of getAllCollaborationOf method, of class CollaborationManager.
+     * @throws java.lang.Exception
+     */
+    @Test
+    public void testGetAllCollaborationFkPhdStudentNotExists() throws Exception {
+        String fkPhdstuent="erwer@werwerhotmail.it";
+        PhdStudent phdStudent = new PhdStudent();
+        phdStudent.setfkAccount(fkPhdstuent);
+        try{
+            instance.getAllCollaborationOf(phdStudent);
+            fail("sono riuscito a fare l' op");
         }catch(Exception e){
             assertTrue(true);
         }
