@@ -163,16 +163,21 @@ public class PresenceManager {
              * Prepariamo la stringa SQL per la ricerca dei record 
              * nella tabella presence
              */
-            String tSql = "SELECT phd.fkAccount,pre.isPresent FROM phdstudent.phd present.pre lesson.les "
-                    + "WHERE pre.fkLesson="
+             String tSql = "SELECT presence.fkPhdstudent, presence.isPresent "
+       + "from presence,lesson  where "
++ "  lesson.idLesson= "+ lesson + " group by presence.fkPhdstudent";
+           
+             /*String tSql = "SELECT account.name, account.surname, presence.isPresent "
+       + "from presence,account,lesson  where "
++ " presence.fkPhdstudent=account.secondaryEmail and lesson.idLesson= "
                     + lesson
-                    + " ORDER BY fkAccount ";
-
+       + " ORDER BY account.surname"*/
             //Inviamo la Query al DataBase
             ResultSet result = Utility.queryOperation(connect, tSql);
 
             while (result.next()) {
                  registro = new Presence();
+                 
                   registro.setFkPhdstudent(result.getString("fkPhdstudent"));
                  registro.setIsPresent(result.getBoolean("isPresent"));
 

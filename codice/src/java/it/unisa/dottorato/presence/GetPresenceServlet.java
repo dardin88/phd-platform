@@ -38,7 +38,7 @@ PrintWriter out = response.getWriter();
 
         try {
              JSONObject result = new JSONObject();
-        int idLesson = Integer.parseInt(request.getParameter("FkLesson"));
+        int idLesson = Integer.parseInt(request.getParameter("fkLesson"));
                 ArrayList<Presence> presence = PresenceManager.getInstance().getPresence(idLesson);
                 JSONArray resultArray = new JSONArray(presence);
                 result.put("presence", resultArray);
