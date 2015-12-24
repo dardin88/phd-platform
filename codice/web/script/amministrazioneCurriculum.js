@@ -67,9 +67,9 @@ function modifyButtonSelected(curriculumName)
     
      $("#savePhdCurriculum").click(function () {
                     // Invio dati alla servlet per l'inserimento del curriculum
-                    $.getJSON("InsertCurriculum",
-                            {name: $("#phdCurriculumName").val(),description: $("#phdCurriculumDescription").val()}, function(data) {
-                                alert("curriculum agiunto correttamente");
+                    $.getJSON("UpdateCurriculum",
+                            {oldNameCurriculum: curriculumName,newNameCurriculum: $("#phdCurriculumName").val(),description: $("#phdCurriculumDescription").val()}, function(data) {
+                                alert("curriculum modificato correttamente");
                                 $("#descriptionPanel").hide();
                                 $("#CurriculumList option").remove();
                                 getCurriculumsList();

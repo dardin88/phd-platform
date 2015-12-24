@@ -8,7 +8,7 @@
 $(document).ready(function () {
 
     getCorsoList();
-  getLesson();
+
 });
 
 function getCorsoList()
@@ -17,15 +17,37 @@ function getCorsoList()
    $.getJSON("GetAllLessonOfProfessor", function (data) {
     $.each(data.lessons, function (index, value) {
         
-           corso = "<option value="+value.idLesson +" > " + value.name + "  </option> ";
-        alert(value.idLesson);   
+           corso = "<option value="+value.idLesson+" > " + value.name + "  </option> ";
+        
         $("#Corsoprofessore").append(corso);
         });
     });
     
 }
 
-function getLesson()
-{
+function selectedItem()
+{ 
+  
+    $("#results").hide();
+    
+    
+   selected = $("#Corsoprofessore option:selected").val(); // la chiave primaria di lesson
+       
+    if (selected !== "default") //se il valore della select è default non mostriamo il div contenente le informazioni
+    {alert(selected);
+        
+        $("#results").show();
+           
+
+       $.getJSON("GetPresence",{fkLesson: selected}, function (data) {
+            $.each(data.presence, function (index, value) {
+               
+                presenza = "<tr> <td> " +value.fkPhdstudent + "</td> <td> " + + "</td>     </tr> "; 
+                $("#resultbody").append(presenza);
+                });
+        });
+    }
+    else
+        $("#results").hide();
     
 }
