@@ -47,8 +47,8 @@
                             <div class="form-group">
                                
                                         <h1  > Seleziona un corso</h1>
-                                        <select class="form-control" id="Corsoprofessore"  >
-                                            <option  >  - selezionate il vostro  corso  -  </option>
+                                        <select class="form-control" id="Corsoprofessore"  onclick="selectedItem()">
+                                            <option value="default"  >  - selezionate il vostro  corso  -  </option>
 
                                         </select>
                             </div>
@@ -60,7 +60,7 @@
                                 
                                 <th data-field="name" data-sortable="true">Nome</th>
                                 <th data-field= "surname" data-sortable="true">Cognome</th>
-                                <th data-field="email" data-sortable="true">Email</th>
+                                <th data-field="presenza" data-sortable="true">Presenza</th>
                             </tr>
                         </thead>
                         <tbody id="resultbody">
@@ -68,9 +68,9 @@
 
                             <tr >
 
-                                <td>sadasd</td>
-                                <td>asd</td>
-                                <td>ada</td>
+                                <td></td>
+                                <td></td>
+                                <td></td>
                               
 
 
@@ -84,6 +84,15 @@
             </div>
         </div>
 
-        
+          <!-- Bottom Scripts -->
+        <script src="assets/js/bootstrap.min.js"></script>
+        <script src="assets/js/TweenMax.min.js"></script>
+        <script src="assets/js/resizeable.js"></script>
+        <script src="assets/js/joinable.js"></script>
+        <script src="assets/js/xenon-api.js"></script>
+        <script src="assets/js/xenon-toggles.js"></script>
+
+        <!-- JavaScripts initializations and stuff -->
+        <script src="assets/js/xenon-custom.js"></script>    
     </body>
 </html>
