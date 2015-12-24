@@ -167,21 +167,19 @@ public class CollaborationManager {
      * @throws SQLException
      * @throws IOException 
      */
-    public synchronized void delete(String idCollaboration) throws ClassNotFoundException, SQLException, IOException {
+    public synchronized void delete(int idCollaboration) throws ClassNotFoundException, SQLException, IOException {
         Connection connect = null;
         try {
             // Otteniamo una Connessione al DataBase
             connect = DBConnection.getConnection();
-            int id = parseInt(idCollaboration);
-            testId(id);
             /*
              * Prepariamo la stringa SQL per cancellare un record 
              * nella tabella collaboration
              */
             String tSql = "DELETE FROM "
                     + CollaborationManager.TABLE_COLLABORATION
-                    + " WHERE idCollaboration = '"
-                    + idCollaboration + "'";
+                    + " WHERE idCollaboration = "
+                    + testId(idCollaboration);
 
             //Inviamo la Query al DataBase
             Utility.executeOperation(connect, tSql);
@@ -298,7 +296,7 @@ public class CollaborationManager {
      * @throws IdException 
      */
     public int testId(int id) throws IdException {
-        if(id<0){
+        if(id<0 || id>999999){
             throw new IdException("L'id non puo' essere minore di 0");
         }
         return id;
@@ -311,7 +309,7 @@ public class CollaborationManager {
      * @throws DescriptionException 
      */
     public String testDescription(String description) throws DescriptionException{
-         if(description.equals(null)){
+         if(description.equals(null)|| description.length()>65536){
             
             throw new DescriptionException("la descrizione e' sbagliata"); 
         }
@@ -353,8 +351,7 @@ public class CollaborationManager {
      * @throws IstitutionException 
      */
     public String testIstitution(String istitution) throws IstitutionException {
-        if(istitution.length()>70){
-            
+        if(istitution.length()<1 || istitution.length()>70){
             throw new IstitutionException("L'istituzione e' sbagliata"); 
         }
         return istitution;

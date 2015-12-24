@@ -67,7 +67,7 @@ public class PublicationManager {
      * @param pPublication la nuova pubblicazione da inserire
      * @throws SQLException 
      */
-    public synchronized void insert(Publication pPublication) throws SQLException {
+    public synchronized void insert(Publication pPublication) throws SQLException, IOException {
         try (Connection connect = DBConnection.getConnection()) {
 
             testPublication(pPublication);
@@ -79,7 +79,7 @@ public class PublicationManager {
                     + PublicationManager.TABLE_PUBLICATION
                     + " (idPublication,title, publicationIssue, year, numberPage, link, type, otherAuthors, abstract, fkPhdstudent)"
                     + " VALUES ("
-                    + testId(pPublication.getIdPublication())
+                    + testId(nextNumber())
                     + ",'"
                     + Utility.Replace(PublicationManager.getInstance().testTitle(pPublication.getTitle()))
                     + "','"

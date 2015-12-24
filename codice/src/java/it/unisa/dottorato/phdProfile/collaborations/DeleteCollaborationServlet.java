@@ -36,7 +36,7 @@ public class DeleteCollaborationServlet extends HttpServlet {
         response.setContentType("text/html;charset=UTF-8");
         PrintWriter out = response.getWriter();
         JSONObject result = new JSONObject();
-        String idCollaboration = request.getParameter("idCollaboration");
+        int idCollaboration = Integer.parseInt(request.getParameter("idCollaboration"));
         try {
             CollaborationManager.getInstance().delete(idCollaboration);
         } catch (ClassNotFoundException | SQLException ex) {

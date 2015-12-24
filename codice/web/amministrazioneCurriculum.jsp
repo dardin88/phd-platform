@@ -60,7 +60,6 @@
                         <div class="form-group">
                             <label for="sel1">Seleziona uno dei curriculum attivi nel dottorato di ricerca</label>
                             <select class="form-control" id="CurriculumList" onclick="selectedItem()">
-                                <option value="default" >  - seleziona -  </option>
                             </select>
                         </div>
                     </div>
@@ -132,7 +131,7 @@
 
                                     <!-- Pulsanti di invio e reset del form -->
                                     <div class="form-group">
-                                        <input type="button" id="submitPhdCurriculum" class="btn btn-blue" value="Salva"> 
+                                        <input type="button" id="savePhdCurriculum" class="btn btn-blue" value="Salva"> 
                                         <input type="reset" id="resetCurriculumButton" class="btn btn-white" value="Reset">
                                     </div>
                                 </form >
