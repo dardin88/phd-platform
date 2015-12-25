@@ -91,10 +91,10 @@
                                         </div>
                                         <div class="panel-footer " style="background-color: transparent">
                                             <div class="col-sm-5">
-                                                Docenti:<span style="text-justify: auto" id="ProfessorOfCVCic">
+                                                Docenti:<br><span style="text-justify: auto" id="ProfessorOfCVCic">
                                             </div>
                                             <div class="col-md-5">
-                                                Dottorandi:<span style="text-justify: auto" id="StudentOfCVCic">
+                                                Dottorandi:<br><span style="text-justify: auto" id="StudentOfCVCic">
                                             </div>
                                         </div>
                                     </div>

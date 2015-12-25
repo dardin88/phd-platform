@@ -63,8 +63,7 @@ function viewInfoCurriculumCic(){
                 
                 nomeCoordinatore = data.fkAccount;
             
-            alert("ciao"); 
-                $.getJSON("ViewProfessorList",{fkCycle: numeroCycle, fkCurriculum: nomeCurriculum, fkProfessor: nomeCoordinatore},function(dataProf){
+                $.getJSON("ViewProfessorListServlet",{fkCycle: numeroCycle, fkCurriculum: nomeCurriculum, fkProfessor: nomeCoordinatore},function(dataProf){
                     
                     $.each(dataProf.prof, function (index, value) {
                           professore = " <b> " + value.name + " "+ value.surname +"  </b><br> ";
@@ -76,7 +75,7 @@ function viewInfoCurriculumCic(){
             //servlet per richiamare i dottorandi del curriculumcic
             $.getJSON("ViewCycleCoordinator", {number: numeroCycle}, function (data) {
                 nomeCoordinatore = data.fkAccount;
-                $.getJSON("ViewPhdstudentCurriculumcic",{fkCycle: numeroCycle, fkCurriculum: nomeCurriculum, fkProfessor: nomeCoordinatore},function(dataStud){
+                $.getJSON("ViewPhdstudentCurriculumcicServlet",{fkCycle: numeroCycle, fkCurriculum: nomeCurriculum, fkProfessor: nomeCoordinatore},function(dataStud){
                       $.each(dataStud.phdstudent, function (index, value) {  
                             $("#StudentOfCVCic").html(" <b> " + value.name + " "+ value.surname +"  </b><br> ");
 
