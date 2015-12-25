@@ -1,5 +1,6 @@
 package it.unisa.dottorato.Cycle;
 
+import it.unisa.dottorato.account.Professor;
 import it.unisa.dottorato.exception.IdException;
 import java.io.IOException;
 import java.io.PrintWriter;
@@ -11,6 +12,7 @@ import javax.servlet.annotation.WebServlet;
 import javax.servlet.http.HttpServlet;
 import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpServletResponse;
+import org.json.JSONArray;
 import org.json.JSONException;
 import org.json.JSONObject;
 
@@ -19,7 +21,7 @@ import org.json.JSONObject;
  *
  * @author Tommaso Minichiello
  */
-@WebServlet(name = "ViewCycleCoordinator", urlPatterns = {"/dottorato/ViewCycleCoordinator"})
+@WebServlet(name = "ViewCycleCoordinator", urlPatterns = {"/ViewCycleCoordinator"})
 public class ViewCycleCoordinatorServlet extends HttpServlet {
 
     /**
@@ -45,7 +47,9 @@ public class ViewCycleCoordinatorServlet extends HttpServlet {
             result.put("result", true);
 
             try {
-                CycleManager.getInstance().viewCycleCoordinator(number);
+                Professor professor = CycleManager.getInstance().viewCycleCoordinator(number);
+                result.put("fkAccount", professor.getfkAccount());
+                
             } catch (ClassNotFoundException | SQLException ex) {
                 result.put("result", false);
                 Logger.getLogger(ViewCycleCoordinatorServlet.class.getName()).log(Level.SEVERE, null, ex);

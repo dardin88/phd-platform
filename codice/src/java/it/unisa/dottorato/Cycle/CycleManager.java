@@ -605,18 +605,18 @@ public class CycleManager {
              * Prepariamo la stringa SQL per la ricerca dei record 
              * nella tabella curriculumcic
              */
-            String tSql = "SELECT curriculum.name AS name, curriculum.description FROM "
+            String tSql = "SELECT * FROM "
                     + CycleManager.TABLE_CURRICULUMCIC 
                     + ","
                     + CycleManager.TABLE_CURRICULUM
-                    + "WHERE fkCurriculum=curriculum.name AND fkCycle ="
+                    + " WHERE fkCurriculum=curriculum.name AND fkCycle ="
                     + testNumber(number);
             
             //Inviamo la Query al DataBase
             ResultSet result = Utility.queryOperation(connect, tSql);
 
             while (result.next()) {
-                c.setName(result.getString("name"));
+                c.setName(result.getString("curriculum.name"));
                 c.setDescription(result.getString("curriculum.description"));
                 List.add(c);
             }

@@ -47,7 +47,7 @@ public class ViewCollegeCycleServlet extends HttpServlet {
             try {
                 ArrayList<Professor> prof = CycleManager.getInstance().viewCollegeCycle(number);
                 JSONArray resultArray = new JSONArray(prof);
-                result.put("cyclesIds", resultArray);
+                result.put("prof", resultArray);
                 out.write(result.toString());
             } catch (ClassNotFoundException | SQLException | JSONException ex) {
                 Logger.getLogger(ViewCollegeCycleServlet.class.getName()).log(Level.SEVERE, null, ex);

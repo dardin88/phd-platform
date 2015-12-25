@@ -1,7 +1,5 @@
 <%@page import="java.util.List"%>
-<%@page import="it.unisa.dottorato.Cycle.Cycle"%>
-<%@page import="it.unisa.dottorato.Cycle.CycleManager"%>
-<%@page import="it.unisa.dottorato.Cycle.CycleManager"%>
+<%@page import="it.unisa.dottorato.Cycle.*"%>
 <%@page import="java.util.ArrayList"%>
 <%@page import="java.util.ArrayList"%>
 <%@page import="it.unisa.dottorato.account.AccountManager"%>
@@ -17,7 +15,7 @@
         <meta name="description" content="Xenon Boostrap Admin Panel" />
         <meta name="author" content="matteonardone" />
 
-        <title>DISTRA-MIT</title>
+        <title>PhD-Platform</title>
 
         <link rel="stylesheet" href="http://fonts.googleapis.com/css?family=Arimo:400,700,400italic">
         <link rel="stylesheet" href="assets/css/fonts/linecons/css/linecons.css">
@@ -68,16 +66,39 @@
                             </div>
                             <div class="form-group">
                                 <label for="sel1">Seleziona uno dei cicli del dottorato di ricerca</label>
-                                    <select class="form-control" id="CycleList" onclick="getCurriculumCicList()">
+                                    <select class="form-control" id="CycleList" onchange="getCurriculumCicList()">
                                         
                                     </select>
                             </div>
                             
                             <div class="form-group">
-                                <label for="sel1">Seleziona uno dei curriculum o tutti </label>
-                                <select class="form-control" id="CurriculumCicList" <--onclick="selectedItem()"-->>
+                                <label for="sel1">Seleziona uno dei curriculum </label>
+                                <select class="form-control" id="CurriculumCicList" onchange="viewInfoCurriculumCic()">
                                      <option class='optionItem' value='default' >  - seleziona -   </option>    
                                     </select>
+                            </div>
+                            <div class="form-group">
+                                
+                                    <div class="panel panel-default " id="descriptionPanel" hidden="true" style="margin-top: 5px">
+                                         <div class="panel-heading">
+                                             Hai selezionato:
+                                                                                         
+                                        </div>
+                                        <div class="panel-body">
+                                            Ciclo: <span style="text-justify: distribute" id="CycleNumber"></span><br>
+                                            Curriculum: <span style="text-justify: distribute" id="CurriculumName"></span>
+                                            Coordinatore del ciclo: <span style="text-justify: auto" id="CoordinatorName"><br>
+                                        </div>
+                                        <div class="panel-footer " style="background-color: transparent">
+                                            <div class="col-sm-5">
+                                                Docenti:<span style="text-justify: auto" id="ProfessorOfCVCic">
+                                            </div>
+                                            <div class="col-md-5">
+                                                Dottorandi:<span style="text-justify: auto" id="StudentOfCVCic">
+                                            </div>
+                                        </div>
+                                    </div>
+                                
                             </div>
                         </div>
                     </div>

@@ -19,7 +19,7 @@ import org.json.JSONObject;
  *
  * @author Tommaso Minichiello
  */
-@WebServlet(name = "ViewCurriculumcicCoordinatorServlet", urlPatterns = {"/dottorato/ViewCurriculumcicCoordinatorServlet"})
+@WebServlet(name = "ViewCurriculumcicCoordinatorServlet", urlPatterns = {"/ViewCurriculumcicCoordinatorServlet"})
 public class ViewCurriculumcicCoordinatorServlet extends HttpServlet {
 
     /**

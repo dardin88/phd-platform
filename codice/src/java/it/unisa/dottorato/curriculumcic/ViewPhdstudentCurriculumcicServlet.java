@@ -21,7 +21,7 @@ import org.json.JSONObject;
  *
  * @author Tommaso Minichiello
  */
-@WebServlet(name = "ViewPhdstudentCurriculumcic", urlPatterns = {"/dottorato/ViewPhdstudentCurriculumcicServlet"})
+@WebServlet(name = "ViewPhdstudentCurriculumcic", urlPatterns = {"/ViewPhdstudentCurriculumcicServlet"})
 public class ViewPhdstudentCurriculumcicServlet extends HttpServlet {
 
     /**
@@ -53,7 +53,7 @@ public class ViewPhdstudentCurriculumcicServlet extends HttpServlet {
             try {
                 ArrayList<PhdStudent> phdstudent = CurriculumcicManager.getInstance().viewPhdstudentCurriculumcic(curr);
                 JSONArray resultArray = new JSONArray(phdstudent);
-                result.put("cyclesIds", resultArray);
+                result.put("phdstudent", resultArray);
                 out.write(result.toString());
             } catch (ClassNotFoundException | SQLException | JSONException ex) {
                 Logger.getLogger(ViewPhdstudentCurriculumcicServlet.class.getName()).log(Level.SEVERE, null, ex);

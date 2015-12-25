@@ -200,11 +200,11 @@ public class CurriculumcicManager {
                     + CurriculumcicManager.TABLE_CURRICULUMCIC+ ","
                     + CurriculumcicManager.TABLE_PROFESSOR+ ","
                     + CurriculumcicManager.TABLE_ACCOUNT 
-                    +"WHERE fkCurriculum= '"
+                    +" WHERE fkCurriculum= '"
                     + CurriculumManager.getInstance().testName(pCurriculumcic.getfkCurriculum())
                     + "' AND fkCycle ="
                     + CycleManager.getInstance().testNumber(pCurriculumcic.getfkCycle())
-                    +"AND secondaryEmail=fkAccount AND fkAccount=fkProfessor";
+                    +" AND secondaryEmail=fkAccount AND fkAccount=fkProfessor";
 
             //Inviamo la Query al DataBase
             ResultSet result = Utility.queryOperation(connect, tSql);
@@ -344,7 +344,7 @@ public class CurriculumcicManager {
                     + CycleManager.getInstance().testNumber(curriculumcic.getfkCycle())
                     +"' AND fkCurriculum = '"
                     + CurriculumManager.getInstance().testName(curriculumcic.getfkCurriculum())
-                    +"'AND secondaryEmail=fkAccount AND fkAccount=fkProfessor ";
+                    +"' AND secondaryEmail=fkAccount AND fkAccount=fkProfessor ";
 
             //Inviamo la Query al DataBase
             ResultSet result = Utility.queryOperation(connect, tSql);

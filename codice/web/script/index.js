@@ -2,8 +2,9 @@
 $(document).ready(function () {
 
     getCycleList();
-   
-
+    getCurriculumCicList();
+    viewInfoCurriculumCic();
+  
 });
 
 function getCycleList()
@@ -23,86 +24,66 @@ function getCycleList()
 
 function getCurriculumCicList()
 {
-    number = $("#CycleList option:selected").val(); // la chiave primaria di account
-    if (number !== "default") //se il valore della select è default non mostriamo il div contenente le informazioni
+    
+    numeroCycle = $("#CycleList option:selected").val(); // la chiave primaria di account
+    
+    if (numeroCycle !== "default") //se il valore della select è default non mostriamo il div contenente le informazioni
     {
        
-        
+        $("#CurriculumCicList").html("");
+        def = "<option class='optionItem' value='" + 'default' + "'> " + '- seleziona -' + "  </option> ";
+        $("#CurriculumCicList").append(def);
         //servlet per richiamare le informazioni sul ciclo selezionato
-        $.getJSON("GetCurriculumcicList", {numero: number}, function (data) {
-            $.each(data.curriculumcicList, function (value) {
-                 var s=number; 
-                    alert(s); 
-            currCic = "<option class='optionItem' value='" + value+ "'> " + value + "  </option> ";
-            $("#CurriculumCicList").append(currCic);
-        });
-    });
-
-}
-}
-;
-function initCycle() {
-    // servlet per avere le informazioni riguardanti un determinato ciclo
-    $.getJSON("GetPhdCycle", {phdCycleId: $("#personCycle").val()}, function (data) {
-
-        $("#phdCycle").html(data.phdCycle);
-        $("#phdYear").html(data.phdYear);
-        $("#phdDescription").html(data.phdDescription);
-        $.getJSON("GetPerson", {pSSN: data.FK_Professor}, function (dataProfessor) {
-            $("#phdProfessor").html("Coordinatore: " + dataProfessor.name + " " + dataProfessor.surname);
-        });
-    });
-}
-;
-
-function initCycleList() {
-    // servlet per avere la lista dei cicli esistenti
-    $.getJSON("GetPhdCyclesIds", function (data) {
-
-        $.each(data.cyclesIds, function (index, value) {
-            var cycleDiv = "<p class='phdCycle_submenu' id='" + value + "'> " + value + "° ciclo </p>";
-            $("#cycleList").append(cycleDiv);
-        });
-        $(".phdCycle_submenu").click(function () {
-
-            cSelected = $(this).attr('id');
-            $.getJSON("GetPhdCycle", {phdCycleId: cSelected}, function (data) {
-
-                // questi campi necessitano di essere cancellati prima della visualizzazione di un nuovo ciclo
-                $("#phdDescription").html("");
-                $("#phdProfessor").html("");
-                $("#phdCycle").html(data.phdCycle);
-                $("#phdYear").html(data.phdYear);
-                $("#phdDescription").html(data.phdDescription);
-                $.getJSON("GetPerson", {pSSN: data.FK_Professor}, function (dataProfessor) {
-                    $("#phdProfessor").html("Coordinatore: " + dataProfessor.name + " " + dataProfessor.surname);
-                });
-            });
-            $(".panel-curriculum").remove();
-            // servlet per avere le informazioni riguardanti un determinato curriculum
-            $.getJSON("GetPhdCurriculumsNamesByPhdCycle", {phdCycleId: cSelected}, function (data) {
-                $.each(data.curriculumNames, function (index, value) {
-                    var curriculumDiv = "<div class='panel-curriculum col-sm-4 text-center pointer'> <a href='curriculum.jsp'> <h4> " + value + " </h4>  </a> </div>";
-                    $("#curriculumList").append(curriculumDiv);
-                });
+        $.getJSON("GetCurriculumcicList", {number: numeroCycle}, function (data) {
+            $.each(data.curriculumcicList, function (index, value) {
+                 currCic = "<option class='optionItem' value='" + value.name+ "'> " + value.name + "  </option> ";
+                 $("#CurriculumCicList").append(currCic);
             });
         });
-    });
+    }
 }
-;
 
-function initCurriculumList() {
-    // servlet per avere le informazioni riguardanti un determinato curriculum
-    $.getJSON("GetPhdCurriculumsNamesByPhdCycle", {phdCycleId: $("#personCycle").val()}, function (data) {
 
-        $.each(data.curriculumNames, function (index, value) {
-            var curriculumDiv = "<div class='panel-curriculum col-sm-4 text-center pointer'> <a href='curriculum.jsp?curriculumName=" + value + "'> <h4> " + value + " </h4>  </a> </div>";
-            $("#curriculumList").append(curriculumDiv);
-        });
-    });
+function viewInfoCurriculumCic(){
+    numeroCycle = $("#CycleList option:selected").val();
+    nomeCurriculum = $("#CurriculumCicList option:selected").val();
+    if(numeroCycle!=="default"){
+        if(nomeCurriculum!=="default"){
+            $("#descriptionPanel").show();
+            $("#CycleNumber").append(numeroCycle);
+            $("#CurriculumName").append(nomeCurriculum);
+            //servlet per richiamare le informazioni sul coordinatore del ciclo
+            $.getJSON("ViewCycleCoordinator", {number: numeroCycle}, function (data) {
+                
+                    $("#CoordinatorName").html(" <b> " + data.fkAccount +"  </b> ");
+                
+            });
+            //servlet per richiamare i docenti del curriculumcic
+            $.getJSON("ViewCycleCoordinator", {number: numeroCycle}, function (data) {
+                
+                nomeCoordinatore = data.fkAccount;
+            
+            alert("ciao"); 
+                $.getJSON("ViewProfessorList",{fkCycle: numeroCycle, fkCurriculum: nomeCurriculum, fkProfessor: nomeCoordinatore},function(dataProf){
+                    
+                    $.each(dataProf.prof, function (index, value) {
+                          professore = " <b> " + value.name + " "+ value.surname +"  </b><br> ";
+                          
+                            $("#ProfessorOfCVCic").append(professore);
+                      });
+                });
+            });
+            //servlet per richiamare i dottorandi del curriculumcic
+            $.getJSON("ViewCycleCoordinator", {number: numeroCycle}, function (data) {
+                nomeCoordinatore = data.fkAccount;
+                $.getJSON("ViewPhdstudentCurriculumcic",{fkCycle: numeroCycle, fkCurriculum: nomeCurriculum, fkProfessor: nomeCoordinatore},function(dataStud){
+                      $.each(dataStud.phdstudent, function (index, value) {  
+                            $("#StudentOfCVCic").html(" <b> " + value.name + " "+ value.surname +"  </b><br> ");
+
+                      });
+                });
+            });
+        }
+    }
 }
-;
-
-
-
 
