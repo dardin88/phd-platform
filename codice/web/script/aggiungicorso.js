@@ -30,11 +30,13 @@ function getCycleList()
 
  function selectedItem(){
      var selected = $("#CycleList option:selected").val();
-     
-     $.getJSON("GetCurriculumcicList", {phdCycleId: selected}, function (data) {
-                $.each(data.curriculumNames, function (index, value) {
-                    var curriculumDiv = "<option class='optionItem' value='" + value + "'> " + value + "  </option>";
+     if (selected!== "default") 
+    {
+     $.getJSON("GetCurriculumcicList", {number:selected}, function (data) {
+                $.each(data.curriculumcicList, function (index, value) {
+                    var curriculumDiv = "<option class='optionItem' value='" + value.name + "'> " + value.name + "  </option>";
                     $("#curriculum").append(curriculumDiv);
                 });
             });
+        }
  }
