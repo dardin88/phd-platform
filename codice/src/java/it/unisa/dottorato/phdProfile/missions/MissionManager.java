@@ -145,7 +145,7 @@ public class MissionManager {
                     + "', place = '"
                     + Utility.Replace(MissionManager.getInstance().testPlace(pMission.getPlace()))
                     + "' WHERE idMission = "
-                    + oldMissionID + "";           
+                    + oldMissionID;           
 
             System.out.println(tSql);
             //Inviamo la Query al DataBase
@@ -174,22 +174,19 @@ public class MissionManager {
      * @throws SQLException
      * @throws IOException 
      */
-    public synchronized void delete(String idMission) throws ClassNotFoundException, SQLException, IOException, IdException {
+    public synchronized void delete(int idMission) throws ClassNotFoundException, SQLException, IOException, IdException {
         Connection connect = null;
         try {
             // Otteniamo una Connessione al DataBase
             connect = DBConnection.getConnection();
-
-            int id = parseInt(idMission);
-            testId(id);
             /*
              * Prepariamo la stringa SQL per rimuovere un record 
              * nella tabella mission
              */
             String tSql = "DELETE FROM "
                     + MissionManager.TABLE_MISSION
-                    + " WHERE idMission = '"
-                    + idMission + "'";
+                    + " WHERE idMission = "
+                    + testId(idMission);
 
             //Inviamo la Query al DataBase
             Utility.executeOperation(connect, tSql);
@@ -315,7 +312,7 @@ public class MissionManager {
      * @throws DescriptionException 
      */
     public String testDescription(String description) throws DescriptionException{
-         if(description.equals(null)){
+         if(description.equals(null) || description.length()>65536){
             
             throw new DescriptionException("la descrizione e' sbagliata"); 
         }
@@ -372,7 +369,7 @@ public class MissionManager {
      * @throws PlaceException 
      */
     public String testPlace(String place) throws PlaceException {
-        if(place.equals(null)&&place.length()>70){
+        if(place.equals(null) || place.length()>70){
             
             throw new PlaceException("il posto e' sbagliato"); 
         }
@@ -400,7 +397,7 @@ public class MissionManager {
      * @throws ReferenceException 
      */
     public String testfkPhdStudent(String fkPhdstudent) throws ReferenceException {
-        if(fkPhdstudent.equals(null)&&fkPhdstudent.length()>50){
+        if(fkPhdstudent.equals(null) || fkPhdstudent.length()>50){
             
             throw new ReferenceException("il campo per il riferimento al PhdStudent e' sbagliato"); 
         }

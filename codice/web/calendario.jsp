@@ -13,6 +13,8 @@
 	content="width=device-width, initial-scale=1, maximum-scale=1, user-scalable=no">
 	<meta http-equiv="Content-Type" content="text/html; charset=UTF-8">
 
+
+
         
        <!-- Bootstrap e i fogli di stile vado a fiducia  -->
        <link rel="stylesheet" href="http://fonts.googleapis.com/css?family=Arimo:400,700,400italic">
@@ -46,7 +48,7 @@
                         <ul class="nav navbar-nav">
                             <li class="active"><a href="aggiungicorso.jsp">Aggiungi Corso</a></li>
                             <li><a href="aggiungievento.jsp">Aggiungi Eventi</a></li>
-                            <li><a href="#"></a></li>
+                            
                         </ul>
                     </div>
                 </div>

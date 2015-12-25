@@ -15,7 +15,6 @@ import it.unisa.dottorato.exception.pAbstractException;
 import it.unisa.dottorato.utility.Utility;
 import it.unisa.integrazione.database.DBConnection;
 import java.io.IOException;
-import static java.lang.Integer.parseInt;
 import java.sql.Connection;
 import java.sql.ResultSet;
 import java.sql.SQLException;
@@ -340,7 +339,7 @@ public class PublicationManager {
      * @throws IdException 
      */
     public int testId(int id) throws IdException {
-        if(id<0|id>6){
+        if(id<0 || id>999999){
             throw new IdException("L'id non puo' essere minore di 0");
         }
         return id;
@@ -383,7 +382,7 @@ public class PublicationManager {
      * @throws YearException 
      */
     public String testYear(String year) throws YearException {
-        if((year.length()>4)|| (year.isEmpty())){
+        if(year.length()!=4){
             throw new YearException("L'anno è sbagliato");
         }
         return year;
@@ -409,7 +408,7 @@ public class PublicationManager {
      * @throws LinkException 
      */
     public String testLink(String link) throws LinkException {
-        if(link.length()>150|| link.isEmpty()){
+        if(link.length()>150 || link.isEmpty()){
             
             throw new LinkException("il link e' sbagliato"); 
         }
@@ -438,7 +437,7 @@ public class PublicationManager {
      * @throws OtherAuthorsException 
      */
     public String testOtherAutors(String otherAutors) throws OtherAuthorsException {
-        if(otherAutors.length()>255|| otherAutors.isEmpty()){
+        if(otherAutors.length()>255 || otherAutors.isEmpty()){
             
             throw new OtherAuthorsException("il campo degli altri autori e' sbagliato"); 
         }

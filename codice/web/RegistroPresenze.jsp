@@ -29,6 +29,8 @@
 
         <script src="assets/js/jquery-1.11.1.min.js"></script>
         <script type="text/javascript" src="script/registro.js"></script>
+    
+
     </head>
    
         
@@ -77,13 +79,17 @@
                             </tr>
                         </tbody>
                     </table>
-                </div>
+   
+      
+      
+    
+</div>
+                 </div>
                 
                 
                 
             </div>
-        </div>
-
+     
           <!-- Bottom Scripts -->
         <script src="assets/js/bootstrap.min.js"></script>
         <script src="assets/js/TweenMax.min.js"></script>

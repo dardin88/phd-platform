@@ -378,7 +378,7 @@ public class CollaborationManager {
      * @throws ReferenceException 
      */
     public String testfkPhdStudent(String fkPhdstudent) throws ReferenceException {
-        if(fkPhdstudent.equals(null)&&fkPhdstudent.length()>50){
+        if(fkPhdstudent.equals(null) || fkPhdstudent.length()>50){
             
             throw new ReferenceException("il campo per il riferimento al PhdStudent e' sbagliato"); 
         }
