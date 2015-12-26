@@ -7,11 +7,13 @@ import it.unisa.dottorato.exception.IdException;
 import it.unisa.dottorato.exception.NameException;
 import it.unisa.dottorato.utility.Utility;
 import it.unisa.integrazione.database.DBConnection;
+import it.unisa.integrazione.database.exception.ConnectionException;
 //import it.unisa.integrazione.model.Person;
 import java.io.IOException;
 import java.sql.Connection;
 import java.sql.ResultSet;
 import java.sql.SQLException;
+import java.sql.Statement;
 import java.util.ArrayList;
 import java.util.Date;
 import java.util.List;
@@ -466,8 +468,66 @@ public class CalendarManager {
             DBConnection.releaseConnection(connect);
         }
     }
+       
+     public synchronized ArrayList<Course> getAllCourse() throws ClassNotFoundException, SQLException, IOException, IdException {
+      
     
+         Statement stmt = null;
+        ResultSet result = null;
+        Connection connection = null;
+       Course course = new Course();
+        ArrayList<Course> listAvviso = new ArrayList<Course>();
+        
+        try {
+            //connessione al database
+            connection = DBConnection.getConnection();
+            /*
+             *stringa SQL per effettuare la ricerca nella 
+             * tabella news
+             */
+        String query = "select * from course ";
+       
+
+            if (connection == null) {
+                throw new it.unisa.integrazione.database.exception.ConnectionException();
+            }
+            //esecuzione query
+            stmt = connection.createStatement();
+            result = stmt.executeQuery(query);
+               while (result.next()) {
+                course.setIdCourse(result.getInt("idCourse"));
+                course.setName(result.getString("name"));
+                course.setFK_curriculum(result.getString("fkCurriculum"));
+                course.setFK_cycle(result.getInt("fkCycle"));
+                course.setDescription(result.getString("description"));
+                course.setStartDate(result.getDate("startDate"));
+                course.setEndDate(result.getDate("endDate"));
+                               
+               listAvviso.add(course);
+
+            }
+        } catch (ConnectionException ex) {
+            Logger.getLogger(CalendarManager.class.getName()).log(Level.SEVERE, null, ex);
+        } finally {
+
+            if (result != null) {
+                result.close();
+            }
+
+            if (stmt != null) {
+                stmt.close();
+            }
+
+            if (connection != null) {
+                connection.close();
+            }
+        }
+
+        return listAvviso;
      
+     
+     
+     }
      /** Metodo della classe incaricato di ricercare un corso dato l'id
       * 
       * @param pCourseID l'id del corso da ricercare
