@@ -71,57 +71,70 @@
                                 <h1> Aggiungi Corso</h1>
                             </div>
                             <div class="panel-body">
-                                <form class="form-horizontal" method="POST" action="AddPublicationServlet">
+                                <form class="form-horizontal" method="POST" action="AddCourseServlet">
                                     <div class="form-group">
                                         <table width="90%" align="center">
                                             <tr><td>
+                                                   
+                                                    
+                                                    
+                                                    <p>Id Corso:</p>
+                                                    <div class="input-group">
+                                                        <span class="input-group-addon"></span>
+                                                        <input class="form-control" name="idCourse" type="text" required>
+                                                    </div>
+                                                    <br>
+                                                    <br>
+                                                                                                     
+                                                 <p>Curriculum:</p>
+                                                    <div class="input-group">
+                                                        <select class="form-control" name="fkCurriculum" id="curriculum" required> 
+                                                          <option value="default" >Seleziona il tipo di curriculum</option>
+                                                          
+                                                                  
+                                                        </select> </div>
+                                                    <br>
+                                                    <br>
                                                     <p>Ciclo:</p>
                                                      <div class="input-group">
                                                         
-                                                        <select class="form-control" name="title" id="CycleList" required onclick="selectedItem()"> 
-                                                          <option value=null >Seleziona il tipo di ciclo</option>
+                                                        <select class="form-control" name="fkCycle" id="CycleList" required onclick="selectedItem()"> 
+                                                          <option value="default" >Seleziona  prima il tipo di ciclo</option>
                                                         
                                                                   
                                                         </select>
                                                      </div>
                                                     <br>
                                                     <br>
-                                                    <p>Curriculum:</p>
+                                                     <p>Nome Corso:</p>
                                                     <div class="input-group">
-                                                        <select class="form-control" name="title" id="curriculum" required> 
-                                                          <option value=null >Seleziona il tipo di ciclo</option>
-                                                          <option value="Dottorando"></option>
-                                                                  
-                                                        </select> </div>
+                                                        <span class="input-group-addon"></span>
+                                                        <input class="form-control" name="name" type="text" required>
+                                                    </div>
                                                     <br>
                                                     <br>
                                                     <p>Descrizione del Corso:</p>
                                                      <div class="input-group">
                                                         <span class="input-group-addon"></span>
-                                                        <textarea class="form-control" name="abstractText" rows="5" cols="40"> </textarea>
+                                                        <textarea class="form-control" name="description" rows="5" cols="40"> </textarea>
                                                     </div>
                                                     <br>                          
 
 
                                                     <br>
-                                                    <p>nome Corso:</p>
-                                                    <div class="input-group">
-                                                        <span class="input-group-addon"></span>
-                                                        <input class="form-control" name="year" type="text" required>
-                                                    </div>
-                                                    <br>
-                                                    <br>
+                                                   
+                                                    
                                                    <p>Data di Inizio:</p>
                                                     <div class="input-group">
                                                         <span class="input-group-addon"></span>
-                                                        <input class="form-control" id="start-date" name="startDate" type="date" placeholder="aaaa-mm-gg" required>
+                                                        <input class="form-control" id="startdate" name="startDate" type="date" placeholder="aaaa-mm-gg" required>
                                                     </div>
                                                     <br>
                                                     <br>
                                                     <p>Data di Fine:</p>
                                                     <div class="input-group">
                                                         <span class="input-group-addon"></span>
-                                                        <input class="form-control" id="end-date" name="endDate" onblur="checkDate()" type="date" placeholder="aaaa-mm-gg" required>
+                                                        <input class="form-control" id="enddate" name="endDate" onblur="checkDate()" type="date" placeholder="aaaa-mm-gg" required>
                                                     </div>
                                                     <br>
                                                     <br>
