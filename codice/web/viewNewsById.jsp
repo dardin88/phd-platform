@@ -1,10 +1,5 @@
 <%@page import="it.unisa.dottorato.news.NewsManager"%>
 <%@page import="it.unisa.dottorato.news.News"%>
-<%@page import="java.util.List"%>
-<%@page import="it.unisa.dottorato.Cycle.*"%>
-<%@page import="java.util.ArrayList"%>
-<%@page import="java.util.ArrayList"%>
-<%@page import="it.unisa.dottorato.account.AccountManager"%>
 <%@ taglib prefix="c" uri="http://java.sun.com/jsp/jstl/core" %>
 <%@page contentType="text/html" pageEncoding="UTF-8"%>
 <!DOCTYPE html>
@@ -38,26 +33,12 @@
         <jsp:include page="barraMenu.jsp" flush="true"/>
 
         <!--BODY-->
-        <script>
-param_name=new Array();
-param_value=new Array();
-
-indirizzo=unescape(String(this.location));
-params=indirizzo.split("?");
-param=params[1].split("&");
-
-for(i=0;i<param.length;i++){
-param_temp=param[i].split("=");
-param_name[i]=param_temp[0];
-param_value[i]=param_temp[1];
-
-if(isNaN(param_value[i])) eval("var "+param_name[i]+"='"+param_value[i]+"';");
-else eval("var "+param[i]+";");
-}
-            alert(param_value[0]);
-            News avviso = NewsManager.getInstance().getNewsById(param_value[0]);
+        <%
+            String d = request.getParameter("Id");
+            News notizia = NewsManager.getInstance().getNewsById(Integer.parseInt(d));
             
-      </script> 
+        %>
+      
 
         <div class="page-container">
             <div class="main-content">
@@ -66,11 +47,11 @@ else eval("var "+param[i]+";");
                     <div class="col-sm-6">
                         <div class="panel panel-default">
                             <div class="panel-heading">
-                                <script>=avviso.getDescription()</script>
+                                <p><%=notizia.getTitle()%></p>
                                   
                             </div>
                             <div class="panel-body">
-                                
+                                <p><%=notizia.getDescription()%></p>
 
                             </div>
                         </div>
@@ -78,5 +59,16 @@ else eval("var "+param[i]+";");
                 </div>
             </div>
         </div>
+        <!-- Bottom Scripts -->
+        <script src="assets/js/bootstrap.min.js"></script>
+        <script src="assets/js/TweenMax.min.js"></script>
+        <script src="assets/js/resizeable.js"></script>
+        <script src="assets/js/joinable.js"></script>
+        <script src="assets/js/xenon-api.js"></script>
+        <script src="assets/js/xenon-toggles.js"></script>
+
+
+        <!-- JavaScripts initializations and stuff -->
+        <script src="assets/js/xenon-custom.js"></script>
     </body>
 </html>

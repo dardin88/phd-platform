@@ -116,10 +116,11 @@ private static final String TABLE_News = "news";
              *stringa SQL per effettuare la ricerca nella 
              * tabella news
              */
-            String sql = "SELECT * From "
+            String sql;
+            sql = "SELECT * From "
                     + NewsManager.TABLE_News
                     + " WHERE idNews = "
-                    +    testid(anews.getId());
+                    +    testid(aidnews);
             
                        if (connection == null) {
                 throw new ConnectionException();
@@ -352,7 +353,7 @@ private static final String TABLE_News = "news";
      * @throws TitleException 
      */
     public String testTitle(String title) throws TitleException {
-        if(title.equals(null)&&title.length()>50){
+        if(title.equals("")&&title.length()>50){
             
             throw new TitleException("il titolo e' sbagliato"); 
         }
@@ -366,7 +367,7 @@ private static final String TABLE_News = "news";
      * @throws DescriptionException 
      */
     public String testDescription(String description) throws DescriptionException{
-         if(description.equals(null)){
+         if(description.equals("")){
             
             throw new DescriptionException("la descrizione e' sbagliata"); 
         }

@@ -115,7 +115,7 @@
                                int idNews= rnotizie.getId();
                                news =news.substring(0, 30);
                                %>
-                               <a href="viewNews.jsp?Id=<%=idNews%>" id="newsid"><p><%=news%></p></a>
+                               <a href="viewNewsById.jsp?Id=<%=idNews%>" id="newsid"><p><%=news%></p></a>
                                 <% } %>
                             </div>
                         </div>
