@@ -36,8 +36,8 @@ public class GetAllNewsServlet extends HttpServlet {
         try (PrintWriter out = response.getWriter()) {
             JSONObject result = new JSONObject();
             try {
-                ArrayList<News> cycles = NewsManager.getInstance().getAllNews();
-                JSONArray resultArray = new JSONArray(cycles);
+                ArrayList<News> news = NewsManager.getInstance().getAllNews();
+                JSONArray resultArray = new JSONArray(news);
                 result.put("news", resultArray);
                 out.write(result.toString());
             } catch (SQLException | JSONException ex) {

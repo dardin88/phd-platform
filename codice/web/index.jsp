@@ -1,3 +1,5 @@
+<%@page import="it.unisa.dottorato.news.NewsManager"%>
+<%@page import="it.unisa.dottorato.news.News"%>
 <%@page import="java.util.List"%>
 <%@page import="it.unisa.dottorato.Cycle.*"%>
 <%@page import="java.util.ArrayList"%>
@@ -37,7 +39,7 @@
 
         <!--BODY-->
         <% List<Cycle> cycles = CycleManager.getInstance().getCycleList();
-            
+            List<News> notizie = NewsManager.getInstance().getAllNews();
             %>
       
 
@@ -99,6 +101,22 @@
                                         </div>
                                     </div>
                                 
+                            </div>
+                        </div>
+                    </div>
+                    <div class="col-sm-6">
+                        <div class="panel panel-default">
+                            <div class="panel-heading">
+                                Avvisi
+                            </div>
+                            <div class="panel-body">
+                               <% for(News rnotizie : notizie) {
+                               String news = new String (rnotizie.getDescription());
+                               int idNews= rnotizie.getId();
+                               news =news.substring(0, 30);
+                               %>
+                               <a href="viewNews.jsp?Id=<%=idNews%>" id="newsid"><p><%=news%></p></a>
+                                <% } %>
                             </div>
                         </div>
                     </div>
