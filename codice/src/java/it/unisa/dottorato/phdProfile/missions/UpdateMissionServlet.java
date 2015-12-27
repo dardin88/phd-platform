@@ -18,7 +18,7 @@ import org.json.JSONObject;
  *
  * @author gemmacatolino
  */
-@WebServlet(name = "UpdateMissionServlet", urlPatterns = {"/dottorato/UpdateMissionServlet"})
+@WebServlet(name = "UpdateMissionServlet", urlPatterns = {"/UpdateMissionServlet"})
 public class UpdateMissionServlet extends HttpServlet {
 
     /**
@@ -42,7 +42,7 @@ public class UpdateMissionServlet extends HttpServlet {
         try {
             response.setContentType("text/html;charset=UTF-8");
             
-            int missionID = Integer.parseInt("" + request.getSession().getAttribute("idMission"));
+            int missionID = Integer.parseInt("" + request.getParameter("id"));
             
             String description = request.getParameter("description");
             String startDate = request.getParameter("startDate");
@@ -51,7 +51,7 @@ public class UpdateMissionServlet extends HttpServlet {
             String place = request.getParameter("place");
             
             HttpSession session = request.getSession();
-            PhdStudent loggedPerson = (PhdStudent) session.getAttribute("phdStudent"); //da verificare
+            PhdStudent loggedPerson = (PhdStudent) session.getAttribute("account"); //da verificare
             
             Mission mission = new Mission();
             
@@ -66,7 +66,7 @@ public class UpdateMissionServlet extends HttpServlet {
             
             out.println("<script type=\"text/javascript\">");
             out.println("alert('La missione è stata modificata.');");
-            out.println("location='missionActivity.jsp';");
+            out.println("location='profileNuovo.jsp';");
             out.println("</script>");
         } catch (SQLException | ClassNotFoundException ex) {
             Logger.getLogger(UpdateMissionServlet.class.getName()).log(Level.SEVERE, null, ex);

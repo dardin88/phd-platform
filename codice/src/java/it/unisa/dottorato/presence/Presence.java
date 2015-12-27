@@ -1,11 +1,6 @@
 package it.unisa.dottorato.presence;
 
-
-import it.unisa.dottorato.account.PhdStudent;
-import it.unisa.dottorato.account.Professor;
-import it.unisa.dottorato.phdCourse.Lesson;
 import java.io.Serializable;
-import java.util.ArrayList;
 
 
 /**Classe dell'oggetto Presence; rappresenta la presenza di un dottorando ad una lezione
@@ -20,24 +15,7 @@ public class Presence implements Serializable {
     private String fkPhdstudent ;
     private String fkLesson;
     public boolean isPresent=false;
-    public boolean setPermission=false;
 
-    /** Metodo della classe incaricato di ritornare il valore booleano setPermission
-     * 
-     * @return restituisce il valore booleano setPermission
-     */
-    public boolean isSetPermission() {
-        return setPermission;
-    }
-
-    /** Metodo della classe incaricato di  settare il valore booleano setPermission
-     * 
-     * @param setPermission 
-     */
-    public void setSetPermission(boolean setPermission) {
-        this.setPermission = setPermission;
-    }
-    
     
     
      
@@ -89,8 +67,5 @@ public class Presence implements Serializable {
         this.isPresent = isSigned;
     }
 
-    
-    
-    
     
 }

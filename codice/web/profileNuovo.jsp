@@ -259,7 +259,7 @@
                                                             <% session.setAttribute("idPublication" + publications.indexOf(publication),publication.getIdPublication());%>
 
                                                             <td width="20px"> <button type="button" class="btn btn-white" title="modifica">
-                                                                    <span class="glyphicon glyphicon-cog" aria-hidden="true" onclick="'<%= "editPublication.jsp?id=" + publication.getIdPublication()%>'" ></span>
+                                                                    <span class="glyphicon glyphicon-cog" aria-hidden="true" onclick="location.href = '<%= "editPublication.jsp?id=" + publication.getIdPublication()%>'" ></span>
                                                                 </button>
                                                             </td>
                                                             <td width="20px">
@@ -294,7 +294,7 @@
                                                             <% session.setAttribute("idCollaboration" + collaborations.indexOf(collaboration), collaboration.getIdCollaboration());%>
 
                                                             <td width="20px"> <button type="button" class="btn btn-white" title="modifica">
-                                                                    <span class="glyphicon glyphicon-cog" aria-hidden="true" onclick="'<%= "editCollaboration.jsp?id=" + collaboration.getIdCollaboration()%>'" ></span>
+                                                                    <span class="glyphicon glyphicon-cog" aria-hidden="true" onclick="location.href = '<%= "editCollaboration.jsp?id=" + collaboration.getIdCollaboration()%>'" ></span>
                                                                 </button>
                                                             </td>
                                                             <td width="20px">
@@ -331,7 +331,7 @@
 
 
                                                             <td width="20px"> <button type="button" class="btn btn-white" title="modifica">
-                                                                    <span class="glyphicon glyphicon-cog" aria-hidden="true"onclick="'<%= "editMission.jsp?id=" + mission.getIdMission()%>'" ></span>
+                                                                    <span class="glyphicon glyphicon-cog" aria-hidden="true"onclick="location.href = '<%= "editMission.jsp?id=" + mission.getIdMission()%>'" ></span>
                                                                 </button>
                                                             </td>
                                                             <td width="20px">

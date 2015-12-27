@@ -17,7 +17,7 @@ import org.json.JSONObject;
  *
  * @author gemmacatolino
  */
-@WebServlet(name = "DeleteMissionServlet", urlPatterns = {"/dottorato/DeleteMissionServlet"})
+@WebServlet(name = "DeleteMissionServlet", urlPatterns = {"/DeleteMissionServlet"})
 public class DeleteMissionServlet extends HttpServlet {
 
     /**

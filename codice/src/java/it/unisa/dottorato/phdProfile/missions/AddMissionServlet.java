@@ -19,7 +19,7 @@ import org.json.JSONObject;
  *
  * @author gemmacatolino
  */
-@WebServlet(name = "AddMissionServlet", urlPatterns = {"/dottorato/AddMissionServlet"})
+@WebServlet(name = "AddMissionServlet", urlPatterns = {"/AddMissionServlet"})
 public class AddMissionServlet extends HttpServlet {
 
     /**
@@ -53,7 +53,7 @@ public class AddMissionServlet extends HttpServlet {
                 String place = request.getParameter("place");
                 
                 HttpSession session = request.getSession();
-                PhdStudent loggedPerson = (PhdStudent) session.getAttribute("phdStudent");  
+                PhdStudent loggedPerson = (PhdStudent) session.getAttribute("account");  
 
                 Mission mission = new Mission();
 
