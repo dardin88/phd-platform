@@ -28,7 +28,7 @@ var tut="Tutti";
               $.getJSON("GetPhdStudentList", function (data) {
     
         $.each(data.account, function (index, value) {
-           phdstudent = "<tr  id="+  value.secondaryEmail+">  <td> "  + value.typeAccount+ "</td>  <td> " + value.name + "</td> <td> " + value.surname + "</td>    <td> " + value.email + "</td> ";
+           phdstudent = "<tr  id="+  value.secondaryEmail+">  <td> "  + value.typeAccount+ "</td>  <td> " + value.name + "</td> <td> " + value.surname + "</td>    <td> " + value.email + "</td>  <td> <button class='btn btn-blu' id=" + value.secondaryEmail + " onclick='viewProfile(" + 'id' + ")' > <span class='glyphicon glyphicon-user' aria-hidden='true' ></span> Profilo</button>  </td> ";
             
             $("#resultbody").append(phdstudent);
         });
@@ -44,7 +44,7 @@ var tut="Tutti";
  $("#resultbody tr").remove();
             $.getJSON("GetProfessorsList", function (data) {
        $.each(data.account, function (index, value) {
-           professor = "<tr>  <td> "  + value.typeAccount+ "</td>  <td> " + value.name + "</td> <td> " + value.surname + "</td>    <td> " + value.email + "</td> ";
+           professor = "<tr>  <td> "  + value.typeAccount+ "</td>  <td> " + value.name + "</td> <td> " + value.surname + "</td>    <td> " + value.email + "</td>  <td> <button class='btn btn-blu' id=" + value.secondaryEmail + " onclick='viewProfile(" + 'id' + ")' > <span class='glyphicon glyphicon-user' aria-hidden='true' ></span> Profilo</button>  </td> </tr> ";
                 $("#resultbody").append(professor);
         });
           });
@@ -54,7 +54,7 @@ var tut="Tutti";
             $("#resultbody tr").remove();
              $.getJSON("getAccountList", function (data) {
             $.each(data.account, function (index, value) {
-                account = "<tr>  <td> " + value.typeAccount + "</td>  <td> " + value.name + "</td> <td> " + value.surname + "</td>    <td> " + value.email + "</td> ";
+                account = "<tr>  <td> " + value.typeAccount + "</td>  <td> " + value.name + "</td> <td> " + value.surname + "</td>    <td> " + value.email + "</td>  <td> <button class='btn btn-blu' id=" + value.secondaryEmail + " onclick='viewProfile(" + 'id' + ")' > <span class='glyphicon glyphicon-user' aria-hidden='true' ></span> Profilo</button>  </td> </tr>";
                 $("#resultbody").append(account);
             });
         });
@@ -82,7 +82,7 @@ function searchForName()
         
             $.each(data.account, function (index, value) {
                 
-    var   account = "<tr>  <td> " + value.typeAccount + "</td>  <td> " + value.name + "</td> <td> " + value.surname + "</td>  <td> " + value.email + "</td> </tr>";
+    var   account = "<tr>  <td> " + value.typeAccount + "</td>  <td> " + value.name + "</td> <td> " + value.surname + "</td>  <td> " + value.email + "</td>   <td> <button class='btn btn-blu' id=" + value.secondaryEmail + " onclick='viewProfile(" + 'id' + ")' > <span class='glyphicon glyphicon-user' aria-hidden='true' ></span> Profilo</button>  </td> </tr>";
            
                 $("#resultbody").append(account);
            
