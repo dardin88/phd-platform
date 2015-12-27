@@ -51,9 +51,12 @@
                                   
                             </div>
                             <div class="panel-body">
-                                <p><%=notizia.getDescription()%></p>
+                                <p><%=notizia.getDescription()%><br><br></p>
 
                             </div>
+                                <div class="panel-footer " style="background-color: transparent">
+                                    <button type="back"  id="indietro"  class="btn btn-white" onclick="history.go(-1);">Indietro</button>
+                                </div>
                         </div>
                     </div>
                 </div>

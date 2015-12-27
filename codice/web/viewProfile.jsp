@@ -135,7 +135,7 @@
                     <div class="col-sm-10">
                         
                         <%
-                            Account profile = ((Account) AccountManager.getInstance().getAccountByEmail(request.getParameter("index")));
+                            Account profile = ((Account) AccountManager.getInstance().getAccountByEmail(request.getParameter("mail")));
 
                         %>
                         <div class="panel panel-default">

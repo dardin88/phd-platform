@@ -61,7 +61,6 @@ public class AccountManager {
         ResultSet rs = null;
         ResultSet rt = null;
         Connection connection = null;
-        Account anews = null;
                 try {
             //connessione al database
             connection = DBConnection.getConnection();
@@ -247,10 +246,8 @@ public class AccountManager {
                         break;
                     default:
                         rs.next();
-                        break;
-                        
-                }
-                
+                        break;           
+              }
             }
           return accounts;
         } finally {

@@ -43,7 +43,7 @@ public class GetAllPublicationsServlet extends HttpServlet {
             try {
                 
                 HttpSession session = request.getSession();
-                PhdStudent phdStudent = (PhdStudent) session.getAttribute("phdStudent"); // da verificare
+                PhdStudent phdStudent = (PhdStudent) session.getAttribute("account"); // da verificare
                 
                 ArrayList<Publication> publications = (ArrayList<Publication>) PublicationManager.getInstance().getAllPublicationsOf(phdStudent); // da modificare ancora
                 JSONArray resultArray = new JSONArray(publications);

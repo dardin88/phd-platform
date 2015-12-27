@@ -1,5 +1,4 @@
 package it.unisa.dottorato.presence;
-import it.unisa.dottorato.phdCourse.Lesson;
 import it.unisa.dottorato.utility.Utility;
 import it.unisa.integrazione.database.DBConnection;
 import java.io.IOException;
@@ -7,6 +6,7 @@ import java.sql.Connection;
 import java.sql.ResultSet;
 import java.sql.SQLException;
 import java.util.ArrayList;
+
 /** Classe per la gestione delle presenze
  *
  * @author Rembor
@@ -87,23 +87,7 @@ public class PresenceManager {
         }
     }
     
-  
 
- 
-  /**  Metodo della classe incaricato di cambiare il permesso per settare le presenze
-   * 
-   * @param permission 
-   */
-  public synchronized void ChangePermission(boolean permission)  {
-        
-      if(permission==false){
-       
-       checkPermission.setSetPermission(true);
-   }
-       else checkPermission.setSetPermission(false);
-          
-       
-  }
    
  /**  Metodo della classe incaricato di ritornare una lista delle presenze di un corso
   * 
@@ -201,7 +185,6 @@ public class PresenceManager {
    public synchronized void modifyPresence(boolean signature,Presence old) throws SQLException, ExceptionPermissionDenied {
        try (Connection connect = DBConnection.getConnection()) {
           
-      getPermission();
      /*
              * Prepariamo la stringa SQL per inserire un nuovo record 
              * nella tabella presenze
@@ -225,17 +208,4 @@ public class PresenceManager {
    
    }
    
-   /** Metodo della classe incaricato di far ottenere i permessi per settare 
-    * le presenze
-    * 
-    * @throws ExceptionPermissionDenied 
-    */
-   public synchronized void getPermission() throws ExceptionPermissionDenied{
-     this.checkPermission=new Presence();
-     boolean permission= this.checkPermission.isSetPermission();
-      if (permission=false){
-          throw new ExceptionPermissionDenied();
-          
-     }
-     }
 }
