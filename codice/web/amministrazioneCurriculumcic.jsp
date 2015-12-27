@@ -29,7 +29,7 @@
         <link rel="stylesheet" href="style/dottorato.css">
         
         <script src="assets/js/jquery-1.11.1.min.js"></script>
-        <script type="text/javascript" src="script/amministrazione.js"></script> <!-- da modificare -->
+        <script type="text/javascript" src="script/amministrazioneCurriculumcic.js"></script> <!-- da modificare -->
                                                                                  
     </head>
         <body class="page-body">
@@ -48,22 +48,16 @@
                     </div>      
                      
                     <div class="row"  > 
-                        <div class="well-small col-lg-3 col-lg-offset-0 col-md-8 col-md-offset-2 col-sm-10 col-sm-offset-1 col-xs-12">
-                            <div class="dropdown" >
-                            <button class="btn btn-default dropdown-toggle" type="button" id="dropdownMenu1" data-toggle="dropdown" aria-haspopup="true" aria-expanded="true">
-                              -- seleziona uno fra i cicli attivi nel dottorato di ricerca -- 
-                              <span class="caret" ></span>
-                            </button>
-                            <ul class="dropdown-menu" aria-labelledby="dropdownMenu2">
-                              <li><a href="#">Action</a></li>
-                              <li><a href="#">Another action</a></li>
-                              <li><a href="#">Something else here</a></li>
-                            </ul>
+                        <div class="well-small col-lg-6 col-lg-offset-0 col-md-8 col-md-offset-2 col-sm-10 col-sm-offset-1 col-xs-12">
+                          <div class="form-group">
+                            <label for="sel1">Seleziona uno fra i cicli attivi nel dottorato di ricerca</label>
+                            <select class="form-control" id="CycleList" onclick="selectedItem()">
+                            </select>
                         </div>
                         </div>    
                     
-                        <div class="well-small col-lg-6 col-lg-offset-3 col-md-8 col-md-offset-2 col-sm-10 col-sm-offset-1 col-xs-12">
-                        <button type="button" class="btn btn-block btn-secondary " >
+                        <div class="well-small col-lg-6 col-lg-offset-0 col-md-8 col-md-offset-2 col-sm-10 col-sm-offset-1 col-xs-12">
+                        <button type="button" class="btn btn-block btn-secondary " style="margin-top: 22px" onclick="addCycleButton()">
                                 <span class="glyphicon glyphicon-plus" aria-hidden="true" ></span>
                                 Aggiungi Ciclo
                             </button> 
@@ -72,11 +66,55 @@
                     </div>
                     
                     <div class="row"> 
-                    <div class="well-small col-lg-6 col-lg-offset-6 col-md-8 col-md-offset-2 col-sm-10 col-sm-offset-1 col-xs-12" style="margin-top: 8px"> 
-                        <div class="panel panel-default">
+                        
+                   
+                    <div class="well-small col-lg-6 col-lg-offset-0 col-md-8 col-md-offset-2 col-sm-10 col-sm-offset-1 col-xs-12">
+                           <div class="panel panel-default" style="margin-top: 10px" id="CycleSelectedDiv" hidden>
                             <div class="panel-heading">
-                                <h3 class="panel-title">Coordinatore del ciclo: <span style="font-style: italic" id="TutorNameField" class="text-center"> -- coordinatore selezionato -- </span> 
-                                    <button type="button" class="btn btn-large btn-block btn-red" style="column-span: all">
+                                <h3 id="cycleName">--Ciclo selezionato-- <button type="button" class="btn btn-default btn-red ">
+                                            <span class="glyphicon glyphicon-remove-sign" aria-hidden="true" style="margin-top: 2px"></span> Rimuovi Ciclo
+                                    </button>  </h3>  
+                                <h4 id="cycleYear"> anno del ciclo </h4>
+                            </div>
+                            <div class="panel-footer" style="background-color: transparent">
+                                  <button type="button" class="btn btn-large btn-block " onclick="viewCollegio()">
+                                        Visualizza il colleggio docenti
+                                  </button>
+                              </div>  
+                        </div>
+                    </div>    
+                      
+                     <div class="well-small col-lg-6 col-lg-offset-0 col-md-8 col-md-offset-2 col-sm-10 col-sm-offset-1 col-xs-12">
+                       
+                     <div class="panel panel-default" style="margin-top: 10px" id="collegioDiv" hidden>
+                            <div class="panel-heading">
+                                 <button type="button" class="close" id="buttonCloseCurriculumDialog" onclick="closeCollegioDiv()" >&times;</button>
+                                <h3 class="panel-title">Collegio docenti del ciclo </h3> 
+                            </div>
+                            <div class="panel-body">
+                                <table class="table">
+                                    <thead>
+                                        <tr>
+                                           <th>Nome</th>
+                                           <th>Cognome</th>
+                                        </tr>
+                                    </thead>
+                                    <tbody id="bodyCollegio"> </tbody>
+                                </table>
+                            </div>
+                               
+                          </div>    
+                    </div> 
+                    </div>  
+                    
+                    
+                    <div class="row">
+                        
+                    <div class="col-lg-6 col-lg-offset-0 col-md-8 col-md-offset-2 col-sm-10 col-sm-offset-1 col-xs-12" > 
+                        <div class="panel panel-default" id="coordinatoreDiv" hidden>
+                            <div class="panel-heading">
+                                <h3 class="panel-title">Coordinatore del ciclo: <span style="font-style: italic" id="TutorNameField" style="margin-left: 4px">  </span> 
+                                    <button type="button" class="btn btn-default btn-red btn-block" id="removeTutorButton" hidden>
                                         <span class="glyphicon glyphicon-remove-sign" aria-hidden="true">
                                         </span> Rimuovi coordinatore
                                     </button> </h3> 
@@ -87,8 +125,10 @@
                                         <tr>
                                            <th>Nome</th>
                                            <th>Cognome</th>
+                                           <th>Aggiorna</th>
                                         </tr>
                                     </thead>
+                                    <tbody id="tutorTableList"></tbody>
                                 </table>
                             </div>
                               
@@ -96,37 +136,11 @@
                                   <p class="text-center"> -- Seleziona il coordinatore -- 
                               </div>  
                           </div>
-                    </div>
-                    </div>  
-                    
-                    
-                    
-                   
-                    
-                    
-                    
-                    
-                    <div class="row">
-                    <div class="well-small col-lg-6 col-lg-offset-0 col-md-8 col-md-offset-2 col-sm-10 col-sm-offset-1 col-xs-12">
-                           <div class="panel panel-default">
-                            <div class="panel-heading">
-                                <h3 id="cycleName">--Ciclo selezionato-- <button type="button" class="btn btn-default btn-red ">
-                                            <span class="glyphicon glyphicon-remove-sign" aria-hidden="true" style="margin-top: 2px"></span> Rimuovi Ciclo
-                                    </button>  </h3>  
-                                <h4 id="cycleYear"> anno del ciclo </h4>
-                            </div>
-                            <div class="panel-footer" style="background-color: transparent">
-                                  <button type="button" class="btn btn-large btn-block ">
-                                        Visualizza il colleggio docenti
-                                  </button>
-                              </div>  
-                        </div>
-                    </div>
-                    
+                    </div>    
                     
                     
                     <div class="well-small col-lg-6 col-lg-offset-0 col-md-8 col-md-offset-2 col-sm-10 col-sm-offset-1 col-xs-12">
-                          <div class="panel panel-default">
+                          <div class="panel panel-default" id="curriculumsDiv" hidden>
                             <div class="panel-heading">
                                 <h3 class="panel-title">Curriculum attivi nel ciclo :
                                     <span style="font-style: italic" id="CyclyeNumberfield" class="text-center"> -- n.ciclo -- </span> 
@@ -137,6 +151,7 @@
                                     <thead>
                                         <tr>
                                            <th>Nome Curriculum</th>
+                                           <th>Visualizza Dettagli</th> 
                                            <th>Elimina Curriculum</th>
                                         </tr>
                                     </thead>

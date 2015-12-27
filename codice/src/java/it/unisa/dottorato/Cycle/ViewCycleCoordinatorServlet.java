@@ -49,6 +49,8 @@ public class ViewCycleCoordinatorServlet extends HttpServlet {
             try {
                 Professor professor = CycleManager.getInstance().viewCycleCoordinator(number);
                 result.put("fkAccount", professor.getfkAccount());
+                result.put("name", professor.getName());
+                result.put("surname", professor.getSurname());
                 
             } catch (ClassNotFoundException | SQLException ex) {
                 result.put("result", false);
