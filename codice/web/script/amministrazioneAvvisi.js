@@ -29,7 +29,7 @@ function getNewsList()
 
 function addNewsButton()
 {
- alert("bottone INSERIMENTO premuto");
+ //alert("bottone INSERIMENTO premuto");
  $("#descriptionPanel").hide();
  $("#tableDiv").hide();
  $("#divPanelAddORModify").show();
@@ -92,6 +92,18 @@ function removeNewsButton(id)
 {
      alert("bottone ELIMINAZIONE premuto " + id);
      $("#descriptionPanel").hide();
+     
+     // Servlet per la rimozione della news
+                    
+                    $.getJSON("DeleteNews",{idNews: id},function (data) {
+                        
+                    });
+                    alert("news eliminata correttamente");
+                   // $("#accountListTable tr").remove();
+                   // $("#tableDiv").hide();
+                    $(location).href('amministrazioneAvvisi.js');
+                    //getNewsList();
+                        
 }
 
 function closeModifyORaddDiv()
