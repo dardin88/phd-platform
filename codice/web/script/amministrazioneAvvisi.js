@@ -75,7 +75,7 @@ function modifyNewsButton(id)
         });
     
     $("#saveNews").click(function () {
-                    
+                    alert("hai clickato salva");
         // Invio dati alla servlet per la modifica della news
                     $.getJSON("ModifyNewsServlet",
                             {idNews: id,title: $("#newsTitle").val(),description: $("#newsDescription").val()}, function(data) {
