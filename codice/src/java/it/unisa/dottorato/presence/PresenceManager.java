@@ -236,7 +236,6 @@ public class PresenceManager {
       if (permission=false){
           throw new ExceptionPermissionDenied();
           
-      }
-     
-      }
+     }
+     }
 }
