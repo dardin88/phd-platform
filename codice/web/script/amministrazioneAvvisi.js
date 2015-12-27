@@ -37,29 +37,22 @@ function addNewsButton()
  $("#newsDescription").val("");
  
  $("#saveNews").click(function () {
+     
+     newsTitle = $("#newsTitle").val();
+     newsDescription = $("#newsDescription").val();
                     
         // Invio dati alla servlet per l'inserimento della news
                     $.getJSON("InsertNews",
-                            {title: $("#newsTitle").val(),description: $("#newsDescription").val()}, function(data) {
-                                alert("news aggiunta correttamente");
-                                $("#divPanelAddORModify").hide();
-                                 $("#accountListTable tr").remove();
-                                getNewsList();
+                            {title: newsTitle ,description: newsDescription}, function(data) {
+                               alert("news aggiunta correttamente");
                            });
+                           $("#divPanelAddORModify").hide();
+                           $("#accountListTable tr").remove();
+                           getNewsList();
+                                 
                 });
-}
-
-function viewNewsButton(id)
-{
-    $("#descriptionPanel").hide();
-    $("#descriptionPanel").show();
-    
-    //servlet per richiamare le informazioni sulla news selezionato
-        $.getJSON("GetNewsbyId", {idNews: id}, function (data) {
-            $("#NewsNameField").html(" <b> " + data.title + "  </b> ");
-            $("#newsDescriptionField").html(data.description);
-            
-        });
+                
+               
 }
 
 function modifyNewsButton(id)
@@ -81,10 +74,11 @@ function modifyNewsButton(id)
                     $.getJSON("ModifyNews",
                             {idNews: id,title: $("#newsTitle").val(),description: $("#newsDescription").val()}, function(data) {
                                 alert("news modificata correttamente");
+                           });
+                           
                                 $("#divPanelAddORModify").hide();
                                 $("#accountListTable tr").remove();
                                 getNewsList();
-                           });
                 });
 }
 
@@ -97,12 +91,10 @@ function removeNewsButton(id)
      // Servlet per la rimozione della news
                     
                     $.getJSON("DeleteNews",{idNews: id},function (data) {
-                        
+                        alert("news eliminata correttamente");
                     });
-                    alert("news eliminata correttamente");
                    // $("#accountListTable tr").remove();
                    // $("#tableDiv").hide();
-                    $(location).href('amministrazioneAvvisi.js');
                     //getNewsList();
                         
 }
@@ -112,4 +104,16 @@ function closeModifyORaddDiv()
     $("#divPanelAddORModify").hide(); 
     $("#accountListTable tr").remove();
     getNewsList();
+}
+
+function viewNewsButton(id)
+{
+    $("#descriptionPanel").hide();
+    $("#descriptionPanel").show();
+    
+    //servlet per richiamare le informazioni sulla news selezionato
+        $.getJSON("GetNewsbyId", {idNews: id}, function (data) {
+            $("#NewsNameField").html(" <b> " + data.title + "  </b> ");
+            $("#newsDescriptionField").html(data.description);
+        });
 }
