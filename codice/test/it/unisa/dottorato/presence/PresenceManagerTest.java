@@ -58,19 +58,6 @@ public class PresenceManagerTest {
         }
     }
 
-    /**
-     * Test of ChangePermission method, of class PresenceManager.
-     */
-    @Test
-    public void testChangePermissionOk() {
-        boolean permission = false;
-        try{
-            instance.ChangePermission(permission);
-            assertTrue(permission);
-        }catch(Exception e){
-            fail("non sono riuscito a fare l' op");
-        }
-    }
 
     /**
      * Test of getPresenceCourse method, of class PresenceManager.
@@ -111,7 +98,7 @@ public class PresenceManagerTest {
        
         int lesson = -8;
         try{
-            ArrayList<Presence> result = instance.getPresence(lesson);
+            instance.getPresence(lesson);
             fail("sono riuscito a fare l' op");
         }catch(Exception e){
             assertTrue(true);
@@ -128,7 +115,7 @@ public class PresenceManagerTest {
        
         int lesson = 9999999;
         try{
-            ArrayList<Presence> result = instance.getPresence(lesson);
+            instance.getPresence(lesson);
             fail("sono riuscito a fare l' op");
         }catch(Exception e){
             assertTrue(true);
@@ -144,7 +131,7 @@ public class PresenceManagerTest {
        
         int lesson = 88989;
         try{
-            ArrayList<Presence> result = instance.getPresence(lesson);
+            instance.getPresence(lesson);
             fail("sono riuscito a fare l' op");
         }catch(Exception e){
             assertTrue(true);
@@ -164,17 +151,5 @@ public class PresenceManagerTest {
         fail("The test case is a prototype.");
     }
 
-    /**
-     * Test of getPermission method, of class PresenceManager.
-     */
-    @Test
-    public void testGetPermissionOk() throws Exception {
-        try{
-            instance.getPermission();
-            assertTrue(true);
-        }catch(Exception e){
-            fail("non sono riuscito a fare l' op");
-        }
-    }
     
 }
