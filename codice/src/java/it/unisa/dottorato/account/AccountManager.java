@@ -242,8 +242,6 @@ public class AccountManager {
     }
     return null;
     }
-  
-    
      
       /** Metodo della classe incaricato di ricercare tutti gli account  dei professori presenti
      * nella piattaforma
@@ -290,8 +288,7 @@ public class AccountManager {
     }
     return null;
     }
-    
-    
+       
   /** Metodo della classe incaricato alla ricerca di un utente dato il suo nome
    * 
    * 
@@ -331,9 +328,6 @@ public class AccountManager {
       }
       return accounts;
   }
-     
-      
-     
      
     /**Metodo della classe incaricato dell'aggiornamento di un progilo
      * 
@@ -409,8 +403,7 @@ public class AccountManager {
     }
   }
     
-    
-    /**Metodo della classe incaricato dell'aggiornamento di un tipo di un account
+        /**Metodo della classe incaricato dell'aggiornamento di un tipo di un account
      * 
      * @param pAccount account da aggiornare
      * @param newType il nuovo tipo da inserire
@@ -714,7 +707,7 @@ public class AccountManager {
      * @throws EmailException 
      */
     public String testEmail(String email) throws EmailException {
-        if(email.isEmpty() || email.length() > 50) 
+        if(email.isEmpty() || email.length() > 50 || email.indexOf("@")==-1) 
             throw new EmailException();
         return email;
     }
