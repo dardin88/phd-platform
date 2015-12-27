@@ -4,6 +4,9 @@
     Author     : gemmacatolino
 --%>
 
+<%@page import="java.util.List"%>
+<%@page import="it.unisa.dottorato.account.PhdStudent"%>
+<%@page import="it.unisa.dottorato.account.Account"%>
 <%@page import="it.unisa.dottorato.phdProfile.collaborations.CollaborationManager"%>
 <%@page import="it.unisa.dottorato.phdProfile.collaborations.Collaboration"%>
 <%@ taglib prefix="c" uri="http://java.sun.com/jsp/jstl/core" %>
@@ -62,8 +65,9 @@
 
             <!-- Contenuto della pagina -->
             <%
-                int collaborationID = (Integer.parseInt("" + session.getAttribute("idCollaboration")));
-                Collaboration collaboration = CollaborationManager.getInstance().getCollaborationById(collaborationID);%>
+                int collaborationID = (Integer.parseInt("" + request.getParameter("id")));
+                Collaboration collaboration = CollaborationManager.getInstance().getCollaborationById(collaborationID);
+            %>
 
             <div class="main-content" id="content">
 
@@ -78,7 +82,7 @@
                                 <h1>Modifica Collaborazione</h1>
                             </div>
                             <div class="panel-body">
-                                <form class="form-horizontal" method="POST" action="UpdateCollaboration">
+                                <form class="form-horizontal" method="POST" action=<%= "UpdateCollaborationServlet?id=" + request.getParameter("id") %>>
                                     <div class="form-group">
                                         <table width="90%" align="center">
                                             <tr><td>

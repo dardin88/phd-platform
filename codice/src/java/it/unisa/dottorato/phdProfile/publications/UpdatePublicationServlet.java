@@ -19,7 +19,7 @@ import org.json.JSONObject;
  *
  * @author gemmacatolino
  */
-@WebServlet(name = "UpdatePublicationServlet", urlPatterns = {"/dottorato/UpdatePublicationServlet"})
+@WebServlet(name = "UpdatePublicationServlet", urlPatterns = {"/UpdatePublicationServlet"})
 public class UpdatePublicationServlet extends HttpServlet {
 
     /**
@@ -44,9 +44,9 @@ public class UpdatePublicationServlet extends HttpServlet {
             try {
                 response.setContentType("text/html;charset=UTF-8");
 
-                int idPublication = Integer.parseInt("" + request.getSession().getAttribute("idPublication"));
+                int idPublication = Integer.parseInt("" + request.getParameter("id"));
                 String title = request.getParameter("title");
-                String publicationIssue = request.getParameter("publicationIsse");
+                String publicationIssue = request.getParameter("publicationIssue");
                 String year = request.getParameter("year");
                 String numberPage = request.getParameter("numberPage");
                 String link = request.getParameter("link");
@@ -55,7 +55,7 @@ public class UpdatePublicationServlet extends HttpServlet {
                 String pAbstract = request.getParameter("abstract");
 
                 HttpSession session = request.getSession();
-                PhdStudent loggedPerson = (PhdStudent) session.getAttribute("phdStudent"); //da verificare
+                PhdStudent loggedPerson = (PhdStudent) session.getAttribute("account"); //da verificare
 
                 Publication publication = new Publication();
 
@@ -73,8 +73,8 @@ public class UpdatePublicationServlet extends HttpServlet {
                 result.put("result", true);
 
                 out.println("<script type=\"text/javascript\">");
-                out.println("alert('La pubblicazione è stata modificata.');");
-                out.println("location='publicationActivity.jsp';");
+                out.println("alert('La publicazione è stata modificata.');");
+                out.println("location='profileNuovo.jsp';");
                 out.println("</script>");
             } catch (SQLException ex) {
                 Logger.getLogger(UpdatePublicationServlet.class.getName()).log(Level.SEVERE, null, ex);

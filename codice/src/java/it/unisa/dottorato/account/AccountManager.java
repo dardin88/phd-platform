@@ -57,9 +57,10 @@ public class AccountManager {
      */    
     public Account getAccountByEmail(String sEmail) throws SQLException, ConnectionException,ClassNotFoundException{
         Statement stmt = null;
+        Statement stmt2 = null;
         ResultSet rs = null;
+        ResultSet rt = null;
         Connection connection = null;
-        Account anews = null;
                 try {
             //connessione al database
             connection = DBConnection.getConnection();
@@ -68,11 +69,14 @@ public class AccountManager {
              * tabella account
              */
             String sql = "SELECT * From account"
-                    
-                    + " WHERE email = "
-                    +    sEmail;
+                    + " WHERE email = '"
+                    +    sEmail + "'";
             
-                       if (connection == null) {
+            String queryPhd = "select * from phdstudent where fkAccount ='";
+            String queryProfessor = "select * from professor where fkAccount ='";
+            
+            
+            if (connection == null) {
                 throw new ConnectionException();
             }
             //esecuzione query
@@ -80,23 +84,69 @@ public class AccountManager {
             rs=  Utility.queryOperation(connection, sql);
 
             if (rs.next()) {
-             anews = new Account();  
-             anews.setName(rs.getString("name"));
-             anews.setSurname(rs.getString("surname"));
-             anews.setEmail(rs.getString("email"));
-             anews.setSecondaryEmail(rs.getString("secondaryEmail"));
-             anews.setTypeAccount(rs.getString("typeAccount"));
-             anews.setPassword(rs.getString("password"));
-             anews.setAdmin(rs.getBoolean("isAdministrator"));
+            switch(rs.getString("typeAccount")) {
+                    case "phdstudent":
+                       queryPhd += rs.getString("secondaryEmail") +"'";
+                       stmt2 = connection.createStatement();
+                       rt = stmt2.executeQuery(queryPhd);
+                       if(rt.next()) {
+                           PhdStudent phd = new PhdStudent();
+                           phd.setName(rs.getString("name"));
+                           phd.setSurname(rs.getString("surname"));
+                           phd.setEmail(rs.getString("email"));
+                           phd.setSecondaryEmail(rs.getString("secondaryEMail"));
+                           phd.setTypeAccount(rs.getString("typeAccount"));
+                           phd.setAdmin(rs.getBoolean("isAdministrator"));
+                           phd.setfkAccount(rs.getString("secondaryEmail"));
+                           phd.setTelephone(rt.getString("telephone"));
+                           phd.setDepartment(rt.getString("department"));
+                           phd.setResearchInterest(rt.getString("researchInterest"));
+                           phd.setLink(rt.getString("link"));
+                           phd.setfkCycle(rt.getInt("fkCycle"));
+                           phd.setfkProfessor(rt.getString("fkProfessor"));
+                           phd.setfkCurriculum(rt.getString("fkCurriculum"));
+                           phd.setAdmin(rs.getBoolean("isAdministrator"));
+                           return phd;                      
+                   }
+                    
+                    case "professor":
+                        queryProfessor += rs.getString("secondaryEmail") + "'";
+                        stmt2 = connection.createStatement();
+                        rt = stmt2.executeQuery(queryProfessor);
+                        if(rt.next()) {
+                            Professor professor = new Professor();
+                            professor.setEmail(rs.getString("email"));
+                            professor.setName(rs.getString("name"));
+                            professor.setSurname(rs.getString("surname"));
+                            professor.setSecondaryEmail(rs.getString("secondaryEmail"));
+                            professor.setTypeAccount(rs.getString("typeAccount"));
+                            professor.setAdmin(rs.getBoolean("isAdministrator"));
+                            professor.setfkAccount(rs.getString("secondaryEmail"));
+                            professor.setDepartment(rt.getString("department"));
+                            professor.setLink(rt.getString("link"));
+                            professor.setAdmin(rs.getBoolean("isAdministrator"));
+                            return professor;
+                        }
+                        
+                    case "basic":
+                        Account account = new Account();
+                        account.setName(rs.getString("name"));
+                        account.setSurname(rs.getString("surname"));
+                        account.setEmail(rs.getString("email"));
+                        account.setSecondaryEmail(rs.getString("secondaryEmail"));
+                        account.setAdmin(false);
+                        return account;
             }
             
-        }  finally {
+        }
+     } finally {
 
             DBConnection.releaseConnection(connection);
         }
 
-        return anews;
+        return null;
     }
+  
     
     
     /** Metodo della classe incaricato di ricercare tutti gli account presenti
@@ -104,43 +154,107 @@ public class AccountManager {
      * 
      * @return restituisce un array list di account di tutti gli account presenti
      * nella piattaforma
+     * @throws java.sql.SQLException
      */
-    public ArrayList<Account> getAccountList() {
-    Connection connect = null;
+    public ArrayList<Account> getAccountList() throws SQLException {
+        Connection connection = null;
+        Statement stmt = null;
+        Statement stmt2 = null;
+        Statement stmt3 = null;
+        ResultSet rs = null;
+        ResultSet rt = null;
+    
     
     try {
          ArrayList<Account> accounts = new ArrayList<>();
          //Connessione al database
-         connect = DBConnection.getConnection();
+         connection = DBConnection.getConnection();
           /*
              * stringa SQL per selezionare piu record 
              * nella tabella account
              */
          String sql = "SELECT * FROM account ";
+         
                 
          //esecuzione della query
-         ResultSet result = Utility.queryOperation(connect, sql);
-         while(result.next()){
-             Account temp = new Account();
-             temp.setName(result.getString("name"));
-             temp.setSurname(result.getString("surname"));
-             temp.setEmail(result.getString("email"));
-             temp.setSecondaryEmail(result.getString("secondaryEmail"));
-             temp.setTypeAccount(result.getString("typeAccount"));
-             temp.setPassword(result.getString("password"));
-             temp.setAdmin(result.getBoolean("isAdministrator"));
-             accounts.add(temp);
-         }
+         stmt = connection.createStatement();
+         rs = stmt.executeQuery(sql);
+          while(rs.next()) {
+              String queryPhd = "select * from phdstudent where fkAccount = '";
+              String queryProfessor = "select * from professor where fkAccount = '";
+              
+                switch(rs.getString("typeAccount")) {
+                    case "phdstudent":
+                       queryPhd += rs.getString("secondaryEmail") + "'";
+                       System.out.println(queryPhd);
+                       stmt2 = connection.createStatement();
+                       rt = stmt2.executeQuery(queryPhd);
+                       if(rt.next()) {
+                           PhdStudent phd = new PhdStudent();
+                           phd.setName(rs.getString("name"));
+                           phd.setSurname(rs.getString("surname"));
+                           phd.setPassword(rs.getString("password"));
+                           phd.setEmail(rs.getString("email"));
+                           phd.setSecondaryEmail(rs.getString("secondaryEmail"));
+                           phd.setTypeAccount(rs.getString("typeAccount"));
+                           phd.setAdmin(rs.getBoolean("isAdministrator"));
+                           phd.setfkAccount(rs.getString("secondaryEmail"));
+                           phd.setTelephone(rt.getString("telephone"));
+                           phd.setDepartment(rt.getString("department"));
+                           phd.setResearchInterest(rt.getString("researchInterest"));
+                           phd.setLink(rt.getString("link"));
+                           phd.setfkCycle(rt.getInt("fkCycle"));
+                           phd.setfkProfessor(rt.getString("fkProfessor"));
+                           phd.setfkCurriculum(rt.getString("fkCurriculum"));
+                           phd.setAdmin(rs.getBoolean("isAdministrator"));
+                           System.out.println("PHD ADDED");
+                           accounts.add(phd);
+                   }
+                       break;
+                    
+                    case "professor":
+                        queryProfessor += rs.getString("secondaryEmail") + "'";
+                        System.out.println(queryProfessor);
+                        stmt3 = connection.createStatement();
+                        rt = stmt3.executeQuery(queryProfessor);
+                        if(rt.next()) {
+                            Professor professor = new Professor();
+                            professor.setEmail(rs.getString("email"));
+                            professor.setName(rs.getString("name"));
+                            professor.setSurname(rs.getString("surname"));
+                            professor.setSecondaryEmail(rs.getString("secondaryEmail"));
+                            professor.setPassword(rs.getString("password"));
+                            professor.setTypeAccount(rs.getString("typeAccount"));
+                            professor.setAdmin(rs.getBoolean("isAdministrator"));
+                            professor.setfkAccount(rs.getString("secondaryEmail"));
+                            professor.setDepartment(rt.getString("department"));
+                            professor.setLink(rt.getString("link"));
+                            professor.setAdmin(rs.getBoolean("isAdministrator"));
+                            accounts.add(professor);
+                            System.out.println("PROFESSOR ADDED");
+                        }
+                        break;
+                        
+                    case "basic":
+                        Account account = new Account();
+                        account.setName(rs.getString("name"));
+                        account.setSurname(rs.getString("surname"));
+                        account.setEmail(rs.getString("email"));
+                        account.setSecondaryEmail(rs.getString("secondaryEmail"));
+                        account.setAdmin(false);
+                        accounts.add(account);
+                        break;
+                    default:
+                        rs.next();
+                        break;           
+              }
+            }
           return accounts;
-
-         
-    }   catch (SQLException ex) {
-            Logger.getLogger(AccountManager.class.getName()).log(Level.SEVERE, null, ex);
         } finally {
-        DBConnection.releaseConnection(connect);
-    }
-    return null;
+            DBConnection.releaseConnection(connection);
+        }
   }
+
     /**Metodo della classe incaricato di effettuare la visualizzazione di un 
      * profilo dato il suo account
      * 
@@ -242,8 +356,6 @@ public class AccountManager {
     }
     return null;
     }
-  
-    
      
       /** Metodo della classe incaricato di ricercare tutti gli account  dei professori presenti
      * nella piattaforma
@@ -290,8 +402,7 @@ public class AccountManager {
     }
     return null;
     }
-    
-    
+       
   /** Metodo della classe incaricato alla ricerca di un utente dato il suo nome
    * 
    * 
@@ -331,9 +442,6 @@ public class AccountManager {
       }
       return accounts;
   }
-     
-      
-     
      
     /**Metodo della classe incaricato dell'aggiornamento di un progilo
      * 
@@ -409,8 +517,7 @@ public class AccountManager {
     }
   }
     
-    
-    /**Metodo della classe incaricato dell'aggiornamento di un tipo di un account
+        /**Metodo della classe incaricato dell'aggiornamento di un tipo di un account
      * 
      * @param pAccount account da aggiornare
      * @param newType il nuovo tipo da inserire
@@ -714,7 +821,7 @@ public class AccountManager {
      * @throws EmailException 
      */
     public String testEmail(String email) throws EmailException {
-        if(email.isEmpty() || email.length() > 50) 
+        if(email.isEmpty() || email.length() > 50 || email.indexOf("@")==-1) 
             throw new EmailException();
         return email;
     }

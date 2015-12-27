@@ -20,7 +20,7 @@ import org.json.JSONObject;
  *
  * @author gemmacatolino
  */
-@WebServlet(name = "AddPublicationServlet", urlPatterns = {"/dottorato/AddPublicationServlet"})
+@WebServlet(name = "AddPublicationServlet", urlPatterns = {"/AddPublicationServlet"})
 public class AddPublicationServlet extends HttpServlet {
 
     /**
@@ -56,7 +56,7 @@ public class AddPublicationServlet extends HttpServlet {
               
                 
                 HttpSession session = request.getSession();
-                PhdStudent loggedPerson = (PhdStudent) session.getAttribute("phdStudent");  // da verificare
+                PhdStudent loggedPerson = (PhdStudent) session.getAttribute("account");  // da verificare
 
                 Publication publication = new Publication();
 
