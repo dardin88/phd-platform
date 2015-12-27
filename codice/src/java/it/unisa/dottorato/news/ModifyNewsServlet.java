@@ -44,8 +44,8 @@ public class ModifyNewsServlet extends HttpServlet {
 
             JSONObject result = new JSONObject();
 
-           int oldIDNewsAvviso = Integer.parseInt(request.getParameter("oldNameCurriculum"));
-              String title= request.getParameter("title");
+           int oldIDNewsAvviso = Integer.parseInt(request.getParameter("idNews"));
+            String title= request.getParameter("title");
             String description = request.getParameter("description");
 
             News avviso = new News();

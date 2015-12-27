@@ -33,6 +33,8 @@ function addNewsButton()
  $("#descriptionPanel").hide();
  $("#tableDiv").hide();
  $("#divPanelAddORModify").show();
+ $("#newsTitle").val("");
+ $("#newsDescription").val("");
  
  $("#saveNews").click(function () {
                     
@@ -50,7 +52,6 @@ function addNewsButton()
 function viewNewsButton(id)
 {
     $("#descriptionPanel").hide();
-    alert("bottone VISUALIZZAZIONE premuto " + id);
     $("#descriptionPanel").show();
     
     //servlet per richiamare le informazioni sulla news selezionato
@@ -77,7 +78,7 @@ function modifyNewsButton(id)
     $("#saveNews").click(function () {
                     alert("hai clickato salva");
         // Invio dati alla servlet per la modifica della news
-                    $.getJSON("ModifyNewsServlet",
+                    $.getJSON("ModifyNews",
                             {idNews: id,title: $("#newsTitle").val(),description: $("#newsDescription").val()}, function(data) {
                                 alert("news modificata correttamente");
                                 $("#divPanelAddORModify").hide();
