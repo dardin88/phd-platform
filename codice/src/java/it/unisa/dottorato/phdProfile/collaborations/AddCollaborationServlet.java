@@ -22,7 +22,7 @@ import org.json.JSONObject;
  *
  * @author gemmacatolino
  */
-@WebServlet(name = "AddCollaboration", urlPatterns = {"/dottorato/AddCollaboration"})
+@WebServlet(name = "AddCollaboration", urlPatterns = {"/AddCollaboration"})
 public class AddCollaborationServlet extends HttpServlet {
 
     /**
@@ -52,7 +52,7 @@ public class AddCollaborationServlet extends HttpServlet {
             String endDate = request.getParameter("endDate");
             
             HttpSession session = request.getSession();
-            PhdStudent loggedPerson = (PhdStudent) session.getAttribute("phdStudent"); 
+            PhdStudent loggedPerson = (PhdStudent) session.getAttribute("account"); 
             
             Collaboration collaboration = new Collaboration();
             

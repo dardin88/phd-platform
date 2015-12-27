@@ -4,6 +4,9 @@
     Author     : gemmacatolino
 --%>
 
+<%@page import="java.util.List"%>
+<%@page import="it.unisa.dottorato.account.PhdStudent"%>
+<%@page import="it.unisa.dottorato.account.Account"%>
 <%@page import="it.unisa.dottorato.phdProfile.collaborations.CollaborationManager"%>
 <%@page import="it.unisa.dottorato.phdProfile.collaborations.Collaboration"%>
 <%@ taglib prefix="c" uri="http://java.sun.com/jsp/jstl/core" %>
@@ -62,8 +65,11 @@
 
             <!-- Contenuto della pagina -->
             <%
-                int collaborationID = (Integer.parseInt("" + session.getAttribute("idCollaboration")));
-                Collaboration collaboration = CollaborationManager.getInstance().getCollaborationById(collaborationID);%>
+                PhdStudent loggedPerson = (PhdStudent)session.getAttribute("account");
+                List<Collaboration> loggedCollabs = CollaborationManager.getInstance().getAllCollaborationOf((PhdStudent)loggedPerson);
+                int collaborationID = (Integer.parseInt("" + request.getParameter("id")));
+                Collaboration collaboration = loggedCollabs.get(collaborationID);
+            %>
 
             <div class="main-content" id="content">
 

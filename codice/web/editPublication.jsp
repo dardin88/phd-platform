@@ -52,7 +52,7 @@
             <!-- Contenuto della pagina -->
 
             <%
-                int publicationID = (Integer.parseInt("" + session.getAttribute("idPublication")));
+                int publicationID = (Integer.parseInt("" + request.getParameter("id")));
                 Publication publication = PublicationManager.getInstance().getPublicationById(publicationID);%>
 
             <div class="main-content" id="content">
@@ -68,7 +68,7 @@
                                 <h1>Modifica Pubblicazione</h1>
                             </div>
                             <div class="panel-body">
-                                <form class="form-horizontal" method="POST" action="UpdatePublicationServlet">
+                                <form class="form-horizontal" method="POST" action=<%= "UpdatePublicationServlet?id=" + request.getParameter("id") %> >
                                     <div class="form-group">
                                         <table width="90%" align="center">
                                             <tr><td>

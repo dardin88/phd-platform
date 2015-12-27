@@ -19,7 +19,7 @@ import org.json.JSONObject;
  *
  * @author gemmacatolino
  */
-@WebServlet(name = "UpdatePublicationServlet", urlPatterns = {"/dottorato/UpdatePublicationServlet"})
+@WebServlet(name = "UpdatePublicationServlet", urlPatterns = {"/UpdatePublicationServlet"})
 public class UpdatePublicationServlet extends HttpServlet {
 
     /**
@@ -44,7 +44,7 @@ public class UpdatePublicationServlet extends HttpServlet {
             try {
                 response.setContentType("text/html;charset=UTF-8");
 
-                int idPublication = Integer.parseInt("" + request.getSession().getAttribute("idPublication"));
+                int idPublication = Integer.parseInt("" + request.getSession().getAttribute("idPublication" + request.getParameter("id")));
                 String title = request.getParameter("title");
                 String publicationIssue = request.getParameter("publicationIsse");
                 String year = request.getParameter("year");

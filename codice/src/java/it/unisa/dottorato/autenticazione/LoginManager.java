@@ -84,7 +84,7 @@ public class LoginManager  {
             if (rs.next()) {
                 switch(rs.getString("typeAccount")) {
                     case "phdstudent":
-                       queryPhd += rs.getString("secondaryEmail") +"'";
+                       queryPhd += rs.getString("secondaryEmail") + "'";
                        stmt2 = connection.createStatement();
                        rt = stmt2.executeQuery(queryPhd);
                        if(rt.next()) {
@@ -93,12 +93,12 @@ public class LoginManager  {
                            phd.setSurname(rs.getString("surname"));
                            phd.setPassword(rs.getString("password"));
                            phd.setEmail(rs.getString("email"));
-                           phd.setSecondaryEmail(rs.getString("secondaryEMail"));
+                           phd.setSecondaryEmail(rs.getString("secondaryEmail"));
                            phd.setTypeAccount(rs.getString("typeAccount"));
                            phd.setAdmin(rs.getBoolean("isAdministrator"));
                            phd.setfkAccount(rs.getString("secondaryEmail"));
                            phd.setTelephone(rt.getString("telephone"));
-                           phd.setDepartment(rt.getString("deparment"));
+                           phd.setDepartment(rt.getString("department"));
                            phd.setResearchInterest(rt.getString("researchInterest"));
                            phd.setLink(rt.getString("link"));
                            phd.setfkCycle(rt.getInt("fkCycle"));

@@ -20,7 +20,7 @@ import org.json.JSONObject;
  *
  * @author gemmacatolino
  */
-@WebServlet(name = "AddPublicationServlet", urlPatterns = {"/dottorato/AddPublicationServlet"})
+@WebServlet(name = "AddPublicationServlet", urlPatterns = {"/AddPublicationServlet"})
 public class AddPublicationServlet extends HttpServlet {
 
     /**
