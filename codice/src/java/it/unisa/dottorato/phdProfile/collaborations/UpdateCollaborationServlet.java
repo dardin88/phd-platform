@@ -20,7 +20,7 @@ import org.json.JSONObject;
  *
  * @author gemmacatolino
  */
-@WebServlet(name = "UpdateCollaboration", urlPatterns = {"/UpdateCollaboration"})
+@WebServlet(name = "UpdateCollaboration", urlPatterns = {"/UpdateCollaborationServlet"})
 public class UpdateCollaborationServlet extends HttpServlet {
 
     /**
@@ -45,14 +45,14 @@ public class UpdateCollaborationServlet extends HttpServlet {
             try {
                 response.setContentType("text/html;charset=UTF-8");
 
-                int collaborationID = Integer.parseInt("" + request.getSession().getAttribute("idCollaboration"));  
+                int collaborationID = Integer.parseInt("" + request.getParameter("id"));  
                 String description = request.getParameter("description");
                 String startDate = request.getParameter("startDate");
                 String endDate = request.getParameter("endDate");
                 String istitution = request.getParameter("istitution");
 
                 HttpSession session = request.getSession();
-                PhdStudent loggedPerson = (PhdStudent) session.getAttribute("phdStudent"); 
+                PhdStudent loggedPerson = (PhdStudent) session.getAttribute("account"); 
 
                 Collaboration collaboration = new Collaboration();
 
@@ -69,7 +69,7 @@ public class UpdateCollaborationServlet extends HttpServlet {
 
                 out.println("<script type=\"text/javascript\">");
                 out.println("alert('La collaborazione è stata modificata');");
-                out.println("location='collaborationActivity.jsp';");
+                out.println("location='profileNuovo.jsp';");
                 out.println("</script>");
             } catch (SQLException ex) {
                 Logger.getLogger(UpdateCollaborationServlet.class.getName()).log(Level.SEVERE, null, ex);

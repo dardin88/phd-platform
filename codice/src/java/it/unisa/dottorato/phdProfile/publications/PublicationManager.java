@@ -154,7 +154,7 @@ public class PublicationManager {
                     + Utility.Replace(PublicationManager.getInstance().testPubliocationIssue(pPublication.getPublicationIssue()))
                     + "', year = '"
                     + Utility.Replace(PublicationManager.getInstance().testYear(pPublication.getYear()))
-                    + "', numberPages = "
+                    + "', numberPage = '"
                     + PublicationManager.getInstance().testNumberPage(pPublication.getNumberPages())
                     + "', link = '"
                     + Utility.Replace(PublicationManager.getInstance().testLink(pPublication.getLink()))
@@ -164,7 +164,7 @@ public class PublicationManager {
                     + Utility.Replace(PublicationManager.getInstance().testOtherAutors(pPublication.getAuthors()))
                     + "', abstract = '"
                     + Utility.Replace(PublicationManager.getInstance().testAbstract(pPublication.getAbstract()))
-                    + " WHERE idPublication = "
+                    + "' WHERE idPublication = "
                     + oldPublicationID + "";           
 
             System.out.println(tSql);

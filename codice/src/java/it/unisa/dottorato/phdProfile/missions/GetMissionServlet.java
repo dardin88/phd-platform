@@ -18,7 +18,7 @@ import org.json.JSONObject;
  * @author andre
  */
 
-@WebServlet(name = "GetMission", urlPatterns = {"/dottorato/GetMissionServlet"})
+@WebServlet(name = "GetMission", urlPatterns = {"/GetMissionServlet"})
 public class GetMissionServlet extends HttpServlet {
 
     /**

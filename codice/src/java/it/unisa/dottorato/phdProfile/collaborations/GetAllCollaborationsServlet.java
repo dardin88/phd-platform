@@ -43,7 +43,7 @@ public class GetAllCollaborationsServlet extends HttpServlet {
             try {
                 
                 HttpSession session = request.getSession();
-                PhdStudent phdStudent = (PhdStudent) session.getAttribute("phdStudent"); // da verificare
+                PhdStudent phdStudent = (PhdStudent) session.getAttribute("account"); // da verificare
                 
                 ArrayList<Collaboration> collaborations = (ArrayList<Collaboration>) CollaborationManager.getInstance().getAllCollaborationOf(phdStudent); // da verificare
                 JSONArray resultArray = new JSONArray(collaborations);
