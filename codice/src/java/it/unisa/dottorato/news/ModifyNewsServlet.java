@@ -18,9 +18,9 @@ import org.json.JSONObject;
 
 /**Servlet incaricata ad effettuare la richiesta di modificare una news
  *
- * @author Giuseppe Picciocchi
+ * @author Rembor
  */
-@WebServlet(name = "ModifyNewsServlet", urlPatterns = {"/UpdateNewsServlet"})
+@WebServlet(name = "ModifyNews", urlPatterns = {"/ModifyNews"})
 public class ModifyNewsServlet extends HttpServlet {
 
     /**
@@ -35,34 +35,43 @@ public class ModifyNewsServlet extends HttpServlet {
      * @throws ServletException if a servlet-specific error occurs
      * @throws IOException if an I/O error occurs
      */
-   protected void processRequest(HttpServletRequest request, HttpServletResponse response)
-            throws ServletException, IOException {
+      protected void processRequest(HttpServletRequest request, HttpServletResponse response)
+            throws ServletException, IOException{
+        response.setContentType("text/html;charset=UTF-8");
 
-        JSONObject result = new JSONObject();
         PrintWriter out = response.getWriter();
-
         try {
-            response.setContentType("text/html;charset=UTF-8");
-            int newsID = Integer.parseInt("" + request.getSession().getAttribute("idNews"));
-            String title = request.getParameter("title");
+
+            JSONObject result = new JSONObject();
+
+           int oldIDNewsAvviso = Integer.parseInt(request.getParameter("oldNameCurriculum"));
+              String title= request.getParameter("title");
             String description = request.getParameter("description");
-            HttpSession session = request.getSession();
-         Account loggedPerson = (Account) session.getAttribute("account");
-            News news = new News();
-            news.setTitle(title);
-            news.setDescription(description);
-           // NewsManager.getInstance().(newsID, news);
+
+            News avviso = new News();
+            avviso.setId(oldIDNewsAvviso);
+            avviso.setTitle(title);
+            avviso.setDescription(description);
+
             result.put("result", true);
-            out.println("<script type=\"text/javascript\">");
-            out.println("alert('La news è stata modificata');");
-            out.println("location='collaborationActivity.jsp';");
-            out.println("</script>"); 
+
+            try {
+                NewsManager.getInstance().update_news(oldIDNewsAvviso ,avviso);
+
+            } catch (ClassNotFoundException | SQLException ex) {
+                result.put("result", false);
+                Logger.getLogger(ModifyNewsServlet.class.getName()).log(Level.SEVERE, null, ex);
+            }
+
             out.write(result.toString());
 
         } catch (JSONException ex) {
             Logger.getLogger(ModifyNewsServlet.class.getName()).log(Level.SEVERE, null, ex);
+        } finally {
+            out.close();
         }
     }
+    
 
     // <editor-fold defaultstate="collapsed" desc="HttpServlet methods. Click on the + sign on the left to edit the code.">
     /**
