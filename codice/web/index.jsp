@@ -64,7 +64,7 @@
                     <div class="col-md-6">
                         <div class="panel panel-default">
                             <div class="panel-heading">
-                                prova ciclo
+                                Cicli - Curriculum
                             </div>
                             <div class="form-group">
                                 <label for="sel1">Seleziona uno dei cicli del dottorato di ricerca</label>
@@ -104,6 +104,8 @@
                             </div>
                         </div>
                     </div>
+                </div>               
+                 <div class="row">
                     <div class="col-sm-6">
                         <div class="panel panel-default">
                             <div class="panel-heading">
@@ -115,7 +117,7 @@
                                int idNews= rnotizie.getId();
                                news =news.substring(0, 30);
                                %>
-                               <a href="viewNewsById.jsp?Id=<%=idNews%>" id="newsid"><p><%=news%></p></a>
+                               <a href="viewNewsById.jsp?Id=<%=idNews%>" id="newsid"><p><%=news%>...</p></a>
                                 <% } %>
                             </div>
                         </div>
@@ -123,6 +125,7 @@
                 </div>
             </div>
         </div>
+    </div>
 
 
         <!-- Bottom Scripts -->
