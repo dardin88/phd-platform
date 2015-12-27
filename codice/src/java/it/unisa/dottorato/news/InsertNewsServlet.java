@@ -42,13 +42,13 @@ public class InsertNewsServlet extends HttpServlet {
             
             PrintWriter out = response.getWriter();
             JSONObject result = new JSONObject();
-            
+            int number = NewsManager.getInstance().nextNumber();
             String  title = request.getParameter("title");
             String description= request.getParameter("description");
          
             
             News anews = new News();
-            anews.setId(0);
+            anews.setId(number);
              anews.setTitle(title);
             anews.setDescription(description);
            
@@ -66,6 +66,8 @@ public class InsertNewsServlet extends HttpServlet {
             out.write(result.toString());
             
         } catch (JSONException ex) {
+            Logger.getLogger(InsertNewsServlet.class.getName()).log(Level.SEVERE, null, ex);
+        } catch (SQLException ex) {
             Logger.getLogger(InsertNewsServlet.class.getName()).log(Level.SEVERE, null, ex);
         }
 
