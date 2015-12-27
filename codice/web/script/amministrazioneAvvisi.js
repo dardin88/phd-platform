@@ -21,6 +21,8 @@ function getNewsList()
                 news = "<tr> <td> " + value.title + "</td> <td> <button class='btn btn-blue' id=" + value.id + " onclick='viewNewsButton(" + 'id' + ")' > <span class='glyphicon glyphicon-eye-open' aria-hidden='true' ></span>Visualizza news</button>  </td>   <td>  <button class='btn btn-orange' id=" + value.id + " onclick='modifyNewsButton(" + 'id' + ")' > <span class='glyphicon glyphicon-pencil' aria-hidden='true' ></span>Modifica news</button>  </td>  <td> <button class='btn btn-red' id=" + value.id + " onclick='removeNewsButton(" + 'id' + ")' > <span class='glyphicon glyphicon-remove' aria-hidden='true' ></span>Elimina news</button>  </td>    </tr> "; 
                 $("#accountListTable").append(news);
             });
+            
+            
         });
 }
 
@@ -65,6 +67,24 @@ function modifyNewsButton(id)
      alert("bottone MODIFICA premuto " + id);
      $("#tableDiv").hide();
      $("#divPanelAddORModify").show();
+     
+    //servlet per richiamare le informazioni sulla news selezionata
+        $.getJSON("GetNewsbyId", {idNews: id}, function (data) {
+            $("#newsTitle").val(data.title);
+            $("#newsDescription").val(data.description);
+        });
+    
+    $("#saveNews").click(function () {
+                    
+        // Invio dati alla servlet per la modifica della news
+                    $.getJSON("ModifyNewsServlet",
+                            {idNews: id,title: $("#newsTitle").val(),description: $("#newsDescription").val()}, function(data) {
+                                alert("news modificata correttamente");
+                                $("#divPanelAddORModify").hide();
+                                $("#accountListTable tr").remove();
+                                getNewsList();
+                           });
+                });
 }
 
 
