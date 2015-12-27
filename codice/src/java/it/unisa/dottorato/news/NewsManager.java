@@ -67,17 +67,17 @@ private static final String TABLE_News = "news";
              */
              String tSql = "INSERT INTO "
                     + NewsManager.TABLE_News
-                    + " (idNews,title,description,)"
+                    + " (idNews,title,description)"
                     + " VALUES ('"
                     + testid(nextNumber())
                     + "','"
                     + Utility.Replace(testTitle(anews.getTitle()))
                     + "','"
                     + Utility.Replace(testDescription(anews.getDescription()))
-                    + "',"
+                    + "'"
                      + ")";      
             
-            
+            System.out.println(tSql);
             //esecuzione query
             Statement stmt = connect.createStatement();
             stmt.executeUpdate(tSql);
