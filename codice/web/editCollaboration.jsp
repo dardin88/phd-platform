@@ -65,10 +65,8 @@
 
             <!-- Contenuto della pagina -->
             <%
-                PhdStudent loggedPerson = (PhdStudent)session.getAttribute("account");
-                List<Collaboration> loggedCollabs = CollaborationManager.getInstance().getAllCollaborationOf((PhdStudent)loggedPerson);
                 int collaborationID = (Integer.parseInt("" + request.getParameter("id")));
-                Collaboration collaboration = loggedCollabs.get(collaborationID);
+                Collaboration collaboration = CollaborationManager.getInstance().getCollaborationById(collaborationID);
             %>
 
             <div class="main-content" id="content">
@@ -84,7 +82,7 @@
                                 <h1>Modifica Collaborazione</h1>
                             </div>
                             <div class="panel-body">
-                                <form class="form-horizontal" method="POST" action="UpdateCollaboration">
+                                <form class="form-horizontal" method="POST" action=<%= "UpdateCollaborationServlet?id=" + request.getParameter("id") %>>
                                     <div class="form-group">
                                         <table width="90%" align="center">
                                             <tr><td>

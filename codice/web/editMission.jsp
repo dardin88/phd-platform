@@ -60,7 +60,7 @@
 
             <!-- Inclusione della pagina contenente il menù laterale -->
              <%
-                int missionID = (Integer.parseInt("" + session.getAttribute("idMission")));
+                int missionID = (Integer.parseInt("" + request.getParameter("id"))); 
                 Mission mission = MissionManager.getInstance().getMissionById(missionID) ;%>
             <!-- Contenuto della pagina -->
 
@@ -77,7 +77,7 @@
                                 <h1>Modifica Mission</h1>
                             </div>
                             <div class="panel-body">
-                                <form class="form-horizontal" method="POST" action="UpdateMissionServlet">
+                                <form class="form-horizontal" method="POST" action=<%= "UpdateMissionServlet?id=" + request.getParameter("id") %>>
                                     <div class="form-group">
                                         <table width="90%" align="center">
                                             <tr><td>

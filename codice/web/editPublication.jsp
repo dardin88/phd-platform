@@ -82,7 +82,7 @@
                                                     <p>Autori:</p>
                                                     <div class="input-group">
                                                         <span class="input-group-addon"></span>
-                                                        <input class="form-control" name="authors" type="text" value="<%= publication.getAuthors()%>" required>
+                                                        <input class="form-control" name="otherAuthors" type="text" value="<%= publication.getAuthors()%>" required>
                                                     </div>
                                                     <br>
                                                     <br>
@@ -91,6 +91,14 @@
                                                         <span class="input-group-addon"></span>
                                                         <input class="form-control" name="year" type="text" value="<%= publication.getYear()%>" required>
                                                     </div>
+                                                    <br>
+                                                    <br>
+                                                    <p>Sito Web:</p>
+                                                    <div class="input-group">
+                                                        <span class="input-group-addon"></span>
+                                                        <input class="form-control" name="link" type="text" value="<%= publication.getLink()%>" required>
+                                                    </div>
+                                                    
                                                     <br>
                                                     <br>
                                                     <p>Type:</p>
@@ -103,21 +111,21 @@
                                                     <p>Pubblication Issue:</p>
                                                     <div class="input-group">
                                                         <span class="input-group-addon"></span>
-                                                        <input class="form-control" name="pubblicationIssue" type="text" value="<%= publication.getPublicationIssue()%>" required>
+                                                        <input class="form-control" name="publicationIssue" type="text" value="<%= publication.getPublicationIssue()%>" required>
                                                     </div>
                                                     <br>
                                                     <br>
                                                     <p>Numero pagine:</p>
                                                     <div class="input-group">
                                                         <span class="input-group-addon"></span>
-                                                        <input class="form-control" name="numberPages" type="text" value="<%= publication.getNumberPages()%>" required>
+                                                        <input class="form-control" name="numberPage" type="text" value="<%= publication.getNumberPages()%>" required>
                                                     </div>
                                                     <br>
                                                     <br>
                                                     <p>Abstract:</p>
                                                     <div class="input-group">
                                                         <span class="input-group-addon"></span>
-                                                        <textarea class="form-control" name="abstractText" rows="5" cols="40"><%= publication.getAbstract()%> </textarea>
+                                                        <textarea class="form-control" name="abstract" rows="5" cols="40"><%= publication.getAbstract()%> </textarea>
                                                     </div>
                                                     <br>
 
