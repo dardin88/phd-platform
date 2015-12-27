@@ -8,7 +8,7 @@
 $(document).ready(function () {
 
     getCorsoList();
-
+    getFirma();
 });
 
 function getCorsoList()
@@ -37,17 +37,29 @@ function selectedItem()
     {alert(selected);
         
         $("#results").show();
-           
+            selected = $("#Corsoprofessore option:selected").val();
 
        $.getJSON("GetPresence",{fkLesson: selected}, function (data) {
             $.each(data.presence, function (index, value) {
-               
-                presenza = "<tr> <td> " +value.fkPhdstudent + "</td> <td> " + + "</td>     </tr> "; 
+                  $.getJSON("GetAccountbyEmail",{secondaryEmail: value.fkPhdstudent}, function (dati) {
+                    $.each(dati.account, function (index1,balue ) {   
+                presenza = "<tr> <td> " +balue.name + "</td> <td> " +balue.surname + "</td>     </tr> "; 
                 $("#resultbody").append(presenza);
-                });
+                 });
+                   });  
+               
+            });
         });
     }
     else
         $("#results").hide();
+    
+}
+
+function getFirma() {
+    
+    
+    
+    
     
 }

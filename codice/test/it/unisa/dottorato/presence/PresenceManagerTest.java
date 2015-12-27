@@ -14,24 +14,21 @@ import org.junit.Test;
 import static org.junit.Assert.*;
 
 /**
- *
- * @author Tommaso
+ * 
+ * @author Tommaso Minichiello
  */
 public class PresenceManagerTest {
+    
+    private Presence pre;
+    private PresenceManager instance;
     
     public PresenceManagerTest() {
     }
     
-    @BeforeClass
-    public static void setUpClass() {
-    }
-    
-    @AfterClass
-    public static void tearDownClass() {
-    }
-    
     @Before
     public void setUp() {
+        instance=PresenceManager.getInstance();
+        pre= new Presence();
     }
     
     @After
@@ -43,68 +40,115 @@ public class PresenceManagerTest {
      */
     @Test
     public void testGetInstance() {
-        System.out.println("getInstance");
-        PresenceManager expResult = null;
-        PresenceManager result = PresenceManager.getInstance();
-        assertEquals(expResult, result);
-        // TODO review the generated test code and remove the default call to fail.
-        fail("The test case is a prototype.");
+        PresenceManager result=PresenceManager.getInstance();
+        assertNotNull(result);
     }
 
     /**
      * Test of getPresenceList method, of class PresenceManager.
+     * @throws java.lang.Exception
      */
     @Test
-    public void testGetPresenceList() throws Exception {
-        System.out.println("getPresenceList");
-        PresenceManager instance = null;
-        ArrayList<Presence> expResult = null;
-        ArrayList<Presence> result = instance.getPresenceList();
-        assertEquals(expResult, result);
-        // TODO review the generated test code and remove the default call to fail.
-        fail("The test case is a prototype.");
+    public void testGetPresenceListOk() throws Exception {
+        try{
+            ArrayList<Presence> result = instance.getPresenceList();
+            assertNotNull(result);
+        }catch(Exception e){
+            fail("non sono riuscito a fare l' op");
+        }
     }
 
     /**
      * Test of ChangePermission method, of class PresenceManager.
      */
     @Test
-    public void testChangePermission() {
-        System.out.println("ChangePermission");
+    public void testChangePermissionOk() {
         boolean permission = false;
-        PresenceManager instance = null;
-        instance.ChangePermission(permission);
-        // TODO review the generated test code and remove the default call to fail.
-        fail("The test case is a prototype.");
+        try{
+            instance.ChangePermission(permission);
+            assertTrue(permission);
+        }catch(Exception e){
+            fail("non sono riuscito a fare l' op");
+        }
     }
 
     /**
      * Test of getPresenceCourse method, of class PresenceManager.
+     * @throws java.lang.Exception
      */
     @Test
-    public void testGetPresenceCourse() throws Exception {
-        System.out.println("getPresenceCourse");
-        PresenceManager instance = null;
-        ArrayList<String> expResult = null;
-        ArrayList<String> result = instance.getPresenceCourse();
-        assertEquals(expResult, result);
-        // TODO review the generated test code and remove the default call to fail.
-        fail("The test case is a prototype.");
+    public void testGetPresenceCourseOk() throws Exception {
+        try{
+            ArrayList<String> result = instance.getPresenceCourse();
+            assertNotNull(result);
+        }catch(Exception e){
+            fail("non sono riuscito a fare l' op");
+        }
     }
 
     /**
      * Test of getPresence method, of class PresenceManager.
+     * @throws java.lang.Exception
      */
     @Test
-    public void testGetPresence() throws Exception {
-        System.out.println("getPresence");
-        int lesson = 0;
-        PresenceManager instance = null;
-        ArrayList<Presence> expResult = null;
-        ArrayList<Presence> result = instance.getPresence(lesson);
-        assertEquals(expResult, result);
-        // TODO review the generated test code and remove the default call to fail.
-        fail("The test case is a prototype.");
+    public void testGetPresenceOk() throws Exception {
+       
+        int lesson = 1;
+        try{
+            ArrayList<Presence> result = instance.getPresence(lesson);
+            assertNotNull(result);
+        }catch(Exception e){
+            fail("non sono riuscito a fare l' op");
+        }
+    }
+    
+    /**
+     * Test of getPresence method, of class PresenceManager.
+     * @throws java.lang.Exception
+     */
+    @Test
+    public void testGetPresenceIdMmin() throws Exception {
+       
+        int lesson = -8;
+        try{
+            ArrayList<Presence> result = instance.getPresence(lesson);
+            fail("sono riuscito a fare l' op");
+        }catch(Exception e){
+            assertTrue(true);
+        }
+    }
+    
+    
+    /**
+     * Test of getPresence method, of class PresenceManager.
+     * @throws java.lang.Exception
+     */
+    @Test
+    public void testGetPresenceIdMmax() throws Exception {
+       
+        int lesson = 9999999;
+        try{
+            ArrayList<Presence> result = instance.getPresence(lesson);
+            fail("sono riuscito a fare l' op");
+        }catch(Exception e){
+            assertTrue(true);
+        }
+    }
+    
+    /**
+     * Test of getPresence method, of class PresenceManager.
+     * @throws java.lang.Exception
+     */
+    @Test
+    public void testGetPresenceIdMNotExists() throws Exception {
+       
+        int lesson = 88989;
+        try{
+            ArrayList<Presence> result = instance.getPresence(lesson);
+            fail("sono riuscito a fare l' op");
+        }catch(Exception e){
+            assertTrue(true);
+        }
     }
 
     /**
@@ -112,11 +156,10 @@ public class PresenceManagerTest {
      */
     @Test
     public void testModifyPresence() throws Exception {
-        System.out.println("modifyPresence");
         boolean signature = false;
-        Presence old = null;
+        
         PresenceManager instance = null;
-        instance.modifyPresence(signature, old);
+        instance.modifyPresence(signature, pre);
         // TODO review the generated test code and remove the default call to fail.
         fail("The test case is a prototype.");
     }
@@ -125,12 +168,13 @@ public class PresenceManagerTest {
      * Test of getPermission method, of class PresenceManager.
      */
     @Test
-    public void testGetPermission() throws Exception {
-        System.out.println("getPermission");
-        PresenceManager instance = null;
-        instance.getPermission();
-        // TODO review the generated test code and remove the default call to fail.
-        fail("The test case is a prototype.");
+    public void testGetPermissionOk() throws Exception {
+        try{
+            instance.getPermission();
+            assertTrue(true);
+        }catch(Exception e){
+            fail("non sono riuscito a fare l' op");
+        }
     }
     
 }

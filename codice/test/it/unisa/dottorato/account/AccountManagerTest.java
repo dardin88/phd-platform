@@ -131,15 +131,126 @@ public class AccountManagerTest {
      * @throws java.lang.Exception
      */
     @Test
-    public void testViewProfile() throws Exception {
-        System.out.println("viewProfile");
-        Account pAccount = null;
-        AccountManager instance = new AccountManager();
-        ArrayList<String> expResult = null;
-        ArrayList<String> result = instance.viewProfile(pAccount);
-        assertEquals(expResult, result);
-        // TODO review the generated test code and remove the default call to fail.
-        fail("The test case is a prototype.");
+    public void testViewProfileOk() throws Exception {
+        ac.setSecondaryEmail("dinucci@hotmail.it");
+        ac.setTypeAccount("phdstudent");
+        try{
+            ArrayList<String> result = instance.viewProfile(ac);
+            assertNotNull(result);
+        }catch(Exception e){
+            fail("non sono riuscito a fare l' op");
+        }
+    }
+    
+    /**
+     * Test of viewProfile method, of class AccountManager.
+     * @throws java.lang.Exception
+     */
+    @Test
+    public void testViewProfileEmailNull() throws Exception {
+        ac.setSecondaryEmail(null);
+        ac.setTypeAccount("phdstudent");
+        try{
+            instance.viewProfile(ac);
+            fail("sono riuscito a fare l' op");
+        }catch(Exception e){
+            assertTrue(true);
+        }
+    }
+    
+    /**
+     * Test of viewProfile method, of class AccountManager.
+     * @throws java.lang.Exception
+     */
+    @Test
+    public void testViewProfileEmailMax() throws Exception {
+        ac.setSecondaryEmail("qwertyuoi@eeqwertyuoi@eeqwertyuoi@eeqwertyuoi@eeqwertyuoi@eeqwertyuoi@ee");
+        ac.setTypeAccount("phdstudent");
+        try{
+            instance.viewProfile(ac);
+            fail("sono riuscito a fare l' op");
+        }catch(Exception e){
+            assertTrue(true);
+        }
+    }
+    
+    /**
+     * Test of viewProfile method, of class AccountManager.
+     * @throws java.lang.Exception
+     */
+    @Test
+    public void testViewProfileEmailFormatError() throws Exception {
+        ac.setSecondaryEmail("qwertyuodsdsdee");
+        ac.setTypeAccount("phdstudent");
+        try{
+            instance.viewProfile(ac);
+            fail("sono riuscito a fare l' op");
+        }catch(Exception e){
+            assertTrue(true);
+        }
+    }
+    
+    /**
+     * Test of viewProfile method, of class AccountManager.
+     * @throws java.lang.Exception
+     */
+    @Test
+    public void testViewProfileEmailNotExists() throws Exception {
+        ac.setSecondaryEmail("qwertyuo@dsdsdee");
+        ac.setTypeAccount("phdstudent");
+        try{
+            instance.viewProfile(ac);
+            fail("sono riuscito a fare l' op");
+        }catch(Exception e){
+            assertTrue(true);
+        }
+    }
+    
+    /**
+     * Test of viewProfile method, of class AccountManager.
+     * @throws java.lang.Exception
+     */
+    @Test
+    public void testViewProfileTypeNull() throws Exception {
+        ac.setSecondaryEmail("dinucci@hotmail.it");
+        ac.setTypeAccount(null);
+        try{
+            instance.viewProfile(ac);
+            fail("sono riuscito a fare l' op");
+        }catch(Exception e){
+            assertTrue(true);
+        }
+    }
+    
+    /**
+     * Test of viewProfile method, of class AccountManager.
+     * @throws java.lang.Exception
+     */
+    @Test
+    public void testViewProfileTypeNotDominio() throws Exception {
+        ac.setSecondaryEmail("dinucci@hotmail.it");
+        ac.setTypeAccount("sds");
+        try{
+            instance.viewProfile(ac);
+            fail("sono riuscito a fare l' op");
+        }catch(Exception e){
+            assertTrue(true);
+        }
+    }
+    
+    /**
+     * Test of viewProfile method, of class AccountManager.
+     * @throws java.lang.Exception
+     */
+    @Test
+    public void testViewProfileAccountNull() throws Exception {
+        Account nul=null;
+        try{
+            instance.viewProfile(nul);
+            fail("sono riuscito a fare l' op");
+        }catch(Exception e){
+            assertTrue(true);
+        }
     }
 
     /**
@@ -162,17 +273,32 @@ public class AccountManagerTest {
 
     /**
      * Test of searchUser method, of class AccountManager.
+     * @throws java.lang.Exception
      */
     @Test
-    public void testSearchUser() throws Exception {
-        System.out.println("searchUser");
-        String search = "";
-        AccountManager instance = new AccountManager();
-        ArrayList<Account> expResult = null;
-        ArrayList<Account> result = instance.searchUser(search);
-        assertEquals(expResult, result);
-        // TODO review the generated test code and remove the default call to fail.
-        fail("The test case is a prototype.");
+    public void testSearchUserOk() throws Exception {
+        String search = "s";
+        try{
+            instance.searchUser(search);
+            assertTrue(true);
+        }catch(Exception e){
+            fail("non sono riuscoto a fare l' op");
+        }
+    }
+    
+    /**
+     * Test of searchUser method, of class AccountManager.
+     * @throws java.lang.Exception
+     */
+    @Test
+    public void testSearchUserSearchNull() throws Exception {
+        String search = null;
+        try{
+            instance.searchUser(search);
+            fail("sono riuscoto a fare l' op");
+        }catch(Exception e){
+            assertTrue(true);
+        }
     }
 
     /**
@@ -181,12 +307,7 @@ public class AccountManagerTest {
     @Test
     public void testUpdateProfile() throws Exception {
         System.out.println("updateProfile");
-        String key = "";
-        Account pAccount = null;
-        AccountManager instance = new AccountManager();
-        instance.updateProfile(key, pAccount);
-        // TODO review the generated test code and remove the default call to fail.
-        fail("The test case is a prototype.");
+        //manca queata funz
     }
 
     /**
@@ -195,40 +316,233 @@ public class AccountManagerTest {
     @Test
     public void testChangeType() throws Exception {
         System.out.println("changeType");
-        Account pAccount = null;
-        String newType = "";
-        AccountManager instance = new AccountManager();
-        instance.changeType(pAccount, newType);
-        // TODO review the generated test code and remove the default call to fail.
-        fail("The test case is a prototype.");
+        //manca queata funz
     }
 
     /**
      * Test of inviteUser method, of class AccountManager.
+     * @throws java.lang.Exception
      */
     @Test
-    public void testInviteUser() throws Exception {
-        System.out.println("inviteUser");
-        String email = "";
-        AccountManager instance = new AccountManager();
-        instance.inviteUser(email);
-        // TODO review the generated test code and remove the default call to fail.
-        fail("The test case is a prototype.");
+    public void testInviteUserOk() throws Exception {
+        String email = "tommaso@hotmail.it";
+        try{
+            instance.inviteUser(email);
+            assertTrue(true);
+        }catch(Exception e){
+            fail("non sono riuscito a fare l' op");
+        }
     }
-
+    
+    /**
+     * Test of inviteUser method, of class AccountManager.
+     * @throws java.lang.Exception
+     */
+    @Test
+    public void testInviteUserNull() throws Exception {
+        String email = null;
+        try{
+            instance.inviteUser(email);
+            fail("sono riuscito a fare l' op");
+        }catch(Exception e){
+            assertTrue(true);  
+        }
+    }
+    
+    /**
+     * Test of inviteUser method, of class AccountManager.
+     * @throws java.lang.Exception
+     */
+    @Test
+    public void testInviteUserMax() throws Exception {
+        String email = "qwertyuiopqqwertyuiopqqwertyuiopqqwertyuiopqqwertyuiopqqwertyuiopq";
+        try{
+            instance.inviteUser(email);
+            fail("sono riuscito a fare l' op");
+        }catch(Exception e){
+            assertTrue(true);  
+        }
+    }
+    
+    /**
+     * Test of inviteUser method, of class AccountManager.
+     * @throws java.lang.Exception
+     */
+    @Test
+    public void testInviteUserFormatError() throws Exception {
+        String email = "qwertyuiopqqwertyuioppqqwertyuiopq";
+        try{
+            instance.inviteUser(email);
+            fail("sono riuscito a fare l' op");
+        }catch(Exception e){
+            assertTrue(true);  
+        }
+    }
+    
     /**
      * Test of insertStudentTutor method, of class AccountManager.
+     * @throws java.lang.Exception
      */
     @Test
-    public void testInsertStudentTutor() throws Exception {
-        System.out.println("insertStudentTutor");
-        String fkPhdstudent = "";
-        String fkProfessor = "";
-        AccountManager instance = new AccountManager();
-        instance.insertStudentTutor(fkPhdstudent, fkProfessor);
-        // TODO review the generated test code and remove the default call to fail.
-        fail("The test case is a prototype.");
+    public void testInsertStudentTutorOk() throws Exception {
+        String fkPhdstudent = "dinucci@hotmail.it";
+        String Tutor = "adelucia@hotmail.it";
+        try{
+            instance.insertStudentTutor(fkPhdstudent, Tutor);
+            assertTrue(true);
+        }catch(Exception e){
+            fail("non sono riuscito a fare l' op");
+        }
     }
+    
+    /**
+     * Test of insertStudentTutor method, of class AccountManager.
+     * @throws java.lang.Exception
+     */
+    @Test
+    public void testInsertStudentTutorFkStudentNull() throws Exception {
+        String fkPhdstudent = null;
+        String Tutor = "adelucia@hotmail.it";
+        try{
+            instance.insertStudentTutor(fkPhdstudent, Tutor);
+            fail("sono riuscito a fare l' op");
+        }catch(Exception e){
+            assertTrue(true);
+        }
+    }
+    
+    /**
+     * Test of insertStudentTutor method, of class AccountManager.
+     * @throws java.lang.Exception
+     */
+    @Test
+    public void testInsertStudentTutorFkStudentMax() throws Exception {
+        String fkPhdstudent = "dqwertyuiopdqwertyuiopdqwertyuiopdqwertyuiopdqwertyuiopdqwertyuiop";
+        String Tutor = "adelucia@hotmail.it";
+        try{
+            instance.insertStudentTutor(fkPhdstudent, Tutor);
+            fail("sono riuscito a fare l' op");
+        }catch(Exception e){
+            assertTrue(true);
+        }
+    }
+    
+    /**
+     * Test of insertStudentTutor method, of class AccountManager.
+     * @throws java.lang.Exception
+     */
+    @Test
+    public void testInsertStudentTutorFkStudentFormatError() throws Exception {
+        String fkPhdstudent = "dqwertyui@iopdqwertyuiop";
+        String Tutor = "adelucia@hotmail.it";
+        try{
+            instance.insertStudentTutor(fkPhdstudent, Tutor);
+            fail("sono riuscito a fare l' op");
+        }catch(Exception e){
+            assertTrue(true);
+        }
+    }
+    
+    /**
+     * Test of insertStudentTutor method, of class AccountManager.
+     * @throws java.lang.Exception
+     */
+    @Test
+    public void testInsertStudentTutorFkStudentNotExists() throws Exception {
+        String fkPhdstudent = "dsd@sdsdsdsp";
+        String Tutor = "adelucia@hotmail.it";
+        try{
+            instance.insertStudentTutor(fkPhdstudent, Tutor);
+            fail("sono riuscito a fare l' op");
+        }catch(Exception e){
+            assertTrue(true);
+        }
+    }
+    
+    /**
+     * Test of insertStudentTutor method, of class AccountManager.
+     * @throws java.lang.Exception
+     */
+    @Test
+    public void testInsertStudentTutorFkTutorNull() throws Exception {
+        String fkPhdstudent = "dinucci@hotmail.it";
+        String Tutor = null;
+        try{
+            instance.insertStudentTutor(fkPhdstudent, Tutor);
+            fail("sono riuscito a fare l' op");
+        }catch(Exception e){
+            assertTrue(true);
+        }
+    }
+    
+    /**
+     * Test of insertStudentTutor method, of class AccountManager.
+     * @throws java.lang.Exception
+     */
+    @Test
+    public void testInsertStudentTutorFkTutorMax() throws Exception {
+        String fkPhdstudent = "dinucci@hotmail.it";
+        String Tutor = "dinucci@hotmail.itdinucci@hotmail.itdinucci@hotmail.itdinucci@hotmail.itdinucci@hotmail.it";
+        try{
+            instance.insertStudentTutor(fkPhdstudent, Tutor);
+            fail("sono riuscito a fare l' op");
+        }catch(Exception e){
+            assertTrue(true);
+        }
+    }
+    
+    
+    /**
+     * Test of insertStudentTutor method, of class AccountManager.
+     * @throws java.lang.Exception
+     */
+    @Test
+    public void testInsertStudentTutorFkTutorMin() throws Exception {
+        String fkPhdstudent = "dinucci@hotmail.it";
+        String Tutor = "dinail.it";
+        try{
+            instance.insertStudentTutor(fkPhdstudent, Tutor);
+            fail("sono riuscito a fare l' op");
+        }catch(Exception e){
+            assertTrue(true);
+        }
+    }
+    
+    /**
+     * Test of insertStudentTutor method, of class AccountManager.
+     * @throws java.lang.Exception
+     */
+    @Test
+    public void testInsertStudentTutorFkTutorFormatError() throws Exception {
+        String fkPhdstudent = "dinucci@hotmail.it";
+        String Tutor = "dotmail.itdinuccihotmail.it";
+        try{
+            instance.insertStudentTutor(fkPhdstudent, Tutor);
+            fail("sono riuscito a fare l' op");
+        }catch(Exception e){
+            assertTrue(true);
+        }
+    }
+    
+    /**
+     * Test of insertStudentTutor method, of class AccountManager.
+     * @throws java.lang.Exception
+     */
+    @Test
+    public void testInsertStudentTutorFkTutorNotExists() throws Exception {
+        String fkPhdstudent = "dinucci@hotmail.it";
+        String Tutor = "di@hotmaill.it";
+        try{
+            instance.insertStudentTutor(fkPhdstudent, Tutor);
+            fail("sono riuscito a fare l' op");
+        }catch(Exception e){
+            assertTrue(true);
+        }
+    }
+
+    
+    
+    
 
     /**
      * Test of getTutor method, of class AccountManager.
@@ -308,16 +622,163 @@ public class AccountManagerTest {
 
     /**
      * Test of updateStudentTutor method, of class AccountManager.
+     * @throws java.lang.Exception
      */
     @Test
-    public void testUpdateStudentTutor() throws Exception {
-        System.out.println("updateStudentTutor");
-        String fkPhdstudent = "";
-        String Tutor = "";
-        AccountManager instance = new AccountManager();
-        instance.updateStudentTutor(fkPhdstudent, Tutor);
-        // TODO review the generated test code and remove the default call to fail.
-        fail("The test case is a prototype.");
+    public void testUpdateStudentTutorOk() throws Exception {
+        String fkPhdstudent = "dinucci@hotmail.it";
+        String Tutor = "adelucia@hotmail.it";
+        try{
+            instance.updateStudentTutor(fkPhdstudent, Tutor);
+            assertTrue(true);
+        }catch(Exception e){
+            fail("non sono riuscito a fare l' op");
+        }
+    }
+    
+    /**
+     * Test of updateStudentTutor method, of class AccountManager.
+     * @throws java.lang.Exception
+     */
+    @Test
+    public void testUpdateStudentTutorFkStudentNull() throws Exception {
+        String fkPhdstudent = null;
+        String Tutor = "adelucia@hotmail.it";
+        try{
+            instance.updateStudentTutor(fkPhdstudent, Tutor);
+            fail("sono riuscito a fare l' op");
+        }catch(Exception e){
+            assertTrue(true);
+        }
+    }
+    
+    /**
+     * Test of updateStudentTutor method, of class AccountManager.
+     * @throws java.lang.Exception
+     */
+    @Test
+    public void testUpdateStudentTutorFkStudentMax() throws Exception {
+        String fkPhdstudent = "dqwertyuiopdqwertyuiopdqwertyuiopdqwertyuiopdqwertyuiopdqwertyuiop";
+        String Tutor = "adelucia@hotmail.it";
+        try{
+            instance.updateStudentTutor(fkPhdstudent, Tutor);
+            fail("sono riuscito a fare l' op");
+        }catch(Exception e){
+            assertTrue(true);
+        }
+    }
+    
+    /**
+     * Test of updateStudentTutor method, of class AccountManager.
+     * @throws java.lang.Exception
+     */
+    @Test
+    public void testUpdateStudentTutorFkStudentFormatError() throws Exception {
+        String fkPhdstudent = "dqwertyui@iopdqwertyuiop";
+        String Tutor = "adelucia@hotmail.it";
+        try{
+            instance.updateStudentTutor(fkPhdstudent, Tutor);
+            fail("sono riuscito a fare l' op");
+        }catch(Exception e){
+            assertTrue(true);
+        }
+    }
+    
+    /**
+     * Test of updateStudentTutor method, of class AccountManager.
+     * @throws java.lang.Exception
+     */
+    @Test
+    public void testUpdateStudentTutorFkStudentNotExists() throws Exception {
+        String fkPhdstudent = "dsd@sdsdsdsp";
+        String Tutor = "adelucia@hotmail.it";
+        try{
+            instance.updateStudentTutor(fkPhdstudent, Tutor);
+            fail("sono riuscito a fare l' op");
+        }catch(Exception e){
+            assertTrue(true);
+        }
+    }
+    
+    /**
+     * Test of updateStudentTutor method, of class AccountManager.
+     * @throws java.lang.Exception
+     */
+    @Test
+    public void testUpdateStudentTutorFkTutorNull() throws Exception {
+        String fkPhdstudent = "dinucci@hotmail.it";
+        String Tutor = null;
+        try{
+            instance.updateStudentTutor(fkPhdstudent, Tutor);
+            fail("sono riuscito a fare l' op");
+        }catch(Exception e){
+            assertTrue(true);
+        }
+    }
+    
+    /**
+     * Test of updateStudentTutor method, of class AccountManager.
+     * @throws java.lang.Exception
+     */
+    @Test
+    public void testUpdateStudentTutorFkTutorMax() throws Exception {
+        String fkPhdstudent = "dinucci@hotmail.it";
+        String Tutor = "dinucci@hotmail.itdinucci@hotmail.itdinucci@hotmail.itdinucci@hotmail.itdinucci@hotmail.it";
+        try{
+            instance.updateStudentTutor(fkPhdstudent, Tutor);
+            fail("sono riuscito a fare l' op");
+        }catch(Exception e){
+            assertTrue(true);
+        }
+    }
+    
+    
+    /**
+     * Test of updateStudentTutor method, of class AccountManager.
+     * @throws java.lang.Exception
+     */
+    @Test
+    public void testUpdateStudentTutorFkTutorMin() throws Exception {
+        String fkPhdstudent = "dinucci@hotmail.it";
+        String Tutor = "dinail.it";
+        try{
+            instance.updateStudentTutor(fkPhdstudent, Tutor);
+            fail("sono riuscito a fare l' op");
+        }catch(Exception e){
+            assertTrue(true);
+        }
+    }
+    
+    /**
+     * Test of updateStudentTutor method, of class AccountManager.
+     * @throws java.lang.Exception
+     */
+    @Test
+    public void testUpdateStudentTutorFkTutorFormatError() throws Exception {
+        String fkPhdstudent = "dinucci@hotmail.it";
+        String Tutor = "dotmail.itdinuccihotmail.it";
+        try{
+            instance.updateStudentTutor(fkPhdstudent, Tutor);
+            fail("sono riuscito a fare l' op");
+        }catch(Exception e){
+            assertTrue(true);
+        }
+    }
+    
+    /**
+     * Test of updateStudentTutor method, of class AccountManager.
+     * @throws java.lang.Exception
+     */
+    @Test
+    public void testUpdateStudentTutorFkTutorNotExists() throws Exception {
+        String fkPhdstudent = "dinucci@hotmail.it";
+        String Tutor = "di@hotmaill.it";
+        try{
+            instance.updateStudentTutor(fkPhdstudent, Tutor);
+            fail("sono riuscito a fare l' op");
+        }catch(Exception e){
+            assertTrue(true);
+        }
     }
 
     /**
