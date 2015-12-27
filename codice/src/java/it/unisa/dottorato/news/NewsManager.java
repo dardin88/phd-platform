@@ -387,7 +387,7 @@ private static final String TABLE_News = "news";
         
        
         try (Connection connect = DBConnection.getConnection()) {
-            String tSql = "SELECT number FROM "
+            String tSql = "SELECT idNews FROM "
                     + NewsManager.TABLE_News
                     + "ORDER BY idNews DESC LIMIT 1";
             //Inviamo la Query al DataBase
