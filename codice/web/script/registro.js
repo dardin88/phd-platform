@@ -14,10 +14,10 @@ $(document).ready(function () {
 function getCorsoList()
 {
  //servlet per richiamare la lista dei nomi lezioni
-   $.getJSON("GetAllLessonOfProfessor", function (data) {
-    $.each(data.lessons, function (index, value) {
+   $.getJSON("GetAllCourse", function (data) {
+    $.each(data.course, function (index, value) {
         
-           corso = "<option value="+value.idLesson+" > " + value.name + "  </option> ";
+           corso = "<option value="+value.idCourse+" > " + value.name + "  </option> ";
         
         $("#Corsoprofessore").append(corso);
         });
@@ -31,15 +31,35 @@ function selectedItem()
     $("#results").hide();
     
     
-   selected = $("#Corsoprofessore option:selected").val(); // la chiave primaria di lesson
+   selected = $("#Corsoprofessore option:selected").val(); // la chiave primaria di course
        
     if (selected !== "default") //se il valore della select è default non mostriamo il div contenente le informazioni
-    {alert(selected);
+    {
         
         $("#results").show();
             selected = $("#Corsoprofessore option:selected").val();
+$.getJSON("GetAllLesson",{fkCourse: selected}, function (data) { 
+   
+     $.getJSON("GetPresenceCourse", function (data) {   
+          presente="<th>Dottorando</th> " ;
+    $("#resulthead").append(presente);
+                    $.each(data.corso, function (index, value) {                   
+                    dottorando="<tr> <td> "+ value.fkPhdstudent +"</td>  <td> <input type='checkbox' value="+value.isPresent+"  data-reverse onclick="+setPresenza()+" > </td></tr>";
+                      $("#resultbody").append(dottorando);
+                 });
+    
+}); 
+$.each(data.lessons, function (index, balue) {
+                presenza = "<th> <button value='" + balue.idLesson + "'>  Abilita Firma</button>  </th> "; 
 
-       $.getJSON("GetPresence",{fkLesson: selected}, function (data) {
+        $("#resulthead").after(presenza);
+              
+                 
+    
+                            });
+       });/*
+        * per ora non va bene 
+        * $.getJSON("GetPresence",{fkLesson: selected}, function (data) {
             $.each(data.presence, function (index, value) {
                   $.getJSON("GetAccountbyEmail",{secondaryEmail: value.fkPhdstudent}, function (dati) {
                     $.each(dati.account, function (index1,balue ) {   
@@ -47,17 +67,25 @@ function selectedItem()
                 $("#resultbody").append(presenza);
                  });
                    });  
-               
+             
             });
-        });
+        });*/
     }
     else
         $("#results").hide();
     
 }
 
-function getFirma() {
+function setPresenza() {
+      $.getJSON("ModifyPresence", function (data) {   
+          presente="<th>Dottorando</th> " ;
+    $("#resulthead").append(presente);
+                    $.each(data.corso, function (index, value) {                   
+                    dottorando="<tr> <td> "+ value.fkPhdstudent +"</td>  <td> <input type='checkbox' value="+value.isPresent+"  data-reverse onclick="+setPresenza()+" > </td></tr>";
+                      $("#resultbody").append(dottorando);
+                 });
     
+}); 
     
     
     

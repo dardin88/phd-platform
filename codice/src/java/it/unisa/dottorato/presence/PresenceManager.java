@@ -52,7 +52,7 @@ public class PresenceManager {
     * @throws SQLException
     * @throws IOException 
     */
-  public synchronized ArrayList<Presence> getPresenceList( ) throws ClassNotFoundException, SQLException, IOException {
+  public synchronized ArrayList<Presence> getPresenceList() throws ClassNotFoundException, SQLException, IOException {
         Connection connect = null;
         try {
             ArrayList<Presence> classList = new ArrayList<Presence>();
@@ -96,10 +96,10 @@ public class PresenceManager {
   * @throws SQLException
   * @throws IOException 
   */ 
-   public synchronized ArrayList<String> getPresenceCourse() throws ClassNotFoundException, SQLException, IOException {
+   public synchronized ArrayList<Presence> getPresenceCourse() throws ClassNotFoundException, SQLException, IOException {
         Connection connect = null;
         try {
-           ArrayList<String> corso= new ArrayList<String>();
+           ArrayList<Presence> corso= new ArrayList<Presence>();
           Presence registro;
             // Otteniamo una Connessione al DataBase
             connect = DBConnection.getConnection();
@@ -108,17 +108,17 @@ public class PresenceManager {
              * Prepariamo la stringa SQL per la ricerca dei record 
              * nella tabella presence
            */
-            String tSql = "SELECT cou.name FROM course.cou,lesson.les "
-                    + " WHERE les.fkCourse=cou.idCourse";
+            String tSql = "SELECT * from presence";
 
             //Inviamo la Query al DataBase
             ResultSet result = Utility.queryOperation(connect, tSql);
 
             while (result.next()) {
-                 String nomeCorso=result.getString("name");
+                 registro = new Presence();
                  
-
-                corso.add(nomeCorso);
+                  registro.setFkPhdstudent(result.getString("fkPhdstudent"));
+                 registro.setIsPresent(result.getBoolean("isPresent"));
+                 corso.add(registro);
             }
 
             return corso;
@@ -147,7 +147,7 @@ public class PresenceManager {
              * Prepariamo la stringa SQL per la ricerca dei record 
              * nella tabella presence
              */
-             String tSql = "SELECT presence.fkPhdstudent, presence.isPresent "
+             String tSql = "SELECT distinct presence.fkPhdstudent, presence.isPresent "
        + "from presence,lesson  where "
 + "  lesson.idLesson= "+ lesson + " group by presence.fkPhdstudent";
            

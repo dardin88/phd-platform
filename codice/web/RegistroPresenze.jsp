@@ -56,13 +56,11 @@
                             </div>
                         </div>
                  <div id="results" >
-                    <table id="results" class="table" style="display: inline-block; border: 1px solid; float: left; ">
-                        <thead>
+                    <table id="resultst" class="table" style="display: inline-block; border: 1px solid; float: left; ">
+                        <thead id="resulthead">
                             <tr>
                                 
-                                <th data-field="name" data-sortable="true">Nome</th>
-                                <th data-field= "surname" data-sortable="true">Cognome</th>
-                                <th data-field="presenza" data-sortable="true">Presenza</th>
+                               
                             </tr>
                         </thead>
                         <tbody id="resultbody">
