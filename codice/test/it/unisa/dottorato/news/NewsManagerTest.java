@@ -5,7 +5,13 @@
  */
 package it.unisa.dottorato.news;
 
-import java.util.ArrayList;
+import it.unisa.dottorato.news.News;
+import java.sql.SQLException;
+import java.text.DateFormat;
+import java.text.ParseException;
+import java.text.SimpleDateFormat;
+import java.util.Date;
+import java.util.List;
 import org.junit.After;
 import org.junit.AfterClass;
 import org.junit.Before;
@@ -18,8 +24,12 @@ import static org.junit.Assert.*;
  * @author Tommaso
  */
 public class NewsManagerTest {
+    private NewsManager instance;
+    private News not;
     
     public NewsManagerTest() {
+        
+        
     }
     
     @BeforeClass
@@ -32,6 +42,8 @@ public class NewsManagerTest {
     
     @Before
     public void setUp() {
+         instance = NewsManager.getInstance();
+        not =new News();
     }
     
     @After
@@ -43,155 +55,379 @@ public class NewsManagerTest {
      */
     @Test
     public void testGetInstance() {
-        System.out.println("getInstance");
-        NewsManager expResult = null;
         NewsManager result = NewsManager.getInstance();
-        assertEquals(expResult, result);
-        // TODO review the generated test code and remove the default call to fail.
-        fail("The test case is a prototype.");
+         assertNotNull(result);
     }
 
     /**
      * Test of insertNews method, of class NewsManager.
      */
     @Test
-    public void testInsertNews() throws Exception {
-        System.out.println("insertNews");
-        News anews = null;
-        NewsManager instance = null;
-        instance.insertNews(anews);
-        // TODO review the generated test code and remove the default call to fail.
-        fail("The test case is a prototype.");
+    public void testInsertNewsok() throws Exception {
+        
+        not.setId(1);
+        not.setTitle("Prova di avviso");
+        not.setDescription("Descrizione avviso");
+       
+        
+         try{
+            instance.insertNews(not);
+            fail("sono riuscito a fare l' op");
+        }catch(Exception x){
+            assertTrue(true);
+        }
     }
+    
+    
+    @Test
+    public void testInsertIdMinNews() throws Exception {
+        not.setId(-1);
+           
+         try{
+            instance.insertNews(not);
+            fail("sono riuscito a fare l' op");
+        }catch(Exception x){
+            assertTrue(true);
+        }
+    }
+    
+    
+     @Test
+    public void testInsertIdMaxNews() throws Exception {
+        not.setId(supint100());
+           
+         try{
+            instance.insertNews(not);
+            fail("sono riuscito a fare l' op");
+        }catch(Exception x){
+            assertTrue(true);
+        }
+    }
+    
+    
+    @Test
+    public void testInsertIdFormatNews() throws Exception {
+        not.setId(testint("@[%$%EGER]"));           
+         try{
+            instance.insertNews(not);
+            fail("sono riuscito a fare l' op");
+        }catch(Exception x){
+            assertTrue(true);
+        }
+    }
+    
+    
+    @Test
+    public void testInsertTitleMinNews() throws Exception {
+        not.setId(1);          
+        not.setTitle("");
+         try{
+            instance.insertNews(not);
+            fail("sono riuscito a fare l' op");
+        }catch(Exception x){
+            assertTrue(true);
+        }
+    }
+    
+    
+    @Test
+    public void testInsertTitleMaxNews() throws Exception {
+        not.setId(1);          
+        not.setTitle(testsup100());
+         try{
+            instance.insertNews(not);
+            fail("sono riuscito a fare l' op");
+        }catch(Exception x){
+            assertTrue(true);
+        }
+    }
+    
+    
+    @Test
+    public void testInsertDescriptionMinNews() throws Exception {
+        not.setId(1);          
+        not.setTitle("Titolo avviso");
+        not.setDescription("");
+         try{
+            instance.insertNews(not);
+            fail("sono riuscito a fare l' op");
+        }catch(Exception x){
+            assertTrue(true);
+        }
+    }
+    
+    
+    @Test
+    public void testInsertDescriptionMaxNews() throws Exception {
+        not.setId(1);          
+        not.setTitle("Titolo avviso");
+        not.setDescription(testsup100());
+         try{
+            instance.insertNews(not);
+            fail("sono riuscito a fare l' op");
+        }catch(Exception x){
+            assertTrue(true);
+        }
+    }
+    
 
     /**
      * Test of getNewsById method, of class NewsManager.
      */
     @Test
-    public void testGetNewsById() throws Exception {
-        System.out.println("getNewsById");
-        int aidnews = 0;
-        NewsManager instance = null;
-        News expResult = null;
-        News result = instance.getNewsById(aidnews);
-        assertEquals(expResult, result);
-        // TODO review the generated test code and remove the default call to fail.
-        fail("The test case is a prototype.");
+    public void testGetNewsByIdok() throws Exception {
+         int number = 15;
+        try{
+            instance.getNewsById(number);
+            assertTrue(true);
+        }catch(Exception e){
+            fail("non sono riuscito a fare l' op");
+        }
     }
 
+    
+    @Test
+    public void testGetNewsByIdMin() throws Exception {
+        int number = -1;
+        try{
+            instance.getNewsById(number);
+            fail("sono riuscito a fare l' op");
+        }catch(Exception e){
+            assertTrue(true);
+        }
+    }
+    
+    
+     @Test
+    public void testGetNewsByIdMax() throws Exception {
+        int number = 2000;
+        try{
+            instance.getNewsById(number);
+            fail("sono riuscito a fare l' op");
+        }catch(Exception e){
+            assertTrue(true);
+        }
+    }
+    
+    
     /**
      * Test of deleteNews method, of class NewsManager.
      */
     @Test
-    public void testDeleteNews() {
-        System.out.println("deleteNews");
-        int aidnews = 0;
-        NewsManager instance = null;
-        instance.deleteNews(aidnews);
-        // TODO review the generated test code and remove the default call to fail.
-        fail("The test case is a prototype.");
+    public void testDeleteNewsok() throws SQLException {
+       News pnew = new News();
+        pnew.setId(1);
+        pnew.setTitle("Prova titolo");
+        pnew.setDescription("Prova descrizione");
+        instance.insertNews(pnew);
+        int id = 1;
+        
+        try{
+            instance.deleteNews(id);
+            assertTrue(true);
+        }catch(Exception e){
+            fail("non sono riuscito a fare l' op");
+        }
+    }
+    
+    
+     @Test
+    public void testDeleteNewsIdMin() throws SQLException {
+       News pnew = new News();
+        pnew.setId(-1);
+        
+        instance.insertNews(pnew);
+        int id = -1;
+        
+        try{
+            instance.deleteNews(id);
+            assertTrue(true);
+        }catch(Exception e){
+            fail("non sono riuscito a fare l' op");
+        }
     }
 
+    
+    
+    @Test
+    public void testDeleteNewsIdMax() throws SQLException {
+       News pnew = new News();
+        pnew.setId(20000);
+        instance.insertNews(pnew);
+        int id = 20000;
+        
+        try{
+            instance.deleteNews(id);
+            assertTrue(true);
+        }catch(Exception e){
+            fail("non sono riuscito a fare l' op");
+        }
+    }
+    
+    
     /**
      * Test of update_news method, of class NewsManager.
      */
     @Test
-    public void testUpdate_news() throws Exception {
-        System.out.println("update_news");
-        int oldNewsId = 0;
-        News pNews = null;
-        NewsManager instance = null;
-        instance.update_news(oldNewsId, pNews);
-        // TODO review the generated test code and remove the default call to fail.
-        fail("The test case is a prototype.");
+    public void testUpdate_newsok() throws Exception {
+        int Number = 15;
+        not.setTitle("Prova");
+       not.setDescription("Prova descrizione");
+        try{
+             instance.update_news(Number,not);
+            assertTrue(true);
+        }catch (Exception e){
+            fail("non sono riuscito a fare l' op");
+        }
     }
+    
+    
+    @Test
+    public void testUpdate_newsTitleMin() throws Exception {
+        int Number = 15;
+        not.setTitle("");
+        try{
+             instance.update_news(Number,not);
+            assertTrue(true);
+        }catch (Exception e){
+            fail("non sono riuscito a fare l' op");
+        }
+    }
+    
+    
+    @Test
+    public void testUpdate_newsTitleMax() throws Exception {
+        int Number = 15;
+        not.setTitle(testsup100());
+        try{
+             instance.update_news(Number,not);
+            assertTrue(true);
+        }catch (Exception e){
+            fail("non sono riuscito a fare l' op");
+        }
+    }
+    
+    
+    @Test
+    public void testUpdate_newsIdMin() throws Exception {
+        int Number = -1;
+        not.setId(Number);
+        try{
+             instance.update_news(Number,not);
+            assertTrue(true);
+        }catch (Exception e){
+            fail("non sono riuscito a fare l' op");
+        }
+    }
+    
+    
+    @Test
+    public void testUpdate_newsIdMax() throws Exception {
+        int Number = 2000;
+        not.setId(Number);
+        try{
+             instance.update_news(Number,not);
+            assertTrue(true);
+        }catch (Exception e){
+            fail("non sono riuscito a fare l' op");
+        }
+    }
+    
+    
+    @Test
+    public void testUpdate_newsDescriptionMin() throws Exception {
+        int Number = 2000;
+        not.setTitle("Prova");
+        not.setDescription("");
+        try{
+             instance.update_news(Number,not);
+            assertTrue(true);
+        }catch (Exception e){
+            fail("non sono riuscito a fare l' op");
+        }
+    }
+    
+    
+    @Test
+    public void testUpdate_newsDescriptionMax() throws Exception {
+        int Number = 2000;
+        not.setTitle("Prova");
+        not.setDescription(testsup100());
+        try{
+             instance.update_news(Number,not);
+            assertTrue(true);
+        }catch (Exception e){
+            fail("non sono riuscito a fare l' op");
+        }
+    }
+    
+    
 
     /**
      * Test of getNewsByTypeOfTitle method, of class NewsManager.
      */
     @Test
-    public void testGetNewsByTypeOfTitle() throws Exception {
-        System.out.println("getNewsByTypeOfTitle");
-        String title = "";
-        NewsManager instance = null;
-        ArrayList<News> expResult = null;
-        ArrayList<News> result = instance.getNewsByTypeOfTitle(title);
-        assertEquals(expResult, result);
-        // TODO review the generated test code and remove the default call to fail.
-        fail("The test case is a prototype.");
+    public void testGetNewsByTypeOfTitleok() throws Exception {
+           String str = "Prova";
+        try{
+            instance.getNewsByTypeOfTitle(str);
+            assertTrue(true);
+        }catch(Exception e){
+            fail("non sono riuscito a fare l' op");
+        }
     }
 
-    /**
-     * Test of getAllNews method, of class NewsManager.
-     */
+    
     @Test
-    public void testGetAllNews() throws Exception {
-        System.out.println("getAllNews");
-        NewsManager instance = null;
-        ArrayList<News> expResult = null;
-        ArrayList<News> result = instance.getAllNews();
-        assertEquals(expResult, result);
-        // TODO review the generated test code and remove the default call to fail.
-        fail("The test case is a prototype.");
-    }
-
-    /**
-     * Test of testid method, of class NewsManager.
-     */
-    @Test
-    public void testTestid() throws Exception {
-        System.out.println("testid");
-        int id = 0;
-        NewsManager instance = null;
-        int expResult = 0;
-        int result = instance.testid(id);
-        assertEquals(expResult, result);
-        // TODO review the generated test code and remove the default call to fail.
-        fail("The test case is a prototype.");
-    }
-
-    /**
-     * Test of testTitle method, of class NewsManager.
-     */
-    @Test
-    public void testTestTitle() throws Exception {
-        System.out.println("testTitle");
-        String title = "";
-        NewsManager instance = null;
-        String expResult = "";
-        String result = instance.testTitle(title);
-        assertEquals(expResult, result);
-        // TODO review the generated test code and remove the default call to fail.
-        fail("The test case is a prototype.");
-    }
-
-    /**
-     * Test of testDescription method, of class NewsManager.
-     */
-    @Test
-    public void testTestDescription() throws Exception {
-        System.out.println("testDescription");
-        String description = "";
-        NewsManager instance = null;
-        String expResult = "";
-        String result = instance.testDescription(description);
-        assertEquals(expResult, result);
-        // TODO review the generated test code and remove the default call to fail.
-        fail("The test case is a prototype.");
-    }
-
-    /**
-     * Test of nextNumber method, of class NewsManager.
-     */
-    @Test
-    public void testNextNumber() throws Exception {
-        System.out.println("nextNumber");
-        NewsManager instance = null;
-        int expResult = 0;
-        int result = instance.nextNumber();
-        assertEquals(expResult, result);
-        // TODO review the generated test code and remove the default call to fail.
-        fail("The test case is a prototype.");
+    public void testGetNewsByTypeOfTitleMin() throws Exception {
+           String str = "";
+        try{
+            instance.getNewsByTypeOfTitle(str);
+            assertTrue(true);
+        }catch(Exception e){
+            fail("non sono riuscito a fare l' op");
+        }
     }
     
+    
+    
+    @Test
+    public void testGetNewsByTypeOfTitleMax() throws Exception {
+           String str = testsup100();
+        try{
+            instance.getNewsByTypeOfTitle(str);
+            assertTrue(true);
+        }catch(Exception e){
+            fail("non sono riuscito a fare l' op");
+        }
+    }
+    
+    
+    // metodi di utilità
+    
+    public Date convertStringToDate(String dateString) throws ParseException
+{
+    DateFormat df = new SimpleDateFormat ("dd/M/yyyy");
+    df.setLenient (false);
+    Date d = df.parse (dateString);
+    return d;
+}
+    private String testsup100() {
+        String c="dsdff";
+        for(int e=0; e<200; e++)
+            c=c.concat(c);
+        return c;
+    }
+    
+    private int testint(String str){
+    int num;
+    num = Integer.parseInt(str);
+    return num;
+    }
+    
+    private int supint100(){
+        int c=444;
+        
+        return c^36435356;
+    }
 }
