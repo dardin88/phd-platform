@@ -91,7 +91,7 @@
                             <div class="panel-body">
 
                                 <!-- Form contenenti i campi dei curriculum di dottorato -->
-                                <form id="curriculum_form">
+                                <form id="curriculum_form" action="#" method="post">
 
                                     <!-- Campo di testo relativo al nome di un curriculum -->
                                     <div class="form-group">
