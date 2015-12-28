@@ -35,7 +35,8 @@ function selectedItem()
        
     if (selected !== "default") //se il valore della select è default non mostriamo il div contenente le informazioni
     {
-        
+         $("#resulthead th").remove();
+         $("#resultbody tr").remove();
         $("#results").show();
             selected = $("#Corsoprofessore option:selected").val();
 $.getJSON("GetAllLesson",{fkCourse: selected}, function (data) { 
@@ -66,7 +67,8 @@ $.getJSON("GetAllLesson",{fkCourse: selected}, function (data) {
     }
     else
         $("#results").hide();
-    
+    $("#resulthead th").remove();
+         $("#resultbody tr").remove();
 }
 
 function setPresenza() {
