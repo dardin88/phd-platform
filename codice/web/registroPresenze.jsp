@@ -49,7 +49,7 @@
                             <div class="form-group">
                                
                                         <h1  > Seleziona un corso</h1>
-                                        <select class="form-control" id="Corsoprofessore"  onclick="selectedItem()">
+                                        <select class="form-control" id="Corsoprofessore"  onchange="selectedItem()">
                                             <option value="default"  >  - selezionate il vostro  corso  -  </option>
 
                                         </select>
