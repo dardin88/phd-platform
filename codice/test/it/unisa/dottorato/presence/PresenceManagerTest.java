@@ -66,7 +66,7 @@ public class PresenceManagerTest {
     @Test
     public void testGetPresenceCourseOk() throws Exception {
         try{
-            ArrayList<String> result = instance.getPresenceCourse();
+            ArrayList<Presence> result = instance.getPresenceCourse();
             assertNotNull(result);
         }catch(Exception e){
             fail("non sono riuscito a fare l' op");
