@@ -49,14 +49,7 @@ $.getJSON("GetAllLesson",{fkCourse: selected}, function (data) {
                  });
     
 }); 
-$.each(data.lessons, function (index, balue) {
-                presenza = "<th> <button value='" + balue.idLesson + "'>  Abilita Firma</button>  </th> "; 
 
-        $("#resulthead").after(presenza);
-              
-                 
-    
-                            });
        });/*
         * per ora non va bene 
         * $.getJSON("GetPresence",{fkLesson: selected}, function (data) {
