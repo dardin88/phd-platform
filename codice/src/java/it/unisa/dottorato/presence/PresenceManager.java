@@ -96,7 +96,7 @@ public class PresenceManager {
   * @throws SQLException
   * @throws IOException 
   */ 
-   public synchronized ArrayList<Presence> getPresenceCourse() throws ClassNotFoundException, SQLException, IOException {
+   public synchronized ArrayList<Presence> getPresenceCourse(int idcorso) throws ClassNotFoundException, SQLException, IOException {
         Connection connect = null;
         try {
            ArrayList<Presence> corso= new ArrayList<Presence>();
@@ -108,8 +108,9 @@ public class PresenceManager {
              * Prepariamo la stringa SQL per la ricerca dei record 
              * nella tabella presence
            */
-            String tSql = "SELECT * from presence";
-
+            String tSql = "select presence.fkPhdstudent, presence.isPresent "
+                    + "from presence,lesson where presence.fkLesson=lesson.idLesson "
+                    + "and  lesson.fkCourse="+ idcorso + " group by presence.fkPhdStudent";
             //Inviamo la Query al DataBase
             ResultSet result = Utility.queryOperation(connect, tSql);
 
