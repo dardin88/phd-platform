@@ -41,7 +41,7 @@ function selectedItem()
             selected = $("#Corsoprofessore option:selected").val();
 $.getJSON("GetAllLesson",{fkCourse: selected}, function (data) { 
    
-     $.getJSON("GetPresenceCourse", function (data) {   
+     $.getJSON("GetPresenceCourse",{idCourse: selected}, function (data) {   
           presente="<th>Dottorando</th> " ;
     $("#resulthead").append(presente);
                     $.each(data.corso, function (index, value) {                   
