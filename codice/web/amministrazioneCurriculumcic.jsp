@@ -15,7 +15,7 @@
         <meta name="description" content="Xenon Boostrap Admin Panel" />
         <meta name="author" content="Andrea Fedele" />
         
-        <title>Amministrazione Curriculum-Ciclo</title>
+        <title>Amministrazione Ciclo-Curriculum</title>
    
         <link rel="stylesheet" href="http://fonts.googleapis.com/css?family=Arimo:400,700,400italic">
         <link rel="stylesheet" href="assets/css/fonts/linecons/css/linecons.css">
@@ -51,7 +51,7 @@
                         <div class="well-small col-lg-6 col-lg-offset-0 col-md-8 col-md-offset-2 col-sm-10 col-sm-offset-1 col-xs-12">
                           <div class="form-group">
                             <label for="sel1">Seleziona uno fra i cicli attivi nel dottorato di ricerca</label>
-                            <select class="form-control" id="CycleList" onclick="selectedItem()">
+                            <select class="form-control" id="CycleList" onchange="selectedItem()">
                             </select>
                         </div>
                         </div>    
@@ -105,16 +105,63 @@
                                
                           </div>    
                     </div> 
+                        
+                        
+                        
+                              <!-- Pannello per creazione di un nuovo ciclo --> 
+                    <div class="well-small col-lg-6 col-lg-offset-0 col-md-8 col-md-offset-6 col-sm-10 col-sm-offset-1 col-xs-12">
+                        <div class="panel panel-default" id="divPanelAddORModify" hidden>
+                            <div class="panel-heading">
+                                <button type="button" class="close" id="buttonCloseCurriculumDialog" onclick="closeModifyORaddDiv()" >&times;</button>
+                                <h2 id="phdCurriculumTitle"></h2>
+                            </div>
+                            <div class="panel-body">
+
+                                <!-- Form contenenti i campi dei cicli di dottorato -->
+                                <form id="curriculum_form">
+
+                                    <!-- Campo di testo relativo all'anno di un ciclo -->
+                                    <div class="form-group">
+                                        <label>Nome:</label>
+                                        <div class="input-group">
+                                            <span class="input-group-addon"></span>
+                                            <input type="text" id="phdCurriculumName" class="form-control" name="name" placeholder="Inserisci l'anno del diclo" pattern="[a-z]+" required/>
+                                        </div>
+                                    </div>
+
+                                    <!-- Campo di testo relativo alla descrizione di un ciclo -->
+                                    <div class="form-group">
+                                        <label>Descrizione:</label>
+                                        <div class="input-group">
+                                            <span class="input-group-addon"></span>
+                                            <textarea id="phdCurriculumDescription" rows="10" class="form-control" name="description" placeholder="Inserisci la descrizione del ciclo"></textarea>
+                                        </div>
+                                    </div>
+
+                                    
+
+                                    <!-- Pulsanti di invio e reset del form -->
+                                    <div class="form-group">
+                                        <input type="button" id="savePhdCurriculum" class="btn btn-blue" value="Salva"> 
+                                        <input type="reset" id="resetCurriculumButton" class="btn btn-white" value="Reset">
+                                    </div>
+                                </form >
+                            </div>
+                        </div>
+            </div>
+                        
+                        
+                        
                     </div>  
                     
                     
                     <div class="row">
                         
-                    <div class="col-lg-6 col-lg-offset-0 col-md-8 col-md-offset-2 col-sm-10 col-sm-offset-1 col-xs-12" > 
+                    <div class="col-lg-5 col-lg-offset-0 col-md-8 col-md-offset-2 col-sm-10 col-sm-offset-1 col-xs-12" > 
                         <div class="panel panel-default" id="coordinatoreDiv" hidden>
                             <div class="panel-heading">
                                 <h3 class="panel-title">Coordinatore del ciclo: <span style="font-style: italic" id="TutorNameField" style="margin-left: 4px">  </span> 
-                                    <button type="button" class="btn btn-default btn-red btn-block" id="removeTutorButton" hidden>
+                                    <button type="button" class="btn btn-default btn-red btn-block" id="removeTutorButton" hidden onclick="removeTutorButton()">
                                         <span class="glyphicon glyphicon-remove-sign" aria-hidden="true">
                                         </span> Rimuovi coordinatore
                                     </button> </h3> 
@@ -139,11 +186,11 @@
                     </div>    
                     
                     
-                    <div class="well-small col-lg-6 col-lg-offset-0 col-md-8 col-md-offset-2 col-sm-10 col-sm-offset-1 col-xs-12">
+                    <div class="well-small col-lg-7 col-lg-offset-0 col-md-8 col-md-offset-2 col-sm-10 col-sm-offset-1 col-xs-12">
                           <div class="panel panel-default" id="curriculumsDiv" hidden>
                             <div class="panel-heading">
                                 <h3 class="panel-title">Curriculum attivi nel ciclo :
-                                    <span style="font-style: italic" id="CyclyeNumberfield" class="text-center"> -- n.ciclo -- </span> 
+                                    <span style="font-style: italic" id="CyclyeNumberfield" class="text-center"> </span> 
                                 </h3> 
                             </div>
                             <div class="panel-body">
@@ -155,11 +202,12 @@
                                            <th>Elimina Curriculum</th>
                                         </tr>
                                     </thead>
+                                    <tbody id="curriculumList"></tbody>
                                 </table>
                             </div>
                               
                               <div class="panel-footer" style="background-color: transparent">
-                                  <button type="button" class="btn btn-large btn-block btn-secondary" style="column-span: all">
+                                  <button type="button" class="btn btn-large btn-block btn-secondary" style="column-span: all" onclick="addCurriculuminCicButton()">
                                         <span class="glyphicon glyphicon-plus" aria-hidden="true">
                                         </span> Aggiungi Curriculum al Ciclo
                                     </button>
