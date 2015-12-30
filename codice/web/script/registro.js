@@ -6,7 +6,7 @@
 
 
 $(document).ready(function () {
-
+ 
     getCorsoList();
    // getFirma();
 });
@@ -49,18 +49,20 @@ function selectedItem()
 function mostraPresenze(){
     selected = $("#Lezioneprofessore option:selected").val();
     if (selected !== "default") //se il valore della select è default non mostriamo il div contenente le informazioni delle date delle lezioni
-    {   $("#resulthead th").remove();
+    {   
         $("#resultbody tr").remove();
         $("#results").show();
         selected = $("#Lezioneprofessore option:selected").val();
     $.getJSON("GetPresence",{fkLesson: selected}, function (data) { 
-             presente="<th>Dottorando</th> " ;
-    $("#resulthead").append(presente);
+           
         
         $.each(data.presence, function (index, value) { 
           
-             dottorando="<tr > <td> "+ value.fkPhdstudent +" </td>  <td> <input type='checkbox' value="+true+"   id=" +  value.fkPhdstudent + " onclick='changePresenza(" + 'id' + ")' ></td></tr>";
-                      $("#resultbody").append(dottorando);
+             dottorando="<tr > <td> "+ value.fkPhdstudent+" </td>   <td> <input type='checkbox'    id=" +  value.fkPhdstudent + " onclick='changePresenza(" + 'id' + ")'  ></td></tr>";
+            
+            // dottorando="<tr > <td> "+ value.name+" </td>  <td>"+value.surname+"</td> <td> <input type='checkbox' value="+true+"   id=" +  value.fkPhdstudent + " onclick='changePresenza(" + 'id' + ")' ></td></tr>";
+                               
+            $("#resultbody").append(dottorando);
          
    
         });
@@ -73,9 +75,12 @@ function mostraPresenze(){
 
 
 function changePresenza(id) {
-    
+    $.getJSON("GetPresenceCourse",{fkPhdstudent:id},function(data){
+        $("#id").attr("checked","checked");
+      
+});
     $.getJSON("ModifyPresence",{fkPhdstudent:id}, function (data) { 
-    
+    alert(data);
     });
     
 }

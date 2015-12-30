@@ -38,7 +38,7 @@ public class GetPresenceCourseServlet extends HttpServlet {
         try (PrintWriter out = response.getWriter()) {
             JSONObject result = new JSONObject();
             try {
-                int idcorso =Integer.parseInt(request.getParameter("idCourse"));
+               String idcorso =request.getParameter("fkPhdstudent");
                 ArrayList<Presence> corso = PresenceManager.getInstance().getPresenceCourse(idcorso);
                 JSONArray resultArray = new JSONArray(corso);
                 result.put("corso", resultArray);
