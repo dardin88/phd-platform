@@ -5,7 +5,10 @@
  */
 package it.unisa.dottorato.account;
 
+import java.sql.SQLException;
 import java.util.ArrayList;
+import java.util.logging.Level;
+import java.util.logging.Logger;
 import org.junit.After;
 import org.junit.Before;
 import org.junit.Test;
@@ -120,8 +123,13 @@ public class AccountManagerTest {
      */
     @Test
     public void testGetAccountListOk() {
-        ArrayList<Account> result=instance.getAccountList();
-        assertNotNull(result);
+        ArrayList<Account> result;
+        try {
+            result = instance.getAccountList();
+            assertNotNull(result);
+        } catch (Exception ex) {
+            fail("non sono riuscito a fare l' op");
+        }  
     }
 
     

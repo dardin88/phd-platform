@@ -140,15 +140,38 @@ public class PresenceManagerTest {
 
     /**
      * Test of modifyPresence method, of class PresenceManager.
+     * @throws java.lang.Exception
      */
     @Test
-    public void testModifyPresence() throws Exception {
+    public void testModifyPresenceOk() throws Exception {
         boolean signature = false;
-        
-        PresenceManager instance = null;
-        instance.modifyPresence(signature, pre);
-        // TODO review the generated test code and remove the default call to fail.
-        fail("The test case is a prototype.");
+        //pre.setFkPhdstudent(fkPhdstudent);
+        //pre.setFkLesson(fkLesson);
+        pre.setIsPresent(signature);
+        try{
+            instance.modifyPresence(signature, pre);
+            assertTrue(true);
+        }catch(Exception e){
+            fail("non sono riuscito a fare l' op");
+        } 
+    }
+    
+    /**
+     * Test of modifyPresence method, of class PresenceManager.
+     * @throws java.lang.Exception
+     */
+    @Test
+    public void testModifyPresenceFkPhdstudentMin() throws Exception {
+        boolean signature = false;
+        //pre.setFkPhdstudent(fkPhdstudent);
+        //pre.setFkLesson(fkLesson);
+        pre.setIsPresent(signature);
+        try{
+            instance.modifyPresence(signature, pre);
+            fail("non sono riuscito a fare l' op");
+        }catch(Exception e){
+            assertTrue(true);
+        } 
     }
 
     
