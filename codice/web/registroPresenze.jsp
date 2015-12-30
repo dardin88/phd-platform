@@ -74,6 +74,9 @@
                         <thead id="resulthead">
                             <tr>
                                 
+                                <th data-field="name" data-sortable="true">Nome</th>
+                                <th data-field= "surname" data-sortable="true">Cognome</th>
+                                <th data-field="isPresent" data-sortable="true">Presenza</th>
                                
                             </tr>
                         </thead>
