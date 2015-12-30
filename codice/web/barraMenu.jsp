@@ -50,7 +50,7 @@
                     %>  
                     <ul class="navbar-nav">
                     <li id="funzionalitaBase">
-                          <a href="RegistroPresenze.jsp">
+                          <a href="registroPresenze.jsp">
                           <i class="linecons-wallet"></i>
                              <span class="title">Gestione Presenze</span>
                           </a>

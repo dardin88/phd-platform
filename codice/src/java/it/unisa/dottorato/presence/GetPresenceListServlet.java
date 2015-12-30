@@ -37,6 +37,7 @@ public class GetPresenceListServlet extends HttpServlet{
         try (PrintWriter out = response.getWriter()) {
             JSONObject result = new JSONObject();
             try {
+              
                 ArrayList<Presence> presence = PresenceManager.getInstance().getPresenceList();
                 JSONArray resultArray = new JSONArray(presence);
                 result.put("presence", resultArray);
