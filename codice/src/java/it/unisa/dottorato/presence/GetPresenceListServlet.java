@@ -1,4 +1,5 @@
 package it.unisa.dottorato.presence;
+import it.unisa.dottorato.exception.IdException;
 import java.io.IOException;
 import java.io.PrintWriter;
 import java.sql.SQLException;
@@ -37,12 +38,15 @@ public class GetPresenceListServlet extends HttpServlet{
         try (PrintWriter out = response.getWriter()) {
             JSONObject result = new JSONObject();
             try {
-              
-                ArrayList<Presence> presence = PresenceManager.getInstance().getPresenceList();
+              int idLesson = Integer.parseInt(request.getParameter("fkLesson"));
+                ArrayList<Presence> presence = PresenceManager.getInstance().getPresenceList(idLesson);
+               
                 JSONArray resultArray = new JSONArray(presence);
                 result.put("presence", resultArray);
                 out.write(result.toString());
             } catch (ClassNotFoundException | SQLException | JSONException ex) {
+                Logger.getLogger(GetPresenceListServlet.class.getName()).log(Level.SEVERE, null, ex);
+            } catch (IdException ex) {
                 Logger.getLogger(GetPresenceListServlet.class.getName()).log(Level.SEVERE, null, ex);
             }
 

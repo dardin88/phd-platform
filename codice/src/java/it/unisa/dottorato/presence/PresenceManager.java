@@ -55,7 +55,7 @@ public class PresenceManager {
     * @throws SQLException
     * @throws IOException 
     */
-  public synchronized ArrayList<Presence> getPresenceList() throws ClassNotFoundException, SQLException, IOException {
+  public synchronized ArrayList<Presence> getPresenceList(int lesson) throws ClassNotFoundException, SQLException, IOException, IdException {
         Connection connect = null;
         try {
             ArrayList<Presence> classList = new ArrayList<Presence>();
@@ -67,17 +67,16 @@ public class PresenceManager {
              * Prepariamo la stringa SQL per la ricerca dei record 
              * nella tabella presence
              */
-            String tSql = "SELECT phd.fkAccount,pre.isPresent FROM phdstudent.phd present.pre "
-                    + "WHERE phd.fkAccount= pre.fkAccount"
-                    + " ORDER BY fkAccount ";
+            String tSql = "SELECT name, surname ,isPresent FROM account,presence "
+                    + " WHERE secondaryEmail = fkPhdstudent and fkLesson= "+ testid(lesson);
 
             //Inviamo la Query al DataBase
             ResultSet result = Utility.queryOperation(connect, tSql);
 
             while (result.next()) {
                  registro = new Presence();
-                  registro.setFkPhdstudent(result.getString("fkPhdstudent"));
-                  registro.setFkLesson(result.getString("fkLesson"));
+                  registro.setFkPhdstudent(result.getString("name"));
+                  registro.setFkLesson(result.getInt("fkLesson"));
                  registro.setIsPresent(result.getBoolean("isPresent"));
 
                 classList.add(registro);
@@ -151,15 +150,11 @@ public class PresenceManager {
              * Prepariamo la stringa SQL per la ricerca dei record 
              * nella tabella presence
              */
-             String tSql = "SELECT distinct presence.fkPhdstudent, presence.isPresent "
+             String tSql = "SELECT  presence.fkPhdstudent, presence.isPresent "
        + "from presence where "
 + "  presence.fkLesson= "+ testid(lesson) + " group by presence.fkPhdstudent";
            
-             /*String tSql = "SELECT account.name, account.surname, presence.isPresent "
-       + "from presence,account,lesson  where "
-+ " presence.fkPhdstudent=account.secondaryEmail and lesson.idLesson= "
-                    + lesson
-       + " ORDER BY account.surname"*/
+             
             //Inviamo la Query al DataBase
             ResultSet result = Utility.queryOperation(connect, tSql);
 
