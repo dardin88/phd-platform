@@ -74,14 +74,14 @@ public class CalendarManager {
              */
             String tSql = "INSERT INTO "
                     + CalendarManager.TABLE_COURSE
-                    + " ( idCourse, fkCurriculum, fkCycle, name,desription, startDate,endDate)"
-                    + " VALUES ('"
+                    + " (idCourse, fkCurriculum, fkCycle, name,desription, startDate,endDate)"
+                    + " VALUES ("
                     + testid(pCourse.getIdCourse())
-                    + "','"
+                    + ",'"
                     + Utility.Replace(testName(pCourse.getFK_curriculum()))
-                    + "','"
+                    + "',"
                     + testid(pCourse.getFK_cycle())
-                    + "','"
+                    + ",'"
                     + Utility.Replace(testName(pCourse.getName()))
                      + "','"
                     + Utility.Replace(testDescription(pCourse.getDescription())) 
@@ -485,8 +485,8 @@ public class CalendarManager {
              *stringa SQL per effettuare la ricerca nella 
              * tabella news
              */
-        String query = "select * from course ";
-       
+        String query = "select * from course";
+       //  String query = "select * from course where curdate()<course.startDate";  quando lo ripopolo meglio
 
             if (connection == null) {
                 throw new it.unisa.integrazione.database.exception.ConnectionException();
@@ -581,7 +581,7 @@ public class CalendarManager {
       * @throws SQLException
       * @throws IdException 
       */
-      public synchronized List<Lesson> getAllLessonOf(Course pCourse) throws SQLException, IdException { //da modificare dato Person
+      public synchronized List<Lesson> getAllLessonOf(int idcourse) throws SQLException, IdException { //da modificare dato Person
         List<Lesson> lessons = new ArrayList<>();
         
         Connection connect = null;
@@ -596,7 +596,7 @@ public class CalendarManager {
             String tSql = "SELECT * FROM "
                     + CalendarManager.TABLE_LESSON
                     + " WHERE fkCourse = '"
-                    + testid(pCourse.getIdCourse()) + "'"; //da modificare ancora
+                    + testid(idcourse) + "'"; //da modificare ancora
 
             //Inviamo la Query al DataBase
             ResultSet result = Utility.queryOperation(connect, tSql);
@@ -610,9 +610,7 @@ public class CalendarManager {
                 lesson.setEndTime(result.getInt("endTime"));
                 lesson.setName(result.getString("name"));
                 lesson.setClassroom(result.getString("classroom"));
-                lesson.setDescription(result.getString("description"));
-                lesson.setCycle(result.getInt("cycle"));
-                lesson.setCurriculum(result.getString("curriculum"));
+                lesson.setDescription(result.getString("desription"));                             
                 lesson.setFK_course(result.getInt("fkCourse"));
                 
                 lessons.add(lesson);

@@ -23,7 +23,7 @@ import org.json.JSONObject;
  *
  * @author Giuseppe Picciocchi
  */
-@WebServlet(name = "GetAllLessonServlet", urlPatterns = {"/GetAllLessonServlet"})
+@WebServlet(name = "GetAllLesson", urlPatterns = {"/GetAllLesson"})
 public class GetAllLessonServlet extends HttpServlet {
 
     /**
@@ -45,9 +45,9 @@ public class GetAllLessonServlet extends HttpServlet {
             try {
                 
                 HttpSession session = request.getSession();
-                
-                Course course = (Course) session.getAttribute("course");
-                ArrayList<Lesson> lessons = (ArrayList<Lesson>) CalendarManager.getInstance().getAllLessonOf(course); // da modificare ancora
+                 int number = Integer.parseInt(request.getParameter("fkCourse"));// mi semplifico la cosa mi asso l'intero di id
+               
+                ArrayList<Lesson> lessons = (ArrayList<Lesson>) CalendarManager.getInstance().getAllLessonOf(number); // da modificare ancora
                 JSONArray resultArray = new JSONArray(lessons);
                 result.put("lessons", resultArray);
                 out.write(result.toString());

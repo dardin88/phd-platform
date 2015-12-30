@@ -21,7 +21,7 @@ import org.json.JSONObject;
  *
  * @author Tommaso Minichiello
  */
-@WebServlet(name = "ViewCollegeCycleServlet", urlPatterns = {"/dottorato/ViewCollegeCycleServlet"})
+@WebServlet(name = "ViewCollegeCycleServlet", urlPatterns = {"/ViewCollegeCycleServlet"})
 public class ViewCollegeCycleServlet extends HttpServlet {
 
     /**

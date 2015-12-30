@@ -17,7 +17,7 @@ import org.json.JSONObject;
  *
  * @author Rembor
  */
-@WebServlet(name = "GetPresenceCourseServlet", urlPatterns = {"/GetPresenceCourse"})
+@WebServlet(name = "GetPresenceCourse", urlPatterns = {"/GetPresenceCourse"})
 public class GetPresenceCourseServlet extends HttpServlet {
     
     
@@ -37,7 +37,8 @@ public class GetPresenceCourseServlet extends HttpServlet {
         try (PrintWriter out = response.getWriter()) {
             JSONObject result = new JSONObject();
             try {
-                ArrayList<String> corso = PresenceManager.getInstance().getPresenceCourse();
+                int idcorso =Integer.parseInt(request.getParameter("idCourse"));
+                ArrayList<Presence> corso = PresenceManager.getInstance().getPresenceCourse(idcorso);
                 JSONArray resultArray = new JSONArray(corso);
                 result.put("corso", resultArray);
                 out.write(result.toString());

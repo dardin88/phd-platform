@@ -67,17 +67,17 @@ private static final String TABLE_News = "news";
              */
              String tSql = "INSERT INTO "
                     + NewsManager.TABLE_News
-                    + " (idNews,title,description,)"
+                    + " (idNews,title,description)"
                     + " VALUES ('"
                     + testid(nextNumber())
                     + "','"
                     + Utility.Replace(testTitle(anews.getTitle()))
                     + "','"
                     + Utility.Replace(testDescription(anews.getDescription()))
-                    + "',"
+                    + "'"
                      + ")";      
             
-            
+            System.out.println(tSql);
             //esecuzione query
             Statement stmt = connect.createStatement();
             stmt.executeUpdate(tSql);
@@ -387,9 +387,9 @@ private static final String TABLE_News = "news";
         
        
         try (Connection connect = DBConnection.getConnection()) {
-            String tSql = "SELECT number FROM "
+            String tSql = "SELECT idNews FROM "
                     + NewsManager.TABLE_News
-                    + "ORDER BY idNews DESC LIMIT 1";
+                    + " ORDER BY idNews DESC LIMIT 1";
             //Inviamo la Query al DataBase
              ResultSet result = Utility.queryOperation(connect, tSql);
             if(result.next()){

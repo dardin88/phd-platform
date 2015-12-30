@@ -42,7 +42,7 @@ public class ModifyPresenceServlet extends HttpServlet{
         try {
 
             
-            boolean newsignature = Boolean.parseBoolean(request.getParameter("newSignature"));
+            boolean newsignature = Boolean.parseBoolean(request.getParameter("isPresent"));
             String fkPhdstudent = request.getParameter("fkPhdstudent");
             String fkLesson = request.getParameter("FkLesson");
             Presence aPresence =new Presence();
