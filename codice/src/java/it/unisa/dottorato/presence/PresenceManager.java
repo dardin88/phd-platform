@@ -1,4 +1,5 @@
 package it.unisa.dottorato.presence;
+import it.unisa.dottorato.exception.IdException;
 import it.unisa.dottorato.utility.Utility;
 import it.unisa.integrazione.database.DBConnection;
 import java.io.IOException;
@@ -6,6 +7,8 @@ import java.sql.Connection;
 import java.sql.ResultSet;
 import java.sql.SQLException;
 import java.util.ArrayList;
+import java.util.logging.Level;
+import java.util.logging.Logger;
 
 /** Classe per la gestione delle presenze
  *
@@ -96,7 +99,7 @@ public class PresenceManager {
   * @throws SQLException
   * @throws IOException 
   */ 
-   public synchronized ArrayList<Presence> getPresenceCourse(int idcorso) throws ClassNotFoundException, SQLException, IOException {
+   public synchronized ArrayList<Presence> getPresenceCourse(int idcorso) throws ClassNotFoundException, SQLException, IOException, IdException {
         Connection connect = null;
         try {
            ArrayList<Presence> corso= new ArrayList<Presence>();
@@ -110,7 +113,7 @@ public class PresenceManager {
            */
             String tSql = "select presence.fkPhdstudent, presence.isPresent "
                     + "from presence,lesson where presence.fkLesson=lesson.idLesson "
-                    + "and  lesson.fkCourse="+ idcorso + " group by presence.fkPhdStudent";
+                    + "and  lesson.fkCourse="+ testid(idcorso) + " group by presence.fkPhdStudent";
             //Inviamo la Query al DataBase
             ResultSet result = Utility.queryOperation(connect, tSql);
 
@@ -124,7 +127,7 @@ public class PresenceManager {
 
             return corso;
 
-        } finally {
+        }  finally {
             DBConnection.releaseConnection(connect);
         }
     }
@@ -136,7 +139,7 @@ public class PresenceManager {
     * @return restituisce un array list di presenze, lancia un'eccezione altrimenti
     * @throws SQLException 
     */
-   public synchronized ArrayList<Presence> getPresence(int lesson) throws SQLException{
+   public synchronized ArrayList<Presence> getPresence(int lesson) throws SQLException, IdException{
        Connection connect = null;
         try {
             ArrayList<Presence> classList = new ArrayList<Presence>();
@@ -149,8 +152,8 @@ public class PresenceManager {
              * nella tabella presence
              */
              String tSql = "SELECT distinct presence.fkPhdstudent, presence.isPresent "
-       + "from presence,lesson  where "
-+ "  lesson.idLesson= "+ lesson + " group by presence.fkPhdstudent";
+       + "from presence where "
++ "  presence.fkLesson= "+ testid(lesson) + " group by presence.fkPhdstudent";
            
              /*String tSql = "SELECT account.name, account.surname, presence.isPresent "
        + "from presence,account,lesson  where "
@@ -183,21 +186,19 @@ public class PresenceManager {
     * @throws SQLException
     * @throws ExceptionPermissionDenied 
     */
-   public synchronized void modifyPresence(boolean signature,Presence old) throws SQLException, ExceptionPermissionDenied {
+   public void modifyPresence(String dottorando ) throws SQLException, ExceptionPermissionDenied, PhdStudentexception {
        try (Connection connect = DBConnection.getConnection()) {
           
      /*
              * Prepariamo la stringa SQL per inserire un nuovo record 
              * nella tabella presenze
              */
-            String tSql = "UPDATE"
+            String tSql = "UPDATE "
                    +  PresenceManager.TABLE_Presence
                     +" set isPresent = "
-                    + signature
-                     + "WHERE fkPhdstudent='"
-                    + old.getFkPhdstudent()+"',"
-                    + "fkLesson ='"
-                    +old.getFkLesson()+"'"; 
+                    + changeSignatura(dottorando)
+                     + " WHERE fkPhdstudent = '"
+                    + testDottorando(dottorando)+"'"; 
             
             
 
@@ -205,8 +206,47 @@ public class PresenceManager {
             Utility.executeOperation(connect, tSql);
 
             connect.commit();
-        }
+        } catch (IOException ex) {
+          Logger.getLogger(PresenceManager.class.getName()).log(Level.SEVERE, null, ex);
+      }
    
    }
+   public String testDottorando(String title) throws PhdStudentexception{
+        if(title.equals("")&&title.length()>50){
+            
+            throw new PhdStudentexception("l'email del dottorando e' sbagliata "); 
+        }
+        return title;
+    }
+  
+   public int testid(int id) throws IdException {
+        if(id<0){
+            throw new IdException("l'id non puo' essere minore di 0");
+        }
+        return id;
+    }  
+
+    private  boolean changeSignatura(String dottorando)  throws SQLException, IOException, PhdStudentexception {
+         try (Connection connect = DBConnection.getConnection()) {
+           
+             String tSql = "SELECT isPresent FROM  "
+                    + PresenceManager.TABLE_Presence
+                    + " where fkPhdstudent = '"
+                    + testDottorando(dottorando)+" '";
+            //Inviamo la Query al DataBase
+             ResultSet result = Utility.queryOperation(connect, tSql);
+            boolean controllo;
+              if(controllo=result.next()){
+                 System.out.println(controllo);
+             if(controllo!=true){  
+                  System.out.println(controllo);
+               controllo=true;
+            }
+             else controllo=false;
+              }
+            connect.commit();
+            return controllo;
+        } 
+    }
    
 }

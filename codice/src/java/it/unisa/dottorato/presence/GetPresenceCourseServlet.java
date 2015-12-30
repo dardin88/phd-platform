@@ -1,4 +1,5 @@
 package it.unisa.dottorato.presence;
+import it.unisa.dottorato.exception.IdException;
 import java.io.IOException;
 import java.io.PrintWriter;
 import java.sql.SQLException;
@@ -44,6 +45,8 @@ public class GetPresenceCourseServlet extends HttpServlet {
                 out.write(result.toString());
             } catch (ClassNotFoundException | SQLException | JSONException ex) {
                 Logger.getLogger(GetPresenceListServlet.class.getName()).log(Level.SEVERE, null, ex);
+            } catch (IdException ex) {
+                Logger.getLogger(GetPresenceCourseServlet.class.getName()).log(Level.SEVERE, null, ex);
             }
 
         }

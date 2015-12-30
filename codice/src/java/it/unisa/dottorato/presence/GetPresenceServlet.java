@@ -1,4 +1,5 @@
 package it.unisa.dottorato.presence;
+import it.unisa.dottorato.exception.IdException;
 import java.io.IOException;
 import java.io.PrintWriter;
 import java.sql.SQLException;
@@ -45,7 +46,9 @@ PrintWriter out = response.getWriter();
                 out.write(result.toString());
             } catch (SQLException | JSONException ex) {
                 Logger.getLogger(GetPresenceListServlet.class.getName()).log(Level.SEVERE, null, ex);
-            }
+            } catch (IdException ex) {
+             Logger.getLogger(GetPresenceServlet.class.getName()).log(Level.SEVERE, null, ex);
+         }
 
         }
      

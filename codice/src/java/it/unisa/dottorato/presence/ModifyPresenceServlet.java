@@ -42,17 +42,12 @@ public class ModifyPresenceServlet extends HttpServlet{
         try {
 
             
-            boolean newsignature = Boolean.parseBoolean(request.getParameter("isPresent"));
+   
             String fkPhdstudent = request.getParameter("fkPhdstudent");
-            String fkLesson = request.getParameter("FkLesson");
-            Presence aPresence =new Presence();
-            aPresence.getFkLesson();
-            aPresence.getFkPhdstudent();
-            aPresence.isIsPresent();
-         
-            PresenceManager.getInstance().modifyPresence(newsignature,aPresence);
-            result.put("result", true);
-            out.write(result.toString());
+           PresenceManager.getInstance().modifyPresence(fkPhdstudent);
+            
+       result.put("result",true);
+           
         }catch (SQLException ex) {
                 result.put("result", false);
                 Logger.getLogger(ModifyPresenceServlet.class.getName()).log(Level.SEVERE, null, ex);
@@ -60,9 +55,11 @@ public class ModifyPresenceServlet extends HttpServlet{
    
          
 
-         catch (JSONException | ExceptionPermissionDenied ex) {
+         catch (ExceptionPermissionDenied ex) {
             Logger.getLogger(ModifyPresenceServlet.class.getName()).log(Level.SEVERE, null, ex);
-        } 
+        } catch (PhdStudentexception ex) { 
+             Logger.getLogger(ModifyPresenceServlet.class.getName()).log(Level.SEVERE, null, ex);
+         } 
            finally {
             out.close();
         }
