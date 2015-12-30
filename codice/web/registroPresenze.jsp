@@ -1,4 +1,10 @@
 <%-- 
+    Document   : registroPresenze
+    Created on : 30-dic-2015, 22.55.12
+    Author     : Rembor
+--%>
+
+<%-- 
     Document   : RegistroPresenze
     Created on : 23-dic-2015, 1.24.09
     Author     : Rembor
@@ -35,7 +41,7 @@
    
         
     <body class="page-body">
-        <!-- Inclusione della pagina contenente il menù superiore -->
+        <!-- Inclusione della pagina contenente il menÃ¹ superiore -->
 
       
         <!-- jQuery (necessary for Bootstrap's JavaScript plugins) -->
@@ -48,13 +54,21 @@
                  <div class="well-small col-lg-5 col-lg-offset-0 col-md-8 col-md-offset-2 col-sm-10 col-sm-offset-1 col-xs-12">
                             <div class="form-group">
                                
-                                        <h1  > Seleziona un corso</h1>
-                                        <select class="form-control" id="Corsoprofessore"  onchange="selectedItem()">
+                                        <label  > Seleziona un corso</label>
+                                        <select class="form-control" id="Corsoprofessore"  onclick="selectedItem()">
                                             <option value="default"  >  - selezionate il vostro  corso  -  </option>
 
                                         </select>
                             </div>
+                  <div class="form-group">
+                     <label  > Seleziona una Lezione</label>
+                                        <select class="form-control" id="Lezioneprofessore"  onclick="mostraPresenze()">
+                                            <option value="default"  >  - selezionate la vostra  lezione  -  </option>
+
+                                        </select>
                         </div>
+                      </div>
+                
                  <div id="results" >
                     <table id="resultst" class="table" style="display: inline-block; border: 1px solid; float: left; ">
                         <thead id="resulthead">
