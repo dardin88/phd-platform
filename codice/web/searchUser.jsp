@@ -1,5 +1,4 @@
-<%-- 
-    Document   : searchUser
+<%--     Document   : searchUser
     Created on : 12-dic-2015, 18.36.16
     Author     : Rembor
 --%>
@@ -71,7 +70,7 @@
                                     <option value=null >Seleziona il tipo di utente</option>
                                     <option value="Dottorando">Dottorando</option>
                                     <option value="Docente">Docente</option>
-                                     <option value="Tutti">Tutti</option>
+                                     <option value="Tutti" selected>Tutti</option>
                                 </select>
 
                             </div>  
@@ -92,17 +91,7 @@
                             </tr>
                         </thead>
                         <tbody id="resultbody">
-                            <% for (Account rsAccount : rAccount) {%>
-
-                            <tr >
-
-                                <td><%= rsAccount.getTypeAccount()%></td>
-                                <td><%= rsAccount.getName()%></td>
-                                <td><%= rsAccount.getSurname()%></td>
-                                <td><%= rsAccount.getEmail()%></td>
-
-
-                            </tr><% }%>
+                           
                         </tbody>
                     </table>
                 </div>

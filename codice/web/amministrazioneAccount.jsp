@@ -29,7 +29,7 @@
         <link rel="stylesheet" href="style/dottorato.css">
         
         <script src="assets/js/jquery-1.11.1.min.js"></script>
-        <script type="text/javascript" src="script/amministrazione.js"></script> <!-- da modificare -->
+        <script type="text/javascript" src="script/amministrazioneAccount.js"></script> <!-- da modificare -->
                                                                                  
     </head>
     
@@ -68,7 +68,7 @@
                               <div class="panel-heading">Lista utenti</div>
                                  <div class="panel-body">
                                  <!-- Table -->
-                                    <table class="table">
+                                    <table class="table" id = "accountListTable">
                                         <thead>
                                                 <tr>
                                                     <th>Nome</th>
@@ -76,6 +76,8 @@
                                                     <th>Email</th>
                                                     
                                                 </tr>
+                                                
+                                                
                                         </thead>
                                     </table>
                                  </div>
