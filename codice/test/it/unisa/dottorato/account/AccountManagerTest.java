@@ -311,20 +311,790 @@ public class AccountManagerTest {
 
     /**
      * Test of updateProfile method, of class AccountManager.
+     * @throws java.lang.Exception
      */
     @Test
-    public void testUpdateProfile() throws Exception {
-        System.out.println("updateProfile");
-        //manca queata funz
+    public void testUpdateProfileOk() throws Exception {
+        String key="dinucci@hotmail.it";
+        PhdStudent w=(PhdStudent)ac;
+        w.setAdmin(true);
+        w.setEmail("c");
+        w.setPassword("provaaaa12");
+        w.setSurname("cognomeProva");
+        w.setName("NomeProva");
+        w.setSecondaryEmail("emaildiprova@hormail.it");
+        w.setDepartment("infoProvaw3w");
+        w.setLink("www.prova.it");
+        w.setTelephone("08245789534");
+        w.setResearchInterest("Ricerca prova");
+        try{
+            instance.updateProfile(key, w);
+            assertTrue(true);
+        }catch(Exception e){
+            fail("non sono riuscito a fare l' op");
+        }
     }
-
+    
+    /**
+     * Test of updateProfile method, of class AccountManager.
+     * @throws java.lang.Exception
+     */
+    @Test
+    public void testUpdateProfileKeyNull() throws Exception {
+        String key=null;
+        PhdStudent w=(PhdStudent)ac;
+        w.setAdmin(true);
+        w.setEmail(key);
+        w.setPassword(key);
+        w.setSurname("cognomeProva");
+        w.setName("NomeProva");
+        w.setSecondaryEmail("emaildiprova@hormail.it");
+        w.setDepartment("infoProva");
+        w.setLink("www.prova.it");
+        w.setTelephone("082457895");
+        w.setResearchInterest("Ricerca prova");
+        try{
+            instance.updateProfile(key, w);
+            fail("sono riuscito a fare l' op");
+        }catch(Exception e){
+            assertTrue(true);
+        }
+    }
+    
+    /**
+     * Test of updateProfile method, of class AccountManager.
+     * @throws java.lang.Exception
+     */
+    @Test
+    public void testUpdateProfileKeyMax() throws Exception {
+        String key="qwertyuiopqwertyuiopqwertyuiopqwertyuiopqwertyuiopqwertyuiop";
+        PhdStudent w=(PhdStudent)ac;
+        w.setAdmin(true);
+        w.setEmail(key);
+        w.setPassword(key);
+        w.setSurname("cognomeProva");
+        w.setName("NomeProva");
+        w.setSecondaryEmail("emaildiprova@hormail.it");
+        w.setDepartment("infoProva");
+        w.setLink("www.prova.it");
+        w.setTelephone("082457895");
+        w.setResearchInterest("Ricerca prova");
+        try{
+            instance.updateProfile(key, w);
+            fail("sono riuscito a fare l' op");
+        }catch(Exception e){
+            assertTrue(true);
+        }
+    }
+    
+    /**
+     * Test of updateProfile method, of class AccountManager.
+     * @throws java.lang.Exception
+     */
+    @Test
+    public void testUpdateProfileKeyFormatError() throws Exception {
+        String key="qwertyuiopqweqwertyuiopqwertyuiop";
+        PhdStudent w=(PhdStudent)ac;
+        w.setAdmin(true);
+        w.setEmail(key);
+        w.setPassword(key);
+        w.setSurname("cognomeProva");
+        w.setName("NomeProva");
+        w.setSecondaryEmail("emaildiprova@hormail.it");
+        w.setDepartment("infoProva");
+        w.setLink("www.prova.it");
+        w.setTelephone("082457895");
+        w.setResearchInterest("Ricerca prova");
+        try{
+            instance.updateProfile(key, w);
+            fail("sono riuscito a fare l' op");
+        }catch(Exception e){
+            assertTrue(true);
+        }
+    }
+    
+    /**
+     * Test of updateProfile method, of class AccountManager.
+     * @throws java.lang.Exception
+     */
+    @Test
+    public void testUpdateProfileNameMin() throws Exception {
+        String key="dinucci@hotmail.it";
+        PhdStudent w=(PhdStudent)ac;
+        w.setName("");
+        w.setAdmin(true);
+        w.setEmail(key);
+        w.setPassword(key);
+        w.setSurname("cognomeProva");
+        w.setSecondaryEmail("emaildiprova@hormail.it");
+        w.setDepartment("infoProva");
+        w.setLink("www.prova.it");
+        w.setTelephone("082457895");
+        w.setResearchInterest("Ricerca prova");
+        try{
+            instance.updateProfile(key, w);
+            fail("sono riuscito a fare l' op");
+        }catch(Exception e){
+            assertTrue(true);
+        }
+    }
+    
+    /**
+     * Test of updateProfile method, of class AccountManager.
+     * @throws java.lang.Exception
+     */
+    @Test
+    public void testUpdateProfileNameMax() throws Exception {
+        String key="dinucci@hotmail.it";
+        PhdStudent w=(PhdStudent)ac;
+        w.setName("qwertyuiopqweqweqwertyuiopqweqweqwertyuiopqweqwe");
+        w.setAdmin(true);
+        w.setEmail(key);
+        w.setPassword(key);
+        w.setSurname("cognomeProva");
+        w.setSecondaryEmail("emaildiprova@hormail.it");
+        w.setDepartment("infoProva");
+        w.setLink("www.prova.it");
+        w.setTelephone("082457895");
+        w.setResearchInterest("Ricerca prova");
+        try{
+            instance.updateProfile(key, w);
+            fail("sono riuscito a fare l' op");
+        }catch(Exception e){
+            assertTrue(true);
+        }
+    }
+    
+    /**
+     * Test of updateProfile method, of class AccountManager.
+     * @throws java.lang.Exception
+     */
+    @Test
+    public void testUpdateProfileNameFormatError() throws Exception {
+        String key="dinucci@hotmail.it";
+        PhdStudent w=(PhdStudent)ac;
+        w.setName("qw123");
+        w.setAdmin(true);
+        w.setEmail(key);
+        w.setPassword(key);
+        w.setSurname("cognomeProva");
+        w.setSecondaryEmail("emaildiprova@hormail.it");
+        w.setDepartment("infoProva");
+        w.setLink("www.prova.it");
+        w.setTelephone("082457895");
+        w.setResearchInterest("Ricerca prova");
+        try{
+            instance.updateProfile(key, w);
+            fail("sono riuscito a fare l' op");
+        }catch(Exception e){
+            assertTrue(true);
+        }
+    }
+    
+    /**
+     * Test of updateProfile method, of class AccountManager.
+     * @throws java.lang.Exception
+     */
+    @Test
+    public void testUpdateProfileSurnameMin() throws Exception {
+        String key="dinucci@hotmail.it";
+        PhdStudent w=(PhdStudent)ac;
+        w.setName("prova");
+        w.setAdmin(true);
+        w.setEmail(key);
+        w.setPassword(key);
+        w.setSurname("");
+        w.setSecondaryEmail("emaildiprova@hormail.it");
+        w.setDepartment("infoProva");
+        w.setLink("www.prova.it");
+        w.setTelephone("082457895");
+        w.setResearchInterest("Ricerca prova");
+        try{
+            instance.updateProfile(key, w);
+            fail("sono riuscito a fare l' op");
+        }catch(Exception e){
+            assertTrue(true);
+        }
+    }
+    
+    /**
+     * Test of updateProfile method, of class AccountManager.
+     * @throws java.lang.Exception
+     */
+    @Test
+    public void testUpdateProfileSurnameMax() throws Exception {
+        String key="dinucci@hotmail.it";
+        PhdStudent w=(PhdStudent)ac;
+        w.setName("prova");
+        w.setAdmin(true);
+        w.setEmail(key);
+        w.setPassword(key);
+        w.setSurname("qwertyuiopoiuytrewqwertyuiopoiuyt");
+        w.setSecondaryEmail("emaildiprova@hormail.it");
+        w.setDepartment("infoProva");
+        w.setLink("www.prova.it");
+        w.setTelephone("082457895");
+        w.setResearchInterest("Ricerca prova");
+        try{
+            instance.updateProfile(key, w);
+            fail("sono riuscito a fare l' op");
+        }catch(Exception e){
+            assertTrue(true);
+        }
+    }
+    
+    /**
+     * Test of updateProfile method, of class AccountManager.
+     * @throws java.lang.Exception
+     */
+    @Test
+    public void testUpdateProfileSurnameFormatError() throws Exception {
+        String key="dinucci@hotmail.it";
+        PhdStudent w=(PhdStudent)ac;
+        w.setName("prova");
+        w.setAdmin(true);
+        w.setEmail(key);
+        w.setPassword(key);
+        w.setSurname("wwe4");
+        w.setSecondaryEmail("emaildiprova@hormail.it");
+        w.setDepartment("infoProva");
+        w.setLink("www.prova.it");
+        w.setTelephone("082457895");
+        w.setResearchInterest("Ricerca prova");
+        try{
+            instance.updateProfile(key, w);
+            fail("sono riuscito a fare l' op");
+        }catch(Exception e){
+            assertTrue(true);
+        }
+    }
+    
+    /**
+     * Test of updateProfile method, of class AccountManager.
+     * @throws java.lang.Exception
+     */
+    @Test
+    public void testUpdateProfilePasswordMin() throws Exception {
+        String key="dinucci@hotmail.it";
+        PhdStudent w=(PhdStudent)ac;
+        w.setName("prova");
+        w.setAdmin(true);
+        w.setEmail(key);
+        w.setPassword("wewe");
+        w.setSurname("freddo");
+        w.setSecondaryEmail("emaildiprova@hormail.it");
+        w.setDepartment("infoProva");
+        w.setLink("www.prova.it");
+        w.setTelephone("082457895");
+        w.setResearchInterest("Ricerca prova");
+        try{
+            instance.updateProfile(key, w);
+            fail("sono riuscito a fare l' op");
+        }catch(Exception e){
+            assertTrue(true);
+        }
+    }
+    
+    /**
+     * Test of updateProfile method, of class AccountManager.
+     * @throws java.lang.Exception
+     */
+    @Test
+    public void testUpdateProfilePasswordMax() throws Exception {
+        String key="dinucci@hotmail.it";
+        PhdStudent w=(PhdStudent)ac;
+        w.setName("prova");
+        w.setAdmin(true);
+        w.setEmail(key);
+        w.setPassword("wewqqwqwqwqwqwqwqw");
+        w.setSurname("freddo");
+        w.setSecondaryEmail("emaildiprova@hormail.it");
+        w.setDepartment("infoProva");
+        w.setLink("www.prova.it");
+        w.setTelephone("082457895");
+        w.setResearchInterest("Ricerca prova");
+        try{
+            instance.updateProfile(key, w);
+            fail("sono riuscito a fare l' op");
+        }catch(Exception e){
+            assertTrue(true);
+        }
+    }
+    
+    /**
+     * Test of updateProfile method, of class AccountManager.
+     * @throws java.lang.Exception
+     */
+    @Test
+    public void testUpdateProfilePasswordFormatError() throws Exception {
+        String key="dinucci@hotmail.it";
+        PhdStudent w=(PhdStudent)ac;
+        w.setName("prova");
+        w.setAdmin(true);
+        w.setEmail(key);
+        w.setPassword("wewqqwqwqw");
+        w.setSurname("freddo");
+        w.setSecondaryEmail("emaildiprova@hormail.it");
+        w.setDepartment("infoProva");
+        w.setLink("www.prova.it");
+        w.setTelephone("082457895");
+        w.setResearchInterest("Ricerca prova");
+        try{
+            instance.updateProfile(key, w);
+            fail("sono riuscito a fare l' op");
+        }catch(Exception e){
+            assertTrue(true);
+        }
+    }
+    
+    /**
+     * Test of updateProfile method, of class AccountManager.
+     * @throws java.lang.Exception
+     */
+    @Test
+    public void testUpdateProfileSecEmailMin() throws Exception {
+        String key="dinucci@hotmail.it";
+        PhdStudent w=(PhdStudent)ac;
+        w.setName("prova");
+        w.setAdmin(true);
+        w.setEmail(key);
+        w.setPassword("wewqqwqwqw20");
+        w.setSurname("freddo");
+        w.setSecondaryEmail("");
+        w.setDepartment("infoProva");
+        w.setLink("www.prova.it");
+        w.setTelephone("082457895");
+        w.setResearchInterest("Ricerca prova");
+        try{
+            instance.updateProfile(key, w);
+            fail("sono riuscito a fare l' op");
+        }catch(Exception e){
+            assertTrue(true);
+        }
+    }
+    
+    /**
+     * Test of updateProfile method, of class AccountManager.
+     * @throws java.lang.Exception
+     */
+    @Test
+    public void testUpdateProfileSecEmailMax() throws Exception {
+        String key="dinucci@hotmail.it";
+        PhdStudent w=(PhdStudent)ac;
+        w.setName("prova");
+        w.setAdmin(true);
+        w.setEmail(key);
+        w.setPassword("wewqqwqwqw20");
+        w.setSurname("freddo");
+        w.setSecondaryEmail("qwertyuiopoiuytrewqwertyuiopoiuytrewqwertyuiopoiuytrrewwqqqqwrtyuuytr");
+        w.setDepartment("infoProva");
+        w.setLink("www.prova.it");
+        w.setTelephone("082457895");
+        w.setResearchInterest("Ricerca prova");
+        try{
+            instance.updateProfile(key, w);
+            fail("sono riuscito a fare l' op");
+        }catch(Exception e){
+            assertTrue(true);
+        }
+    }
+    
+    /**
+     * Test of updateProfile method, of class AccountManager.
+     * @throws java.lang.Exception
+     */
+    @Test
+    public void testUpdateProfileSecEmailFormatError() throws Exception {
+        String key="dinucci@hotmail.it";
+        PhdStudent w=(PhdStudent)ac;
+        w.setName("prova");
+        w.setAdmin(true);
+        w.setEmail(key);
+        w.setPassword("wewqqwqwqw20");
+        w.setSurname("freddo");
+        w.setSecondaryEmail("wertyuiopiuuytttt");
+        w.setDepartment("infoProva");
+        w.setLink("www.prova.it");
+        w.setTelephone("082457895");
+        w.setResearchInterest("Ricerca prova");
+        try{
+            instance.updateProfile(key, w);
+            fail("sono riuscito a fare l' op");
+        }catch(Exception e){
+            assertTrue(true);
+        }
+    }
+    
+    /**
+     * Test of updateProfile method, of class AccountManager.
+     * @throws java.lang.Exception
+     */
+    @Test
+    public void testUpdateProfileEmailInsert() throws Exception {
+        String key="dinucci@hotmail.it";
+        PhdStudent w=(PhdStudent)ac;
+        w.setName("prova");
+        w.setAdmin(true);
+        w.setEmail(key);
+        w.setPassword("wewqqwqwqw");
+        w.setSurname("freddo");
+        w.setSecondaryEmail("emaildiprova@hormail.it");
+        w.setDepartment("infoProva");
+        w.setLink("www.prova.it");
+        w.setTelephone("082457895");
+        w.setResearchInterest("Ricerca prova");
+        try{
+            instance.updateProfile(key, w);
+            fail("sono riuscito a fare l' op");
+        }catch(Exception e){
+            assertTrue(true);
+        }
+    }
+    
+    /**
+     * Test of updateProfile method, of class AccountManager.
+     * @throws java.lang.Exception
+     */
+    @Test
+    public void testUpdateProfiletelephoneMin() throws Exception {
+        String key="dinucci@hotmail.it";
+        PhdStudent w=(PhdStudent)ac;
+        w.setName("prova");
+        w.setAdmin(true);
+        w.setEmail(key);
+        w.setPassword("wewqqwqwqw");
+        w.setSurname("freddo");
+        w.setSecondaryEmail("emaildiprova@hormail.it");
+        w.setDepartment("infoProva");
+        w.setLink("www.prova.it");
+        w.setTelephone("082457895");
+        w.setResearchInterest("Ricerca prova");
+        try{
+            instance.updateProfile(key, w);
+            fail("sono riuscito a fare l' op");
+        }catch(Exception e){
+            assertTrue(true);
+        }
+    }
+    
+    /**
+     * Test of updateProfile method, of class AccountManager.
+     * @throws java.lang.Exception
+     */
+    @Test
+    public void testUpdateProfiletelephoneMax() throws Exception {
+        String key="dinucci@hotmail.it";
+        PhdStudent w=(PhdStudent)ac;
+        w.setName("prova");
+        w.setAdmin(true);
+        w.setEmail(key);
+        w.setPassword("wewqqwqwqw");
+        w.setSurname("freddo");
+        w.setSecondaryEmail("emaildiprova@hormail.it");
+        w.setDepartment("infoProva");
+        w.setLink("www.prova.it");
+        w.setTelephone("082457895998989");
+        w.setResearchInterest("Ricerca prova");
+        try{
+            instance.updateProfile(key, w);
+            fail("sono riuscito a fare l' op");
+        }catch(Exception e){
+            assertTrue(true);
+        }
+    }
+    
+    /**
+     * Test of updateProfile method, of class AccountManager.
+     * @throws java.lang.Exception
+     */
+    @Test
+    public void testUpdateProfiletelephoneFormatError() throws Exception {
+        String key="dinucci@hotmail.it";
+        PhdStudent w=(PhdStudent)ac;
+        w.setName("prova");
+        w.setAdmin(true);
+        w.setEmail(key);
+        w.setPassword("wewqqwqwqw");
+        w.setSurname("freddo");
+        w.setSecondaryEmail("emaildiprova@hormail.it");
+        w.setDepartment("infoProva");
+        w.setLink("www.prova.it");
+        w.setTelephone("082457895ssd");
+        w.setResearchInterest("Ricerca prova");
+        try{
+            instance.updateProfile(key, w);
+            fail("sono riuscito a fare l' op");
+        }catch(Exception e){
+            assertTrue(true);
+        }
+    }
+    
+    /**
+     * Test of updateProfile method, of class AccountManager.
+     * @throws java.lang.Exception
+     */
+    @Test
+    public void testUpdateProfileLinkMin() throws Exception {
+        String key="dinucci@hotmail.it";
+        PhdStudent w=(PhdStudent)ac;
+        w.setName("prova");
+        w.setAdmin(true);
+        w.setEmail(key);
+        w.setPassword("wewqqwqwqw");
+        w.setSurname("freddo");
+        w.setSecondaryEmail("emaildiprova@hormail.it");
+        w.setDepartment("infoProva");
+        w.setLink("www.va.it");
+        w.setTelephone("082457895");
+        w.setResearchInterest("Ricerca prova");
+        try{
+            instance.updateProfile(key, w);
+            fail("sono riuscito a fare l' op");
+        }catch(Exception e){
+            assertTrue(true);
+        }
+    }
+    
+    /**
+     * Test of updateProfile method, of class AccountManager.
+     * @throws java.lang.Exception
+     */
+    @Test
+    public void testUpdateProfileLinkMax() throws Exception {
+        String key="dinucci@hotmail.it";
+        PhdStudent w=(PhdStudent)ac;
+        w.setName("prova");
+        w.setAdmin(true);
+        w.setEmail(key);
+        w.setPassword("wewqqwqwqw");
+        w.setSurname("freddo");
+        w.setSecondaryEmail("emaildiprova@hormail.it");
+        w.setDepartment("infoProva");
+        w.setLink("www.vaqwertyuiopvaqwertyuiopvaqwertyuiopvaqwertyuiopvaqwertyuiopvaqwertyuiopvaqwertyuiopvaqwertyuiopvaqwertyuiopvaqwertyuiopvaqwertyuiopvaqwertyuiopvaqwertyuiopvaqwertyuiopvaqwertyuiop.it");
+        w.setTelephone("082457895");
+        w.setResearchInterest("Ricerca prova");
+        try{
+            instance.updateProfile(key, w);
+            fail("sono riuscito a fare l' op");
+        }catch(Exception e){
+            assertTrue(true);
+        }
+    }
+    
+    /**
+     * Test of updateProfile method, of class AccountManager.
+     * @throws java.lang.Exception
+     */
+    @Test
+    public void testUpdateProfileDepartmentMin() throws Exception {
+        String key="dinucci@hotmail.it";
+        PhdStudent w=(PhdStudent)ac;
+        w.setName("prova");
+        w.setAdmin(true);
+        w.setEmail(key);
+        w.setPassword("wewqqwqwqw");
+        w.setSurname("freddo");
+        w.setSecondaryEmail("emaildiprova@hormail.it");
+        w.setDepartment("infoProva");
+        w.setLink("www.provaa.it");
+        w.setTelephone("082457895");
+        w.setResearchInterest("Ricerca prova");
+        try{
+            instance.updateProfile(key, w);
+            fail("sono riuscito a fare l' op");
+        }catch(Exception e){
+            assertTrue(true);
+        }
+    }
+    
+    /**
+     * Test of updateProfile method, of class AccountManager.
+     * @throws java.lang.Exception
+     */
+    @Test
+    public void testUpdateProfileDepartmentMax() throws Exception {
+        String key="dinucci@hotmail.it";
+        PhdStudent w=(PhdStudent)ac;
+        w.setName("prova");
+        w.setAdmin(true);
+        w.setEmail(key);
+        w.setPassword("wewqqwqwqw");
+        w.setSurname("freddo");
+        w.setSecondaryEmail("emaildiprova@hormail.it");
+        w.setDepartment("infoProvaqinfoProvaqinfoProvaqinfoProvaqinfoProvaqinfoProvaq");
+        w.setLink("www.provaa.it");
+        w.setTelephone("082457895");
+        w.setResearchInterest("Ricerca prova");
+        try{
+            instance.updateProfile(key, w);
+            fail("sono riuscito a fare l' op");
+        }catch(Exception e){
+            assertTrue(true);
+        }
+    }
+    
+    /**
+     * Test of updateProfile method, of class AccountManager.
+     * @throws java.lang.Exception
+     */
+    @Test
+    public void testUpdateProfileDepartmentFormatError() throws Exception {
+        String key="dinucci@hotmail.it";
+        PhdStudent w=(PhdStudent)ac;
+        w.setName("prova");
+        w.setAdmin(true);
+        w.setEmail(key);
+        w.setPassword("wewqqwqwqw");
+        w.setSurname("freddo");
+        w.setSecondaryEmail("emaildiprova@hormail.it");
+        w.setDepartment("infoProvaqinfoPro23infoProvaqinfoProvaq");
+        w.setLink("www.provaa.it");
+        w.setTelephone("082457895");
+        w.setResearchInterest("Ricerca prova");
+        try{
+            instance.updateProfile(key, w);
+            fail("sono riuscito a fare l' op");
+        }catch(Exception e){
+            assertTrue(true);
+        }
+    }
+    
+    /**
+     * Test of updateProfile method, of class AccountManager.
+     * @throws java.lang.Exception
+     */
+    @Test
+    public void testUpdateProfileresearchInterestMin() throws Exception {
+        String key="dinucci@hotmail.it";
+        PhdStudent w=(PhdStudent)ac;
+        w.setName("prova");
+        w.setAdmin(true);
+        w.setEmail(key);
+        w.setPassword("wewqqwqwqw");
+        w.setSurname("freddo");
+        w.setSecondaryEmail("emaildiprova@hormail.it");
+        w.setDepartment("infoProvaqinfoProvaq");
+        w.setLink("www.provaa.it");
+        w.setTelephone("082457895");
+        w.setResearchInterest("");
+        try{
+            instance.updateProfile(key, w);
+            fail("sono riuscito a fare l' op");
+        }catch(Exception e){
+            assertTrue(true);
+        }
+    }
+    
     /**
      * Test of changeType method, of class AccountManager.
+     * @throws java.lang.Exception
      */
     @Test
-    public void testChangeType() throws Exception {
-        System.out.println("changeType");
-        //manca queata funz
+    public void testChangeTypeOk() throws Exception {
+        String newType="phdstudent";
+        ac.setSecondaryEmail("dracula@hotmail.it");
+        try{
+            instance.changeType(ac, newType);
+            assertTrue(true);
+        }catch(Exception e){
+            fail("non sono riuscito a fare l' op");
+        }
+    }
+    
+    /**
+     * Test of changeType method, of class AccountManager.
+     * @throws java.lang.Exception
+     */
+    @Test
+    public void testChangeTypeNewTypeNull() throws Exception {
+        String newType=null;
+        ac.setSecondaryEmail("dracula@hotmail.it");
+        try{
+            instance.changeType(ac, newType);
+            fail("sono riuscito a fare l' op");
+        }catch(Exception e){
+            assertTrue(true);
+        }
+    }
+    
+    /**
+     * Test of changeType method, of class AccountManager.
+     * @throws java.lang.Exception
+     */
+    @Test
+    public void testChangeTypeNewTypeNotDominio() throws Exception {
+        String newType="dsdd";
+        ac.setSecondaryEmail("dracula@hotmail.it");
+        try{
+            instance.changeType(ac, newType);
+            fail("sono riuscito a fare l' op");
+        }catch(Exception e){
+            assertTrue(true);
+        }
+    }
+    
+    /**
+     * Test of changeType method, of class AccountManager.
+     * @throws java.lang.Exception
+     */
+    @Test
+    public void testChangeTypeEmailNull() throws Exception {
+        String newType="phdstudent";
+        ac.setSecondaryEmail(null);
+        try{
+            instance.changeType(ac, newType);
+            fail("sono riuscito a fare l' op");
+        }catch(Exception e){
+            assertTrue(true);
+        }
+    }
+    
+    /**
+     * Test of changeType method, of class AccountManager.
+     * @throws java.lang.Exception
+     */
+    @Test
+    public void testChangeTypeEmailMax() throws Exception {
+        String newType="phdstudent";
+        ac.setSecondaryEmail("wertwertwerwertwertwerwertwertwerwertwertwerwertwertwerwertwertwer");
+        try{
+            instance.changeType(ac, newType);
+            fail("sono riuscito a fare l' op");
+        }catch(Exception e){
+            assertTrue(true);
+        }
+    }
+    
+    /**
+     * Test of changeType method, of class AccountManager.
+     * @throws java.lang.Exception
+     */
+    @Test
+    public void testChangeTypeEmailFormatError() throws Exception {
+        String newType="phdstudent";
+        ac.setSecondaryEmail("wertwertwertwerwertwertwer");
+        try{
+            instance.changeType(ac, newType);
+            fail("sono riuscito a fare l' op");
+        }catch(Exception e){
+            assertTrue(true);
+        }
+    }
+    
+    /**
+     * Test of changeType method, of class AccountManager.
+     * @throws java.lang.Exception
+     */
+    @Test
+    public void testChangeTypeEmailNotexists() throws Exception {
+        String newType="phdstudent";
+        ac.setSecondaryEmail("wertwertwe@twerwertwertwer");
+        try{
+            instance.changeType(ac, newType);
+            fail("sono riuscito a fare l' op");
+        }catch(Exception e){
+            assertTrue(true);
+        }
     }
 
     /**
