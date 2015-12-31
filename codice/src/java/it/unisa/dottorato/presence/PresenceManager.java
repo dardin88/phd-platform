@@ -98,11 +98,11 @@ public class PresenceManager {
   * @throws SQLException
   * @throws IOException 
   */ 
-   public synchronized ArrayList<Presence> getPresenceCourse(int idcorso) throws ClassNotFoundException, SQLException, IOException, IdException {
+   public synchronized Presence getPresenceCourse(String studente) throws ClassNotFoundException, SQLException, IOException, IdException {
         Connection connect = null;
         try {
-           ArrayList<Presence> corso= new ArrayList<Presence>();
-          Presence registro;
+         Presence corso = null ;
+          
             // Otteniamo una Connessione al DataBase
             connect = DBConnection.getConnection();
 
@@ -110,18 +110,15 @@ public class PresenceManager {
              * Prepariamo la stringa SQL per la ricerca dei record 
              * nella tabella presence
            */
-            String tSql = "select presence.fkPhdstudent, presence.isPresent "
-                    + "from presence,lesson where presence.fkLesson=lesson.idLesson "
-                    + "and  lesson.fkCourse="+ testid(idcorso) + " group by presence.fkPhdStudent";
+            String tSql = "select isPresent from "+PresenceManager.TABLE_Presence+
+                    " where fkPhdstudent='"+studente+"'";
             //Inviamo la Query al DataBase
             ResultSet result = Utility.queryOperation(connect, tSql);
 
-            while (result.next()) {
-                 registro = new Presence();
-                 
-                  registro.setFkPhdstudent(result.getString("fkPhdstudent"));
-                 registro.setIsPresent(result.getBoolean("isPresent"));
-                 corso.add(registro);
+         if(result.next()) {
+                 corso = new Presence();                             
+                 corso.setIsPresent(result.getBoolean("isPresent"));
+           
             }
 
             return corso;
