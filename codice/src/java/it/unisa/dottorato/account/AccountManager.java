@@ -402,6 +402,30 @@ public class AccountManager {
     }
     return null;
     }
+        
+        
+    public void updateIsAdmin(String secondaryEmail, boolean var) throws SQLException, EmailException {
+        Connection conn = null;
+        Statement stmt = null;
+        int bool;
+        if(var)
+            bool = 1;
+        else
+            bool = 0;
+
+        String sql = "UPDATE account "
+                + "set isAdministrator = " + bool
+                + " WHERE secondaryEmail = '" + testEmail(secondaryEmail)+ "'";
+        
+        try {
+            conn = DBConnection.getConnection();
+            stmt = conn.createStatement();
+            
+            stmt.executeQuery(sql);
+        } finally {
+            DBConnection.releaseConnection(conn);
+        }
+    }
        
   /** Metodo della classe incaricato alla ricerca di un utente dato il suo nome
    * 

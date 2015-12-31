@@ -76,7 +76,7 @@
                                                     <p>Autori:</p>
                                                     <div class="input-group">
                                                         <span class="input-group-addon"></span>
-                                                        <input class="form-control" name="authors" type="text" required>
+                                                        <input class="form-control" name="otherAuthors" type="text" required>
                                                     </div>
                                                     <br>
                                                     <br>
@@ -97,21 +97,21 @@
                                                     <p>Pubblication Issue:</p>
                                                     <div class="input-group">
                                                         <span class="input-group-addon"></span>
-                                                        <input class="form-control" name="issue" type="text" required>
+                                                        <input class="form-control" name="publicationIssue" type="text" required>
                                                     </div>
                                                     <br>
                                                     <br>
                                                     <p>Numero pagine:</p>
                                                     <div class="input-group">
                                                         <span class="input-group-addon"></span>
-                                                        <input class="form-control" name="numberPages" type="text" required>
+                                                        <input class="form-control" name="numberPage" type="text" required>
                                                     </div>
                                                     <br>
                                                     <br>
                                                     <p>Abstract:</p>
                                                     <div class="input-group">
                                                         <span class="input-group-addon"></span>
-                                                        <textarea class="form-control" name="abstractText" rows="5" cols="40"> </textarea>
+                                                        <textarea class="form-control" name="abstract" rows="5" cols="40"> </textarea>
                                                     </div>
                                                     <br>
 

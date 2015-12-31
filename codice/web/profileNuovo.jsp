@@ -313,7 +313,8 @@
                                                     <table class="table table-hover" width="98%" align="center" >
                                                         <thead>
                                                         <th>Luogo</th>
-                                                        <th>Descrizione</th>		
+                                                        <th>Descrizione</th>
+                                                        <th>Referenza</th>
                                                         <th>Data Di Inizio</th>
                                                         <th>Data Di Fine</th>
                                                         </thead>
@@ -322,7 +323,8 @@
 
                                                         <tr>
                                                             <td><%= mission.getPlace()%></td>
-                                                            <td><%= mission.getDescription()%></td>		
+                                                            <td><%= mission.getDescription()%></td>
+                                                            <td><%= mission.getReference()%></td>
                                                             <td><%= mission.getStartDate()%></td>
                                                             <td><%= mission.getEndDate()%></td>
 

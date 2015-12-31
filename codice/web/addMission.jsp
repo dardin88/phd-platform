@@ -82,6 +82,13 @@
                                                     </div>
                                                     <br>
                                                     <br>
+                                                    <p>Referenza:</p>
+                                                    <div class="input-group">
+                                                        <span class="input-group-addon"></span>
+                                                        <input class="form-control" name="reference" type="text" required>
+                                                    </div>
+                                                    <br>
+                                                    <br>
                                                     <p>Descrizione:</p>
                                                     <div class="input-group">
                                                         <span class="input-group-addon"></span>

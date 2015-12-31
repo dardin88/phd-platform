@@ -46,7 +46,7 @@ public class AddPublicationServlet extends HttpServlet {
                 response.setContentType("text/html;charset=UTF-8");
 
                 String title = request.getParameter("title");
-                String publicationIssue = request.getParameter("publicationIsse");
+                String publicationIssue = request.getParameter("publicationIssue");
                 String year = request.getParameter("year");
                 String numberPage = request.getParameter("numberPage");
                 String link = request.getParameter("link");
