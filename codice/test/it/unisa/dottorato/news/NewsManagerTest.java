@@ -295,49 +295,6 @@ public class NewsManagerTest {
         }
     }   
 
-    /**
-     * Test of getNewsByTypeOfTitle method, of class NewsManager.
-     * @throws java.lang.Exception
-     */
-    @Test
-    public void testGetNewsByTypeOfTitleok() throws Exception {
-        not.setTitle("Prova");
-        not.setDescription("Descrizione avviso");
-        instance.insertNews(not);
-        String str = "Prova";
-        try{
-            instance.getNewsByTypeOfTitle(str);
-            assertTrue(true);
-        }catch(Exception e){
-            fail("non sono riuscito a fare l' op");
-        }
-    }
-
-    
-    @Test
-    public void testGetNewsByTypeOfTitleMin() throws Exception {
-        String str = "";
-        try{
-            instance.getNewsByTypeOfTitle(str);
-            fail("sono riuscito a fare l' op");
-        }catch(Exception e){
-            assertTrue(true);
-        }
-    }
-    
-    
-    
-    @Test
-    public void testGetNewsByTypeOfTitleMax() throws Exception {
-        String str = "qwertyuiopqwertyuiopqwertyuiopqwertyuiopqwertyuiopqwertyuiop";
-        try{
-            instance.getNewsByTypeOfTitle(str);
-            fail("sono riuscito a fare l' op");
-        }catch(Exception e){
-            assertTrue(true);
-        }
-    }
-    
     @Test
     public void testGetAllNewsOk()throws Exception{
         try{

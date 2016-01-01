@@ -214,67 +214,7 @@ private static final String TABLE_News = "news";
         Logger.getLogger(NewsManager.class.getName()).log(Level.SEVERE, null, ex);
     }
     }
-     
-   
-   
-    /** Metodo della classe incaricato di ricercare news dato il titolo
-     * 
-     * @param title titolo delle news da ricercare
-     * @return restituisce un array list di news, lancia un'eccezione altrimenti
-     * @throws SQLException
-     * @throws it.unisa.integrazione.database.exception.ConnectionException 
-     */
-    public ArrayList<News> getNewsByTypeOfTitle(String title) throws SQLException, it.unisa.integrazione.database.exception.ConnectionException {
-        Statement stmt = null;
-        ResultSet rs = null;
-        Connection connection = null;
-        News avviso = new News();
-        ArrayList<News> listAvviso = new ArrayList<News>();
- try {
-            /*
-             *stringa SQL per effettuare la ricerca nella 
-             * tabella news
-             */
-            String sql= "select * from "
-                + NewsManager.TABLE_News
-                +"where title= '" + testTitle(title) + "'";
-            //connessione al database
-            connection = DBConnection.getConnection();
 
-            if (connection == null) {
-                throw new it.unisa.integrazione.database.exception.ConnectionException();
-            }
-            //esecuzione query
-            stmt = connection.createStatement();
-            rs  = Utility.queryOperation(connection, sql);
-
-            while (rs.next()) {
-                avviso = new News();
-                avviso.setId(rs.getInt("idNews"));
-                avviso.setTitle(rs.getString("title"));
-                avviso.setDescription(rs.getString("description"));
-                  listAvviso.add(avviso);
-
-            }
-        } catch (TitleException ex) {
-        Logger.getLogger(NewsManager.class.getName()).log(Level.SEVERE, null, ex);
-    }  finally {
-
-            if (rs != null) {
-                rs.close();
-            }
-            if (stmt != null) {
-                stmt.close();
-            }
-            if (connection != null) {
-                connection.close();
-            }
-        }
-
-        return listAvviso;
-    }
-    
-    
     /** Metodo della classe incaricato di visualizzare tutte le news 
      * presenti nella piattaforma
      * 
