@@ -50,6 +50,7 @@ public class PresenceManager {
   
    /** Metodo della classe incaricato di ritornare la lista delle presenze di una lezione
     * 
+     * @param lesson
     * @return restituisce un array list di presenze, lancia un'eccezione altrimenti
     * @throws ClassNotFoundException
     * @throws SQLException
@@ -58,7 +59,7 @@ public class PresenceManager {
   public synchronized ArrayList<Presence> getPresenceList(int lesson) throws ClassNotFoundException, SQLException, IOException, IdException {
         Connection connect = null;
         try {
-            ArrayList<Presence> classList = new ArrayList<Presence>();
+            ArrayList<Presence> classList = new ArrayList <Presence>();
           Presence registro;
             // Otteniamo una Connessione al DataBase
             connect = DBConnection.getConnection();
@@ -93,6 +94,7 @@ public class PresenceManager {
    
  /**  Metodo della classe incaricato di ritornare una lista delle presenze di un corso
   * 
+     * @param studente
   * @return restituisce un array list di presenze, lancia un'eccezione altrimenti
   * @throws ClassNotFoundException
   * @throws SQLException
