@@ -47,13 +47,13 @@ function selectedItem()
 
 
 function mostraPresenze(){
-    selected = $("#Lezioneprofessore option:selected").val();
-    if (selected !== "default") //se il valore della select è default non mostriamo il div contenente le informazioni delle date delle lezioni
+    selected1 = $("#Lezioneprofessore option:selected").val();
+    if (selected1 !== "default") //se il valore della select è default non mostriamo il div contenente le informazioni delle date delle lezioni
     {   
         $("#resultbody tr").remove();
         $("#results").show();
-        selected = $("#Lezioneprofessore option:selected").val();
-    $.getJSON("GetPresence",{fkLesson: selected}, function (data) { 
+        selected1 = $("#Lezioneprofessore option:selected").val();
+    $.getJSON("GetPresence",{fkLesson: selected1}, function (data) { 
            
         
         $.each(data.presence, function (index, value) { 
@@ -75,6 +75,7 @@ function mostraPresenze(){
 
 
 function changePresenza(id) {
+    
     $.getJSON("GetPresenceCourse",{fkPhdstudent:id},function(data){
     
         
@@ -85,7 +86,7 @@ function changePresenza(id) {
         
       
 });
-    $.getJSON("ModifyPresence",{fkPhdstudent:id}, function (data) { 
+    $.getJSON("ModifyPresence",{fkPhdstudent:id,fkLesson:selected1}, function (data) { 
     alert(data);
     });
     
