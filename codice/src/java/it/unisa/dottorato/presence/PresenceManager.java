@@ -100,8 +100,9 @@ public class PresenceManager {
   */ 
    public synchronized Presence getPresenceCourse(String studente) throws ClassNotFoundException, SQLException, IOException, IdException {
         Connection connect = null;
+        Presence corso = null ;
         try {
-         Presence corso = null ;
+         
           
             // Otteniamo una Connessione al DataBase
             connect = DBConnection.getConnection();
@@ -111,7 +112,7 @@ public class PresenceManager {
              * nella tabella presence
            */
             String tSql = "select isPresent from "+PresenceManager.TABLE_Presence+
-                    " where fkPhdstudent='"+studente+"'";
+                    " where fkPhdstudent='"+testDottorando(studente)+"'";
             //Inviamo la Query al DataBase
             ResultSet result = Utility.queryOperation(connect, tSql);
 
@@ -123,9 +124,12 @@ public class PresenceManager {
 
             return corso;
 
-        }  finally {
+        } catch (PhdStudentexception ex) {
+          Logger.getLogger(PresenceManager.class.getName()).log(Level.SEVERE, null, ex);
+      }  finally {
             DBConnection.releaseConnection(connect);
         }
+        return corso;
     }
   
    /**  Metodo della classe incaricato di ritornare la lista delle presenze di una lezione
@@ -201,7 +205,7 @@ public class PresenceManager {
    
    }
    public String testDottorando(String title) throws PhdStudentexception{
-        if(title.equals("") ||(title.length()>50)|| (title.indexOf("@")==-1)){
+        if((title.length()<1) || title.equals("") ||(title.length()>50)|| (title.indexOf("@")==-1)){
             
             throw new PhdStudentexception("l'email del dottorando e' sbagliata "); 
         }
