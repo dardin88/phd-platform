@@ -39,7 +39,7 @@ public class GetPresenceListServlet extends HttpServlet{
             JSONObject result = new JSONObject();
             try {
               int idLesson = Integer.parseInt(request.getParameter("fkLesson"));
-                ArrayList<> presence = PresenceManager.getInstance().getPresenceList(idLesson);
+                ArrayList<Presence> presence = PresenceManager.getInstance().getPresenceList(idLesson);
                
                 JSONArray resultArray = new JSONArray(presence);
                 result.put("presence", resultArray);
