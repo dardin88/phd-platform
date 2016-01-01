@@ -44,7 +44,8 @@ public class ModifyPresenceServlet extends HttpServlet{
             
    
             String fkPhdstudent = request.getParameter("fkPhdstudent");
-           PresenceManager.getInstance().modifyPresence(fkPhdstudent);
+            int idLesson=Integer.parseInt(request.getParameter("fkLesson"));
+           PresenceManager.getInstance().modifyPresence(fkPhdstudent,idLesson);
             
        result.put("result",true);
            

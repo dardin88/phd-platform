@@ -6,6 +6,7 @@ import java.io.IOException;
 import java.sql.Connection;
 import java.sql.ResultSet;
 import java.sql.SQLException;
+import java.sql.Statement;
 import java.util.ArrayList;
 import java.util.logging.Level;
 import java.util.logging.Logger;
@@ -47,7 +48,48 @@ public class PresenceManager {
         }
         return instance;
     }
+   /**
+    * Metodo della classe incaricato di inserire la presenza  di un dottorando  una lezione
+    * 
+    * @param dottorando
+    * @throws SQLException 
+    */
+   public void insertPresence(Presence dottorando) throws SQLException{
+        //connessione al database
+        Connection connect = DBConnection.getConnection();
+     try {
+            /*
+             *stringa SQL per effettuare l'inserimento nella 
+             * tabella news
+             */
+             String tSql = "INSERT INTO "
+                    + PresenceManager.TABLE_Presence
+                    + "(fkPhdstudent,fkLesson,isPresent)"
+                    + " VALUES ('"
+                    + Utility.Replace(dottorando.getFkPhdstudent())
+                    + "',"
+                    + testid(dottorando.getFkLesson())
+                    + ","
+                    + " false "
+                    + ")";      
+            
+            System.out.println(tSql);
+            //esecuzione query
+            Statement stmt = connect.createStatement();
+            stmt.executeUpdate(tSql);
+            connect.commit();
+        }
+      catch (IdException ex) {
+          Logger.getLogger(PresenceManager.class.getName()).log(Level.SEVERE, null, ex);
+      }          finally {
+            DBConnection.releaseConnection(connect);
+        }
+    }
+
+   
+   
   
+   
    /** Metodo della classe incaricato di ritornare la lista delle presenze di una lezione
     * 
      * @param lesson
@@ -56,7 +98,9 @@ public class PresenceManager {
     * @throws SQLException
     * @throws IOException 
     */
-  public synchronized ArrayList<Presence> getPresenceList(int lesson) throws ClassNotFoundException, SQLException, IOException, IdException {
+  
+   
+   public synchronized ArrayList<Presence> getPresenceList(int lesson) throws ClassNotFoundException, SQLException, IOException, IdException {
         Connection connect = null;
         try {
             ArrayList<Presence> classList = new ArrayList <Presence>();
@@ -69,14 +113,18 @@ public class PresenceManager {
              * nella tabella presence
              */
             String tSql = "SELECT name, surname ,isPresent FROM account,presence "
-                    + " WHERE secondaryEmail = fkPhdstudent and fkLesson= "+ testid(lesson);
+                    + " WHERE secondaryEmail = fkPhdstudent and fkLesson= "+testid(lesson);
 
             //Inviamo la Query al DataBase
             ResultSet result = Utility.queryOperation(connect, tSql);
 
             while (result.next()) {
+                /*String  nome =result.getString("name");
+                String surname= result.getString("surname");
+                boolean isPresent=result.getBoolean("isPresent");
+                */
                  registro = new Presence();
-                  registro.setFkPhdstudent(result.getString("name"));
+                  registro.setFkPhdstudent(result.getString("fkphdStudent"));
                   registro.setFkLesson(result.getInt("fkLesson"));
                  registro.setIsPresent(result.getBoolean("isPresent"));
 
@@ -178,10 +226,11 @@ public class PresenceManager {
    }
    
    /**  Metodo della classe incaricato di modificare una presenza
-    *  @param dottorando 
-    * @throws ExceptionPermissionDenied 
+    *  @param dottorando
+    *  @param  idLesson
+    * @throws IdException
     */
-   public void modifyPresence(String dottorando ) throws SQLException, ExceptionPermissionDenied, PhdStudentexception {
+   public void modifyPresence(String dottorando,int idLesson ) throws SQLException, ExceptionPermissionDenied, PhdStudentexception {
        try (Connection connect = DBConnection.getConnection()) {
           
      /*
@@ -191,9 +240,11 @@ public class PresenceManager {
             String tSql = "UPDATE "
                    +  PresenceManager.TABLE_Presence
                     +" set isPresent = "
-                    + changeSignatura(dottorando)
+                    + changeSignatura(dottorando,idLesson)
                      + " WHERE fkPhdstudent = '"
-                    + testDottorando(dottorando)+"'"; 
+                    + testDottorando(dottorando)+"' "
+                    + " and fkLesson = "
+                    + testid(idLesson); 
             
             
 
@@ -201,7 +252,9 @@ public class PresenceManager {
             Utility.executeOperation(connect, tSql);
 
             connect.commit();
-        } catch (IOException ex) {
+        } catch (IdException ex) {
+          Logger.getLogger(PresenceManager.class.getName()).log(Level.SEVERE, null, ex);
+      } catch (IOException ex) {
           Logger.getLogger(PresenceManager.class.getName()).log(Level.SEVERE, null, ex);
       }
    
@@ -220,28 +273,33 @@ public class PresenceManager {
         }
         return id;
     }  
-
-    private  boolean changeSignatura(String dottorando)  throws SQLException, IOException, PhdStudentexception {
-         try (Connection connect = DBConnection.getConnection()) {
+/** metodo incaricato di cambiare la presenza di un  dottorando  ad una lezione
+ * 
+ *
+ */
+    private  boolean changeSignatura(String dottorando,int idLesson)  throws SQLException, IOException, PhdStudentexception, IdException {
+          boolean controllo=false;
+        try (Connection connect = DBConnection.getConnection()) {
            
              String tSql = "SELECT isPresent FROM  "
                     + PresenceManager.TABLE_Presence
                     + " where fkPhdstudent = '"
-                    + testDottorando(dottorando)+" '";
+                    + testDottorando(dottorando)+"' and fkLesson = "
+                     + testid(idLesson);
             //Inviamo la Query al DataBase
              ResultSet result = Utility.queryOperation(connect, tSql);
-            boolean controllo;
-              if(controllo=result.next()){
-                 System.out.println(controllo);
-             if(controllo!=true){  
-                  System.out.println(controllo);
-               controllo=true;
-            }
+            
+            if (result.next()){
+             controllo=result.getBoolean("isPresent");
+               if(controllo!=true){  
+                 
+             controllo=true;}
+            
              else controllo=false;
-              }
+            }
             connect.commit();
             return controllo;
-        } 
+        }
     }
    
 }
