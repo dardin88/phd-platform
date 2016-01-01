@@ -172,10 +172,7 @@ public class PresenceManager {
    }
    
    /**  Metodo della classe incaricato di modificare una presenza
-    * 
-    * @param signature valore booleano
-    * @param old  presenza da modificare
-    * @throws SQLException
+    *  @param dottorando 
     * @throws ExceptionPermissionDenied 
     */
    public void modifyPresence(String dottorando ) throws SQLException, ExceptionPermissionDenied, PhdStudentexception {
@@ -204,7 +201,7 @@ public class PresenceManager {
    
    }
    public String testDottorando(String title) throws PhdStudentexception{
-        if(title.equals("")&&title.length()>50){
+        if(title.equals("") ||(title.length()>50)|| (title.indexOf("@")==-1)){
             
             throw new PhdStudentexception("l'email del dottorando e' sbagliata "); 
         }
@@ -212,7 +209,7 @@ public class PresenceManager {
     }
   
    public int testid(int id) throws IdException {
-        if(id<0){
+        if(id<0 || id>999999){
             throw new IdException("l'id non puo' essere minore di 0");
         }
         return id;
