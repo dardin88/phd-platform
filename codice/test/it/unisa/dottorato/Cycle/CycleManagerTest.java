@@ -9,6 +9,9 @@ import it.unisa.dottorato.Curriculum.Curriculum;
 import it.unisa.dottorato.Curriculum.CurriculumManager;
 import it.unisa.dottorato.account.Professor;
 import it.unisa.dottorato.curriculumcic.Curriculumcic;
+import it.unisa.dottorato.exception.NameException;
+import java.io.IOException;
+import java.sql.SQLException;
 import java.util.ArrayList;
 import org.junit.After;
 import org.junit.Before;
@@ -101,22 +104,6 @@ public class CycleManagerTest {
     public void testInsertCycleYearFormatError() throws Exception {
         c.setYear("2a£d");
         c.setDescription("prova");
-        try{
-            instance.insertCycle(c);
-            fail("sono riuscito a fare l' op"); 
-        }catch (Exception e){
-            assertTrue(true);
-        }
-    }
-    
-    /**
-     * Test of insertCycle method, of class CycleManager.
-     * @throws java.lang.Exception
-     */
-    @Test
-    public void testInsertCycleDescriptionMax() throws Exception {
-        c.setYear("2015");
-        c.setDescription(testsup65536());
         try{
             instance.insertCycle(c);
             fail("sono riuscito a fare l' op"); 
@@ -236,23 +223,6 @@ public class CycleManagerTest {
         int Number = 15;
         c.setYear("e$%!");
         c.setDescription("prova update ciclo 15");
-        try{
-            instance.updateCycle(Number, c);
-            fail("sono riuscito a fare l' op");
-        }catch (Exception e){
-            assertTrue(true);
-        }
-    }
-    
-    /**
-     * Test of updateCycle method, of class CycleManager.
-     * @throws java.lang.Exception
-     */
-    @Test
-    public void testUpdateCycleDescriptionMax() throws Exception {
-        int Number = 15;
-        c.setYear("2015");
-        c.setDescription(testsup65536());
         try{
             instance.updateCycle(Number, c);
             fail("sono riuscito a fare l' op");
@@ -516,7 +486,7 @@ public class CycleManagerTest {
      */
     @Test
     public void testDeleteCycleOk() throws Exception {
-        int number = 15;
+        int number = 17;
         try{
             instance.deleteCycle(number);
             assertTrue(true);
@@ -821,7 +791,7 @@ public class CycleManagerTest {
         try{
             instance.insertCurriculumcic(pCurriculumcic);
             fail("sono riuscito ad effettuare l' op");
-        }catch(Exception e){
+        }catch(ClassNotFoundException | SQLException | IOException | NameException e){
             assertTrue(true);
         }
     }
@@ -907,7 +877,7 @@ public class CycleManagerTest {
         try{
             instance.deleteCurriculumcic(fkCycle, fkCurriculum);
             fail("sono riuscito a fare l' op");
-        }catch(Exception e){
+        }catch(ClassNotFoundException | SQLException | IOException e){
             assertTrue(true);
         }
     }
@@ -957,7 +927,7 @@ public class CycleManagerTest {
         try{
             instance.deleteCurriculumcic(fkCycle, fkCurriculum);
             fail("sono riuscito a fare l' op");
-        }catch(Exception e){
+        }catch(ClassNotFoundException | SQLException | IOException e){
             assertTrue(true);
         }
     }
@@ -1053,12 +1023,5 @@ public class CycleManagerTest {
             assertTrue(true);
         }
     }
-    
-    private String testsup65536() {
-        String str="dsdffdffdf";
-        for(int e=0; e<6600; e++)
-            str=str.concat(str);
-        return str;
-    }
-    
+
 }

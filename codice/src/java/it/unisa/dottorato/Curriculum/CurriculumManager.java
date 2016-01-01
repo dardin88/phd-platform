@@ -280,7 +280,7 @@ public class CurriculumManager {
      * @throws NameException 
      */
     public String testName(String name) throws NameException {
-        if(name.isEmpty() || name.length() > 100) 
+        if(name.isEmpty() || (name.length() > 100)) 
             throw new NameException();
         return name;
     }

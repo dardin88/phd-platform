@@ -507,9 +507,10 @@ public class CycleManager {
      * @throws java.lang.ClassNotFoundException
      * @throws java.sql.SQLException
      * @throws java.io.IOException
+     * @throws it.unisa.dottorato.exception.NameException
      */
     public synchronized void insertCurriculumcic(Curriculumcic pCurriculumcic) throws 
-            ClassNotFoundException, SQLException, IOException {
+            ClassNotFoundException, SQLException, IOException, NameException {
         Connection connect=null;
         try{
             connect = DBConnection.getConnection(); 
