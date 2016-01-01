@@ -7,11 +7,7 @@ package it.unisa.dottorato.news;
 
 import it.unisa.dottorato.news.News;
 import java.sql.SQLException;
-import java.text.DateFormat;
-import java.text.ParseException;
-import java.text.SimpleDateFormat;
-import java.util.Date;
-import java.util.List;
+import java.util.ArrayList;
 import org.junit.After;
 import org.junit.AfterClass;
 import org.junit.Before;
@@ -339,6 +335,16 @@ public class NewsManagerTest {
             fail("sono riuscito a fare l' op");
         }catch(Exception e){
             assertTrue(true);
+        }
+    }
+    
+    @Test
+    public void testGetAllNewsOk()throws Exception{
+        try{
+            ArrayList<News> result=instance.getAllNews();
+            assertNotNull(not);
+        }catch(Exception e){
+            fail("non sono riuscito a fare l' op");
         }
     }
 }
