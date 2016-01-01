@@ -103,23 +103,6 @@ public class CurriculumManagerTest {
             assertTrue(true);    
         }
     }
-    
-     /**
-     * Test of insert method, of class CurriculumManager.
-     * @throws java.lang.Exception
-     */
-    @Test
-    public void testInsertMaxDecription() throws Exception {
-        cur.setName("Curriculumtest");
-        cur.setDescription(testsup65536());
-        try{
-            instance.insert(cur);
-            fail("sono riuscito a fare l' op");
-        }catch(Exception x){
-            assertTrue(true);    
-        }
-        
-    }
    
     
     /**
@@ -225,22 +208,6 @@ public class CurriculumManagerTest {
         }
     }
     
-     /**
-     * Test of update method, of class CurriculumManager.
-     * @throws java.lang.Exception
-     */
-    @Test
-    public void testUpdateDescriptionmax() throws Exception {
-        String oldNameCurriculum = "Marketing e Comunicazione";
-        cur.setName("curriculum prova update");
-        cur.setDescription(testsup65536());
-         try{
-            instance.update(oldNameCurriculum, cur);
-            fail("sono riuscito a fare l' op");
-        }catch(Exception x){
-            assertTrue(true);    
-        }
-    }
     
     /**
      * Test of delete method, of class CurriculumManager.

@@ -64,17 +64,14 @@ public class NewsManagerTest {
      */
     @Test
     public void testInsertNewsok() throws Exception {
-        
         not.setId(1);
         not.setTitle("Prova di avviso");
         not.setDescription("Descrizione avviso");
-       
-        
-         try{
+        try{
             instance.insertNews(not);
-            fail("sono riuscito a fare l' op");
-        }catch(Exception x){
             assertTrue(true);
+        }catch(Exception x){
+            fail(" non sono riuscito a fare l' op");
         }
     }
     
@@ -94,7 +91,7 @@ public class NewsManagerTest {
     
      @Test
     public void testInsertIdMaxNews() throws Exception {
-        not.setId(supint100());
+        not.setId(1000000);
            
          try{
             instance.insertNews(not);
@@ -103,19 +100,6 @@ public class NewsManagerTest {
             assertTrue(true);
         }
     }
-    
-    
-    @Test
-    public void testInsertIdFormatNews() throws Exception {
-        not.setId(testint("@[%$%EGER]"));           
-         try{
-            instance.insertNews(not);
-            fail("sono riuscito a fare l' op");
-        }catch(Exception x){
-            assertTrue(true);
-        }
-    }
-    
     
     @Test
     public void testInsertTitleMinNews() throws Exception {
@@ -133,7 +117,7 @@ public class NewsManagerTest {
     @Test
     public void testInsertTitleMaxNews() throws Exception {
         not.setId(1);          
-        not.setTitle(testsup100());
+        not.setTitle("qwertyuiopqwertyuiopqwertyuiopqwertyuiopqwertyuiopqwertyuiop");
          try{
             instance.insertNews(not);
             fail("sono riuscito a fare l' op");
@@ -155,28 +139,13 @@ public class NewsManagerTest {
             assertTrue(true);
         }
     }
-    
-    
-    @Test
-    public void testInsertDescriptionMaxNews() throws Exception {
-        not.setId(1);          
-        not.setTitle("Titolo avviso");
-        not.setDescription(testsup100());
-         try{
-            instance.insertNews(not);
-            fail("sono riuscito a fare l' op");
-        }catch(Exception x){
-            assertTrue(true);
-        }
-    }
-    
 
     /**
      * Test of getNewsById method, of class NewsManager.
      */
     @Test
     public void testGetNewsByIdok() throws Exception {
-         int number = 15;
+        int number = 1;
         try{
             instance.getNewsById(number);
             assertTrue(true);
@@ -184,7 +153,6 @@ public class NewsManagerTest {
             fail("non sono riuscito a fare l' op");
         }
     }
-
     
     @Test
     public void testGetNewsByIdMin() throws Exception {
@@ -215,13 +183,7 @@ public class NewsManagerTest {
      */
     @Test
     public void testDeleteNewsok() throws SQLException {
-       News pnew = new News();
-        pnew.setId(1);
-        pnew.setTitle("Prova titolo");
-        pnew.setDescription("Prova descrizione");
-        instance.insertNews(pnew);
-        int id = 1;
-        
+       int id=2;      
         try{
             instance.deleteNews(id);
             assertTrue(true);
@@ -233,17 +195,12 @@ public class NewsManagerTest {
     
      @Test
     public void testDeleteNewsIdMin() throws SQLException {
-       News pnew = new News();
-        pnew.setId(-1);
-        
-        instance.insertNews(pnew);
         int id = -1;
-        
         try{
             instance.deleteNews(id);
-            assertTrue(true);
+            fail("sono riuscito a fare l' op");
         }catch(Exception e){
-            fail("non sono riuscito a fare l' op");
+            assertTrue(true);
         }
     }
 
@@ -251,16 +208,12 @@ public class NewsManagerTest {
     
     @Test
     public void testDeleteNewsIdMax() throws SQLException {
-       News pnew = new News();
-        pnew.setId(20000);
-        instance.insertNews(pnew);
         int id = 20000;
-        
         try{
             instance.deleteNews(id);
-            assertTrue(true);
+            fail("sono riuscito a fare l' op");
         }catch(Exception e){
-            fail("non sono riuscito a fare l' op");
+            assertTrue(true);
         }
     }
     
@@ -270,11 +223,11 @@ public class NewsManagerTest {
      */
     @Test
     public void testUpdate_newsok() throws Exception {
-        int Number = 15;
+        int Number = 1;
         not.setTitle("Prova");
-       not.setDescription("Prova descrizione");
+        not.setDescription("Prova descrizione");
         try{
-             instance.update_news(Number,not);
+            instance.update_news(Number,not);
             assertTrue(true);
         }catch (Exception e){
             fail("non sono riuscito a fare l' op");
@@ -288,9 +241,9 @@ public class NewsManagerTest {
         not.setTitle("");
         try{
              instance.update_news(Number,not);
-            assertTrue(true);
+             fail("sono riuscito a fare l' op");
         }catch (Exception e){
-            fail("non sono riuscito a fare l' op");
+            assertTrue(true);
         }
     }
     
@@ -298,12 +251,12 @@ public class NewsManagerTest {
     @Test
     public void testUpdate_newsTitleMax() throws Exception {
         int Number = 15;
-        not.setTitle(testsup100());
+        not.setTitle("qwertyuiopqwertyuiopqwertyuiopqwertyuiopqwertyuiopqwertyuiop");
         try{
-             instance.update_news(Number,not);
-            assertTrue(true);
+            instance.update_news(Number,not);
+            fail("sono riuscito a fare l' op");
         }catch (Exception e){
-            fail("non sono riuscito a fare l' op");
+            assertTrue(true);
         }
     }
     
@@ -313,62 +266,49 @@ public class NewsManagerTest {
         int Number = -1;
         not.setId(Number);
         try{
-             instance.update_news(Number,not);
-            assertTrue(true);
+            instance.update_news(Number,not);
+            fail("sono riuscito a fare l' op");
         }catch (Exception e){
-            fail("non sono riuscito a fare l' op");
+            assertTrue(true);
         }
     }
     
     
     @Test
     public void testUpdate_newsIdMax() throws Exception {
-        int Number = 2000;
+        int Number = 2000000;
         not.setId(Number);
         try{
-             instance.update_news(Number,not);
-            assertTrue(true);
+            instance.update_news(Number,not);
+            fail("sono riuscito a fare l' op");
         }catch (Exception e){
-            fail("non sono riuscito a fare l' op");
+            assertTrue(true);
         }
     }
-    
     
     @Test
     public void testUpdate_newsDescriptionMin() throws Exception {
         int Number = 2000;
         not.setTitle("Prova");
-        not.setDescription("");
+        not.setDescription(null);
         try{
              instance.update_news(Number,not);
             assertTrue(true);
         }catch (Exception e){
             fail("non sono riuscito a fare l' op");
         }
-    }
-    
-    
-    @Test
-    public void testUpdate_newsDescriptionMax() throws Exception {
-        int Number = 2000;
-        not.setTitle("Prova");
-        not.setDescription(testsup100());
-        try{
-             instance.update_news(Number,not);
-            assertTrue(true);
-        }catch (Exception e){
-            fail("non sono riuscito a fare l' op");
-        }
-    }
-    
-    
+    }   
 
     /**
      * Test of getNewsByTypeOfTitle method, of class NewsManager.
+     * @throws java.lang.Exception
      */
     @Test
     public void testGetNewsByTypeOfTitleok() throws Exception {
-           String str = "Prova";
+        not.setTitle("Prova");
+        not.setDescription("Descrizione avviso");
+        instance.insertNews(not);
+        String str = "Prova";
         try{
             instance.getNewsByTypeOfTitle(str);
             assertTrue(true);
@@ -380,12 +320,12 @@ public class NewsManagerTest {
     
     @Test
     public void testGetNewsByTypeOfTitleMin() throws Exception {
-           String str = "";
+        String str = "";
         try{
             instance.getNewsByTypeOfTitle(str);
-            assertTrue(true);
+            fail("sono riuscito a fare l' op");
         }catch(Exception e){
-            fail("non sono riuscito a fare l' op");
+            assertTrue(true);
         }
     }
     
@@ -393,41 +333,12 @@ public class NewsManagerTest {
     
     @Test
     public void testGetNewsByTypeOfTitleMax() throws Exception {
-           String str = testsup100();
+        String str = "qwertyuiopqwertyuiopqwertyuiopqwertyuiopqwertyuiopqwertyuiop";
         try{
             instance.getNewsByTypeOfTitle(str);
-            assertTrue(true);
+            fail("sono riuscito a fare l' op");
         }catch(Exception e){
-            fail("non sono riuscito a fare l' op");
+            assertTrue(true);
         }
-    }
-    
-    
-    // metodi di utilità
-    
-    public Date convertStringToDate(String dateString) throws ParseException
-{
-    DateFormat df = new SimpleDateFormat ("dd/M/yyyy");
-    df.setLenient (false);
-    Date d = df.parse (dateString);
-    return d;
-}
-    private String testsup100() {
-        String c="dsdff";
-        for(int e=0; e<200; e++)
-            c=c.concat(c);
-        return c;
-    }
-    
-    private int testint(String str){
-    int num;
-    num = Integer.parseInt(str);
-    return num;
-    }
-    
-    private int supint100(){
-        int c=444;
-        
-        return c^36435356;
     }
 }
