@@ -1,5 +1,6 @@
 package it.unisa.dottorato.account;
 
+import it.unisa.dottorato.Tutorate.UpdateTutorServlet;
 import it.unisa.dottorato.autenticazione.EmailException;
 import it.unisa.integrazione.database.exception.ConnectionException;
 import java.io.IOException;
@@ -13,6 +14,8 @@ import javax.servlet.annotation.WebServlet;
 import javax.servlet.http.HttpServlet;
 import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpServletResponse;
+import org.json.JSONException;
+import org.json.JSONObject;
 
 /**Servlet incaricata ad effettuare la richiesta di aggiornamento di un tipo di account
  * di un account
@@ -39,21 +42,36 @@ public class ChangeTypeServlet extends HttpServlet {
      * @throws EmailException if an email error occurs
      */
     protected void processRequest(HttpServletRequest request, HttpServletResponse response)
-            throws ServletException, IOException, SQLException, ConnectionException, NullAccountException, EmailException {
+            throws ServletException, IOException, SQLException, ConnectionException, NullAccountException, EmailException, ClassNotFoundException, JSONException {
         
-        AccountManager manager = AccountManager.getInstance();
-        ArrayList<Account> accounts = manager.getAccountList();
+        response.setContentType("text/html;charset=UTF-8");
         PrintWriter out = response.getWriter();
-        String index = request.getParameter("index"); // da integrare con l'interfaccia
-        String newType = request.getParameter("newType"); // idem 
-        manager.changeType(accounts.get(Integer.parseInt(index)), newType);
-        
-         out.println("<script type=\"text/javascript\">");
-         out.println("alert('La modifica è andata a buon fine');");
-         out.println("location='amministrazione.jsp';"); //
-         out.println("</script>");
-    
+        try {
+
+            JSONObject result = new JSONObject();
+
+            String email = request.getParameter("userEmail");
+            String newType = request.getParameter("newType");
+
+            result.put("result", true);
+
+            try {
+                AccountManager.getInstance().changeType(email, newType);
+
+            } catch (ClassNotFoundException | SQLException ex) {
+                result.put("result", false);
+                Logger.getLogger(ChangeTypeServlet.class.getName()).log(Level.SEVERE, null, ex);
+            }
+
+            out.write(result.toString());
+
+        } catch (JSONException ex) {
+            Logger.getLogger(ChangeTypeServlet.class.getName()).log(Level.SEVERE, null, ex);
+        } finally {
+            out.close();
+        }
     }
+    
     
     // <editor-fold defaultstate="collapsed" desc="HttpServlet methods. Click on the + sign on the left to edit the code.">
     /**
@@ -68,21 +86,13 @@ public class ChangeTypeServlet extends HttpServlet {
     @Override
     protected void doGet(HttpServletRequest request, HttpServletResponse response)
             throws ServletException, IOException {
+      
         try {
-            try {
-                try {
-                    processRequest(request, response);
-                } catch (NullAccountException ex) {
-                    Logger.getLogger(ChangeTypeServlet.class.getName()).log(Level.SEVERE, null, ex);
-                } catch (EmailException ex) {
-                    Logger.getLogger(ChangeTypeServlet.class.getName()).log(Level.SEVERE, null, ex);
-                }
-            } catch (SQLException ex) {
-                Logger.getLogger(ChangeTypeServlet.class.getName()).log(Level.SEVERE, null, ex);
-            }
-        } catch (ConnectionException ex) {
+            processRequest(request, response);
+        } catch (SQLException | ConnectionException | NullAccountException | EmailException | ClassNotFoundException | JSONException ex) {
             Logger.getLogger(ChangeTypeServlet.class.getName()).log(Level.SEVERE, null, ex);
         }
+               
     }
 
     /**
@@ -98,13 +108,7 @@ public class ChangeTypeServlet extends HttpServlet {
             throws ServletException, IOException {
         try {
             processRequest(request, response);
-        } catch (SQLException ex) {
-            Logger.getLogger(ChangeTypeServlet.class.getName()).log(Level.SEVERE, null, ex);
-        } catch (ConnectionException ex) {
-            Logger.getLogger(ChangeTypeServlet.class.getName()).log(Level.SEVERE, null, ex);
-        } catch (NullAccountException ex) {
-            Logger.getLogger(ChangeTypeServlet.class.getName()).log(Level.SEVERE, null, ex);
-        } catch (EmailException ex) {
+        } catch (SQLException | ConnectionException | NullAccountException | EmailException | ClassNotFoundException | JSONException ex) {
             Logger.getLogger(ChangeTypeServlet.class.getName()).log(Level.SEVERE, null, ex);
         }
     }
