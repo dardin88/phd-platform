@@ -59,7 +59,7 @@ function mostraPresenze(){
         
         $.each(data.presence, function (index, value) { 
           
-             dottorando="<tr > <td id=" +  value.fkPhdstudent + "> "+ value.fkPhdstudent+" </td>   <td> <input type='checkbox'    id=" +  value.fkPhdstudent + " onclick='changePresenza(" + 'id' + ")'  class='checkboxclass' ></td></tr>";
+             dottorando="<tr > <td > "+ value.fkPhdstudent+" </td>   <td id=" +  value.isPresent + " class='checkboxclass' > <input type='checkbox'    id=" +  value.fkPhdstudent + " onclick='changePresenza(" + 'id' + ")'  class='checkboxclass1' ></td></tr>";
             
             // dottorando="<tr > <td> "+ value.name+" </td>  <td>"+value.surname+"</td> <td> <input type='checkbox' value="+true+"   id=" +  value.fkPhdstudent + " onclick='changePresenza(" + 'id' + ")' ></td></tr>";
       
@@ -73,15 +73,20 @@ function mostraPresenze(){
 {
    //metodo per settare la check boc in base alla presenza
     id=$(this).attr('id');
-    
-      $.getJSON("GetPresenceCourse",{fkPhdstudent:id, fkLesson : selected1},function(data){
-    alert($(this).val(data.isPresent));
-    if ($(this).val(data.isPresent)==true){
+    alert("id vale "+id);
+  if (id==true){ 
+      $(":checkbox")[0].checked = true;
+    }
+ //$.each(data.corso, function (index, value) { 
+        // alert(value.isPresent);
+         
+    /*if ($(this).val(data.isPresent)==true){
             
           $(this)[0].checked = true;
         }    
-         
-});
+         */
+        //});
+
    });  
     });
   
