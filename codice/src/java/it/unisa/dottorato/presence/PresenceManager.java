@@ -1,4 +1,5 @@
 package it.unisa.dottorato.presence;
+import it.unisa.dottorato.account.Account;
 import it.unisa.dottorato.exception.IdException;
 import it.unisa.dottorato.utility.Utility;
 import it.unisa.integrazione.database.DBConnection;
@@ -181,6 +182,50 @@ public class PresenceManager {
             DBConnection.releaseConnection(connect);
         }
         return firma;
+        //return corso;
+    }
+   
+   public synchronized ArrayList<Account> getPresenceDottorandi(int idCorso) throws ClassNotFoundException, SQLException, IOException, IdException {
+        Connection connect = null;
+       Account corso = null ;
+       ArrayList<Account> classList = new ArrayList <Account>();
+        boolean firma= false;
+        try {
+         
+          
+            // Otteniamo una Connessione al DataBase
+            connect = DBConnection.getConnection();
+
+            /*
+             * Prepariamo la stringa SQL per la ricerca dei record 
+             * nella tabella presence
+           */
+            String tSql = "SELECT account.name, account.surname " +
+        "FROM presence, account, lesson " +
+        " where presence.fkPhdstudent = account.secondaryEmail " +
+         " and presence.fkLesson = lesson.idLesson " +
+          " and lesson.fkCourse =  " +testid(idCorso) +" group by account.secondaryEmail" ;
+            //Inviamo la Query al DataBase
+            ResultSet result = Utility.queryOperation(connect, tSql);
+
+       while (result.next()) {
+                /*String  nome =result.getString("name");
+                String surname= result.getString("surname");
+                boolean isPresent=result.getBoolean("isPresent");
+                */
+              corso = new Account();
+                  corso.setName(result.getString("nome"));
+                  corso.setSurname(result.getString("surname"));
+              
+
+                classList.add(corso);
+            }
+
+           
+        }  finally {
+            DBConnection.releaseConnection(connect);
+        }
+        return classList;
         //return corso;
     }
   
