@@ -186,7 +186,6 @@ public class AccountManager {
                 switch(rs.getString("typeAccount")) {
                     case "phdstudent":
                        queryPhd += rs.getString("secondaryEmail") + "'";
-                       System.out.println(queryPhd);
                        stmt2 = connection.createStatement();
                        rt = stmt2.executeQuery(queryPhd);
                        if(rt.next()) {
@@ -207,14 +206,12 @@ public class AccountManager {
                            phd.setfkProfessor(rt.getString("fkProfessor"));
                            phd.setfkCurriculum(rt.getString("fkCurriculum"));
                            phd.setAdmin(rs.getBoolean("isAdministrator"));
-                           System.out.println("PHD ADDED");
                            accounts.add(phd);
                    }
                        break;
                     
                     case "professor":
                         queryProfessor += rs.getString("secondaryEmail") + "'";
-                        System.out.println(queryProfessor);
                         stmt3 = connection.createStatement();
                         rt = stmt3.executeQuery(queryProfessor);
                         if(rt.next()) {
@@ -231,7 +228,6 @@ public class AccountManager {
                             professor.setLink(rt.getString("link"));
                             professor.setAdmin(rs.getBoolean("isAdministrator"));
                             accounts.add(professor);
-                            System.out.println("PROFESSOR ADDED");
                         }
                         break;
                         
@@ -466,6 +462,15 @@ public class AccountManager {
       }
       return accounts;
   }
+  
+  private static String addSlashes(String s) {
+        s = s.replaceAll("\\\\", "\\\\\\\\");
+        s = s.replaceAll("\\n", "\\\\n");
+        s = s.replaceAll("\\r", "\\\\r");
+        s = s.replaceAll("\\00", "\\\\0");
+        s = s.replaceAll("'", "\\\\'");
+        return s;
+    }
      
     /**Metodo della classe incaricato dell'aggiornamento di un progilo
      * 
@@ -493,9 +498,9 @@ public class AccountManager {
                 + "set name = '"
                 + testProfileData(pAccount.getName())
                 + "', surname = '"
-                + testProfileData(pAccount.getSurname())
+                + testProfileData(addSlashes(pAccount.getSurname()))
                 + "', password = '"
-                + testPassword(pAccount.getPassword())
+                + testPassword(addSlashes(pAccount.getPassword()))
                 + "', secondaryEmail = '"
                 + testEmail(pAccount.getSecondaryEmail())
                 + "' WHERE email = '"
@@ -510,9 +515,9 @@ public class AccountManager {
                     + "', link =  '"
                     + testProfileData(((PhdStudent) pAccount).getLink())
                     + "', department = '"
-                    + testProfileData(((PhdStudent) pAccount).getDepartment())
+                    + testProfileData(addSlashes(((PhdStudent) pAccount).getDepartment()))
                     + "', researchInterest = '"
-                    + testProfileData(((PhdStudent) pAccount).getResearchInterest())
+                    + testProfileData(addSlashes(((PhdStudent) pAccount).getResearchInterest()))
                     + "' WHERE fkAccount = '"
                     + testProfileData(((PhdStudent) pAccount).getSecondaryEmail()) + "'";
         }
@@ -521,7 +526,7 @@ public class AccountManager {
             sql2 += " set link = '"
                     + ((Professor) pAccount).getLink()
                     +"', department = '"
-                    + testProfileData(((Professor) pAccount).getDepartment())
+                    + testProfileData(addSlashes(((Professor) pAccount).getDepartment()))
                     +"' WHERE fkAccount = '"
                     + testProfileData(((Professor) pAccount).getSecondaryEmail())
                     +"'";
@@ -550,12 +555,24 @@ public class AccountManager {
      * @throws NullAccountException
      * @throws EmailException 
      */
-    public void changeType(Account pAccount, String newType)
-            throws SQLException, ConnectionException, NullAccountException, EmailException {
-         /*
+    public void changeType(String email, String newType)
+            throws SQLException, ConnectionException, NullAccountException, EmailException, ClassNotFoundException {
+      
+        
+        Connection connect = null;
+        try {
+            //connessione al database
+            connect = DBConnection.getConnection();
+            Account pAccount = testAccount(this.getAccountByEmail(email));
+            
+               /*
              * stringghe SQL per inserire/rimuovere piu record 
              * nella tabella account
              */
+               
+        String hack = "SET FOREIGN_KEY_CHECKS = 0";
+        String hackDisable = "SET FOREIGN_KEY_CHECKS=1";
+        
         String demotionSql = "DELETE FROM " // cancella vecchie info
                  + pAccount.getTypeAccount()
                  + " WHERE fkAccount = '"
@@ -566,10 +583,11 @@ public class AccountManager {
                 + "VALUES ('"
                 + testEmail(pAccount.getSecondaryEmail()) + "',"
                 +"'',"
-                +"''";
+                +"''"
+                +")";
         
         String toPhdSql = "INSERT INTO phdstudent "
-                + "(fkAccount,telephone,link,department,researchInterest,fkCycle"
+                + "(fkAccount,telephone,link,department,researchInterest,fkCycle,"
                 + "fkCurriculum, fkProfessor )" //nuovo dottorando
                 + "VALUES ('"
                 + testEmail(pAccount.getSecondaryEmail()) + "',"
@@ -577,29 +595,29 @@ public class AccountManager {
                 + "'',"
                 + "'',"
                 + "'',"
+                + "NULL,"
                 + "'',"
-                + "'',"
-                + "''";
+                + "'')";
         
-        String changeTypeSql = "UPDATE account" //aggiorna il tipo
+        String changeTypeSql = "UPDATE account " //aggiorna il tipo
                 +"set typeAccount = '" + newType
-                + "' WHERE email = '" + pAccount.getEmail();
+                + "' WHERE email = '" + pAccount.getEmail() + "'";
         
-        Connection connect = null;
-        try {
-            //connessione al database
-            connect = DBConnection.getConnection();
-            pAccount = testAccount(pAccount);
+        Utility.executeOperation(connect, hack);
+
             
             if(newType.equals("phdstudent") && pAccount.getTypeAccount().equals("basic")) {
                 //esecuzione delle query
+                
+                System.out.println(toPhdSql);
                 Utility.executeOperation(connect, toPhdSql); //diventa un dottorando
                 Utility.executeOperation(connect, changeTypeSql); //cambia tipo in account
+                
             }
             else if(newType.equals("phdstudent") && pAccount.getTypeAccount().equals("professor")) {
                 //esecuzione delle query
-                Utility.executeOperation(connect, demotionSql); //perde info phd
-                Utility.executeOperation(connect, toPhdSql); //nuove info prof
+                Utility.executeOperation(connect, demotionSql); //perde info professor
+                Utility.executeOperation(connect, toPhdSql); //nuove info phd
                 Utility.executeOperation(connect, changeTypeSql);
             }
             else if(newType.equals("professor") && pAccount.getTypeAccount().equals("basic")) {
@@ -614,10 +632,15 @@ public class AccountManager {
                 Utility.executeOperation(connect, changeTypeSql);
             }
             else if(newType.equals("basic")) {
+                System.out.println(demotionSql + "\n" + changeTypeSql);
                 //esecuzione delle query
                 Utility.executeOperation(connect, demotionSql);
                 Utility.executeOperation(connect, changeTypeSql);
             }
+            
+           Utility.executeOperation(connect, hackDisable);
+            
+            connect.commit();
             
             
             

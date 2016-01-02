@@ -4,6 +4,7 @@
     Author     : andre
 --%>
 
+<%@page import="it.unisa.dottorato.account.Account"%>
 <%@page contentType="text/html" pageEncoding="UTF-8"%>
 <!DOCTYPE html>
 <html lang="en">
@@ -30,6 +31,7 @@
         
         <script src="assets/js/jquery-1.11.1.min.js"></script>
         <script type="text/javascript" src="script/amministrazioneAccount.js"></script> <!-- da modificare -->
+                
                                                                                  
     </head>
     
@@ -70,7 +72,7 @@
                                                 <tr>
                                                     <th>Nome</th>
                                                     <th>Email</th>
-                                                    <th>Email</th>
+                                                    <th>Tipologia</th>
                                                     
                                                 </tr>                               
                                         </thead>
@@ -79,12 +81,18 @@
                                         </tbody>
                                     </table>
                                  </div>
-                                 <div class="panel-footer" style="background-color: transparent">
-                            <button type="button" class="btn btn-default btn-orange btn-block" style="margin-top: 10px">
-                                <span class="glyphicon glyphicon-edit" aria-hidden="true" ></span>
-                                Cambia tipologia
-                            </button> 
-                            </div>
+                                 <br>
+                                 <br>
+                                 <div class="panel-footer" id="changeDiv" style="background-color: transparent">
+                                     
+                                     <h2>Hai selezionato:<span id="selectedName"></span></h2>
+                                     <select value="type" id="typeSelect">
+                                         <option selected> Seleziona una tipologia </option>
+                                     </select>
+                                     <br>
+                                     <br>
+                                     <input type="checkbox" id="adminBox"> Privilegi Admin </input>
+                                 </div>
                         </div>
                     </div>
                 </div> 

@@ -63,15 +63,13 @@ public class LoginManager  {
              * stringhe SQL per selezionare piu record 
              * nella tabella account, phdstudent e professor
              */
-        String query = "select * from account where email='" + pUsername + "' and password='" + pPassword + "'";
+        String query = "select * from account where email='" + testEmail(pUsername) + "' and password='" + testPassword(pPassword) + "'";
         String queryPhd = "select * from phdstudent where fkAccount ='";
         String queryProfessor = "select * from professor where fkAccount ='";
 
         try {
             //connessione al database
             connection = DBConnection.getConnection();
-            pUsername = testEmail(pUsername);
-            pPassword = testPassword(pPassword);
 
 
             if (connection == null) {
@@ -162,6 +160,8 @@ public class LoginManager  {
   public void register(Account pAccount) throws SQLException, NullAccountException {
       //connessione al database  
       Connection connect = DBConnection.getConnection();
+      pAccount = testAccount(pAccount);
+
 
       /*
              * stringa SQL per inserire un record 
@@ -179,7 +179,6 @@ public class LoginManager  {
                 + pAccount.isAdmin() + ")";
 
         try {
-            pAccount = testAccount(pAccount);
             //esecuzione query
             Utility.executeOperation(connect, sql);
            
