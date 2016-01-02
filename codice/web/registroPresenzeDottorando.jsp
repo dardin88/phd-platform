@@ -1,8 +1,3 @@
-<%-- 
-    Document   : registroPresenze
-    Created on : 30-dic-2015, 22.55.12
-    Author     : Rembor
---%>
 
 <%-- 
     Document   : RegistroPresenze
@@ -53,7 +48,7 @@
             <div class="page-container"> 
                  <div class="well-small col-lg-5 col-lg-offset-0 col-md-8 col-md-offset-2 col-sm-10 col-sm-offset-1 col-xs-12">
                             <div class="form-group">
-                               
+                           
                                         <label  > Seleziona un corso</label>
                                         <select class="form-control" id="Corsoprofessore"  onclick="selectedItem()">
                                             <option value="default"  >  - selezionate il vostro  corso  -  </option>
@@ -62,7 +57,7 @@
                             </div>
                   <div class="form-group">
                      <label  > Seleziona una Lezione</label>
-                                        <select class="form-control" id="Lezioneprofessore"  onclick="mostraPresenze()">
+                                        <select class="form-control" id="Lezioneprofessore"  onclick="mostraPresenzeDot()">
                                             <option value="default"  >  - selezionate la vostra  lezione  -  </option>
 
                                         </select>

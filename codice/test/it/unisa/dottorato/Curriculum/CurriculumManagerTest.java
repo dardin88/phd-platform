@@ -4,6 +4,8 @@
  * and open the template in the editor.
  */
 package it.unisa.dottorato.Curriculum;
+import java.io.IOException;
+import java.sql.SQLException;
 import java.util.ArrayList;
 import org.junit.After;
 import org.junit.Before;
@@ -203,7 +205,7 @@ public class CurriculumManagerTest {
         try{
             instance.update(oldNameCurriculum, cur);
             fail("sono riuscito a fare l' op");
-        }catch(Exception x){
+        }catch(ClassNotFoundException | SQLException | IOException x){
             assertTrue(true);    
         }
     }
