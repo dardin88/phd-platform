@@ -53,7 +53,7 @@
             <div class="page-container"> 
                  <div class="well-small col-lg-5 col-lg-offset-0 col-md-8 col-md-offset-2 col-sm-10 col-sm-offset-1 col-xs-12">
                             <div class="form-group">
-                               <input type="checkbox"  id="estado_cat" class="ibtn">
+                               
                                         <label  > Seleziona un corso</label>
                                         <select class="form-control" id="Corsoprofessore"  onclick="selectedItem()">
                                             <option value="default"  >  - selezionate il vostro  corso  -  </option>
