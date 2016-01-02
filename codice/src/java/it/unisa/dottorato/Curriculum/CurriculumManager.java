@@ -104,9 +104,10 @@ public class CurriculumManager {
      * @throws java.lang.ClassNotFoundException
      * @throws java.sql.SQLException
      * @throws java.io.IOException
+     * @throws it.unisa.dottorato.exception.NameException
      */
     public synchronized void update(String oldNameCurriculum, Curriculum pCurriculum) 
-            throws ClassNotFoundException, SQLException, IOException
+            throws Exception
         {
         Connection connect = null;
         try {
@@ -130,11 +131,7 @@ public class CurriculumManager {
             Utility.executeOperation(connect, tSql);
 
             connect.commit();
-        }catch (CurriculumException ex) {
-            Logger.getLogger(CurriculumManager.class.getName()).log(Level.SEVERE, null, ex);
-        }catch (NameException ex) {
-            Logger.getLogger(CurriculumManager.class.getName()).log(Level.SEVERE, null, ex);
-        }catch (DescriptionException ex) {
+        }catch (Exception ex) {
             Logger.getLogger(CurriculumManager.class.getName()).log(Level.SEVERE, null, ex);
         }finally {
             DBConnection.releaseConnection(connect);

@@ -9,7 +9,6 @@ import it.unisa.dottorato.Curriculum.Curriculum;
 import it.unisa.dottorato.Curriculum.CurriculumManager;
 import it.unisa.dottorato.account.Professor;
 import it.unisa.dottorato.curriculumcic.Curriculumcic;
-import it.unisa.dottorato.exception.NameException;
 import java.io.IOException;
 import java.sql.SQLException;
 import java.util.ArrayList;
@@ -122,7 +121,7 @@ public class CycleManagerTest {
         c.setYear("2018");
         c.setDescription("prova update ciclo 15");
         try{
-             instance.updateCycle(Number, c);
+            instance.updateCycle(Number, c);
             assertTrue(true);
         }catch (Exception e){
             fail("non sono riuscito a fare l' op");
@@ -791,7 +790,7 @@ public class CycleManagerTest {
         try{
             instance.insertCurriculumcic(pCurriculumcic);
             fail("sono riuscito ad effettuare l' op");
-        }catch(ClassNotFoundException | SQLException | IOException | NameException e){
+        }catch(Exception e){
             assertTrue(true);
         }
     }
