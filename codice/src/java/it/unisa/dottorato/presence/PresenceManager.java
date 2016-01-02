@@ -214,7 +214,7 @@ public class PresenceManager {
                 boolean isPresent=result.getBoolean("isPresent");
                 */
               corso = new Account();
-                  corso.setName(result.getString("nome"));
+                  corso.setName(result.getString("name"));
                   corso.setSurname(result.getString("surname"));
               
 
