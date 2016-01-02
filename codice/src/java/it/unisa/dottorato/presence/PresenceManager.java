@@ -209,12 +209,10 @@ public class PresenceManager {
             ResultSet result = Utility.queryOperation(connect, tSql);
 
        while (result.next()) {
-                /*String  nome =result.getString("name");
-                String surname= result.getString("surname");
-                boolean isPresent=result.getBoolean("isPresent");
-                */
+                
               corso = new Account();
-                  corso.setName(result.getString("name"));
+              
+                   corso.setName(result.getString("name"));
                   corso.setSurname(result.getString("surname"));
               
 
