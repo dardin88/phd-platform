@@ -6,6 +6,7 @@
 
 $(document).ready(function () {
     getAccountList();
+    searchForName();
 });
 
 
@@ -21,3 +22,28 @@ function getAccountList() {
         });
     });
 }
+
+
+function searchForName()
+{ 
+   $('#word').on("keyup",function() {    
+     $("#bodyTable tr").hide();
+                    var   name = $("#word").val();
+     if(name == "")
+         getAccountList();
+     else  {
+     $.getJSON("SearchUser",{name: name}, function (data) {       
+            $.each(data.account, function (index, value) {               
+    var   account = "<tr>  <td> " + value.name + " " + value.surname  + "</td>  <td> " + value.email + "</td> <td> " + value.typeAccount + "</td>/tr>";
+           
+                $("#accountListTable").append(account);
+          });
+        });
+      
+     }
+   });
+}
+
+
+
+

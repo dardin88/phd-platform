@@ -53,12 +53,9 @@
             
                     <div class="row" style="margin-top: 5px;">
                          <div class="col-lg-6">
-                            <div class="input-group">
-                               <input type="text" class="form-control" placeholder="ricerca utente...">
-                                 <span class="input-group-btn">
-                                     <button class="btn btn-default" type="button">Cerca</button>
-                                 </span>
-                            </div><!-- /input-group -->
+                            <div class="input-group" style="width: 100%;">
+                               <input type="text" class="form-control" id = "word" placeholder="Cerca un utente (inizia a digitare)">
+                                </div><!-- /input-group -->
                          </div><!-- /.col-lg-6 -->
                     </div>
                     
@@ -72,13 +69,14 @@
                                         <thead>
                                                 <tr>
                                                     <th>Nome</th>
-                                                    <th>Tipologia</th>
+                                                    <th>Email</th>
                                                     <th>Email</th>
                                                     
-                                                </tr>
-                                                
-                                                
+                                                </tr>                               
                                         </thead>
+                                        <tbody id="bodyTable">
+                                            
+                                        </tbody>
                                     </table>
                                  </div>
                                  <div class="panel-footer" style="background-color: transparent">
