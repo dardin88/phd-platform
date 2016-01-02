@@ -124,7 +124,7 @@ public class PresenceManager {
                 boolean isPresent=result.getBoolean("isPresent");
                 */
                  registro = new Presence();
-                  registro.setFkPhdstudent(result.getString("fkphdStudent"));
+                  registro.setFkPhdstudent(result.getString("fkPhdstudent"));
                   registro.setFkLesson(result.getInt("fkLesson"));
                  registro.setIsPresent(result.getBoolean("isPresent"));
 
@@ -148,7 +148,7 @@ public class PresenceManager {
   * @throws SQLException
   * @throws IOException 
   */ 
-   public synchronized Presence getPresenceCourse(String studente) throws ClassNotFoundException, SQLException, IOException, IdException {
+   public synchronized Presence getPresenceCourse(String studente,int idLesson) throws ClassNotFoundException, SQLException, IOException, IdException {
         Connection connect = null;
         Presence corso = null ;
         try {
@@ -162,7 +162,7 @@ public class PresenceManager {
              * nella tabella presence
            */
             String tSql = "select isPresent from "+PresenceManager.TABLE_Presence+
-                    " where fkPhdstudent='"+testDottorando(studente)+"'";
+                    " where fkPhdstudent='"+testDottorando(studente)+"' and fkLesson = " +testid(idLesson) ;
             //Inviamo la Query al DataBase
             ResultSet result = Utility.queryOperation(connect, tSql);
 
