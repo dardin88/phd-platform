@@ -148,9 +148,10 @@ public class PresenceManager {
   * @throws SQLException
   * @throws IOException 
   */ 
-   public synchronized Presence getPresenceCourse(String studente,int idLesson) throws ClassNotFoundException, SQLException, IOException, IdException {
+   public synchronized boolean getPresenceCourse(String studente,int idLesson) throws ClassNotFoundException, SQLException, IOException, IdException {
         Connection connect = null;
         Presence corso = null ;
+        boolean firma= false;
         try {
          
           
@@ -167,19 +168,20 @@ public class PresenceManager {
             ResultSet result = Utility.queryOperation(connect, tSql);
 
          if(result.next()) {
-                 corso = new Presence();                             
-                 corso.setIsPresent(result.getBoolean("isPresent"));
-           
+                 //corso = new Presence();                             
+                // corso.setIsPresent(result.getBoolean("isPresent"));
+           firma=result.getBoolean("isPresent");
             }
 
-            return corso;
+            //return corso;
 
         } catch (PhdStudentexception ex) {
           Logger.getLogger(PresenceManager.class.getName()).log(Level.SEVERE, null, ex);
       }  finally {
             DBConnection.releaseConnection(connect);
         }
-        return corso;
+        return firma;
+        //return corso;
     }
   
    /**  Metodo della classe incaricato di ritornare la lista delle presenze di una lezione
