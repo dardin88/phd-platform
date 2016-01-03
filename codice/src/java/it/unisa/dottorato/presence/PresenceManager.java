@@ -254,10 +254,10 @@ public class PresenceManager {
              * Prepariamo la stringa SQL per la ricerca dei record 
              * nella tabella presence
            */
-            String tSql = "SELECT account.name, account.surname" +
-        " FROM presence, account, lesson" +
-        " where presence.fkPhdstudent = account.secondaryEmail" +
-         " and presence.fkLesson = lesson.idLesson" +
+            String tSql = "SELECT account.name, account.surname, account.secondaryEmail" +
+        " FROM presence, account, lesson " +
+        " where presence.fkPhdstudent = account.secondaryEmail " +
+         " and presence.fkLesson = lesson.idLesson " +
           " and lesson.fkCourse="+testid(idCorso)+
           " group by account.secondaryEmail" ;
             //Inviamo la Query al DataBase
@@ -269,7 +269,7 @@ public class PresenceManager {
               
                    corso.setName(result.getString("name"));
                   corso.setSurname(result.getString("surname"));
-              
+                 corso.setSecondaryEmail(result.getString("secondaryEmail"));
 
                 classList.add(corso);
             }
@@ -292,15 +292,15 @@ public class PresenceManager {
    * @throws IOException
    * @throws IdException 
    */
-   public synchronized ArrayList<TestClass> getPresenceToLesson(String dottorando,int idCorso) throws ClassNotFoundException, SQLException, IOException, IdException {
+   public synchronized ArrayList<Presence> getPresenceToLesson(String dottorando,int idCorso) throws ClassNotFoundException, SQLException, IOException, IdException {
          Connection connect = null;
        Lesson corso = null ;
        Presence presente= null;
        TestClass contiene=null;
       ArrayList <TestClass> contenitore=new ArrayList<TestClass>();
-      // ArrayList<Presence> classList = new ArrayList <Presence>();
-       // ArrayList<Lesson> classLesson= new ArrayList <Lesson>();
-         Map<String,ArrayList<Presence>> map =new HashMap();
+      ArrayList<Presence> classList = new ArrayList <Presence>();
+        ArrayList<Lesson> classLesson= new ArrayList <Lesson>();
+         Map< ArrayList<Lesson>,ArrayList<Presence>> map =new HashMap();
        
          try {
          
@@ -312,11 +312,11 @@ public class PresenceManager {
              * Prepariamo la stringa SQL per la ricerca dei record 
              * nella tabella presence
            */
-            String tSql = "SELECT presence.fkPhdstudent, lesson.idLesson, "
-                    + "lesson.date, presence.isPresent " +
+            String tSql = "SELECT  presence.isPresent " +
                " FROM presence, lesson " +
            " where presence.fkLesson = lesson.idLesson " +
-            "and lesson.fkCourse = "  +testid(idCorso) +"and presence.fkPhdstudent = '"+testDottorando(dottorando) 
+            "and lesson.fkCourse ="+testid(idCorso) +" and presence.fkPhdstudent = '"
+                    +testDottorando(dottorando) 
              +"' order by date" ;
             //Inviamo la Query al DataBase
             ResultSet result = Utility.queryOperation(connect, tSql);
@@ -324,16 +324,14 @@ public class PresenceManager {
        while (result.next()) {
                 presente =new Presence();
                 presente.setIsPresent(result.getBoolean("isPresent"));
-                presente.setFkPhdstudent(result.getString("fkPhdstudent"));             
+            
                
                 
-                corso = new Lesson();
-             corso.setDate(result.getDate("date"));
-                  corso.setIdLesson(result.getInt("idLesson"));
-              contiene.setClassLesson(corso);
+             classList.add(presente);
+                  /*  contiene.setClassLesson(corso);
               contiene.setClassList(presente);
 
-                contenitore.add(contiene);
+                contenitore.add(contiene);*/
             }
 
            
@@ -342,7 +340,7 @@ public class PresenceManager {
       }  finally {
             DBConnection.releaseConnection(connect);
         }
-        return contenitore;
+        return classList;
         
     }
   

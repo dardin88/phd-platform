@@ -47,7 +47,7 @@ PrintWriter out = response.getWriter();
              JSONObject result = new JSONObject();
         int idCorso = Integer.parseInt(request.getParameter("idCourse"));
         String dottorando=request.getParameter("fkPhdstudent");
-                ArrayList<TestClass> presence = PresenceManager.getInstance().getPresenceToLesson(dottorando, idCorso);
+                ArrayList<Presence> presence = PresenceManager.getInstance().getPresenceToLesson(dottorando, idCorso);
                 JSONArray resultArray = new JSONArray(presence);
                 result.put("presence", resultArray);
                 out.write(result.toString());
