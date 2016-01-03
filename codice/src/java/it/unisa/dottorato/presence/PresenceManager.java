@@ -296,8 +296,6 @@ public class PresenceManager {
          Connection connect = null;
        Lesson corso = null ;
        Presence presente= null;
-       TestClass contiene=null;
-      ArrayList <TestClass> contenitore=new ArrayList<TestClass>();
       ArrayList<Presence> classList = new ArrayList <Presence>();
         ArrayList<Lesson> classLesson= new ArrayList <Lesson>();
          Map< ArrayList<Lesson>,ArrayList<Presence>> map =new HashMap();
@@ -345,55 +343,12 @@ public class PresenceManager {
         
     }
   
-   /**  Metodo della classe incaricato di ritornare la lista delle presenze di una lezione
-    * dato il suo id
-    * 
-    * @param lesson l'id della lezione
-    * @return restituisce un array list di presenze, lancia un'eccezione altrimenti
-    * @throws SQLException 
-    */
-   public synchronized ArrayList<Presence> getPresence(int lesson) throws SQLException, IdException{
-       Connection connect = null;
-        try {
-            ArrayList<Presence> classList = new ArrayList<Presence>();
-          Presence registro;
-            // Otteniamo una Connessione al DataBase
-            connect = DBConnection.getConnection();
-
-            /*
-             * Prepariamo la stringa SQL per la ricerca dei record 
-             * nella tabella presence
-             */
-             String tSql = "SELECT  presence.fkPhdstudent, presence.isPresent "
-       + "from presence where "
-+ "  presence.fkLesson= "+ testid(lesson) + " group by presence.fkPhdstudent";
-           
-             
-            //Inviamo la Query al DataBase
-            ResultSet result = Utility.queryOperation(connect, tSql);
-
-            while (result.next()) {
-                 registro = new Presence();
-                 
-                  registro.setFkPhdstudent(result.getString("fkPhdstudent"));
-                 registro.setIsPresent(result.getBoolean("isPresent"));
-
-                classList.add(registro);
-            }
-
-            return classList;
-
-        } finally {
-            DBConnection.releaseConnection(connect);
-        }
-   }
-   
    /**  Metodo della classe incaricato di modificare una presenza
     *  @param dottorando
     *  @param  idLesson
     * @throws IdException
     */
-   public void modifyPresence(String dottorando,int idLesson ) throws SQLException, ExceptionPermissionDenied, PhdStudentexception {
+   public void modifyPresence(String dottorando,int idLesson ) throws SQLException, PhdStudentexception {
        try (Connection connect = DBConnection.getConnection()) {
           
      /*
