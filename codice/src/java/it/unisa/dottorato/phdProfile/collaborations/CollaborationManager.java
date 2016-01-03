@@ -11,7 +11,6 @@ import it.unisa.dottorato.exception.ReferenceException;
 import it.unisa.dottorato.utility.Utility;
 import it.unisa.integrazione.database.DBConnection;
 import java.io.IOException;
-import static java.lang.Integer.parseInt;
 import java.sql.Connection;
 import java.sql.ResultSet;
 import java.sql.SQLException;
@@ -63,9 +62,20 @@ public class CollaborationManager {
      * 
      * @param pCollaboration la nuova collaborazione
      * @throws SQLException 
+     * @throws it.unisa.dottorato.exception.CollaborationException 
+     * @throws it.unisa.dottorato.exception.DateException 
+     * @throws it.unisa.dottorato.exception.ReferenceException 
+     * @throws it.unisa.dottorato.exception.DescriptionException 
+     * @throws it.unisa.dottorato.exception.IstitutionException 
+     * @throws java.io.IOException 
+     * @throws it.unisa.dottorato.exception.IdException 
      */
-    public synchronized void insert(Collaboration pCollaboration) throws SQLException {
-        try (Connection connect = DBConnection.getConnection()) {
+    public synchronized void insert(Collaboration pCollaboration) throws SQLException, CollaborationException,
+            DateException, ReferenceException, DescriptionException, IstitutionException, IOException, IdException {
+        Connection connect = null;
+        try {
+            // Otteniamo una Connessione al DataBase
+            connect = DBConnection.getConnection();
 
             testCollaboration(pCollaboration);
             /*
@@ -94,20 +104,8 @@ public class CollaborationManager {
             Utility.executeOperation(connect, tSql);
 
             connect.commit();
-        } catch (CollaborationException ex) {
-            Logger.getLogger(CollaborationManager.class.getName()).log(Level.SEVERE, null, ex);
-        } catch (DateException ex) {
-            Logger.getLogger(CollaborationManager.class.getName()).log(Level.SEVERE, null, ex);
-        } catch (ReferenceException ex) {
-            Logger.getLogger(CollaborationManager.class.getName()).log(Level.SEVERE, null, ex);
-        } catch (DescriptionException ex) {
-            Logger.getLogger(CollaborationManager.class.getName()).log(Level.SEVERE, null, ex);
-        } catch (IstitutionException ex) {
-            Logger.getLogger(CollaborationManager.class.getName()).log(Level.SEVERE, null, ex);
-        } catch (IOException ex) {
-            Logger.getLogger(CollaborationManager.class.getName()).log(Level.SEVERE, null, ex);
-        } catch (IdException ex) {
-            Logger.getLogger(CollaborationManager.class.getName()).log(Level.SEVERE, null, ex);
+        } finally {
+            DBConnection.releaseConnection(connect);
         }
         
     }
@@ -119,9 +117,19 @@ public class CollaborationManager {
      * @throws ClassNotFoundException
      * @throws SQLException
      * @throws IOException 
+     * @throws it.unisa.dottorato.exception.DateException 
+     * @throws it.unisa.dottorato.exception.ReferenceException 
+     * @throws it.unisa.dottorato.exception.DescriptionException 
+     * @throws it.unisa.dottorato.exception.IstitutionException 
+     * @throws it.unisa.dottorato.exception.CollaborationException 
+     * @throws it.unisa.dottorato.exception.IdException 
      */
-    public synchronized void update(int oldCollaborationID, Collaboration pCollaboration) throws ClassNotFoundException, SQLException, IOException {
-        try (Connection connect = DBConnection.getConnection()) {
+    public synchronized void update(int oldCollaborationID, Collaboration pCollaboration) throws ClassNotFoundException, SQLException,
+            IOException, DateException, ReferenceException, DescriptionException, IstitutionException, IOException, IdException, CollaborationException, Exception {
+        Connection connect = null;
+        try {
+            // Otteniamo una Connessione al DataBase
+            connect = DBConnection.getConnection();
             
             testId(oldCollaborationID);
             testCollaboration(pCollaboration);
@@ -144,19 +152,12 @@ public class CollaborationManager {
 
             System.out.println(tSql);
             //Inviamo la Query al DataBase
-            Utility.executeOperation(connect, tSql);
+            if(Utility.executeOperation(connect, tSql)==0)
+                throw new Exception();
 
             connect.commit();
-        } catch (IdException ex) {
-            Logger.getLogger(CollaborationManager.class.getName()).log(Level.SEVERE, null, ex);
-        } catch (CollaborationException ex) {
-            Logger.getLogger(CollaborationManager.class.getName()).log(Level.SEVERE, null, ex);
-        } catch (DescriptionException ex) {
-            Logger.getLogger(CollaborationManager.class.getName()).log(Level.SEVERE, null, ex);
-        } catch (DateException ex) {
-            Logger.getLogger(CollaborationManager.class.getName()).log(Level.SEVERE, null, ex);
-        } catch (IstitutionException ex) {
-            Logger.getLogger(CollaborationManager.class.getName()).log(Level.SEVERE, null, ex);
+        } finally {
+            DBConnection.releaseConnection(connect);
         }
     }
     
@@ -167,7 +168,8 @@ public class CollaborationManager {
      * @throws SQLException
      * @throws IOException 
      */
-    public synchronized void delete(int idCollaboration) throws ClassNotFoundException, SQLException, IOException {
+    public synchronized void delete(int idCollaboration) throws ClassNotFoundException, 
+            SQLException, IOException, IdException, Exception {
         Connection connect = null;
         try {
             // Otteniamo una Connessione al DataBase
@@ -182,11 +184,10 @@ public class CollaborationManager {
                     + testId(idCollaboration);
 
             //Inviamo la Query al DataBase
-            Utility.executeOperation(connect, tSql);
+            if(Utility.executeOperation(connect, tSql)==0)
+                throw new Exception();
 
             connect.commit();
-        } catch (IdException ex) {
-            Logger.getLogger(CollaborationManager.class.getName()).log(Level.SEVERE, null, ex);
         } finally {
             DBConnection.releaseConnection(connect);
         }
@@ -200,8 +201,10 @@ public class CollaborationManager {
      * @throws ClassNotFoundException
      * @throws SQLException
      * @throws IOException 
+     * @throws it.unisa.dottorato.exception.IdException 
      */
-    public synchronized Collaboration getCollaborationById(int pCollaborationID) throws ClassNotFoundException, SQLException, IOException {
+    public synchronized Collaboration getCollaborationById(int pCollaborationID) throws 
+            ClassNotFoundException, SQLException, IOException, IdException {
         Connection connect = null;
         Collaboration collaboration = new Collaboration();
         
@@ -230,10 +233,6 @@ public class CollaborationManager {
                 collaboration.setIstitution(result.getString("istitution"));
                 collaboration.setFkPhdstudent(result.getString("fkPhdstudent"));
             }
-
-            
-        } catch (IdException ex) {
-            Logger.getLogger(CollaborationManager.class.getName()).log(Level.SEVERE, null, ex);
         } finally {
             DBConnection.releaseConnection(connect);
         }
@@ -247,9 +246,11 @@ public class CollaborationManager {
      * @return restituisce una lista di tutte le collaborazioni del dottorando,
      * lancia un'eccezione altrimenti
      * @throws SQLException 
+     * @throws it.unisa.dottorato.exception.ReferenceException 
      */
-    public synchronized List<Collaboration> getAllCollaborationOf(PhdStudent phdStudent) throws SQLException { //da verificare
-        List<Collaboration> collaborations = new ArrayList<Collaboration>();
+    public synchronized List<Collaboration> getAllCollaborationOf(PhdStudent phdStudent) throws 
+            SQLException, ReferenceException { 
+        List<Collaboration> collaborations = new ArrayList<>();
         
         Connection connect = null;
         try {
@@ -263,7 +264,7 @@ public class CollaborationManager {
             String tSql = "SELECT * FROM "
                     + CollaborationManager.TABLE_COLLABORATION
                     + " WHERE fkPhdstudent = '"
-                    + phdStudent.getfkAccount()+ "'"; //da verificare
+                    + testfkPhdStudent(phdStudent.getfkAccount())+ "'"; 
 
             //Inviamo la Query al DataBase
             ResultSet result = Utility.queryOperation(connect, tSql);
@@ -309,7 +310,7 @@ public class CollaborationManager {
      * @throws DescriptionException 
      */
     public String testDescription(String description) throws DescriptionException{
-         if(description.equals(null)|| description.length()>65536){
+         if(description.equals(null)|| (description.length()>65536)){
             
             throw new DescriptionException("la descrizione e' sbagliata"); 
         }
@@ -395,7 +396,7 @@ public class CollaborationManager {
             //Inviamo la Query al DataBase
              ResultSet result = Utility.queryOperation(connect, tSql);
             if(result.next()){
-                c = result.getInt("idMission")+1;
+                c = result.getInt("idCollaboration")+1;
             }
             connect.commit();
             return c;

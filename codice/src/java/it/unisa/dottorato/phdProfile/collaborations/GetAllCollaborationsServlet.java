@@ -1,6 +1,7 @@
 package it.unisa.dottorato.phdProfile.collaborations;
 
 import it.unisa.dottorato.account.PhdStudent;
+import it.unisa.dottorato.exception.ReferenceException;
 import java.io.IOException;
 import java.io.PrintWriter;
 import java.sql.SQLException;
@@ -36,7 +37,7 @@ public class GetAllCollaborationsServlet extends HttpServlet {
      * @throws IOException if an I/O error occurs
      */
     protected void processRequest(HttpServletRequest request, HttpServletResponse response)
-            throws ServletException, IOException {
+            throws ServletException, IOException, ReferenceException {
         response.setContentType("text/html;charset=UTF-8");
         try (PrintWriter out = response.getWriter()) {
             JSONObject result = new JSONObject();
@@ -67,7 +68,11 @@ public class GetAllCollaborationsServlet extends HttpServlet {
     @Override
     protected void doGet(HttpServletRequest request, HttpServletResponse response)
             throws ServletException, IOException {
-        processRequest(request, response);
+        try {
+            processRequest(request, response);
+        } catch (ReferenceException ex) {
+            Logger.getLogger(GetAllCollaborationsServlet.class.getName()).log(Level.SEVERE, null, ex);
+        }
     }
 
     /**
@@ -81,7 +86,11 @@ public class GetAllCollaborationsServlet extends HttpServlet {
     @Override
     protected void doPost(HttpServletRequest request, HttpServletResponse response)
             throws ServletException, IOException {
-        processRequest(request, response);
+        try {
+            processRequest(request, response);
+        } catch (ReferenceException ex) {
+            Logger.getLogger(GetAllCollaborationsServlet.class.getName()).log(Level.SEVERE, null, ex);
+        }
     }
 
     /**
