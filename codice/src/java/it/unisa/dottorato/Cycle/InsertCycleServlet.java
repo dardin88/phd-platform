@@ -1,5 +1,8 @@
 package it.unisa.dottorato.Cycle;
 
+import it.unisa.dottorato.exception.DateException;
+import it.unisa.dottorato.exception.DescriptionException;
+import it.unisa.dottorato.exception.IdException;
 import java.io.IOException;
 import java.io.PrintWriter;
 import java.sql.SQLException;
@@ -32,9 +35,14 @@ public class InsertCycleServlet extends HttpServlet {
      * @param response servlet response
      * @throws ServletException if a servlet-specific error occurs
      * @throws IOException if an I/O error occurs
+     * @throws java.sql.SQLException
+     * @throws it.unisa.dottorato.Cycle.CycleException
+     * @throws it.unisa.dottorato.exception.IdException
+     * @throws it.unisa.dottorato.exception.DateException
+     * @throws it.unisa.dottorato.exception.DescriptionException
      */
     protected void processRequest(HttpServletRequest request, HttpServletResponse response)
-            throws ServletException, IOException, SQLException {
+            throws ServletException, IOException, SQLException, CycleException, IdException, DateException, DescriptionException {
 
         try {
             response.setContentType("text/html;charset=UTF-8");
@@ -82,6 +90,14 @@ public class InsertCycleServlet extends HttpServlet {
             processRequest(request, response);
         } catch (SQLException ex) {
             Logger.getLogger(UpdateCycleServlet.class.getName()).log(Level.SEVERE, null, ex);
+        } catch (CycleException ex) {
+            Logger.getLogger(InsertCycleServlet.class.getName()).log(Level.SEVERE, null, ex);
+        } catch (IdException ex) {
+            Logger.getLogger(InsertCycleServlet.class.getName()).log(Level.SEVERE, null, ex);
+        } catch (DateException ex) {
+            Logger.getLogger(InsertCycleServlet.class.getName()).log(Level.SEVERE, null, ex);
+        } catch (DescriptionException ex) {
+            Logger.getLogger(InsertCycleServlet.class.getName()).log(Level.SEVERE, null, ex);
         }
     }
 
@@ -100,6 +116,14 @@ public class InsertCycleServlet extends HttpServlet {
             processRequest(request, response);
         } catch (SQLException ex) {
             Logger.getLogger(UpdateCycleServlet.class.getName()).log(Level.SEVERE, null, ex);
+        } catch (CycleException ex) {
+            Logger.getLogger(InsertCycleServlet.class.getName()).log(Level.SEVERE, null, ex);
+        } catch (IdException ex) {
+            Logger.getLogger(InsertCycleServlet.class.getName()).log(Level.SEVERE, null, ex);
+        } catch (DateException ex) {
+            Logger.getLogger(InsertCycleServlet.class.getName()).log(Level.SEVERE, null, ex);
+        } catch (DescriptionException ex) {
+            Logger.getLogger(InsertCycleServlet.class.getName()).log(Level.SEVERE, null, ex);
         }
     }
 

@@ -334,13 +334,4 @@ public class CurriculumManagerTest {
         }
 
     }
-
-    private String testsup65536() {
-        String c = "dsdffdffdf";
-        for (int e = 0; e < 6600; e++) {
-            c = c.concat(c);
-        }
-        return c;
-    }
-
 }

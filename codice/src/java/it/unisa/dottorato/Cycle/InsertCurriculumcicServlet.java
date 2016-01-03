@@ -1,6 +1,9 @@
 package it.unisa.dottorato.Cycle;
 
 import it.unisa.dottorato.curriculumcic.Curriculumcic;
+import it.unisa.dottorato.curriculumcic.CurriculumcicException;
+import it.unisa.dottorato.exception.IdException;
+import it.unisa.dottorato.exception.NameException;
 import java.io.IOException;
 import java.io.PrintWriter;
 import java.sql.SQLException;
@@ -34,9 +37,12 @@ public class InsertCurriculumcicServlet extends HttpServlet {
      * @param response servlet response
      * @throws ServletException if a servlet-specific error occurs
      * @throws IOException if an I/O error occurs
+     * @throws it.unisa.dottorato.exception.NameException
+     * @throws it.unisa.dottorato.curriculumcic.CurriculumcicException
+     * @throws it.unisa.dottorato.exception.IdException
      */
     protected void processRequest(HttpServletRequest request, HttpServletResponse response)
-            throws ServletException, IOException {
+            throws ServletException, IOException, NameException, CurriculumcicException, IdException {
         
         
         response.setContentType("text/html;charset=UTF-8");
@@ -83,7 +89,15 @@ public class InsertCurriculumcicServlet extends HttpServlet {
     @Override
     protected void doGet(HttpServletRequest request, HttpServletResponse response)
             throws ServletException, IOException {
-        processRequest(request, response);
+        try {
+            processRequest(request, response);
+        } catch (NameException ex) {
+            Logger.getLogger(InsertCurriculumcicServlet.class.getName()).log(Level.SEVERE, null, ex);
+        } catch (CurriculumcicException ex) {
+            Logger.getLogger(InsertCurriculumcicServlet.class.getName()).log(Level.SEVERE, null, ex);
+        } catch (IdException ex) {
+            Logger.getLogger(InsertCurriculumcicServlet.class.getName()).log(Level.SEVERE, null, ex);
+        }
     }
 
     /**
@@ -97,7 +111,15 @@ public class InsertCurriculumcicServlet extends HttpServlet {
     @Override
     protected void doPost(HttpServletRequest request, HttpServletResponse response)
             throws ServletException, IOException {
-        processRequest(request, response);
+        try {
+            processRequest(request, response);
+        } catch (NameException ex) {
+            Logger.getLogger(InsertCurriculumcicServlet.class.getName()).log(Level.SEVERE, null, ex);
+        } catch (CurriculumcicException ex) {
+            Logger.getLogger(InsertCurriculumcicServlet.class.getName()).log(Level.SEVERE, null, ex);
+        } catch (IdException ex) {
+            Logger.getLogger(InsertCurriculumcicServlet.class.getName()).log(Level.SEVERE, null, ex);
+        }
     }
 
     /**
