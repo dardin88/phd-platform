@@ -35,7 +35,8 @@ function selectedItem()
     //metodo per stampare le date
        $.getJSON("GetPresenceDottorandi",{idCourse:selected}, function (data) { 
        $.each(data.presence, function (index,value) { 
-        dottorando="<tr> <td id="+value.secondaryEmail+" > "+ value.name +" "+value.surname+" </td>  </tr>";
+        dottorando="<tr id="+value.secondaryEmail+"> <td id="+value.secondaryEmail+" > "+ value.name +" "+value.surname+" </td>  </tr>";
+         $("#resultbody ").append(dottorando);
             id= value.secondaryEmail;
             
     $.getJSON("GetPresenceToLesson",{idCourse:selected,fkPhdstudent:id}, function (data) { 
@@ -43,7 +44,7 @@ function selectedItem()
          
         dottorandopre="<td> <input type='checkbox' value="+true+"   id=" +  value.fkPhdstudent + " onclick='changePresenza(" + 'id' + ")' class='checkboxclass' ></td> ";
             
-           $("#resultbody ").append(dottorando).find('td:last').after(dottorandopre);
+         $("#resultbody").find('td:last').after(dottorandopre);
     if(value.isPresent==true){ $('.checkboxclass')[0].checked = true;}
       
     });
