@@ -5,7 +5,6 @@
  */
 package it.unisa.dottorato.news;
 
-import it.unisa.dottorato.news.News;
 import java.sql.SQLException;
 import java.util.ArrayList;
 import org.junit.After;

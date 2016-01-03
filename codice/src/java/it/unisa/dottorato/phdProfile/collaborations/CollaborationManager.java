@@ -389,9 +389,9 @@ public class CollaborationManager {
         
        
         try (Connection connect = DBConnection.getConnection()) {
-            String tSql = "SELECT idMission FROM "
+            String tSql = "SELECT idCollaboration FROM "
                     + CollaborationManager.TABLE_COLLABORATION
-                    + "ORDER BY idMission DESC LIMIT 1";
+                    + " ORDER BY idCollaboration DESC LIMIT 1";
             //Inviamo la Query al DataBase
              ResultSet result = Utility.queryOperation(connect, tSql);
             if(result.next()){
