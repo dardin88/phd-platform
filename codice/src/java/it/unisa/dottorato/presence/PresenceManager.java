@@ -114,8 +114,9 @@ public class PresenceManager {
              */
             String tSql = "SELECT * FROM "
                     + PresenceManager.TABLE_Lesson
-                    + " WHERE fkCourse = '"
-                    + testid(idcourse) + "'"; 
+                    + " WHERE fkCourse = "
+                    + testid(idcourse) 
+                    + " order by lesson.date"; 
 
             //Inviamo la Query al DataBase
             ResultSet result = Utility.queryOperation(connect, tSql);
