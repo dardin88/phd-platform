@@ -40,12 +40,13 @@ function selectedItem()
             id= value.secondaryEmail;
             
     $.getJSON("GetPresenceToLesson",{idCourse:selected,fkPhdstudent:id}, function (data) { 
-       $.each(data.presence, function (index,value) {
+       $.each(data.presence, function (index,balue) {
          
-        dottorandopre="<td> <input type='checkbox' value="+true+"   id=" +  value.fkPhdstudent + " onclick='changePresenza(" + 'id' + ")' class='checkboxclass' ></td> ";
-            
-         $("#resultbody").find('td:last').after(dottorandopre);
-    if(value.isPresent==true){ $('.checkboxclass')[0].checked = true;}
+        dottorandopre="<td>      </td><td> <input type='checkbox' value="+true+"   id=" +  id + " onclick='changePresenza(" + 'id' + ")' class='checkboxclass' ></td> ";
+           alert(id);
+          
+ $("#resultbody ").append(dottorando).find('td:last').after(dottorandopre);
+    if(balue.isPresent==true){ $('#id').prop('checked', true);}
       
     });
     
