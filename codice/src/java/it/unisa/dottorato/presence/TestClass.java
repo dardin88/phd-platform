@@ -21,6 +21,11 @@ public class TestClass {
         return classList;
     }
 
+ 
+    public String toString() {
+        return "TestClass{" + "classList=" + classList.getFkLesson() + ", classLesson=" + classLesson.getName() + '}';
+    }
+
     public Lesson getClassLesson() {
         return classLesson;
     }
@@ -32,5 +37,17 @@ public class TestClass {
     public void setClassLesson(Lesson classLesson) {
         this.classLesson = classLesson;
     }
-    
+    public static void main(String[] args){
+        Presence a=new Presence();
+        a.setFkLesson(2);
+        a.setFkPhdstudent("gatt");
+        Lesson b=new Lesson();
+        b.setClassroom("gatto");
+        b.setName("mao");
+        
+        TestClass c=new TestClass();
+        c.setClassLesson(b);
+        c.setClassList(a);
+        System.out.println("ciao"+c);
+    }
     }

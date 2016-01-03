@@ -116,7 +116,7 @@ public class PresenceManager {
                     + PresenceManager.TABLE_Lesson
                     + " WHERE fkCourse = "
                     + testid(idcourse) 
-                    + " order by lesson.date"; 
+                    + " order by date"; 
 
             //Inviamo la Query al DataBase
             ResultSet result = Utility.queryOperation(connect, tSql);
@@ -247,20 +247,19 @@ public class PresenceManager {
        ArrayList<Account> classList = new ArrayList <Account>();
     
         try {
-         
-          
-            // Otteniamo una Connessione al DataBase
+        // Otteniamo una Connessione al DataBase
             connect = DBConnection.getConnection();
 
             /*
              * Prepariamo la stringa SQL per la ricerca dei record 
              * nella tabella presence
            */
-            String tSql = "SELECT account.name, account.surname " +
-        "FROM presence, account, lesson " +
-        " where presence.fkPhdstudent = account.secondaryEmail " +
-         " and presence.fkLesson = lesson.idLesson " +
-          " and lesson.fkCourse =  " +testid(idCorso) +" group by account.secondaryEmail" ;
+            String tSql = "SELECT account.name, account.surname" +
+        " FROM presence, account, lesson" +
+        " where presence.fkPhdstudent = account.secondaryEmail" +
+         " and presence.fkLesson = lesson.idLesson" +
+          " and lesson.fkCourse="+testid(idCorso)+
+          " group by account.secondaryEmail" ;
             //Inviamo la Query al DataBase
             ResultSet result = Utility.queryOperation(connect, tSql);
 
