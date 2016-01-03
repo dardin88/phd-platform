@@ -81,6 +81,7 @@ public class CycleManager {
             SQLException, IOException, CycleException, IdException, DateException,DescriptionException  {
         Connection connect=null;
         try{
+            
             connect = DBConnection.getConnection();
             testCycle(pCycle);
             /*
@@ -96,7 +97,7 @@ public class CycleManager {
                     + testDescription(pCycle.getDescription())
                     + "','"
                     + testYear(pCycle.getYear())
-                    + "',null";
+                    + "',null)";
 
             
             //Inviamo la Query al DataBase
@@ -123,9 +124,11 @@ public class CycleManager {
      * @throws it.unisa.dottorato.exception.DescriptionException
      */
     public synchronized void updateCycle(int Number, Cycle pCycle)throws ClassNotFoundException, SQLException, 
-            IOException, CycleException,IdException,DateException,DescriptionException {
+            IOException, CycleException,IdException, DateException, DescriptionException, Exception {
         Connection connect=null;
         try{
+            if(!existCycle(Number))
+                throw new Exception();
             connect = DBConnection.getConnection();
             testCycle(pCycle);
             /*
@@ -142,8 +145,9 @@ public class CycleManager {
                     + testNumber(Number);           
 
             //Inviamo la Query al DataBase
-            Utility.executeOperation(connect, tSql);
-
+           if (Utility.executeOperation(connect, tSql)==0){
+                throw new Exception();
+            }
             connect.commit();
         }finally {
             DBConnection.releaseConnection(connect);
@@ -179,11 +183,9 @@ public class CycleManager {
                     + testNumber(number);           
 
             //Inviamo la Query al DataBase
-            int res = Utility.executeOperation(connect, tSql);
-            if (res==0){
+            if (Utility.executeOperation(connect, tSql)==0){
                 throw new Exception();
             }
-
             connect.commit();
         }finally {
             DBConnection.releaseConnection(connect);
@@ -203,6 +205,8 @@ public class CycleManager {
             SQLException, IOException, IdException, Exception {
         Connection connect=null;
         try{
+            if(!existCycle(number))
+                throw new Exception();
             connect = DBConnection.getConnection();
 
             /*
@@ -233,11 +237,13 @@ public class CycleManager {
      * @throws it.unisa.dottorato.exception.IdException
      */
     public synchronized Professor viewCycleCoordinator(int number) throws 
-            ClassNotFoundException, SQLException, IOException, IdException {
+            ClassNotFoundException, SQLException, IOException, IdException, Exception {
         Connection connect = null;
         Professor cord=null;
         try {
-            cord=new Professor();
+            if(!existCycle(number))
+                throw new Exception();
+           cord=new Professor();
            connect = DBConnection.getConnection();
            /*
              * Prepariamo la stringa SQL per modificare un record 
@@ -291,7 +297,8 @@ public class CycleManager {
         try {
             // Otteniamo una Connessione al DataBase
             connect = DBConnection.getConnection();
-
+            if(!existCycle(number))
+                throw new Exception();
             /*
              * Prepariamo la stringa SQL per modificare un record 
              * nella tabella phdCycle
@@ -302,9 +309,10 @@ public class CycleManager {
                     + testNumber(number);
 
             //Inviamo la Query al DataBase
-            if (Utility.executeOperation(connect, tSql)==0){
+            if(Utility.executeOperation(connect, tSql)==0){
                 throw new Exception();
-            }connect.commit();
+            }
+            connect.commit();
         } finally {
             DBConnection.releaseConnection(connect);
         }
@@ -323,11 +331,13 @@ public class CycleManager {
      * @throws it.unisa.dottorato.exception.IdException
      */
     public synchronized Cycle getCycleByNumber(int number) throws ClassNotFoundException,
-            SQLException, IOException, IdException {
+            SQLException, IOException, IdException, Exception {
         Connection connect = null;
         Cycle cycle=null;
         try {
             cycle = new Cycle();
+            if(!existCycle(number))
+                throw new Exception();
             // Otteniamo una Connessione al DataBase
             connect = DBConnection.getConnection();
 
@@ -423,6 +433,7 @@ public class CycleManager {
 
             //Inviamo la Query al DataBase
             ResultSet result = Utility.queryOperation(connect, tSql);
+            connect.commit();
             while (result.next()) {
                 cycles.add(result.getInt("number"));
             }
@@ -445,10 +456,12 @@ public class CycleManager {
      * @throws it.unisa.dottorato.exception.IdException
      */
     public synchronized ArrayList<Professor> viewCollegeCycle(int number) throws ClassNotFoundException,
-            SQLException, IOException, IdException {
+            SQLException, IOException, IdException, Exception {
         Connection connect = null;
         ArrayList<Professor> prof=null;
         try {
+            if(!existCycle(number))
+                throw new Exception();
             prof = new ArrayList<>();
             Professor cord=new Professor();
             // Otteniamo una Connessione al DataBase
@@ -501,9 +514,14 @@ public class CycleManager {
      * @throws it.unisa.dottorato.exception.IdException
      */
     public synchronized void insertCurriculumcic(Curriculumcic pCurriculumcic) throws ClassNotFoundException, 
-            SQLException, IOException, NameException,CurriculumcicException, IdException {
+            SQLException, IOException, NameException,CurriculumcicException, IdException, Exception {
         Connection connect=null;
         try{
+            if(!existCycle(pCurriculumcic.getfkCycle()))
+                throw new Exception();
+            CurriculumManager d=CurriculumManager.getInstance();
+            if(!d.existCurriculum(pCurriculumcic.getfkCurriculum()))
+                    throw new Exception();
             connect = DBConnection.getConnection(); 
             CurriculumcicManager.getInstance().testCurriculucic(pCurriculumcic);
             /*
@@ -517,7 +535,7 @@ public class CycleManager {
                     + CurriculumManager.getInstance().testName(pCurriculumcic.getfkCurriculum())
                     + "',"
                     + testNumber(pCurriculumcic.getfkCycle())
-                    + ",null";
+                    + ",null)";
 
             //Inviamo la Query al DataBase
             Utility.executeOperation(connect, tSql);
@@ -580,11 +598,13 @@ public class CycleManager {
      * @throws it.unisa.dottorato.exception.IdException
      */
     public synchronized ArrayList<Curriculum> getCurriculumcicList(int number) throws ClassNotFoundException, 
-            SQLException, IOException, IdException {
+            SQLException, IOException, IdException, Exception {
         Connection connect = null;
         ArrayList<Curriculum> List=null;
         try {
             List= new ArrayList<>();
+            if(!existCycle(number))
+                throw new Exception();
             Curriculum c=new Curriculum();
             // Otteniamo una Connessione al DataBase
             connect = DBConnection.getConnection();
@@ -692,13 +712,13 @@ public class CycleManager {
     
      /** Metodo della classe incaricato di verificare l'esistenza di un ciclo
      * 
-     * @param c il ciclo da ricercare
-     * @return restituisce true se il ciclo esiste, false altrimenti
+     * @param number
+     * @return 
      * @throws ClassNotFoundException
      * @throws SQLException
      * @throws IOException 
      */
-    public boolean existCycle(Cycle c)throws ClassNotFoundException, SQLException, IOException{
+    public boolean existCycle(int number)throws ClassNotFoundException, SQLException, IOException{
          Connection connect = null;
         try {         
             connect = DBConnection.getConnection();
@@ -708,19 +728,24 @@ public class CycleManager {
              */
             String tSql = "SELECT * FROM "
                     + CycleManager.TABLE_CYCLE
-                    + " WHERE name = '"
-                    + c.getNumber()+ "'";
+                    + " WHERE number = "
+                    + number;
             //Inviamo la Query al DataBase
             ResultSet result = Utility.queryOperation(connect, tSql);
-
+            connect.commit();
             if (result.next()) {
-               return true;
+                DBConnection.releaseConnection(connect);
+                return true;
+            }else{
+                DBConnection.releaseConnection(connect);
+                return false;
             }
-            return false;
         } finally {
             DBConnection.releaseConnection(connect);
         }
     }
+    
+    
     /** Metodo della classe per il testing di un ciclo; verifica che il ciclo non 
      * sia <code>null</code>
      * 
@@ -742,7 +767,7 @@ public class CycleManager {
      */
     public String testFkProfessor(String s) throws ReferenceException{
         if (s==null) return s;
-        if(s.length()<10 || s.length()>50 || s.indexOf("@")==-1)
+        if(s.length()<10 || s.length()>50 || !s.contains("@"))
             throw new ReferenceException();
         return s;
     }

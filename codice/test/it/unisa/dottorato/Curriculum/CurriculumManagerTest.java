@@ -4,7 +4,6 @@
  * and open the template in the editor.
  */
 package it.unisa.dottorato.Curriculum;
-
 import it.unisa.dottorato.exception.DescriptionException;
 import it.unisa.dottorato.exception.NameException;
 import java.io.IOException;
@@ -57,7 +56,7 @@ public class CurriculumManagerTest {
             instance.insert(cur);
             assertTrue(true);
         } catch (Exception x) {
-            fail("sono riuscito a fare l' op");
+            fail("non sono riuscito a fare l' op");
         }
     }
 
@@ -112,15 +111,22 @@ public class CurriculumManagerTest {
      */
     @Test
     public void testUpdateok() {
-        String oldNameCurriculum = "Marketing e Comunicazione";
-        cur.setName("curriculum prova update2");
-        cur.setDescription("descrizione prova update");
+        Curriculum ne=new Curriculum();
+        ne.setName("provaupdate");
+        ne.setDescription("prova");
         try {
-            instance.update(oldNameCurriculum, cur);
-            assertTrue(true);
-        } catch (Exception x) {
-            fail("non sono riuscito a fare l' op");
+            instance.insert(ne);
+            cur.setName("curriculum prova update2");
+            cur.setDescription("descrizione prova update");
+            try {
+                instance.update(ne.getName(), cur);
+                assertTrue(true);
+            } catch (Exception x) {
+                fail("non sono riuscito a fare l' op");
+            }
+        } catch (Exception ex) {
         }
+        
     }
 
     /**
@@ -254,12 +260,18 @@ public class CurriculumManagerTest {
      */
     @Test
     public void testDeleteok() {
-        String CurriculumName = "Curriculmtest";
+        Curriculum ne=new Curriculum();
+        ne.setName("provaupdate1");
+        ne.setDescription("prova");
         try {
-            instance.delete(CurriculumName);
+            instance.insert(ne);
+        } catch (Exception ex) {
+        }
+        try {
+            instance.delete(ne.getName());
             assertTrue(true);
         } catch (Exception x) {
-            fail("sono riuscito a fare l' op");
+            fail("non sono riuscito a fare l' op");
         }
     }
 
@@ -268,9 +280,8 @@ public class CurriculumManagerTest {
      */
     @Test
     public void testGetCurriculumList() {
-        ArrayList<Curriculum> result;
         try {
-            result = instance.getCurriculumList();
+            instance.getCurriculumList();
             assertTrue(true);
         } catch (Exception ex) {
             fail("sono riuscito a fare l' op");

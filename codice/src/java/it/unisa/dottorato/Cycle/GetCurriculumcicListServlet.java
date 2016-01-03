@@ -40,7 +40,7 @@ public class GetCurriculumcicListServlet extends HttpServlet {
      * @throws it.unisa.dottorato.exception.IdException
      */
     protected void processRequest(HttpServletRequest request, HttpServletResponse response)
-            throws ServletException, IOException, IdException {
+            throws ServletException, IOException, IdException, Exception {
         response.setContentType("text/html;charset=UTF-8");
         try (PrintWriter out = response.getWriter()) {
               int number = Integer.parseInt(request.getParameter("number"));
@@ -72,6 +72,8 @@ public class GetCurriculumcicListServlet extends HttpServlet {
             processRequest(request, response);
         } catch (IdException ex) {
             Logger.getLogger(GetCurriculumcicListServlet.class.getName()).log(Level.SEVERE, null, ex);
+        } catch (Exception ex) {
+            Logger.getLogger(GetCurriculumcicListServlet.class.getName()).log(Level.SEVERE, null, ex);
         }
     }
 
@@ -89,6 +91,8 @@ public class GetCurriculumcicListServlet extends HttpServlet {
         try {
             processRequest(request, response);
         } catch (IdException ex) {
+            Logger.getLogger(GetCurriculumcicListServlet.class.getName()).log(Level.SEVERE, null, ex);
+        } catch (Exception ex) {
             Logger.getLogger(GetCurriculumcicListServlet.class.getName()).log(Level.SEVERE, null, ex);
         }
     }

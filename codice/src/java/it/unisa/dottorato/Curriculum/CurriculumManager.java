@@ -83,7 +83,6 @@ public class CurriculumManager {
 
             //Inviamo la Query al DataBase
             Utility.executeOperation(connect, tSql);
-
             connect.commit();
         } finally {
             DBConnection.releaseConnection(connect);
@@ -148,7 +147,6 @@ public class CurriculumManager {
         try {
             // Otteniamo una Connessione al DataBase
             connect = DBConnection.getConnection();
-
             /*
              * Prepariamo la stringa SQL per modificare un record 
              * nella tabella phdCurriculum
@@ -226,7 +224,6 @@ public class CurriculumManager {
         Connection connect = null;
         Curriculum curriculum = new Curriculum();
         try {
-
             // Otteniamo una Connessione al DataBase
             connect = DBConnection.getConnection();
 
@@ -297,32 +294,30 @@ public class CurriculumManager {
 
     /**
      * Metodo della classe incaricato di verificare l'esistenza di un curriculum
-     *
-     *
-     * @param c il curriculum da ricercare
-     * @return restituisce true se il curriculum esiste, false altrimenti
+     * @param Name
+     * @return 
      * @throws ClassNotFoundException
      * @throws SQLException
      * @throws IOException
      */
-    public boolean existCurriculum(Curriculum c) throws ClassNotFoundException, SQLException, IOException {
+    public boolean existCurriculum(String Name) throws ClassNotFoundException, SQLException, IOException {
         Connection connect = null;
         try {
             connect = DBConnection.getConnection();
-            /*
-             * Prepariamo la stringa SQL per ricercare il curriculum c
-             * nella tabella Curriculum
-             */
+            
             String tSql = "SELECT * FROM "
                     + CurriculumManager.TABLE_CURRICULUM
                     + " WHERE name = '"
-                    + c.getName() + "'";
+                    + Name+"'";
             //Inviamo la Query al DataBase
             ResultSet result = Utility.queryOperation(connect, tSql);
 
-            return result.next();
+            if (result.next()) {
+                return true;
+            }
         } finally {
             DBConnection.releaseConnection(connect);
         }
+        return false;
     }
 }
