@@ -7,11 +7,11 @@
 
 $(document).ready(function () {
  
-    //getCorsoList();
+    getCorsoList();
     //getLesson();
 });
 
-/*
+
 function getCorsoList()
 {
  //servlet per richiamare la lista dei nomi lezioni
@@ -24,7 +24,7 @@ function getCorsoList()
         });
     });
     
-}*/
+}
 //metodo per chiamare tutt ele lezioni
 function selectedItem()
 { 
@@ -33,15 +33,20 @@ function selectedItem()
     { selected = $("#Corsoprofessore option:selected").val();
         $("#panelDiv").show();
     //metodo per stampare le date
-        $.getJSON("GetAllLesson",{fkCourse: selected}, function (data) { 
-    $.each(data.lessons, function (index, value) {  
-
-alert("ciao mano");
-    var curriculumDiv = "<th type='data' value='" + value.idLesson + "' > " + tD +"</th>";
-                    $("#resulthead").append(curriculumDiv);
-              
-    
-    });
+       $.getJSON("GetPresenceDottotandi",{idCourse: selected}, function (data) { 
+           alert("ciao");
+        
+        $.each(data.presence, function (index, value) { 
+        
+             dottorando="<tr> <td > "+ value.name+" </td>   <td >"+ value.surname+ "</td></tr>";
+            
+            // dottorando="<tr > <td> "+ value.name+" </td>  <td>"+value.surname+"</td> <td> <input type='checkbox' value="+true+"   id=" +  value.fkPhdstudent + " onclick='changePresenza(" + 'id' + ")' ></td></tr>";
+      
+            
+            $("#resultbody").append(dottorando);
+         
+   
+        });
     });
     
     
@@ -51,19 +56,19 @@ alert("ciao mano");
 // metodo per mostrare i partecipanti a lezione
 
 function mostraPresenze(){
-    selected1 = $("#Lezioneprofessore option:selected").val();
-    if (selected1 !== "default") //se il valore della select è default non mostriamo il div contenente le informazioni delle date delle lezioni
+    selected = $("#Corsoprofessore option:selected").val();
+    if (selected !== "default") //se il valore della select è default non mostriamo il div contenente le informazioni delle date delle lezioni
     {   
         $("#resultbody tr").remove();
         $("#results").show();
-        selected1 = $("#Lezioneprofessore option:selected").val();
+      selected = $("#Corsoprofessore option:selected").val();
         //metodo per vedere i partecipanti
-    $.getJSON("GetPresence",{fkLesson: selected1}, function (data) { 
+    $.getJSON("GetPresenceDottotandi",{idCourse: selected}, function (data) { 
            
         
         $.each(data.presence, function (index, value) { 
         
-             dottorando="<tr> <td > "+ value.fkPhdstudent+" </td>   <td id=" +  value.isPresent + " class='checkboxclass' > <input type='checkbox'    id=" +  value.fkPhdstudent + " onclick='changePresenza(" + 'id' + ")'  class='checkboxclass1' ></td></tr>";
+             dottorando="<tr> <td > "+ value.name+" </td>   <td id=" +  value.surname + " class='checkboxclass' > <input type='checkbox'    id=" +  value.fkPhdstudent + " onclick='changePresenza(" + 'id' + ")'  class='checkboxclass1' ></td></tr>";
             
             // dottorando="<tr > <td> "+ value.name+" </td>  <td>"+value.surname+"</td> <td> <input type='checkbox' value="+true+"   id=" +  value.fkPhdstudent + " onclick='changePresenza(" + 'id' + ")' ></td></tr>";
       
