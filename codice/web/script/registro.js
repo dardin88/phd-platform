@@ -42,18 +42,16 @@ function selectedItem()
     $.getJSON("GetPresenceToLesson",{idCourse:selected,fkPhdstudent:id}, function (data) { 
        $.each(data.presence, function (index,balue) {
         lezione= balue.fkLesson;
-        dottorandopre="<td>      </td><td> <input type='checkbox' value="+true+"   id=" +  id + " onclick='changePresenza(" + 'id' + ","+lezione +")' class='checkboxclass' ></td> ";
+        dottorandopre="<td> <input type='checkbox' value="+true+"   id=" +  id + " onclick='changePresenza(" + 'id' + ","+lezione +")' class='checkboxclass' ></td> ";
            
           
- $("#resultbody ").append(dottorando).find('td:last').after(dottorandopre);
+ $("#resultbody ").find('td:last').after(dottorandopre);
     if(balue.isPresent==true){ $('#id').prop('checked', true);}
       
     });
     
 });
-// dottorando="<tr > <td> "+ value.name+" </td>  <td>"+value.surname+"</td> <td> <input type='checkbox' value="+true+"   id=" +  value.fkPhdstudent + " onclick='changePresenza(" + 'id' + ")' ></td></tr>";
- //$("#resultbody").append(dottorando);
-   
+
         });
     });
   
