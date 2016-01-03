@@ -41,9 +41,9 @@ function selectedItem()
             
     $.getJSON("GetPresenceToLesson",{idCourse:selected,fkPhdstudent:id}, function (data) { 
        $.each(data.presence, function (index,balue) {
-         
-        dottorandopre="<td>      </td><td> <input type='checkbox' value="+true+"   id=" +  id + " onclick='changePresenza(" + 'id' + ")' class='checkboxclass' ></td> ";
-           alert(id);
+        lezione= balue.fkLesson;
+        dottorandopre="<td>      </td><td> <input type='checkbox' value="+true+"   id=" +  id + " onclick='changePresenza(" + 'id' + ","+lezione +")' class='checkboxclass' ></td> ";
+           
           
  $("#resultbody ").append(dottorando).find('td:last').after(dottorandopre);
     if(balue.isPresent==true){ $('#id').prop('checked', true);}
@@ -65,10 +65,10 @@ function selectedItem()
 
 // metodo per cambiare la presenza 
 
-function changePresenza(id) {
+function changePresenza(id,lezione) {
     
      alert("firma inserita");
-    $.getJSON("ModifyPresence",{fkPhdstudent:id,fkLesson:selected1}, function (data) { 
+    $.getJSON("ModifyPresence",{fkPhdstudent:id,fkLesson:lezione}, function (data) { 
     
     });
     
