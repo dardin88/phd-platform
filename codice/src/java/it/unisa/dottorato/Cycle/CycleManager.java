@@ -92,7 +92,7 @@ public class CycleManager {
                     + CycleManager.TABLE_CYCLE
                     + " (number, description, year, fkProfessor)"
                     + " VALUES ("
-                    + testNumber(pCycle.getNumber())
+                    + testNumber(nextNumber())
                     + ",'"
                     + testDescription(pCycle.getDescription())
                     + "','"
@@ -127,8 +127,6 @@ public class CycleManager {
             IOException, CycleException,IdException, DateException, DescriptionException, Exception {
         Connection connect=null;
         try{
-            if(!existCycle(Number))
-                throw new Exception();
             connect = DBConnection.getConnection();
             testCycle(pCycle);
             /*
@@ -205,8 +203,6 @@ public class CycleManager {
             SQLException, IOException, IdException, Exception {
         Connection connect=null;
         try{
-            if(!existCycle(number))
-                throw new Exception();
             connect = DBConnection.getConnection();
 
             /*
@@ -241,8 +237,6 @@ public class CycleManager {
         Connection connect = null;
         Professor cord=null;
         try {
-            if(!existCycle(number))
-                throw new Exception();
            cord=new Professor();
            connect = DBConnection.getConnection();
            /*
@@ -297,8 +291,6 @@ public class CycleManager {
         try {
             // Otteniamo una Connessione al DataBase
             connect = DBConnection.getConnection();
-            if(!existCycle(number))
-                throw new Exception();
             /*
              * Prepariamo la stringa SQL per modificare un record 
              * nella tabella phdCycle
@@ -336,8 +328,6 @@ public class CycleManager {
         Cycle cycle=null;
         try {
             cycle = new Cycle();
-            if(!existCycle(number))
-                throw new Exception();
             // Otteniamo una Connessione al DataBase
             connect = DBConnection.getConnection();
 
@@ -460,8 +450,6 @@ public class CycleManager {
         Connection connect = null;
         ArrayList<Professor> prof=null;
         try {
-            if(!existCycle(number))
-                throw new Exception();
             prof = new ArrayList<>();
             Professor cord=new Professor();
             // Otteniamo una Connessione al DataBase
@@ -517,11 +505,9 @@ public class CycleManager {
             SQLException, IOException, NameException,CurriculumcicException, IdException, Exception {
         Connection connect=null;
         try{
-            if(!existCycle(pCurriculumcic.getfkCycle()))
-                throw new Exception();
+            
             CurriculumManager d=CurriculumManager.getInstance();
-            if(!d.existCurriculum(pCurriculumcic.getfkCurriculum()))
-                    throw new Exception();
+            
             connect = DBConnection.getConnection(); 
             CurriculumcicManager.getInstance().testCurriculucic(pCurriculumcic);
             /*
@@ -538,7 +524,8 @@ public class CycleManager {
                     + ",null)";
 
             //Inviamo la Query al DataBase
-            Utility.executeOperation(connect, tSql);
+            if(Utility.executeOperation(connect, tSql)==0)
+                throw new Exception();
 
             connect.commit();
         } finally {
@@ -578,9 +565,7 @@ public class CycleManager {
                     + CurriculumManager.getInstance().testName(fkCurriculum) + "'";
 
             //Inviamo la Query al DataBase
-            if (Utility.executeOperation(connect, tSql)==0){
-                throw new Exception();
-            }
+            Utility.executeOperation(connect, tSql);
             connect.commit();
         } finally {
             DBConnection.releaseConnection(connect);
@@ -603,8 +588,6 @@ public class CycleManager {
         ArrayList<Curriculum> List=null;
         try {
             List= new ArrayList<>();
-            if(!existCycle(number))
-                throw new Exception();
             Curriculum c=new Curriculum();
             // Otteniamo una Connessione al DataBase
             connect = DBConnection.getConnection();
@@ -651,7 +634,7 @@ public class CycleManager {
         try (Connection connect = DBConnection.getConnection()) {
             String tSql = "SELECT number FROM "
                     + CycleManager.TABLE_CYCLE
-                    + "ORDER BY number DESC LIMIT 1";
+                    + " ORDER BY number DESC LIMIT 1";
             //Inviamo la Query al DataBase
              ResultSet result = Utility.queryOperation(connect, tSql);
             if(result.next()){
@@ -699,11 +682,11 @@ public class CycleManager {
     public String testYear(String year) throws DateException {
         if(year.length()!=4) 
             throw new DateException("Anno ciclo errato.");
-        int n1=0;
+        int n1;
         for(int i=0; i<4; i++){
             n1=Integer.parseInt(year.substring(i, i+1));
-            if(n1>=0 && n1<=9)
-                return year;
+            if(n1>=0 && n1<=9){}
+                
             else
                 throw new DateException("Anno ciclo errato.");
         }
@@ -718,14 +701,11 @@ public class CycleManager {
      * @throws SQLException
      * @throws IOException 
      */
-    public boolean existCycle(int number)throws ClassNotFoundException, SQLException, IOException{
+   /*  public boolean existCycle(int number)throws ClassNotFoundException, SQLException, IOException{
          Connection connect = null;
         try {         
             connect = DBConnection.getConnection();
-            /*
-             * Prepariamo la stringa SQL per ricercare il ciclo c
-             * nella tabella cycle
-             */
+            
             String tSql = "SELECT * FROM "
                     + CycleManager.TABLE_CYCLE
                     + " WHERE number = "
@@ -744,7 +724,7 @@ public class CycleManager {
             DBConnection.releaseConnection(connect);
         }
     }
-    
+    */
     
     /** Metodo della classe per il testing di un ciclo; verifica che il ciclo non 
      * sia <code>null</code>

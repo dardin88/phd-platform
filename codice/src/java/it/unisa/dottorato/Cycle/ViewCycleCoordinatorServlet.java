@@ -36,7 +36,7 @@ public class ViewCycleCoordinatorServlet extends HttpServlet {
      * @throws IOException if an I/O error occurs
      */
     protected void processRequest(HttpServletRequest request, HttpServletResponse response)
-            throws ServletException, IOException, IdException {
+            throws ServletException, IOException, IdException, Exception {
         response.setContentType("text/html;charset=UTF-8");
         PrintWriter out = response.getWriter();
         try {
@@ -82,6 +82,8 @@ public class ViewCycleCoordinatorServlet extends HttpServlet {
             processRequest(request, response);
         }catch (IdException ex) {
             Logger.getLogger(ViewCycleCoordinatorServlet.class.getName()).log(Level.SEVERE, null, ex);
+        } catch (Exception ex) {
+            Logger.getLogger(ViewCycleCoordinatorServlet.class.getName()).log(Level.SEVERE, null, ex);
         }
     }
 
@@ -99,6 +101,8 @@ public class ViewCycleCoordinatorServlet extends HttpServlet {
        try {
             processRequest(request, response);
         }catch (IdException ex) {
+            Logger.getLogger(ViewCycleCoordinatorServlet.class.getName()).log(Level.SEVERE, null, ex);
+        } catch (Exception ex) {
             Logger.getLogger(ViewCycleCoordinatorServlet.class.getName()).log(Level.SEVERE, null, ex);
         }
     }
