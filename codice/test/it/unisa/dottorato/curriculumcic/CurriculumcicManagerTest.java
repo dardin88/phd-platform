@@ -42,10 +42,9 @@ public class CurriculumcicManagerTest {
 
     /**
      * Test of insertProfessor method, of class CurriculumcicManager.
-     * @throws java.lang.Exception
      */
     @Test
-    public void testInsertProfessorOk() throws Exception {
+    public void testInsertProfessorOk(){
         String fkProfessor = "wrestler@hotmail.it";
         c.setfkCurriculum("Informatica, Sistemi Informativi e Tecnologie del Software");
         c.setfkCycle(15);
@@ -61,10 +60,9 @@ public class CurriculumcicManagerTest {
     
     /**
      * Test of insertProfessor method, of class CurriculumcicManager.
-     * @throws java.lang.Exception
      */
     @Test
-    public void testInsertProfessorNameMin() throws Exception {
+    public void testInsertProfessorNameMin(){
         String fkProfessor = "wrestler@hotmail.it";
         c.setfkCurriculum("");
         c.setfkCycle(15);
@@ -78,10 +76,9 @@ public class CurriculumcicManagerTest {
      
     /**
      * Test of insertProfessor method, of class CurriculumcicManager.
-     * @throws java.lang.Exception
      */
     @Test
-    public void testInsertProfessorNameMax() throws Exception {
+    public void testInsertProfessorNameMax(){
         String fkProfessor = "wrestler@hotmail.it";
         c.setfkCurriculum("asqwasqwsaqwsaqwsaqwsaqwsaqwsaqwsaqwsaqwsaqwsaqwsaqwsaqw"
                          + "sasqwasqwsaqwsaqwsaqwsaqwsaqwsaqwsaqwsaqwsaqwsaqwsaqwsaqws");
@@ -96,10 +93,9 @@ public class CurriculumcicManagerTest {
     
     /**
      * Test of insertProfessor method, of class CurriculumcicManager.
-     * @throws java.lang.Exception
      */
     @Test
-    public void testInsertProfessorNameNotExists() throws Exception {
+    public void testInsertProfessorNameNotExists(){
         String fkProfessor = "wrestler@hotmail.it";
         c.setfkCurriculum("prova");
         c.setfkCycle(15);
@@ -113,10 +109,9 @@ public class CurriculumcicManagerTest {
     
     /**
      * Test of insertProfessor method, of class CurriculumcicManager.
-     * @throws java.lang.Exception
      */
     @Test
-    public void testInsertProfessorNumberMin() throws Exception {
+    public void testInsertProfessorNumberMin(){
         String fkProfessor = "wrestler@hotmail.it";
         c.setfkCurriculum("Informatica, Sistemi Informativi e Tecnologie del Software");
         c.setfkCycle(-8);
@@ -130,10 +125,9 @@ public class CurriculumcicManagerTest {
     
     /**
      * Test of insertProfessor method, of class CurriculumcicManager.
-     * @throws java.lang.Exception
      */
     @Test
-    public void testInsertProfessorNumberMax() throws Exception {
+    public void testInsertProfessorNumberMax(){
         String fkProfessor = "wrestler@hotmail.it";
         c.setfkCurriculum("Informatica, Sistemi Informativi e Tecnologie del Software");
         c.setfkCycle(8989);
@@ -147,10 +141,9 @@ public class CurriculumcicManagerTest {
     
     /**
      * Test of insertProfessor method, of class CurriculumcicManager.
-     * @throws java.lang.Exception
      */
     @Test
-    public void testInsertProfessorNumberNotExists() throws Exception {
+    public void testInsertProfessorNumberNotExists(){
         String fkProfessor = "wrestler@hotmail.it";
         c.setfkCurriculum("Informatica, Sistemi Informativi e Tecnologie del Software");
         c.setfkCycle(50);
@@ -164,10 +157,9 @@ public class CurriculumcicManagerTest {
     
     /**
      * Test of insertProfessor method, of class CurriculumcicManager.
-     * @throws java.lang.Exception
      */
     @Test
-    public void testInsertProfessorfkProfessorMin() throws Exception {
+    public void testInsertProfessorfkProfessorMin(){
         String fkProfessor = "";
         c.setfkCurriculum("Informatica, Sistemi Informativi e Tecnologie del Software");
         c.setfkCycle(15);
@@ -181,10 +173,9 @@ public class CurriculumcicManagerTest {
     
     /**
      * Test of insertProfessor method, of class CurriculumcicManager.
-     * @throws java.lang.Exception
      */
     @Test
-    public void testInsertProfessorfkProfessorMax() throws Exception {
+    public void testInsertProfessorfkProfessorMax(){
         String fkProfessor = "sdsdsdsdsdsdsdsdsdsdsdsdsdsdsdsdsdsdsdsdsdsdsdsdsdsdsdsdssdsdsdsdsdsdsdsdsds";
         c.setfkCurriculum("Informatica, Sistemi Informativi e Tecnologie del Software");
         c.setfkCycle(15);
@@ -198,10 +189,9 @@ public class CurriculumcicManagerTest {
 
     /**
      * Test of insertProfessor method, of class CurriculumcicManager.
-     * @throws java.lang.Exception
      */
     @Test
-    public void testInsertProfessorfkProfessorFormatError() throws Exception {
+    public void testInsertProfessorfkProfessorFormatError(){
         String fkProfessor = "sdsdsdsdssdsdsdsdsdsdsdsdsds";
         c.setfkCurriculum("Informatica, Sistemi Informativi e Tecnologie del Software");
         c.setfkCycle(15);
@@ -215,10 +205,9 @@ public class CurriculumcicManagerTest {
     
     /**
      * Test of insertProfessor method, of class CurriculumcicManager.
-     * @throws java.lang.Exception
      */
     @Test
-    public void testInsertProfessorfkProfessorNotExists() throws Exception {
+    public void testInsertProfessorfkProfessorNotExists(){
         String fkProfessor = "dsdsdsdsdsds@hotmail.com";
         c.setfkCurriculum("Informatica, Sistemi Informativi e Tecnologie del Software");
         c.setfkCycle(15);
@@ -232,10 +221,9 @@ public class CurriculumcicManagerTest {
     
     /**
      * Test of insertCurriculumcicCoordinator method, of class CurriculumcicManager.
-     * @throws java.lang.Exception
      */
     @Test
-    public void testInsertCurriculumcicCoordinatorOk() throws Exception {
+    public void testInsertCurriculumcicCoordinatorOk(){
         String fkProfessor = "dracula@hotmail.it";
         c.setfkCurriculum("Informatica, Sistemi Informativi e Tecnologie del Software");
         c.setfkCycle(15);
@@ -249,10 +237,9 @@ public class CurriculumcicManagerTest {
     
     /**
      * Test of insertCurriculumcicCoordinator method, of class CurriculumcicManager.
-     * @throws java.lang.Exception
      */
     @Test
-    public void testInsertCurriculumcicCoordinatorNameMin() throws Exception {
+    public void testInsertCurriculumcicCoordinatorNameMin(){
         String fkProfessor = "dracula@hotmail.it";
         c.setfkCurriculum("");
         c.setfkCycle(15);
@@ -266,10 +253,9 @@ public class CurriculumcicManagerTest {
     
     /**
      * Test of insertCurriculumcicCoordinator method, of class CurriculumcicManager.
-     * @throws java.lang.Exception
      */
     @Test
-    public void testInsertCurriculumcicCoordinatorNameMax() throws Exception {
+    public void testInsertCurriculumcicCoordinatorNameMax(){
         String fkProfessor = "dracula@hotmail.it";
         c.setfkCurriculum("asqwasqwsaqwsaqwsaqwsaqwsaqwsaqwsaqwsaqwsaqwsaqwsaqwsaqw"
                          + "sasqwasqwsaqwsaqwsaqwsaqwsaqwsaqwsaqwsaqwsaqwsaqwsaqwsaqws");
@@ -284,10 +270,9 @@ public class CurriculumcicManagerTest {
     
     /**
      * Test of insertCurriculumcicCoordinator method, of class CurriculumcicManager.
-     * @throws java.lang.Exception
      */
     @Test
-    public void testInsertCurriculumcicCoordinatorNameNotExists() throws Exception {
+    public void testInsertCurriculumcicCoordinatorNameNotExists(){
         String fkProfessor = "dracula@hotmail.it";
         c.setfkCurriculum("aqwsaqwsaqwsaqws");
         c.setfkCycle(15);
@@ -301,10 +286,9 @@ public class CurriculumcicManagerTest {
     
     /**
      * Test of insertCurriculumcicCoordinator method, of class CurriculumcicManager.
-     * @throws java.lang.Exception
      */
     @Test
-    public void testInsertCurriculumcicCoordinatorNumberMin() throws Exception {
+    public void testInsertCurriculumcicCoordinatorNumberMin(){
         String fkProfessor = "dracula@hotmail.it";
                 c.setfkCurriculum("Informatica, Sistemi Informativi e Tecnologie del Software");
         c.setfkCycle(-8);
@@ -318,10 +302,9 @@ public class CurriculumcicManagerTest {
     
     /**
      * Test of insertCurriculumcicCoordinator method, of class CurriculumcicManager.
-     * @throws java.lang.Exception
      */
     @Test
-    public void testInsertCurriculumcicCoordinatorNumberMax() throws Exception {
+    public void testInsertCurriculumcicCoordinatorNumberMax(){
         String fkProfessor = "dracula@hotmail.it";
                 c.setfkCurriculum("Informatica, Sistemi Informativi e Tecnologie del Software");
         c.setfkCycle(8989);
@@ -335,10 +318,9 @@ public class CurriculumcicManagerTest {
 
     /**
      * Test of insertCurriculumcicCoordinator method, of class CurriculumcicManager.
-     * @throws java.lang.Exception
      */
     @Test
-    public void testInsertCurriculumcicCoordinatorNumberNotExists() throws Exception {
+    public void testInsertCurriculumcicCoordinatorNumberNotExists(){
         String fkProfessor = "dracula@hotmail.it";
                 c.setfkCurriculum("Informatica, Sistemi Informativi e Tecnologie del Software");
         c.setfkCycle(60);
@@ -352,10 +334,9 @@ public class CurriculumcicManagerTest {
     
     /**
      * Test of insertCurriculumcicCoordinator method, of class CurriculumcicManager.
-     * @throws java.lang.Exception
      */
     @Test
-    public void testInsertCurriculumcicCoordinatorFkProfessorMin() throws Exception {
+    public void testInsertCurriculumcicCoordinatorFkProfessorMin(){
         String fkProfessor = "";
                 c.setfkCurriculum("Informatica, Sistemi Informativi e Tecnologie del Software");
         c.setfkCycle(15);
@@ -369,10 +350,9 @@ public class CurriculumcicManagerTest {
     
     /**
      * Test of insertCurriculumcicCoordinator method, of class CurriculumcicManager.
-     * @throws java.lang.Exception
      */
     @Test
-    public void testInsertCurriculumcicCoordinatorFkProfessorMax() throws Exception {
+    public void testInsertCurriculumcicCoordinatorFkProfessorMax(){
         String fkProfessor = "qwertyuioplkjhgfdsazxcvbnmqwertyuioplkjhgfdsazxcvbnmqwertyuioplkjhgfdsazxcvbnm";
                 c.setfkCurriculum("Informatica, Sistemi Informativi e Tecnologie del Software");
         c.setfkCycle(15);
@@ -386,10 +366,9 @@ public class CurriculumcicManagerTest {
     
     /**
      * Test of insertCurriculumcicCoordinator method, of class CurriculumcicManager.
-     * @throws java.lang.Exception
      */
     @Test
-    public void testInsertCurriculumcicCoordinatorFkProfessorFormatError() throws Exception {
+    public void testInsertCurriculumcicCoordinatorFkProfessorFormatError(){
         String fkProfessor = "cvbnmqwertyuioplkjhgfdsazxcvbnm";
                 c.setfkCurriculum("Informatica, Sistemi Informativi e Tecnologie del Software");
         c.setfkCycle(15);
@@ -403,10 +382,9 @@ public class CurriculumcicManagerTest {
     
     /**
      * Test of insertCurriculumcicCoordinator method, of class CurriculumcicManager.
-     * @throws java.lang.Exception
      */
     @Test
-    public void testInsertCurriculumcicCoordinatorFkProfessorNotExists() throws Exception {
+    public void testInsertCurriculumcicCoordinatorFkProfessorNotExists(){
         String fkProfessor = "tyuioplkjhgf@hotmail.com";
         c.setfkCurriculum("Informatica, Sistemi Informativi e Tecnologie del Software");
         c.setfkCycle(15);
@@ -420,10 +398,9 @@ public class CurriculumcicManagerTest {
  
     /**
      * Test of deleteCurriculumcicCoordinator method, of class CurriculumcicManager.
-     * @throws java.lang.Exception
      */
     @Test
-    public void testDeleteCurriculumcicCoordinatorOk() throws Exception {
+    public void testDeleteCurriculumcicCoordinatorOk(){
         c.setfkCurriculum("Informatica, Sistemi Informativi e Tecnologie del Software");
         c.setfkCycle(15);
         try{
@@ -436,10 +413,9 @@ public class CurriculumcicManagerTest {
     
     /**
      * Test of deleteCurriculumcicCoordinator method, of class CurriculumcicManager.
-     * @throws java.lang.Exception
      */
     @Test
-    public void testDeleteCurriculumcicCoordinatorNameMin() throws Exception {
+    public void testDeleteCurriculumcicCoordinatorNameMin(){
         c.setfkCurriculum("");
         c.setfkCycle(15);
         try{
@@ -452,10 +428,9 @@ public class CurriculumcicManagerTest {
     
     /**
      * Test of deleteCurriculumcicCoordinator method, of class CurriculumcicManager.
-     * @throws java.lang.Exception
      */
     @Test
-    public void testDeleteCurriculumcicCoordinatorNameMax() throws Exception {
+    public void testDeleteCurriculumcicCoordinatorNameMax(){
         c.setfkCurriculum("Informatica, Sistemi Informativi e Tecnologie del Software"
                 + "Informatica, Sistemi Informativi e Tecnologie del Software"
                 + "Informatica, Sistemi Informativi e Tecnologie del Software");
@@ -470,10 +445,9 @@ public class CurriculumcicManagerTest {
     
     /**
      * Test of deleteCurriculumcicCoordinator method, of class CurriculumcicManager.
-     * @throws java.lang.Exception
      */
     @Test
-    public void testDeleteCurriculumcicCoordinatorNameNotExists() throws Exception {
+    public void testDeleteCurriculumcicCoordinatorNameNotExists(){
         c.setfkCurriculum("nologie del Software");
         c.setfkCycle(15);
         try{
@@ -486,10 +460,9 @@ public class CurriculumcicManagerTest {
     
     /**
      * Test of deleteCurriculumcicCoordinator method, of class CurriculumcicManager.
-     * @throws java.lang.Exception
      */
     @Test
-    public void testDeleteCurriculumcicCoordinatorNumberMin() throws Exception {
+    public void testDeleteCurriculumcicCoordinatorNumberMin(){
         c.setfkCurriculum("Informatica, Sistemi Informativi e Tecnologie del Software");
         c.setfkCycle(-9);
         try{
@@ -502,10 +475,9 @@ public class CurriculumcicManagerTest {
     
     /**
      * Test of deleteCurriculumcicCoordinator method, of class CurriculumcicManager.
-     * @throws java.lang.Exception
      */
     @Test
-    public void testDeleteCurriculumcicCoordinatorNumberMax() throws Exception {
+    public void testDeleteCurriculumcicCoordinatorNumberMax(){
         c.setfkCurriculum("Informatica, Sistemi Informativi e Tecnologie del Software");
         c.setfkCycle(4554);
         try{
@@ -518,10 +490,9 @@ public class CurriculumcicManagerTest {
     
     /**
      * Test of deleteCurriculumcicCoordinator method, of class CurriculumcicManager.
-     * @throws java.lang.Exception
      */
     @Test
-    public void testDeleteCurriculumcicCoordinatorNumberNotExists() throws Exception {
+    public void testDeleteCurriculumcicCoordinatorNumberNotExists(){
         c.setfkCurriculum("Informatica, Sistemi Informativi e Tecnologie del Software");
         c.setfkCycle(60);
         try{
@@ -534,10 +505,9 @@ public class CurriculumcicManagerTest {
 
      /**
      * Test of testViewCurriculumcicCoordinator method, of class CurriculumcicManager.
-     * @throws java.lang.Exception
      */
     @Test
-    public void testViewCurriculumcicCoordinatorOk() throws Exception {
+    public void testViewCurriculumcicCoordinatorOk(){
         c.setfkCurriculum("Informatica, Sistemi Informativi e Tecnologie del Software");
         c.setfkCycle(15);
         try{
@@ -550,10 +520,9 @@ public class CurriculumcicManagerTest {
     
     /**
      * Test of testViewCurriculumcicCoordinator method, of class CurriculumcicManager.
-     * @throws java.lang.Exception
      */
     @Test
-    public void testViewCurriculumcicCoordinatorNameMin() throws Exception {
+    public void testViewCurriculumcicCoordinatorNameMin(){
         c.setfkCurriculum("");
         c.setfkCycle(15);
         try{
@@ -566,10 +535,9 @@ public class CurriculumcicManagerTest {
     
     /**
      * Test of testViewCurriculumcicCoordinator method, of class CurriculumcicManager.
-     * @throws java.lang.Exception
      */
     @Test
-    public void testViewCurriculumcicCoordinatorNameMax() throws Exception {
+    public void testViewCurriculumcicCoordinatorNameMax(){
         c.setfkCurriculum("Informatica, Sistemi Informativi e Tecnologie del Software"
                 + "Informatica, Sistemi Informativi e Tecnologie del Software"
                 + "Informatica, Sistemi Informativi e Tecnologie del Software");
@@ -584,10 +552,9 @@ public class CurriculumcicManagerTest {
     
     /**
      * Test of testViewCurriculumcicCoordinator method, of class CurriculumcicManager.
-     * @throws java.lang.Exception
      */
     @Test
-    public void testViewCurriculumcicCoordinatorNameNotExists() throws Exception {
+    public void testViewCurriculumcicCoordinatorNameNotExists(){
         c.setfkCurriculum("nologie del Software");
         c.setfkCycle(15);
         try{
@@ -600,10 +567,9 @@ public class CurriculumcicManagerTest {
     
     /**
      * Test of testViewCurriculumcicCoordinator method, of class CurriculumcicManager.
-     * @throws java.lang.Exception
      */
     @Test
-    public void testViewCurriculumcicCoordinatorNumberMin() throws Exception {
+    public void testViewCurriculumcicCoordinatorNumberMin(){
         c.setfkCurriculum("Informatica, Sistemi Informativi e Tecnologie del Software");
         c.setfkCycle(-9);
         try{
@@ -616,10 +582,9 @@ public class CurriculumcicManagerTest {
     
     /**
      * Test of testViewCurriculumcicCoordinator method, of class CurriculumcicManager.
-     * @throws java.lang.Exception
      */
     @Test
-    public void testViewCurriculumcicCoordinatorNumberMax() throws Exception {
+    public void testViewCurriculumcicCoordinatorNumberMax(){
         c.setfkCurriculum("Informatica, Sistemi Informativi e Tecnologie del Software");
         c.setfkCycle(4554);
         try{
@@ -632,10 +597,9 @@ public class CurriculumcicManagerTest {
     
     /**
      * Test of testViewCurriculumcicCoordinator method, of class CurriculumcicManager.
-     * @throws java.lang.Exception
      */
     @Test
-    public void testViewCurriculumcicCoordinatorNumberNotExists() throws Exception {
+    public void testViewCurriculumcicCoordinatorNumberNotExists(){
         c.setfkCurriculum("Informatica, Sistemi Informativi e Tecnologie del Software");
         c.setfkCycle(60);
         try{
@@ -648,10 +612,9 @@ public class CurriculumcicManagerTest {
     
      /**
      * Test of testDeleteProfessor method, of class CurriculumcicManager.
-     * @throws java.lang.Exception
      */
     @Test
-    public void testDeleteProfessorOk() throws Exception {
+    public void testDeleteProfessorOk(){
         String fkProfessor = "adelucia@hotmail.it";
         c.setfkCurriculum("Informatica, Sistemi Informativi e Tecnologie del Software");
         c.setfkCycle(15);
@@ -665,10 +628,9 @@ public class CurriculumcicManagerTest {
     
     /**
      * Test of testDeleteProfessor method, of class CurriculumcicManager.
-     * @throws java.lang.Exception
      */
     @Test
-    public void testDeleteProfessorNameMin() throws Exception {
+    public void testDeleteProfessorNameMin(){
         String fkProfessor = "adelucia@hotmail.it";
         c.setfkCurriculum("");
         c.setfkCycle(15);
@@ -682,10 +644,9 @@ public class CurriculumcicManagerTest {
     
     /**
      * Test of testDeleteProfessor method, of class CurriculumcicManager.
-     * @throws java.lang.Exception
      */
     @Test
-    public void testDeleteProfessorNameMax() throws Exception {
+    public void testDeleteProfessorNameMax(){
         String fkProfessor = "dracula@hotmail.it";
         c.setfkCurriculum("asqwasqwsaqwsaqwsaqwsaqwsaqwsaqwsaqwsaqwsaqwsaqwsaqwsaqw"
                          + "sasqwasqwsaqwsaqwsaqwsaqwsaqwsaqwsaqwsaqwsaqwsaqwsaqwsaqws");
@@ -700,10 +661,9 @@ public class CurriculumcicManagerTest {
     
     /**
      * Test of testDeleteProfessor method, of class CurriculumcicManager.
-     * @throws java.lang.Exception
      */
     @Test
-    public void testDeleteProfessorNameNotExists() throws Exception {
+    public void testDeleteProfessorNameNotExists(){
         String fkProfessor = "dracula@hotmail.it";
         c.setfkCurriculum("aqwsaqwsaqwsaqws");
         c.setfkCycle(15);
@@ -717,10 +677,9 @@ public class CurriculumcicManagerTest {
     
     /**
      * Test of testDeleteProfessor method, of class CurriculumcicManager.
-     * @throws java.lang.Exception
      */
     @Test
-    public void testDeleteProfessorNumberMin() throws Exception {
+    public void testDeleteProfessorNumberMin(){
         String fkProfessor = "dracula@hotmail.it";
                 c.setfkCurriculum("Informatica, Sistemi Informativi e Tecnologie del Software");
         c.setfkCycle(-8);
@@ -734,10 +693,9 @@ public class CurriculumcicManagerTest {
     
     /**
      * Test of testDeleteProfessor method, of class CurriculumcicManager.
-     * @throws java.lang.Exception
      */
     @Test
-    public void testDeleteProfessorNumberMax() throws Exception {
+    public void testDeleteProfessorNumberMax(){
         String fkProfessor = "dracula@hotmail.it";
                 c.setfkCurriculum("Informatica, Sistemi Informativi e Tecnologie del Software");
         c.setfkCycle(8989);
@@ -751,10 +709,9 @@ public class CurriculumcicManagerTest {
 
     /**
      * Test of testDeleteProfessor method, of class CurriculumcicManager.
-     * @throws java.lang.Exception
      */
     @Test
-    public void testDeleteProfessorNumberNotExists() throws Exception {
+    public void testDeleteProfessorNumberNotExists(){
         String fkProfessor = "dracula@hotmail.it";
                 c.setfkCurriculum("Informatica, Sistemi Informativi e Tecnologie del Software");
         c.setfkCycle(60);
@@ -768,10 +725,9 @@ public class CurriculumcicManagerTest {
     
     /**
      * Test of testDeleteProfessor method, of class CurriculumcicManager.
-     * @throws java.lang.Exception
      */
     @Test
-    public void testDeleteProfessorFkProfessorMin() throws Exception {
+    public void testDeleteProfessorFkProfessorMin(){
         String fkProfessor = "";
                 c.setfkCurriculum("Informatica, Sistemi Informativi e Tecnologie del Software");
         c.setfkCycle(15);
@@ -785,10 +741,9 @@ public class CurriculumcicManagerTest {
     
     /**
      * Test of testDeleteProfessor method, of class CurriculumcicManager.
-     * @throws java.lang.Exception
      */
     @Test
-    public void testDeleteProfessorFkProfessorMax() throws Exception {
+    public void testDeleteProfessorFkProfessorMax(){
         String fkProfessor = "qwertyuioplkjhgfdsazxcvbnmqwertyuioplkjhgfdsazxcvbnmqwertyuioplkjhgfdsazxcvbnm";
                 c.setfkCurriculum("Informatica, Sistemi Informativi e Tecnologie del Software");
         c.setfkCycle(15);
@@ -802,10 +757,9 @@ public class CurriculumcicManagerTest {
     
     /**
      * Test of testDeleteProfessor method, of class CurriculumcicManager.
-     * @throws java.lang.Exception
      */
     @Test
-    public void testDeleteProfessorFkProfessorFormatError() throws Exception {
+    public void testDeleteProfessorFkProfessorFormatError(){
         String fkProfessor = "cvbnmqwertyuioplkjhgfdsazxcvbnm";
                 c.setfkCurriculum("Informatica, Sistemi Informativi e Tecnologie del Software");
         c.setfkCycle(15);
@@ -819,10 +773,9 @@ public class CurriculumcicManagerTest {
     
     /**
      * Test of testDeleteProfessor method, of class CurriculumcicManager.
-     * @throws java.lang.Exception
      */
     @Test
-    public void testDeleteProfessorFkProfessorNotExists() throws Exception {
+    public void testDeleteProfessorFkProfessorNotExists(){
         String fkProfessor = "tyuioplkjhgf@hotmail.com";
         c.setfkCurriculum("Informatica, Sistemi Informativi e Tecnologie del Software");
         c.setfkCycle(15);
@@ -836,10 +789,9 @@ public class CurriculumcicManagerTest {
 
     /**
      * Test of insertPhdSudent method, of class CurriculumcicManager.
-     * @throws java.lang.Exception
      */
     @Test 
-    public void testInsertPhdSudentOk() throws Exception {
+    public void testInsertPhdSudentOk(){
         String fkPhdstudent = "ballo@hotmail.it";
         c.setfkCurriculum("Informatica, Sistemi Informativi e Tecnologie del Software");
         c.setfkCycle(15);
@@ -853,10 +805,9 @@ public class CurriculumcicManagerTest {
     
     /**
      * Test of insertPhdSudent method, of class CurriculumcicManager.
-     * @throws java.lang.Exception
      */
     @Test
-    public void testInsertPhdSudentNameMin() throws Exception {
+    public void testInsertPhdSudentNameMin(){
         String fkPhdstudent = "adelucia@hotmail.it";
         c.setfkCurriculum("");
         c.setfkCycle(15);
@@ -870,10 +821,9 @@ public class CurriculumcicManagerTest {
     
     /**
      * Test of insertPhdSudent method, of class CurriculumcicManager.
-     * @throws java.lang.Exception
      */
     @Test
-    public void testInsertPhdSudentNameMax() throws Exception {
+    public void testInsertPhdSudentNameMax(){
         String fkPhdstudent = "dracula@hotmail.it";
         c.setfkCurriculum("asqwasqwsaqwsaqwsaqwsaqwsaqwsaqwsaqwsaqwsaqwsaqwsaqwsaqw"
                          + "sasqwasqwsaqwsaqwsaqwsaqwsaqwsaqwsaqwsaqwsaqwsaqwsaqwsaqws");
@@ -888,10 +838,9 @@ public class CurriculumcicManagerTest {
     
     /**
      * Test of insertPhdSudent method, of class CurriculumcicManager.
-     * @throws java.lang.Exception
      */
     @Test
-    public void testInsertPhdSudentNameNotExists() throws Exception {
+    public void testInsertPhdSudentNameNotExists(){
         String fkPhdstudent = "dracula@hotmail.it";
         c.setfkCurriculum("aqwsaqwsaqwsaqws");
         c.setfkCycle(15);
@@ -905,10 +854,9 @@ public class CurriculumcicManagerTest {
     
     /**
      * Test of insertPhdSudent method, of class CurriculumcicManager.
-     * @throws java.lang.Exception
      */
     @Test
-    public void testInsertPhdSudentNumberMin() throws Exception {
+    public void testInsertPhdSudentNumberMin(){
         String fkPhdstudent = "dracula@hotmail.it";
         c.setfkCurriculum("Informatica, Sistemi Informativi e Tecnologie del Software");
         c.setfkCycle(-8);
@@ -922,10 +870,9 @@ public class CurriculumcicManagerTest {
     
     /**
      * Test of insertPhdSudent method, of class CurriculumcicManager.
-     * @throws java.lang.Exception
      */
     @Test
-    public void testInsertPhdSudentNumberMax() throws Exception {
+    public void testInsertPhdSudentNumberMax(){
         String fkPhdstudent = "dracula@hotmail.it";
         c.setfkCurriculum("Informatica, Sistemi Informativi e Tecnologie del Software");
         c.setfkCycle(8989);
@@ -939,10 +886,9 @@ public class CurriculumcicManagerTest {
 
     /**
      * Test of insertPhdSudent method, of class CurriculumcicManager.
-     * @throws java.lang.Exception
      */
     @Test
-    public void testInsertPhdSudentNumberNotExists() throws Exception {
+    public void testInsertPhdSudentNumberNotExists(){
         String fkPhdstudent = "dracula@hotmail.it";
         c.setfkCurriculum("Informatica, Sistemi Informativi e Tecnologie del Software");
         c.setfkCycle(60);
@@ -956,10 +902,9 @@ public class CurriculumcicManagerTest {
     
     /**
      * Test of insertPhdSudent method, of class CurriculumcicManager.
-     * @throws java.lang.Exception
      */
     @Test
-    public void testInsertPhdSudentFkPhdstudentMin() throws Exception {
+    public void testInsertPhdSudentFkPhdstudentMin(){
         String fkPhdstudent = "";
         c.setfkCurriculum("Informatica, Sistemi Informativi e Tecnologie del Software");
         c.setfkCycle(15);
@@ -973,10 +918,9 @@ public class CurriculumcicManagerTest {
     
     /**
      * Test of insertPhdSudent method, of class CurriculumcicManager.
-     * @throws java.lang.Exception
      */
     @Test
-    public void testInsertPhdSudentFkPhdstudentMax() throws Exception {
+    public void testInsertPhdSudentFkPhdstudentMax(){
         String fkPhdstudent = "qwertyuioplkjhgfdsazxcvbnmqwertyuioplkjhgfdsazxcvbnmqwertyuioplkjhgfdsazxcvbnm";
         c.setfkCurriculum("Informatica, Sistemi Informativi e Tecnologie del Software");
         c.setfkCycle(15);
@@ -990,10 +934,9 @@ public class CurriculumcicManagerTest {
     
     /**
      * Test of insertPhdSudent method, of class CurriculumcicManager.
-     * @throws java.lang.Exception
      */
     @Test
-    public void testInsertPhdSudentFkPhdstudentFormatError() throws Exception {
+    public void testInsertPhdSudentFkPhdstudentFormatError(){
         String fkPhdstudent = "cvbnmqwertyuioplkjhgfdsazxcvbnm";
         c.setfkCurriculum("Informatica, Sistemi Informativi e Tecnologie del Software");
         c.setfkCycle(15);
@@ -1007,10 +950,9 @@ public class CurriculumcicManagerTest {
     
     /**
      * Test of insertPhdSudent method, of class CurriculumcicManager.
-     * @throws java.lang.Exception
      */
     @Test
-    public void testInsertPhdSudentFkPhdstudentNotExists() throws Exception {
+    public void testInsertPhdSudentFkPhdstudentNotExists(){
         String fkPhdstudent = "tyuioplkjhgf@hotmail.com";
         c.setfkCurriculum("Informatica, Sistemi Informativi e Tecnologie del Software");
         c.setfkCycle(15);
@@ -1024,10 +966,9 @@ public class CurriculumcicManagerTest {
     
     /**
      * Test of viewProfessorList method, of class CurriculumcicManager.
-     * @throws java.lang.Exception
      */
     @Test
-    public void testviewProfessorListOk() throws Exception {
+    public void testviewProfessorListOk(){
         c.setfkCurriculum("Informatica, Sistemi Informativi e Tecnologie del Software");
         c.setfkCycle(15);
         try{
@@ -1040,10 +981,9 @@ public class CurriculumcicManagerTest {
     
     /**
      * Test of viewProfessorList method, of class CurriculumcicManager.
-     * @throws java.lang.Exception
      */
     @Test
-    public void testviewProfessorListNameMin() throws Exception {
+    public void testviewProfessorListNameMin(){
         c.setfkCurriculum("");
         c.setfkCycle(15);
         try{
@@ -1056,10 +996,9 @@ public class CurriculumcicManagerTest {
     
     /**
      * Test of viewProfessorList method, of class CurriculumcicManager.
-     * @throws java.lang.Exception
      */
     @Test
-    public void testviewProfessorListNameMax() throws Exception {
+    public void testviewProfessorListNameMax(){
         c.setfkCurriculum("Informatica, Sistemi Informativi e Tecnologie del Software"
                 + "Informatica, Sistemi Informativi e Tecnologie del Software"
                 + "Informatica, Sistemi Informativi e Tecnologie del Software");
@@ -1074,10 +1013,9 @@ public class CurriculumcicManagerTest {
     
     /**
      * Test of viewProfessorList method, of class CurriculumcicManager.
-     * @throws java.lang.Exception
      */
     @Test
-    public void testviewProfessorListNameNotExists() throws Exception {
+    public void testviewProfessorListNameNotExists(){
         c.setfkCurriculum("nologie del Software");
         c.setfkCycle(15);
         try{
@@ -1090,10 +1028,9 @@ public class CurriculumcicManagerTest {
     
     /**
      * Test of viewProfessorList method, of class CurriculumcicManager.
-     * @throws java.lang.Exception
      */
     @Test
-    public void testviewProfessorListNumberMin() throws Exception {
+    public void testviewProfessorListNumberMin(){
         c.setfkCurriculum("Informatica, Sistemi Informativi e Tecnologie del Software");
         c.setfkCycle(-9);
         try{
@@ -1106,10 +1043,9 @@ public class CurriculumcicManagerTest {
     
     /**
      * Test of viewProfessorList method, of class CurriculumcicManager.
-     * @throws java.lang.Exception
      */
     @Test
-    public void testviewProfessorListNumberMax() throws Exception {
+    public void testviewProfessorListNumberMax(){
         c.setfkCurriculum("Informatica, Sistemi Informativi e Tecnologie del Software");
         c.setfkCycle(4554);
         try{
@@ -1122,10 +1058,9 @@ public class CurriculumcicManagerTest {
     
     /**
      * Test of viewProfessorList method, of class CurriculumcicManager.
-     * @throws java.lang.Exception
      */
     @Test
-    public void testviewProfessorListNumberNotExists() throws Exception {
+    public void testviewProfessorListNumberNotExists(){
         c.setfkCurriculum("Informatica, Sistemi Informativi e Tecnologie del Software");
         c.setfkCycle(60);
         try{
@@ -1138,10 +1073,9 @@ public class CurriculumcicManagerTest {
     
     /**
      * Test of viewPhdstudentCurriculumcic method, of class CurriculumcicManager.
-     * @throws java.lang.Exception
      */
     @Test
-    public void testviewPhdstudentCurriculumcicOk() throws Exception {
+    public void testviewPhdstudentCurriculumcicOk(){
         c.setfkCurriculum("Informatica, Sistemi Informativi e Tecnologie del Software");
         c.setfkCycle(15);
         try{
@@ -1154,10 +1088,9 @@ public class CurriculumcicManagerTest {
     
     /**
      * Test of viewPhdstudentCurriculumcic method, of class CurriculumcicManager.
-     * @throws java.lang.Exception
      */
     @Test
-    public void testviewPhdstudentCurriculumcicNameMin() throws Exception {
+    public void testviewPhdstudentCurriculumcicNameMin(){
         c.setfkCurriculum("");
         c.setfkCycle(15);
         try{
@@ -1170,10 +1103,9 @@ public class CurriculumcicManagerTest {
     
     /**
      * Test of viewPhdstudentCurriculumcic method, of class CurriculumcicManager.
-     * @throws java.lang.Exception
      */
     @Test
-    public void testviewPhdstudentCurriculumcicNameMax() throws Exception {
+    public void testviewPhdstudentCurriculumcicNameMax(){
         c.setfkCurriculum("Informatica, Sistemi Informativi e Tecnologie del Software"
                 + "Informatica, Sistemi Informativi e Tecnologie del Software"
                 + "Informatica, Sistemi Informativi e Tecnologie del Software");
@@ -1188,10 +1120,9 @@ public class CurriculumcicManagerTest {
     
     /**
      * Test of viewPhdstudentCurriculumcic method, of class CurriculumcicManager.
-     * @throws java.lang.Exception
      */
     @Test
-    public void testviewPhdstudentCurriculumcicNameNotExists() throws Exception {
+    public void testviewPhdstudentCurriculumcicNameNotExists(){
         c.setfkCurriculum("nologie del Software");
         c.setfkCycle(15);
         try{
@@ -1204,10 +1135,9 @@ public class CurriculumcicManagerTest {
     
     /**
      * Test of viewPhdstudentCurriculumcic method, of class CurriculumcicManager.
-     * @throws java.lang.Exception
      */
     @Test
-    public void testviewPhdstudentCurriculumcicNumberMin() throws Exception {
+    public void testviewPhdstudentCurriculumcicNumberMin(){
         c.setfkCurriculum("Informatica, Sistemi Informativi e Tecnologie del Software");
         c.setfkCycle(-9);
         try{
@@ -1220,10 +1150,9 @@ public class CurriculumcicManagerTest {
     
     /**
      * Test of viewPhdstudentCurriculumcic method, of class CurriculumcicManager.
-     * @throws java.lang.Exception
      */
     @Test
-    public void testviewPhdstudentCurriculumcicNumberMax() throws Exception {
+    public void testviewPhdstudentCurriculumcicNumberMax(){
         c.setfkCurriculum("Informatica, Sistemi Informativi e Tecnologie del Software");
         c.setfkCycle(4554);
         try{
@@ -1236,10 +1165,9 @@ public class CurriculumcicManagerTest {
     
     /**
      * Test of viewPhdstudentCurriculumcic method, of class CurriculumcicManager.
-     * @throws java.lang.Exception
      */
     @Test
-    public void testviewPhdstudentCurriculumcicNumberNotExists() throws Exception {
+    public void testviewPhdstudentCurriculumcicNumberNotExists(){
         c.setfkCurriculum("Informatica, Sistemi Informativi e Tecnologie del Software");
         c.setfkCycle(60);
         try{
@@ -1252,10 +1180,9 @@ public class CurriculumcicManagerTest {
 
     /**
      * Test of DeletePhdSudent method, of class CurriculumcicManager.
-     * @throws java.lang.Exception
      */
     @Test
-    public void testDeletePhdSudentOk() throws Exception {
+    public void testDeletePhdSudentOk(){
         String fkPhdstudent = "ballo@hotmail.it";
         try{
             instance.DeletePhdSudent(fkPhdstudent);
@@ -1267,10 +1194,9 @@ public class CurriculumcicManagerTest {
     
     /**
      * Test of DeletePhdSudent method, of class CurriculumcicManager.
-     * @throws java.lang.Exception
      */
     @Test
-    public void testDeletePhdSudentFKPhdsudentMin() throws Exception {
+    public void testDeletePhdSudentFKPhdsudentMin(){
         String fkPhdstudent = "";
         try{
             instance.DeletePhdSudent(fkPhdstudent);
@@ -1282,10 +1208,9 @@ public class CurriculumcicManagerTest {
     
     /**
      * Test of DeletePhdSudent method, of class CurriculumcicManager.
-     * @throws java.lang.Exception
      */
     @Test
-    public void testDeletePhdSudentFKPhdsudentMax() throws Exception {
+    public void testDeletePhdSudentFKPhdsudentMax(){
         String fkPhdstudent = "qwertyuiopqwertyuiopqwertyuiopqwertyuiopqwertyuiopqwertyuiopqwertyuiopqwertyuiop";
         try{
             instance.DeletePhdSudent(fkPhdstudent);
@@ -1297,10 +1222,9 @@ public class CurriculumcicManagerTest {
     
     /**
      * Test of DeletePhdSudent method, of class CurriculumcicManager.
-     * @throws java.lang.Exception
      */
     @Test
-    public void testDeletePhdSudentFKPhdsudentFormatError() throws Exception {
+    public void testDeletePhdSudentFKPhdsudentFormatError(){
         String fkPhdstudent = "wertyuiopqwertyuiopqwertyuiop";
         try{
             instance.DeletePhdSudent(fkPhdstudent);
@@ -1313,10 +1237,9 @@ public class CurriculumcicManagerTest {
     
     /**
      * Test of DeletePhdSudent method, of class CurriculumcicManager.
-     * @throws java.lang.Exception
      */
     @Test
-    public void testDeletePhdSudentFKPhdsudentNotExists() throws Exception {
+    public void testDeletePhdSudentFKPhdsudentNotExists(){
         String fkPhdstudent = "qwertyuiopqwertyuiop@gmail.com";
         try{
             instance.DeletePhdSudent(fkPhdstudent);

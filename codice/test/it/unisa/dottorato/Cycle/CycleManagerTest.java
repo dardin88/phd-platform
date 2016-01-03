@@ -6,12 +6,19 @@
 package it.unisa.dottorato.Cycle;
 
 import it.unisa.dottorato.Curriculum.Curriculum;
+import it.unisa.dottorato.Curriculum.CurriculumException;
 import it.unisa.dottorato.Curriculum.CurriculumManager;
 import it.unisa.dottorato.account.Professor;
 import it.unisa.dottorato.curriculumcic.Curriculumcic;
+import it.unisa.dottorato.curriculumcic.CurriculumcicException;
+import it.unisa.dottorato.exception.DescriptionException;
+import it.unisa.dottorato.exception.IdException;
+import it.unisa.dottorato.exception.NameException;
 import java.io.IOException;
 import java.sql.SQLException;
 import java.util.ArrayList;
+import java.util.logging.Level;
+import java.util.logging.Logger;
 import org.junit.After;
 import org.junit.Before;
 import org.junit.Test;
@@ -49,10 +56,9 @@ public class CycleManagerTest {
 
     /**
      * Test of insertCycle method, of class CycleManager.
-     * @throws java.lang.Exception
      */
     @Test
-    public void testInsertCycleOk() throws Exception {
+    public void testInsertCycleOk() {
         c.setYear("2000");
         c.setDescription("prova");
         try{
@@ -65,10 +71,9 @@ public class CycleManagerTest {
 
     /**
      * Test of insertCycle method, of class CycleManager.
-     * @throws java.lang.Exception
      */
     @Test
-    public void testInsertCycleYearMin() throws Exception {
+    public void testInsertCycleYearMin(){
         c.setYear("200");
         c.setDescription("prova");
         try{
@@ -81,10 +86,9 @@ public class CycleManagerTest {
     
     /**
      * Test of insertCycle method, of class CycleManager.
-     * @throws java.lang.Exception
      */
     @Test
-    public void testInsertCycleYearMax() throws Exception {
+    public void testInsertCycleYearMax() {
         c.setYear("20000");
         c.setDescription("prova");
         try{
@@ -97,10 +101,9 @@ public class CycleManagerTest {
     
     /**
      * Test of insertCycle method, of class CycleManager.
-     * @throws java.lang.Exception
      */
     @Test
-    public void testInsertCycleYearFormatError() throws Exception {
+    public void testInsertCycleYearFormatError(){
         c.setYear("2a£d");
         c.setDescription("prova");
         try{
@@ -113,10 +116,9 @@ public class CycleManagerTest {
     
     /**
      * Test of updateCycle method, of class CycleManager.
-     * @throws java.lang.Exception
      */
     @Test
-    public void testUpdateCycleok() throws Exception {
+    public void testUpdateCycleok(){
         int Number = 15;
         c.setYear("2018");
         c.setDescription("prova update ciclo 15");
@@ -130,10 +132,9 @@ public class CycleManagerTest {
     
     /**
      * Test of updateCycle method, of class CycleManager.
-     * @throws java.lang.Exception
      */
     @Test
-    public void testUpdateCycleNumberMin() throws Exception {
+    public void testUpdateCycleNumberMin(){
         int Number = -1;
         c.setYear("2018");
         c.setDescription("prova update ciclo 15");
@@ -147,10 +148,9 @@ public class CycleManagerTest {
     
     /**
      * Test of updateCycle method, of class CycleManager.
-     * @throws java.lang.Exception
      */
     @Test
-    public void testUpdateCycleNumberMax() throws Exception {
+    public void testUpdateCycleNumberMax(){
         int Number = 1111;
         c.setYear("2018");
         c.setDescription("prova update ciclo 15");
@@ -164,10 +164,9 @@ public class CycleManagerTest {
     
     /**
      * Test of updateCycle method, of class CycleManager.
-     * @throws java.lang.Exception
      */
     @Test
-    public void testUpdateCycleNumberNotExists() throws Exception {
+    public void testUpdateCycleNumberNotExists(){
         int Number = 50;
         c.setYear("2018");
         c.setDescription("prova update ciclo 15");
@@ -181,10 +180,9 @@ public class CycleManagerTest {
     
     /**
      * Test of updateCycle method, of class CycleManager.
-     * @throws java.lang.Exception
      */
     @Test
-    public void testUpdateCycleYearMin() throws Exception {
+    public void testUpdateCycleYearMin(){
         int Number = 15;
         c.setYear("201");
         c.setDescription("prova update ciclo 15");
@@ -198,10 +196,9 @@ public class CycleManagerTest {
     
     /**
      * Test of updateCycle method, of class CycleManager.
-     * @throws java.lang.Exception
      */
     @Test
-    public void testUpdateCycleYearMax() throws Exception {
+    public void testUpdateCycleYearMax(){
         int Number = 15;
         c.setYear("20100");
         c.setDescription("prova update ciclo 15");
@@ -215,10 +212,9 @@ public class CycleManagerTest {
     
     /**
      * Test of updateCycle method, of class CycleManager.
-     * @throws java.lang.Exception
      */
     @Test
-    public void testUpdateCycleYearFormatError() throws Exception {
+    public void testUpdateCycleYearFormatError(){
         int Number = 15;
         c.setYear("e$%!");
         c.setDescription("prova update ciclo 15");
@@ -232,10 +228,9 @@ public class CycleManagerTest {
 
     /**
      * Test of insertCycleCoordinator method, of class CycleManager.
-     * @throws java.lang.Exception
      */
     @Test
-    public void testInsertCycleCoordinatorOk() throws Exception {
+    public void testInsertCycleCoordinatorOk(){
         int number = 15;
         String fkProfessor = "adelucia@hotmail.it";
         try{
@@ -248,10 +243,9 @@ public class CycleManagerTest {
     
     /**
      * Test of insertCycleCoordinator method, of class CycleManager.
-     * @throws java.lang.Exception
      */
     @Test
-    public void testInsertCycleCoordinatorNumberMin() throws Exception {
+    public void testInsertCycleCoordinatorNumberMin(){
         int number = -4;
         String fkProfessor = "adelucia@hotmail.it";
         try{
@@ -264,10 +258,9 @@ public class CycleManagerTest {
     
     /**
      * Test of insertCycleCoordinator method, of class CycleManager.
-     * @throws java.lang.Exception
      */
     @Test
-    public void testInsertCycleCoordinatorNumberMax() throws Exception {
+    public void testInsertCycleCoordinatorNumberMax(){
         int number = 2000;
         String fkProfessor = "adelucia@hotmail.it";
         try{
@@ -280,10 +273,9 @@ public class CycleManagerTest {
     
     /**
      * Test of insertCycleCoordinator method, of class CycleManager.
-     * @throws java.lang.Exception
      */
     @Test
-    public void testInsertCycleCoordinatorNumberNotExists() throws Exception {
+    public void testInsertCycleCoordinatorNumberNotExists(){
         int number = 50;
         String fkProfessor = "adelucia@hotmail.it";
         try{
@@ -296,10 +288,9 @@ public class CycleManagerTest {
     
     /**
      * Test of insertCycleCoordinator method, of class CycleManager.
-     * @throws java.lang.Exception
      */
     @Test
-    public void testInsertCycleCoordinatorfkProfessorMin() throws Exception {
+    public void testInsertCycleCoordinatorfkProfessorMin(){
         int number = 15;
         String fkProfessor = "";
         try{
@@ -312,10 +303,9 @@ public class CycleManagerTest {
     
     /**
      * Test of insertCycleCoordinator method, of class CycleManager.
-     * @throws java.lang.Exception
      */
     @Test
-    public void testInsertCycleCoordinatorfkProfessorMax() throws Exception {
+    public void testInsertCycleCoordinatorfkProfessorMax(){
         int number = 15;
         String fkProfessor = "dddddddddeeeddededededededededeweewedede"
                             +"dedededededededededededededweweedededede";
@@ -329,10 +319,9 @@ public class CycleManagerTest {
     
     /**
      * Test of insertCycleCoordinator method, of class CycleManager.
-     * @throws java.lang.Exception
      */
     @Test
-    public void testInsertCycleCoordinatorfkProfessorFormatError() throws Exception {
+    public void testInsertCycleCoordinatorfkProfessorFormatError(){
         int number = 15;
         String fkProfessor = "ssssssssssssssss";
         try{
@@ -345,10 +334,9 @@ public class CycleManagerTest {
     
     /**
      * Test of insertCycleCoordinator method, of class CycleManager.
-     * @throws java.lang.Exception
      */
     @Test
-    public void testInsertCycleCoordinatorfkProfessorNotExists() throws Exception {
+    public void testInsertCycleCoordinatorfkProfessorNotExists(){
         int number = 15;
         String fkProfessor = "dsdsdsds@hotmail.com";
         try{
@@ -361,10 +349,9 @@ public class CycleManagerTest {
 
     /**
      * Test of deleteCycleCoordinator method, of class CycleManager.
-     * @throws java.lang.Exception
      */
     @Test
-    public void testDeleteCycleCoordinatorok() throws Exception {
+    public void testDeleteCycleCoordinatorok(){
         int number = 15;
         try{
             instance.deleteCycleCoordinator(number);
@@ -376,10 +363,9 @@ public class CycleManagerTest {
     
     /**
      * Test of deleteCycleCoordinator method, of class CycleManager.
-     * @throws java.lang.Exception
      */
     @Test
-    public void testDeleteCycleCoordinatorNumerMin() throws Exception {
+    public void testDeleteCycleCoordinatorNumerMin(){
         int number = -4;
         try{
             instance.deleteCycleCoordinator(number);
@@ -391,10 +377,9 @@ public class CycleManagerTest {
     
     /**
      * Test of deleteCycleCoordinator method, of class CycleManager.
-     * @throws java.lang.Exception
      */
     @Test
-    public void testDeleteCycleCoordinatorNumerMax() throws Exception {
+    public void testDeleteCycleCoordinatorNumerMax(){
         int number = 1500;
         try{
             instance.deleteCycleCoordinator(number);
@@ -406,10 +391,9 @@ public class CycleManagerTest {
     
     /**
      * Test of deleteCycleCoordinator method, of class CycleManager.
-     * @throws java.lang.Exception
      */
     @Test
-    public void testDeleteCycleCoordinatorNumerNotExists() throws Exception {
+    public void testDeleteCycleCoordinatorNumerNotExists(){
         int number = 60;
         try{
             instance.deleteCycleCoordinator(number);
@@ -421,10 +405,9 @@ public class CycleManagerTest {
 
     /**
      * Test of viewCycleCoordinator method, of class CycleManager.
-     * @throws java.lang.Exception
      */
     @Test
-    public void testViewCycleCoordinatorOk() throws Exception {
+    public void testViewCycleCoordinatorOk(){
         int number = 15;
         try{
             instance.viewCycleCoordinator(number);
@@ -436,10 +419,9 @@ public class CycleManagerTest {
     
     /**
      * Test of viewCycleCoordinator method, of class CycleManager.
-     * @throws java.lang.Exception
      */
     @Test
-    public void testViewCycleCoordinatorNumberMin() throws Exception {
+    public void testViewCycleCoordinatorNumberMin(){
         int number = -1;
         try{
             instance.viewCycleCoordinator(number);
@@ -451,10 +433,9 @@ public class CycleManagerTest {
     
     /**
      * Test of viewCycleCoordinator method, of class CycleManager.
-     * @throws java.lang.Exception
      */
     @Test
-    public void testViewCycleCoordinatorNumberMax() throws Exception {
+    public void testViewCycleCoordinatorNumberMax(){
         int number = 4444;
         try{
             instance.viewCycleCoordinator(number);
@@ -466,10 +447,9 @@ public class CycleManagerTest {
     
     /**
      * Test of viewCycleCoordinator method, of class CycleManager.
-     * @throws java.lang.Exception
      */
     @Test
-    public void testViewCycleCoordinatorNumberNotExists() throws Exception {
+    public void testViewCycleCoordinatorNumberNotExists(){
         int number = 60;
         try{
             instance.viewCycleCoordinator(number);
@@ -481,10 +461,9 @@ public class CycleManagerTest {
 
     /**
      * Test of deleteCycle method, of class CycleManager.
-     * @throws java.lang.Exception
      */
     @Test
-    public void testDeleteCycleOk() throws Exception {
+    public void testDeleteCycleOk(){
         int number = 17;
         try{
             instance.deleteCycle(number);
@@ -496,10 +475,9 @@ public class CycleManagerTest {
     
     /**
      * Test of deleteCycle method, of class CycleManager.
-     * @throws java.lang.Exception
      */
     @Test
-    public void testDeleteCycleNumberMin() throws Exception {
+    public void testDeleteCycleNumberMin(){
         int number = -1;
         try{
             instance.deleteCycle(number);
@@ -511,10 +489,9 @@ public class CycleManagerTest {
     
     /**
      * Test of deleteCycle method, of class CycleManager.
-     * @throws java.lang.Exception
      */
     @Test
-    public void testDeleteCycleNumberMax() throws Exception {
+    public void testDeleteCycleNumberMax(){
         int number = 2000;
         try{
             instance.deleteCycle(number);
@@ -526,10 +503,9 @@ public class CycleManagerTest {
     
     /**
      * Test of deleteCycle method, of class CycleManager.
-     * @throws java.lang.Exception
      */
     @Test
-    public void testDeleteCycleNumberNotExist() throws Exception {
+    public void testDeleteCycleNumberNotExist(){
         int number = 150;
         try{
             instance.deleteCycle(number);
@@ -541,10 +517,9 @@ public class CycleManagerTest {
 
     /**
      * Test of getCycleByNumber method, of class CycleManager.
-     * @throws java.lang.Exception
      */
     @Test
-    public void testGetCycleByNumberOk() throws Exception {
+    public void testGetCycleByNumberOk(){
         int number = 15;
         try{
             instance.getCycleByNumber(number);
@@ -556,10 +531,9 @@ public class CycleManagerTest {
     
     /**
      * Test of getCycleByNumber method, of class CycleManager.
-     * @throws java.lang.Exception
      */
     @Test
-    public void testGetCycleByNumberMin() throws Exception {
+    public void testGetCycleByNumberMin(){
         int number = -1;
         try{
             instance.getCycleByNumber(number);
@@ -571,10 +545,9 @@ public class CycleManagerTest {
     
     /**
      * Test of getCycleByNumber method, of class CycleManager.
-     * @throws java.lang.Exception
      */
     @Test
-    public void testGetCycleByNumberMax() throws Exception {
+    public void testGetCycleByNumberMax(){
         int number = 2000;
         try{
             instance.getCycleByNumber(number);
@@ -586,10 +559,9 @@ public class CycleManagerTest {
     
     /**
      * Test of getCycleByNumber method, of class CycleManager.
-     * @throws java.lang.Exception
      */
     @Test
-    public void testGetCycleByNumberNotExists() throws Exception {
+    public void testGetCycleByNumberNotExists(){
         int number = 60;
         try{
             instance.getCycleByNumber(number);
@@ -601,10 +573,9 @@ public class CycleManagerTest {
 
     /**
      * Test of getCycleList method, of class CycleManager.
-     * @throws java.lang.Exception
      */
     @Test
-    public void testGetCycleListOk() throws Exception {
+    public void testGetCycleListOk(){
         try{
             ArrayList<Cycle> result = instance.getCycleList();
             assertNotNull(result);
@@ -615,10 +586,9 @@ public class CycleManagerTest {
 
     /**
      * Test of getCyclesListNumers method, of class CycleManager.
-     * @throws java.lang.Exception
      */
     @Test
-    public void testGetCyclesListNumersOk() throws Exception {
+    public void testGetCyclesListNumersOk(){
         try{
            ArrayList<Integer> result = instance.getCyclesListNumers();
            assertNotNull(result);
@@ -629,10 +599,9 @@ public class CycleManagerTest {
 
     /**
      * Test of viewCollegeCycle method, of class CycleManager.
-     * @throws java.lang.Exception
      */
     @Test
-    public void testViewCollegeCycleOk() throws Exception {
+    public void testViewCollegeCycleOk(){
         int number = 15;
         try{
             ArrayList<Professor> result = instance.viewCollegeCycle(number);
@@ -644,10 +613,9 @@ public class CycleManagerTest {
     
     /**
      * Test of viewCollegeCycle method, of class CycleManager.
-     * @throws java.lang.Exception
      */
     @Test
-    public void testViewCollegeCycleNumberMin() throws Exception {
+    public void testViewCollegeCycleNumberMin(){
         int number = -4;
         try{
             instance.viewCollegeCycle(number);
@@ -659,10 +627,9 @@ public class CycleManagerTest {
     
     /**
      * Test of viewCollegeCycle method, of class CycleManager.
-     * @throws java.lang.Exception
      */
     @Test
-    public void testViewCollegeCycleNumberMax() throws Exception {
+    public void testViewCollegeCycleNumberMax(){
         int number = 4454;
         try{
             instance.viewCollegeCycle(number);
@@ -674,10 +641,9 @@ public class CycleManagerTest {
     
     /**
      * Test of viewCollegeCycle method, of class CycleManager.
-     * @throws java.lang.Exception
      */
     @Test
-    public void testViewCollegeCycleNumberNotExists() throws Exception {
+    public void testViewCollegeCycleNumberNotExists(){
         int number = 60;
         try{
             instance.viewCollegeCycle(number);
@@ -689,15 +655,18 @@ public class CycleManagerTest {
 
     /**
      * Test of insertCurriculumcic method, of class CycleManager.
-     * @throws java.lang.Exception
      */
     @Test
-    public void testInsertCurriculumcicOk() throws Exception {
+    public void testInsertCurriculumcicOk(){
         CurriculumManager curr=CurriculumManager.getInstance();
         Curriculum x=new Curriculum();
         x.setName("prova20");
         x.setDescription("descrprova");
-        curr.insert(x);
+        try {
+            curr.insert(x);
+        } catch (Exception ex) {
+            Logger.getLogger(CycleManagerTest.class.getName()).log(Level.SEVERE, null, ex);
+        }
         Curriculumcic pCurriculumcic = new Curriculumcic();
         pCurriculumcic.setfkCurriculum("prova20");
         pCurriculumcic.setfkCycle(15);
@@ -711,10 +680,9 @@ public class CycleManagerTest {
     
     /**
      * Test of insertCurriculumcic method, of class CycleManager.
-     * @throws java.lang.Exception
      */
     @Test
-    public void testInsertCurriculumcicNumberMin() throws Exception {
+    public void testInsertCurriculumcicNumberMin(){
         Curriculumcic pCurriculumcic = new Curriculumcic();
         pCurriculumcic.setfkCurriculum("prova20");
         pCurriculumcic.setfkCycle(-4);
@@ -728,10 +696,9 @@ public class CycleManagerTest {
     
     /**
      * Test of insertCurriculumcic method, of class CycleManager.
-     * @throws java.lang.Exception
      */
     @Test
-    public void testInsertCurriculumcicNumberMax() throws Exception {
+    public void testInsertCurriculumcicNumberMax(){
         Curriculumcic pCurriculumcic = new Curriculumcic();
         pCurriculumcic.setfkCurriculum("prova20");
         pCurriculumcic.setfkCycle(4000);
@@ -745,10 +712,9 @@ public class CycleManagerTest {
     
     /**
      * Test of insertCurriculumcic method, of class CycleManager.
-     * @throws java.lang.Exception
      */
     @Test
-    public void testInsertCurriculumcicNumberCyclenotExists() throws Exception {
+    public void testInsertCurriculumcicNumberCyclenotExists(){
         Curriculumcic pCurriculumcic = new Curriculumcic();
         pCurriculumcic.setfkCurriculum("prova20");
         pCurriculumcic.setfkCycle(60);
@@ -762,10 +728,9 @@ public class CycleManagerTest {
     
     /**
      * Test of insertCurriculumcic method, of class CycleManager.
-     * @throws java.lang.Exception
      */
     @Test
-    public void testInsertCurriculumcicNameMin() throws Exception {
+    public void testInsertCurriculumcicNameMin(){
         Curriculumcic pCurriculumcic = new Curriculumcic();
         pCurriculumcic.setfkCurriculum("");
         pCurriculumcic.setfkCycle(15);
@@ -779,10 +744,9 @@ public class CycleManagerTest {
     
     /**
      * Test of insertCurriculumcic method, of class CycleManager.
-     * @throws java.lang.Exception
      */
     @Test
-    public void testInsertCurriculumcicNameMax() throws Exception {
+    public void testInsertCurriculumcicNameMax(){
         Curriculumcic pCurriculumcic = new Curriculumcic();
         pCurriculumcic.setfkCurriculum("seseseseseseseseseseseseseseseseseseseseseseseseseseses"
                 + "seseseseseseseseseseseseseseseseseseseseseseseseseseses");
@@ -797,10 +761,9 @@ public class CycleManagerTest {
     
     /**
      * Test of insertCurriculumcic method, of class CycleManager.
-     * @throws java.lang.Exception
      */
     @Test
-    public void testInsertCurriculumcicNameNotExists() throws Exception {
+    public void testInsertCurriculumcicNameNotExists(){
         Curriculumcic pCurriculumcic = new Curriculumcic();
         pCurriculumcic.setfkCurriculum("weweweses");
         pCurriculumcic.setfkCycle(15);
@@ -814,10 +777,9 @@ public class CycleManagerTest {
     
     /**
      * Test of insertCurriculumcic method, of class CycleManager.
-     * @throws java.lang.Exception
      */
     @Test
-    public void testInsertCurriculumcicCurriculumcicExists() throws Exception {
+    public void testInsertCurriculumcicCurriculumcicExists(){
         Curriculumcic pCurriculumcic = new Curriculumcic();
         pCurriculumcic.setfkCurriculum("Informatica, Sistemi Informativi e Tecnologie del Software");
         pCurriculumcic.setfkCycle(15);
@@ -831,14 +793,17 @@ public class CycleManagerTest {
 
     /**
      * Test of deleteCurriculumcic method, of class CycleManager.
-     * @throws java.lang.Exception
      */
     @Test
-    public void testDeleteCurriculumcicOk() throws Exception {
+    public void testDeleteCurriculumcicOk(){
         Curriculumcic pCurriculumcic = new Curriculumcic();
         pCurriculumcic.setfkCurriculum("Marketing e Comunicazione");
         pCurriculumcic.setfkCycle(15);
-        instance.insertCurriculumcic(pCurriculumcic);
+        try {
+            instance.insertCurriculumcic(pCurriculumcic);
+        } catch (Exception ex) {
+            Logger.getLogger(CycleManagerTest.class.getName()).log(Level.SEVERE, null, ex);
+        }
         int fkCycle = 15;
         String fkCurriculum = "Marketing e Comunicazione";
         try{
@@ -851,10 +816,9 @@ public class CycleManagerTest {
     
     /**
      * Test of deleteCurriculumcic method, of class CycleManager.
-     * @throws java.lang.Exception
      */
     @Test
-    public void testDeleteCurriculumcicNumberMin() throws Exception {
+    public void testDeleteCurriculumcicNumberMin(){
         int fkCycle = -4;
         String fkCurriculum = "Marketing e Comunicazione";
         try{
@@ -867,26 +831,24 @@ public class CycleManagerTest {
     
     /**
      * Test of deleteCurriculumcic method, of class CycleManager.
-     * @throws java.lang.Exception
      */
     @Test
-    public void testDeleteCurriculumcicNumberMax() throws Exception {
+    public void testDeleteCurriculumcicNumberMax(){
         int fkCycle = 3454;
         String fkCurriculum = "Marketing e Comunicazione";
         try{
             instance.deleteCurriculumcic(fkCycle, fkCurriculum);
             fail("sono riuscito a fare l' op");
-        }catch(ClassNotFoundException | SQLException | IOException e){
+        }catch(Exception e){
             assertTrue(true);
         }
     }
     
     /**
      * Test of deleteCurriculumcic method, of class CycleManager.
-     * @throws java.lang.Exception
      */
     @Test
-    public void testDeleteCurriculumcicNumberNotExists() throws Exception {
+    public void testDeleteCurriculumcicNumberNotExists(){
         int fkCycle = 60;
         String fkCurriculum = "Marketing e Comunicazione";
         try{
@@ -900,10 +862,9 @@ public class CycleManagerTest {
     
     /**
      * Test of deleteCurriculumcic method, of class CycleManager.
-     * @throws java.lang.Exception
      */
     @Test
-    public void testDeleteCurriculumcicNameMin() throws Exception {
+    public void testDeleteCurriculumcicNameMin(){
         int fkCycle = 15;
         String fkCurriculum = "";
         try{
@@ -916,27 +877,25 @@ public class CycleManagerTest {
     
     /**
      * Test of deleteCurriculumcic method, of class CycleManager.
-     * @throws java.lang.Exception
      */
     @Test
-    public void testDeleteCurriculumcicNameMax() throws Exception {
+    public void testDeleteCurriculumcicNameMax(){
         int fkCycle = 15;
         String fkCurriculum = "seseseseseseseseseseseseseseseseseseseseseseseseseseses"
                             + "seseseseseseseseseseseseseseseseseseseseseseseseseseses";
         try{
             instance.deleteCurriculumcic(fkCycle, fkCurriculum);
             fail("sono riuscito a fare l' op");
-        }catch(ClassNotFoundException | SQLException | IOException e){
+        }catch(Exception e){
             assertTrue(true);
         }
     }
     
     /**
      * Test of deleteCurriculumcic method, of class CycleManager.
-     * @throws java.lang.Exception
      */
     @Test
-    public void testDeleteCurriculumcicNameNotExists() throws Exception {
+    public void testDeleteCurriculumcicNameNotExists(){
         int fkCycle = 15;
         String fkCurriculum = "seseseseseseseseseseseseseseseseseseseseseseseseseseses";
         try{
@@ -949,10 +908,9 @@ public class CycleManagerTest {
     
     /**
      * Test of deleteCurriculumcic method, of class CycleManager.
-     * @throws java.lang.Exception
      */
     @Test
-    public void testDeleteCurriculumcicNotExists() throws Exception {
+    public void testDeleteCurriculumcicNotExists(){
         int fkCycle = 15;
         String fkCurriculum = "Marketing e Comunicazione";
         try{
@@ -965,10 +923,9 @@ public class CycleManagerTest {
 
     /**
      * Test of getCurriculumcicList method, of class CycleManager.
-     * @throws java.lang.Exception
      */
     @Test
-    public void testGetCurriculumcicListOk() throws Exception {
+    public void testGetCurriculumcicListOk(){
         int number = 15;
         try{
             instance.getCurriculumcicList(number);
@@ -980,10 +937,9 @@ public class CycleManagerTest {
     
     /**
      * Test of getCurriculumcicList method, of class CycleManager.
-     * @throws java.lang.Exception
      */
     @Test
-    public void testGetCurriculumcicListNumberMin() throws Exception {
+    public void testGetCurriculumcicListNumberMin(){
         int number = -4;
         try{
             instance.getCurriculumcicList(number);
@@ -995,10 +951,9 @@ public class CycleManagerTest {
     
     /**
      * Test of getCurriculumcicList method, of class CycleManager.
-     * @throws java.lang.Exception
      */
     @Test
-    public void testGetCurriculumcicListNumberMax() throws Exception {
+    public void testGetCurriculumcicListNumberMax(){
         int number = 5000;
         try{
             instance.getCurriculumcicList(number);
@@ -1010,10 +965,9 @@ public class CycleManagerTest {
     
     /**
      * Test of getCurriculumcicList method, of class CycleManager.
-     * @throws java.lang.Exception
      */
     @Test
-    public void testGetCurriculumcicListNumberNotExists() throws Exception {
+    public void testGetCurriculumcicListNumberNotExists(){
         int number = 60;
         try{
             instance.getCurriculumcicList(number);

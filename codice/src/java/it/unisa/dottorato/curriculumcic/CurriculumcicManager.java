@@ -14,8 +14,6 @@ import java.sql.Connection;
 import java.sql.ResultSet;
 import java.sql.SQLException;
 import java.util.ArrayList;
-import java.util.logging.Level;
-import java.util.logging.Logger;
 
 /**Classe per la gestione delle coppie curriculum-ciclo
  *
@@ -65,11 +63,18 @@ public class CurriculumcicManager {
      * @throws java.lang.ClassNotFoundException
      * @throws java.sql.SQLException
      * @throws java.io.IOException
+     * @throws it.unisa.dottorato.curriculumcic.CurriculumcicException
+     * @throws it.unisa.dottorato.exception.NameException
+     * @throws it.unisa.dottorato.exception.ReferenceException
+     * @throws it.unisa.dottorato.exception.IdException
      * 
      */
     public synchronized void insertProfessor(Curriculumcic pCurriculumcic, String fkProfessor) throws
-            ClassNotFoundException, SQLException, IOException {
-        try (Connection connect = DBConnection.getConnection()) {
+            ClassNotFoundException, SQLException, IOException, CurriculumcicException, NameException, ReferenceException, IdException {
+        Connection connect = null;
+        try {
+            // Otteniamo una Connessione al DataBase
+            connect = DBConnection.getConnection();
             testCurriculucic(pCurriculumcic);
             /*
              * Prepariamo la stringa SQL per effettuare la modifica alla 
@@ -90,14 +95,8 @@ public class CurriculumcicManager {
             Utility.executeOperation(connect, tSql);
 
             connect.commit();
-        } catch (CurriculumcicException ex) {
-            Logger.getLogger(CurriculumcicManager.class.getName()).log(Level.SEVERE, null, ex);
-        } catch (NameException ex) {
-            Logger.getLogger(CurriculumcicManager.class.getName()).log(Level.SEVERE, null, ex);
-        } catch (ReferenceException ex) {
-            Logger.getLogger(CurriculumcicManager.class.getName()).log(Level.SEVERE, null, ex);
-        } catch (IdException ex) {
-            Logger.getLogger(CurriculumcicManager.class.getName()).log(Level.SEVERE, null, ex);
+        } finally {
+            DBConnection.releaseConnection(connect);
         }
     }
     
@@ -109,10 +108,21 @@ public class CurriculumcicManager {
      * @throws java.lang.ClassNotFoundException
      * @throws java.sql.SQLException
      * @throws java.io.IOException
+     * @throws it.unisa.dottorato.exception.NameException
+     * @throws it.unisa.dottorato.exception.ReferenceException
+     * @throws it.unisa.dottorato.curriculumcic.CurriculumcicManager
+     * @throws it.unisa.dottorato.curriculumcic.CurriculumcicManager
+     * @throws it.unisa.dottorato.curriculumcic.CurriculumcicManager
+     * @throws it.unisa.dottorato.curriculumcic.CurriculumcicManager
+     * @throws it.unisa.dottorato.curriculumcic.CurriculumcicException
+     * @throws it.unisa.dottorato.exception.IdException
      */
     public synchronized void insertCurriculumcicCoordinator(Curriculumcic pCurriculumcic, String fkProfessor) throws
-            ClassNotFoundException, SQLException, IOException {
-        try (Connection connect = DBConnection.getConnection()) {
+            ClassNotFoundException, SQLException, IOException,  NameException, ReferenceException, CurriculumcicException, IdException, Exception   {
+       Connection connect = null;
+        try {
+            // Otteniamo una Connessione al DataBase
+            connect = DBConnection.getConnection();
             testCurriculucic(pCurriculumcic);
             /*
              * Prepariamo la stringa SQL per effettuare la modifica alla 
@@ -128,17 +138,13 @@ public class CurriculumcicManager {
                     + CycleManager.getInstance().testNumber(pCurriculumcic.getfkCycle());
 
             //Inviamo la Query al DataBase
-            Utility.executeOperation(connect, tSql);
+            if (Utility.executeOperation(connect, tSql)==0){
+                throw new Exception();
+            }
 
             connect.commit();
-        } catch (NameException ex) {
-            Logger.getLogger(CurriculumcicManager.class.getName()).log(Level.SEVERE, null, ex);
-        } catch (ReferenceException ex) {
-            Logger.getLogger(CurriculumcicManager.class.getName()).log(Level.SEVERE, null, ex);
-        } catch (IdException ex) {
-            Logger.getLogger(CurriculumcicManager.class.getName()).log(Level.SEVERE, null, ex);
-        } catch (CurriculumcicException ex) {
-            Logger.getLogger(CurriculumcicManager.class.getName()).log(Level.SEVERE, null, ex);
+        } finally {
+            DBConnection.releaseConnection(connect);
         }
     }
      /**
@@ -148,10 +154,16 @@ public class CurriculumcicManager {
      * @throws java.lang.ClassNotFoundException
      * @throws java.sql.SQLException
      * @throws java.io.IOException
+     * @throws it.unisa.dottorato.curriculumcic.CurriculumcicException
+     * @throws it.unisa.dottorato.exception.IdException
+     * @throws it.unisa.dottorato.exception.NameException
      */
     public synchronized void deleteCurriculumcicCoordinator(Curriculumcic pCurriculumcic) throws
-            ClassNotFoundException, SQLException, IOException {
-        try (Connection connect = DBConnection.getConnection()) {
+            ClassNotFoundException, SQLException, IOException, CurriculumcicException, IdException,NameException, Exception {
+       Connection connect = null;
+        try {
+            // Otteniamo una Connessione al DataBase
+            connect = DBConnection.getConnection();
             testCurriculucic(pCurriculumcic);
             /*
              * Prepariamo la stringa SQL per effettuare la modifica alla 
@@ -165,15 +177,12 @@ public class CurriculumcicManager {
                     + CycleManager.getInstance().testNumber(pCurriculumcic.getfkCycle());
 
             //Inviamo la Query al DataBase
-            Utility.executeOperation(connect, tSql);
-
+            if (Utility.executeOperation(connect, tSql)==0){
+                throw new Exception();
+            }
             connect.commit();
-        } catch (CurriculumcicException ex) {
-            Logger.getLogger(CurriculumcicManager.class.getName()).log(Level.SEVERE, null, ex);
-        } catch (NameException ex) {
-            Logger.getLogger(CurriculumcicManager.class.getName()).log(Level.SEVERE, null, ex);
-        } catch (IdException ex) {
-            Logger.getLogger(CurriculumcicManager.class.getName()).log(Level.SEVERE, null, ex);
+        } finally {
+            DBConnection.releaseConnection(connect);
         }
     } 
     
@@ -185,12 +194,17 @@ public class CurriculumcicManager {
      * @throws java.lang.ClassNotFoundException
      * @throws java.sql.SQLException
      * @throws java.io.IOException
+     * @throws it.unisa.dottorato.exception.IdException
+     * @throws it.unisa.dottorato.exception.NameException
+     * @throws it.unisa.dottorato.curriculumcic.CurriculumcicException
      */
     public synchronized Professor viewCurriculumcicCoordinator(Curriculumcic pCurriculumcic) throws
-            ClassNotFoundException, SQLException, IOException {
+            ClassNotFoundException, SQLException, IOException, IdException, NameException, CurriculumcicException  {
         Professor cord=new Professor();
-        
-        try (Connection connect = DBConnection.getConnection()) {
+        Connection connect = null;
+        try {
+            // Otteniamo una Connessione al DataBase
+            connect = DBConnection.getConnection();
             testCurriculucic(pCurriculumcic);
             /*
              * Prepariamo la stringa SQL per effettuare la modifica alla 
@@ -219,12 +233,8 @@ public class CurriculumcicManager {
             }
 
             connect.commit();
-        } catch (IdException ex) {
-            Logger.getLogger(CurriculumcicManager.class.getName()).log(Level.SEVERE, null, ex);
-        } catch (NameException ex) {
-            Logger.getLogger(CurriculumcicManager.class.getName()).log(Level.SEVERE, null, ex);
-        } catch (CurriculumcicException ex) {
-            Logger.getLogger(CurriculumcicManager.class.getName()).log(Level.SEVERE, null, ex);
+        } finally {
+            DBConnection.releaseConnection(connect);
         }
         return cord;
     } 
@@ -237,10 +247,17 @@ public class CurriculumcicManager {
      * @throws java.lang.ClassNotFoundException
      * @throws java.sql.SQLException
      * @throws java.io.IOException
+     * @throws it.unisa.dottorato.exception.ReferenceException
+     * @throws it.unisa.dottorato.exception.IdException
+     * @throws it.unisa.dottorato.exception.NameException
+     * @throws it.unisa.dottorato.curriculumcic.CurriculumcicException
      */
     public synchronized void DeleteProfessor(Curriculumcic pCurriculumcic, String fkProfessor) throws
-            ClassNotFoundException, SQLException, IOException {
-        try (Connection connect = DBConnection.getConnection()) {
+            ClassNotFoundException, SQLException, IOException, ReferenceException, IdException, NameException, CurriculumcicException, Exception  {
+      Connection connect = null;
+        try {
+            // Otteniamo una Connessione al DataBase
+            connect = DBConnection.getConnection();
             testCurriculucic(pCurriculumcic);
             /*
              * Prepariamo la stringa SQL per effettuare la modifica alla 
@@ -257,17 +274,13 @@ public class CurriculumcicManager {
                     + "'";
 
             //Inviamo la Query al DataBase
-            Utility.executeOperation(connect, tSql);
+            if (Utility.executeOperation(connect, tSql)==0){
+                throw new Exception();
+            }
 
             connect.commit();
-        } catch (ReferenceException ex) {
-            Logger.getLogger(CurriculumcicManager.class.getName()).log(Level.SEVERE, null, ex);
-        } catch (IdException ex) {
-            Logger.getLogger(CurriculumcicManager.class.getName()).log(Level.SEVERE, null, ex);
-        } catch (NameException ex) {
-            Logger.getLogger(CurriculumcicManager.class.getName()).log(Level.SEVERE, null, ex);
-        } catch (CurriculumcicException ex) {
-            Logger.getLogger(CurriculumcicManager.class.getName()).log(Level.SEVERE, null, ex);
+        } finally {
+            DBConnection.releaseConnection(connect);
         }
     }
     
@@ -280,10 +293,17 @@ public class CurriculumcicManager {
      * @throws java.lang.ClassNotFoundException
      * @throws java.sql.SQLException
      * @throws java.io.IOException
+     * @throws it.unisa.dottorato.exception.ReferenceException
+     * @throws it.unisa.dottorato.exception.IdException
+     * @throws it.unisa.dottorato.exception.NameException
+     * @throws it.unisa.dottorato.curriculumcic.CurriculumcicException
      */
     public synchronized void insertPhdSudent(Curriculumcic pCurriculumcic, String fkPhdstudent) throws
-            ClassNotFoundException, SQLException, IOException {
-        try (Connection connect = DBConnection.getConnection()) {
+            ClassNotFoundException, SQLException, IOException, ReferenceException, IdException, NameException, CurriculumcicException, Exception {
+        Connection connect = null;
+        try {
+            // Otteniamo una Connessione al DataBase
+            connect = DBConnection.getConnection();
             testCurriculucic(pCurriculumcic);
             /*
              * Prepariamo la stringa SQL per effettuare la modifica alla 
@@ -299,17 +319,13 @@ public class CurriculumcicManager {
                     + "'";
 
             //Inviamo la Query al DataBase
-            Utility.executeOperation(connect, tSql);
+            if (Utility.executeOperation(connect, tSql)==0){
+                throw new Exception();
+            }
 
             connect.commit();
-        } catch (IdException ex) {
-            Logger.getLogger(CurriculumcicManager.class.getName()).log(Level.SEVERE, null, ex);
-        } catch (ReferenceException ex) {
-            Logger.getLogger(CurriculumcicManager.class.getName()).log(Level.SEVERE, null, ex);
-        } catch (CurriculumcicException ex) {
-            Logger.getLogger(CurriculumcicManager.class.getName()).log(Level.SEVERE, null, ex);
-        } catch (NameException ex) {
-            Logger.getLogger(CurriculumcicManager.class.getName()).log(Level.SEVERE, null, ex);
+        } finally {
+            DBConnection.releaseConnection(connect);
         }
     }
     
@@ -322,8 +338,12 @@ public class CurriculumcicManager {
      * @throws java.lang.ClassNotFoundException
      * @throws java.sql.SQLException
      * @throws java.io.IOException
+     * @throws it.unisa.dottorato.curriculumcic.CurriculumcicException
+     * @throws it.unisa.dottorato.exception.IdException
+     * @throws it.unisa.dottorato.exception.NameException
      */
-    public synchronized ArrayList<Professor> viewProfessorList(Curriculumcic curriculumcic) throws ClassNotFoundException, SQLException, IOException {
+    public synchronized ArrayList<Professor> viewProfessorList(Curriculumcic curriculumcic) throws 
+            ClassNotFoundException, SQLException, IOException, CurriculumcicException, IdException, NameException {
         Connection connect = null;
         ArrayList<Professor> prof=null;
         try {
@@ -363,17 +383,9 @@ public class CurriculumcicManager {
             }
 
             return prof;
-
-        } catch (CurriculumcicException ex) {
-            Logger.getLogger(CurriculumcicManager.class.getName()).log(Level.SEVERE, null, ex);
-        } catch (IdException ex) {
-            Logger.getLogger(CurriculumcicManager.class.getName()).log(Level.SEVERE, null, ex);
-        } catch (NameException ex) {
-            Logger.getLogger(CurriculumcicManager.class.getName()).log(Level.SEVERE, null, ex);
         } finally {
             DBConnection.releaseConnection(connect);
         }
-        return prof;
     }
     
     /**
@@ -385,9 +397,11 @@ public class CurriculumcicManager {
      * @throws java.lang.ClassNotFoundException
      * @throws java.sql.SQLException
      * @throws java.io.IOException
+     * @throws it.unisa.dottorato.exception.IdException
+     * @throws it.unisa.dottorato.exception.NameException
      */
     public synchronized ArrayList<PhdStudent> viewPhdstudentCurriculumcic(Curriculumcic curriculumcic) 
-            throws ClassNotFoundException, SQLException, IOException {
+            throws ClassNotFoundException, SQLException, IOException, IdException, NameException {
         Connection connect = null;
         ArrayList<PhdStudent> stud=null;
         try {
@@ -429,14 +443,9 @@ public class CurriculumcicManager {
 
             return stud;
 
-        } catch (IdException ex) {
-            Logger.getLogger(CurriculumcicManager.class.getName()).log(Level.SEVERE, null, ex);
-        } catch (NameException ex) {
-            Logger.getLogger(CurriculumcicManager.class.getName()).log(Level.SEVERE, null, ex);
         } finally {
             DBConnection.releaseConnection(connect);
         }
-        return stud;
     }
     
     /**
@@ -447,10 +456,14 @@ public class CurriculumcicManager {
      * @throws java.lang.ClassNotFoundException
      * @throws java.sql.SQLException
      * @throws java.io.IOException
+     * @throws it.unisa.dottorato.exception.ReferenceException
      */
     public synchronized void DeletePhdSudent(String fkPhdstudent) throws
-            ClassNotFoundException, SQLException, IOException {
-        try (Connection connect = DBConnection.getConnection()) {
+            ClassNotFoundException, SQLException, IOException, ReferenceException, Exception {
+        Connection connect = null;
+        try {
+            // Otteniamo una Connessione al DataBase
+            connect = DBConnection.getConnection();
 
             /*
              * Prepariamo la stringa SQL per effettuare la modifica alla 
@@ -463,11 +476,13 @@ public class CurriculumcicManager {
                     + "'";
 
             //Inviamo la Query al DataBase
-            Utility.executeOperation(connect, tSql);
+            if (Utility.executeOperation(connect, tSql)==0){
+                throw new Exception();
+            }
 
             connect.commit();
-        } catch (ReferenceException ex) {
-            Logger.getLogger(CurriculumcicManager.class.getName()).log(Level.SEVERE, null, ex);
+        } finally {
+            DBConnection.releaseConnection(connect);
         }
     }
     
@@ -492,7 +507,7 @@ public class CurriculumcicManager {
      * @throws ReferenceException 
      */
     public String testFkPhdstudent(String s) throws ReferenceException{
-        if(s.length()<10 || s.length()>50 || s.indexOf("@")==-1)
+        if(s.length()<10 || s.length()>50 || !s.contains("@"))
             throw new ReferenceException();
         return s;
     }

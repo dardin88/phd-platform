@@ -1,6 +1,7 @@
 package it.unisa.dottorato.Cycle;
 
 import it.unisa.dottorato.Curriculum.Curriculum;
+import it.unisa.dottorato.exception.IdException;
 import java.io.IOException;
 import java.io.PrintWriter;
 import java.sql.SQLException;
@@ -36,9 +37,10 @@ public class GetCurriculumcicListServlet extends HttpServlet {
      * @param response servlet response
      * @throws ServletException if a servlet-specific error occurs
      * @throws IOException if an I/O error occurs
+     * @throws it.unisa.dottorato.exception.IdException
      */
     protected void processRequest(HttpServletRequest request, HttpServletResponse response)
-            throws ServletException, IOException {
+            throws ServletException, IOException, IdException {
         response.setContentType("text/html;charset=UTF-8");
         try (PrintWriter out = response.getWriter()) {
               int number = Integer.parseInt(request.getParameter("number"));
@@ -66,7 +68,11 @@ public class GetCurriculumcicListServlet extends HttpServlet {
     @Override
     protected void doGet(HttpServletRequest request, HttpServletResponse response)
             throws ServletException, IOException {
-        processRequest(request, response);
+        try {
+            processRequest(request, response);
+        } catch (IdException ex) {
+            Logger.getLogger(GetCurriculumcicListServlet.class.getName()).log(Level.SEVERE, null, ex);
+        }
     }
 
     /**
@@ -80,7 +86,11 @@ public class GetCurriculumcicListServlet extends HttpServlet {
     @Override
     protected void doPost(HttpServletRequest request, HttpServletResponse response)
             throws ServletException, IOException {
-        processRequest(request, response);
+        try {
+            processRequest(request, response);
+        } catch (IdException ex) {
+            Logger.getLogger(GetCurriculumcicListServlet.class.getName()).log(Level.SEVERE, null, ex);
+        }
     }
 
     /**
