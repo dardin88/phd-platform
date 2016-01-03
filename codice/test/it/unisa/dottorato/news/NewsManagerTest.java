@@ -58,7 +58,7 @@ public class NewsManagerTest {
      * Test of insertNews method, of class NewsManager.
      */
     @Test
-    public void testInsertNewsok() throws Exception {
+    public void testInsertNewsok(){
         not.setId(1);
         not.setTitle("Prova di avviso");
         not.setDescription("Descrizione avviso");
@@ -72,9 +72,10 @@ public class NewsManagerTest {
     
     
     @Test
-    public void testInsertIdMinNews() throws Exception {
-        not.setId(-1);
-           
+    public void testInsertIdMinNews(){
+         not.setId(-1);
+         not.setTitle("Prova di avviso");
+         not.setDescription("Descrizione avviso");
          try{
             instance.insertNews(not);
             fail("sono riuscito a fare l' op");
@@ -85,9 +86,10 @@ public class NewsManagerTest {
     
     
      @Test
-    public void testInsertIdMaxNews() throws Exception {
+    public void testInsertIdMaxNews(){
         not.setId(1000000);
-           
+        not.setTitle("Prova di avviso");
+         not.setDescription("Descrizione avviso");   
          try{
             instance.insertNews(not);
             fail("sono riuscito a fare l' op");
@@ -97,9 +99,10 @@ public class NewsManagerTest {
     }
     
     @Test
-    public void testInsertTitleMinNews() throws Exception {
+    public void testInsertTitleMinNews(){
         not.setId(1);          
         not.setTitle("");
+        not.setDescription("Descrizione avviso"); 
          try{
             instance.insertNews(not);
             fail("sono riuscito a fare l' op");
@@ -110,9 +113,10 @@ public class NewsManagerTest {
     
     
     @Test
-    public void testInsertTitleMaxNews() throws Exception {
+    public void testInsertTitleMaxNews(){
         not.setId(1);          
-        not.setTitle("qwertyuiopqwertyuiopqwertyuiopqwertyuiopqwertyuiopqwertyuiop");
+        not.setTitle("qwertyuiopqwertyuiopqwertsadfasffgdgdfgdfgdfyuiopqwertyuiopqwertyuiopqwertyuiop");
+        not.setDescription("Descrizione avviso"); 
          try{
             instance.insertNews(not);
             fail("sono riuscito a fare l' op");
@@ -123,7 +127,7 @@ public class NewsManagerTest {
     
     
     @Test
-    public void testInsertDescriptionMinNews() throws Exception {
+    public void testInsertDescriptionMinNews(){
         not.setId(1);          
         not.setTitle("Titolo avviso");
         not.setDescription("");
@@ -139,7 +143,7 @@ public class NewsManagerTest {
      * Test of getNewsById method, of class NewsManager.
      */
     @Test
-    public void testGetNewsByIdok() throws Exception {
+    public void testGetNewsByIdok(){
         int number = 1;
         try{
             instance.getNewsById(number);
@@ -150,7 +154,7 @@ public class NewsManagerTest {
     }
     
     @Test
-    public void testGetNewsByIdMin() throws Exception {
+    public void testGetNewsByIdMin(){
         int number = -1;
         try{
             instance.getNewsById(number);
@@ -162,7 +166,7 @@ public class NewsManagerTest {
     
     
      @Test
-    public void testGetNewsByIdMax() throws Exception {
+    public void testGetNewsByIdMax(){
         int number = 2000;
         try{
             instance.getNewsById(number);
@@ -177,7 +181,7 @@ public class NewsManagerTest {
      * Test of deleteNews method, of class NewsManager.
      */
     @Test
-    public void testDeleteNewsok() throws SQLException {
+    public void testDeleteNewsok(){
        int id=2;      
         try{
             instance.deleteNews(id);
@@ -189,7 +193,7 @@ public class NewsManagerTest {
     
     
      @Test
-    public void testDeleteNewsIdMin() throws SQLException {
+    public void testDeleteNewsIdMin(){
         int id = -1;
         try{
             instance.deleteNews(id);
@@ -202,7 +206,7 @@ public class NewsManagerTest {
     
     
     @Test
-    public void testDeleteNewsIdMax() throws SQLException {
+    public void testDeleteNewsIdMax(){
         int id = 20000;
         try{
             instance.deleteNews(id);
@@ -217,7 +221,7 @@ public class NewsManagerTest {
      * Test of update_news method, of class NewsManager.
      */
     @Test
-    public void testUpdate_newsok() throws Exception {
+    public void testUpdate_newsok(){
         int Number = 1;
         not.setTitle("Prova");
         not.setDescription("Prova descrizione");
@@ -231,9 +235,10 @@ public class NewsManagerTest {
     
     
     @Test
-    public void testUpdate_newsTitleMin() throws Exception {
-        int Number = 15;
+    public void testUpdate_newsTitleMin(){
+        int Number = 1;
         not.setTitle("");
+        not.setDescription("Prova descrizione");
         try{
              instance.update_news(Number,not);
              fail("sono riuscito a fare l' op");
@@ -244,9 +249,10 @@ public class NewsManagerTest {
     
     
     @Test
-    public void testUpdate_newsTitleMax() throws Exception {
-        int Number = 15;
+    public void testUpdate_newsTitleMax(){
+        int Number = 1;
         not.setTitle("qwertyuiopqwertyuiopqwertyuiopqwertyuiopqwertyuiopqwertyuiop");
+        not.setDescription("Prova descrizione");
         try{
             instance.update_news(Number,not);
             fail("sono riuscito a fare l' op");
@@ -257,8 +263,10 @@ public class NewsManagerTest {
     
     
     @Test
-    public void testUpdate_newsIdMin() throws Exception {
-        int Number = -1;
+    public void testUpdate_newsIdMin(){
+        int Number = -5;
+        not.setTitle("qwqwertyuiopqwertyuiopqwertyuiop");
+        not.setDescription("Prova descrizione");
         not.setId(Number);
         try{
             instance.update_news(Number,not);
@@ -270,9 +278,11 @@ public class NewsManagerTest {
     
     
     @Test
-    public void testUpdate_newsIdMax() throws Exception {
+    public void testUpdate_newsIdMax(){
         int Number = 2000000;
+        not.setDescription("Prova descrizione");
         not.setId(Number);
+        not.setTitle("qwqwertyuiopqwertyuiopqwertyuiop");
         try{
             instance.update_news(Number,not);
             fail("sono riuscito a fare l' op");
@@ -282,20 +292,20 @@ public class NewsManagerTest {
     }
     
     @Test
-    public void testUpdate_newsDescriptionMin() throws Exception {
-        int Number = 2000;
+    public void testUpdate_newsDescriptionMin(){
+        int Number = 1;
         not.setTitle("Prova");
         not.setDescription(null);
         try{
              instance.update_news(Number,not);
-            assertTrue(true);
+             fail("sono riuscito a fare l' op");
         }catch (Exception e){
-            fail("non sono riuscito a fare l' op");
+            assertTrue(true);
         }
     }   
 
     @Test
-    public void testGetAllNewsOk()throws Exception{
+    public void testGetAllNewsOk(){
         try{
             ArrayList<News> result=instance.getAllNews();
             assertNotNull(not);

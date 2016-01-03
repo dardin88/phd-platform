@@ -1,4 +1,5 @@
 package it.unisa.dottorato.news;
+import it.unisa.dottorato.exception.IdException;
 import it.unisa.integrazione.database.exception.ConnectionException;
 import java.io.IOException;
 import java.io.PrintWriter;
@@ -31,7 +32,7 @@ public class GetNewsByIdServlet extends HttpServlet{
      * @throws IOException if an I/O error occurs
      */
     protected void processRequest(HttpServletRequest request, HttpServletResponse response)
-            throws ServletException, IOException {
+            throws ServletException, IOException, IdException {
         response.setContentType("text/html;charset=UTF-8");
         try (PrintWriter out = response.getWriter()) {
             int id = Integer.parseInt(request.getParameter("idNews"));
@@ -61,7 +62,11 @@ public class GetNewsByIdServlet extends HttpServlet{
     @Override
     protected void doGet(HttpServletRequest request, HttpServletResponse response)
             throws ServletException, IOException {
-        processRequest(request, response);
+        try {
+            processRequest(request, response);
+        } catch (IdException ex) {
+            Logger.getLogger(GetNewsByIdServlet.class.getName()).log(Level.SEVERE, null, ex);
+        }
     }
 
     /**
@@ -75,7 +80,11 @@ public class GetNewsByIdServlet extends HttpServlet{
     @Override
     protected void doPost(HttpServletRequest request, HttpServletResponse response)
             throws ServletException, IOException {
-        processRequest(request, response);
+        try {
+            processRequest(request, response);
+        } catch (IdException ex) {
+            Logger.getLogger(GetNewsByIdServlet.class.getName()).log(Level.SEVERE, null, ex);
+        }
     }
 
     /**
