@@ -27,7 +27,7 @@ function getCorsoList()
 }
 //metodo per chiamare tutt ele lezioni
 function selectedItem()
-{ 
+{  $("#resultbody tr").remove();
     selected = $("#Corsoprofessore option:selected").val();
     if (selected !== "default") //se il valore della select è default non mostriamo il div contenente le informazioni delle date delle lezioni
     { selected = $("#Corsoprofessore option:selected").val();
@@ -40,19 +40,20 @@ function selectedItem()
             id= value.secondaryEmail;
             
     $.getJSON("GetPresenceToLesson",{idCourse:selected,fkPhdstudent:id}, function (data) { 
-       $.each(data.presence, function (index,value) {
-         
-        dottorandopre="<td> <input type='checkbox' value="+true+"   id=" +  value.fkPhdstudent + " onclick='changePresenza(" + 'id' + ")' class='checkboxclass' ></td> ";
-            
-         $("#resultbody").find('td:last').after(dottorandopre);
-    if(value.isPresent==true){ $('.checkboxclass')[0].checked = true;}
+       $.each(data.presence, function (index,balue) {
+        lezione= balue.fkLesson;
+        dottorandopre="<td> <input type='checkbox' value="+true+"   id=" +  id + " onclick='changePresenza(" + 'id' + ","+lezione +")' class='checkboxclass' ></td> ";
+           
+          
+ $("#resultbody ").find('td:last').after(dottorandopre);
+
+ 
+    if(balue.isPresent==true){ $('.checkboxclass')[0].checked = true;}
       
     });
     
 });
-// dottorando="<tr > <td> "+ value.name+" </td>  <td>"+value.surname+"</td> <td> <input type='checkbox' value="+true+"   id=" +  value.fkPhdstudent + " onclick='changePresenza(" + 'id' + ")' ></td></tr>";
- //$("#resultbody").append(dottorando);
-   
+
         });
     });
   
@@ -64,17 +65,17 @@ function selectedItem()
 
 // metodo per cambiare la presenza 
 
-function changePresenza(id) {
+function changePresenza(id,lezione) {
     
      alert("firma inserita");
-    $.getJSON("ModifyPresence",{fkPhdstudent:id,fkLesson:selected1}, function (data) { 
+    $.getJSON("ModifyPresence",{fkPhdstudent:id,fkLesson:lezione}, function (data) { 
     
     });
     
 }
   
 function selectedItemdot(){
-   
+   $("#resultbody tr").remove();
     selected = $("#Corsoprofessore option:selected").val();
     if (selected !== "default") //se il valore della select è default non mostriamo il div contenente le informazioni delle date delle lezioni
     { selected = $("#Corsoprofessore option:selected").val();

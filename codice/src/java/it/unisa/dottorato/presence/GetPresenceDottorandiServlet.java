@@ -51,9 +51,9 @@ PrintWriter out = response.getWriter();
                 result.put("presence", resultArray);
                 out.write(result.toString());
             } catch (SQLException | JSONException ex) {
-                Logger.getLogger(GetPresenceListServlet.class.getName()).log(Level.SEVERE, null, ex);
+                Logger.getLogger(GetPresenceDottorandiServlet.class.getName()).log(Level.SEVERE, null, ex);
             } catch (IdException ex) {
-             Logger.getLogger(GetPresenceServlet.class.getName()).log(Level.SEVERE, null, ex);
+             Logger.getLogger(GetPresenceDottorandiServlet.class.getName()).log(Level.SEVERE, null, ex);
          } catch (ClassNotFoundException ex) {
              Logger.getLogger(GetPresenceDottorandiServlet.class.getName()).log(Level.SEVERE, null, ex);
          }
