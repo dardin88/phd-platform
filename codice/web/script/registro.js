@@ -33,18 +33,13 @@ function selectedItem()
     { selected = $("#Corsoprofessore option:selected").val();
         $("#panelDiv").show();
     //metodo per stampare le date
-       $.getJSON("GetPresenceDottotandi",{idCourse: selected}, function (data) { 
-           alert("ciao");
+       $.getJSON("GetPresenceDottotandi",{idCourse:selected}, function (data) { 
+       $.each(data.presence, function (index, value) { 
         
-        $.each(data.presence, function (index, value) { 
-        
-             dottorando="<tr> <td > "+ value.name+" </td>   <td >"+ value.surname+ "</td></tr>";
+             dottorando="<tr> <td > "+ value.name +" "+value.surname+" </td>   <td > </td></tr>";
             
-            // dottorando="<tr > <td> "+ value.name+" </td>  <td>"+value.surname+"</td> <td> <input type='checkbox' value="+true+"   id=" +  value.fkPhdstudent + " onclick='changePresenza(" + 'id' + ")' ></td></tr>";
-      
-            
-            $("#resultbody").append(dottorando);
-         
+// dottorando="<tr > <td> "+ value.name+" </td>  <td>"+value.surname+"</td> <td> <input type='checkbox' value="+true+"   id=" +  value.fkPhdstudent + " onclick='changePresenza(" + 'id' + ")' ></td></tr>";
+ $("#resultbody").append(dottorando);
    
         });
     });
