@@ -33,24 +33,36 @@ function selectedItem()
     { selected = $("#Corsoprofessore option:selected").val();
         $("#panelDiv").show();
     //metodo per stampare le date
-       $.getJSON("GetPresenceDottotandi",{idCourse:selected}, function (data) { 
-       $.each(data.presence, function (index, value) { 
-        
-             dottorando="<tr> <td > "+ value.name +" "+value.surname+" </td>   <td > </td></tr>";
+       $.getJSON("GetPresenceDottorandi",{idCourse:selected}, function (data) { 
+       $.each(data.presence, function (index,value) { 
+        dottorando="<tr> <td id="+value.secondaryEmail+"  class='checkboxclass' > "+ value.name +" "+value.surname+" </td>  </tr>";
+            id= value.secondaryEmail;
+            alert(id);
+    $.getJSON("GetPresenceToLesson",{idCourse:selected,fkPhdstudent:id}, function (data) { 
+       $.each(data.presence, function (index,value) { 
+        dottorandopre=" <td > "+ value.isPresent +" </td> ";
             
 // dottorando="<tr > <td> "+ value.name+" </td>  <td>"+value.surname+"</td> <td> <input type='checkbox' value="+true+"   id=" +  value.fkPhdstudent + " onclick='changePresenza(" + 'id' + ")' ></td></tr>";
- $("#resultbody").append(dottorando);
+ //dottorando.find('td:last').append(dottorandopre);
+           $("#resultbody ").append(dottorando).find('td:last').after(dottorandopre);
+   
+      
+    });
+    
+});
+// dottorando="<tr > <td> "+ value.name+" </td>  <td>"+value.surname+"</td> <td> <input type='checkbox' value="+true+"   id=" +  value.fkPhdstudent + " onclick='changePresenza(" + 'id' + ")' ></td></tr>";
+ //$("#resultbody").append(dottorando);
    
         });
     });
-    
-    
+  
+      
 }
 
 }
 // metodo per mostrare i partecipanti a lezione
 
-function mostraPresenze(){
+/*function mostraPresenze(){
     selected = $("#Corsoprofessore option:selected").val();
     if (selected !== "default") //se il valore della select è default non mostriamo il div contenente le informazioni delle date delle lezioni
     {   
@@ -144,4 +156,4 @@ function mostraPresenzeDot(){
     });
   
     }
-}
+}*/
