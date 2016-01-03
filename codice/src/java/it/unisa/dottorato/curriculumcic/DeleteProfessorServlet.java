@@ -1,5 +1,7 @@
 package it.unisa.dottorato.curriculumcic;
 
+import it.unisa.dottorato.exception.IdException;
+import it.unisa.dottorato.exception.NameException;
 import java.io.IOException;
 import java.io.PrintWriter;
 import java.sql.SQLException;
@@ -33,9 +35,12 @@ public class DeleteProfessorServlet extends HttpServlet {
      * @param response servlet response
      * @throws ServletException if a servlet-specific error occurs
      * @throws IOException if an I/O error occurs
+     * @throws it.unisa.dottorato.exception.IdException
+     * @throws it.unisa.dottorato.curriculumcic.CurriculumcicException
+     * @throws it.unisa.dottorato.exception.NameException
      */
     protected void processRequest(HttpServletRequest request, HttpServletResponse response)
-            throws ServletException, IOException {
+            throws ServletException, IOException, IdException, CurriculumcicException, NameException, Exception {
 
         try {
             response.setContentType("text/html;charset=UTF-8");
@@ -82,7 +87,15 @@ public class DeleteProfessorServlet extends HttpServlet {
     @Override
     protected void doGet(HttpServletRequest request, HttpServletResponse response)
             throws ServletException, IOException {
-        processRequest(request, response);
+        try {
+            processRequest(request, response);
+        } catch (CurriculumcicException ex) {
+            Logger.getLogger(DeleteProfessorServlet.class.getName()).log(Level.SEVERE, null, ex);
+        } catch (NameException ex) {
+            Logger.getLogger(DeleteProfessorServlet.class.getName()).log(Level.SEVERE, null, ex);
+        } catch (Exception ex) {
+            Logger.getLogger(DeleteProfessorServlet.class.getName()).log(Level.SEVERE, null, ex);
+        }
     }
 
     /**
@@ -96,7 +109,15 @@ public class DeleteProfessorServlet extends HttpServlet {
     @Override
     protected void doPost(HttpServletRequest request, HttpServletResponse response)
             throws ServletException, IOException {
-        processRequest(request, response);
+        try {
+            processRequest(request, response);
+        } catch (CurriculumcicException ex) {
+            Logger.getLogger(DeleteProfessorServlet.class.getName()).log(Level.SEVERE, null, ex);
+        } catch (NameException ex) {
+            Logger.getLogger(DeleteProfessorServlet.class.getName()).log(Level.SEVERE, null, ex);
+        } catch (Exception ex) {
+            Logger.getLogger(DeleteProfessorServlet.class.getName()).log(Level.SEVERE, null, ex);
+        }
     }
 
     /**
