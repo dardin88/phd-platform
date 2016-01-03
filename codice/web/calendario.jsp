@@ -4,15 +4,19 @@
     Author     : Rembor
 --%>
 
+<%@page import="it.unisa.dottorato.account.*"%>
 <%@page contentType="text/html" pageEncoding="UTF-8"%>
 <!DOCTYPE html>
 <html>
     <head>
      
-        <meta name="viewport"
-	content="width=device-width, initial-scale=1, maximum-scale=1, user-scalable=no">
-	<meta http-equiv="Content-Type" content="text/html; charset=UTF-8">
+        <meta charset="utf-8">
+        <meta http-equiv="X-UA-Compatible" content="IE=edge">
 
+        <meta name="viewport" content="width=device-width, initial-scale=1">
+        <meta name="description" content="Xenon Boostrap Admin Panel" />
+        <meta name="author" content="Matteo Nardone" />
+        <title>Calendario</title>
 
 
         
@@ -27,72 +31,81 @@
         <link rel="stylesheet" href="assets/css/xenon-skins.css">
         <link rel="stylesheet" href="assets/css/custom.css">  
         <link rel="stylesheet" href="style/dottorato.css">
-        <link rel="stylesheet" href="http://getbootstrap.com/dist/css/bootstrap.min.css" >
+        <!--<link rel="stylesheet" href="http://getbootstrap.com/dist/css/bootstrap.min.css" >-->
 	<link rel="stylesheet" href="http://getbootstrap.com/assets/css/docs.min.css">
 	<link rel="stylesheet" href="assets/js/calendar/jin.calendar.style.css">
        
-        <script src="assets/js/calendar/jin.calendar.js"></script>
+        <script type="text/javascript" src="assets/js/calendar/jin.calendar.js"></script>
         <script src="assets/js/jquery-1.11.1.min.js"></script>
-        <script type="text/javascript" src="script/amministrazione.js"></script>
+        <script src="http://netdna.bootstrapcdn.com/bootstrap/3.1.1/js/bootstrap.min.js"></script>
+  
     
     </head>
-    <body>
-        <div class="page-body">
-     <jsp:include page="barraMenu.jsp"/>
-    <div class="page-container"> 
-          <div class="container-fluid">
-                    <div class="navbar-header">
-                        <a class="navbar-brand" href="#">Gestione Calendario </a>
-                    </div>
-                    <div>
+    
+    <body class="page-body">
+        <jsp:include page="barraMenu.jsp"/>
+        <div class="page-container"> 
+            <div class="main-content" id="content">
+
+                <div class="row">
+                    <div class="panel panel-default">
+                    <div class="panel-heading">
+                        <h1>Gestione Calendario </h1> 
+                        <% Account loggedPerson = ((Account) session.getAttribute("account"));
+                        if (loggedPerson.isAdmin() || loggedPerson.getTypeAccount().equals("professor")) {
+                        %>  
                         <ul class="nav navbar-nav">
-                            <li class="active"><a href="aggiungicorso.jsp">Aggiungi Corso</a></li>
+                            <li class="active"><a href="addcorso.jsp">Aggiungi Corso</a></li>
                             <li><a href="aggiungievento.jsp">Aggiungi Eventi</a></li>
                             
                         </ul>
+                        <% } %>
+                            
                     </div>
-                </div>
+                
+        
+         
         
 
-	<div class="div-month row">
-		<div class="col-xs-3 text-right">
+                <div class="div-month row">
+                    <div class="col-xs-3 text-right">
 			<h4>
-			<button id="btn-prev" type="button" class="btn btn-default">
+			<button id="btn-prev" type="button" class="btn btn-default" onclick="prev()">
 				<span class="glyphicon glyphicon-circle-arrow-left"></span> Prev
 			</button>
 			</h4>
-		</div>
+                    </div>
 		
-		<div class="col-xs-6">
+                    <div class="col-xs-6">
 			<h4 class="h4-month text-center"></h4>
-		</div>
+                    </div>
 		
-		<div class="col-xs-3 text-left">
+                    <div class="col-xs-3 text-left">
 			<h4>
-			<button id="btn-next" type="button" class="btn btn-default">
+			<button id="btn-next" type="button" class="btn btn-default"onclick="next()">
 				Next <span class="glyphicon glyphicon-circle-arrow-right"></span>
 			</button>
 			</h4>
-		</div>
-	</div>
+                    </div>
+                </div>
 
-	<div class="div-main">
-		<div class="div-calendar row">
+                <div class="div-main">
+                    <div class="div-calendar row">
 			<div class="div-init col-sm-12"></div>
-		</div>
-	</div>
+                    </div>
+                </div>
 
-<script>
+                <script>
 
-		jinCalendar.init();
+                    jinCalendar.init();
 
 		
-	</script>
+                </script>
 	
-
-	
-   </div>
-</div>
+                    </div>
+                </div>
+            </div>
+        
 </body>
 
 

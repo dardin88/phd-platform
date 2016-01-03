@@ -22,11 +22,11 @@
 				currentDay = d.getDate(),
 				monthNames = ["Jan", "Feb", "Mar", "Apr", "May", "June", "Jul", "Aug", "Sep", "Oct", "Nov", "Dec"];
 
-		if (options.maxWidth != false){
+		if (options.maxWidth !== false){
 			$('#'+uniqueId).css('maxWidth',options.maxWidth);
 		}
 
-		if (options.startHidden == true){
+		if (options.startHidden === true){
 			$('#'+uniqueId).addClass('monthly-pop').css({
 				'position' : 'absolute',
 				'display' : 'none'
@@ -45,9 +45,9 @@
 		}
 
 		// Add Day Of Week Titles
-		if (options.weekStart == 'Sun') {
+		if (options.weekStart === 'Sun') {
 			$('#' + uniqueId).append('<div class="monthly-day-title-wrap"><div>Sun</div><div>Mon</div><div>Tue</div><div>Wed</div><div>Thu</div><div>Fri</div><div>Sat</div></div><div class="monthly-day-wrap"></div>');
-		} else if (options.weekStart == 'Mon') {
+		} else if (options.weekStart === 'Mon') {
 			$('#' + uniqueId).append('<div class="monthly-day-title-wrap"><div>Mon</div><div>Tue</div><div>Wed</div><div>Thu</div><div>Fri</div><div>Sat</div><div>Sun</div></div><div class="monthly-day-wrap"></div>');
 		} else {
 			console.log('Incorrect entry for weekStart variable.')
@@ -71,7 +71,7 @@
 			// Remove old days
 			$('#' + uniqueId + ' .monthly-day, #' + uniqueId + ' .monthly-day-blank').remove();
 			// Print out the days
-			if (options.mode == 'event') {
+			if (options.mode === 'event') {
 				for(var i = 0; i < dayQty; i++) {
 					// Fix 0 indexed days
 					var day = i + 1;
@@ -88,12 +88,12 @@
 			// Set Today
 			var setMonth = $('#' + uniqueId).data('setMonth'),
 				setYear = $('#' + uniqueId).data('setYear');
-			if (setMonth == currentMonth && setYear == currentYear) {
+			if (setMonth === currentMonth && setYear === currentYear) {
 				$('#' + uniqueId + ' *[data-number="'+currentDay+'"]').addClass('monthly-today');
 			}
 
 			// Reset button
-			if (setMonth == currentMonth && setYear == currentYear) {
+			if (setMonth === currentMonth && setYear === currentYear) {
 				$('#' + uniqueId + ' .monthly-header-title').html(monthNames[m - 1] +' '+ y);
 			} else {
 				$('#' + uniqueId + ' .monthly-header-title').html(monthNames[m - 1] +' '+ y +'<a href="#" class="monthly-reset"></a> ');
@@ -101,11 +101,11 @@
 			
 
 			// Account for empty days at start
-			if(options.weekStart == 'Sun' && firstDay != 7) {
+			if(options.weekStart === 'Sun' && firstDay !== 7) {
 				for(var i = 0; i < firstDay; i++) {
 					$('#' + uniqueId + ' .monthly-day-wrap').prepend('<div class="monthly-day-blank"><div class="monthly-day-number"></div></div>');
 				}
-			} else if (options.weekStart == 'Mon' && firstDay != 1) {
+			} else if (options.weekStart === 'Mon' && firstDay !== 1) {
 				for(var i = 0; i < (firstDay - 1); i++) {
 					$('#' + uniqueId + ' .monthly-day-wrap').prepend('<div class="monthly-day-blank" ><div class="monthly-day-number"></div></div>');
 				}
@@ -117,14 +117,14 @@
 				totaldays = numdays + numempty,
 				roundup = Math.ceil(totaldays/7) * 7,
 				daysdiff = roundup - totaldays;
-			if(totaldays % 7 != 0) {
+			if(totaldays % 7 !== 0) {
 				for(var i = 0; i < daysdiff; i++) {
 					$('#' + uniqueId + ' .monthly-day-wrap').append('<div class="monthly-day-blank"><div class="monthly-day-number"></div></div>');
 				}
 			}
 
 			// Events
-			if (options.mode == 'event') {
+			if (options.mode === 'event') {
 				// Remove previous events
 				$('#'+uniqueId+' .monthly-event-list').empty();
 				// Add Events
@@ -146,23 +146,23 @@
 						
 
 						function updateList(){
-							if (fullendDate && options.eventList == true) {
+							if (fullendDate && options.eventList === true) {
 								$('#' + uniqueId + ' .monthly-event-list').append('<a '+eventLink+'  data-eventid="'+ eventId +'"><div class="monthly-list-date">'+monthNames[startArr[1] - 1]+' '+startArr[2]+' '+startArr[0]+' - '+monthNames[endArr[1] - 1]+' '+endArr[2]+' '+endArr[0]+'</div><div class="monthly-event-indicator" style="background:'+eventColor+'"></div> '+eventTitle+'</a>');
 							
-							} else if(options.eventList == true) {
+							} else if(options.eventList === true) {
 								$('#' + uniqueId + ' .monthly-event-list').append('<a '+eventLink+'  data-eventid="'+ eventId +'"><div class="monthly-list-date">'+monthNames[startArr[1] - 1]+' '+startArr[2]+' '+startArr[0]+'</div><div class="monthly-event-indicator" style="background:'+eventColor+'"></div> '+eventTitle+'</a>');
 							}
 						}
 
 						// If event is one day & within month
-						if (!fullendDate && startArr[1] == setMonth && startArr[0] == setYear) {
+						if (!fullendDate && startArr[1] === setMonth && startArr[0] === setYear) {
 							// Add Indicators
 							$('#'+uniqueId+' *[data-number="'+startArr[2]+'"] .monthly-indicator-wrap').append('<a '+eventLink+' class="monthly-event-indicator"  data-eventid="'+ eventId +'" style="background:'+eventColor+'" title="'+eventTitle+'">'+eventTitle+'</a>');
 							updateList();
 						// If event is multi day & within month
-						} else if (startArr[1] == setMonth && startArr[0] == setYear && endArr[1] == setMonth && endArr[0] == setYear){
+						} else if (startArr[1] === setMonth && startArr[0] === setYear && endArr[1] === setMonth && endArr[0] === setYear){
 							for(var i = parseInt(startArr[2]); i <= parseInt(endArr[2]); i++) {
-								if (i == parseInt(startArr[2])) {
+								if (i === parseInt(startArr[2])) {
 									$('#'+uniqueId+' *[data-number="'+i+'"] .monthly-indicator-wrap').append('<a '+eventLink+' class="monthly-event-indicator" data-eventid="'+ eventId +'" style="background:'+eventColor+'" title="'+eventTitle+'">'+eventTitle+'</a>');
 								} else {
 									$('#'+uniqueId+' *[data-number="'+i+'"] .monthly-indicator-wrap').append('<a '+eventLink+' class="monthly-event-indicator" data-eventid="'+ eventId +'" style="background:'+eventColor+'" title="'+eventTitle+'"></a>');
@@ -170,9 +170,9 @@
 							}
 							updateList();
 						// If event is multi day, starts in prev month, and ends in current month
-						} else if ((endArr[1] == setMonth && endArr[0] == setYear) && ((startArr[1] < setMonth && startArr[0] == setYear) || (startArr[0] < setYear))) {
+						} else if ((endArr[1] === setMonth && endArr[0] === setYear) && ((startArr[1] < setMonth && startArr[0] === setYear) || (startArr[0] < setYear))) {
 							for(var i = 0; i <= parseInt(endArr[2]); i++) {
-								if (i==1){
+								if (i===1){
 									$('#'+uniqueId+' *[data-number="'+i+'"] .monthly-indicator-wrap').append('<a '+eventLink+' class="monthly-event-indicator" data-eventid="'+ eventId +'" style="background:'+eventColor+'" title="'+eventTitle+'">'+eventTitle+'</a>');
 								} else {
 									$('#'+uniqueId+' *[data-number="'+i+'"] .monthly-indicator-wrap').append('<a '+eventLink+' class="monthly-event-indicator" data-eventid="'+ eventId +'" style="background:'+eventColor+'" title="'+eventTitle+'"></a>');
@@ -180,9 +180,9 @@
 							}
 							updateList();
 						// If event is multi day, starts in this month, but ends in next
-						} else if ((startArr[1] == setMonth && startArr[0] == setYear) && ((endArr[1] > setMonth && endArr[0] == setYear) || (endArr[0] > setYear))){
+						} else if ((startArr[1] === setMonth && startArr[0] === setYear) && ((endArr[1] > setMonth && endArr[0] === setYear) || (endArr[0] > setYear))){
 							for(var i = parseInt(startArr[2]); i <= dayQty; i++) {
-								if (i == parseInt(startArr[2])) {
+								if (i === parseInt(startArr[2])) {
 									$('#'+uniqueId+' *[data-number="'+i+'"] .monthly-indicator-wrap').append('<a '+eventLink+' class="monthly-event-indicator" data-eventid="'+ eventId +'" style="background:'+eventColor+'" title="'+eventTitle+'">'+eventTitle+'</a>');
 								} else {
 									$('#'+uniqueId+' *[data-number="'+i+'"] .monthly-indicator-wrap').append('<a '+eventLink+' class="monthly-event-indicator" data-eventid="'+ eventId +'" style="background:'+eventColor+'" title="'+eventTitle+'"></a>');
@@ -190,9 +190,9 @@
 							}
 							updateList();
 						// If event is multi day, starts in a prev month, ends in a future month
-						} else if (((startArr[1] < setMonth && startArr[0] == setYear) || (startArr[0] < setYear)) && ((endArr[1] > setMonth && endArr[0] == setYear) || (endArr[0] > setYear))){
+						} else if (((startArr[1] < setMonth && startArr[0] === setYear) || (startArr[0] < setYear)) && ((endArr[1] > setMonth && endArr[0] === setYear) || (endArr[0] > setYear))){
 							for(var i = 0; i <= dayQty; i++) {
-								if (i == 1){
+								if (i === 1){
 									$('#'+uniqueId+' *[data-number="'+i+'"] .monthly-indicator-wrap').append('<a '+eventLink+' class="monthly-event-indicator" data-eventid="'+ eventId +'" style="background:'+eventColor+'" title="'+eventTitle+'">'+eventTitle+'</a>');
 								} else {
 									$('#'+uniqueId+' *[data-number="'+i+'"] .monthly-indicator-wrap').append('<a '+eventLink+' class="monthly-event-indicator" data-eventid="'+ eventId +'" style="background:'+eventColor+'" title="'+eventTitle+'"></a>');
@@ -213,7 +213,7 @@
 		$(document.body).on('click', '#'+uniqueId+' .monthly-next', function (e) {
 			var setMonth = $('#' + uniqueId).data('setMonth'),
 				setYear = $('#' + uniqueId).data('setYear');
-			if (setMonth == 12) {
+			if (setMonth === 12) {
 				var newMonth = 1,
 					newYear = setYear + 1;
 				setMonthly(newMonth, newYear);
@@ -229,7 +229,7 @@
 		$(document.body).on('click', '#'+uniqueId+' .monthly-prev', function (e) {
 			var setMonth = $('#' + uniqueId).data('setMonth'),
 				setYear = $('#' + uniqueId).data('setYear');
-			if (setMonth == 1) {
+			if (setMonth === 1) {
 				var newMonth = 12,
 					newYear = setYear - 1;
 				setMonthly(newMonth, newYear);
@@ -265,7 +265,7 @@
 				setMonth = $('#' + uniqueId).data('setMonth'),
 				setYear = $('#' + uniqueId).data('setYear');
 			$(''+options.target+'').val(setMonth+'/'+whichDay+'/'+setYear);
-			if(options.startHidden == true) {
+			if(options.startHidden === true) {
 				$('#'+uniqueId).hide();
 			}
 			e.preventDefault();

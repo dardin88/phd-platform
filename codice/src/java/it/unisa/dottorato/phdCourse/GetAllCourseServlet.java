@@ -50,8 +50,8 @@ public class GetAllCourseServlet  extends HttpServlet {
                 HttpSession session = request.getSession();
                 
               
-                ArrayList<Course> lessons = (ArrayList<Course>) CalendarManager.getInstance().getAllCourse(); // da modificare ancora
-                JSONArray resultArray = new JSONArray(lessons);
+                ArrayList<Course> course = (ArrayList<Course>) CalendarManager.getInstance().getAllCourse(); // da modificare ancora
+                JSONArray resultArray = new JSONArray(course);
                 result.put("course", resultArray);
                 out.write(result.toString());
             } catch (SQLException | JSONException | IdException ex) {
