@@ -25,7 +25,7 @@ import org.json.JSONObject;
  *
  * @author Rembor
  */
-@WebServlet(name = "GetPresenceDottotandi", urlPatterns = {"/GetPresenceDottorandi"})
+@WebServlet(name = "GetPresenceDottorandi", urlPatterns = {"/GetPresenceDottorandi"})
 public class GetPresenceDottorandiServlet extends HttpServlet{
     /**
      * Processes requests for both HTTP <code>GET</code> and <code>POST</code>
@@ -45,15 +45,15 @@ PrintWriter out = response.getWriter();
 
         try {
              JSONObject result = new JSONObject();
-        int idCorso = Integer.parseInt(request.getParameter("idCourse"));
+              int idCorso = Integer.parseInt(request.getParameter("idCourse"));
                 ArrayList<Account> presence = PresenceManager.getInstance().getPresenceDottorandi(idCorso);
                 JSONArray resultArray = new JSONArray(presence);
                 result.put("presence", resultArray);
                 out.write(result.toString());
             } catch (SQLException | JSONException ex) {
-                Logger.getLogger(GetPresenceListServlet.class.getName()).log(Level.SEVERE, null, ex);
+                Logger.getLogger(GetPresenceDottorandiServlet.class.getName()).log(Level.SEVERE, null, ex);
             } catch (IdException ex) {
-             Logger.getLogger(GetPresenceServlet.class.getName()).log(Level.SEVERE, null, ex);
+             Logger.getLogger(GetPresenceDottorandiServlet.class.getName()).log(Level.SEVERE, null, ex);
          } catch (ClassNotFoundException ex) {
              Logger.getLogger(GetPresenceDottorandiServlet.class.getName()).log(Level.SEVERE, null, ex);
          }

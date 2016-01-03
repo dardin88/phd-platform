@@ -47,16 +47,16 @@ PrintWriter out = response.getWriter();
              JSONObject result = new JSONObject();
         int idCorso = Integer.parseInt(request.getParameter("idCourse"));
         String dottorando=request.getParameter("fkPhdstudent");
-                ArrayList<TestClass> presence = PresenceManager.getInstance().getPresenceToLesson(dottorando, idCorso);
+                ArrayList<Presence> presence = PresenceManager.getInstance().getPresenceToLesson(dottorando, idCorso);
                 JSONArray resultArray = new JSONArray(presence);
                 result.put("presence", resultArray);
                 out.write(result.toString());
             } catch (SQLException | JSONException ex) {
-                Logger.getLogger(GetPresenceListServlet.class.getName()).log(Level.SEVERE, null, ex);
+                Logger.getLogger(GetPresenceToLessonServlet.class.getName()).log(Level.SEVERE, null, ex);
             } catch (IdException ex) {
-             Logger.getLogger(GetPresenceServlet.class.getName()).log(Level.SEVERE, null, ex);
+             Logger.getLogger(GetPresenceToLessonServlet.class.getName()).log(Level.SEVERE, null, ex);
          } catch (ClassNotFoundException ex) {
-             Logger.getLogger(GetPresenceDottorandiServlet.class.getName()).log(Level.SEVERE, null, ex);
+             Logger.getLogger(GetPresenceToLessonServlet.class.getName()).log(Level.SEVERE, null, ex);
          }
 
         }

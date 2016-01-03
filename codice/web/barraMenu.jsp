@@ -63,12 +63,14 @@
                             <span class="title">Calendario corsi e seminari</span>
                         </a>
                     </li>
+                    </ul>
+
                     
                                      
 
 
                     <%}  if (loggedPerson.isAdmin()) { %>
-
+                    <ul class="navbar-nav">
                     <li id="funzionalita3Permission_0">
                         <a href="amministrazioneCurriculum.jsp">
                             <i class="linecons-key"></i>

@@ -93,6 +93,16 @@
                                      <br>
                                      <input type="checkbox" id="adminBox"> Privilegi Admin </input>
                                  </div>
+                                 
+                                 
+                                 <div class="panel-footer" id ="emailDiv" style="background-color:transparent">
+                                     <h2>Invita Utente</h2>
+                                     
+                                     <form action="InviteUser"> <!-- da fixare il servlet !-->
+                                         <input type="text" id="email" placeholder="Email dell'utente"/>
+                                         <input class="btn btn-blue" type="submit" value="Invita"></input>
+                                     </form>
+                                 </div>
                         </div>
                     </div>
                 </div> 

@@ -132,7 +132,7 @@ public class LoginManager  {
                         account.setSurname(rs.getString("surname"));
                         account.setEmail(rs.getString("email"));
                         account.setSecondaryEmail(rs.getString("secondaryEmail"));
-                        account.setAdmin(false);
+                        account.setAdmin(rs.getBoolean("isAdministrator"));
                         return account;
                 }
             }
@@ -181,6 +181,7 @@ public class LoginManager  {
         try {
             //esecuzione query
             Utility.executeOperation(connect, sql);
+            connect.commit();
            
         } finally {
             DBConnection.releaseConnection(connect);

@@ -32,7 +32,7 @@ function getAccountList() {
 function searchForName()
 { 
    $('#word').on("keyup",function() {    
-     $("#bodyTable tr").hide();
+     $("#bodyTable tr").remove();
                     var   name = $("#word").val();
      if(name == "")
          getAccountList();
@@ -52,7 +52,10 @@ function searchForName()
    });
 }
 
+
+
 function changeType(email) {
+   $("#adminBox").unbind('click');
     var oldtype;
     $("#typeSelect .added").remove();
     $.getJSON("GetAccountbyEmail", {index: email}, function(data) {
@@ -61,8 +64,23 @@ function changeType(email) {
             $("#adminBox").prop("checked",true);
         }
         else
-            $("#adminBox").prop("checked",false); 
+            $("#adminBox").prop("checked",false);
         
+        $("#adminBox").on("click", function() {
+            var secEmail = data.secondaryEmail;
+            var bool = $("#adminBox").prop("checked");
+            
+            $.getJSON("SetAdmin", {secondaryEmail: secEmail, checked: bool}, function() {
+                    alert("entering servlet");
+                    $("#bodyTable tr").remove();
+                    getAccountList();
+            $("#changeDiv").hide();
+            });
+            
+            
+        });
+        
+      
         oldtype = data.typeAccount;
         
         switch(oldtype) {

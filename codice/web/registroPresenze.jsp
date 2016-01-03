@@ -41,7 +41,7 @@
  
  
     <body class="page-body">
-  <%  int ba=0; %>
+  
         <div class="page-body">
             <jsp:include page="barraMenu.jsp"/>
  
@@ -56,16 +56,12 @@
  
                                 <label  > Seleziona un corso</label>
                                 <select name="jam" class="form-control" id="Corsoprofessore"  onclick="selectedItem()" >
-                                    <% 
-           
-                List<Course> corsi = CalendarManager.getInstance().getAllCourse(); %>
+
                
                  <option value="default"  >  - selezionate il vostro  corso  -  </option>
 
-            
-             <% for (Course corso : corsi) {%>
-                                    <option value= "<%= ba=corso.getIdCourse() %>"   >  <%= corso.getName() %>   </option>
- <% }%>
+
+
                                 </select>
                             </div>
                         </div>
@@ -85,24 +81,18 @@
                                      <% 
  
         
-                  // ba=(Integer)request.getAttribute("jam");
+              
            
-                List<Lesson> missions = PresenceManager.getInstance().getAllLessonOf(ba);
+                List<Lesson> missions = PresenceManager.getInstance().getAllLessonOf(1);
 
             %>
             
                                     <table id="resultst" class="table">
                                        
                                         <thead id="resulthead">
+                                        <th>Dottorandi </th>
                                              <% for (Lesson mission : missions) {%>
-
-                                   
-                                        
-                                       	
-                                        <th><%= mission.getData()%></th>
-                                        
-                                        
-                                          
+<th><%= mission.getData()%></th>
                                              <% }%>
                                         </thead>
                                         <tbody id="resultbody">

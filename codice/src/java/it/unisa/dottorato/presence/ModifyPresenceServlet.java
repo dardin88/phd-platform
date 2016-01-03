@@ -56,9 +56,7 @@ public class ModifyPresenceServlet extends HttpServlet{
    
          
 
-         catch (ExceptionPermissionDenied ex) {
-            Logger.getLogger(ModifyPresenceServlet.class.getName()).log(Level.SEVERE, null, ex);
-        } catch (PhdStudentexception ex) { 
+         catch (PhdStudentexception ex) { 
              Logger.getLogger(ModifyPresenceServlet.class.getName()).log(Level.SEVERE, null, ex);
          } 
            finally {
