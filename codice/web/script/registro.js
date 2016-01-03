@@ -46,7 +46,9 @@ function selectedItem()
            
           
  $("#resultbody ").find('td:last').after(dottorandopre);
-    if(balue.isPresent==true){ $('#id').prop('checked', true);}
+
+ 
+    if(balue.isPresent==true){ $('.checkboxclass')[0].checked = true;}
       
     });
     
