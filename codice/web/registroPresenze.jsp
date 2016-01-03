@@ -4,6 +4,12 @@
     Author     : Rembor
 --%>
  
+<%@page import="it.unisa.dottorato.phdCourse.Course"%>
+<%@page import="it.unisa.dottorato.phdCourse.CalendarManager"%>
+<%@page import="it.unisa.dottorato.phdCourse.Lesson"%>
+<%@page import="java.util.List"%>
+<%@page import="java.util.List"%>
+<%@page import="it.unisa.dottorato.presence.PresenceManager"%>
 <%@page import="it.unisa.dottorato.account.Account"%>
 <%@page contentType="text/html" pageEncoding="UTF-8"%>
 <!DOCTYPE html>
@@ -35,7 +41,7 @@
  
  
     <body class="page-body">
- 
+  <%  int ba=0; %>
         <div class="page-body">
             <jsp:include page="barraMenu.jsp"/>
  
@@ -49,9 +55,17 @@
                             <div class="form-group">
  
                                 <label  > Seleziona un corso</label>
-                                <select class="form-control" id="Corsoprofessore"  onclick="selectedItem()">
-                                    <option value="default"  >  - selezionate il vostro  corso  -  </option>
- 
+                                <select name="jam" class="form-control" id="Corsoprofessore"  onclick="selectedItem()" >
+                                    <% 
+           
+                List<Course> corsi = CalendarManager.getInstance().getAllCourse(); %>
+               
+                 <option value="default"  >  - selezionate il vostro  corso  -  </option>
+
+            
+             <% for (Course corso : corsi) {%>
+                                    <option value= "<%= ba=corso.getIdCourse() %>"   >  <%= corso.getName() %>   </option>
+ <% }%>
                                 </select>
                             </div>
                         </div>
@@ -68,9 +82,28 @@
                             <div class="panel panel-default">
  
                                 <div id="results" >
+                                     <% 
+ 
+        
+                  // ba=(Integer)request.getAttribute("jam");
+           
+                List<Lesson> missions = PresenceManager.getInstance().getAllLessonOf(ba);
+
+            %>
+            
                                     <table id="resultst" class="table">
+                                       
                                         <thead id="resulthead">
-                                            <tr> </tr>
+                                             <% for (Lesson mission : missions) {%>
+
+                                   
+                                        
+                                       	
+                                        <th><%= mission.getData()%></th>
+                                        
+                                        
+                                          
+                                             <% }%>
                                         </thead>
                                         <tbody id="resultbody">
                                             <tr> </tr>
