@@ -27,7 +27,7 @@ function getCorsoList()
 }
 //metodo per chiamare tutt ele lezioni
 function selectedItem()
-{ 
+{  $("#resultbody tr").remove();
     selected = $("#Corsoprofessore option:selected").val();
     if (selected !== "default") //se il valore della select è default non mostriamo il div contenente le informazioni delle date delle lezioni
     { selected = $("#Corsoprofessore option:selected").val();
@@ -73,7 +73,7 @@ function changePresenza(id,lezione) {
 }
   
 function selectedItemdot(){
-   
+   $("#resultbody tr").remove();
     selected = $("#Corsoprofessore option:selected").val();
     if (selected !== "default") //se il valore della select è default non mostriamo il div contenente le informazioni delle date delle lezioni
     { selected = $("#Corsoprofessore option:selected").val();
