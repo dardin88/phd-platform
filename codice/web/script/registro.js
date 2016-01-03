@@ -31,6 +31,7 @@ function selectedItem()
     selected = $("#Corsoprofessore option:selected").val();
     if (selected !== "default") //se il valore della select è default non mostriamo il div contenente le informazioni delle date delle lezioni
     { selected = $("#Corsoprofessore option:selected").val();
+        $("#panelDiv").show();
     //metodo per stampare le date
         $.getJSON("GetAllLesson",{fkCourse: selected}, function (data) { 
     $.each(data.lessons, function (index, value) {  
