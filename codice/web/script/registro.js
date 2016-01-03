@@ -35,17 +35,16 @@ function selectedItem()
     //metodo per stampare le date
        $.getJSON("GetPresenceDottorandi",{idCourse:selected}, function (data) { 
        $.each(data.presence, function (index,value) { 
-        dottorando="<tr> <td id="+value.secondaryEmail+"  class='checkboxclass' > "+ value.name +" "+value.surname+" </td>  </tr>";
+        dottorando="<tr> <td id="+value.secondaryEmail+" > "+ value.name +" "+value.surname+" </td>  </tr>";
             id= value.secondaryEmail;
             alert(id);
     $.getJSON("GetPresenceToLesson",{idCourse:selected,fkPhdstudent:id}, function (data) { 
-       $.each(data.presence, function (index,value) { 
-        dottorandopre=" <td > "+ value.isPresent +" </td> ";
+       $.each(data.presence, function (index,value) {
+         
+        dottorandopre="<td> <input type='checkbox' value="+true+"   id=" +  value.fkPhdstudent + " onclick='changePresenza(" + 'id' + ")' class='checkboxclass' ></td> ";
             
-// dottorando="<tr > <td> "+ value.name+" </td>  <td>"+value.surname+"</td> <td> <input type='checkbox' value="+true+"   id=" +  value.fkPhdstudent + " onclick='changePresenza(" + 'id' + ")' ></td></tr>";
- //dottorando.find('td:last').append(dottorandopre);
            $("#resultbody ").append(dottorando).find('td:last').after(dottorandopre);
-   
+    if(value.isPresent==true){ $('.checkboxclass')[0].checked = true;}
       
     });
     
@@ -62,49 +61,6 @@ function selectedItem()
 }
 // metodo per mostrare i partecipanti a lezione
 
-/*function mostraPresenze(){
-    selected = $("#Corsoprofessore option:selected").val();
-    if (selected !== "default") //se il valore della select è default non mostriamo il div contenente le informazioni delle date delle lezioni
-    {   
-        $("#resultbody tr").remove();
-        $("#results").show();
-      selected = $("#Corsoprofessore option:selected").val();
-        //metodo per vedere i partecipanti
-    $.getJSON("GetPresenceDottotandi",{idCourse: selected}, function (data) { 
-           
-        
-        $.each(data.presence, function (index, value) { 
-        
-             dottorando="<tr> <td > "+ value.name+" </td>   <td id=" +  value.surname + " class='checkboxclass' > <input type='checkbox'    id=" +  value.fkPhdstudent + " onclick='changePresenza(" + 'id' + ")'  class='checkboxclass1' ></td></tr>";
-            
-            // dottorando="<tr > <td> "+ value.name+" </td>  <td>"+value.surname+"</td> <td> <input type='checkbox' value="+true+"   id=" +  value.fkPhdstudent + " onclick='changePresenza(" + 'id' + ")' ></td></tr>";
-      
-            
-            $("#resultbody").append(dottorando);
-         
-   
-        });
-       
- $('.checkboxclass').each(function()
-{
-   //metodo per settare la check boc in base alla presenza
-    id=$(this).attr('id');
-    alert("id vale "+id);
- 
-  if (id === 'true')
-  { 
-      //alert(id);
-      
-      $(":checkbox").prop('checked', true);
-    } 
-
- 
-
-   });  
-    });
-  
-    }
-}
 // metodo per cambiare la presenza 
 
 function changePresenza(id) {
@@ -156,4 +112,4 @@ function mostraPresenzeDot(){
     });
   
     }
-}*/
+}
