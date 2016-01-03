@@ -8,8 +8,9 @@
 $(document).ready(function () {
  
     getCorsoList();
-   // getFirma();
+    //getLesson();
 });
+
 
 function getCorsoList()
 {
@@ -26,15 +27,19 @@ function getCorsoList()
 }
 //metodo per chiamare tutt ele lezioni
 function selectedItem()
-{  
+{ 
     selected = $("#Corsoprofessore option:selected").val();
     if (selected !== "default") //se il valore della select è default non mostriamo il div contenente le informazioni delle date delle lezioni
     { selected = $("#Corsoprofessore option:selected").val();
-    $.getJSON("GetAllLesson",{fkCourse: selected}, function (data) { 
+    //metodo per stampare le date
+        $.getJSON("GetAllLesson",{fkCourse: selected}, function (data) { 
     $.each(data.lessons, function (index, value) {  
-
-    var curriculumDiv = "<option class='optionItem' value='" + value.idLesson + "'> " + value.idLesson+ "  </option>";
-                    $("#Lezioneprofessore").append(curriculumDiv);
+dar =Date.parse(value.date);
+var tD = new Date(dar);
+tD.toJSON();
+alert(tD);
+    var curriculumDiv = "<th type='data' value='" + value.idLesson + "' > " + tD +"</th>";
+                    $("#resulthead").append(curriculumDiv);
               
     
     });
@@ -58,8 +63,8 @@ function mostraPresenze(){
            
         
         $.each(data.presence, function (index, value) { 
-          
-             dottorando="<tr > <td > "+ value.fkPhdstudent+" </td>   <td id=" +  value.isPresent + " class='checkboxclass' > <input type='checkbox'    id=" +  value.fkPhdstudent + " onclick='changePresenza(" + 'id' + ")'  class='checkboxclass1' ></td></tr>";
+        
+             dottorando="<tr> <td > "+ value.fkPhdstudent+" </td>   <td id=" +  value.isPresent + " class='checkboxclass' > <input type='checkbox'    id=" +  value.fkPhdstudent + " onclick='changePresenza(" + 'id' + ")'  class='checkboxclass1' ></td></tr>";
             
             // dottorando="<tr > <td> "+ value.name+" </td>  <td>"+value.surname+"</td> <td> <input type='checkbox' value="+true+"   id=" +  value.fkPhdstudent + " onclick='changePresenza(" + 'id' + ")' ></td></tr>";
       
@@ -74,18 +79,15 @@ function mostraPresenze(){
    //metodo per settare la check boc in base alla presenza
     id=$(this).attr('id');
     alert("id vale "+id);
-  if (id==true){ 
-      $(":checkbox")[0].checked = true;
-    }
- //$.each(data.corso, function (index, value) { 
-        // alert(value.isPresent);
-         
-    /*if ($(this).val(data.isPresent)==true){
-            
-          $(this)[0].checked = true;
-        }    
-         */
-        //});
+ 
+  if (id === 'true')
+  { 
+      //alert(id);
+      
+      $(":checkbox").prop('checked', true);
+    } 
+
+ 
 
    });  
     });
