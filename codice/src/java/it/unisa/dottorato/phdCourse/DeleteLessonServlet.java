@@ -1,5 +1,6 @@
 package it.unisa.dottorato.phdCourse;
 
+import it.unisa.dottorato.exception.IdException;
 import java.io.IOException;
 import java.io.PrintWriter;
 import java.sql.SQLException;
@@ -32,20 +33,31 @@ public class DeleteLessonServlet extends HttpServlet {
      * @throws IOException if an I/O error occurs
      */
     protected void processRequest(HttpServletRequest request, HttpServletResponse response)
-            throws ServletException, IOException {
+            throws ServletException, IOException, JSONException, IdException {
         response.setContentType("text/html;charset=UTF-8");
-        PrintWriter out = response.getWriter();
-        JSONObject result = new JSONObject();
-        String idLesson = request.getParameter("idlesson");
+       PrintWriter out = response.getWriter();
         try {
-            CalendarManager.getInstance().delete_lesson((idLesson));
-        } catch (ClassNotFoundException | SQLException ex) {
+
+            JSONObject result = new JSONObject();
+            String idLesson = request.getParameter("idLesson");
+            
+            result.put("result", true);
+
+            try {
+                CalendarManager.getInstance().delete_lesson(idLesson);
+            } catch (ClassNotFoundException | SQLException ex) {
+                result.put("result", false);
+                Logger.getLogger(DeleteLessonServlet.class.getName()).log(Level.SEVERE, null, ex);
+            }
+            
+            out.write(result.toString());
+
+        } catch (JSONException ex) {
             Logger.getLogger(DeleteLessonServlet.class.getName()).log(Level.SEVERE, null, ex);
+        }finally {
+            out.close();
         }
-        out.println("<script type=\"text/javascript\">");
-        out.println("alert('La lezione è stata eliminata');");
-        out.println("location='collaborationActivity.jsp';"); // da modificare
-        out.println("</script>");
+
     }
 
     // <editor-fold defaultstate="collapsed" desc="HttpServlet methods. Click on the + sign on the left to edit the code.">
@@ -60,7 +72,11 @@ public class DeleteLessonServlet extends HttpServlet {
     @Override
     protected void doGet(HttpServletRequest request, HttpServletResponse response)
             throws ServletException, IOException {
-        processRequest(request, response);
+        try {
+            processRequest(request, response);
+        } catch (Exception ex) {
+            Logger.getLogger(DeleteLessonServlet.class.getName()).log(Level.SEVERE, null, ex);
+        }
     }
 
     /**
@@ -74,7 +90,11 @@ public class DeleteLessonServlet extends HttpServlet {
     @Override
     protected void doPost(HttpServletRequest request, HttpServletResponse response)
             throws ServletException, IOException {
-        processRequest(request, response);
+        try {
+            processRequest(request, response);
+        } catch (Exception ex) {
+            Logger.getLogger(DeleteLessonServlet.class.getName()).log(Level.SEVERE, null, ex);
+        }
     }
 
     /**
@@ -88,3 +108,4 @@ public class DeleteLessonServlet extends HttpServlet {
     }// </editor-fold>
 
 }
+

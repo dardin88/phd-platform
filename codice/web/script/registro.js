@@ -7,11 +7,11 @@
 
 $(document).ready(function () {
  
-    getCorsoList();
+    //getCorsoList();
     //getLesson();
 });
 
-
+/*
 function getCorsoList()
 {
  //servlet per richiamare la lista dei nomi lezioni
@@ -24,20 +24,19 @@ function getCorsoList()
         });
     });
     
-}
+}*/
 //metodo per chiamare tutt ele lezioni
 function selectedItem()
 { 
     selected = $("#Corsoprofessore option:selected").val();
     if (selected !== "default") //se il valore della select è default non mostriamo il div contenente le informazioni delle date delle lezioni
     { selected = $("#Corsoprofessore option:selected").val();
+        $("#panelDiv").show();
     //metodo per stampare le date
         $.getJSON("GetAllLesson",{fkCourse: selected}, function (data) { 
     $.each(data.lessons, function (index, value) {  
-dar =Date.parse(value.date);
-var tD = new Date(dar);
-tD.toJSON();
-alert(tD);
+
+alert("ciao mano");
     var curriculumDiv = "<th type='data' value='" + value.idLesson + "' > " + tD +"</th>";
                     $("#resulthead").append(curriculumDiv);
               

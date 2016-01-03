@@ -60,7 +60,7 @@ public class CalendarManagerTest {
     }
 
     @Test
-    public void testInsertCurseok() throws Exception {
+    public void testInsertCurseok(){
        
         cur.setIdCourse(1);
         cur.setFK_curriculum("Il curriculum è di prova");
@@ -72,15 +72,15 @@ public class CalendarManagerTest {
         
          try{
             instance.insert_course(cur);
-            fail("sono riuscito a fare l' op");
+             assertTrue(true);
         }catch(Exception x){
-            assertTrue(true);
+           fail("sono riuscito a fare l' op");
         }
     }
     
     
      @Test
-    public void testInsertMinId() throws Exception {
+    public void testInsertMinId(){
         cur.setIdCourse(-1);
               
          try{
@@ -92,7 +92,7 @@ public class CalendarManagerTest {
     }
     
     @Test
-    public void testInsertMaxId() throws Exception {
+    public void testInsertMaxId(){
         cur.setIdCourse(777777777);
               
          try{
@@ -103,19 +103,9 @@ public class CalendarManagerTest {
         }
     }
     
-    @Test
-    public void testInsertFormatId() throws Exception {
-        cur.setIdCourse(testint("777777#@7"));              
-         try{
-            instance.insert_course(cur);
-            fail("sono riuscito a fare l' op");
-        }catch(Exception x){
-            assertTrue(true);
-        }
-    }
  
     @Test
-    public void testInsertMinCurriculum() throws Exception {
+    public void testInsertMinCurriculum() {
         cur.setIdCourse(1); 
         cur.setFK_curriculum("");
          try{
@@ -127,9 +117,9 @@ public class CalendarManagerTest {
     }
     
     @Test
-    public void testInsertMaxCurriculum() throws Exception {
+    public void testInsertMaxCurriculum(){
         cur.setIdCourse(1); 
-        cur.setFK_curriculum(testsup100());
+        cur.setFK_curriculum("Prova superamento stringa,Prova superamento stringa,Prova superamento stringa,Prova superamento stringa,Prova superamento stringa,Prova superamento stringa,Prova superamento stringa,Prova superamento stringa,Prova superamento stringa,Prova superamento stringa,Prova superamento stringaProva superamento stringa,,");
          try{
             instance.insert_course(cur);
             fail("lunghezza massima superata");
@@ -140,7 +130,7 @@ public class CalendarManagerTest {
     
       
     @Test
-    public void testInsertMinCycle() throws Exception {
+    public void testInsertMinCycle(){
         cur.setIdCourse(1); 
         cur.setFK_curriculum("Curriculum di prova");
         cur.setFK_cycle(-1);
@@ -153,10 +143,10 @@ public class CalendarManagerTest {
     }
    
 @Test
-    public void testInsertMaxCycle() throws Exception {
+    public void testInsertMaxCycle() {
         cur.setIdCourse(1); 
         cur.setFK_curriculum("Curriculum di prova");
-        cur.setFK_cycle(1234567);
+        cur.setFK_cycle(123456789);
          try{
             instance.insert_course(cur);
             fail("lunghezza massima superata");
@@ -164,26 +154,14 @@ public class CalendarManagerTest {
             assertTrue(true);
         }
     }
-    
-    @Test
-    public void testInsertFormatCycle() throws Exception {
-        cur.setIdCourse(1); 
-        cur.setFK_curriculum("Curriculum di prova");
-        cur.setFK_cycle(testint("IPIçI&/$GT"));
-         try{
-            instance.insert_course(cur);
-            fail("formato ciclo errato");
-        }catch(Exception x){
-            assertTrue(true);
-        }
-    }
+   
     
      @Test
-    public void testInsertMinDescription() throws Exception {
+    public void testInsertMinDescription() {
         cur.setIdCourse(1); 
         cur.setFK_curriculum("Curriculum di prova");
         cur.setFK_cycle(3);
-        cur.setDescription(testsup100());
+        cur.setDescription("");
          try{
             instance.insert_course(cur);
             fail("lunghezza minima non raggiunta");
@@ -193,11 +171,11 @@ public class CalendarManagerTest {
     }
     
     @Test
-    public void testInsertMaxDescription() throws Exception {
+    public void testInsertMaxDescription() {
         cur.setIdCourse(1); 
         cur.setFK_curriculum("Curriculum di prova");
         cur.setFK_cycle(3);
-        cur.setDescription(testsup100());
+        cur.setDescription("Prova superamento stringa,Prova superamento stringa,Prova superamento stringa,Prova superamento stringa,Prova superamento stringa,Prova superamento stringa,Prova superamento stringa,Prova superamento stringa,Prova superamento stringa,Prova superamento stringa,Prova superamento stringaProva superamento stringa,,");
          try{
             instance.insert_course(cur);
             fail("lunghezza massima superata");
@@ -207,7 +185,7 @@ public class CalendarManagerTest {
     }
     
     @Test
-    public void testInsertErrDate() throws Exception {
+    public void testInsertErrDate() {
         cur.setIdCourse(1); 
         cur.setFK_curriculum("Curriculum di prova");
         cur.setFK_cycle(3);
@@ -222,7 +200,7 @@ public class CalendarManagerTest {
     }
     
      @Test
-    public void testInsertErr2Date() throws Exception {
+    public void testInsertErr2Date() {
         cur.setIdCourse(1); 
         cur.setFK_curriculum("Curriculum di prova");
         cur.setFK_cycle(3);
@@ -239,7 +217,7 @@ public class CalendarManagerTest {
     
     
      @Test
-    public void testInsertMinName() throws Exception {
+    public void testInsertMinName() {
         cur.setIdCourse(1); 
         cur.setFK_curriculum("Curriculum di prova");
         cur.setFK_cycle(3);
@@ -256,14 +234,14 @@ public class CalendarManagerTest {
     }
     
     @Test
-    public void testInsertMaxName() throws Exception {
+    public void testInsertMaxName() {
         cur.setIdCourse(1); 
         cur.setFK_curriculum("Curriculum di prova");
         cur.setFK_cycle(3);
         cur.setDescription("Basi di dati");
         cur.setStartDate(new Date(2015,12,12));
         cur.setEndDate(new Date(2016,12,12));
-        cur.setName(testsup100());
+        cur.setName("Prova superamento stringa,Prova superamento stringa,Prova superamento stringa,Prova superamento stringa,Prova superamento stringa,Prova superamento stringa,Prova superamento stringa,Prova superamento stringa,Prova superamento stringa,Prova superamento stringa,Prova superamento stringaProva superamento stringa,,");
          try{
             instance.insert_course(cur);
             fail("lunghezza massima superata");
@@ -276,7 +254,7 @@ public class CalendarManagerTest {
     //////////////////////////////
     
      @Test
-    public void testInsertMinIdLesson() throws Exception {
+    public void testInsertMinIdLesson() {
         les.setIdLesson(-1);         
          try{
             instance.insert_lesson(les);
@@ -287,7 +265,7 @@ public class CalendarManagerTest {
     }
     
     @Test
-    public void testInsertMaxIdLesson() throws Exception {
+    public void testInsertMaxIdLesson(){
         les.setIdLesson(7777777);         
          try{
             instance.insert_lesson(les);
@@ -297,19 +275,10 @@ public class CalendarManagerTest {
         }
     }
     
-    @Test
-    public void testInsertFormatIdLesson() throws Exception {
-        les.setIdLesson(testint("777777#@7"));         
-         try{
-             instance.insert_lesson(les);
-            fail("formato errato");
-        }catch(Exception x){
-            assertTrue(true);
-        }
-    }
+   
     
      @Test
-    public void testInsertErrDateLesson() throws Exception {
+    public void testInsertErrDateLesson() {
         les.setIdLesson(1);    
         les.setDate(new Date(null));
          try{
@@ -321,7 +290,7 @@ public class CalendarManagerTest {
     }
     
     @Test
-    public void testInsertErrTimeLesson() throws Exception {
+    public void testInsertErrTimeLesson() {
         les.setIdLesson(1);    
         les.setDate(new Date(2015,12,12));
         les.setStartTime(-1);
@@ -335,7 +304,7 @@ public class CalendarManagerTest {
     }
     
     @Test
-    public void testInsertMinNameLesson() throws Exception {
+    public void testInsertMinNameLesson() {
         les.setIdLesson(1);    
         les.setDate(new Date(2015,12,12));
         les.setStartTime(1222);
@@ -351,12 +320,12 @@ public class CalendarManagerTest {
     
     
     @Test
-    public void testInsertMaxNameLesson() throws Exception {
+    public void testInsertMaxNameLesson() {
         les.setIdLesson(1);    
         les.setDate(new Date(2015,12,12));
         les.setStartTime(1222);
         les.setEndTime(1300);
-        les.setName(testsup100());
+        les.setName("Prova superamento stringa,Prova superamento stringa,Prova superamento stringa,Prova superamento stringa,Prova superamento stringa,Prova superamento stringa,Prova superamento stringa,Prova superamento stringa,Prova superamento stringa,Prova superamento stringa,Prova superamento stringaProva superamento stringa,,");
          try{
              instance.insert_lesson(les);
             fail("fail");
@@ -366,13 +335,13 @@ public class CalendarManagerTest {
     }
     
     @Test
-    public void testInsertMinDescriptionLesson() throws Exception {
+    public void testInsertMinDescriptionLesson(){
         les.setIdLesson(1);    
         les.setDate(new Date(2015,12,12));
         les.setStartTime(1222);
         les.setEndTime(1300);
         les.setName("BD");
-        les.setDescription(null);
+        les.setDescription("");
          try{
              instance.insert_lesson(les);
             fail("fail");
@@ -381,31 +350,16 @@ public class CalendarManagerTest {
         }
     }
     
-    @Test
-    public void testInsertMaxDescriptionLesson() throws Exception {
-        les.setIdLesson(1);    
-        les.setDate(new Date(2015,12,12));
-        les.setStartTime(1222);
-        les.setEndTime(1300);
-        les.setName("BD");
-        les.setDescription(testsup100());
-         try{
-            instance.insert_lesson(les);
-            fail("fail");
-        }catch(Exception x){
-            assertTrue(true);
-        }
-    }
     
     @Test
-    public void testInsertMinClassroomLesson() throws Exception {
+    public void testInsertMinClassroomLesson() {
         les.setIdLesson(1);    
         les.setDate(new Date(2015,12,12));
         les.setStartTime(1222);
         les.setEndTime(1300);
         les.setName("BD");
         les.setDescription("Lezione Basi di dati");
-        les.setClassroom(null);
+        les.setClassroom("");
          try{
              instance.insert_lesson(les);
             fail("fail");
@@ -416,14 +370,14 @@ public class CalendarManagerTest {
     
    
     @Test
-    public void testInsertMaxClassroomLesson() throws Exception {
+    public void testInsertMaxClassroomLesson() {
         les.setIdLesson(1);    
         les.setDate(new Date(2015,12,12));
         les.setStartTime(1222);
         les.setEndTime(1300);
         les.setName("BD");
         les.setDescription("Lezione Basi di dati");
-        les.setClassroom(testsup100());
+        les.setClassroom("Prova superamento stringa,Prova superamento stringa,Prova superamento stringa,Prova superamento stringa,Prova superamento stringa,Prova superamento stringa,Prova superamento stringa,Prova superamento stringa,Prova superamento stringa,Prova superamento stringa,Prova superamento stringaProva superamento stringa,,");
          try{
              instance.insert_lesson(les);
             fail("fail");
@@ -433,7 +387,7 @@ public class CalendarManagerTest {
     }
     
     @Test
-    public void testInsertMinCycleLesson() throws Exception {
+    public void testInsertMinCycleLesson() {
         les.setIdLesson(1);    
         les.setDate(new Date(2015,12,12));
         les.setStartTime(1222);
@@ -451,7 +405,7 @@ public class CalendarManagerTest {
     }
     
     @Test
-    public void testInsertMaxCycleLesson() throws Exception {
+    public void testInsertMaxCycleLesson() {
         les.setIdLesson(1);    
         les.setDate(new Date(2015,12,12));
         les.setStartTime(1222);
@@ -459,7 +413,7 @@ public class CalendarManagerTest {
         les.setName("BD");
         les.setDescription("Lezione Basi di dati");
         les.setClassroom("P1");
-        les.setCycle(1234567);
+        les.setCycle(123456997);
          try{
              instance.insert_lesson(les);
             fail("fail");
@@ -468,27 +422,11 @@ public class CalendarManagerTest {
         }
     }
     
-    @Test
-    public void testInsertFormatCycleLesson() throws Exception {
-        les.setIdLesson(1);    
-        les.setDate(new Date(2015,12,12));
-        les.setStartTime(1222);
-        les.setEndTime(1300);
-        les.setName("BD");
-        les.setDescription("Lezione Basi di dati");
-        les.setClassroom("P1");
-        les.setCycle(testint("777777#@7"));
-         try{
-            instance.insert_lesson(les);
-            fail("fail");
-        }catch(Exception x){
-            assertTrue(true);
-        }
-    }
+   
     
     
     @Test
-    public void testInsertMinCurriculumLesson() throws Exception {
+    public void testInsertMinCurriculumLesson() {
         les.setIdLesson(1);    
         les.setDate(new Date(2015,12,12));
         les.setStartTime(1222);
@@ -508,7 +446,7 @@ public class CalendarManagerTest {
     
     
     @Test
-    public void testInsertMaxCurriculumLesson() throws Exception {
+    public void testInsertMaxCurriculumLesson() {
         les.setIdLesson(1);    
         les.setDate(new Date(2015,12,12));
         les.setStartTime(1222);
@@ -517,7 +455,7 @@ public class CalendarManagerTest {
         les.setDescription("Lezione Basi di dati");
         les.setClassroom("P1");
         les.setCycle(3);
-        les.setCurriculum(testsup100());
+        les.setCurriculum("Prova superamento stringa,Prova superamento stringa,Prova superamento stringa,Prova superamento stringa,Prova superamento stringa,Prova superamento stringa,Prova superamento stringa,Prova superamento stringa,Prova superamento stringa,Prova superamento stringa,Prova superamento stringaProva superamento stringa,,");
          try{
              instance.insert_lesson(les);
             fail("fail");
@@ -528,7 +466,7 @@ public class CalendarManagerTest {
     
     
     @Test
-    public void testInsertMinCourseLesson() throws Exception {
+    public void testInsertMinCourseLesson() {
         les.setIdLesson(1);    
         les.setDate(new Date(2015,12,12));
         les.setStartTime(1222);
@@ -548,7 +486,7 @@ public class CalendarManagerTest {
     }
     
     @Test
-    public void testInsertMaxCourseLesson() throws Exception {
+    public void testInsertMaxCourseLesson() {
         les.setIdLesson(1);    
         les.setDate(new Date(2015,12,12));
         les.setStartTime(1222);
@@ -567,31 +505,12 @@ public class CalendarManagerTest {
         }
     }
     
-    @Test
-    public void testInsertFormatCourseLesson() throws Exception {
-        les.setIdLesson(1);    
-        //les.setDate(new Date(2015,12,12));
-        les.setStartTime(1222);
-        les.setEndTime(1300);
-        les.setName("BD");
-        les.setDescription("Lezione Basi di dati");
-        les.setClassroom("P1");
-        les.setCycle(3);
-        les.setCurriculum("Curriculum di prova");
-        les.setFK_course(testint("777777#@7"));
-         try{
-             instance.insert_lesson(les);
-            fail("fail");
-        }catch(Exception x){
-            assertTrue(true);
-        }
-    }
-    
+   
     
     @Test
     public void testInsertLessonok() throws Exception {
-        les.setIdLesson(1);    
-       // les.setDate(new Date(2000,12,12)) ;       
+        les.setIdLesson(5);    
+        les.setDate(new Date(2000,12,12));       
         les.setStartTime(12);
         les.setEndTime(13);
         les.setName("Basi di dati");
@@ -602,9 +521,9 @@ public class CalendarManagerTest {
         les.setFK_course(6);
          try{
             instance.insert_lesson(les);
-            fail("fail");
-        }catch(Exception x){
             assertTrue(true);
+        }catch(Exception x){
+             fail("fail");
         }
     }
     
@@ -622,7 +541,7 @@ public class CalendarManagerTest {
     
     
      @Test
-    public void testUpdateMinIdLesson() throws Exception {
+    public void testUpdateMinIdLesson(){
          int oldId = 5;
         
         les.setIdLesson(-1);         
@@ -637,9 +556,9 @@ public class CalendarManagerTest {
     
     
      @Test
-    public void testUpdateMaxIdLesson() throws Exception {
+    public void testUpdateMaxIdLesson() {
         int oldId = 5;
-        les.setIdLesson(7777777);         
+        les.setIdLesson(77777777);         
          try{
             instance.update_lesson(oldId,les);
             fail("fail");
@@ -648,20 +567,10 @@ public class CalendarManagerTest {
         }
     }
     
-    @Test
-    public void testUpdateFormatIdLesson() throws Exception {
-        int oldId = 5;
-        les.setIdLesson(testint("777777#@7"));         
-         try{
-             instance.update_lesson(oldId,les);
-            fail("formato errato");
-        }catch(Exception x){
-            assertTrue(true);
-        }
-    }
+   
     
      @Test
-    public void testUpdateErrDateLesson() throws Exception {
+    public void testUpdateErrDateLesson() {
         int oldId = 5;
         
         les.setIdLesson(1);    
@@ -675,7 +584,7 @@ public class CalendarManagerTest {
     }
     
     @Test
-    public void testUpdateErrTimeLesson() throws Exception {
+    public void testUpdateErrTimeLesson() {
          int oldId = 5;
          
         les.setIdLesson(1);    
@@ -691,7 +600,7 @@ public class CalendarManagerTest {
     }
     
     @Test
-    public void testUpdateMinNameLesson() throws Exception {
+    public void testUpdateMinNameLesson() {
         int oldId = 5;
         les.setIdLesson(1);    
         les.setDate(new Date(2015,12,12));
@@ -708,13 +617,13 @@ public class CalendarManagerTest {
     
     
     @Test
-    public void testUpdateMaxNameLesson() throws Exception {
+    public void testUpdateMaxNameLesson() {
          int oldId = 5;
         les.setIdLesson(1);    
         les.setDate(new Date(2015,12,12));
         les.setStartTime(1222);
         les.setEndTime(1300);
-        les.setName(testsup100());
+        les.setName("Prova superamento stringa,Prova superamento stringa,Prova superamento stringa,Prova superamento stringa,Prova superamento stringa,Prova superamento stringa,Prova superamento stringa,Prova superamento stringa,Prova superamento stringa,Prova superamento stringa,Prova superamento stringaProva superamento stringa,,");
          try{
             instance.update_lesson(oldId,les);
             fail("fail");
@@ -724,14 +633,14 @@ public class CalendarManagerTest {
     }
     
     @Test
-    public void testUpdateMinDescriptionLesson() throws Exception {
+    public void testUpdateMinDescriptionLesson(){
             int oldId = 5;
         les.setIdLesson(1);    
         les.setDate(new Date(2015,12,12));
         les.setStartTime(1222);
         les.setEndTime(1300);
         les.setName("BD");
-        les.setDescription(null);
+        les.setDescription("");
          try{
                 instance.update_lesson(oldId,les);
             fail("fail");
@@ -741,14 +650,14 @@ public class CalendarManagerTest {
     }
     
     @Test
-    public void testUpdateMaxDescriptionLesson() throws Exception {
+    public void testUpdateMaxDescriptionLesson() {
          int oldId = 5;
         les.setIdLesson(1);    
         les.setDate(new Date(2015,12,12));
         les.setStartTime(1222);
         les.setEndTime(1300);
         les.setName("BD");
-        les.setDescription(testsup100());
+        les.setDescription("Prova superamento stringa,Prova superamento stringa,Prova superamento stringa,Prova superamento stringa,Prova superamento stringa,Prova superamento stringa,Prova superamento stringa,Prova superamento stringa,Prova superamento stringa,Prova superamento stringa,Prova superamento stringaProva superamento stringa,,");
          try{
            instance.update_lesson(oldId,les);
             fail("fail");
@@ -758,7 +667,7 @@ public class CalendarManagerTest {
     }
     
     @Test
-    public void testUpdateMinClassroomLesson() throws Exception {
+    public void testUpdateMinClassroomLesson(){
          int oldId = 5;
         les.setIdLesson(1);    
         les.setDate(new Date(2015,12,12));
@@ -766,7 +675,7 @@ public class CalendarManagerTest {
         les.setEndTime(1300);
         les.setName("BD");
         les.setDescription("Lezione Basi di dati");
-        les.setClassroom(null);
+        les.setClassroom("");
          try{
              instance.update_lesson(oldId,les);
             fail("fail");
@@ -777,7 +686,7 @@ public class CalendarManagerTest {
     
    
     @Test
-    public void testUpdateMaxClassroomLesson() throws Exception {
+    public void testUpdateMaxClassroomLesson(){
          int oldId = 5;
         les.setIdLesson(1);    
         les.setDate(new Date(2015,12,12));
@@ -785,7 +694,7 @@ public class CalendarManagerTest {
         les.setEndTime(1300);
         les.setName("BD");
         les.setDescription("Lezione Basi di dati");
-        les.setClassroom(testsup100());
+        les.setClassroom("Prova superamento stringa,Prova superamento stringa,Prova superamento stringa,Prova superamento stringa,Prova superamento stringa,Prova superamento stringa,Prova superamento stringa,Prova superamento stringa,Prova superamento stringa,Prova superamento stringa,Prova superamento stringaProva superamento stringa,,");
          try{
         instance.update_lesson(oldId,les);
             fail("fail");
@@ -795,7 +704,7 @@ public class CalendarManagerTest {
     }
     
     @Test
-    public void testUpdateMinCycleLesson() throws Exception {
+    public void testUpdateMinCycleLesson(){
            int oldId = 5;
         les.setIdLesson(1);    
         les.setDate(new Date(2015,12,12));
@@ -814,7 +723,7 @@ public class CalendarManagerTest {
     }
     
     @Test
-    public void testUpdateMaxCycleLesson() throws Exception {
+    public void testUpdateMaxCycleLesson(){
            int oldId = 5;
         les.setIdLesson(1);    
         les.setDate(new Date(2015,12,12));
@@ -823,7 +732,7 @@ public class CalendarManagerTest {
         les.setName("BD");
         les.setDescription("Lezione Basi di dati");
         les.setClassroom("P1");
-        les.setCycle(1234567);
+        les.setCycle(12345678);
          try{
            instance.update_lesson(oldId,les);
             fail("fail");
@@ -832,28 +741,11 @@ public class CalendarManagerTest {
         }
     }
     
-    @Test
-    public void testUpdateFormatCycleLesson() throws Exception {
-         int oldId = 5;
-        les.setIdLesson(1);    
-        les.setDate(new Date(2015,12,12));
-        les.setStartTime(1222);
-        les.setEndTime(1300);
-        les.setName("BD");
-        les.setDescription("Lezione Basi di dati");
-        les.setClassroom("P1");
-        les.setCycle(testint("777777#@7"));
-         try{
-         instance.update_lesson(oldId,les);
-            fail("fail");
-        }catch(Exception x){
-            assertTrue(true);
-        }
-    }
+   
     
     
     @Test
-    public void testUpdateMinCurriculumLesson() throws Exception {
+    public void testUpdateMinCurriculumLesson() {
          int oldId = 5;
         les.setIdLesson(1);    
         les.setDate(new Date(2015,12,12));
@@ -874,7 +766,7 @@ public class CalendarManagerTest {
     
     
     @Test
-    public void testUpdateMaxCurriculumLesson() throws Exception {
+    public void testUpdateMaxCurriculumLesson(){
           int oldId = 5;
         les.setIdLesson(1);    
         les.setDate(new Date(2015,12,12));
@@ -884,7 +776,7 @@ public class CalendarManagerTest {
         les.setDescription("Lezione Basi di dati");
         les.setClassroom("P1");
         les.setCycle(3);
-        les.setCurriculum(testsup100());
+        les.setCurriculum("Prova superamento stringa,Prova superamento stringa,Prova superamento stringa,Prova superamento stringa,Prova superamento stringa,Prova superamento stringa,Prova superamento stringa,Prova superamento stringa,Prova superamento stringa,Prova superamento stringa,Prova superamento stringaProva superamento stringa,,");
          try{
           instance.update_lesson(oldId,les);
             fail("fail");
@@ -895,7 +787,7 @@ public class CalendarManagerTest {
     
     
     @Test
-    public void testUpdateMinCourseLesson() throws Exception {
+    public void testUpdateMinCourseLesson(){
           int oldId = 5;
         les.setIdLesson(1);    
         les.setDate(new Date(2015,12,12));
@@ -916,7 +808,7 @@ public class CalendarManagerTest {
     }
     
     @Test
-    public void testUpdateMaxCourseLesson() throws Exception {
+    public void testUpdateMaxCourseLesson(){
          int oldId = 5;
         les.setIdLesson(1);    
         les.setDate(new Date(2015,12,12));
@@ -936,30 +828,10 @@ public class CalendarManagerTest {
         }
     }
     
-    @Test
-    public void testUpdateFormatCourseLesson() throws Exception {
-         int oldId = 5;
-        les.setIdLesson(1);    
-        les.setDate(new Date(2015,12,12));
-        les.setStartTime(1222);
-        les.setEndTime(1300);
-        les.setName("BD");
-        les.setDescription("Lezione Basi di dati");
-        les.setClassroom("P1");
-        les.setCycle(3);
-        les.setCurriculum("Curriculum di prova");
-        les.setFK_course(testint("777777#@7"));
-         try{
-             instance.update_lesson(oldId,les);
-            fail("fail");
-        }catch(Exception x){
-            assertTrue(true);
-        }
-    }
     
     
     @Test
-    public void testUpdateLessonok() throws Exception {
+    public void testUpdateLessonok(){
            int oldId = 5;
         les.setIdLesson(1);    
        // les.setDate(new Date(2015-12-12));
@@ -973,9 +845,9 @@ public class CalendarManagerTest {
         les.setFK_course(6);
          try{
              instance.update_lesson(oldId,les);
-            fail("fail");
+             assertTrue(true);
         }catch(Exception x){
-            assertTrue(true);
+           fail("fail");
         }
     }
     
@@ -983,7 +855,7 @@ public class CalendarManagerTest {
     //////////////////
     
     @Test
-    public void testDeleteMinIdLesson() throws Exception {
+    public void testDeleteMinIdLesson() {
         String oldId = "-1";
         try{
             instance.delete_lesson(oldId);
@@ -994,8 +866,8 @@ public class CalendarManagerTest {
     }
     
     @Test
-    public void testDeleteMaxIdLesson() throws Exception {
-        String oldId = testsup100();
+    public void testDeleteMaxIdLesson(){
+        String oldId = "1234567";
         try{
             instance.delete_lesson(oldId);
             fail("sono riuscito a fare l' op");
@@ -1007,18 +879,18 @@ public class CalendarManagerTest {
     
     
     @Test
-    public void testDeleteLessonok() throws Exception {
+    public void testDeleteLessonok() {
         String oldId = "11";
         try{
             instance.delete_lesson(oldId);
-            fail("sono riuscito a fare l' op");
+            assertTrue(true);
         }catch(Exception x){
-            assertTrue(true);    
+              fail("sono riuscito a fare l' op");  
         }
     }
     /////////////////
     @Test
-    public void testInsertSeminarok() throws Exception {
+    public void testInsertSeminarok() {
        
         sem.setIdSeminar(1);
       //  sem.setDate(new Date(2015,15,12));
@@ -1032,9 +904,9 @@ public class CalendarManagerTest {
         
          try{
             instance.insert_seminar(sem);
-            fail("sono riuscito a fare l' op");
-        }catch(Exception x){
             assertTrue(true);
+        }catch(Exception x){
+            fail("sono riuscito a fare l' op");
         }
     }
     
@@ -1042,7 +914,7 @@ public class CalendarManagerTest {
     
     
      @Test
-    public void testInsertMinIdSeminar() throws Exception {
+    public void testInsertMinIdSeminar(){
         sem.setIdSeminar(-1);         
          try{
             instance.insert_seminar(sem);
@@ -1053,7 +925,7 @@ public class CalendarManagerTest {
     }
     
     @Test
-    public void testInsertMaxIdSeminar() throws Exception {
+    public void testInsertMaxIdSeminar() {
         sem.setIdSeminar(7777777);         
          try{
             instance.insert_seminar(sem);
@@ -1063,21 +935,12 @@ public class CalendarManagerTest {
         }
     }
     
-    @Test
-    public void testInsertFormatIdSeminar() throws Exception {
-        sem.setIdSeminar(testint("777777#@7"));         
-         try{
-              instance.insert_seminar(sem);
-            fail("formato errato");
-        }catch(Exception x){
-            assertTrue(true);
-        }
-    }
+    
     
      @Test
-    public void testInsertErrDateSeminar() throws Exception {
+    public void testInsertErrDateSeminar() {
         sem.setIdSeminar(1);    
-        sem.setDate(new Date(null));
+        sem.setDate(new Date (null));
          try{
              instance.insert_seminar(sem);
             fail("fail");
@@ -1087,7 +950,7 @@ public class CalendarManagerTest {
     }
     
     @Test
-    public void testInsertErrTimeSeminar() throws Exception {
+    public void testInsertErrTimeSeminar() {
         sem.setIdSeminar(1);    
         sem.setDate(new Date(2015,12,12));
         sem.setStartTime(-1);
@@ -1101,7 +964,7 @@ public class CalendarManagerTest {
     }
     
     @Test
-    public void testInsertMinNameSeminar() throws Exception {
+    public void testInsertMinNameSeminar() {
         sem.setIdSeminar(1);    
         sem.setDate(new Date(2015,12,12));
         sem.setStartTime(1222);
@@ -1117,12 +980,12 @@ public class CalendarManagerTest {
     
     
     @Test
-    public void testInsertMaxNameSeminar() throws Exception {
+    public void testInsertMaxNameSeminar() {
         sem.setIdSeminar(1);    
         sem.setDate(new Date(2015,12,12));
         sem.setStartTime(1222);
         sem.setEndTime(1300);
-        sem.setName(testsup100());
+        sem.setName("Prova superamento stringa,Prova superamento stringa,Prova superamento stringa,Prova superamento stringa,Prova superamento stringa,Prova superamento stringa,Prova superamento stringa,Prova superamento stringa,Prova superamento stringa,Prova superamento stringa,Prova superamento stringaProva superamento stringa,,");
          try{
               instance.insert_seminar(sem);
             fail("fail");
@@ -1132,13 +995,13 @@ public class CalendarManagerTest {
     }
     
     @Test
-    public void testInsertMinNameSpeackerSeminar() throws Exception {
+    public void testInsertMinNameSpeackerSeminar(){
         sem.setIdSeminar(1);    
         sem.setDate(new Date(2015,12,12));
         sem.setStartTime(1222);
         sem.setEndTime(1300);
         sem.setName("BD");
-        sem.setNameSpeacker(null);
+        sem.setNameSpeacker("");
          try{
               instance.insert_seminar(sem);
             fail("fail");
@@ -1148,13 +1011,13 @@ public class CalendarManagerTest {
     }
     
     @Test
-    public void testInsertMaxNameSpeackerSeminar() throws Exception {
+    public void testInsertMaxNameSpeackerSeminar() {
         sem.setIdSeminar(1);    
         sem.setDate(new Date(2015,12,12));
         sem.setStartTime(1222);
         sem.setEndTime(1300);
         sem.setName("BD");
-        sem.setNameSpeacker(testsup100());
+        sem.setNameSpeacker("Prova superamento stringa,Prova superamento stringa,Prova superamento stringa,Prova superamento stringa,Prova superamento stringa,Prova superamento stringa,Prova superamento stringa,Prova superamento stringa,Prova superamento stringa,Prova superamento stringa,Prova superamento stringaProva superamento stringa,,");
          try{
              instance.insert_seminar(sem);
             fail("fail");
@@ -1164,14 +1027,14 @@ public class CalendarManagerTest {
     }
     
     @Test
-    public void testInsertMinDescriptionSeminar() throws Exception {
+    public void testInsertMinDescriptionSeminar(){
         sem.setIdSeminar(1);    
         sem.setDate(new Date(2015,12,12));
         sem.setStartTime(1222);
         sem.setEndTime(1300);
         sem.setName("BD");
         sem.setNameSpeacker("Olmo");
-        sem.setDescription(null);
+        sem.setDescription("");
          try{
               instance.insert_seminar(sem);
             fail("fail");
@@ -1182,14 +1045,14 @@ public class CalendarManagerTest {
     
    
     @Test
-    public void testInsertMaxDescriptionSeminar() throws Exception {
+    public void testInsertMaxDescriptionSeminar(){
         sem.setIdSeminar(1);    
         sem.setDate(new Date(2015,12,12));
         sem.setStartTime(1222);
         sem.setEndTime(1300);
         sem.setName("BD");
         sem.setNameSpeacker("Olmo");
-        sem.setDescription(testsup100());
+        sem.setDescription("Prova superamento stringa,Prova superamento stringa,Prova superamento stringa,Prova superamento stringa,Prova superamento stringa,Prova superamento stringa,Prova superamento stringa,Prova superamento stringa,Prova superamento stringa,Prova superamento stringa,Prova superamento stringaProva superamento stringa,,");
          try{
               instance.insert_seminar(sem);
             fail("fail");
@@ -1199,7 +1062,7 @@ public class CalendarManagerTest {
     }
     
     @Test
-    public void testInsertMinPlaceSeminar() throws Exception {
+    public void testInsertMinPlaceSeminar(){
         sem.setIdSeminar(1);    
         sem.setDate(new Date(2015,12,12));
         sem.setStartTime(1222);
@@ -1217,7 +1080,7 @@ public class CalendarManagerTest {
     }
     
     @Test
-    public void testInsertMaxPlace() throws Exception {
+    public void testInsertMaxPlace(){
         sem.setIdSeminar(1);    
         sem.setDate(new Date(2015,12,12));
         sem.setStartTime(1222);
@@ -1225,7 +1088,7 @@ public class CalendarManagerTest {
         sem.setName("BD");
         sem.setNameSpeacker("Olmo");
         sem.setDescription("prove");
-        sem.setPlace(testsup100());
+        sem.setPlace("Prova superamento stringa,Prova superamento stringa,Prova superamento stringa,Prova superamento stringa,Prova superamento stringa,Prova superamento stringa,Prova superamento stringa,Prova superamento stringa,Prova superamento stringa,Prova superamento stringa,Prova superamento stringaProva superamento stringa,,");
          try{
               instance.insert_seminar(sem);
             fail("fail");
@@ -1238,7 +1101,7 @@ public class CalendarManagerTest {
     
     
     @Test
-    public void testInsertMinCourseSeminar() throws Exception {
+    public void testInsertMinCourseSeminar(){
         sem.setIdSeminar(1);    
         sem.setDate(new Date(2015,12,12));
         sem.setStartTime(1222);
@@ -1257,7 +1120,7 @@ public class CalendarManagerTest {
     }
     
     @Test
-    public void testInsertMaxCourseSeminar() throws Exception {
+    public void testInsertMaxCourseSeminar(){
         sem.setIdSeminar(1);    
         sem.setDate(new Date(2015,12,12));
         sem.setStartTime(1222);
@@ -1266,7 +1129,7 @@ public class CalendarManagerTest {
         sem.setNameSpeacker("Olmo");
         sem.setDescription("Prove");
         sem.setPlace("P3");
-        sem.setFK_course(supint100());
+        sem.setFK_course(1234567);
          try{
              instance.insert_seminar(sem);
             fail("fail");
@@ -1292,16 +1155,16 @@ public class CalendarManagerTest {
         
          try{
             instance.update_seminar(oldId,sem);
-            fail("sono riuscito a fare l' op");
-        }catch(Exception x){
             assertTrue(true);
+        }catch(Exception x){
+            fail("sono riuscito a fare l' op");
         }
     }
     
     
     
      @Test
-    public void testUpdateMinIdSeminar() throws Exception {
+    public void testUpdateMinIdSeminar(){
          int oldId = 5;
         
         sem.setIdSeminar(-1);         
@@ -1316,9 +1179,9 @@ public class CalendarManagerTest {
     
     
      @Test
-    public void testUpdateMaxIdSeminar() throws Exception {
+    public void testUpdateMaxIdSeminar() {
         int oldId = 5;
-        sem.setIdSeminar(7777777);         
+        sem.setIdSeminar(77777777);         
          try{
             instance.update_seminar(oldId,sem);
             fail("fail");
@@ -1327,20 +1190,10 @@ public class CalendarManagerTest {
         }
     }
     
-    @Test
-    public void testUpdateFormatIdSeminar() throws Exception {
-        int oldId = 5;
-        sem.setIdSeminar(testint("777777#@7"));         
-         try{
-             instance.update_seminar(oldId,sem);
-            fail("formato errato");
-        }catch(Exception x){
-            assertTrue(true);
-        }
-    }
+   
     
      @Test
-    public void testUpdateErrDateSeminar() throws Exception {
+    public void testUpdateErrDateSeminar(){
         int oldId = 5;
         
         sem.setIdSeminar(1);    
@@ -1354,7 +1207,7 @@ public class CalendarManagerTest {
     }
     
     @Test
-    public void testUpdateErrTimeSeminar() throws Exception {
+    public void testUpdateErrTimeSeminar(){
          int oldId = 5;
          
         sem.setIdSeminar(1);    
@@ -1370,7 +1223,7 @@ public class CalendarManagerTest {
     }
     
     @Test
-    public void testUpdateMinNameSeminar() throws Exception {
+    public void testUpdateMinNameSeminar(){
         int oldId = 5;
         sem.setIdSeminar(1);    
         sem.setDate(new Date(2015,12,12));
@@ -1387,13 +1240,13 @@ public class CalendarManagerTest {
     
     
     @Test
-    public void testUpdateMaxNameSeminar() throws Exception {
+    public void testUpdateMaxNameSeminar(){
          int oldId = 5;
         sem.setIdSeminar(1);    
         sem.setDate(new Date(2015,12,12));
         sem.setStartTime(1222);
         sem.setEndTime(1300);
-        sem.setName(testsup100());
+        sem.setName("Prova superamento stringa,Prova superamento stringa,Prova superamento stringa,Prova superamento stringa,Prova superamento stringa,Prova superamento stringa,Prova superamento stringa,Prova superamento stringa,Prova superamento stringa,Prova superamento stringa,Prova superamento stringaProva superamento stringa,,");
          try{
             instance.update_seminar(oldId,sem);
             fail("fail");
@@ -1403,14 +1256,14 @@ public class CalendarManagerTest {
     }
     
     @Test
-    public void testUpdateMinNameSpeackerSeminar() throws Exception {
+    public void testUpdateMinNameSpeackerSeminar(){
             int oldId = 5;
         sem.setIdSeminar(1);    
         sem.setDate(new Date(2015,12,12));
         sem.setStartTime(1222);
         sem.setEndTime(1300);
         sem.setName("BD");
-        sem.setNameSpeacker(null);
+        sem.setNameSpeacker("");
          try{
                 instance.update_seminar(oldId,sem);
             fail("fail");
@@ -1420,14 +1273,14 @@ public class CalendarManagerTest {
     }
     
     @Test
-    public void testUpdateMaxNameSpeackerSeminar() throws Exception {
+    public void testUpdateMaxNameSpeackerSeminar(){
          int oldId = 5;
         sem.setIdSeminar(1);    
         sem.setDate(new Date(2015,12,12));
         sem.setStartTime(1222);
         sem.setEndTime(1300);
         sem.setName("BD");
-        sem.setNameSpeacker(testsup100());
+        sem.setNameSpeacker("Prova superamento stringa,Prova superamento stringa,Prova superamento stringa,Prova superamento stringa,Prova superamento stringa,Prova superamento stringa,Prova superamento stringa,Prova superamento stringa,Prova superamento stringa,Prova superamento stringa,Prova superamento stringaProva superamento stringa,,");
          try{
            instance.update_lesson(oldId,les);
             fail("fail");
@@ -1437,7 +1290,7 @@ public class CalendarManagerTest {
     }
     
     @Test
-    public void testUpdateMinDescriptionSeminar() throws Exception {
+    public void testUpdateMinDescriptionSeminar(){
          int oldId = 5;
         sem.setIdSeminar(1);    
         sem.setDate(new Date(2015,12,12));
@@ -1445,7 +1298,7 @@ public class CalendarManagerTest {
         sem.setEndTime(1300);
         sem.setName("BD");
         sem.setNameSpeacker("Olmo");
-        sem.setDescription(null);
+        sem.setDescription("");
          try{
              instance.update_seminar(oldId,sem);
             fail("fail");
@@ -1456,7 +1309,7 @@ public class CalendarManagerTest {
     
    
     @Test
-    public void testUpdateMaxDescriptionSeminar() throws Exception {
+    public void testUpdateMaxDescriptionSeminar(){
          int oldId = 5;
         sem.setIdSeminar(1);    
         sem.setDate(new Date(2015,12,12));
@@ -1464,7 +1317,7 @@ public class CalendarManagerTest {
         sem.setEndTime(1300);
         sem.setName("BD");
         sem.setNameSpeacker("Olmo");
-        sem.setDescription(testsup100());
+        sem.setDescription("Prova superamento stringa,Prova superamento stringa,Prova superamento stringa,Prova superamento stringa,Prova superamento stringa,Prova superamento stringa,Prova superamento stringa,Prova superamento stringa,Prova superamento stringa,Prova superamento stringa,Prova superamento stringaProva superamento stringa,,");
          try{
         instance.update_seminar(oldId,sem);
             fail("fail");
@@ -1474,7 +1327,7 @@ public class CalendarManagerTest {
     }
     
     @Test
-    public void testUpdateMinPlaceSeminar() throws Exception {
+    public void testUpdateMinPlaceSeminar(){
            int oldId = 5;
         sem.setIdSeminar(1);    
         sem.setDate(new Date(2015,12,12));
@@ -1493,7 +1346,7 @@ public class CalendarManagerTest {
     }
     
     @Test
-    public void testUpdateMaxPlaceSeminar() throws Exception {
+    public void testUpdateMaxPlaceSeminar(){
            int oldId = 5;
         sem.setIdSeminar(1);    
         sem.setDate(new Date(2015,12,12));
@@ -1502,7 +1355,7 @@ public class CalendarManagerTest {
         sem.setName("BD");
         sem.setNameSpeacker("Olmo");
         sem.setDescription("Seminario sugli algoritmi");
-        sem.setPlace(testsup100());
+        sem.setPlace("Prova superamento stringa,Prova superamento stringa,Prova superamento stringa,Prova superamento stringa,Prova superamento stringa,Prova superamento stringa,Prova superamento stringa,Prova superamento stringa,Prova superamento stringa,Prova superamento stringa,Prova superamento stringaProva superamento stringa,,");
          try{
             instance.update_seminar(oldId,sem);
             fail("fail");
@@ -1512,7 +1365,7 @@ public class CalendarManagerTest {
     }
     
     @Test
-    public void testUpdateMinCourseSeminar() throws Exception {
+    public void testUpdateMinCourseSeminar(){
            int oldId = 5;
         sem.setIdSeminar(1);    
         sem.setDate(new Date(2015,12,12));
@@ -1533,7 +1386,7 @@ public class CalendarManagerTest {
     
     
    @Test
-    public void testUpdateMaxCourseSeminar() throws Exception {
+    public void testUpdateMaxCourseSeminar(){
            int oldId = 5;
         sem.setIdSeminar(1);    
         sem.setDate(new Date(2015,12,12));
@@ -1543,7 +1396,7 @@ public class CalendarManagerTest {
         sem.setNameSpeacker("Olmo");
         sem.setDescription("Seminario sugli algoritmi");
         sem.setPlace("p2");
-        sem.setFK_course(supint100());
+        sem.setFK_course(12345678);
          try{
             instance.update_seminar(oldId,sem);
             fail("fail");
@@ -1552,25 +1405,7 @@ public class CalendarManagerTest {
         }
     }
     
-    @Test
-    public void testUpdateFormatCourseSeminar() throws Exception {
-           int oldId = 5;
-        sem.setIdSeminar(1);    
-        sem.setDate(new Date(2015,12,12));
-        sem.setStartTime(1222);
-        sem.setEndTime(1300);
-        sem.setName("BD");
-        sem.setNameSpeacker("Olmo");
-        sem.setDescription("Seminario sugli algoritmi");
-        sem.setPlace("p2");
-        sem.setFK_course(testint("777777#@7"));
-         try{
-            instance.update_seminar(oldId,sem);
-            fail("fail");
-        }catch(Exception x){
-            assertTrue(true);
-        }
-    }
+   
     
  
    
@@ -1578,7 +1413,7 @@ public class CalendarManagerTest {
      //////////////////
     
     @Test
-    public void testDeleteMinIdSeminar() throws Exception {
+    public void testDeleteMinIdSeminar() {
         String oldId = "-1";
         try{
             instance.delete_seminar(oldId);
@@ -1589,8 +1424,8 @@ public class CalendarManagerTest {
     }
     
     @Test
-    public void testDeleteMaxIdSeminar() throws Exception {
-        String oldId = testsup100();
+    public void testDeleteMaxIdSeminar(){
+        String oldId = "12345678";
         try{
             instance.delete_seminar(oldId);
             fail("sono riuscito a fare l' op");
@@ -1604,43 +1439,14 @@ public class CalendarManagerTest {
     @Test
     public void testDeleteSeminarok() throws Exception {
         String oldId = "2";
+        sem.setIdSeminar(2);
         try{
+            instance.insert_seminar(sem);
             instance.delete_seminar(oldId);
-            fail("sono riuscito a fare l' op");
+            assertTrue(true);
         }catch(Exception x){
-            assertTrue(true);    
+               fail("sono riuscito a fare l' op"); 
         }
     }
    
-    
-    
-    ///////// metodi di utilità
-    
-    
-    public Date convertStringToDate(String dateString) throws ParseException
-{
-    DateFormat df = new SimpleDateFormat ("dd/M/yyyy");
-    df.setLenient (false);
-    Date d = df.parse (dateString);
-    return d;
 }
-    private String testsup100() {
-        String c="dsdff";
-        for(int e=0; e<200; e++)
-            c=c.concat(c);
-        return c;
-    }
-    
-    private int testint(String str){
-    int num;
-    num = Integer.parseInt(str);
-    return num;
-    }
-    
-    private int supint100(){
-        int c=444;
-        
-        return c^36435356;
-    }
-}
-

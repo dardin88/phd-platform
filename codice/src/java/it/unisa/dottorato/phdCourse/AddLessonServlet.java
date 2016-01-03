@@ -1,6 +1,10 @@
 package it.unisa.dottorato.phdCourse;
 
 import it.unisa.dottorato.account.Professor;
+import it.unisa.dottorato.exception.DateException;
+import it.unisa.dottorato.exception.DescriptionException;
+import it.unisa.dottorato.exception.IdException;
+import it.unisa.dottorato.exception.NameException;
 import java.io.IOException;
 import java.io.PrintWriter;
 import java.sql.SQLException;
@@ -37,7 +41,7 @@ public class AddLessonServlet extends HttpServlet {
      * @throws IOException if an I/O error occurs
      */
    protected void processRequest(HttpServletRequest request, HttpServletResponse response)
-            throws ServletException, IOException {
+            throws ServletException, IOException,IdException , DescriptionException , DateException, NameException , ClassroomException {
 
         JSONObject result = new JSONObject();
         PrintWriter out = response.getWriter();
@@ -72,18 +76,23 @@ public class AddLessonServlet extends HttpServlet {
             lesson.setCurriculum(curriculum);
             lesson.setFK_course(Integer.parseInt(course));
             
-            //inseriamo l'oggetto nella gestione calendario
+           result.put("result", true);
+
+        try {
             CalendarManager.getInstance().insert_lesson(lesson);
-            
-            out.println("<script type=\"text/javascript\">");
-            out.println("alert('La lezione è stata inserita');");
-            out.println("location='collaborationActivity.jsp';"); // da modificare
-            out.println("</script>");
-            
-        } catch (SQLException ex) {
+        } catch (SQLException ex)  {
+            result.put("result", false);
             Logger.getLogger(AddLessonServlet.class.getName()).log(Level.SEVERE, null, ex);
-            
         }
+        
+        out.write(result.toString());
+
+        } catch (JSONException ex) {
+            Logger.getLogger(AddLessonServlet.class.getName()).log(Level.SEVERE, null, ex);
+        } finally {
+            out.close();
+        }
+
     }
 
     // <editor-fold defaultstate="collapsed" desc="HttpServlet methods. Click on the + sign on the left to edit the code.">
@@ -98,7 +107,19 @@ public class AddLessonServlet extends HttpServlet {
     @Override
     protected void doGet(HttpServletRequest request, HttpServletResponse response)
             throws ServletException, IOException {
-        processRequest(request, response);
+        
+        try {
+            processRequest(request, response);
+        } catch (IdException | NameException | DateException ex) {
+            Logger.getLogger(AddLessonServlet.class.getName()).log(Level.SEVERE, null, ex);
+        }
+        catch (DescriptionException ex) {
+            Logger.getLogger(AddCourseServlet.class.getName()).log(Level.SEVERE, null, ex);
+        }
+        catch (ClassroomException ex) {
+            Logger.getLogger(AddCourseServlet.class.getName()).log(Level.SEVERE, null, ex);
+        }
+       
     }
 
     /**
@@ -112,7 +133,17 @@ public class AddLessonServlet extends HttpServlet {
     @Override
     protected void doPost(HttpServletRequest request, HttpServletResponse response)
             throws ServletException, IOException {
-        processRequest(request, response);
+       try {
+            processRequest(request, response);
+        } catch (IdException | NameException | DateException ex) {
+            Logger.getLogger(AddLessonServlet.class.getName()).log(Level.SEVERE, null, ex);
+        }
+        catch (DescriptionException ex) {
+            Logger.getLogger(AddCourseServlet.class.getName()).log(Level.SEVERE, null, ex);
+        }
+        catch (ClassroomException ex) {
+            Logger.getLogger(AddCourseServlet.class.getName()).log(Level.SEVERE, null, ex);
+        }
     }
 
     /**
