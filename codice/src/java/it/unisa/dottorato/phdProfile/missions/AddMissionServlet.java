@@ -1,6 +1,13 @@
 package it.unisa.dottorato.phdProfile.missions;
 
 import it.unisa.dottorato.account.PhdStudent;
+import it.unisa.dottorato.exception.DateException;
+import it.unisa.dottorato.exception.DescriptionException;
+import it.unisa.dottorato.exception.IdException;
+import it.unisa.dottorato.exception.MissionException;
+import it.unisa.dottorato.exception.PlaceException;
+import it.unisa.dottorato.exception.ReferenceAttributeException;
+import it.unisa.dottorato.exception.ReferenceException;
 import java.io.IOException;
 import java.io.PrintWriter;
 import java.sql.SQLException;
@@ -75,6 +82,8 @@ public class AddMissionServlet extends HttpServlet {
             } catch (SQLException ex) {
                 Logger.getLogger(AddMissionServlet.class.getName()).log(Level.SEVERE, null, ex);
                 result.put("result", false);
+            } catch (MissionException | DescriptionException | DateException | ReferenceException | PlaceException | ReferenceAttributeException | IdException ex) {
+                Logger.getLogger(AddMissionServlet.class.getName()).log(Level.SEVERE, null, ex);
             }
             out.write(result.toString());
 

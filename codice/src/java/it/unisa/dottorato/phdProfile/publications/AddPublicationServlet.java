@@ -1,6 +1,17 @@
 package it.unisa.dottorato.phdProfile.publications;
 
 import it.unisa.dottorato.account.PhdStudent;
+import it.unisa.dottorato.exception.IdException;
+import it.unisa.dottorato.exception.LinkException;
+import it.unisa.dottorato.exception.NumberPageException;
+import it.unisa.dottorato.exception.OtherAuthorsException;
+import it.unisa.dottorato.exception.PublicationException;
+import it.unisa.dottorato.exception.PublicationIssueException;
+import it.unisa.dottorato.exception.ReferenceException;
+import it.unisa.dottorato.exception.TitleException;
+import it.unisa.dottorato.exception.TypeException;
+import it.unisa.dottorato.exception.YearException;
+import it.unisa.dottorato.exception.pAbstractException;
 import java.io.IOException;
 import java.io.PrintWriter;
 import java.sql.SQLException;
@@ -36,7 +47,7 @@ public class AddPublicationServlet extends HttpServlet {
      * @throws IOException if an I/O error occurs
      */
     protected void processRequest(HttpServletRequest request, HttpServletResponse response)
-            throws ServletException, IOException {
+            throws ServletException, IOException{
         response.setContentType("text/html;charset=UTF-8");
         JSONObject result = new JSONObject();
         PrintWriter out = response.getWriter();
@@ -82,6 +93,8 @@ public class AddPublicationServlet extends HttpServlet {
             } catch (SQLException ex) {
                 Logger.getLogger(AddPublicationServlet.class.getName()).log(Level.SEVERE, null, ex);
                 result.put("result", false);
+            } catch (ReferenceException | LinkException | TypeException | OtherAuthorsException | pAbstractException | IdException | PublicationException | TitleException | PublicationIssueException | YearException | NumberPageException ex) {
+                Logger.getLogger(AddPublicationServlet.class.getName()).log(Level.SEVERE, null, ex);
             }
             out.write(result.toString());
 
@@ -102,7 +115,9 @@ public class AddPublicationServlet extends HttpServlet {
     @Override
     protected void doGet(HttpServletRequest request, HttpServletResponse response)
             throws ServletException, IOException {
-        processRequest(request, response);
+      
+            processRequest(request, response);
+        
     }
 
     /**
@@ -116,7 +131,9 @@ public class AddPublicationServlet extends HttpServlet {
     @Override
     protected void doPost(HttpServletRequest request, HttpServletResponse response)
             throws ServletException, IOException {
-        processRequest(request, response);
+       
+            processRequest(request, response);
+        
     }
 
     /**

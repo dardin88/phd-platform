@@ -190,7 +190,7 @@ public class CalendarManagerTest {
         cur.setFK_curriculum("Curriculum di prova");
         cur.setFK_cycle(3);
         cur.setDescription("Basi di dati");
-        cur.setStartDate(new Date(null));
+        cur.setStartDate(null);
          try{
             instance.insert_course(cur);
             fail("data errata");
@@ -205,8 +205,8 @@ public class CalendarManagerTest {
         cur.setFK_curriculum("Curriculum di prova");
         cur.setFK_cycle(3);
         cur.setDescription("Basi di dati");
-        cur.setStartDate(new Date(null));
-        cur.setEndDate(new Date(null));
+        cur.setStartDate(null);
+        cur.setEndDate(null);
          try{
             instance.insert_course(cur);
             fail("data errata");
@@ -280,7 +280,7 @@ public class CalendarManagerTest {
      @Test
     public void testInsertErrDateLesson() {
         les.setIdLesson(1);    
-        les.setDate(new Date(null));
+        les.setDate(null);
          try{
              instance.insert_lesson(les);
             fail("fail");
@@ -509,6 +509,7 @@ public class CalendarManagerTest {
     
     @Test
     public void testInsertLessonok() throws Exception {
+      
         les.setIdLesson(5);    
         les.setDate(new Date(2000,12,12));       
         les.setStartTime(12);
@@ -574,7 +575,7 @@ public class CalendarManagerTest {
         int oldId = 5;
         
         les.setIdLesson(1);    
-        les.setDate(new Date(null));
+        les.setDate(null);
          try{
              instance.update_lesson(oldId,les);
             fail("fail");
@@ -940,7 +941,7 @@ public class CalendarManagerTest {
      @Test
     public void testInsertErrDateSeminar() {
         sem.setIdSeminar(1);    
-        sem.setDate(new Date (null));
+        sem.setDate(null);
          try{
              instance.insert_seminar(sem);
             fail("fail");
@@ -1197,7 +1198,7 @@ public class CalendarManagerTest {
         int oldId = 5;
         
         sem.setIdSeminar(1);    
-        sem.setDate(new Date(null));
+        sem.setDate(null);
          try{
              instance.update_seminar(oldId,sem);
             fail("fail");
