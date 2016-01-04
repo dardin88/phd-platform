@@ -178,6 +178,9 @@ public class AccountManager {
           while(rs.next()) {
               String queryPhd = "select * from phdstudent where fkAccount = '";
               String queryProfessor = "select * from professor where fkAccount = '";
+              
+              if(rs.getString("typeAccount") == null)
+                  rs.next();
                             
                 switch(rs.getString("typeAccount")) {
                     case "phdstudent":
@@ -233,7 +236,11 @@ public class AccountManager {
                         account.setSecondaryEmail(rs.getString("secondaryEmail"));
                         account.setAdmin(rs.getBoolean("isAdministrator"));
                         accounts.add(account);
-                        break;                              
+                        break;  
+                    
+                    default:
+                        rs.next();
+                        break;
               }
             }
           return accounts;
