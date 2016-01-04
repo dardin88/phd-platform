@@ -59,7 +59,7 @@ public class AccountManager {
      * @throws ClassNotFoundException
      */
     public Account getAccountByEmail(String sEmail) throws SQLException, ConnectionException,
-            ClassNotFoundException {
+            ClassNotFoundException, EmailException {
         Statement stmt = null;
         Statement stmt2 = null;
         ResultSet rs = null;
@@ -74,7 +74,7 @@ public class AccountManager {
              */
             String sql = "SELECT * From account"
                     + " WHERE email = '"
-                    + sEmail + "'";
+                    + testEmail(sEmail) + "'";
 
             String queryPhd = "select * from phdstudent where fkAccount ='";
             String queryProfessor = "select * from professor where fkAccount ='";
@@ -83,7 +83,6 @@ public class AccountManager {
                 throw new ConnectionException();
             }
             //esecuzione query
-            stmt = connection.createStatement();
             rs = Utility.queryOperation(connection, sql);
 
             if (rs.next()) {
@@ -161,7 +160,6 @@ public class AccountManager {
     public ArrayList<Account> getAccountList() throws SQLException {
         Connection connection = null;
         ResultSet rs;
-        ResultSet rt;
 
         try {
             ArrayList<Account> accounts = new ArrayList<>();
@@ -201,7 +199,7 @@ public class AccountManager {
      * <code>pAccount</code>
      * @throws SQLException
      */
-    public ArrayList<String> viewProfile(Account pAccount) throws SQLException {
+    public ArrayList<String> viewProfile(Account pAccount) throws SQLException, NullAccountException {
         Connection connect = null;
         /**
          * Stringa sql per selezionare un record dalla tabella phdstudent o
@@ -212,6 +210,7 @@ public class AccountManager {
                 + "WHERE fkAccount  = '" + pAccount.getSecondaryEmail() + "'";
 
         try {
+            pAccount = testAccount(pAccount);
             ArrayList<String> profile = new ArrayList<>();
             connect = DBConnection.getConnection();
             //esecuzione della query
@@ -371,7 +370,7 @@ public class AccountManager {
      * lancia un'eccezione altrimenti
      * @throws SQLException
      */
-    public ArrayList<Account> searchUser(String search) throws SQLException {
+    public ArrayList<Account> searchUser(String search) throws SQLException, ProfileException {
         Connection connect = null;
         ArrayList<Account> accounts;
         /*
@@ -381,6 +380,7 @@ public class AccountManager {
         String sql = "SELECT * from account WHERE "
                 + "name LIKE '%" + search + "%' or surname LIKE '%" + search + "%' or email LIKE '%" + search + "%'";
         try {
+            search = testProfileData(search);
             //connesione al database
             connect = DBConnection.getConnection();
             accounts = new ArrayList<>();
@@ -465,7 +465,7 @@ public class AccountManager {
 
             if (pAccount instanceof Professor) {
                 sql2 += " set link = '"
-                        + ((Professor) pAccount).getLink()
+                        + testProfileData(((Professor) pAccount).getLink())
                         + "', department = '"
                         + testProfileData(addSlashes(((Professor) pAccount).getDepartment()))
                         + "' WHERE fkAccount = '"
@@ -499,10 +499,12 @@ public class AccountManager {
      * @throws EmailException
      */
     public void changeType(String email, String newType)
-            throws SQLException, ConnectionException, NullAccountException, EmailException, ClassNotFoundException {
+            throws SQLException, ConnectionException, NullAccountException, EmailException, ClassNotFoundException, ProfileException {
 
         Connection connect = null;
         try {
+            email = testEmail(email);
+            newType = testProfileData(newType);
             //connessione al database
             connect = DBConnection.getConnection();
             Account pAccount = testAccount(this.getAccountByEmail(email));
@@ -628,7 +630,7 @@ public class AccountManager {
      * @throws java.sql.SQLException
      * @throws java.io.IOException
      */
-    public synchronized void insertStudentTutor(String fkPhdstudent, String fkProfessor) throws ClassNotFoundException, SQLException, IOException {
+    public synchronized void insertStudentTutor(String fkPhdstudent, String fkProfessor) throws ClassNotFoundException, SQLException, IOException, EmailException {
         Connection connect = null;
         try {
             // Otteniamo una Connessione al DataBase
@@ -641,9 +643,9 @@ public class AccountManager {
             String tSql = "update  "
                     + AccountManager.TABLE_STUDENT
                     + " set fkProfessor ='"
-                    + fkProfessor
+                    + testEmail(fkProfessor)
                     + "' where fkAccount = '"
-                    + fkPhdstudent
+                    + testEmail(fkPhdstudent)
                     + "'";
 
             //Inviamo la Query al DataBase
@@ -665,7 +667,7 @@ public class AccountManager {
      * @throws java.sql.SQLException
      * @throws java.io.IOException
      */
-    public synchronized Professor getTutor(String idStudent) throws ClassNotFoundException, SQLException, IOException {
+    public synchronized Professor getTutor(String idStudent) throws ClassNotFoundException, SQLException, IOException, EmailException {
         Connection connect = null;
         Professor cord = null;
         try {
@@ -684,7 +686,7 @@ public class AccountManager {
                     + ","
                     + AccountManager.TABLE_ACCOUNT
                     + " WHERE phdstudent.fkAccount = '"
-                    + idStudent
+                    + testEmail(idStudent)
                     + "' AND fkProfessor = professor.fkAccount AND professor.fkAccount = secondaryEmail";
 
             connect.commit();
@@ -723,7 +725,7 @@ public class AccountManager {
      * @throws java.sql.SQLException
      * @throws java.io.IOException
      */
-    public synchronized void updateStudentTutor(String fkPhdstudent, String Tutor) throws ClassNotFoundException, SQLException, IOException {
+    public synchronized void updateStudentTutor(String fkPhdstudent, String Tutor) throws ClassNotFoundException, SQLException, IOException, EmailException {
         try (Connection connect = DBConnection.getConnection()) {
 
             /*
@@ -733,9 +735,9 @@ public class AccountManager {
             String tSql = "update  "
                     + AccountManager.TABLE_STUDENT
                     + " set fkProfessor ='"
-                    + Tutor
+                    + testEmail(Tutor)
                     + "' where fkAccount = '"
-                    + fkPhdstudent
+                    + testEmail(fkPhdstudent)
                     + "'";
 
             //Inviamo la Query al DataBase
@@ -754,7 +756,7 @@ public class AccountManager {
      * @throws java.sql.SQLException
      * @throws java.io.IOException
      */
-    public synchronized void deleteStudentTutor(String idStudent) throws ClassNotFoundException, SQLException, IOException {
+    public synchronized void deleteStudentTutor(String idStudent) throws ClassNotFoundException, SQLException, IOException, EmailException {
         Connection connect = null;
         try {
             // Otteniamo una Connessione al DataBase
@@ -767,7 +769,7 @@ public class AccountManager {
             String tSql = "update  "
                     + AccountManager.TABLE_STUDENT
                     + " set fkProfessor =null where fkAccount = '"
-                    + idStudent
+                    + testEmail(idStudent)
                     + "'";
 
             System.out.println("la query di deleteStudentTutor è  " + tSql);
