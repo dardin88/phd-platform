@@ -197,18 +197,18 @@ public class PresenceManager {
 
       
    
- /**  Metodo della classe incaricato di ritornare una lista delle presenze di un corso
-  * 
+ /**  Metodo della classe incaricato di ritornare il numero  delle presenze di un dottorando a un corso
+  *     @param idCourse
      * @param studente
   * @return restituisce un array list di presenze, lancia un'eccezione altrimenti
   * @throws ClassNotFoundException
   * @throws SQLException
   * @throws IOException 
   */ 
-   public synchronized boolean getPresenceCourse(String studente,int idLesson) throws ClassNotFoundException, SQLException, IOException, IdException {
+   public synchronized int getPresenceCourse(String dottorando,int idCourse) throws ClassNotFoundException, SQLException, IOException, IdException {
         Connection connect = null;
         Presence corso = null ;
-        boolean firma= false;
+       int presence=0;
         try {
          
           
@@ -219,27 +219,38 @@ public class PresenceManager {
              * Prepariamo la stringa SQL per la ricerca dei record 
              * nella tabella presence
            */
-            String tSql = "select isPresent from "+PresenceManager.TABLE_Presence+
-                    " where fkPhdstudent='"+testDottorando(studente)+"' and fkLesson = " +testid(idLesson) ;
+            String tSql = "SELECT COUNT(presence.isPresent) FROM presence,lesson  "
+                    + " where isPresent=true and presence.fkLesson = lesson.idLesson" +
+                   " and lesson.fkCourse ="+ testid(idCourse)+ 
+                    " and presence.fkPhdstudent ='"+testDottorando(dottorando) +"'" ;
             //Inviamo la Query al DataBase
             ResultSet result = Utility.queryOperation(connect, tSql);
 
          if(result.next()) {
-                 //corso = new Presence();                             
-                // corso.setIsPresent(result.getBoolean("isPresent"));
-           firma=result.getBoolean("isPresent");
+                 
+           presence=result.getInt(1);
             }
 
-            //return corso;
+        
 
         } catch (PhdStudentexception ex) {
           Logger.getLogger(PresenceManager.class.getName()).log(Level.SEVERE, null, ex);
       }  finally {
             DBConnection.releaseConnection(connect);
         }
-        return firma;
-        //return corso;
+        return presence;
+     
     }
+   /**metodo che dato un idCorso restituisce tutti i dottorandi che seguono quel corso
+    * 
+    * 
+    * @param idCorso
+    * @return
+    * @throws ClassNotFoundException
+    * @throws SQLException
+    * @throws IOException
+    * @throws IdException 
+    */
    
    public synchronized ArrayList<Account> getPresenceDottorandi(int idCorso) throws ClassNotFoundException, SQLException, IOException, IdException {
         Connection connect = null;

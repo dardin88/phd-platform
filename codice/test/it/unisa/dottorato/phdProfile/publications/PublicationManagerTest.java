@@ -57,7 +57,7 @@ public class PublicationManagerTest {
     
     
      @Test
-    public void testInsertPublicationok() throws Exception {
+    public void testInsertPublicationok(){
        
         pub.setIdPublication(1);
         pub.setTitle("Prova di pubblicazione");
@@ -72,15 +72,15 @@ public class PublicationManagerTest {
         
          try{
             instance.insert(pub);
-            fail("sono riuscito a fare l' op");
-        }catch(Exception x){
             assertTrue(true);
+        }catch(Exception x){
+            fail("sono riuscito a fare l' op");
         }
     }
     
     
      @Test
-    public void testInsertMinId() throws Exception {
+    public void testInsertMinId(){
         pub.setIdPublication(-1);
               
          try{
@@ -93,7 +93,7 @@ public class PublicationManagerTest {
     
     @Test
     public void testInsertMaxId() throws Exception {
-        pub.setIdPublication(supint100());
+        pub.setIdPublication(12345678);
               
          try{
             instance.insert(pub);
@@ -103,23 +103,11 @@ public class PublicationManagerTest {
         }
     }
     
-    
-    @Test
-    public void testInsertFormatId() throws Exception {
-        pub.setIdPublication(testint("@[[à%Y%"));
-              
-         try{
-            instance.insert(pub);
-            fail("fail");
-        }catch(Exception x){
-            assertTrue(true);
-        }
-    }
-    
+     
     
     
     @Test
-    public void testInsertMinTitle() throws Exception {
+    public void testInsertMinTitle() {
         pub.setIdPublication(2);
         pub.setTitle("");
               
@@ -132,9 +120,9 @@ public class PublicationManagerTest {
     }
     
     @Test
-    public void testInsertMaxTitle() throws Exception {
+    public void testInsertMaxTitle() {
         pub.setIdPublication(2);
-        pub.setTitle(testsup100());
+        pub.setTitle("Prova superamento stringa,Prova superamento stringa,Prova superamento stringa,Prova superamento stringa,Prova superamento stringa,Prova superamento stringa,Prova superamento stringa,Prova superamento stringa,Prova superamento stringa,Prova superamento stringa,Prova superamento stringa,Prova superamento stringa,Prova superamento stringa");
               
          try{
             instance.insert(pub);
@@ -145,7 +133,7 @@ public class PublicationManagerTest {
     }
     
      @Test
-    public void testInsertMinPublicationIssue() throws Exception {
+    public void testInsertMinPublicationIssue(){
         pub.setIdPublication(2);
         pub.setTitle("Prova di pubblicazione");
         pub.setPublicationIssue("");
@@ -159,10 +147,10 @@ public class PublicationManagerTest {
     }
     
     @Test
-    public void testInsertMaxPublicationIssue() throws Exception {
+    public void testInsertMaxPublicationIssue(){
         pub.setIdPublication(2);
         pub.setTitle("Prova di pubblicazione");
-        pub.setPublicationIssue(testsup100());
+        pub.setPublicationIssue("Prova superamento stringa,Prova superamento stringa,Prova superamento stringa,Prova superamento stringa,Prova superamento stringa,Prova superamento stringa,Prova superamento stringa,Prova superamento stringa,Prova superamento stringa,Prova superamento stringa,Prova superamento stringa,Prova superamento stringa,Prova superamento stringa");
               
          try{
             instance.insert(pub);
@@ -173,7 +161,7 @@ public class PublicationManagerTest {
     }
     
     @Test
-    public void testInsertMinYear() throws Exception {
+    public void testInsertMinYear(){
         pub.setIdPublication(2);
         pub.setTitle("Prova di pubblicazione");
         pub.setPublicationIssue("Demo");
@@ -189,7 +177,7 @@ public class PublicationManagerTest {
     
     
     @Test
-    public void testInsertMaxYear() throws Exception {
+    public void testInsertMaxYear(){
         pub.setIdPublication(2);
         pub.setTitle("Prova di pubblicazione");
         pub.setPublicationIssue("Demo");
@@ -206,7 +194,7 @@ public class PublicationManagerTest {
     
     
     @Test
-    public void testInsertMinNumberPages() throws Exception {
+    public void testInsertMinNumberPages(){
         pub.setIdPublication(2);
         pub.setTitle("Prova di pubblicazione");
         pub.setPublicationIssue("Demo");
@@ -224,7 +212,7 @@ public class PublicationManagerTest {
     
     
     @Test
-    public void testInsertMinLink() throws Exception {
+    public void testInsertMinLink(){
         pub.setIdPublication(2);
         pub.setTitle("Prova di pubblicazione");
         pub.setPublicationIssue("Demo");
@@ -243,13 +231,13 @@ public class PublicationManagerTest {
     
     
     @Test
-    public void testInsertMaxLink() throws Exception {
+    public void testInsertMaxLink(){
         pub.setIdPublication(2);
         pub.setTitle("Prova di pubblicazione");
         pub.setPublicationIssue("Demo");
         pub.setYear("2015");
         pub.setNumberPages(240);
-        pub.setLink(testsup100());
+        pub.setLink("Prova superamento stringa,Prova superamento stringa,Prova superamento stringa,Prova superamento stringa,Prova superamento stringa,Prova superamento stringa,Prova superamento stringa,Prova superamento stringa,Prova superamento stringa,Prova superamento stringa,Prova superamento stringa,Prova superamento stringa,Prova superamento stringa");
               
          try{
             instance.insert(pub);
@@ -261,7 +249,7 @@ public class PublicationManagerTest {
     
     
     @Test
-    public void testInsertMinType() throws Exception {
+    public void testInsertMinType(){
         pub.setIdPublication(2);
         pub.setTitle("Prova di pubblicazione");
         pub.setPublicationIssue("Demo");
@@ -279,14 +267,14 @@ public class PublicationManagerTest {
     }
     
     @Test
-    public void testInsertMaxType() throws Exception {
+    public void testInsertMaxType(){
         pub.setIdPublication(2);
         pub.setTitle("Prova di pubblicazione");
         pub.setPublicationIssue("Demo");
         pub.setYear("2015");
         pub.setNumberPages(240);
         pub.setLink("www.unisa.org");
-        pub.setType(testsup100());
+        pub.setType("Prova superamento stringa,Prova superamento stringa,Prova superamento stringa,Prova superamento stringa,Prova superamento stringa,Prova superamento stringa,Prova superamento stringa,Prova superamento stringa,Prova superamento stringa,Prova superamento stringa,Prova superamento stringa,Prova superamento stringa,Prova superamento stringa");
               
          try{
             instance.insert(pub);
@@ -298,7 +286,7 @@ public class PublicationManagerTest {
     
     
     @Test
-    public void testInsertMinOtherAuthors() throws Exception {
+    public void testInsertMinOtherAuthors(){
         pub.setIdPublication(2);
         pub.setTitle("Prova di pubblicazione");
         pub.setPublicationIssue("Demo");
@@ -318,7 +306,7 @@ public class PublicationManagerTest {
     
     
     @Test
-    public void testInsertMaxOtherAuthors() throws Exception {
+    public void testInsertMaxOtherAuthors(){
         pub.setIdPublication(2);
         pub.setTitle("Prova di pubblicazione");
         pub.setPublicationIssue("Demo");
@@ -326,7 +314,7 @@ public class PublicationManagerTest {
         pub.setNumberPages(240);
         pub.setLink("www.unisa.org");
         pub.setType("Prova");
-        pub.setAuthors(testsup100());
+        pub.setAuthors("Prova superamento stringa,Prova superamento stringa,Prova superamento stringa,Prova superamento stringa,Prova superamento stringa,Prova superamento stringa,Prova superamento stringa,Prova superamento stringa,Prova superamento stringa,Prova superamento stringa,Prova superamento stringa,Prova superamento stringa,Prova superamento stringa");
               
          try{
             instance.insert(pub);
@@ -338,7 +326,7 @@ public class PublicationManagerTest {
     
     
     @Test
-    public void testInsertMinAbstract() throws Exception {
+    public void testInsertMinAbstract(){
         pub.setIdPublication(2);
         pub.setTitle("Prova di pubblicazione");
         pub.setPublicationIssue("Demo");
@@ -360,7 +348,7 @@ public class PublicationManagerTest {
     
     
     @Test
-    public void testInsertMinfkStudent() throws Exception {
+    public void testInsertMinfkStudent(){
         pub.setIdPublication(2);
         pub.setTitle("Prova di pubblicazione");
         pub.setPublicationIssue("Demo");
@@ -383,7 +371,7 @@ public class PublicationManagerTest {
     
     
     @Test
-    public void testInsertMaxfkStudent() throws Exception {
+    public void testInsertMaxfkStudent(){
         pub.setIdPublication(2);
         pub.setTitle("Prova di pubblicazione");
         pub.setPublicationIssue("Demo");
@@ -393,7 +381,7 @@ public class PublicationManagerTest {
         pub.setType("Prova");
         pub.setAuthors("Marco Orsi");
         pub.setAbstract("Prova");
-        pub.setFkPhdstudent(testsup100());
+        pub.setFkPhdstudent("Prova superamento stringa,Prova superamento stringa,Prova superamento stringa,Prova superamento stringa,Prova superamento stringa,Prova superamento stringa,Prova superamento stringa,Prova superamento stringa,Prova superamento stringa,Prova superamento stringa,Prova superamento stringa,Prova superamento stringa,Prova superamento stringa");
               
          try{
             instance.insert(pub);
@@ -406,7 +394,7 @@ public class PublicationManagerTest {
     
     ////////////////////
      @Test
-    public void testUpdatePublicationok() throws Exception {
+    public void testUpdatePublicationok(){
         int oldId = 2;
         pub.setIdPublication(1);
         pub.setTitle("Prova di pubblicazione");
@@ -421,35 +409,15 @@ public class PublicationManagerTest {
         
          try{
         instance.update(oldId,pub);
-            fail("sono riuscito a fare l' op");
-        }catch(Exception x){
             assertTrue(true);
+        }catch(Exception x){
+            fail("sono riuscito a fare l' op");
         }
     }
-    
-    
-    
     
   
-    
-    
     @Test
-    public void testUpdateFormatId() throws Exception {
-        int oldId = 2;
-        pub.setIdPublication(testint("@[[à%Y%"));
-              
-         try{
-           instance.update(oldId,pub);
-            fail("fail");
-        }catch(Exception x){
-            assertTrue(true);
-        }
-    }
-    
-    
-    
-    @Test
-    public void testUpdateMinTitle() throws Exception {
+    public void testUpdateMinTitle(){
         int oldId = 2;
         pub.setIdPublication(2);
         pub.setTitle("");
@@ -463,10 +431,10 @@ public class PublicationManagerTest {
     }
     
     @Test
-    public void testUpdateMaxTitle() throws Exception {
+    public void testUpdateMaxTitle(){
         int oldId = 2;
         pub.setIdPublication(2);
-        pub.setTitle(testsup100());
+        pub.setTitle("Prova superamento stringa,Prova superamento stringa,Prova superamento stringa,Prova superamento stringa,Prova superamento stringa,Prova superamento stringa,Prova superamento stringa,Prova superamento stringa,Prova superamento stringa,Prova superamento stringa,Prova superamento stringa,Prova superamento stringa,Prova superamento stringa");
               
          try{
             instance.update(oldId,pub);
@@ -477,7 +445,7 @@ public class PublicationManagerTest {
     }
     
      @Test
-    public void testUpdateMinPublicationIssue() throws Exception {
+    public void testUpdateMinPublicationIssue(){
         int oldId = 2;
         pub.setIdPublication(2);
         pub.setTitle("Prova di pubblicazione");
@@ -492,11 +460,11 @@ public class PublicationManagerTest {
     }
     
     @Test
-    public void testUpdateMaxPublicationIssue() throws Exception {
+    public void testUpdateMaxPublicationIssue(){
         int oldId = 2;
         pub.setIdPublication(2);
         pub.setTitle("Prova di pubblicazione");
-        pub.setPublicationIssue(testsup100());
+        pub.setPublicationIssue("Prova superamento stringa,Prova superamento stringa,Prova superamento stringa,Prova superamento stringa,Prova superamento stringa,Prova superamento stringa,Prova superamento stringa,Prova superamento stringa,Prova superamento stringa,Prova superamento stringa,Prova superamento stringa,Prova superamento stringa,Prova superamento stringa");
               
          try{
              instance.update(oldId,pub);
@@ -507,7 +475,7 @@ public class PublicationManagerTest {
     }
     
     @Test
-    public void testUpdateMinYear() throws Exception {
+    public void testUpdateMinYear(){
         int oldId = 2;
         pub.setIdPublication(2);
         pub.setTitle("Prova di pubblicazione");
@@ -524,7 +492,7 @@ public class PublicationManagerTest {
     
     
     @Test
-    public void testUpdateMaxYear() throws Exception {
+    public void testUpdateMaxYear(){
         int oldId = 2;
         pub.setIdPublication(2);
         pub.setTitle("Prova di pubblicazione");
@@ -542,7 +510,7 @@ public class PublicationManagerTest {
     
     
     @Test
-    public void testUpdateMinNumberPages() throws Exception {
+    public void testUpdateMinNumberPages(){
         int oldId = 2;
         pub.setIdPublication(2);
         pub.setTitle("Prova di pubblicazione");
@@ -561,7 +529,7 @@ public class PublicationManagerTest {
     
     
     @Test
-    public void testUpdateMinLink() throws Exception {
+    public void testUpdateMinLink(){
         int oldId = 2;
         pub.setIdPublication(2);
         pub.setTitle("Prova di pubblicazione");
@@ -581,14 +549,14 @@ public class PublicationManagerTest {
     
     
     @Test
-    public void testUpdateMaxLink() throws Exception {
+    public void testUpdateMaxLink(){
          int oldId = 2;
         pub.setIdPublication(2);
         pub.setTitle("Prova di pubblicazione");
         pub.setPublicationIssue("Demo");
         pub.setYear("2015");
         pub.setNumberPages(240);
-        pub.setLink(testsup100());
+        pub.setLink("Prova superamento stringa,Prova superamento stringa,Prova superamento stringa,Prova superamento stringa,Prova superamento stringa,Prova superamento stringa,Prova superamento stringa,Prova superamento stringa,Prova superamento stringa,Prova superamento stringa,Prova superamento stringa,Prova superamento stringa,Prova superamento stringa");
               
          try{
            instance.update(oldId,pub);
@@ -600,7 +568,7 @@ public class PublicationManagerTest {
     
     
     @Test
-    public void testUpdateMinType() throws Exception {
+    public void testUpdateMinType(){
          int oldId = 2;
         pub.setIdPublication(2);
         pub.setTitle("Prova di pubblicazione");
@@ -619,7 +587,7 @@ public class PublicationManagerTest {
     }
     
     @Test
-    public void testUpdateMaxType() throws Exception {
+    public void testUpdateMaxType(){
         int oldId = 2;
         pub.setIdPublication(2);
         pub.setTitle("Prova di pubblicazione");
@@ -627,7 +595,7 @@ public class PublicationManagerTest {
         pub.setYear("2015");
         pub.setNumberPages(240);
         pub.setLink("www.unisa.org");
-        pub.setType(testsup100());
+        pub.setType("Prova superamento stringa,Prova superamento stringa,Prova superamento stringa,Prova superamento stringa,Prova superamento stringa,Prova superamento stringa,Prova superamento stringa,Prova superamento stringa,Prova superamento stringa,Prova superamento stringa,Prova superamento stringa,Prova superamento stringa,Prova superamento stringa");
               
          try{
           instance.update(oldId,pub);
@@ -639,7 +607,7 @@ public class PublicationManagerTest {
     
     
     @Test
-    public void testUpdateMinOtherAuthors() throws Exception {
+    public void testUpdateMinOtherAuthors(){
         int oldId = 2;
         pub.setIdPublication(2);
         pub.setTitle("Prova di pubblicazione");
@@ -660,7 +628,7 @@ public class PublicationManagerTest {
     
     
     @Test
-    public void testUpdateMaxOtherAuthors() throws Exception {
+    public void testUpdateMaxOtherAuthors(){
         int oldId = 2;
         pub.setIdPublication(2);
         pub.setTitle("Prova di pubblicazione");
@@ -669,7 +637,7 @@ public class PublicationManagerTest {
         pub.setNumberPages(240);
         pub.setLink("www.unisa.org");
         pub.setType("Prova");
-        pub.setAuthors(testsup100());
+        pub.setAuthors("Prova superamento stringa,Prova superamento stringa,Prova superamento stringa,Prova superamento stringa,Prova superamento stringa,Prova superamento stringa,Prova superamento stringa,Prova superamento stringa,Prova superamento stringa,Prova superamento stringa,Prova superamento stringa,Prova superamento stringa,Prova superamento stringa");
               
          try{
                instance.update(oldId,pub);
@@ -681,7 +649,7 @@ public class PublicationManagerTest {
     
     
     @Test
-    public void testUpdateMinAbstract() throws Exception {
+    public void testUpdateMinAbstract(){
         int oldId = 2;
         pub.setIdPublication(2);
         pub.setTitle("Prova di pubblicazione");
@@ -705,8 +673,8 @@ public class PublicationManagerTest {
     
     
     @Test
-    public void testDeleteMinIdPublication() throws Exception {
-        String id = testsup100();
+    public void testDeleteMinIdPublication(){
+        String id = null;
         try{
             instance.delete(id);
             fail("sono riuscito a fare l' op");
@@ -716,7 +684,7 @@ public class PublicationManagerTest {
     }
     
     @Test
-    public void testDeleteMaxIdPublication() throws Exception {
+    public void testDeleteMaxIdPublication(){
         String id = "24699994";
         try{
             instance.delete(id);
@@ -730,44 +698,40 @@ public class PublicationManagerTest {
     
     @Test
     public void testDeletePublicationok() throws Exception {
-        String id = "";
+        String id = "2";
         try{
             instance.delete(id);
-            fail("sono riuscito a fare l' op");
+            assertTrue(true);
         }catch(Exception x){
-            assertTrue(true);    
+             fail("sono riuscito a fare l' op");   
         }
     }
+    
+    @Test
+    public void testGetPublicationok() throws Exception {
+        int id = 2;
+        try{
+            instance.getPublicationById(id);
+            assertTrue(true);
+        }catch(Exception x){
+             fail("sono riuscito a fare l' op");   
+        }
+    }
+    
+    
+    @Test
+    public void testGetMinIdPublication() throws Exception {
+        int id = -2;
+        try{
+            instance.getPublicationById(id);
+            fail("sono riuscito a fare l' op"); 
+        }catch(Exception x){
+              assertTrue(true); 
+        }
+    }
+    
+    
+    
+    
    
-    
-    /////////////////////
-    
-    // metodi di utilità
-    
-    public Date convertStringToDate(String dateString) throws ParseException
-{
-    DateFormat df = new SimpleDateFormat ("dd/M/yyyy");
-    df.setLenient (false);
-    Date d = df.parse (dateString);
-    return d;
-}
-    private String testsup100() {
-        String c="dsdff";
-        for(int e=0; e<200; e++)
-            c=c.concat(c);
-        return c;
-    }
-    
-    private int testint(String str){
-    int num;
-    num = Integer.parseInt(str);
-    return num;
-    }
-    
-    private int supint100(){
-        int c=444;
-        
-        return c^36435356;
-    }
-      
 }

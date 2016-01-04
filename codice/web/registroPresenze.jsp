@@ -41,7 +41,8 @@
  
  
     <body class="page-body">
-  
+  <% //String asd=null;
+     // int dat=1; %>
         <div class="page-body">
             <jsp:include page="barraMenu.jsp"/>
  
@@ -52,17 +53,20 @@
                         <div class="col-sm-1"></div>
  
                         <div class="col-sm-10">
+                           
                             <div class="form-group">
- 
+ <form method="post" action="submit"> 
                                 <label  > Seleziona un corso</label>
-                                <select name="jam" class="form-control" id="Corsoprofessore"  onclick="selectedItem()" >
+                                <select name="jam" class="form-control" id="Corsoprofessore"  onchange="selectedItem()" >
 
                
                  <option value="default"  >  - selezionate il vostro  corso  -  </option>
 
-
-
                                 </select>
+           <%  //asd= request.getParameter("jam");
+       // dat=Integer.parseInt(asd.trim());
+                %>                     
+ </form>
                             </div>
                         </div>
  
@@ -80,10 +84,8 @@
                                 <div id="results" >
                                      <% 
  
-        
-              
-           
-                List<Lesson> missions = PresenceManager.getInstance().getAllLessonOf(1);
+      
+    List<Lesson> missions = PresenceManager.getInstance().getAllLessonOf(1);
 
             %>
             

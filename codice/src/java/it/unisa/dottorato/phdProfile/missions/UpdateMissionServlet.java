@@ -1,6 +1,12 @@
 package it.unisa.dottorato.phdProfile.missions;
 
 import it.unisa.dottorato.account.PhdStudent;
+import it.unisa.dottorato.exception.DateException;
+import it.unisa.dottorato.exception.DescriptionException;
+import it.unisa.dottorato.exception.IdException;
+import it.unisa.dottorato.exception.MissionException;
+import it.unisa.dottorato.exception.PlaceException;
+import it.unisa.dottorato.exception.ReferenceAttributeException;
 import java.io.IOException;
 import java.io.PrintWriter;
 import java.sql.SQLException;
@@ -12,6 +18,7 @@ import javax.servlet.http.HttpServlet;
 import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpServletResponse;
 import javax.servlet.http.HttpSession;
+import org.json.JSONException;
 import org.json.JSONObject;
 
 /**Servlet incaricata ad effettuare la richiesta di aggiornamento di una missione
@@ -34,11 +41,11 @@ public class UpdateMissionServlet extends HttpServlet {
      * @throws IOException if an I/O error occurs
      */
     protected void processRequest(HttpServletRequest request, HttpServletResponse response)
-            throws ServletException, IOException {
+            throws ServletException, IOException, JSONException, SQLException {
         response.setContentType("text/html;charset=UTF-8");
         JSONObject result = new JSONObject();
         PrintWriter out = response.getWriter();
-
+try{
         try {
             response.setContentType("text/html;charset=UTF-8");
             
@@ -63,16 +70,32 @@ public class UpdateMissionServlet extends HttpServlet {
             mission.setFkPhdstudent(loggedPerson.getfkAccount()); // da modificare ancora
             
             MissionManager.getInstance().update(missionID, mission);
+            result.put("result", true);
             
             out.println("<script type=\"text/javascript\">");
             out.println("alert('La missione è stata modificata.');");
             out.println("location='profileNuovo.jsp';");
             out.println("</script>");
-        } catch (SQLException | ClassNotFoundException ex) {
+        } catch (SQLException ex) {
+                Logger.getLogger(UpdateMissionServlet.class.getName()).log(Level.SEVERE, null, ex);
+                result.put("result", false);
+        }
+                
+                catch ( ClassNotFoundException | IdException | MissionException | DescriptionException | DateException | ReferenceAttributeException | PlaceException ex) {
             Logger.getLogger(UpdateMissionServlet.class.getName()).log(Level.SEVERE, null, ex);
+        }
+        
+        out.write(result.toString());
             
+            }
+        
+        catch (JSONException ex) {
+            Logger.getLogger(UpdateMissionServlet.class.getName()).log(Level.SEVERE, null, ex);
+        }
+        
+        
         } 
-    }
+    
 
     // <editor-fold defaultstate="collapsed" desc="HttpServlet methods. Click on the + sign on the left to edit the code.">
     /**
@@ -83,10 +106,16 @@ public class UpdateMissionServlet extends HttpServlet {
      * @throws ServletException if a servlet-specific error occurs
      * @throws IOException if an I/O error occurs
      */
-    @Override
+   @Override
     protected void doGet(HttpServletRequest request, HttpServletResponse response)
             throws ServletException, IOException {
-        processRequest(request, response);
+        try {
+            processRequest(request, response);
+        } catch (JSONException ex) {
+            Logger.getLogger(UpdateMissionServlet.class.getName()).log(Level.SEVERE, null, ex);
+        } catch (SQLException ex) {
+            Logger.getLogger(UpdateMissionServlet.class.getName()).log(Level.SEVERE, null, ex);
+        }
     }
 
     /**
@@ -100,7 +129,15 @@ public class UpdateMissionServlet extends HttpServlet {
     @Override
     protected void doPost(HttpServletRequest request, HttpServletResponse response)
             throws ServletException, IOException {
-        processRequest(request, response);
+      
+        try {
+            processRequest(request, response);
+        } catch (JSONException ex) {
+            Logger.getLogger(UpdateMissionServlet.class.getName()).log(Level.SEVERE, null, ex);
+        } catch (SQLException ex) {
+            Logger.getLogger(UpdateMissionServlet.class.getName()).log(Level.SEVERE, null, ex);
+        }
+      
     }
 
     /**

@@ -1,5 +1,6 @@
 package it.unisa.dottorato.phdProfile.publications;
 
+import it.unisa.dottorato.exception.IdException;
 import java.io.IOException;
 import java.io.PrintWriter;
 import java.sql.SQLException;
@@ -54,6 +55,8 @@ public class GetPublicationServlet extends HttpServlet {
                 result.put("fkPhdstudent", p.getFkPhdstudent());
                 out.write(result.toString());
             } catch (ClassNotFoundException | SQLException | JSONException ex) {
+                Logger.getLogger(GetPublicationServlet.class.getName()).log(Level.SEVERE, null, ex);
+            } catch (IdException ex) {
                 Logger.getLogger(GetPublicationServlet.class.getName()).log(Level.SEVERE, null, ex);
             }
         }

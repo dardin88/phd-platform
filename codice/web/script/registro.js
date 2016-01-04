@@ -4,7 +4,6 @@
  * and open the template in the editor.
  */
 
-
 $(document).ready(function () {
  
     getCorsoList();
@@ -27,39 +26,42 @@ function getCorsoList()
 }
 //metodo per chiamare tutt ele lezioni
 function selectedItem()
-{  $("#resultbody tr").remove();
+{
+    $("#resultbody tr").remove();
     selected = $("#Corsoprofessore option:selected").val();
-    if (selected !== "default") //se il valore della select è default non mostriamo il div contenente le informazioni delle date delle lezioni
-    { selected = $("#Corsoprofessore option:selected").val();
+    if (selected !== "default") //se il valore della select Ã¨ default non mostriamo il div contenente le informazioni delle date delle lezioni
+    {
+        selected = $("#Corsoprofessore option:selected").val();
         $("#panelDiv").show();
-    //metodo per stampare le date
-       $.getJSON("GetPresenceDottorandi",{idCourse:selected}, function (data) { 
-       $.each(data.presence, function (index,value) { 
-        dottorando="<tr id="+value.secondaryEmail+"> <td id="+value.secondaryEmail+" > "+ value.name +" "+value.surname+" </td>  </tr>";
-         $("#resultbody ").append(dottorando);
-            id= value.secondaryEmail;
-            
-    $.getJSON("GetPresenceToLesson",{idCourse:selected,fkPhdstudent:id}, function (data) { 
-       $.each(data.presence, function (index,balue) {
-        lezione= balue.fkLesson;
-        dottorandopre="<td> <input type='checkbox' value="+true+"   id=" +  id + " onclick='changePresenza(" + 'id' + ","+lezione +")' class='checkboxclass' ></td> ";
-           
-          
- $("#resultbody ").find('td:last').after(dottorandopre);
+        //metodo per stampare le date
+        $.getJSON("GetPresenceDottorandi", {idCourse: selected}, function (data) {
+            $.each(data.presence, function (index, value) {
+                dottorando = "<tr id=" + index + "> <td> " + value.name + " " + value.surname + " </td>  </tr>";
+                $("#resultbody ").append(dottorando);
+                id = value.secondaryEmail;
 
+                $.getJSON("GetPresenceToLesson", {idCourse: selected, fkPhdstudent: id}, function (data) {
+                    $.each(data.presence, function (index2, value2) {
+                        lezione = value2.fkLesson;
+                        dottorandopre = "<td> <input type='checkbox' value=" + true + "   id=" + id + " onclick='changePresenza(" + 'id' + "," + lezione + ")' class='checkboxclass'  ";
  
-    if(balue.isPresent==true){ $('.checkboxclass')[0].checked = true;}
-      
-    });
-    
-});
-
+                        if (value2.isPresent === true) {
+                            dottorandopre += "checked";
+                        }
+                       
+                        dottorandopre += "></td>";
+                        $("#" + index).append(dottorandopre);
+ 
+                    });
+ 
+                });
+ 
+            });
         });
-    });
-  
-      
-}
-
+ 
+ 
+    }
+ 
 }
 // metodo per mostrare i partecipanti a lezione
 
@@ -74,36 +76,41 @@ function changePresenza(id,lezione) {
     
 }
   
-function selectedItemdot(){
-   $("#resultbody tr").remove();
-    selected = $("#Corsoprofessore option:selected").val();
-    if (selected !== "default") //se il valore della select è default non mostriamo il div contenente le informazioni delle date delle lezioni
-    { selected = $("#Corsoprofessore option:selected").val();
-        $("#panelDiv").show();
-    //metodo per stampare le date
-       $.getJSON("GetPresenceDottorandi",{idCourse:selected}, function (data) { 
-       $.each(data.presence, function (index,value) { 
-        dottorando="<tr> <td id="+value.secondaryEmail+" > "+ value.name +" "+value.surname+" </td>  </tr>";
-            id= value.secondaryEmail;
-            
-    $.getJSON("GetPresenceToLesson",{idCourse:selected,fkPhdstudent:id}, function (data) { 
-       $.each(data.presence, function (index,value) {
-         
-        dottorandopre="<td> <input type='checkbox' value="+true+"   id=" +  value.fkPhdstudent + " onclick='changePresenza(" + 'id' + ")' class='checkboxclass' disabled></td> ";
-            
-           $("#resultbody ").append(dottorando).find('td:last').after(dottorandopre);
-    if(value.isPresent==true){ $('.checkboxclass')[0].checked = true;}
-      
-    });
-    
-});
-// dottorando="<tr > <td> "+ value.name+" </td>  <td>"+value.surname+"</td> <td> <input type='checkbox' value="+true+"   id=" +  value.fkPhdstudent + " onclick='changePresenza(" + 'id' + ")' ></td></tr>";
- //$("#resultbody").append(dottorando);
-   
-        });
-    });
+function selectedItemDot(){
   
-      
-}
+    $("#resultbody tr").remove();
+    selected = $("#Corsoprofessore option:selected").val();
+    if (selected !== "default") //se il valore della select Ã¨ default non mostriamo il div contenente le informazioni delle date delle lezioni
+    {
+        selected = $("#Corsoprofessore option:selected").val();
+        $("#panelDiv").show();
+        //metodo per stampare le date
+        $.getJSON("GetPresenceDottorandi", {idCourse: selected}, function (data) {
+            $.each(data.presence, function (index, value) {
+                dottorando = "<tr id=" + index + "> <td> " + value.name + " " + value.surname + " </td>  </tr>";
+                $("#resultbody ").append(dottorando);
+                id = value.secondaryEmail;
+ 
+                $.getJSON("GetPresenceToLesson", {idCourse: selected, fkPhdstudent: id}, function (data) {
+                    $.each(data.presence, function (index2, value2) {
+                        lezione = value2.fkLesson;
+                        dottorandopre = "<td> <input type='checkbox' value=" + true + "   id=" + id + "  class='checkboxclass'  ";
+ 
+                        if (value2.isPresent === true) {
+                            dottorandopre += "checked";
+                        }
+                       
+                        dottorandopre += " disabled></td>";
+                        $("#" + index).append(dottorandopre);
+ 
+                    });
+ 
+                });
+ 
+            });
+        });
+ 
+ 
+    }
 
 }

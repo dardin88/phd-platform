@@ -39,10 +39,10 @@ public class GetPresenceCourseServlet extends HttpServlet {
             JSONObject result = new JSONObject();
             try {
                String fkPhdStudent =request.getParameter("fkPhdstudent");
-               int idLesson=Integer.parseInt(request.getParameter("fkLesson")) ;
+               int idLesson=Integer.parseInt(request.getParameter("idCourse")) ;
              // Presence corso = PresenceManager.getInstance().getPresenceCourse(fkPhdStudent,idLesson);
-               boolean corso = PresenceManager.getInstance().getPresenceCourse(fkPhdStudent,idLesson);
-                result.put("corso", corso);
+               int corso = PresenceManager.getInstance().getPresenceCourse(fkPhdStudent,idLesson);
+                result.put("corso",corso);
                 out.write(result.toString());
             } catch (ClassNotFoundException | SQLException | JSONException ex) {
                 Logger.getLogger(GetPresenceListServlet.class.getName()).log(Level.SEVERE, null, ex);

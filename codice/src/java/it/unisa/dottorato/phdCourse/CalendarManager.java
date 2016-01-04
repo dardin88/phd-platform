@@ -556,13 +556,14 @@ public class CalendarManager {
      /** Metodo della classe incaricato di ritornare tutte le lezioni di un corso
       * dato il corso
       * 
-      * @param pCourse il corso da selezionare
+      * @param idcourse il corso da selezionare
       * @return restituisce una lista di lezioni presenti nel corso
       * @throws SQLException
       * @throws IdException 
       */
-      public synchronized List<Lesson> getAllLessonOf(int idcourse) throws SQLException, IdException { //da modificare dato Person
-        List<Lesson> lessons = new ArrayList<>();
+      public synchronized ArrayList<Lesson> getAllLessonOf(int idcourse) throws SQLException, IdException { //da modificare dato Person
+       Lesson lesson = new Lesson();
+          ArrayList<Lesson> lessons = new ArrayList<Lesson>();
         
         Connection connect = null;
         try {
@@ -582,7 +583,7 @@ public class CalendarManager {
             ResultSet result = Utility.queryOperation(connect, tSql);
 
             while (result.next()) {
-                Lesson lesson = new Lesson();
+                
                 
                 lesson.setIdLesson(result.getInt("idLesson"));
                 lesson.setDate(result.getDate("date"));
