@@ -147,6 +147,7 @@ public class CurriculumcicManager {
             DBConnection.releaseConnection(connect);
         }
     }
+    
      /**
      * Metodo della classe incaricato della cancellazione di un record
      * nella tabella curriculumcic
@@ -263,7 +264,7 @@ public class CurriculumcicManager {
              * Prepariamo la stringa SQL per effettuare la modifica alla 
              * tabella teach
              */
-           String tSql = "DELETE * FROM "
+           String tSql = "DELETE FROM "
                     + CurriculumcicManager.TABLE_TEACH
                     + " WHERE fkCurriculum = '"
                     + CurriculumManager.getInstance().testName(pCurriculumcic.getfkCurriculum())
@@ -309,8 +310,7 @@ public class CurriculumcicManager {
              * Prepariamo la stringa SQL per effettuare la modifica alla 
              * tabella phdstudent
              */
-            String tSql = "UPDATE phdstudent SET"
-                    + "fkCurriculum = '"
+            String tSql = "UPDATE phdstudent SET fkCurriculum = '"
                     + CurriculumManager.getInstance().testName(pCurriculumcic.getfkCurriculum())
                     + "',fkCycle = "
                     + CycleManager.getInstance().testNumber(pCurriculumcic.getfkCycle())

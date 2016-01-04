@@ -1,4 +1,4 @@
-
+ 
 package it.unisa.dottorato.phdProfile.collaborations;
 
 import it.unisa.dottorato.account.PhdStudent;
@@ -17,8 +17,6 @@ import java.sql.SQLException;
 import java.util.ArrayList;
 import java.util.Date;
 import java.util.List;
-import java.util.logging.Level;
-import java.util.logging.Logger;
 
 /**Classe per la gestione delle collaborazioni
  *
@@ -204,7 +202,7 @@ public class CollaborationManager {
      * @throws it.unisa.dottorato.exception.IdException 
      */
     public synchronized Collaboration getCollaborationById(int pCollaborationID) throws 
-            ClassNotFoundException, SQLException, IOException, IdException {
+            ClassNotFoundException, SQLException, IOException, IdException, Exception {
         Connection connect = null;
         Collaboration collaboration = new Collaboration();
         
@@ -232,6 +230,8 @@ public class CollaborationManager {
                 collaboration.setEndDate(result.getDate("endDate"));
                 collaboration.setIstitution(result.getString("istitution"));
                 collaboration.setFkPhdstudent(result.getString("fkPhdstudent"));
+            }else{
+                throw new Exception();
             }
         } finally {
             DBConnection.releaseConnection(connect);

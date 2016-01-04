@@ -19,6 +19,7 @@ import static org.junit.Assert.*;
 public class CollaborationManagerTest {
     private CollaborationManager instance;
     private Collaboration c;
+    
     public CollaborationManagerTest() {
     }
     
@@ -46,7 +47,7 @@ public class CollaborationManagerTest {
      */
     @Test
     public void testInsertOk(){
-        c.setDescription("prova");
+        c.setDescription("provainserimento");
         c.setEndDate(new Date(2016,10,05));
         c.setIstitution("Dipartimento di Informatica");
         c.setStartDate(new Date(2015,10,05));
@@ -217,8 +218,8 @@ public class CollaborationManagerTest {
      */
     @Test
     public void testUpdateOk(){
-        int old=1;
-        c.setDescription("prova");
+        int old=2;
+        c.setDescription("provamodifica");
         c.setEndDate(new Date(2016,10,05));
         c.setIstitution("Dipartimento di Informatica");
         c.setStartDate(new Date(2015,10,05));
@@ -451,7 +452,21 @@ public class CollaborationManagerTest {
      */
     @Test
     public void testDeleteOk(){
-        int idCollaboration = 1;
+        c.setDescription("provaicav");
+        c.setEndDate(new Date(2016,10,05));
+        c.setIstitution("Dipartimento di Informatica");
+        c.setStartDate(new Date(2015,10,05));
+        c.setFkPhdstudent("dinucci@hotmail.it");
+        try{
+            instance.insert(c);
+        }catch(Exception e){   
+        }
+        int n=0;
+        try{
+            n=instance.nextNumber()-1;
+        }catch(Exception e){   
+        }
+        int idCollaboration = n;
         try{
             instance.delete(idCollaboration);
             assertTrue(true);
@@ -507,7 +522,21 @@ public class CollaborationManagerTest {
      */
     @Test
     public void testGetCollaborationByIdok(){
-        int id = 1;
+        c.setDescription("provaicavdd");
+        c.setEndDate(new Date(2016,10,05));
+        c.setIstitution("Dipartimento di Informatica");
+        c.setStartDate(new Date(2015,10,05));
+        c.setFkPhdstudent("dinucci@hotmail.it");
+        try{
+            instance.insert(c);
+        }catch(Exception e){   
+        }
+        int n=0;
+        try{
+            n=instance.nextNumber()-1;
+        }catch(Exception e){   
+        }
+        int id = n;
         try{
             instance.getCollaborationById(id);
             assertTrue(true);

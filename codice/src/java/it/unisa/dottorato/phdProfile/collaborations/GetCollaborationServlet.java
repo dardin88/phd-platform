@@ -35,7 +35,7 @@ public class GetCollaborationServlet extends HttpServlet {
      */
     
     protected void processRequest(HttpServletRequest request, HttpServletResponse response)
-            throws ServletException, IOException, IdException {
+            throws ServletException, IOException, IdException, Exception {
         response.setContentType("text/html;charset=UTF-8");
         try (PrintWriter out = response.getWriter()) {
             int collId = Integer.parseInt(request.getParameter("idCollaboration"));
@@ -71,6 +71,8 @@ public class GetCollaborationServlet extends HttpServlet {
             processRequest(request, response);
         } catch (IdException ex) {
             Logger.getLogger(GetCollaborationServlet.class.getName()).log(Level.SEVERE, null, ex);
+        } catch (Exception ex) {
+            Logger.getLogger(GetCollaborationServlet.class.getName()).log(Level.SEVERE, null, ex);
         }
     }
 
@@ -88,6 +90,8 @@ public class GetCollaborationServlet extends HttpServlet {
         try {
             processRequest(request, response);
         } catch (IdException ex) {
+            Logger.getLogger(GetCollaborationServlet.class.getName()).log(Level.SEVERE, null, ex);
+        } catch (Exception ex) {
             Logger.getLogger(GetCollaborationServlet.class.getName()).log(Level.SEVERE, null, ex);
         }
     }

@@ -23,7 +23,7 @@ isAdministrator		boolean default false);
 
 -- popolo la tabella degli account
 INSERT INTO account (secondaryEmail,email,surname,name,password,typeAccount,isAdministrator )VALUES
-('test@hotmail.it',null, 'Rossi', 'Mario', null,null,false),
+('test@hotmail.it','rossi@unisa.it', 'Rossi', 'Mario', 'test','basic',false),
 ('ballo@hotmail.it','ballo@unisa.it', 'Conti','Carlo', 'test1','phdstudent',false),
 ('wrestler@hotmail.it','wrestler@unisa.it', 'Cena', 'John', 'test3','professor',false),
 ('dracula@hotmail.it','dracula@unisa.it', 'Conte', 'Dracula', 'test4','professor',true),
@@ -162,7 +162,7 @@ INSERT INTO curriculumcic (fkCurriculum,fkCycle,fkProfessor)VALUES
 
 
 create table if not exists teach(
-fkCurriculum 		varchar(100),
+fkCurriculum                    varchar(100),
 fkCycle				integer,
 fkProfessor			varchar(50),
 primary key (fkCurriculum,fkCycle,fkProfessor),
