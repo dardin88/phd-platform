@@ -1,5 +1,6 @@
 package it.unisa.dottorato.phdProfile.publications;
 
+import it.unisa.dottorato.exception.IdException;
 import java.io.IOException;
 import java.io.PrintWriter;
 import java.sql.SQLException;
@@ -50,6 +51,8 @@ public class DeletePublicationServlet extends HttpServlet {
                 PublicationManager.getInstance().delete(idPublication);
             } catch (ClassNotFoundException | SQLException ex) {
                 result.put("result", false);
+                Logger.getLogger(DeletePublicationServlet.class.getName()).log(Level.SEVERE, null, ex);
+            } catch (IdException ex) {
                 Logger.getLogger(DeletePublicationServlet.class.getName()).log(Level.SEVERE, null, ex);
             }
 

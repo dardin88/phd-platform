@@ -66,7 +66,7 @@ public class PublicationManager {
      * @param pPublication la nuova pubblicazione da inserire
      * @throws SQLException 
      */
-    public synchronized void insert(Publication pPublication) throws SQLException, IOException {
+    public synchronized void insert(Publication pPublication) throws SQLException, IOException ,PublicationException , TitleException , PublicationIssueException , YearException , NumberPageException , ReferenceException , LinkException , TypeException , OtherAuthorsException , pAbstractException , IdException{
         try (Connection connect = DBConnection.getConnection()) {
 
             testPublication(pPublication);
@@ -78,7 +78,7 @@ public class PublicationManager {
                     + PublicationManager.TABLE_PUBLICATION
                     + " (idPublication,title, publicationIssue, year, numberPage, link, type, otherAuthors, abstract, fkPhdstudent)"
                     + " VALUES ("
-                    + testId(nextNumber())
+                    + testId(pPublication.getIdPublication())
                     + ",'"
                     + Utility.Replace(PublicationManager.getInstance().testTitle(pPublication.getTitle()))
                     + "','"
@@ -104,29 +104,7 @@ public class PublicationManager {
             Utility.executeOperation(connect, tSql);
 
             connect.commit();
-        } catch (PublicationException ex) {
-            Logger.getLogger(PublicationManager.class.getName()).log(Level.SEVERE, null, ex);
-        } catch (TitleException ex) {
-            Logger.getLogger(PublicationManager.class.getName()).log(Level.SEVERE, null, ex);
-        } catch (PublicationIssueException ex) {
-            Logger.getLogger(PublicationManager.class.getName()).log(Level.SEVERE, null, ex);
-        } catch (YearException ex) {
-            Logger.getLogger(PublicationManager.class.getName()).log(Level.SEVERE, null, ex);
-        } catch (NumberPageException ex) {
-            Logger.getLogger(PublicationManager.class.getName()).log(Level.SEVERE, null, ex);
-        } catch (ReferenceException ex) {
-            Logger.getLogger(PublicationManager.class.getName()).log(Level.SEVERE, null, ex);
-        } catch (LinkException ex) {
-            Logger.getLogger(PublicationManager.class.getName()).log(Level.SEVERE, null, ex);
-        } catch (TypeException ex) {
-            Logger.getLogger(PublicationManager.class.getName()).log(Level.SEVERE, null, ex);
-        } catch (OtherAuthorsException ex) {
-            Logger.getLogger(PublicationManager.class.getName()).log(Level.SEVERE, null, ex);
-        } catch (pAbstractException ex) {
-            Logger.getLogger(PublicationManager.class.getName()).log(Level.SEVERE, null, ex);
-        } catch (IdException ex) {
-            Logger.getLogger(PublicationManager.class.getName()).log(Level.SEVERE, null, ex);
-        }
+        } 
     }
 
     /** Metodo della classe incaricato di aggiornare una pubblicazione
@@ -137,7 +115,7 @@ public class PublicationManager {
      * @throws SQLException
      * @throws IOException 
      */
-    public synchronized void update(int oldPublicationID, Publication pPublication) throws ClassNotFoundException, SQLException, IOException {
+    public synchronized void update(int oldPublicationID, Publication pPublication) throws ClassNotFoundException, SQLException, IOException,IdException ,PublicationException , TitleException , PublicationIssueException , YearException , NumberPageException , LinkException , TypeException , OtherAuthorsException , pAbstractException {
         try (Connection connect = DBConnection.getConnection()) {
             
             testId(oldPublicationID);
@@ -172,27 +150,7 @@ public class PublicationManager {
             Utility.executeOperation(connect, tSql);
 
             connect.commit();
-        } catch (IdException ex) {
-            Logger.getLogger(PublicationManager.class.getName()).log(Level.SEVERE, null, ex);
-        } catch (PublicationException ex) {
-            Logger.getLogger(PublicationManager.class.getName()).log(Level.SEVERE, null, ex);
-        } catch (TitleException ex) {
-            Logger.getLogger(PublicationManager.class.getName()).log(Level.SEVERE, null, ex);
-        } catch (PublicationIssueException ex) {
-            Logger.getLogger(PublicationManager.class.getName()).log(Level.SEVERE, null, ex);
-        } catch (YearException ex) {
-            Logger.getLogger(PublicationManager.class.getName()).log(Level.SEVERE, null, ex);
-        } catch (NumberPageException ex) {
-            Logger.getLogger(PublicationManager.class.getName()).log(Level.SEVERE, null, ex);
-        } catch (LinkException ex) {
-            Logger.getLogger(PublicationManager.class.getName()).log(Level.SEVERE, null, ex);
-        } catch (TypeException ex) {
-            Logger.getLogger(PublicationManager.class.getName()).log(Level.SEVERE, null, ex);
-        } catch (OtherAuthorsException ex) {
-            Logger.getLogger(PublicationManager.class.getName()).log(Level.SEVERE, null, ex);
-        } catch (pAbstractException ex) {
-            Logger.getLogger(PublicationManager.class.getName()).log(Level.SEVERE, null, ex);
-        }
+        } 
     }
  
     /** Metodo della classe incaricato di cancellare una pubblicazione
@@ -202,7 +160,7 @@ public class PublicationManager {
      * @throws SQLException
      * @throws IOException 
      */
-    public synchronized void delete(String idPublication) throws ClassNotFoundException, SQLException, IOException {
+    public synchronized void delete(String idPublication) throws ClassNotFoundException, SQLException, IOException,IdException {
         Connection connect = null;
         try {
             // Otteniamo una Connessione al DataBase
@@ -223,8 +181,6 @@ public class PublicationManager {
             Utility.executeOperation(connect, tSql);
 
             connect.commit();
-        } catch (IdException ex) {
-            Logger.getLogger(PublicationManager.class.getName()).log(Level.SEVERE, null, ex);
         } finally {
             DBConnection.releaseConnection(connect);
         }
@@ -238,7 +194,7 @@ public class PublicationManager {
      * @throws SQLException
      * @throws IOException 
      */
-    public synchronized Publication getPublicationById(int pPublicationID) throws ClassNotFoundException, SQLException, IOException {
+    public synchronized Publication getPublicationById(int pPublicationID) throws ClassNotFoundException, SQLException, IOException,IdException {
         Connection connect = null;
         Publication publication = new Publication();
         try {
@@ -272,9 +228,7 @@ public class PublicationManager {
                 publication.setFkPhdstudent(result.getString("fkPhdstudent"));
             }
 
-        } catch (IdException ex) {
-            Logger.getLogger(PublicationManager.class.getName()).log(Level.SEVERE, null, ex);
-        } finally {
+        }  finally {
             DBConnection.releaseConnection(connect);
         }
         return publication;

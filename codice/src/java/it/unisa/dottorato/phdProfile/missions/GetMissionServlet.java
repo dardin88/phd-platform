@@ -1,5 +1,6 @@
 package it.unisa.dottorato.phdProfile.missions;
 
+import it.unisa.dottorato.exception.IdException;
 import java.io.IOException;
 import java.io.PrintWriter;
 import java.sql.SQLException;
@@ -49,7 +50,7 @@ public class GetMissionServlet extends HttpServlet {
                 result.put("place", m.getPlace());
                 result.put("fkPhdstudent", m.getFkPhdstudent());
                 out.write(result.toString());
-            } catch (ClassNotFoundException | SQLException | JSONException ex) {
+            } catch (ClassNotFoundException | SQLException | JSONException | IdException ex) {
                 Logger.getLogger(GetMissionServlet.class.getName()).log(Level.SEVERE, null, ex);
             }
         }
