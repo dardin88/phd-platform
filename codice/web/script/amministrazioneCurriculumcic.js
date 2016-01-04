@@ -105,6 +105,28 @@ function addCycleButton()
     $("#coordinatoreDiv").hide();
     $("#curriculumsDiv").hide();
     $("#divPanelAddORModify").show();
+    
+     $("#cycleTitle").html("Aggiunta di un nuovo ciclo");
+     $("#cycleYear").html("");
+     $("#cycleDescription").val("");
+     
+     $("#saveCycle").click(function () {
+         alert("hai clickato salva");
+         alert($("#cycleDescription").val());
+         alert($("#cycleYear").val());
+                    // Invio dati alla servlet per l'inserimento del ciclo
+                    $.getJSON("InsertCycle",
+                            {description: $("#cycleDescription").val(),year: $("#cycleYear").val()}, function(data) {
+                                alert("siamo nella servlet");
+                                
+                                /*$("#descriptionPanel").hide();
+                                 $("#CurriculumList option").remove();
+                               
+                                getCycleList();
+                                selectedItem();*/
+                           });
+                });
+   
 }
 
 function viewCollegio()

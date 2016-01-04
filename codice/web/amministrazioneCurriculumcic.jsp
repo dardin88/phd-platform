@@ -78,7 +78,8 @@
                             </div>
                             <div class="panel-footer" style="background-color: transparent">
                                   <button type="button" class="btn btn-large btn-block " onclick="viewCollegio()">
-                                        Visualizza il colleggio docenti
+                                      Visualizza il colleggio docenti
+                                      <span class="glyphicon glyphicon-arrow-right" aria-hidden="true"></span>
                                   </button>
                               </div>  
                         </div>
@@ -113,7 +114,7 @@
                         <div class="panel panel-default" id="divPanelAddORModify" hidden>
                             <div class="panel-heading">
                                 <button type="button" class="close" id="buttonCloseCurriculumDialog" onclick="closeModifyORaddDiv()" >&times;</button>
-                                <h2 id="phdCurriculumTitle"></h2>
+                                <h2 id="cycleTitle"></h2>
                             </div>
                             <div class="panel-body">
 
@@ -122,10 +123,10 @@
 
                                     <!-- Campo di testo relativo all'anno di un ciclo -->
                                     <div class="form-group">
-                                        <label>Nome:</label>
+                                        <label>Anno:</label>
                                         <div class="input-group">
                                             <span class="input-group-addon"></span>
-                                            <input type="text" id="phdCurriculumName" class="form-control" name="name" placeholder="Inserisci l'anno del diclo" pattern="[a-z]+" required/>
+                                            <input type="number" id="cycleYear" class="form-control" name="name" placeholder="Inserisci l'anno del diclo"  required/>
                                         </div>
                                     </div>
 
@@ -134,7 +135,7 @@
                                         <label>Descrizione:</label>
                                         <div class="input-group">
                                             <span class="input-group-addon"></span>
-                                            <textarea id="phdCurriculumDescription" rows="10" class="form-control" name="description" placeholder="Inserisci la descrizione del ciclo"></textarea>
+                                            <textarea id="cycleDescription" rows="10" class="form-control" name="description" placeholder="Inserisci la descrizione del ciclo"></textarea>
                                         </div>
                                     </div>
 
@@ -142,7 +143,7 @@
 
                                     <!-- Pulsanti di invio e reset del form -->
                                     <div class="form-group">
-                                        <input type="button" id="savePhdCurriculum" class="btn btn-blue" value="Salva"> 
+                                        <input type="button" id="saveCycle" class="btn btn-blue" value="Salva"> 
                                         <input type="reset" id="resetCurriculumButton" class="btn btn-white" value="Reset">
                                     </div>
                                 </form >
