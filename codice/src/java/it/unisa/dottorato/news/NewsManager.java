@@ -56,8 +56,12 @@ private static final String TABLE_News = "news";
      * 
      * @param anews news da inserire
      * @throws SQLException 
+     * @throws it.unisa.dottorato.exception.IdException 
+     * @throws it.unisa.dottorato.exception.TitleException 
+     * @throws it.unisa.dottorato.exception.DescriptionException 
+     * @throws java.io.IOException 
      */
-    public void insertNews(News anews) throws SQLException{
+    public void insertNews(News anews) throws SQLException,IdException,TitleException,DescriptionException,IOException {
         //connessione al database
         Connection connect = DBConnection.getConnection();
      try {
@@ -68,30 +72,20 @@ private static final String TABLE_News = "news";
              String tSql = "INSERT INTO "
                     + NewsManager.TABLE_News
                     + " (idNews,title,description)"
-                    + " VALUES ('"
+                    + " VALUES ("
                     + testid(nextNumber())
-                    + "','"
+                    + ",'"
                     + Utility.Replace(testTitle(anews.getTitle()))
                     + "','"
                     + Utility.Replace(testDescription(anews.getDescription()))
-                    + "'"
-                     + ")";      
+                    + "')";      
             
             System.out.println(tSql);
             //esecuzione query
             Statement stmt = connect.createStatement();
             stmt.executeUpdate(tSql);
             connect.commit();
-        }
-    catch (IdException ex) {
-        Logger.getLogger(NewsManager.class.getName()).log(Level.SEVERE, null, ex);
-    } catch (TitleException ex) {
-        Logger.getLogger(NewsManager.class.getName()).log(Level.SEVERE, null, ex);
-    } catch (DescriptionException ex) {
-        Logger.getLogger(NewsManager.class.getName()).log(Level.SEVERE, null, ex);
-    } catch (IOException ex) {
-        Logger.getLogger(NewsManager.class.getName()).log(Level.SEVERE, null, ex);
-    }         finally {
+        }finally {
             DBConnection.releaseConnection(connect);
         }
     }
@@ -104,7 +98,8 @@ private static final String TABLE_News = "news";
      * @throws ConnectionException
      * @throws ClassNotFoundException 
      */
-    public News getNewsById(int aidnews) throws SQLException, ConnectionException,ClassNotFoundException{
+    public News getNewsById(int aidnews) throws 
+            SQLException, ConnectionException,ClassNotFoundException,IdException{
         Statement stmt = null;
         ResultSet rs = null;
         Connection connection = null;
@@ -136,10 +131,7 @@ private static final String TABLE_News = "news";
                 anews.setDescription(rs.getString("description"));
             }
             
-        } catch (IdException ex) {
-        Logger.getLogger(NewsManager.class.getName()).log(Level.SEVERE, null, ex);
-    } finally {
-
+        }finally {
             DBConnection.releaseConnection(connection);
         }
 
@@ -148,9 +140,11 @@ private static final String TABLE_News = "news";
     /**Metodo della classe incaricato di cancellare una news dato il suo id
      *
      * @param aidnews l'id della news da cancellare
+     * @throws it.unisa.dottorato.exception.IdException
+     * @throws java.sql.SQLException
      * 
      */
-   public synchronized void deleteNews(int aidnews) {
+   public synchronized void deleteNews(int aidnews)throws IdException,SQLException {
         Connection connect = null;
         try {
             //connessione al database
@@ -169,11 +163,7 @@ private static final String TABLE_News = "news";
             Utility.executeOperation(connect, tSql);
 
             connect.commit();
-        } catch (IdException ex) {
-        Logger.getLogger(NewsManager.class.getName()).log(Level.SEVERE, null, ex);
-    } catch (SQLException ex) {
-        Logger.getLogger(NewsManager.class.getName()).log(Level.SEVERE, null, ex);
-    } finally {
+        }finally {
             DBConnection.releaseConnection(connect);
         }
     }
@@ -188,9 +178,16 @@ private static final String TABLE_News = "news";
     * @throws ClassNotFoundException
     * @throws SQLException
     * @throws IOException 
+     * @throws it.unisa.dottorato.exception.IdException 
+     * @throws it.unisa.dottorato.exception.TitleException 
+     * @throws it.unisa.dottorato.exception.DescriptionException 
     */
-   public synchronized void update_news(int oldNewsId, News pNews) throws ClassNotFoundException, SQLException, IOException{
-         try (Connection connect = DBConnection.getConnection()) {
+   public synchronized void update_news(int oldNewsId, News pNews) throws 
+           ClassNotFoundException, SQLException, IOException, IdException, TitleException,DescriptionException {
+            Connection connect = null;
+            try {
+            //connessione al database
+            connect = DBConnection.getConnection();
 
             /*
              *stringa SQL per effettuare l'aggiornamento nella 
@@ -203,16 +200,14 @@ private static final String TABLE_News = "news";
                     + "', description = '"
                     +Utility.Replace(testDescription(pNews.getDescription()))
                     + "' WHERE idNews = "
-                    + oldNewsId;           
+                    + testid(oldNewsId);           
             //esecuzione query
             Utility.executeOperation(connect, tSql);
 
             connect.commit();
-        } catch (TitleException ex) {
-        Logger.getLogger(NewsManager.class.getName()).log(Level.SEVERE, null, ex);
-    } catch (DescriptionException ex) {
-        Logger.getLogger(NewsManager.class.getName()).log(Level.SEVERE, null, ex);
-    }
+        }finally {
+            DBConnection.releaseConnection(connect);
+        }
     }
 
     /** Metodo della classe incaricato di visualizzare tutte le news 

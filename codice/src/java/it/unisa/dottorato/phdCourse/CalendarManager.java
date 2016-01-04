@@ -8,7 +8,6 @@ import it.unisa.dottorato.exception.NameException;
 import it.unisa.dottorato.utility.Utility;
 import it.unisa.integrazione.database.DBConnection;
 import it.unisa.integrazione.database.exception.ConnectionException;
-//import it.unisa.integrazione.model.Person;
 import java.io.IOException;
 import java.sql.Connection;
 import java.sql.ResultSet;
@@ -65,9 +64,12 @@ public class CalendarManager {
      * @param pCourse il nuovo corso da inserire
      * @throws SQLException 
      */
-    public synchronized void insert_course(Course pCourse) throws SQLException {
-        try (Connection connect = DBConnection.getConnection()) {
-
+    public synchronized void insert_course(Course pCourse) throws SQLException ,IdException , DescriptionException , NameException , DateException,CourseException{
+       
+         Connection connect = null;
+        try  {
+                    connect = DBConnection.getConnection();
+                    testCourse(pCourse);
             /*
              * Prepariamo la stringa SQL per inserire un nuovo record 
              * nella tabella course
@@ -78,28 +80,26 @@ public class CalendarManager {
                     + " VALUES ("
                     + testid(pCourse.getIdCourse())
                     + ",'"
-                    + Utility.Replace(testName(pCourse.getFK_curriculum()))
+                    + testName(pCourse.getFK_curriculum())
                     + "',"
                     + testid(pCourse.getFK_cycle())
                     + ",'"
-                    + Utility.Replace(testName(pCourse.getName()))
+                    +testName(pCourse.getName())
                      + "','"
-                    + Utility.Replace(testDescription(pCourse.getDescription())) 
+                    +(testDescription(pCourse.getDescription()))
                     + "','"
                     + testStartData(pCourse.getStartDate())
                     + "','"
                     + testEndData(pCourse.getEndDate()) 
                     + "')";
 
-            System.out.println("La query: " +tSql);
-            //Inviamo la Query al DataBase
+             //Inviamo la Query al DataBase
             Utility.executeOperation(connect, tSql);
 
             connect.commit();
-        } catch (IdException | DescriptionException | NameException | DateException ex) {
-            Logger.getLogger(CalendarManager.class.getName()).log(Level.SEVERE, null, ex);
+        } finally {
+            DBConnection.releaseConnection(connect);
         }
-        
     }
     
     /** Metodo della classe incaricato di inserire una nuova lezione
@@ -107,7 +107,7 @@ public class CalendarManager {
      * @param pLesson la nuova lezione da inserire
      * @throws SQLException 
      */
-    public synchronized void insert_lesson(Lesson pLesson) throws SQLException {
+    public synchronized void insert_lesson(Lesson pLesson) throws SQLException,IdException , DescriptionException , DateException, NameException , ClassroomException {
         try (Connection connect = DBConnection.getConnection()) {
 
             /*
@@ -144,8 +144,6 @@ public class CalendarManager {
             Utility.executeOperation(connect, tSql);
 
             connect.commit();
-        } catch (IdException | DescriptionException | DateException| NameException | ClassroomException ex) {
-            Logger.getLogger(CalendarManager.class.getName()).log(Level.SEVERE, null, ex);
         } 
     }
     
@@ -155,7 +153,7 @@ public class CalendarManager {
     * @param pSeminar il nuovo seminario da inserire
     * @throws SQLException 
     */
-    public synchronized void insert_seminar(Seminar pSeminar) throws SQLException {
+    public synchronized void insert_seminar(Seminar pSeminar) throws SQLException,IdException , NameException , PlaceException , DescriptionException , SpeakerException , DateException{
         try (Connection connect = DBConnection.getConnection()) {
 
             /*
@@ -190,8 +188,6 @@ public class CalendarManager {
             Utility.executeOperation(connect, tSql);
 
             connect.commit();
-        } catch (IdException | NameException | PlaceException | DescriptionException | SpeakerException | DateException ex) {
-            Logger.getLogger(CalendarManager.class.getName()).log(Level.SEVERE, null, ex);
         }
     }
     
@@ -204,7 +200,7 @@ public class CalendarManager {
      * @throws SQLException
      * @throws IOException 
      */
-     public synchronized void update_lesson(int oldLessonID, Lesson pLesson) throws ClassNotFoundException, SQLException, IOException {
+     public synchronized void update_lesson(int oldLessonID, Lesson pLesson) throws ClassNotFoundException, SQLException, IOException,IdException , NameException , ClassroomException , DescriptionException , DateException {
         try (Connection connect = DBConnection.getConnection()) {
 
             /*
@@ -241,9 +237,7 @@ public class CalendarManager {
             Utility.executeOperation(connect, tSql);
 
             connect.commit();
-        } catch (IdException | NameException | ClassroomException | DescriptionException | DateException ex) {
-            Logger.getLogger(CalendarManager.class.getName()).log(Level.SEVERE, null, ex);
-        }
+        } 
     }
      
      
@@ -255,7 +249,7 @@ public class CalendarManager {
       * @throws SQLException
       * @throws IOException 
       */
-     public synchronized void update_seminar(int oldSeminarID, Seminar pSeminar) throws ClassNotFoundException, SQLException, IOException {
+     public synchronized void update_seminar(int oldSeminarID, Seminar pSeminar) throws ClassNotFoundException, SQLException, IOException,IdException , DescriptionException , NameException , SpeakerException , PlaceException , DateException {
         try (Connection connect = DBConnection.getConnection()) {
 
             /*
@@ -290,16 +284,6 @@ public class CalendarManager {
             Utility.executeOperation(connect, tSql);
 
             connect.commit();
-        } catch (IdException | DescriptionException ex) {
-            Logger.getLogger(CalendarManager.class.getName()).log(Level.SEVERE, null, ex);
-        } catch (NameException ex) {
-            Logger.getLogger(CalendarManager.class.getName()).log(Level.SEVERE, null, ex);
-        } catch (SpeakerException ex) {
-            Logger.getLogger(CalendarManager.class.getName()).log(Level.SEVERE, null, ex);
-        } catch (PlaceException ex) {
-            Logger.getLogger(CalendarManager.class.getName()).log(Level.SEVERE, null, ex);
-        }catch (DateException ex) {
-            Logger.getLogger(CalendarManager.class.getName()).log(Level.SEVERE, null, ex);
         } 
     }
      
@@ -311,7 +295,7 @@ public class CalendarManager {
       * @throws SQLException
       * @throws IOException 
       */
-     public synchronized void delete_lesson(String idLesson) throws ClassNotFoundException, SQLException, IOException {
+     public synchronized void delete_lesson(String idLesson) throws ClassNotFoundException, SQLException, IOException,IdException {
         Connection connect = null;
         try {
             // Otteniamo una Connessione al DataBase
@@ -330,8 +314,6 @@ public class CalendarManager {
             Utility.executeOperation(connect, tSql);
 
             connect.commit();
-        }catch (IdException ex) {
-            Logger.getLogger(CalendarManager.class.getName()).log(Level.SEVERE, null, ex);
         }finally {
             DBConnection.releaseConnection(connect);
         }
@@ -345,7 +327,7 @@ public class CalendarManager {
       * @throws SQLException
       * @throws IOException 
       */
-     public synchronized void delete_seminar(String idSeminar) throws ClassNotFoundException, SQLException, IOException {
+     public synchronized void delete_seminar(String idSeminar) throws ClassNotFoundException, SQLException, IOException,IdException {
         Connection connect = null;
         try {
             // Otteniamo una Connessione al DataBase
@@ -364,9 +346,7 @@ public class CalendarManager {
             Utility.executeOperation(connect, tSql);
 
             connect.commit();
-        } catch (IdException ex) {
-            Logger.getLogger(CalendarManager.class.getName()).log(Level.SEVERE, null, ex);
-        } finally {
+        }  finally {
             DBConnection.releaseConnection(connect);
         }
     }
@@ -698,7 +678,7 @@ public class CalendarManager {
        * @throws IdException 
        */
       public int testid(int id) throws IdException {
-        if(id<0){
+        if(id<0||id>6){
             throw new IdException("l'id non puo' essere minore di 0");
         }
        else return id;
@@ -725,7 +705,7 @@ public class CalendarManager {
         * @throws DescriptionException 
         */
     private String testDescriptionLesson(String description) throws DescriptionException {
-        if(description.equals(null)){
+        if(description.isEmpty()){
             
             throw new DescriptionException("la descrizione e' sbagliata"); 
         }
@@ -740,7 +720,7 @@ public class CalendarManager {
         * @throws DescriptionException 
         */
     public String seminarTestDescription(String description) throws DescriptionException{
-         if(description.equals(null)){
+         if(description.isEmpty()){
             
             throw new DescriptionException("la descrizione e' sbagliata"); 
         }
@@ -796,7 +776,7 @@ public class CalendarManager {
      * @throws NameException 
      */
       public String testNomeLesson(String name) throws NameException{
-         if(name.equals(null)&&name.length()>70){
+         if(name.isEmpty()||name.length()>70){
             
             throw new NameException("il nome  e' sbagliato"); 
         }
@@ -811,7 +791,7 @@ public class CalendarManager {
      * @throws NameException 
      */
     private String testNomeSeminar(String name)throws NameException{
-         if(name.equals(null)&&name.length()>70){
+         if(name.isEmpty()||name.length()>70){
             
             throw new NameException("il nome  e' sbagliato"); 
         }
@@ -826,7 +806,7 @@ public class CalendarManager {
      * @throws PlaceException 
      */
     private String testPlaceSeminar(String name)throws PlaceException{
-         if(name.equals(null)&&name.length()>50){
+         if(name.isEmpty()|| name.length()>50){
             
             throw new PlaceException("il posto e' sbagliato"); 
         }
@@ -841,7 +821,7 @@ public class CalendarManager {
      * @throws SpeakerException 
      */
     private String testSpeakerSeminar(String nameSpeacker) throws SpeakerException{
-        if(nameSpeacker.equals(null)&&nameSpeacker.length()>50){
+        if(nameSpeacker.isEmpty() || nameSpeacker.length()>50){
             
             throw new  SpeakerException("il posto e' sbagliato"); 
         }
@@ -856,7 +836,7 @@ public class CalendarManager {
      * @throws ClassroomException 
      */
     private String testClassroom(String classroom) throws ClassroomException {
-      if(classroom.equals(null)&&classroom.length()>50){
+      if(classroom.isEmpty() || classroom.length()>50){
             
             throw new  ClassroomException ("la classe e' sbagliato"); 
         }
@@ -876,7 +856,11 @@ public class CalendarManager {
         }
          return data;   
     }
-     
+     public void testCourse (Course c) throws CourseException {
+        if (c == null) {
+            throw new CourseException();
+        }
+    }
     
 }
 

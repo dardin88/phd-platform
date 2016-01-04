@@ -1,6 +1,11 @@
 package it.unisa.dottorato.phdProfile.collaborations;
 
 import it.unisa.dottorato.account.PhdStudent;
+import it.unisa.dottorato.exception.CollaborationException;
+import it.unisa.dottorato.exception.DescriptionException;
+import it.unisa.dottorato.exception.IdException;
+import it.unisa.dottorato.exception.IstitutionException;
+import it.unisa.dottorato.exception.ReferenceException;
 import java.io.IOException;
 import java.io.PrintWriter;
 import java.sql.SQLException;
@@ -36,7 +41,7 @@ public class UpdateCollaborationServlet extends HttpServlet {
      * @throws IOException if an I/O error occurs
      */
     protected void processRequest(HttpServletRequest request, HttpServletResponse response)
-            throws ServletException, IOException {
+            throws ServletException, IOException, ReferenceException, DescriptionException, IstitutionException, IdException, CollaborationException, Exception {
 
         JSONObject result = new JSONObject();
         PrintWriter out = response.getWriter();
@@ -96,7 +101,19 @@ public class UpdateCollaborationServlet extends HttpServlet {
     @Override
     protected void doGet(HttpServletRequest request, HttpServletResponse response)
             throws ServletException, IOException {
-        processRequest(request, response);
+        try {
+            processRequest(request, response);
+        } catch (DescriptionException ex) {
+            Logger.getLogger(UpdateCollaborationServlet.class.getName()).log(Level.SEVERE, null, ex);
+        } catch (IstitutionException ex) {
+            Logger.getLogger(UpdateCollaborationServlet.class.getName()).log(Level.SEVERE, null, ex);
+        } catch (IdException ex) {
+            Logger.getLogger(UpdateCollaborationServlet.class.getName()).log(Level.SEVERE, null, ex);
+        } catch (CollaborationException ex) {
+            Logger.getLogger(UpdateCollaborationServlet.class.getName()).log(Level.SEVERE, null, ex);
+        } catch (Exception ex) {
+            Logger.getLogger(UpdateCollaborationServlet.class.getName()).log(Level.SEVERE, null, ex);
+        }
     }
 
     /**
@@ -110,7 +127,19 @@ public class UpdateCollaborationServlet extends HttpServlet {
     @Override
     protected void doPost(HttpServletRequest request, HttpServletResponse response)
             throws ServletException, IOException {
-        processRequest(request, response);
+        try {
+            processRequest(request, response);
+        } catch (DescriptionException ex) {
+            Logger.getLogger(UpdateCollaborationServlet.class.getName()).log(Level.SEVERE, null, ex);
+        } catch (IstitutionException ex) {
+            Logger.getLogger(UpdateCollaborationServlet.class.getName()).log(Level.SEVERE, null, ex);
+        } catch (IdException ex) {
+            Logger.getLogger(UpdateCollaborationServlet.class.getName()).log(Level.SEVERE, null, ex);
+        } catch (CollaborationException ex) {
+            Logger.getLogger(UpdateCollaborationServlet.class.getName()).log(Level.SEVERE, null, ex);
+        } catch (Exception ex) {
+            Logger.getLogger(UpdateCollaborationServlet.class.getName()).log(Level.SEVERE, null, ex);
+        }
     }
 
     /**

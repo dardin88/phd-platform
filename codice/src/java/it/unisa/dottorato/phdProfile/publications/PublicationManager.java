@@ -500,7 +500,7 @@ public class PublicationManager {
         try (Connection connect = DBConnection.getConnection()) {
             String tSql = "SELECT idPublication FROM "
                     + PublicationManager.TABLE_PUBLICATION
-                    + "ORDER BY idPublication DESC LIMIT 1";
+                    + " ORDER BY idPublication DESC LIMIT 1";
             //Inviamo la Query al DataBase
              ResultSet result = Utility.queryOperation(connect, tSql);
             if(result.next()){

@@ -417,9 +417,9 @@ public class MissionManager {
         
        
         try (Connection connect = DBConnection.getConnection()) {
-            String tSql = "SELECT number FROM "
+            String tSql = "SELECT idMission FROM "
                     + MissionManager.TABLE_MISSION
-                    + "ORDER BY idMission DESC LIMIT 1";
+                    + " ORDER BY idMission DESC LIMIT 1";
             //Inviamo la Query al DataBase
              ResultSet result = Utility.queryOperation(connect, tSql);
             if(result.next()){

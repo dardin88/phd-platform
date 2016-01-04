@@ -57,15 +57,17 @@ jinCalendar.getScheduleDate = function() {
                 var startDate = (dataInizio.substring(0,4))+(dataInizio.substring(8,10));
                 var startDay =(dataInizio.substring(5,7));
                 var startDay = parseInt(startDay);
-                
-               
+                var inizio = value1.startTime;
+                inizio=inizio.toString();
+                var fine = value1.endTime;
+                fine = fine.toString()
                //oggetto lezione
                 testObj2 = [{
                     yyyymm : startDate,
                     day : startDay,
                     type : '1',
                     title: 'Lezione di '+value1.name + ' classe: '+value1.classroom ,
-                    text : value1.description + 'Inizio Lezione: '+value1.startTime + ' Fine lezione: '+value1.endTime
+                    text : value1.description + '--- Inizio Lezione: '+ inizio + ' Fine lezione: '+fine
                 }];
                 
                 

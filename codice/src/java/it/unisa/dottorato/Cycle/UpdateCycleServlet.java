@@ -35,9 +35,13 @@ public class UpdateCycleServlet extends HttpServlet {
      * @param response servlet response
      * @throws ServletException if a servlet-specific error occurs
      * @throws IOException if an I/O error occurs
+     * @throws it.unisa.dottorato.Cycle.CycleException
+     * @throws it.unisa.dottorato.exception.IdException
+     * @throws it.unisa.dottorato.exception.DateException
+     * @throws it.unisa.dottorato.exception.DescriptionException
      */
     protected void processRequest(HttpServletRequest request, HttpServletResponse response)
-            throws ServletException, IOException, CycleException, IdException, DateException, DescriptionException {
+            throws ServletException, IOException, CycleException, IdException, DateException, DescriptionException, Exception {
         response.setContentType("text/html;charset=UTF-8");
         PrintWriter out = response.getWriter();
         try {
@@ -93,6 +97,8 @@ public class UpdateCycleServlet extends HttpServlet {
             Logger.getLogger(UpdateCycleServlet.class.getName()).log(Level.SEVERE, null, ex);
         } catch (DescriptionException ex) {
             Logger.getLogger(UpdateCycleServlet.class.getName()).log(Level.SEVERE, null, ex);
+        } catch (Exception ex) {
+            Logger.getLogger(UpdateCycleServlet.class.getName()).log(Level.SEVERE, null, ex);
         }
     }
 
@@ -116,6 +122,8 @@ public class UpdateCycleServlet extends HttpServlet {
         } catch (DateException ex) {
             Logger.getLogger(UpdateCycleServlet.class.getName()).log(Level.SEVERE, null, ex);
         } catch (DescriptionException ex) {
+            Logger.getLogger(UpdateCycleServlet.class.getName()).log(Level.SEVERE, null, ex);
+        } catch (Exception ex) {
             Logger.getLogger(UpdateCycleServlet.class.getName()).log(Level.SEVERE, null, ex);
         }
     }

@@ -134,7 +134,7 @@ public class AccountManager {
                         account.setSurname(rs.getString("surname"));
                         account.setEmail(rs.getString("email"));
                         account.setSecondaryEmail(rs.getString("secondaryEmail"));
-                        account.setAdmin(false);
+                        account.setAdmin(rs.getBoolean("isAdministrator"));
                         return account;
             }
             
@@ -237,7 +237,7 @@ public class AccountManager {
                         account.setSurname(rs.getString("surname"));
                         account.setEmail(rs.getString("email"));
                         account.setSecondaryEmail(rs.getString("secondaryEmail"));
-                        account.setAdmin(false);
+                        account.setAdmin(rs.getBoolean("isAdministrator"));
                         accounts.add(account);
                         break;
                     default:
@@ -416,8 +416,10 @@ public class AccountManager {
         try {
             conn = DBConnection.getConnection();
             stmt = conn.createStatement();
+            System.out.println(sql);
             
-            stmt.executeQuery(sql);
+            stmt.execute(sql);
+            conn.commit();
         } finally {
             DBConnection.releaseConnection(conn);
         }

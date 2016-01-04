@@ -1,6 +1,10 @@
 package it.unisa.dottorato.phdCourse;
 
 import it.unisa.dottorato.account.Professor;
+import it.unisa.dottorato.exception.DateException;
+import it.unisa.dottorato.exception.DescriptionException;
+import it.unisa.dottorato.exception.IdException;
+import it.unisa.dottorato.exception.NameException;
 import java.io.IOException;
 import java.io.PrintWriter;
 import java.sql.SQLException;
@@ -37,12 +41,12 @@ public class UpdateSeminarServlet extends HttpServlet {
      * @throws IOException if an I/O error occurs
      */
     protected void processRequest(HttpServletRequest request, HttpServletResponse response)
-            throws ServletException, IOException {
+            throws ServletException, IOException,IdException , DescriptionException , NameException , SpeakerException , PlaceException , DateException {
 
         JSONObject result = new JSONObject();
         PrintWriter out = response.getWriter();
 
-        try {
+        
             try {
                 response.setContentType("text/html;charset=UTF-8");
 
@@ -71,23 +75,22 @@ public class UpdateSeminarServlet extends HttpServlet {
                 seminar.setPlace((place));
                 seminar.setFK_course(Integer.parseInt(course));
 
-                CalendarManager.getInstance().update_seminar(seminarID, seminar);
-                result.put("result", true);
+                 result.put("result", true);
 
-                out.println("<script type=\"text/javascript\">");
-                out.println("alert('Il seminario è stato modificato');");
-                out.println("location='collaborationActivity.jsp';"); // da modificare la locazione
-                out.println("</script>");
-            } catch (SQLException ex) {
-                Logger.getLogger(UpdateSeminarServlet.class.getName()).log(Level.SEVERE, null, ex);
+            try {
+                CalendarManager.getInstance().update_seminar(seminarID, seminar);
+
+            } catch (ClassNotFoundException | SQLException ex) {
                 result.put("result", false);
-            } catch (ClassNotFoundException ex) {
-                Logger.getLogger(UpdateSeminarServlet.class.getName()).log(Level.SEVERE, null, ex);
-            } 
+                Logger.getLogger(UpdateLessonServlet.class.getName()).log(Level.SEVERE, null, ex);
+            }
+
             out.write(result.toString());
 
         } catch (JSONException ex) {
-            Logger.getLogger(UpdateSeminarServlet.class.getName()).log(Level.SEVERE, null, ex);
+            Logger.getLogger(UpdateLessonServlet.class.getName()).log(Level.SEVERE, null, ex);
+        } finally {
+            out.close();
         }
     }
 
@@ -103,7 +106,21 @@ public class UpdateSeminarServlet extends HttpServlet {
     @Override
     protected void doGet(HttpServletRequest request, HttpServletResponse response)
             throws ServletException, IOException {
-        processRequest(request, response);
+        
+        try {
+            processRequest(request, response);
+        } catch (IdException | NameException | DateException ex) {
+            Logger.getLogger(AddLessonServlet.class.getName()).log(Level.SEVERE, null, ex);
+        }
+        catch (DescriptionException ex) {
+            Logger.getLogger(AddCourseServlet.class.getName()).log(Level.SEVERE, null, ex);
+        }
+         catch (PlaceException ex) {
+             Logger.getLogger(AddSeminarServlet.class.getName()).log(Level.SEVERE, null, ex);
+         } catch (SpeakerException ex) {
+             Logger.getLogger(AddSeminarServlet.class.getName()).log(Level.SEVERE, null, ex);
+         }
+       
     }
 
     /**
@@ -117,7 +134,19 @@ public class UpdateSeminarServlet extends HttpServlet {
     @Override
     protected void doPost(HttpServletRequest request, HttpServletResponse response)
             throws ServletException, IOException {
-        processRequest(request, response);
+       try {
+            processRequest(request, response);
+        } catch (IdException | NameException | DateException ex) {
+            Logger.getLogger(AddLessonServlet.class.getName()).log(Level.SEVERE, null, ex);
+        }
+        catch (DescriptionException ex) {
+            Logger.getLogger(AddCourseServlet.class.getName()).log(Level.SEVERE, null, ex);
+        }
+         catch (PlaceException ex) {
+             Logger.getLogger(AddSeminarServlet.class.getName()).log(Level.SEVERE, null, ex);
+         } catch (SpeakerException ex) {
+             Logger.getLogger(AddSeminarServlet.class.getName()).log(Level.SEVERE, null, ex);
+         }
     }
 
     /**

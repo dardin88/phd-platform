@@ -116,7 +116,7 @@ public class PresenceManager {
                     + PresenceManager.TABLE_Lesson
                     + " WHERE fkCourse = "
                     + testid(idcourse) 
-                    + " order by lesson.date"; 
+                    + " order by date"; 
 
             //Inviamo la Query al DataBase
             ResultSet result = Utility.queryOperation(connect, tSql);
@@ -247,20 +247,19 @@ public class PresenceManager {
        ArrayList<Account> classList = new ArrayList <Account>();
     
         try {
-         
-          
-            // Otteniamo una Connessione al DataBase
+        // Otteniamo una Connessione al DataBase
             connect = DBConnection.getConnection();
 
             /*
              * Prepariamo la stringa SQL per la ricerca dei record 
              * nella tabella presence
            */
-            String tSql = "SELECT account.name, account.surname " +
-        "FROM presence, account, lesson " +
+            String tSql = "SELECT  account.name, account.surname, account.secondaryEmail" +
+        " FROM presence, account, lesson " +
         " where presence.fkPhdstudent = account.secondaryEmail " +
          " and presence.fkLesson = lesson.idLesson " +
-          " and lesson.fkCourse =  " +testid(idCorso) +" group by account.secondaryEmail" ;
+          " and lesson.fkCourse="+testid(idCorso)+
+          " group by account.secondaryEmail" ;
             //Inviamo la Query al DataBase
             ResultSet result = Utility.queryOperation(connect, tSql);
 
@@ -270,7 +269,7 @@ public class PresenceManager {
               
                    corso.setName(result.getString("name"));
                   corso.setSurname(result.getString("surname"));
-              
+                 corso.setSecondaryEmail(result.getString("secondaryEmail"));
 
                 classList.add(corso);
             }
@@ -293,15 +292,13 @@ public class PresenceManager {
    * @throws IOException
    * @throws IdException 
    */
-   public synchronized ArrayList<TestClass> getPresenceToLesson(String dottorando,int idCorso) throws ClassNotFoundException, SQLException, IOException, IdException {
+   public synchronized ArrayList<Presence> getPresenceToLesson(String dottorando,int idCorso) throws ClassNotFoundException, SQLException, IOException, IdException {
          Connection connect = null;
        Lesson corso = null ;
        Presence presente= null;
-       TestClass contiene=null;
-      ArrayList <TestClass> contenitore=new ArrayList<TestClass>();
-      // ArrayList<Presence> classList = new ArrayList <Presence>();
-       // ArrayList<Lesson> classLesson= new ArrayList <Lesson>();
-         Map<String,ArrayList<Presence>> map =new HashMap();
+      ArrayList<Presence> classList = new ArrayList <Presence>();
+        ArrayList<Lesson> classLesson= new ArrayList <Lesson>();
+         Map< ArrayList<Lesson>,ArrayList<Presence>> map =new HashMap();
        
          try {
          
@@ -313,11 +310,11 @@ public class PresenceManager {
              * Prepariamo la stringa SQL per la ricerca dei record 
              * nella tabella presence
            */
-            String tSql = "SELECT presence.fkPhdstudent, lesson.idLesson, "
-                    + "lesson.date, presence.isPresent " +
+            String tSql = "SELECT  presence.isPresent, presence.fkLesson " +
                " FROM presence, lesson " +
            " where presence.fkLesson = lesson.idLesson " +
-            "and lesson.fkCourse = "  +testid(idCorso) +"and presence.fkPhdstudent = '"+testDottorando(dottorando) 
+            "and lesson.fkCourse ="+testid(idCorso) +" and presence.fkPhdstudent = '"
+                    +testDottorando(dottorando) 
              +"' order by date" ;
             //Inviamo la Query al DataBase
             ResultSet result = Utility.queryOperation(connect, tSql);
@@ -325,16 +322,15 @@ public class PresenceManager {
        while (result.next()) {
                 presente =new Presence();
                 presente.setIsPresent(result.getBoolean("isPresent"));
-                presente.setFkPhdstudent(result.getString("fkPhdstudent"));             
+                presente.setFkLesson(result.getInt("fkLesson"));
+            
                
                 
-                corso = new Lesson();
-             corso.setDate(result.getDate("date"));
-                  corso.setIdLesson(result.getInt("idLesson"));
-              contiene.setClassLesson(corso);
+             classList.add(presente);
+                  /*  contiene.setClassLesson(corso);
               contiene.setClassList(presente);
 
-                contenitore.add(contiene);
+                contenitore.add(contiene);*/
             }
 
            
@@ -343,59 +339,16 @@ public class PresenceManager {
       }  finally {
             DBConnection.releaseConnection(connect);
         }
-        return contenitore;
+        return classList;
         
     }
   
-   /**  Metodo della classe incaricato di ritornare la lista delle presenze di una lezione
-    * dato il suo id
-    * 
-    * @param lesson l'id della lezione
-    * @return restituisce un array list di presenze, lancia un'eccezione altrimenti
-    * @throws SQLException 
-    */
-   public synchronized ArrayList<Presence> getPresence(int lesson) throws SQLException, IdException{
-       Connection connect = null;
-        try {
-            ArrayList<Presence> classList = new ArrayList<Presence>();
-          Presence registro;
-            // Otteniamo una Connessione al DataBase
-            connect = DBConnection.getConnection();
-
-            /*
-             * Prepariamo la stringa SQL per la ricerca dei record 
-             * nella tabella presence
-             */
-             String tSql = "SELECT  presence.fkPhdstudent, presence.isPresent "
-       + "from presence where "
-+ "  presence.fkLesson= "+ testid(lesson) + " group by presence.fkPhdstudent";
-           
-             
-            //Inviamo la Query al DataBase
-            ResultSet result = Utility.queryOperation(connect, tSql);
-
-            while (result.next()) {
-                 registro = new Presence();
-                 
-                  registro.setFkPhdstudent(result.getString("fkPhdstudent"));
-                 registro.setIsPresent(result.getBoolean("isPresent"));
-
-                classList.add(registro);
-            }
-
-            return classList;
-
-        } finally {
-            DBConnection.releaseConnection(connect);
-        }
-   }
-   
    /**  Metodo della classe incaricato di modificare una presenza
     *  @param dottorando
     *  @param  idLesson
     * @throws IdException
     */
-   public void modifyPresence(String dottorando,int idLesson ) throws SQLException, ExceptionPermissionDenied, PhdStudentexception {
+   public void modifyPresence(String dottorando,int idLesson ) throws SQLException, PhdStudentexception {
        try (Connection connect = DBConnection.getConnection()) {
           
      /*

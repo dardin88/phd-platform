@@ -6,16 +6,8 @@
 package it.unisa.dottorato.Cycle;
 
 import it.unisa.dottorato.Curriculum.Curriculum;
-import it.unisa.dottorato.Curriculum.CurriculumException;
 import it.unisa.dottorato.Curriculum.CurriculumManager;
-import it.unisa.dottorato.account.Professor;
 import it.unisa.dottorato.curriculumcic.Curriculumcic;
-import it.unisa.dottorato.curriculumcic.CurriculumcicException;
-import it.unisa.dottorato.exception.DescriptionException;
-import it.unisa.dottorato.exception.IdException;
-import it.unisa.dottorato.exception.NameException;
-import java.io.IOException;
-import java.sql.SQLException;
 import java.util.ArrayList;
 import java.util.logging.Level;
 import java.util.logging.Logger;
@@ -464,7 +456,7 @@ public class CycleManagerTest {
      */
     @Test
     public void testDeleteCycleOk(){
-        int number = 17;
+        int number = 16;
         try{
             instance.deleteCycle(number);
             assertTrue(true);
@@ -590,8 +582,8 @@ public class CycleManagerTest {
     @Test
     public void testGetCyclesListNumersOk(){
         try{
-           ArrayList<Integer> result = instance.getCyclesListNumers();
-           assertNotNull(result);
+           instance.getCyclesListNumers();
+            assertTrue(true);
         }catch(Exception e){
             fail("non sono riuscito a fare l' op");
         }
@@ -604,8 +596,8 @@ public class CycleManagerTest {
     public void testViewCollegeCycleOk(){
         int number = 15;
         try{
-            ArrayList<Professor> result = instance.viewCollegeCycle(number);
-            assertNotNull(result);
+            instance.viewCollegeCycle(number);
+            assertTrue(true);
         }catch(Exception e){
             fail("non sono riuscito a fare l' op");
         }
@@ -658,17 +650,8 @@ public class CycleManagerTest {
      */
     @Test
     public void testInsertCurriculumcicOk(){
-        CurriculumManager curr=CurriculumManager.getInstance();
-        Curriculum x=new Curriculum();
-        x.setName("prova20");
-        x.setDescription("descrprova");
-        try {
-            curr.insert(x);
-        } catch (Exception ex) {
-            Logger.getLogger(CycleManagerTest.class.getName()).log(Level.SEVERE, null, ex);
-        }
         Curriculumcic pCurriculumcic = new Curriculumcic();
-        pCurriculumcic.setfkCurriculum("prova20");
+        pCurriculumcic.setfkCurriculum("Marketing e Comunicazione");
         pCurriculumcic.setfkCycle(15);
         try{
             instance.insertCurriculumcic(pCurriculumcic);
@@ -779,7 +762,7 @@ public class CycleManagerTest {
      * Test of insertCurriculumcic method, of class CycleManager.
      */
     @Test
-    public void testInsertCurriculumcicCurriculumcicExists(){
+    public void testInsertCurriculumcicExists(){
         Curriculumcic pCurriculumcic = new Curriculumcic();
         pCurriculumcic.setfkCurriculum("Informatica, Sistemi Informativi e Tecnologie del Software");
         pCurriculumcic.setfkCycle(15);
@@ -796,16 +779,8 @@ public class CycleManagerTest {
      */
     @Test
     public void testDeleteCurriculumcicOk(){
-        Curriculumcic pCurriculumcic = new Curriculumcic();
-        pCurriculumcic.setfkCurriculum("Marketing e Comunicazione");
-        pCurriculumcic.setfkCycle(15);
-        try {
-            instance.insertCurriculumcic(pCurriculumcic);
-        } catch (Exception ex) {
-            Logger.getLogger(CycleManagerTest.class.getName()).log(Level.SEVERE, null, ex);
-        }
         int fkCycle = 15;
-        String fkCurriculum = "Marketing e Comunicazione";
+        String fkCurriculum = "Informatica, Sistemi Informativi e Tecnologie del Software";
         try{
             instance.deleteCurriculumcic(fkCycle, fkCurriculum);
             assertTrue(true);

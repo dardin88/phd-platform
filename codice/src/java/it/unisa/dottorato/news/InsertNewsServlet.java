@@ -2,6 +2,9 @@ package it.unisa.dottorato.news;
 
 
 
+import it.unisa.dottorato.exception.DescriptionException;
+import it.unisa.dottorato.exception.IdException;
+import it.unisa.dottorato.exception.TitleException;
 import java.io.IOException;
 import java.io.PrintWriter;
 import java.sql.SQLException;
@@ -35,7 +38,7 @@ public class InsertNewsServlet extends HttpServlet {
      * @throws IOException if an I/O error occurs
      */
     protected void processRequest(HttpServletRequest request, HttpServletResponse response)
-            throws ServletException, IOException {
+            throws ServletException, IOException, IdException, TitleException, DescriptionException {
 
          try {
             response.setContentType("text/html;charset=UTF-8");
@@ -86,7 +89,15 @@ public class InsertNewsServlet extends HttpServlet {
     protected void doGet(HttpServletRequest request, HttpServletResponse response)
             throws ServletException, IOException {
        
+        try {
             processRequest(request, response);
+        } catch (IdException ex) {
+            Logger.getLogger(InsertNewsServlet.class.getName()).log(Level.SEVERE, null, ex);
+        } catch (TitleException ex) {
+            Logger.getLogger(InsertNewsServlet.class.getName()).log(Level.SEVERE, null, ex);
+        } catch (DescriptionException ex) {
+            Logger.getLogger(InsertNewsServlet.class.getName()).log(Level.SEVERE, null, ex);
+        }
         
     }
 
@@ -102,7 +113,15 @@ public class InsertNewsServlet extends HttpServlet {
     protected void doPost(HttpServletRequest request, HttpServletResponse response)
             throws ServletException, IOException {
         
+        try {
             processRequest(request, response);
+        } catch (IdException ex) {
+            Logger.getLogger(InsertNewsServlet.class.getName()).log(Level.SEVERE, null, ex);
+        } catch (TitleException ex) {
+            Logger.getLogger(InsertNewsServlet.class.getName()).log(Level.SEVERE, null, ex);
+        } catch (DescriptionException ex) {
+            Logger.getLogger(InsertNewsServlet.class.getName()).log(Level.SEVERE, null, ex);
+        }
         
     }
 

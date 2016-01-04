@@ -45,7 +45,7 @@ public class CollaborationManagerTest {
      * Test of insert method, of class CollaborationManager.
      */
     @Test
-    public void testInsertOk() throws Exception {
+    public void testInsertOk(){
         c.setDescription("prova");
         c.setEndDate(new Date(2016,10,05));
         c.setIstitution("Dipartimento di Informatica");
@@ -61,10 +61,9 @@ public class CollaborationManagerTest {
     
     /**
      * Test of insert method, of class CollaborationManager.
-     * @throws java.lang.Exception
      */
     @Test
-    public void testInsertDescriptionNull() throws Exception {
+    public void testInsertDescriptionNull(){
         c.setDescription(null);
         c.setEndDate(new Date(2016,10,05));
         c.setIstitution("Dipartimento di Informatica");
@@ -79,28 +78,9 @@ public class CollaborationManagerTest {
     
     /**
      * Test of insert method, of class CollaborationManager.
-     * @throws java.lang.Exception
      */
     @Test
-    public void testInsertDescriptionMax() throws Exception {
-        c.setDescription(testsup65536());
-        c.setEndDate(new Date(2016,10,05));
-        c.setIstitution("Dipartimento di Informatica");
-        c.setStartDate(new Date(2015,10,05));
-        try{
-            instance.insert(c);
-            fail("sono riuscito a fare l' op");
-        }catch(Exception e){
-            assertTrue(true);
-        }
-     }
-    
-    /**
-     * Test of insert method, of class CollaborationManager.
-     * @throws java.lang.Exception
-     */
-    @Test
-    public void testInsertEndDateNull() throws Exception {
+    public void testInsertEndDateNull(){
         c.setDescription("prova");
         c.setEndDate(null);
         c.setIstitution("Dipartimento di Informatica");
@@ -115,10 +95,9 @@ public class CollaborationManagerTest {
     
     /**
      * Test of insert method, of class CollaborationManager.
-     * @throws java.lang.Exception
      */
     @Test
-    public void testInsertEndDateMax() throws Exception {
+    public void testInsertEndDateMax(){
         c.setDescription("prova");
         c.setEndDate(new Date(2012225,10,05));
         c.setIstitution("Dipartimento di Informatica");
@@ -133,10 +112,9 @@ public class CollaborationManagerTest {
     
     /**
      * Test of insert method, of class CollaborationManager.
-     * @throws java.lang.Exception
      */
     @Test
-    public void testInsertEndDateMin() throws Exception {
+    public void testInsertEndDateMin(){
         c.setDescription("prova");
         c.setEndDate(new Date(225,10,05));
         c.setIstitution("Dipartimento di Informatica");
@@ -150,10 +128,9 @@ public class CollaborationManagerTest {
      }
      /**
      * Test of insert method, of class CollaborationManager.
-     * @throws java.lang.Exception
      */
     @Test
-    public void testInsertStartDateNull() throws Exception {
+    public void testInsertStartDateNull(){
         c.setDescription("prova");
         c.setEndDate(new Date(2015,10,05));
         c.setIstitution("Dipartimento di Informatica");
@@ -168,10 +145,9 @@ public class CollaborationManagerTest {
     
     /**
      * Test of insert method, of class CollaborationManager.
-     * @throws java.lang.Exception
      */
     @Test
-    public void testInsertStartDateMax() throws Exception {
+    public void testInsertStartDateMax(){
         c.setDescription("prova");
         c.setEndDate(new Date(2025,10,05));
         c.setIstitution("Dipartimento di Informatica");
@@ -186,10 +162,9 @@ public class CollaborationManagerTest {
     
     /**
      * Test of insert method, of class CollaborationManager.
-     * @throws java.lang.Exception
      */
     @Test
-    public void testInsertStartDateMin() throws Exception {
+    public void testInsertStartDateMin(){
         c.setDescription("prova");
         c.setEndDate(new Date(2005,10,05));
         c.setIstitution("Dipartimento di Informatica");
@@ -204,10 +179,9 @@ public class CollaborationManagerTest {
     
     /**
      * Test of insert method, of class CollaborationManager.
-     * @throws java.lang.Exception
      */
     @Test
-    public void testInsertIstitutionNull() throws Exception {
+    public void testInsertIstitutionNull(){
         c.setDescription("prova");
         c.setEndDate(new Date(2005,10,05));
         c.setIstitution(null);
@@ -222,10 +196,9 @@ public class CollaborationManagerTest {
     
     /**
      * Test of insert method, of class CollaborationManager.
-     * @throws java.lang.Exception
      */
     @Test
-    public void testInsertIstitutionMax() throws Exception {
+    public void testInsertIstitutionMax(){
         c.setDescription("prova");
         c.setEndDate(new Date(2005,10,05));
         c.setIstitution("qqwertyuiopqqwertyuiopqqwertyuiopqqwertyuiopqqwertyuiop"
@@ -238,28 +211,12 @@ public class CollaborationManagerTest {
             assertTrue(true);
         }
      }
-    
-
+   
     /**
      * Test of update method, of class CollaborationManager.
      */
     @Test
-    public void testUpdate() throws Exception {
-        System.out.println("update");
-        int oldCollaborationID = 0;
-        Collaboration pCollaboration = null;
-        CollaborationManager instance = null;
-        instance.update(oldCollaborationID, pCollaboration);
-        // TODO review the generated test code and remove the default call to fail.
-        fail("The test case is a prototype.");
-    }
-    
-    
-    /**
-     * Test of update method, of class CollaborationManager.
-     */
-    @Test
-    public void testUpdateOk() throws Exception {
+    public void testUpdateOk(){
         int old=1;
         c.setDescription("prova");
         c.setEndDate(new Date(2016,10,05));
@@ -275,10 +232,9 @@ public class CollaborationManagerTest {
     
      /**
      * Test of update method, of class CollaborationManager.
-     * @throws java.lang.Exception
      */
     @Test
-    public void testUpdateIdMin() throws Exception {
+    public void testUpdateIdMin(){
         int old=-8;
         c.setDescription("prova");
         c.setEndDate(new Date(2016,10,05));
@@ -294,10 +250,9 @@ public class CollaborationManagerTest {
     
      /**
      * Test of update method, of class CollaborationManager.
-     * @throws java.lang.Exception
      */
     @Test
-    public void testUpdateIdMax() throws Exception {
+    public void testUpdateIdMax(){
         int old=98989898;
         c.setDescription("prova");
         c.setEndDate(new Date(2016,10,05));
@@ -313,10 +268,9 @@ public class CollaborationManagerTest {
     
      /**
      * Test of update method, of class CollaborationManager.
-     * @throws java.lang.Exception
      */
     @Test
-    public void testUpdateIdnotExists() throws Exception {
+    public void testUpdateIdnotExists(){
         int old=8989;
         c.setDescription("prova");
         c.setEndDate(new Date(2016,10,05));
@@ -332,10 +286,9 @@ public class CollaborationManagerTest {
     
     /**
      * Test of update method, of class CollaborationManager.
-     * @throws java.lang.Exception
      */
     @Test
-    public void testUpdateDescriptionNull() throws Exception {
+    public void testUpdateDescriptionNull(){
         int old=1;
         c.setDescription(null);
         c.setEndDate(new Date(2016,10,05));
@@ -351,29 +304,9 @@ public class CollaborationManagerTest {
 
     /**
      * Test of update method, of class CollaborationManager.
-     * @throws java.lang.Exception
      */
     @Test
-    public void testUpdateDescriptionMax() throws Exception {
-        int old=1;
-        c.setDescription(testsup65536());
-        c.setEndDate(new Date(2016,10,05));
-        c.setIstitution("Dipartimento di Informatica");
-        c.setStartDate(new Date(2015,10,05));
-        try{
-            instance.update(old,c);
-            fail("sono riuscito a fare l' op");
-        }catch(Exception e){
-            assertTrue(true);
-        }
-     }
-    
-    /**
-     * Test of update method, of class CollaborationManager.
-     * @throws java.lang.Exception
-     */
-    @Test
-    public void testUpdateEndDateNull() throws Exception {
+    public void testUpdateEndDateNull(){
         int old=1;
         c.setDescription("prova");
         c.setEndDate(null);
@@ -389,10 +322,9 @@ public class CollaborationManagerTest {
     
     /**
      * Test of update method, of class CollaborationManager.
-     * @throws java.lang.Exception
      */
     @Test
-    public void testUpdateEndDateMax() throws Exception {
+    public void testUpdateEndDateMax(){
         int old=1;
         c.setDescription("prova");
         c.setEndDate(new Date(2012225,10,05));
@@ -408,10 +340,9 @@ public class CollaborationManagerTest {
     
     /**
      * Test of update method, of class CollaborationManager.
-     * @throws java.lang.Exception
      */
     @Test
-    public void testUpdateEndDateMin() throws Exception {
+    public void testUpdateEndDateMin(){
         int old=1;
         c.setDescription("prova");
         c.setEndDate(new Date(225,10,05));
@@ -426,10 +357,9 @@ public class CollaborationManagerTest {
      }
      /**
      * Test of update method, of class CollaborationManager.
-     * @throws java.lang.Exception
      */
     @Test
-    public void testUpdateStartDateNull() throws Exception {
+    public void testUpdateStartDateNull(){
         int old=1;
         c.setDescription("prova");
         c.setEndDate(new Date(2015,10,05));
@@ -445,11 +375,10 @@ public class CollaborationManagerTest {
     
     /**
      * Test of update method, of class CollaborationManager.
-     * @throws java.lang.Exception
      */
     @Test
-    public void testUpdateStartDateMax() throws Exception {
-        int old=1;
+    public void testUpdateStartDateMax(){
+        int old=2;
         c.setDescription("prova");
         c.setEndDate(new Date(2025,10,05));
         c.setIstitution("Dipartimento di Informatica");
@@ -464,10 +393,9 @@ public class CollaborationManagerTest {
     
     /**
      * Test of update method, of class CollaborationManager.
-     * @throws java.lang.Exception
      */
     @Test
-    public void testUpdateStartDateMin() throws Exception {
+    public void testUpdateStartDateMin(){
         int old=1;
         c.setDescription("prova");
         c.setEndDate(new Date(2005,10,05));
@@ -483,10 +411,9 @@ public class CollaborationManagerTest {
     
     /**
      * Test of update method, of class CollaborationManager.
-     * @throws java.lang.Exception
      */
     @Test
-    public void testUpdateIstitutionNull() throws Exception {
+    public void testUpdateIstitutionNull(){
         int old=1;
         c.setDescription("prova");
         c.setEndDate(new Date(2005,10,05));
@@ -502,10 +429,9 @@ public class CollaborationManagerTest {
     
     /**
      * Test of update method, of class CollaborationManager.
-     * @throws java.lang.Exception
      */
     @Test
-    public void testUpdateIstitutionMax() throws Exception {
+    public void testUpdateIstitutionMax(){
         int old=1;
         c.setDescription("prova");
         c.setEndDate(new Date(2005,10,05));
@@ -522,10 +448,9 @@ public class CollaborationManagerTest {
 
     /**
      * Test of delete method, of class CollaborationManager.
-     * @throws java.lang.Exception
      */
     @Test
-    public void testDeleteOk() throws Exception {
+    public void testDeleteOk(){
         int idCollaboration = 1;
         try{
             instance.delete(idCollaboration);
@@ -537,10 +462,9 @@ public class CollaborationManagerTest {
     
     /**
      * Test of delete method, of class CollaborationManager.
-     * @throws java.lang.Exception
      */
     @Test
-    public void testDeleteIdMin() throws Exception {
+    public void testDeleteIdMin(){
         int idCollaboration = -1;
         try{
             instance.delete(idCollaboration);
@@ -552,10 +476,9 @@ public class CollaborationManagerTest {
     
     /**
      * Test of delete method, of class CollaborationManager.
-     * @throws java.lang.Exception
      */
     @Test
-    public void testDeleteIdMax() throws Exception {
+    public void testDeleteIdMax(){
         int idCollaboration = 89898988;
         try{
             instance.delete(idCollaboration);
@@ -567,10 +490,9 @@ public class CollaborationManagerTest {
     
     /**
      * Test of delete method, of class CollaborationManager.
-     * @throws java.lang.Exception
      */
     @Test
-    public void testDeleteIdNotExists() throws Exception {
+    public void testDeleteIdNotExists(){
         int idCollaboration = 9999;
         try{
             instance.delete(idCollaboration);
@@ -582,10 +504,9 @@ public class CollaborationManagerTest {
 
     /**
      * Test of getCollaborationById method, of class CollaborationManager.
-     * @throws java.lang.Exception
      */
     @Test
-    public void testGetCollaborationByIdok() throws Exception {
+    public void testGetCollaborationByIdok(){
         int id = 1;
         try{
             instance.getCollaborationById(id);
@@ -597,10 +518,9 @@ public class CollaborationManagerTest {
     
     /**
      * Test of getCollaborationById method, of class CollaborationManager.
-     * @throws java.lang.Exception
      */
     @Test
-    public void testGetCollaborationByIdMin() throws Exception {
+    public void testGetCollaborationByIdMin(){
         int id = -8;
         try{
             instance.getCollaborationById(id);
@@ -612,10 +532,9 @@ public class CollaborationManagerTest {
     
     /**
      * Test of getCollaborationById method, of class CollaborationManager.
-     * @throws java.lang.Exception
      */
     @Test
-    public void testGetCollaborationByIdMax() throws Exception {
+    public void testGetCollaborationByIdMax(){
         int id = 8797978;
         try{
             instance.getCollaborationById(id);
@@ -627,14 +546,13 @@ public class CollaborationManagerTest {
     
     /**
      * Test of getCollaborationById method, of class CollaborationManager.
-     * @throws java.lang.Exception
      */
     @Test
-    public void testGetCollaborationByIdNotExists() throws Exception {
+    public void testGetCollaborationByIdNotExists(){
         int id = 4855;
         try{
-            Collaboration co=instance.getCollaborationById(id);
-            assertNull(co);
+            instance.getCollaborationById(id);
+            fail("sono riuscito a fare l' op");
         }catch(Exception e){
             assertTrue(true);
         }
@@ -642,10 +560,9 @@ public class CollaborationManagerTest {
 
     /**
      * Test of getAllCollaborationOf method, of class CollaborationManager.
-     * @throws java.lang.Exception
      */
     @Test
-    public void testGetAllCollaborationOk() throws Exception {
+    public void testGetAllCollaborationOk(){
         String fkPhdstuent="dinucci@hotmail.it";
         PhdStudent phdStudent = new PhdStudent();
         phdStudent.setfkAccount(fkPhdstuent);
@@ -659,10 +576,9 @@ public class CollaborationManagerTest {
     
      /**
      * Test of getAllCollaborationOf method, of class CollaborationManager.
-     * @throws java.lang.Exception
      */
     @Test
-    public void testGetAllCollaborationFkPhdStudentNull() throws Exception {
+    public void testGetAllCollaborationFkPhdStudentNull(){
         PhdStudent phdStudent = null;
         try{
             instance.getAllCollaborationOf(phdStudent);
@@ -674,10 +590,9 @@ public class CollaborationManagerTest {
     
      /**
      * Test of getAllCollaborationOf method, of class CollaborationManager.
-     * @throws java.lang.Exception
      */
     @Test
-    public void testGetAllCollaborationFkPhdStudentMax() throws Exception {
+    public void testGetAllCollaborationFkPhdStudentMax(){
         String fkPhdstuent="dinucciwerwerwerwerwerwerwerwerwerwerwerwerwerwerwerwerwerwerwerwerwerwerwerhotmail.it";
         PhdStudent phdStudent = new PhdStudent();
         phdStudent.setfkAccount(fkPhdstuent);
@@ -691,10 +606,9 @@ public class CollaborationManagerTest {
 
      /**
      * Test of getAllCollaborationOf method, of class CollaborationManager.
-     * @throws java.lang.Exception
      */
     @Test
-    public void testGetAllCollaborationFkPhdStudentFormatError() throws Exception {
+    public void testGetAllCollaborationFkPhdStudentFormatError(){
         String fkPhdstuent="erwerwerwerhotmail.it";
         PhdStudent phdStudent = new PhdStudent();
         phdStudent.setfkAccount(fkPhdstuent);
@@ -708,10 +622,9 @@ public class CollaborationManagerTest {
     
     /**
      * Test of getAllCollaborationOf method, of class CollaborationManager.
-     * @throws java.lang.Exception
      */
     @Test
-    public void testGetAllCollaborationFkPhdStudentNotExists() throws Exception {
+    public void testGetAllCollaborationFkPhdStudentNotExists(){
         String fkPhdstuent="erwer@werwerhotmail.it";
         PhdStudent phdStudent = new PhdStudent();
         phdStudent.setfkAccount(fkPhdstuent);
@@ -722,11 +635,4 @@ public class CollaborationManagerTest {
             assertTrue(true);
         }
     } 
-    
-     private String testsup65536() {
-        String c="dsdffdffdf";
-        for(int e=0; e<6600; e++)
-            c=c.concat(c);
-        return c;
-    }
 }

@@ -2,6 +2,9 @@ package it.unisa.dottorato.news;
 
 
 import it.unisa.dottorato.account.Account;
+import it.unisa.dottorato.exception.DescriptionException;
+import it.unisa.dottorato.exception.IdException;
+import it.unisa.dottorato.exception.TitleException;
 import java.io.IOException;
 import java.io.PrintWriter;
 import java.sql.SQLException;
@@ -36,7 +39,7 @@ public class ModifyNewsServlet extends HttpServlet {
      * @throws IOException if an I/O error occurs
      */
       protected void processRequest(HttpServletRequest request, HttpServletResponse response)
-            throws ServletException, IOException{
+            throws ServletException, IOException, IdException, TitleException, DescriptionException{
         response.setContentType("text/html;charset=UTF-8");
 
         PrintWriter out = response.getWriter();
@@ -85,7 +88,15 @@ public class ModifyNewsServlet extends HttpServlet {
     @Override
     protected void doGet(HttpServletRequest request, HttpServletResponse response)
             throws ServletException, IOException {
-        processRequest(request, response);
+          try {
+              processRequest(request, response);
+          } catch (IdException ex) {
+              Logger.getLogger(ModifyNewsServlet.class.getName()).log(Level.SEVERE, null, ex);
+          } catch (TitleException ex) {
+              Logger.getLogger(ModifyNewsServlet.class.getName()).log(Level.SEVERE, null, ex);
+          } catch (DescriptionException ex) {
+              Logger.getLogger(ModifyNewsServlet.class.getName()).log(Level.SEVERE, null, ex);
+          }
     }
 
     /**
@@ -99,7 +110,15 @@ public class ModifyNewsServlet extends HttpServlet {
     @Override
     protected void doPost(HttpServletRequest request, HttpServletResponse response)
             throws ServletException, IOException {
-        processRequest(request, response);
+          try {
+              processRequest(request, response);
+          } catch (IdException ex) {
+              Logger.getLogger(ModifyNewsServlet.class.getName()).log(Level.SEVERE, null, ex);
+          } catch (TitleException ex) {
+              Logger.getLogger(ModifyNewsServlet.class.getName()).log(Level.SEVERE, null, ex);
+          } catch (DescriptionException ex) {
+              Logger.getLogger(ModifyNewsServlet.class.getName()).log(Level.SEVERE, null, ex);
+          }
     }
 
     /**

@@ -1,5 +1,6 @@
 package it.unisa.dottorato.phdProfile.collaborations;
 
+import it.unisa.dottorato.exception.IdException;
 import java.io.IOException;
 import java.io.PrintWriter;
 import java.sql.SQLException;
@@ -34,7 +35,7 @@ public class GetCollaborationServlet extends HttpServlet {
      */
     
     protected void processRequest(HttpServletRequest request, HttpServletResponse response)
-            throws ServletException, IOException {
+            throws ServletException, IOException, IdException {
         response.setContentType("text/html;charset=UTF-8");
         try (PrintWriter out = response.getWriter()) {
             int collId = Integer.parseInt(request.getParameter("idCollaboration"));
@@ -66,7 +67,11 @@ public class GetCollaborationServlet extends HttpServlet {
     @Override
     protected void doGet(HttpServletRequest request, HttpServletResponse response)
             throws ServletException, IOException {
-        processRequest(request, response);
+        try {
+            processRequest(request, response);
+        } catch (IdException ex) {
+            Logger.getLogger(GetCollaborationServlet.class.getName()).log(Level.SEVERE, null, ex);
+        }
     }
 
     /**
@@ -80,7 +85,11 @@ public class GetCollaborationServlet extends HttpServlet {
     @Override
     protected void doPost(HttpServletRequest request, HttpServletResponse response)
             throws ServletException, IOException {
-        processRequest(request, response);
+        try {
+            processRequest(request, response);
+        } catch (IdException ex) {
+            Logger.getLogger(GetCollaborationServlet.class.getName()).log(Level.SEVERE, null, ex);
+        }
     }
 
     /**
