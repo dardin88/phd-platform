@@ -992,9 +992,9 @@ public class AccountManagerTest {
     @Test
     public void testChangeTypeOk() throws Exception {
         String newType="phdstudent";
-        ac.setSecondaryEmail("dracula@hotmail.it");
+        String em="dracula@hotmail.it";
         try{
-            instance.changeType(ac, newType);
+            instance.changeType(em, newType);
             assertTrue(true);
         }catch(Exception e){
             fail("non sono riuscito a fare l' op");
@@ -1008,9 +1008,9 @@ public class AccountManagerTest {
     @Test
     public void testChangeTypeNewTypeNull() throws Exception {
         String newType=null;
-        ac.setSecondaryEmail("dracula@hotmail.it");
+       String em="dracula@hotmail.it";
         try{
-            instance.changeType(ac, newType);
+            instance.changeType(em, newType);
             fail("sono riuscito a fare l' op");
         }catch(Exception e){
             assertTrue(true);
@@ -1024,9 +1024,9 @@ public class AccountManagerTest {
     @Test
     public void testChangeTypeNewTypeNotDominio() throws Exception {
         String newType="dsdd";
-        ac.setSecondaryEmail("dracula@hotmail.it");
+        String em="dracula@hotmail.it";
         try{
-            instance.changeType(ac, newType);
+            instance.changeType(em, newType);
             fail("sono riuscito a fare l' op");
         }catch(Exception e){
             assertTrue(true);
@@ -1040,9 +1040,8 @@ public class AccountManagerTest {
     @Test
     public void testChangeTypeEmailNull() throws Exception {
         String newType="phdstudent";
-        ac.setSecondaryEmail(null);
         try{
-            instance.changeType(ac, newType);
+            instance.changeType(null, newType);
             fail("sono riuscito a fare l' op");
         }catch(Exception e){
             assertTrue(true);
@@ -1056,9 +1055,9 @@ public class AccountManagerTest {
     @Test
     public void testChangeTypeEmailMax() throws Exception {
         String newType="phdstudent";
-        ac.setSecondaryEmail("wertwertwerwertwertwerwertwertwerwertwertwerwertwertwerwertwertwer");
+        String em="wertwertwerwertwertwerwertwertwerwertwertwerwertwertwerwertwertwer";
         try{
-            instance.changeType(ac, newType);
+            instance.changeType(em, newType);
             fail("sono riuscito a fare l' op");
         }catch(Exception e){
             assertTrue(true);
@@ -1072,9 +1071,9 @@ public class AccountManagerTest {
     @Test
     public void testChangeTypeEmailFormatError() throws Exception {
         String newType="phdstudent";
-        ac.setSecondaryEmail("wertwertwertwerwertwertwer");
+        String em="wertwertwertwerwertwertwer";
         try{
-            instance.changeType(ac, newType);
+            instance.changeType(em, newType);
             fail("sono riuscito a fare l' op");
         }catch(Exception e){
             assertTrue(true);
@@ -1088,9 +1087,9 @@ public class AccountManagerTest {
     @Test
     public void testChangeTypeEmailNotexists() throws Exception {
         String newType="phdstudent";
-        ac.setSecondaryEmail("wertwertwe@twerwertwertwer");
+        String em="wertwertwe@twerwertwertwer";
         try{
-            instance.changeType(ac, newType);
+            instance.changeType(em, newType);
             fail("sono riuscito a fare l' op");
         }catch(Exception e){
             assertTrue(true);
@@ -1611,7 +1610,7 @@ public class AccountManagerTest {
      * @throws java.lang.Exception
      */
     @Test
-    public void testDeleteStudentTutorStudentùFormatError() throws Exception {
+    public void testDeleteStudentTutorStudentFormatError() throws Exception {
         String stud= "qpoqwertyuiopoqwertyuiopo";
         try{
             instance.deleteStudentTutor(stud);
