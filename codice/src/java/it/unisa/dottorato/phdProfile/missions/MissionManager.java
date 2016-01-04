@@ -64,7 +64,7 @@ public class MissionManager {
      * @param pMission la nuova missione da inserire
      * @throws SQLException 
      */
-    public synchronized void insert(Mission pMission) throws SQLException {
+    public synchronized void insert(Mission pMission) throws SQLException,MissionException , DescriptionException , DateException , ReferenceException , PlaceException , ReferenceAttributeException , IdException , IOException {
         try (Connection connect = DBConnection.getConnection()) {
 
             testMission(pMission);
@@ -76,7 +76,7 @@ public class MissionManager {
                     + MissionManager.TABLE_MISSION
                     + " (idMission,description, startDate, endDate, reference, place, fkPhdstudent)"
                     + " VALUES ("
-                    + testId(nextNumber())
+                    + testId(pMission.getIdMission())
                     + ",'"
                     + Utility.Replace(MissionManager.getInstance().testDescription(pMission.getDescription()))
                     + "','"
@@ -96,22 +96,6 @@ public class MissionManager {
             Utility.executeOperation(connect, tSql);
 
             connect.commit();
-        } catch (MissionException ex) {
-            Logger.getLogger(MissionManager.class.getName()).log(Level.SEVERE, null, ex);
-        } catch (DescriptionException ex) {
-            Logger.getLogger(MissionManager.class.getName()).log(Level.SEVERE, null, ex);
-        } catch (DateException ex) {
-            Logger.getLogger(MissionManager.class.getName()).log(Level.SEVERE, null, ex);
-        } catch (ReferenceException ex) {
-            Logger.getLogger(MissionManager.class.getName()).log(Level.SEVERE, null, ex);
-        } catch (PlaceException ex) {
-            Logger.getLogger(MissionManager.class.getName()).log(Level.SEVERE, null, ex);
-        } catch (ReferenceAttributeException ex) {
-            Logger.getLogger(MissionManager.class.getName()).log(Level.SEVERE, null, ex);
-        } catch (IdException ex) {
-            Logger.getLogger(MissionManager.class.getName()).log(Level.SEVERE, null, ex);
-        } catch (IOException ex) {
-            Logger.getLogger(MissionManager.class.getName()).log(Level.SEVERE, null, ex);
         } 
     }
   
@@ -123,7 +107,7 @@ public class MissionManager {
      * @throws SQLException
      * @throws IOException 
      */
-    public synchronized void update(int oldMissionID, Mission pMission) throws ClassNotFoundException, SQLException, IOException {
+    public synchronized void update(int oldMissionID, Mission pMission) throws ClassNotFoundException, SQLException, IOException,IdException , MissionException , DescriptionException , DateException , ReferenceAttributeException , PlaceException {
         try (Connection connect = DBConnection.getConnection()) {
 
             testId(oldMissionID);
@@ -152,19 +136,7 @@ public class MissionManager {
             Utility.executeOperation(connect, tSql);
 
             connect.commit();
-        } catch (IdException ex) {
-            Logger.getLogger(MissionManager.class.getName()).log(Level.SEVERE, null, ex);
-        } catch (MissionException ex) {
-            Logger.getLogger(MissionManager.class.getName()).log(Level.SEVERE, null, ex);
-        } catch (DescriptionException ex) {
-            Logger.getLogger(MissionManager.class.getName()).log(Level.SEVERE, null, ex);
-        } catch (DateException ex) {
-            Logger.getLogger(MissionManager.class.getName()).log(Level.SEVERE, null, ex);
-        } catch (ReferenceAttributeException ex) {
-            Logger.getLogger(MissionManager.class.getName()).log(Level.SEVERE, null, ex);
-        } catch (PlaceException ex) {
-            Logger.getLogger(MissionManager.class.getName()).log(Level.SEVERE, null, ex);
-        }
+        } 
     }
 
     /** Metodo della classe incaricato di cancellare una missione
@@ -205,7 +177,7 @@ public class MissionManager {
      * @throws SQLException
      * @throws IOException 
      */
-    public synchronized Mission getMissionById(int pMissionID) throws ClassNotFoundException, SQLException, IOException {
+    public synchronized Mission getMissionById(int pMissionID) throws ClassNotFoundException, SQLException, IOException,IdException {
         Connection connect = null;
         Mission mission = new Mission();
         try {
@@ -236,9 +208,7 @@ public class MissionManager {
                 mission.setFkPhdstudent(result.getString("fkPhdstudent"));
             }
 
-        } catch (IdException ex) {
-            Logger.getLogger(MissionManager.class.getName()).log(Level.SEVERE, null, ex);
-        } finally {
+        }  finally {
             DBConnection.releaseConnection(connect);
         }
         return mission;
@@ -299,8 +269,8 @@ public class MissionManager {
      * @throws IdException 
      */
     public int testId(int id) throws IdException {
-        if(id<0 ||id >999999){
-            throw new IdException("L'id non puo' essere minore di 0 o maggiore di 999999");
+        if(id<0 ||id >6){
+            throw new IdException("L'id non puo' essere minore di 0 o maggiore di 6");
         }
         return id;
     } 
@@ -312,7 +282,7 @@ public class MissionManager {
      * @throws DescriptionException 
      */
     public String testDescription(String description) throws DescriptionException{
-         if(description.equals(null) || description.length()>65536){
+         if(description.isEmpty() || description.length()>250){
             
             throw new DescriptionException("la descrizione e' sbagliata"); 
         }
@@ -369,7 +339,7 @@ public class MissionManager {
      * @throws PlaceException 
      */
     public String testPlace(String place) throws PlaceException {
-        if(place.equals(null) || place.length()>70){
+        if(place.isEmpty() || place.length()>70){
             
             throw new PlaceException("il posto e' sbagliato"); 
         }
@@ -397,7 +367,7 @@ public class MissionManager {
      * @throws ReferenceException 
      */
     public String testfkPhdStudent(String fkPhdstudent) throws ReferenceException {
-        if(fkPhdstudent.equals(null) || fkPhdstudent.length()>50){
+        if(fkPhdstudent.isEmpty() || fkPhdstudent.length()>50){
             
             throw new ReferenceException("il campo per il riferimento al PhdStudent e' sbagliato"); 
         }

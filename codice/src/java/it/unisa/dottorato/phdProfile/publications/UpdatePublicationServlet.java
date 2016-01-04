@@ -1,6 +1,16 @@
 package it.unisa.dottorato.phdProfile.publications;
 
 import it.unisa.dottorato.account.PhdStudent;
+import it.unisa.dottorato.exception.IdException;
+import it.unisa.dottorato.exception.LinkException;
+import it.unisa.dottorato.exception.NumberPageException;
+import it.unisa.dottorato.exception.OtherAuthorsException;
+import it.unisa.dottorato.exception.PublicationException;
+import it.unisa.dottorato.exception.PublicationIssueException;
+import it.unisa.dottorato.exception.TitleException;
+import it.unisa.dottorato.exception.TypeException;
+import it.unisa.dottorato.exception.YearException;
+import it.unisa.dottorato.exception.pAbstractException;
 import java.io.IOException;
 import java.io.PrintWriter;
 import java.sql.SQLException;
@@ -79,7 +89,7 @@ public class UpdatePublicationServlet extends HttpServlet {
             } catch (SQLException ex) {
                 Logger.getLogger(UpdatePublicationServlet.class.getName()).log(Level.SEVERE, null, ex);
                 result.put("result", false);
-            } catch (ClassNotFoundException ex) {
+            } catch (ClassNotFoundException | IdException | PublicationException | TitleException | PublicationIssueException | YearException | NumberPageException | LinkException | TypeException | OtherAuthorsException | pAbstractException ex) {
                 Logger.getLogger(UpdatePublicationServlet.class.getName()).log(Level.SEVERE, null, ex);
             }
             out.write(result.toString());
