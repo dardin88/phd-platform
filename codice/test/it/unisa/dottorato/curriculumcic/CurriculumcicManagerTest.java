@@ -46,7 +46,7 @@ public class CurriculumcicManagerTest {
     @Test
     public void testInsertProfessorOk(){
         String fkProfessor = "wrestler@hotmail.it";
-        c.setfkCurriculum("Informatica, Sistemi Informativi e Tecnologie del Software");
+        c.setfkCurriculum("Marketing e Comunicazione");
         c.setfkCycle(15);
         try{
             instance.insertProfessor(c, fkProfessor);
@@ -420,7 +420,7 @@ public class CurriculumcicManagerTest {
         c.setfkCycle(15);
         try{
             instance.deleteCurriculumcicCoordinator(c);
-            fail("non sono riuscito a fare l'op");
+            fail("sono riuscito a fare l'op");
         }catch(Exception e){
             assertTrue(true);
         }
@@ -437,7 +437,7 @@ public class CurriculumcicManagerTest {
         c.setfkCycle(15);
         try{
             instance.deleteCurriculumcicCoordinator(c);
-            fail("non sono riuscito a fare l'op");
+            fail("sono riuscito a fare l'op");
         }catch(Exception e){
             assertTrue(true);
         }
@@ -452,7 +452,7 @@ public class CurriculumcicManagerTest {
         c.setfkCycle(15);
         try{
             instance.deleteCurriculumcicCoordinator(c);
-            fail("non sono riuscito a fare l'op");
+            fail("sono riuscito a fare l'op");
         }catch(Exception e){
             assertTrue(true);
         }
@@ -467,7 +467,7 @@ public class CurriculumcicManagerTest {
         c.setfkCycle(-9);
         try{
             instance.deleteCurriculumcicCoordinator(c);
-            fail("non sono riuscito a fare l'op");
+            fail("sono riuscito a fare l'op");
         }catch(Exception e){
             assertTrue(true);
         }
@@ -482,7 +482,7 @@ public class CurriculumcicManagerTest {
         c.setfkCycle(4554);
         try{
             instance.deleteCurriculumcicCoordinator(c);
-            fail("non sono riuscito a fare l'op");
+            fail("sono riuscito a fare l'op");
         }catch(Exception e){
             assertTrue(true);
         }
@@ -497,7 +497,7 @@ public class CurriculumcicManagerTest {
         c.setfkCycle(60);
         try{
             instance.deleteCurriculumcicCoordinator(c);
-            fail("non sono riuscito a fare l'op");
+            fail("sono riuscito a fare l'op");
         }catch(Exception e){
             assertTrue(true);
         }
@@ -527,7 +527,7 @@ public class CurriculumcicManagerTest {
         c.setfkCycle(15);
         try{
             instance.viewCurriculumcicCoordinator(c);
-            fail("non sono riuscito a fare l'op");
+            fail("sono riuscito a fare l'op");
         }catch(Exception e){
             assertTrue(true);
         }
@@ -544,7 +544,7 @@ public class CurriculumcicManagerTest {
         c.setfkCycle(15);
         try{
             instance.viewCurriculumcicCoordinator(c);
-            fail("non sono riuscito a fare l'op");
+            fail("sono riuscito a fare l'op");
         }catch(Exception e){
             assertTrue(true);
         }
@@ -559,7 +559,7 @@ public class CurriculumcicManagerTest {
         c.setfkCycle(15);
         try{
             instance.viewCurriculumcicCoordinator(c);
-            fail("non sono riuscito a fare l'op");
+            fail("sono riuscito a fare l'op");
         }catch(Exception e){
             assertTrue(true);
         }
@@ -574,7 +574,7 @@ public class CurriculumcicManagerTest {
         c.setfkCycle(-9);
         try{
             instance.viewCurriculumcicCoordinator(c);
-            fail("non sono riuscito a fare l'op");
+            fail("sono riuscito a fare l'op");
         }catch(Exception e){
             assertTrue(true);
         }
@@ -589,7 +589,7 @@ public class CurriculumcicManagerTest {
         c.setfkCycle(4554);
         try{
             instance.viewCurriculumcicCoordinator(c);
-            fail("non sono riuscito a fare l'op");
+            fail("sono riuscito a fare l'op");
         }catch(Exception e){
             assertTrue(true);
         }
@@ -604,7 +604,7 @@ public class CurriculumcicManagerTest {
         c.setfkCycle(60);
         try{
             instance.viewCurriculumcicCoordinator(c);
-            fail("non sono riuscito a fare l'op");
+            fail("sono riuscito a fare l'op");
         }catch(Exception e){
             assertTrue(true);
         }
@@ -793,7 +793,7 @@ public class CurriculumcicManagerTest {
     @Test 
     public void testInsertPhdSudentOk(){
         String fkPhdstudent = "ballo@hotmail.it";
-        c.setfkCurriculum("Informatica, Sistemi Informativi e Tecnologie del Software");
+        c.setfkCurriculum("Marketing e Comunicazione");
         c.setfkCycle(15);
         try{
             instance.insertPhdSudent(c, fkPhdstudent);
@@ -988,7 +988,7 @@ public class CurriculumcicManagerTest {
         c.setfkCycle(15);
         try{
             instance.viewProfessorList(c);
-            fail("non sono riuscito a fare l'op");
+            fail("sono riuscito a fare l'op");
         }catch(Exception e){
             assertTrue(true);
         }
@@ -1005,7 +1005,7 @@ public class CurriculumcicManagerTest {
         c.setfkCycle(15);
         try{
             instance.viewProfessorList(c);
-            fail("non sono riuscito a fare l'op");
+            fail("sono riuscito a fare l'op");
         }catch(Exception e){
             assertTrue(true);
         }
@@ -1020,7 +1020,7 @@ public class CurriculumcicManagerTest {
         c.setfkCycle(15);
         try{
             instance.viewProfessorList(c);
-            fail("non sono riuscito a fare l'op");
+            fail("sono riuscito a fare l'op");
         }catch(Exception e){
             assertTrue(true);
         }
@@ -1035,7 +1035,7 @@ public class CurriculumcicManagerTest {
         c.setfkCycle(-9);
         try{
             instance.viewProfessorList(c);
-            fail("non sono riuscito a fare l'op");
+            fail("sono riuscito a fare l'op");
         }catch(Exception e){
             assertTrue(true);
         }
@@ -1050,7 +1050,7 @@ public class CurriculumcicManagerTest {
         c.setfkCycle(4554);
         try{
             instance.viewProfessorList(c);
-            fail("non sono riuscito a fare l'op");
+            fail("sono riuscito a fare l'op");
         }catch(Exception e){
             assertTrue(true);
         }
@@ -1065,7 +1065,7 @@ public class CurriculumcicManagerTest {
         c.setfkCycle(60);
         try{
             instance.viewProfessorList(c);
-            fail("non sono riuscito a fare l'op");
+            fail("sono riuscito a fare l'op");
         }catch(Exception e){
             assertTrue(true);
         }
@@ -1082,7 +1082,7 @@ public class CurriculumcicManagerTest {
             instance.viewPhdstudentCurriculumcic(c);
             assertTrue(true);
         }catch(Exception e){
-            fail("non sono riuscito a fare l'op");
+            fail("sono riuscito a fare l'op");
         }
     }
     
@@ -1095,7 +1095,7 @@ public class CurriculumcicManagerTest {
         c.setfkCycle(15);
         try{
             instance.viewPhdstudentCurriculumcic(c);
-            fail("non sono riuscito a fare l'op");
+            fail("sono riuscito a fare l'op");
         }catch(Exception e){
             assertTrue(true);
         }
@@ -1112,7 +1112,7 @@ public class CurriculumcicManagerTest {
         c.setfkCycle(15);
         try{
             instance.viewPhdstudentCurriculumcic(c);
-            fail("non sono riuscito a fare l'op");
+            fail("sono riuscito a fare l'op");
         }catch(Exception e){
             assertTrue(true);
         }
@@ -1127,7 +1127,7 @@ public class CurriculumcicManagerTest {
         c.setfkCycle(15);
         try{
             instance.viewPhdstudentCurriculumcic(c);
-            fail("non sono riuscito a fare l'op");
+            fail("sono riuscito a fare l'op");
         }catch(Exception e){
             assertTrue(true);
         }
@@ -1142,7 +1142,7 @@ public class CurriculumcicManagerTest {
         c.setfkCycle(-9);
         try{
             instance.viewPhdstudentCurriculumcic(c);
-            fail("non sono riuscito a fare l'op");
+            fail("sono riuscito a fare l'op");
         }catch(Exception e){
             assertTrue(true);
         }
@@ -1157,7 +1157,7 @@ public class CurriculumcicManagerTest {
         c.setfkCycle(4554);
         try{
             instance.viewPhdstudentCurriculumcic(c);
-            fail("non sono riuscito a fare l'op");
+            fail("sono riuscito a fare l'op");
         }catch(Exception e){
             assertTrue(true);
         }
