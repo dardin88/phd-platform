@@ -45,8 +45,7 @@ $.getJSON("GetPresenceToLesson", {idCourse: selected, fkPhdstudent: id}, functio
                     $.each(data.presence, function (index2, value2) {
                         lezione = value2.fkLesson;
                          td= value2.fkPhdstudent;
-                         alert(td);
-                        dottorandopre = "<td> <input type='checkbox' value=" + true + "   id=" + td + " onclick='changePresenza(" + 'id' + "," + lezione + ")' class='checkboxclass'  ";
+                         dottorandopre = "<td> <input type='checkbox' value=" + true + "   id=" + td + " onclick='changePresenza(" + 'id' + "," + lezione + ")' class='checkboxclass'  ";
 
                         if (value2.isPresent === true) {
                             dottorandopre += "checked";
