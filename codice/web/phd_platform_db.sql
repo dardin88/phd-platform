@@ -162,7 +162,7 @@ INSERT INTO curriculumcic (fkCurriculum,fkCycle,fkProfessor)VALUES
 
 
 create table if not exists teach(
-fkCurriculum 		varchar(100),
+fkCurriculum                    varchar(100),
 fkCycle				integer,
 fkProfessor			varchar(50),
 primary key (fkCurriculum,fkCycle,fkProfessor),
