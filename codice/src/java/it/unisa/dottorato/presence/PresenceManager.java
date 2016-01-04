@@ -321,7 +321,7 @@ public class PresenceManager {
              * Prepariamo la stringa SQL per la ricerca dei record 
              * nella tabella presence
            */
-            String tSql = "SELECT  presence.isPresent, presence.fkLesson " +
+            String tSql = "SELECT  presence.isPresent, presence.fkLesson, presence.fkPhdstudent " +
                " FROM presence, lesson " +
            " where presence.fkLesson = lesson.idLesson " +
             "and lesson.fkCourse ="+testid(idCorso) +" and presence.fkPhdstudent = '"
@@ -334,7 +334,7 @@ public class PresenceManager {
                 presente =new Presence();
                 presente.setIsPresent(result.getBoolean("isPresent"));
                 presente.setFkLesson(result.getInt("fkLesson"));
-            
+                presente.setFkPhdstudent(result.getString("fkPhdstudent"));
                
                 
              classList.add(presente);

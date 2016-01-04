@@ -37,14 +37,17 @@ function selectedItem()
         $.getJSON("GetPresenceDottorandi", {idCourse: selected}, function (data) {
             $.each(data.presence, function (index, value) {
                 dottorando = "<tr id=" + index + "> <td> " + value.name + " " + value.surname + " </td>  </tr>";
-                $("#resultbody ").append(dottorando);
                 id = value.secondaryEmail;
-
-                $.getJSON("GetPresenceToLesson", {idCourse: selected, fkPhdstudent: id}, function (data) {
+                         
+                $("#resultbody ").append(dottorando);
+  
+$.getJSON("GetPresenceToLesson", {idCourse: selected, fkPhdstudent: id}, function (data) {
                     $.each(data.presence, function (index2, value2) {
                         lezione = value2.fkLesson;
-                        dottorandopre = "<td> <input type='checkbox' value=" + true + "   id=" + id + " onclick='changePresenza(" + 'id' + "," + lezione + ")' class='checkboxclass'  ";
- 
+                         td= value2.fkPhdstudent;
+                         alert(td);
+                        dottorandopre = "<td> <input type='checkbox' value=" + true + "   id=" + td + " onclick='changePresenza(" + 'id' + "," + lezione + ")' class='checkboxclass'  ";
+
                         if (value2.isPresent === true) {
                             dottorandopre += "checked";
                         }
@@ -69,7 +72,7 @@ function selectedItem()
 
 function changePresenza(id,lezione) {
     
-     alert("firma inserita");
+   
     $.getJSON("ModifyPresence",{fkPhdstudent:id,fkLesson:lezione}, function (data) { 
     
     });
