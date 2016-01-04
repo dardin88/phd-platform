@@ -61,13 +61,14 @@
 
                
                  <option value="default"  >  - selezionate il vostro  corso  -  </option>
-
-                                </select>
-           <%  asd= request.getParameter("jam");
-           System.out.println("asd++"+asd);
+               <%  asd = request.getParameter("jam");
+                  System.out.println("ciao" + asd);
        //dat=Integer.parseInt(asd.trim());
-                %>                     
+                %>    
+                                </select>
+          
  </form>
+                                   
                             </div>
                         </div>
  
