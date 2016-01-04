@@ -158,11 +158,8 @@ public class AccountManager {
      */
     public ArrayList<Account> getAccountList() throws SQLException {
         Connection connection = null;
-        Statement stmt = null;
-        Statement stmt2 = null;
-        Statement stmt3 = null;
-        ResultSet rs = null;
-        ResultSet rt = null;
+        ResultSet rs;
+        ResultSet rt;
     
     
     try {
@@ -177,17 +174,18 @@ public class AccountManager {
          
                 
          //esecuzione della query
-         stmt = connection.createStatement();
-         rs = stmt.executeQuery(sql);
+         rs = Utility.queryOperation(connection,sql);
           while(rs.next()) {
               String queryPhd = "select * from phdstudent where fkAccount = '";
               String queryProfessor = "select * from professor where fkAccount = '";
               
+              if(rs.getString("typeAccount") == null)
+                  rs.next();
+                            
                 switch(rs.getString("typeAccount")) {
                     case "phdstudent":
                        queryPhd += rs.getString("secondaryEmail") + "'";
-                       stmt2 = connection.createStatement();
-                       rt = stmt2.executeQuery(queryPhd);
+                       rt = Utility.queryOperation(connection,queryPhd);
                        if(rt.next()) {
                            PhdStudent phd = new PhdStudent();
                            phd.setName(rs.getString("name"));
@@ -212,8 +210,7 @@ public class AccountManager {
                     
                     case "professor":
                         queryProfessor += rs.getString("secondaryEmail") + "'";
-                        stmt3 = connection.createStatement();
-                        rt = stmt3.executeQuery(queryProfessor);
+                        rt = Utility.queryOperation(connection, queryProfessor);
                         if(rt.next()) {
                             Professor professor = new Professor();
                             professor.setEmail(rs.getString("email"));
@@ -239,10 +236,11 @@ public class AccountManager {
                         account.setSecondaryEmail(rs.getString("secondaryEmail"));
                         account.setAdmin(rs.getBoolean("isAdministrator"));
                         accounts.add(account);
-                        break;
+                        break;  
+                    
                     default:
                         rs.next();
-                        break;           
+                        break;
               }
             }
           return accounts;
