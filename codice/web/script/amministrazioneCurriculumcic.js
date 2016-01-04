@@ -107,7 +107,7 @@ function addCycleButton()
     $("#divPanelAddORModify").show();
     
      $("#cycleTitle").html("Aggiunta di un nuovo ciclo");
-     $("#cycleYear").html("");
+     //$("#cycleYear").html("");
      $("#cycleDescription").val("");
      
      $("#saveCycle").click(function () {

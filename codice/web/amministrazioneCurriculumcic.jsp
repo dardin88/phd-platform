@@ -126,7 +126,7 @@
                                         <label>Anno:</label>
                                         <div class="input-group">
                                             <span class="input-group-addon"></span>
-                                            <input type="number" id="cycleYear" class="form-control" name="name" placeholder="Inserisci l'anno del diclo"  required/>
+                                            <input type="text" id="cycleYear" class="form-control" name="name" placeholder="Inserisci l'anno del diclo"  pattern="[0-9]{4}" required/>
                                         </div>
                                     </div>
 
