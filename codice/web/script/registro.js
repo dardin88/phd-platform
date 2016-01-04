@@ -76,7 +76,7 @@ function changePresenza(id,lezione) {
     
 }
   
-function selectedItemdot(){
+function selectedItemDot(){
   
     $("#resultbody tr").remove();
     selected = $("#Corsoprofessore option:selected").val();
@@ -90,12 +90,7 @@ function selectedItemdot(){
                 dottorando = "<tr id=" + index + "> <td> " + value.name + " " + value.surname + " </td>  </tr>";
                 $("#resultbody ").append(dottorando);
                 id = value.secondaryEmail;
-  $.getJSON("GetPresenceCourse", {idCourse: selected,fkPhdstudent: id}, function (data) {
-         $.each(data, function (index, value3) {
-                num = value3;
-                alert("num"+value3);
-                $("#numero").append(num);
-                });});
+ 
                 $.getJSON("GetPresenceToLesson", {idCourse: selected, fkPhdstudent: id}, function (data) {
                     $.each(data.presence, function (index2, value2) {
                         lezione = value2.fkLesson;
