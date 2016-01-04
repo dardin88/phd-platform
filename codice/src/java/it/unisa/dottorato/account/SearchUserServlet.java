@@ -38,7 +38,7 @@ public class SearchUserServlet extends HttpServlet{
     
      */
     protected void processRequest(HttpServletRequest request, HttpServletResponse response)
-            throws ServletException, IOException, SQLException, ConnectionException {
+            throws ServletException, IOException, SQLException, ConnectionException, ProfileException {
         
         response.setContentType("text/html;charset=UTF-8");
         try (PrintWriter out = response.getWriter()) {
@@ -81,6 +81,8 @@ public class SearchUserServlet extends HttpServlet{
                 processRequest(request, response);
             } catch (SQLException ex) {
                 Logger.getLogger(ChangeTypeServlet.class.getName()).log(Level.SEVERE, null, ex);
+            } catch (ProfileException ex) {
+                Logger.getLogger(SearchUserServlet.class.getName()).log(Level.SEVERE, null, ex);
             }
         } catch (ConnectionException ex) {
             Logger.getLogger(ChangeTypeServlet.class.getName()).log(Level.SEVERE, null, ex);
@@ -104,6 +106,8 @@ public class SearchUserServlet extends HttpServlet{
             Logger.getLogger(ChangeTypeServlet.class.getName()).log(Level.SEVERE, null, ex);
         } catch (ConnectionException ex) {
             Logger.getLogger(ChangeTypeServlet.class.getName()).log(Level.SEVERE, null, ex);
+        } catch (ProfileException ex) {
+            Logger.getLogger(SearchUserServlet.class.getName()).log(Level.SEVERE, null, ex);
         }
     }
 

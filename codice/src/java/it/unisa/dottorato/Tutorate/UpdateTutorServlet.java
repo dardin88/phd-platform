@@ -1,6 +1,7 @@
 package it.unisa.dottorato.Tutorate;
 
 import it.unisa.dottorato.account.AccountManager;
+import it.unisa.dottorato.autenticazione.EmailException;
 import java.io.IOException;
 import java.io.PrintWriter;
 import java.sql.SQLException;
@@ -35,7 +36,7 @@ public class UpdateTutorServlet extends HttpServlet {
      * @throws IOException if an I/O error occurs
      */
    protected void processRequest(HttpServletRequest request, HttpServletResponse response)
-            throws ServletException, IOException {
+            throws ServletException, IOException, EmailException {
         
         response.setContentType("text/html;charset=UTF-8");
         PrintWriter out = response.getWriter();
@@ -77,7 +78,11 @@ public class UpdateTutorServlet extends HttpServlet {
     @Override
     protected void doGet(HttpServletRequest request, HttpServletResponse response)
             throws ServletException, IOException {
-        processRequest(request, response);
+       try {
+           processRequest(request, response);
+       } catch (EmailException ex) {
+           Logger.getLogger(UpdateTutorServlet.class.getName()).log(Level.SEVERE, null, ex);
+       }
     }
 
     /**
@@ -91,7 +96,11 @@ public class UpdateTutorServlet extends HttpServlet {
     @Override
     protected void doPost(HttpServletRequest request, HttpServletResponse response)
             throws ServletException, IOException {
-        processRequest(request, response);
+       try {
+           processRequest(request, response);
+       } catch (EmailException ex) {
+           Logger.getLogger(UpdateTutorServlet.class.getName()).log(Level.SEVERE, null, ex);
+       }
     }
 
     /**

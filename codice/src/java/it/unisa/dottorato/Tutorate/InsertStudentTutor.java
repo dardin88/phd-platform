@@ -1,6 +1,7 @@
 package it.unisa.dottorato.Tutorate;
 
 import it.unisa.dottorato.account.AccountManager;
+import it.unisa.dottorato.autenticazione.EmailException;
 import java.io.IOException;
 import java.io.PrintWriter;
 import java.sql.SQLException;
@@ -33,9 +34,10 @@ public class InsertStudentTutor extends HttpServlet {
      * @param response servlet response
      * @throws ServletException if a servlet-specific error occurs
      * @throws IOException if an I/O error occurs
+     * @throws it.unisa.dottorato.autenticazione.EmailException
      */
    protected void processRequest(HttpServletRequest request, HttpServletResponse response)
-            throws ServletException, IOException {
+            throws ServletException, IOException, EmailException {
         response.setContentType("text/html;charset=UTF-8");
 
         PrintWriter out = response.getWriter();
@@ -74,7 +76,11 @@ public class InsertStudentTutor extends HttpServlet {
     @Override
     protected void doGet(HttpServletRequest request, HttpServletResponse response)
             throws ServletException, IOException {
-        processRequest(request, response);
+       try {
+           processRequest(request, response);
+       } catch (EmailException ex) {
+           Logger.getLogger(InsertStudentTutor.class.getName()).log(Level.SEVERE, null, ex);
+       }
     }
 
     /**
@@ -88,7 +94,11 @@ public class InsertStudentTutor extends HttpServlet {
     @Override
     protected void doPost(HttpServletRequest request, HttpServletResponse response)
             throws ServletException, IOException {
-        processRequest(request, response);
+       try {
+           processRequest(request, response);
+       } catch (EmailException ex) {
+           Logger.getLogger(InsertStudentTutor.class.getName()).log(Level.SEVERE, null, ex);
+       }
     }
 
     /**

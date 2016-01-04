@@ -42,7 +42,7 @@ public class ChangeTypeServlet extends HttpServlet {
      * @throws EmailException if an email error occurs
      */
     protected void processRequest(HttpServletRequest request, HttpServletResponse response)
-            throws ServletException, IOException, SQLException, ConnectionException, NullAccountException, EmailException, ClassNotFoundException, JSONException {
+            throws ServletException, IOException, SQLException, ConnectionException, NullAccountException, EmailException, ClassNotFoundException, JSONException, ProfileException {
         
         response.setContentType("text/html;charset=UTF-8");
         PrintWriter out = response.getWriter();
@@ -81,7 +81,6 @@ public class ChangeTypeServlet extends HttpServlet {
      * @param response servlet response
      * @throws ServletException if a servlet-specific error occurs
      * @throws IOException if an I/O error occurs
-     * @throws java.sql.SQLException
      */
     @Override
     protected void doGet(HttpServletRequest request, HttpServletResponse response)
@@ -89,7 +88,7 @@ public class ChangeTypeServlet extends HttpServlet {
       
         try {
             processRequest(request, response);
-        } catch (SQLException | ConnectionException | NullAccountException | EmailException | ClassNotFoundException | JSONException ex) {
+        } catch (SQLException | ConnectionException | NullAccountException | EmailException | ClassNotFoundException | JSONException | ProfileException ex) {
             Logger.getLogger(ChangeTypeServlet.class.getName()).log(Level.SEVERE, null, ex);
         }
                
@@ -108,7 +107,7 @@ public class ChangeTypeServlet extends HttpServlet {
             throws ServletException, IOException {
         try {
             processRequest(request, response);
-        } catch (SQLException | ConnectionException | NullAccountException | EmailException | ClassNotFoundException | JSONException ex) {
+        } catch (SQLException | ConnectionException | NullAccountException | EmailException | ClassNotFoundException | JSONException | ProfileException ex) {
             Logger.getLogger(ChangeTypeServlet.class.getName()).log(Level.SEVERE, null, ex);
         }
     }
