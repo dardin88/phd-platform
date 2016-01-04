@@ -41,8 +41,8 @@
  
  
     <body class="page-body">
-  <% //String asd=null;
-     // int dat=1; %>
+  <% String asd=null;
+      int dat=1; %>
         <div class="page-body">
             <jsp:include page="barraMenu.jsp"/>
  
@@ -55,7 +55,7 @@
                         <div class="col-sm-10">
                            
                             <div class="form-group">
- <form method="post" action="submit"> 
+ <form method="post" action="registroPresenze.jsp"> 
                                 <label  > Seleziona un corso</label>
                                 <select name="jam" class="form-control" id="Corsoprofessore"  onchange="selectedItem()" >
 
@@ -63,8 +63,9 @@
                  <option value="default"  >  - selezionate il vostro  corso  -  </option>
 
                                 </select>
-           <%  //asd= request.getParameter("jam");
-       // dat=Integer.parseInt(asd.trim());
+           <%  asd= request.getParameter("jam");
+           System.out.println("asd++"+asd);
+       //dat=Integer.parseInt(asd.trim());
                 %>                     
  </form>
                             </div>
