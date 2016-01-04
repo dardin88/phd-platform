@@ -45,11 +45,15 @@ function searchForName()
                     + "<td><button class='btn btn-blu' id=" + value.email + 
                     " onclick='changeType(" + 'id' + ")' > <span class='glyphicon glyphicon-user' aria-hidden='true' ></span> Modifica </button>  </td></tr>";
                 $("#accountListTable").append(account);
+                $("#changeDiv").hide();
           });
         });
       
      }
+     
    });
+   
+   
 }
 
 
