@@ -5,10 +5,7 @@
  */
 package it.unisa.dottorato.account;
 
-import java.sql.SQLException;
 import java.util.ArrayList;
-import java.util.logging.Level;
-import java.util.logging.Logger;
 import org.junit.After;
 import org.junit.Before;
 import org.junit.Test;
@@ -34,21 +31,14 @@ public class AccountManagerTest {
     public void tearDown() {
     }
 
-    /**
-     * Test of getInstance method, of class AccountManager.
-     */
     @Test
     public void testGetInstance() {
         AccountManager result=AccountManager.getInstance();
         assertNotNull(result);
     }
 
-    /**
-     * Test of getAccountByEmail method, of class AccountManager.
-     * @throws java.lang.Exception
-     */
     @Test
-    public void testGetAccountByEmailOk() throws Exception {
+    public void testGetAccountByEmailOk(){
         String sEmail = "dinucci@hotmail.it";
         try{
             instance.getAccountByEmail(sEmail);
@@ -57,13 +47,9 @@ public class AccountManagerTest {
             fail("non sono riuscito ad effettuare l' op");
         }
     }
-    
-    /**
-     * Test of getAccountByEmail method, of class AccountManager.
-     * @throws java.lang.Exception
-     */
+
     @Test
-    public void testGetAccountByEmailNull() throws Exception {
+    public void testGetAccountByEmailNull(){
         String sEmail = null;
         try{
             instance.getAccountByEmail(sEmail);
@@ -72,13 +58,9 @@ public class AccountManagerTest {
             assertTrue(true);
             }
     }
-    
-    /**
-     * Test of getAccountByEmail method, of class AccountManager.
-     * @throws java.lang.Exception
-     */
+
     @Test
-    public void testGetAccountByEmailMax() throws Exception {
+    public void testGetAccountByEmailMax(){
         String sEmail = "wqertyuiopwqertyuiopwqertyuiopwqertyuiopwqertyuiopwqertyuiopwqertyuiop";
         try{
             instance.getAccountByEmail(sEmail);
@@ -87,13 +69,9 @@ public class AccountManagerTest {
             assertTrue(true);
             }
     }
-    
-    /**
-     * Test of getAccountByEmail method, of class AccountManager.
-     * @throws java.lang.Exception
-     */
+
     @Test
-    public void testGetAccountByEmailFormatError() throws Exception {
+    public void testGetAccountByEmailFormatError() {
         String sEmail = "qertyuiopwqertyuiopwqertyuiop";
         try{
             instance.getAccountByEmail(sEmail);
@@ -102,13 +80,9 @@ public class AccountManagerTest {
             assertTrue(true);
             }
     }
-    
-    /**
-     * Test of getAccountByEmail method, of class AccountManager.
-     * @throws java.lang.Exception
-     */
+
     @Test
-    public void testGetAccountByEmailNotExists() throws Exception {
+    public void testGetAccountByEmailNotExists() {
         String sEmail = "erty@uiwqertyuiop.it";
         try{
             instance.getAccountByEmail(sEmail);
@@ -118,9 +92,6 @@ public class AccountManagerTest {
             }
     }
 
-    /**
-     * Test of getAccountList method, of class AccountManager.
-     */
     @Test
     public void testGetAccountListOk() {
         ArrayList<Account> result;
@@ -132,14 +103,8 @@ public class AccountManagerTest {
         }  
     }
 
-    
-    
-    /**
-     * Test of viewProfile method, of class AccountManager.
-     * @throws java.lang.Exception
-     */
     @Test
-    public void testViewProfileOk() throws Exception {
+    public void testViewProfileOk() {
         ac.setSecondaryEmail("dinucci@hotmail.it");
         ac.setTypeAccount("phdstudent");
         try{
@@ -149,13 +114,9 @@ public class AccountManagerTest {
             fail("non sono riuscito a fare l' op");
         }
     }
-    
-    /**
-     * Test of viewProfile method, of class AccountManager.
-     * @throws java.lang.Exception
-     */
+
     @Test
-    public void testViewProfileEmailNull() throws Exception {
+    public void testViewProfileEmailNull() {
         ac.setSecondaryEmail(null);
         ac.setTypeAccount("phdstudent");
         try{
@@ -165,13 +126,9 @@ public class AccountManagerTest {
             assertTrue(true);
         }
     }
-    
-    /**
-     * Test of viewProfile method, of class AccountManager.
-     * @throws java.lang.Exception
-     */
+
     @Test
-    public void testViewProfileEmailMax() throws Exception {
+    public void testViewProfileEmailMax() {
         ac.setSecondaryEmail("qwertyuoi@eeqwertyuoi@eeqwertyuoi@eeqwertyuoi@eeqwertyuoi@eeqwertyuoi@ee");
         ac.setTypeAccount("phdstudent");
         try{
@@ -181,13 +138,9 @@ public class AccountManagerTest {
             assertTrue(true);
         }
     }
-    
-    /**
-     * Test of viewProfile method, of class AccountManager.
-     * @throws java.lang.Exception
-     */
+
     @Test
-    public void testViewProfileEmailFormatError() throws Exception {
+    public void testViewProfileEmailFormatError() {
         ac.setSecondaryEmail("qwertyuodsdsdee");
         ac.setTypeAccount("phdstudent");
         try{
@@ -197,13 +150,9 @@ public class AccountManagerTest {
             assertTrue(true);
         }
     }
-    
-    /**
-     * Test of viewProfile method, of class AccountManager.
-     * @throws java.lang.Exception
-     */
+
     @Test
-    public void testViewProfileEmailNotExists() throws Exception {
+    public void testViewProfileEmailNotExists() {
         ac.setSecondaryEmail("qwertyuo@dsdsdee");
         ac.setTypeAccount("phdstudent");
         try{
@@ -213,13 +162,9 @@ public class AccountManagerTest {
             assertTrue(true);
         }
     }
-    
-    /**
-     * Test of viewProfile method, of class AccountManager.
-     * @throws java.lang.Exception
-     */
+
     @Test
-    public void testViewProfileTypeNull() throws Exception {
+    public void testViewProfileTypeNull() {
         ac.setSecondaryEmail("dinucci@hotmail.it");
         ac.setTypeAccount(null);
         try{
@@ -229,13 +174,9 @@ public class AccountManagerTest {
             assertTrue(true);
         }
     }
-    
-    /**
-     * Test of viewProfile method, of class AccountManager.
-     * @throws java.lang.Exception
-     */
+
     @Test
-    public void testViewProfileTypeNotDominio() throws Exception {
+    public void testViewProfileTypeNotDominio() {
         ac.setSecondaryEmail("dinucci@hotmail.it");
         ac.setTypeAccount("sds");
         try{
@@ -245,13 +186,9 @@ public class AccountManagerTest {
             assertTrue(true);
         }
     }
-    
-    /**
-     * Test of viewProfile method, of class AccountManager.
-     * @throws java.lang.Exception
-     */
+
     @Test
-    public void testViewProfileAccountNull() throws Exception {
+    public void testViewProfileAccountNull() {
         Account nul=null;
         try{
             instance.viewProfile(nul);
@@ -261,30 +198,20 @@ public class AccountManagerTest {
         }
     }
 
-    /**
-     * Test of getPhdStudents method, of class AccountManager.
-     */
     @Test
     public void testGetPhdStudents() {
         ArrayList<PhdStudent> result = instance.getPhdStudents();
         assertNotNull(result);
     }
 
-    /**
-     * Test of getProfessors method, of class AccountManager.
-     */
     @Test
     public void testGetProfessors() {
         ArrayList<Professor> result = instance.getProfessors();
         assertNotNull(result);
     }
 
-    /**
-     * Test of searchUser method, of class AccountManager.
-     * @throws java.lang.Exception
-     */
     @Test
-    public void testSearchUserOk() throws Exception {
+    public void testSearchUserOk() {
         String search = "s";
         try{
             instance.searchUser(search);
@@ -293,13 +220,9 @@ public class AccountManagerTest {
             fail("non sono riuscoto a fare l' op");
         }
     }
-    
-    /**
-     * Test of searchUser method, of class AccountManager.
-     * @throws java.lang.Exception
-     */
+
     @Test
-    public void testSearchUserSearchNull() throws Exception {
+    public void testSearchUserSearchNull() {
         String search = null;
         try{
             instance.searchUser(search);
@@ -309,12 +232,8 @@ public class AccountManagerTest {
         }
     }
 
-    /**
-     * Test of updateProfile method, of class AccountManager.
-     * @throws java.lang.Exception
-     */
     @Test
-    public void testUpdateProfileOk() throws Exception {
+    public void testUpdateProfileOk() {
         String key="dinucci@hotmail.it";
         PhdStudent w=(PhdStudent)ac;
         w.setAdmin(true);
@@ -334,13 +253,9 @@ public class AccountManagerTest {
             fail("non sono riuscito a fare l' op");
         }
     }
-    
-    /**
-     * Test of updateProfile method, of class AccountManager.
-     * @throws java.lang.Exception
-     */
+
     @Test
-    public void testUpdateProfileKeyNull() throws Exception {
+    public void testUpdateProfileKeyNull() {
         String key=null;
         PhdStudent w=(PhdStudent)ac;
         w.setAdmin(true);
@@ -360,13 +275,9 @@ public class AccountManagerTest {
             assertTrue(true);
         }
     }
-    
-    /**
-     * Test of updateProfile method, of class AccountManager.
-     * @throws java.lang.Exception
-     */
+
     @Test
-    public void testUpdateProfileKeyMax() throws Exception {
+    public void testUpdateProfileKeyMax() {
         String key="qwertyuiopqwertyuiopqwertyuiopqwertyuiopqwertyuiopqwertyuiop";
         PhdStudent w=(PhdStudent)ac;
         w.setAdmin(true);
@@ -386,13 +297,9 @@ public class AccountManagerTest {
             assertTrue(true);
         }
     }
-    
-    /**
-     * Test of updateProfile method, of class AccountManager.
-     * @throws java.lang.Exception
-     */
+
     @Test
-    public void testUpdateProfileKeyFormatError() throws Exception {
+    public void testUpdateProfileKeyFormatError() {
         String key="qwertyuiopqweqwertyuiopqwertyuiop";
         PhdStudent w=(PhdStudent)ac;
         w.setAdmin(true);
@@ -412,13 +319,9 @@ public class AccountManagerTest {
             assertTrue(true);
         }
     }
-    
-    /**
-     * Test of updateProfile method, of class AccountManager.
-     * @throws java.lang.Exception
-     */
+
     @Test
-    public void testUpdateProfileNameMin() throws Exception {
+    public void testUpdateProfileNameMin() {
         String key="dinucci@hotmail.it";
         PhdStudent w=(PhdStudent)ac;
         w.setName("");
@@ -438,13 +341,9 @@ public class AccountManagerTest {
             assertTrue(true);
         }
     }
-    
-    /**
-     * Test of updateProfile method, of class AccountManager.
-     * @throws java.lang.Exception
-     */
+
     @Test
-    public void testUpdateProfileNameMax() throws Exception {
+    public void testUpdateProfileNameMax() {
         String key="dinucci@hotmail.it";
         PhdStudent w=(PhdStudent)ac;
         w.setName("qwertyuiopqweqweqwertyuiopqweqweqwertyuiopqweqwe");
@@ -464,13 +363,9 @@ public class AccountManagerTest {
             assertTrue(true);
         }
     }
-    
-    /**
-     * Test of updateProfile method, of class AccountManager.
-     * @throws java.lang.Exception
-     */
+
     @Test
-    public void testUpdateProfileNameFormatError() throws Exception {
+    public void testUpdateProfileNameFormatError() {
         String key="dinucci@hotmail.it";
         PhdStudent w=(PhdStudent)ac;
         w.setName("qw123");
@@ -490,13 +385,9 @@ public class AccountManagerTest {
             assertTrue(true);
         }
     }
-    
-    /**
-     * Test of updateProfile method, of class AccountManager.
-     * @throws java.lang.Exception
-     */
+
     @Test
-    public void testUpdateProfileSurnameMin() throws Exception {
+    public void testUpdateProfileSurnameMin() {
         String key="dinucci@hotmail.it";
         PhdStudent w=(PhdStudent)ac;
         w.setName("prova");
@@ -516,13 +407,9 @@ public class AccountManagerTest {
             assertTrue(true);
         }
     }
-    
-    /**
-     * Test of updateProfile method, of class AccountManager.
-     * @throws java.lang.Exception
-     */
+
     @Test
-    public void testUpdateProfileSurnameMax() throws Exception {
+    public void testUpdateProfileSurnameMax() {
         String key="dinucci@hotmail.it";
         PhdStudent w=(PhdStudent)ac;
         w.setName("prova");
@@ -542,13 +429,9 @@ public class AccountManagerTest {
             assertTrue(true);
         }
     }
-    
-    /**
-     * Test of updateProfile method, of class AccountManager.
-     * @throws java.lang.Exception
-     */
+
     @Test
-    public void testUpdateProfileSurnameFormatError() throws Exception {
+    public void testUpdateProfileSurnameFormatError() {
         String key="dinucci@hotmail.it";
         PhdStudent w=(PhdStudent)ac;
         w.setName("prova");
@@ -568,13 +451,9 @@ public class AccountManagerTest {
             assertTrue(true);
         }
     }
-    
-    /**
-     * Test of updateProfile method, of class AccountManager.
-     * @throws java.lang.Exception
-     */
+
     @Test
-    public void testUpdateProfilePasswordMin() throws Exception {
+    public void testUpdateProfilePasswordMin() {
         String key="dinucci@hotmail.it";
         PhdStudent w=(PhdStudent)ac;
         w.setName("prova");
@@ -594,13 +473,9 @@ public class AccountManagerTest {
             assertTrue(true);
         }
     }
-    
-    /**
-     * Test of updateProfile method, of class AccountManager.
-     * @throws java.lang.Exception
-     */
+
     @Test
-    public void testUpdateProfilePasswordMax() throws Exception {
+    public void testUpdateProfilePasswordMax() {
         String key="dinucci@hotmail.it";
         PhdStudent w=(PhdStudent)ac;
         w.setName("prova");
@@ -620,13 +495,9 @@ public class AccountManagerTest {
             assertTrue(true);
         }
     }
-    
-    /**
-     * Test of updateProfile method, of class AccountManager.
-     * @throws java.lang.Exception
-     */
+
     @Test
-    public void testUpdateProfilePasswordFormatError() throws Exception {
+    public void testUpdateProfilePasswordFormatError() {
         String key="dinucci@hotmail.it";
         PhdStudent w=(PhdStudent)ac;
         w.setName("prova");
@@ -646,13 +517,9 @@ public class AccountManagerTest {
             assertTrue(true);
         }
     }
-    
-    /**
-     * Test of updateProfile method, of class AccountManager.
-     * @throws java.lang.Exception
-     */
+ 
     @Test
-    public void testUpdateProfileSecEmailMin() throws Exception {
+    public void testUpdateProfileSecEmailMin() {
         String key="dinucci@hotmail.it";
         PhdStudent w=(PhdStudent)ac;
         w.setName("prova");
@@ -672,13 +539,9 @@ public class AccountManagerTest {
             assertTrue(true);
         }
     }
-    
-    /**
-     * Test of updateProfile method, of class AccountManager.
-     * @throws java.lang.Exception
-     */
+
     @Test
-    public void testUpdateProfileSecEmailMax() throws Exception {
+    public void testUpdateProfileSecEmailMax() {
         String key="dinucci@hotmail.it";
         PhdStudent w=(PhdStudent)ac;
         w.setName("prova");
@@ -698,13 +561,9 @@ public class AccountManagerTest {
             assertTrue(true);
         }
     }
-    
-    /**
-     * Test of updateProfile method, of class AccountManager.
-     * @throws java.lang.Exception
-     */
+
     @Test
-    public void testUpdateProfileSecEmailFormatError() throws Exception {
+    public void testUpdateProfileSecEmailFormatError() {
         String key="dinucci@hotmail.it";
         PhdStudent w=(PhdStudent)ac;
         w.setName("prova");
@@ -724,13 +583,9 @@ public class AccountManagerTest {
             assertTrue(true);
         }
     }
-    
-    /**
-     * Test of updateProfile method, of class AccountManager.
-     * @throws java.lang.Exception
-     */
+
     @Test
-    public void testUpdateProfileEmailInsert() throws Exception {
+    public void testUpdateProfileEmailInsert() {
         String key="dinucci@hotmail.it";
         PhdStudent w=(PhdStudent)ac;
         w.setName("prova");
@@ -750,13 +605,9 @@ public class AccountManagerTest {
             assertTrue(true);
         }
     }
-    
-    /**
-     * Test of updateProfile method, of class AccountManager.
-     * @throws java.lang.Exception
-     */
+
     @Test
-    public void testUpdateProfiletelephoneMin() throws Exception {
+    public void testUpdateProfiletelephoneMin() {
         String key="dinucci@hotmail.it";
         PhdStudent w=(PhdStudent)ac;
         w.setName("prova");
@@ -776,13 +627,9 @@ public class AccountManagerTest {
             assertTrue(true);
         }
     }
-    
-    /**
-     * Test of updateProfile method, of class AccountManager.
-     * @throws java.lang.Exception
-     */
+
     @Test
-    public void testUpdateProfiletelephoneMax() throws Exception {
+    public void testUpdateProfiletelephoneMax() {
         String key="dinucci@hotmail.it";
         PhdStudent w=(PhdStudent)ac;
         w.setName("prova");
@@ -802,13 +649,9 @@ public class AccountManagerTest {
             assertTrue(true);
         }
     }
-    
-    /**
-     * Test of updateProfile method, of class AccountManager.
-     * @throws java.lang.Exception
-     */
+
     @Test
-    public void testUpdateProfiletelephoneFormatError() throws Exception {
+    public void testUpdateProfiletelephoneFormatError() {
         String key="dinucci@hotmail.it";
         PhdStudent w=(PhdStudent)ac;
         w.setName("prova");
@@ -828,13 +671,9 @@ public class AccountManagerTest {
             assertTrue(true);
         }
     }
-    
-    /**
-     * Test of updateProfile method, of class AccountManager.
-     * @throws java.lang.Exception
-     */
+
     @Test
-    public void testUpdateProfileLinkMin() throws Exception {
+    public void testUpdateProfileLinkMin() {
         String key="dinucci@hotmail.it";
         PhdStudent w=(PhdStudent)ac;
         w.setName("prova");
@@ -854,13 +693,9 @@ public class AccountManagerTest {
             assertTrue(true);
         }
     }
-    
-    /**
-     * Test of updateProfile method, of class AccountManager.
-     * @throws java.lang.Exception
-     */
+
     @Test
-    public void testUpdateProfileLinkMax() throws Exception {
+    public void testUpdateProfileLinkMax() {
         String key="dinucci@hotmail.it";
         PhdStudent w=(PhdStudent)ac;
         w.setName("prova");
@@ -880,13 +715,9 @@ public class AccountManagerTest {
             assertTrue(true);
         }
     }
-    
-    /**
-     * Test of updateProfile method, of class AccountManager.
-     * @throws java.lang.Exception
-     */
+
     @Test
-    public void testUpdateProfileDepartmentMin() throws Exception {
+    public void testUpdateProfileDepartmentMin() {
         String key="dinucci@hotmail.it";
         PhdStudent w=(PhdStudent)ac;
         w.setName("prova");
@@ -906,13 +737,9 @@ public class AccountManagerTest {
             assertTrue(true);
         }
     }
-    
-    /**
-     * Test of updateProfile method, of class AccountManager.
-     * @throws java.lang.Exception
-     */
+
     @Test
-    public void testUpdateProfileDepartmentMax() throws Exception {
+    public void testUpdateProfileDepartmentMax() {
         String key="dinucci@hotmail.it";
         PhdStudent w=(PhdStudent)ac;
         w.setName("prova");
@@ -932,13 +759,9 @@ public class AccountManagerTest {
             assertTrue(true);
         }
     }
-    
-    /**
-     * Test of updateProfile method, of class AccountManager.
-     * @throws java.lang.Exception
-     */
+
     @Test
-    public void testUpdateProfileDepartmentFormatError() throws Exception {
+    public void testUpdateProfileDepartmentFormatError() {
         String key="dinucci@hotmail.it";
         PhdStudent w=(PhdStudent)ac;
         w.setName("prova");
@@ -958,13 +781,9 @@ public class AccountManagerTest {
             assertTrue(true);
         }
     }
-    
-    /**
-     * Test of updateProfile method, of class AccountManager.
-     * @throws java.lang.Exception
-     */
+
     @Test
-    public void testUpdateProfileresearchInterestMin() throws Exception {
+    public void testUpdateProfileresearchInterestMin() {
         String key="dinucci@hotmail.it";
         PhdStudent w=(PhdStudent)ac;
         w.setName("prova");
@@ -984,13 +803,9 @@ public class AccountManagerTest {
             assertTrue(true);
         }
     }
-    
-    /**
-     * Test of changeType method, of class AccountManager.
-     * @throws java.lang.Exception
-     */
+
     @Test
-    public void testChangeTypeOk() throws Exception {
+    public void testChangeTypeOk() {
         String newType="phdstudent";
         String em="dracula@hotmail.it";
         try{
@@ -1000,13 +815,9 @@ public class AccountManagerTest {
             fail("non sono riuscito a fare l' op");
         }
     }
-    
-    /**
-     * Test of changeType method, of class AccountManager.
-     * @throws java.lang.Exception
-     */
+
     @Test
-    public void testChangeTypeNewTypeNull() throws Exception {
+    public void testChangeTypeNewTypeNull() {
         String newType=null;
        String em="dracula@hotmail.it";
         try{
@@ -1016,13 +827,9 @@ public class AccountManagerTest {
             assertTrue(true);
         }
     }
-    
-    /**
-     * Test of changeType method, of class AccountManager.
-     * @throws java.lang.Exception
-     */
+
     @Test
-    public void testChangeTypeNewTypeNotDominio() throws Exception {
+    public void testChangeTypeNewTypeNotDominio() {
         String newType="dsdd";
         String em="dracula@hotmail.it";
         try{
@@ -1032,13 +839,9 @@ public class AccountManagerTest {
             assertTrue(true);
         }
     }
-    
-    /**
-     * Test of changeType method, of class AccountManager.
-     * @throws java.lang.Exception
-     */
+
     @Test
-    public void testChangeTypeEmailNull() throws Exception {
+    public void testChangeTypeEmailNull() {
         String newType="phdstudent";
         try{
             instance.changeType(null, newType);
@@ -1047,13 +850,9 @@ public class AccountManagerTest {
             assertTrue(true);
         }
     }
-    
-    /**
-     * Test of changeType method, of class AccountManager.
-     * @throws java.lang.Exception
-     */
+
     @Test
-    public void testChangeTypeEmailMax() throws Exception {
+    public void testChangeTypeEmailMax() {
         String newType="phdstudent";
         String em="wertwertwerwertwertwerwertwertwerwertwertwerwertwertwerwertwertwer";
         try{
@@ -1063,13 +862,9 @@ public class AccountManagerTest {
             assertTrue(true);
         }
     }
-    
-    /**
-     * Test of changeType method, of class AccountManager.
-     * @throws java.lang.Exception
-     */
+
     @Test
-    public void testChangeTypeEmailFormatError() throws Exception {
+    public void testChangeTypeEmailFormatError() {
         String newType="phdstudent";
         String em="wertwertwertwerwertwertwer";
         try{
@@ -1079,13 +874,9 @@ public class AccountManagerTest {
             assertTrue(true);
         }
     }
-    
-    /**
-     * Test of changeType method, of class AccountManager.
-     * @throws java.lang.Exception
-     */
+
     @Test
-    public void testChangeTypeEmailNotexists() throws Exception {
+    public void testChangeTypeEmailNotexists() {
         String newType="phdstudent";
         String em="wertwertwe@twerwertwertwer";
         try{
@@ -1096,12 +887,8 @@ public class AccountManagerTest {
         }
     }
 
-    /**
-     * Test of inviteUser method, of class AccountManager.
-     * @throws java.lang.Exception
-     */
     @Test
-    public void testInviteUserOk() throws Exception {
+    public void testInviteUserOk() {
         String email = "tommaso@hotmail.it";
         try{
             instance.inviteUser(email);
@@ -1110,13 +897,9 @@ public class AccountManagerTest {
             fail("non sono riuscito a fare l' op");
         }
     }
-    
-    /**
-     * Test of inviteUser method, of class AccountManager.
-     * @throws java.lang.Exception
-     */
+
     @Test
-    public void testInviteUserNull() throws Exception {
+    public void testInviteUserNull() {
         String email = null;
         try{
             instance.inviteUser(email);
@@ -1125,13 +908,9 @@ public class AccountManagerTest {
             assertTrue(true);  
         }
     }
-    
-    /**
-     * Test of inviteUser method, of class AccountManager.
-     * @throws java.lang.Exception
-     */
+
     @Test
-    public void testInviteUserMax() throws Exception {
+    public void testInviteUserMax() {
         String email = "qwertyuiopqqwertyuiopqqwertyuiopqqwertyuiopqqwertyuiopqqwertyuiopq";
         try{
             instance.inviteUser(email);
@@ -1140,13 +919,9 @@ public class AccountManagerTest {
             assertTrue(true);  
         }
     }
-    
-    /**
-     * Test of inviteUser method, of class AccountManager.
-     * @throws java.lang.Exception
-     */
+
     @Test
-    public void testInviteUserFormatError() throws Exception {
+    public void testInviteUserFormatError() {
         String email = "qwertyuiopqqwertyuioppqqwertyuiopq";
         try{
             instance.inviteUser(email);
@@ -1155,13 +930,9 @@ public class AccountManagerTest {
             assertTrue(true);  
         }
     }
-    
-    /**
-     * Test of insertStudentTutor method, of class AccountManager.
-     * @throws java.lang.Exception
-     */
+
     @Test
-    public void testInsertStudentTutorOk() throws Exception {
+    public void testInsertStudentTutorOk() {
         String fkPhdstudent = "dinucci@hotmail.it";
         String Tutor = "adelucia@hotmail.it";
         try{
@@ -1171,13 +942,9 @@ public class AccountManagerTest {
             fail("non sono riuscito a fare l' op");
         }
     }
-    
-    /**
-     * Test of insertStudentTutor method, of class AccountManager.
-     * @throws java.lang.Exception
-     */
+
     @Test
-    public void testInsertStudentTutorFkStudentNull() throws Exception {
+    public void testInsertStudentTutorFkStudentNull() {
         String fkPhdstudent = null;
         String Tutor = "adelucia@hotmail.it";
         try{
@@ -1187,13 +954,9 @@ public class AccountManagerTest {
             assertTrue(true);
         }
     }
-    
-    /**
-     * Test of insertStudentTutor method, of class AccountManager.
-     * @throws java.lang.Exception
-     */
+
     @Test
-    public void testInsertStudentTutorFkStudentMax() throws Exception {
+    public void testInsertStudentTutorFkStudentMax() {
         String fkPhdstudent = "dqwertyuiopdqwertyuiopdqwertyuiopdqwertyuiopdqwertyuiopdqwertyuiop";
         String Tutor = "adelucia@hotmail.it";
         try{
@@ -1203,13 +966,9 @@ public class AccountManagerTest {
             assertTrue(true);
         }
     }
-    
-    /**
-     * Test of insertStudentTutor method, of class AccountManager.
-     * @throws java.lang.Exception
-     */
+
     @Test
-    public void testInsertStudentTutorFkStudentFormatError() throws Exception {
+    public void testInsertStudentTutorFkStudentFormatError() {
         String fkPhdstudent = "dqwertyui@iopdqwertyuiop";
         String Tutor = "adelucia@hotmail.it";
         try{
@@ -1219,13 +978,9 @@ public class AccountManagerTest {
             assertTrue(true);
         }
     }
-    
-    /**
-     * Test of insertStudentTutor method, of class AccountManager.
-     * @throws java.lang.Exception
-     */
+
     @Test
-    public void testInsertStudentTutorFkStudentNotExists() throws Exception {
+    public void testInsertStudentTutorFkStudentNotExists() {
         String fkPhdstudent = "dsd@sdsdsdsp";
         String Tutor = "adelucia@hotmail.it";
         try{
@@ -1235,13 +990,9 @@ public class AccountManagerTest {
             assertTrue(true);
         }
     }
-    
-    /**
-     * Test of insertStudentTutor method, of class AccountManager.
-     * @throws java.lang.Exception
-     */
+
     @Test
-    public void testInsertStudentTutorFkTutorNull() throws Exception {
+    public void testInsertStudentTutorFkTutorNull() {
         String fkPhdstudent = "dinucci@hotmail.it";
         String Tutor = null;
         try{
@@ -1251,13 +1002,9 @@ public class AccountManagerTest {
             assertTrue(true);
         }
     }
-    
-    /**
-     * Test of insertStudentTutor method, of class AccountManager.
-     * @throws java.lang.Exception
-     */
+
     @Test
-    public void testInsertStudentTutorFkTutorMax() throws Exception {
+    public void testInsertStudentTutorFkTutorMax() {
         String fkPhdstudent = "dinucci@hotmail.it";
         String Tutor = "dinucci@hotmail.itdinucci@hotmail.itdinucci@hotmail.itdinucci@hotmail.itdinucci@hotmail.it";
         try{
@@ -1267,14 +1014,9 @@ public class AccountManagerTest {
             assertTrue(true);
         }
     }
-    
-    
-    /**
-     * Test of insertStudentTutor method, of class AccountManager.
-     * @throws java.lang.Exception
-     */
+
     @Test
-    public void testInsertStudentTutorFkTutorMin() throws Exception {
+    public void testInsertStudentTutorFkTutorMin() {
         String fkPhdstudent = "dinucci@hotmail.it";
         String Tutor = "dinail.it";
         try{
@@ -1284,13 +1026,8 @@ public class AccountManagerTest {
             assertTrue(true);
         }
     }
-    
-    /**
-     * Test of insertStudentTutor method, of class AccountManager.
-     * @throws java.lang.Exception
-     */
-    @Test
-    public void testInsertStudentTutorFkTutorFormatError() throws Exception {
+
+    public void testInsertStudentTutorFkTutorFormatError() {
         String fkPhdstudent = "dinucci@hotmail.it";
         String Tutor = "dotmail.itdinuccihotmail.it";
         try{
@@ -1300,13 +1037,9 @@ public class AccountManagerTest {
             assertTrue(true);
         }
     }
-    
-    /**
-     * Test of insertStudentTutor method, of class AccountManager.
-     * @throws java.lang.Exception
-     */
+
     @Test
-    public void testInsertStudentTutorFkTutorNotExists() throws Exception {
+    public void testInsertStudentTutorFkTutorNotExists() {
         String fkPhdstudent = "dinucci@hotmail.it";
         String Tutor = "di@hotmaill.it";
         try{
@@ -1317,16 +1050,8 @@ public class AccountManagerTest {
         }
     }
 
-    
-    
-    
-
-    /**
-     * Test of getTutor method, of class AccountManager.
-     * @throws java.lang.Exception
-     */
     @Test
-    public void testGetTutorOk() throws Exception {
+    public void testGetTutorOk() {
         String idStudent = "ballo@hotmail.it";
         try{
             Professor result = instance.getTutor(idStudent);
@@ -1335,13 +1060,9 @@ public class AccountManagerTest {
             fail("non sono riuscito a fare l' op");
         }
     }
-    
-    /**
-     * Test of getTutor method, of class AccountManager.
-     * @throws java.lang.Exception
-     */
+
     @Test
-    public void testGetTutorStudentNull() throws Exception {
+    public void testGetTutorStudentNull() {
         String idStudent = null;
         try{
             instance.getTutor(idStudent);
@@ -1350,13 +1071,9 @@ public class AccountManagerTest {
             assertTrue(true);
         }
     }
-    
-    /**
-     * Test of getTutor method, of class AccountManager.
-     * @throws java.lang.Exception
-     */
+
     @Test
-    public void testGetTutorStudentMax() throws Exception {
+    public void testGetTutorStudentMax() {
         String idStudent = "qwertyuiopqwertyuiopqwertyuiopqwertyuiopqwertyuiopqwertyuiopqwertyuiopqwertyuiop";
         try{
             Professor result = instance.getTutor(idStudent);
@@ -1365,13 +1082,9 @@ public class AccountManagerTest {
             assertTrue(true);
         }
     }
-    
-    /**
-     * Test of getTutor method, of class AccountManager.
-     * @throws java.lang.Exception
-     */
+
     @Test
-    public void testGetTutorStudentFormatError() throws Exception {
+    public void testGetTutorStudentFormatError() {
         String idStudent = "qwpqwertyuopqwertyuiop";
         try{
             instance.getTutor(idStudent);
@@ -1380,14 +1093,9 @@ public class AccountManagerTest {
             assertTrue(true);
         }
     }
-    
-    
-    /**
-     * Test of getTutor method, of class AccountManager.
-     * @throws java.lang.Exception
-     */
+
     @Test
-    public void testGetTutorStudentNotExists() throws Exception {
+    public void testGetTutorStudentNotExists() {
         String idStudent = "quiopqwertyuio@pqwertyuiop";
         try{
             instance.getTutor(idStudent);
@@ -1397,12 +1105,8 @@ public class AccountManagerTest {
         }
     }
 
-    /**
-     * Test of updateStudentTutor method, of class AccountManager.
-     * @throws java.lang.Exception
-     */
     @Test
-    public void testUpdateStudentTutorOk() throws Exception {
+    public void testUpdateStudentTutorOk() {
         String fkPhdstudent = "dinucci@hotmail.it";
         String Tutor = "adelucia@hotmail.it";
         try{
@@ -1412,13 +1116,9 @@ public class AccountManagerTest {
             fail("non sono riuscito a fare l' op");
         }
     }
-    
-    /**
-     * Test of updateStudentTutor method, of class AccountManager.
-     * @throws java.lang.Exception
-     */
+
     @Test
-    public void testUpdateStudentTutorFkStudentNull() throws Exception {
+    public void testUpdateStudentTutorFkStudentNull() {
         String fkPhdstudent = null;
         String Tutor = "adelucia@hotmail.it";
         try{
@@ -1428,13 +1128,9 @@ public class AccountManagerTest {
             assertTrue(true);
         }
     }
-    
-    /**
-     * Test of updateStudentTutor method, of class AccountManager.
-     * @throws java.lang.Exception
-     */
+
     @Test
-    public void testUpdateStudentTutorFkStudentMax() throws Exception {
+    public void testUpdateStudentTutorFkStudentMax() {
         String fkPhdstudent = "dqwertyuiopdqwertyuiopdqwertyuiopdqwertyuiopdqwertyuiopdqwertyuiop";
         String Tutor = "adelucia@hotmail.it";
         try{
@@ -1444,13 +1140,9 @@ public class AccountManagerTest {
             assertTrue(true);
         }
     }
-    
-    /**
-     * Test of updateStudentTutor method, of class AccountManager.
-     * @throws java.lang.Exception
-     */
+
     @Test
-    public void testUpdateStudentTutorFkStudentFormatError() throws Exception {
+    public void testUpdateStudentTutorFkStudentFormatError() {
         String fkPhdstudent = "dqwertyui@iopdqwertyuiop";
         String Tutor = "adelucia@hotmail.it";
         try{
@@ -1460,13 +1152,9 @@ public class AccountManagerTest {
             assertTrue(true);
         }
     }
-    
-    /**
-     * Test of updateStudentTutor method, of class AccountManager.
-     * @throws java.lang.Exception
-     */
+
     @Test
-    public void testUpdateStudentTutorFkStudentNotExists() throws Exception {
+    public void testUpdateStudentTutorFkStudentNotExists() {
         String fkPhdstudent = "dsd@sdsdsdsp";
         String Tutor = "adelucia@hotmail.it";
         try{
@@ -1476,13 +1164,9 @@ public class AccountManagerTest {
             assertTrue(true);
         }
     }
-    
-    /**
-     * Test of updateStudentTutor method, of class AccountManager.
-     * @throws java.lang.Exception
-     */
+
     @Test
-    public void testUpdateStudentTutorFkTutorNull() throws Exception {
+    public void testUpdateStudentTutorFkTutorNull() {
         String fkPhdstudent = "dinucci@hotmail.it";
         String Tutor = null;
         try{
@@ -1492,13 +1176,9 @@ public class AccountManagerTest {
             assertTrue(true);
         }
     }
-    
-    /**
-     * Test of updateStudentTutor method, of class AccountManager.
-     * @throws java.lang.Exception
-     */
+
     @Test
-    public void testUpdateStudentTutorFkTutorMax() throws Exception {
+    public void testUpdateStudentTutorFkTutorMax() {
         String fkPhdstudent = "dinucci@hotmail.it";
         String Tutor = "dinucci@hotmail.itdinucci@hotmail.itdinucci@hotmail.itdinucci@hotmail.itdinucci@hotmail.it";
         try{
@@ -1508,14 +1188,9 @@ public class AccountManagerTest {
             assertTrue(true);
         }
     }
-    
-    
-    /**
-     * Test of updateStudentTutor method, of class AccountManager.
-     * @throws java.lang.Exception
-     */
+
     @Test
-    public void testUpdateStudentTutorFkTutorMin() throws Exception {
+    public void testUpdateStudentTutorFkTutorMin() {
         String fkPhdstudent = "dinucci@hotmail.it";
         String Tutor = "dinail.it";
         try{
@@ -1525,13 +1200,9 @@ public class AccountManagerTest {
             assertTrue(true);
         }
     }
-    
-    /**
-     * Test of updateStudentTutor method, of class AccountManager.
-     * @throws java.lang.Exception
-     */
+
     @Test
-    public void testUpdateStudentTutorFkTutorFormatError() throws Exception {
+    public void testUpdateStudentTutorFkTutorFormatError() {
         String fkPhdstudent = "dinucci@hotmail.it";
         String Tutor = "dotmail.itdinuccihotmail.it";
         try{
@@ -1541,13 +1212,9 @@ public class AccountManagerTest {
             assertTrue(true);
         }
     }
-    
-    /**
-     * Test of updateStudentTutor method, of class AccountManager.
-     * @throws java.lang.Exception
-     */
+
     @Test
-    public void testUpdateStudentTutorFkTutorNotExists() throws Exception {
+    public void testUpdateStudentTutorFkTutorNotExists() {
         String fkPhdstudent = "dinucci@hotmail.it";
         String Tutor = "di@hotmaill.it";
         try{
@@ -1558,15 +1225,14 @@ public class AccountManagerTest {
         }
     }
 
-    /**
-     * Test of deleteStudentTutor method, of class AccountManager.
-     * @throws java.lang.Exception
-     */
     @Test
-    public void testDeleteStudentTutorOk() throws Exception {
+    public void testDeleteStudentTutorOk() {
         String ins="dinucci@hotmail.it";
         String prof="adelucia@hotmail.it";
-        instance.insertStudentTutor(ins, prof);
+        try {
+            instance.insertStudentTutor(ins, prof);
+        } catch (Exception ex) {
+        }
         try{
             instance.deleteStudentTutor(ins);
             assertTrue(true);
@@ -1575,12 +1241,8 @@ public class AccountManagerTest {
         }
     }
     
-    /**
-     * Test of deleteStudentTutor method, of class AccountManager.
-     * @throws java.lang.Exception
-     */
     @Test
-    public void testDeleteStudentTutorStudentNull() throws Exception {
+    public void testDeleteStudentTutorStudentNull() {
         String stud= null;
         try{
             instance.deleteStudentTutor(stud);
@@ -1590,12 +1252,8 @@ public class AccountManagerTest {
         }
     }
     
-    /**
-     * Test of deleteStudentTutor method, of class AccountManager.
-     * @throws java.lang.Exception
-     */
     @Test
-    public void testDeleteStudentTutorStudentMax() throws Exception {
+    public void testDeleteStudentTutorStudentMax() {
         String stud= "qwertyuiopoqwertyuiopoqwertyuiopoqwertyuiopoqwertyuiopoqwertyuiopoqwertyuiopo";
         try{
             instance.deleteStudentTutor(stud);
@@ -1604,13 +1262,9 @@ public class AccountManagerTest {
             assertTrue(true);
         }
     }
-    
-    /**
-     * Test of deleteStudentTutor method, of class AccountManager.
-     * @throws java.lang.Exception
-     */
+
     @Test
-    public void testDeleteStudentTutorStudentFormatError() throws Exception {
+    public void testDeleteStudentTutorStudentFormatError() {
         String stud= "qpoqwertyuiopoqwertyuiopo";
         try{
             instance.deleteStudentTutor(stud);
@@ -1620,12 +1274,8 @@ public class AccountManagerTest {
         }
     }
     
-    /**
-     * Test of deleteStudentTutor method, of class AccountManager.
-     * @throws java.lang.Exception
-     */
     @Test
-    public void testDeleteStudentTutorStudentùNotExists() throws Exception {
+    public void testDeleteStudentTutorStudentùNotExists() {
         String stud= "qpoqwertyuiopoqwerty@uiopo";
         try{
             instance.deleteStudentTutor(stud);
@@ -1634,5 +1284,4 @@ public class AccountManagerTest {
             assertTrue(true);
         }
     }
-
 }

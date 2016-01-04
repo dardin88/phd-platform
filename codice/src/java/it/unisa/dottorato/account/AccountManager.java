@@ -58,7 +58,8 @@ public class AccountManager {
      * @throws ConnectionException
      * @throws ClassNotFoundException
      */
-    public Account getAccountByEmail(String sEmail) throws SQLException, ConnectionException, ClassNotFoundException {
+    public Account getAccountByEmail(String sEmail) throws SQLException, ConnectionException,
+            ClassNotFoundException {
         Statement stmt = null;
         Statement stmt2 = null;
         ResultSet rs = null;
@@ -237,13 +238,9 @@ public class AccountManager {
 
             return profile;
 
-        } catch (SQLException ex) {
-            Logger.getLogger(AccountManager.class.getName()).log(Level.SEVERE, null, ex);
-        } finally {
+        }finally {
             DBConnection.releaseConnection(connect);
         }
-
-        return null;
     }
 
     /**
@@ -252,9 +249,10 @@ public class AccountManager {
      *
      * @return restituisce un array list di account di tutti gli account dei
      * phdStudent presenti nella piattaforma
+     * @throws java.sql.SQLException
      */
 
-    public ArrayList<PhdStudent> getPhdStudents() {
+    public ArrayList<PhdStudent> getPhdStudents() throws SQLException{
         Connection connect = null;
 
         try {
@@ -289,12 +287,9 @@ public class AccountManager {
                 System.out.println(temp);
             }
             return students;
-        } catch (SQLException ex) {
-            Logger.getLogger(AccountManager.class.getName()).log(Level.SEVERE, null, ex);
-        } finally {
+        }finally {
             DBConnection.releaseConnection(connect);
         }
-        return null;
     }
 
     /**
@@ -303,8 +298,9 @@ public class AccountManager {
      *
      * @return restituisce un array list di account di tutti gli account dei
      * professori presenti nella piattaforma
+     * @throws java.sql.SQLException
      */
-    public ArrayList<Professor> getProfessors() {
+    public ArrayList<Professor> getProfessors() throws SQLException {
         Connection connect = null;
 
         try {
@@ -335,12 +331,9 @@ public class AccountManager {
 
             return professors;
 
-        } catch (SQLException ex) {
-            Logger.getLogger(AccountManager.class.getName()).log(Level.SEVERE, null, ex);
-        } finally {
+        }finally {
             DBConnection.releaseConnection(connect);
         }
-        return null;
     }
 
     public void updateIsAdmin(String secondaryEmail, boolean var) throws SQLException, EmailException {
@@ -498,8 +491,7 @@ public class AccountManager {
     /**
      * Metodo della classe incaricato dell'aggiornamento di un tipo di un
      * account
-     *
-     * @param pAccount account da aggiornare
+     * @param email
      * @param newType il nuovo tipo da inserire
      * @throws SQLException
      * @throws ConnectionException
@@ -813,7 +805,7 @@ public class AccountManager {
      * @throws EmailException
      */
     public String testEmail(String email) throws EmailException {
-        if (email.isEmpty() || email.length() > 50 || email.indexOf("@") == -1) {
+        if (email.isEmpty() || (email.length() > 50) || !email.contains("@")) {
             throw new EmailException();
         }
         return email;
@@ -828,7 +820,7 @@ public class AccountManager {
      * @throws PasswordException
      */
     public String testPassword(String pass) throws PasswordException {
-        if (pass.isEmpty() || (pass.length() > 20 && pass.length() < 8)) {
+        if ((pass.length() > 16) || (pass.length() < 8)) {
             throw new PasswordException();
         }
         return pass;
