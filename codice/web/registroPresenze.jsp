@@ -55,20 +55,39 @@
                         <div class="col-sm-10">
                            
                             <div class="form-group">
- <form method="post" action="registroPresenze.jsp"> 
-                                <label  > Seleziona un corso</label>
-                                <select name="jam" class="form-control" id="Corsoprofessore"  onchange="selectedItem()" >
+                                
+                                 <% 
+ 
+      
+    List<Course> corsi = CalendarManager.getInstance().getAllCourse();
 
+            %>
+
+     <FORM ACTION="Submit" METHOD="POST"> 
+                                <label  > Seleziona un corso</label>
+                                
+                                <select name="Corsoprofessore" class="form-control" id="Corsoprofessore"  onclick="selectedItem()" >
+ <% for (Course corso : corsi) {%>
                
                  <option value="default"  >  - selezionate il vostro  corso  -  </option>
-               <%  asd = request.getParameter("jam");
-                  System.out.println("ciao" + asd);
-       //dat=Integer.parseInt(asd.trim());
-                %>    
+                 <option value=<%= corso.getIdCourse() %> > <%=corso.getName() %>  </option>
+                 <% } %>
                                 </select>
-          
- </form>
-                                   
+                             
+             <%  
+  
+     String subject=request.getParameter("Corsoprofessore");
+// int subjectid = 0;
+
+    // subjectid=Integer.parseInt(subject.trim());
+ 
+
+                  System.out.println("ciao" +subject );
+       dat=Integer.parseInt(subject.trim());
+ 
+               %> 
+     </form>
+                                 
                             </div>
                         </div>
  
@@ -87,7 +106,7 @@
                                      <% 
  
       
-    List<Lesson> missions = PresenceManager.getInstance().getAllLessonOf(1);
+    List<Lesson> missions = PresenceManager.getInstance().getAllLessonOf(dat);
 
             %>
             

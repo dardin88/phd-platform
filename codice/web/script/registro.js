@@ -6,12 +6,12 @@
 
 $(document).ready(function () {
  
-    getCorsoList();
+    //getCorsoList();
     //getLesson();
 });
 
 
-function getCorsoList()
+/*function getCorsoList()
 {
  //servlet per richiamare la lista dei nomi lezioni
    $.getJSON("GetAllCourse", function (data) {
@@ -23,7 +23,7 @@ function getCorsoList()
         });
     });
     
-}
+}*/
 //metodo per chiamare tutt ele lezioni
 function selectedItem()
 {
@@ -71,7 +71,7 @@ $.getJSON("GetPresenceToLesson", {idCourse: selected, fkPhdstudent: id}, functio
 
 function changePresenza(id,lezione) {
     
-   
+   alert("firma inserita");
     $.getJSON("ModifyPresence",{fkPhdstudent:id,fkLesson:lezione}, function (data) { 
     
     });

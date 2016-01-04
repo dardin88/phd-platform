@@ -41,8 +41,8 @@
  
  
     <body class="page-body">
-  <% //String s=null;
-      //int dat=0; %>
+  <% String asd=null;
+      int dat=1; %>
         <div class="page-body">
             <jsp:include page="barraMenu.jsp"/>
  
@@ -55,18 +55,39 @@
                         <div class="col-sm-10">
                            
                             <div class="form-group">
- <form method="post" action="submit"> 
-                                <label  > Seleziona un corso</label>
-                                <select name="jam" class="form-control" id="Corsoprofessore"  onchange="selectedItemDot()" >
+                                
+                                 <% 
+ 
+      
+    List<Course> corsi = CalendarManager.getInstance().getAllCourse();
 
+            %>
+
+     <FORM ACTION="Submit" METHOD="POST"> 
+                                <label  > Seleziona un corso</label>
+                                
+                                <select name="Corsoprofessore" class="form-control" id="Corsoprofessore"  onclick="selectedItemDot()" >
+ <% for (Course corso : corsi) {%>
                
                  <option value="default"  >  - selezionate il vostro  corso  -  </option>
-
+                 <option value=<%= corso.getIdCourse() %> > <%=corso.getName() %>  </option>
+                 <% } %>
                                 </select>
-           <%   //s=request.getParameter("jam");
-//dat=Integer.parseInt(s.trim());
-%>                     
- </form>
+                             
+             <%  
+  
+     String subject=request.getParameter("Corsoprofessore");
+// int subjectid = 0;
+
+    // subjectid=Integer.parseInt(subject.trim());
+ 
+
+                  System.out.println("ciao" +subject );
+       dat=Integer.parseInt(subject.trim());
+ 
+               %> 
+     </form>
+                                 
                             </div>
                         </div>
  
@@ -85,9 +106,7 @@
                                      <% 
  
       
-              
-           
-                List<Lesson> missions = PresenceManager.getInstance().getAllLessonOf(1);
+    List<Lesson> missions = PresenceManager.getInstance().getAllLessonOf(dat);
 
             %>
             
