@@ -204,7 +204,7 @@ public class CollaborationManager {
      * @throws it.unisa.dottorato.exception.IdException 
      */
     public synchronized Collaboration getCollaborationById(int pCollaborationID) throws 
-            ClassNotFoundException, SQLException, IOException, IdException {
+            ClassNotFoundException, SQLException, IOException, IdException, Exception {
         Connection connect = null;
         Collaboration collaboration = new Collaboration();
         
@@ -232,6 +232,8 @@ public class CollaborationManager {
                 collaboration.setEndDate(result.getDate("endDate"));
                 collaboration.setIstitution(result.getString("istitution"));
                 collaboration.setFkPhdstudent(result.getString("fkPhdstudent"));
+            }else{
+                throw new Exception();
             }
         } finally {
             DBConnection.releaseConnection(connect);
