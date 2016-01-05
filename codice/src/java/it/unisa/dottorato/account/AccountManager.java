@@ -338,15 +338,9 @@ public class AccountManager {
     public void updateIsAdmin(String secondaryEmail, boolean var) throws SQLException, EmailException {
         Connection conn = null;
         Statement stmt = null;
-        int bool;
-        if (var) {
-            bool = 1;
-        } else {
-            bool = 0;
-        }
-
+  
         String sql = "UPDATE account "
-                + "set isAdministrator = " + bool
+                + "set isAdministrator = " + var
                 + " WHERE secondaryEmail = '" + testEmail(secondaryEmail) + "'";
 
         try {
