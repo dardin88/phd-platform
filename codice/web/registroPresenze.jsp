@@ -41,8 +41,7 @@
  
  
     <body class="page-body">
-  <% String asd=null;
-      int dat=1; %>
+
         <div class="page-body">
             <jsp:include page="barraMenu.jsp"/>
  
@@ -60,13 +59,12 @@
  
       
     List<Course> corsi = CalendarManager.getInstance().getAllCourse();
-
             %>
 
      <FORM ACTION="Submit" METHOD="POST"> 
                                 <label  > Seleziona un corso</label>
                                 
-                                <select name="Corsoprofessore" class="form-control" id="Corsoprofessore"  onclick="selectedItem()" >
+                                <select name="Corsoprofessore" class="form-control" id="Corsoprofessore"  onchange="selectedItem()" >
  <% for (Course corso : corsi) {%>
                
                  <option value="default"  >  - selezionate il vostro  corso  -  </option>
@@ -74,18 +72,7 @@
                  <% } %>
                                 </select>
                              
-             <%  
-  
-     String subject=request.getParameter("Corsoprofessore");
-// int subjectid = 0;
-
-    // subjectid=Integer.parseInt(subject.trim());
- 
-
-                  System.out.println("ciao" +subject );
-       dat=Integer.parseInt(subject.trim());
- 
-               %> 
+           
      </form>
                                  
                             </div>
@@ -103,20 +90,14 @@
                             <div class="panel panel-default" id="panelDiv" hidden>
  
                                 <div id="results" >
-                                     <% 
- 
-      
-    List<Lesson> missions = PresenceManager.getInstance().getAllLessonOf(dat);
-
-            %>
+                              
             
                                     <table id="resultst" class="table">
                                        
                                         <thead id="resulthead">
-                                        <th>Dottorandi </th>
-                                             <% for (Lesson mission : missions) {%>
-<th><%= mission.getData()%></th>
-                                             <% }%>
+                                    
+                                             
+
                                         </thead>
                                         <tbody id="resultbody">
                                             <tr> </tr>

@@ -50,10 +50,10 @@
                 <div class="row">
                     <div class="panel panel-default">
                     <div class="panel-heading">
-                        <h1>Gestione Calendario </h1> 
+                        <h1>Calendario </h1> 
                         <% Account loggedPerson = ((Account) session.getAttribute("account"));
                         if (loggedPerson.isAdmin() || loggedPerson.getTypeAccount().equals("professor")) {
-                        %>  
+                         %>  
                         <ul class="nav navbar-nav">
                             <li class="active"><a href="addcorso.jsp">Aggiungi Corso</a></li>
                             <li><a href="aggiungievento.jsp">Aggiungi Eventi</a></li>
@@ -82,7 +82,7 @@
 		
                     <div class="col-xs-3 text-left">
 			<h4>
-			<button id="btn-next" type="button" class="btn btn-default"onclick="next()">
+			<button id="btn-next" type="button" class="btn btn-default" onclick="next()">
 				Next <span class="glyphicon glyphicon-circle-arrow-right"></span>
 			</button>
 			</h4>
@@ -96,8 +96,9 @@
                 </div>
 
                 <script>
-
-                    jinCalendar.init();
+                    var tipo ='<%=loggedPerson.getTypeAccount()%>';
+                    var emailPrimaria ='<%=loggedPerson.getEmail()%>';
+                    jinCalendar.init(tipo, emailPrimaria);
 
 		
                 </script>

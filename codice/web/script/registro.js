@@ -26,14 +26,32 @@ $(document).ready(function () {
 }*/
 //metodo per chiamare tutt ele lezioni
 function selectedItem()
-{
+
+{  $("#panelDiv").hide();
+    $("#resulthead th").remove();
     $("#resultbody tr").remove();
     selected = $("#Corsoprofessore option:selected").val();
     if (selected !== "default") //se il valore della select Ã¨ default non mostriamo il div contenente le informazioni delle date delle lezioni
-    {
+    { $("#resulthead th").remove();
+       $("#resultbody tr").remove();
         selected = $("#Corsoprofessore option:selected").val();
         $("#panelDiv").show();
         //metodo per stampare le date
+         $.getJSON("GetAllLessonServlet", {fkCourse: selected}, function (data1) {
+             dot="<th> Dottorandi </th>"
+               $("#resulthead ").append(dot);
+            $.each(data1.lessons, function (index, value5) {
+              
+              data1=value5.data;
+              
+               dottorando11 = " <th> " +data1 + " </th>  ";
+              
+                         
+                $("#resulthead ").append(dottorando11)
+                
+                
+                
+                ;});});
         $.getJSON("GetPresenceDottorandi", {idCourse: selected}, function (data) {
             $.each(data.presence, function (index, value) {
                 dottorando = "<tr id=" + index + "> <td> " + value.name + " " + value.surname + " </td>  </tr>";
@@ -79,14 +97,31 @@ function changePresenza(id,lezione) {
 }
   
 function selectedItemDot(){
-  
+    $("#panelDiv").hide();
+  $("#resulthead th").remove();
     $("#resultbody tr").remove();
     selected = $("#Corsoprofessore option:selected").val();
     if (selected !== "default") //se il valore della select Ã¨ default non mostriamo il div contenente le informazioni delle date delle lezioni
-    {
+    { $("#resulthead th").remove();
+    $("#resultbody tr").remove();
         selected = $("#Corsoprofessore option:selected").val();
         $("#panelDiv").show();
         //metodo per stampare le date
+        $.getJSON("GetAllLessonServlet", {fkCourse: selected}, function (data1) {
+             dot="<th> Dottorandi </th>"
+               $("#resulthead ").append(dot);
+            $.each(data1.lessons, function (index, value5) {
+              
+              data1=value5.data;
+              
+               dottorando11 = " <th> " +data1 + " </th>  ";
+              
+                         
+                $("#resulthead").append(dottorando11)
+                
+                
+                
+                ;});});
         $.getJSON("GetPresenceDottorandi", {idCourse: selected}, function (data) {
             $.each(data.presence, function (index, value) {
                 dottorando = "<tr id=" + index + "> <td> " + value.name + " " + value.surname + " </td>  </tr>";
