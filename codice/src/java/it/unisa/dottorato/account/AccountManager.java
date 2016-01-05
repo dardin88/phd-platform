@@ -12,8 +12,6 @@ import java.sql.ResultSet;
 import java.sql.SQLException;
 import java.sql.Statement;
 import java.util.*;
-import java.util.logging.Level;
-import java.util.logging.Logger;
 import javax.mail.*;
 import javax.mail.internet.*;
 
@@ -57,6 +55,7 @@ public class AccountManager {
      * @throws SQLException
      * @throws ConnectionException
      * @throws ClassNotFoundException
+     * @throws it.unisa.dottorato.autenticazione.EmailException
      */
     public Account getAccountByEmail(String sEmail) throws SQLException, ConnectionException,
             ClassNotFoundException, EmailException {
@@ -191,58 +190,6 @@ public class AccountManager {
     }
 
     /**
-     * Metodo della classe incaricato di effettuare la visualizzazione di un
-     * profilo dato il suo account
-     *
-     * @param pAccount account da ricercare
-     * @return restituisce un array list di tutti gli attributi dell'account
-     * <code>pAccount</code>
-     * @throws SQLException
-     */
-    public ArrayList<String> viewProfile(Account pAccount) throws SQLException, NullAccountException {
-        Connection connect = null;
-        /**
-         * Stringa sql per selezionare un record dalla tabella phdstudent o
-         * professor
-         *
-         */
-        String sql = "SELECT * from " + pAccount.getTypeAccount()
-                + "WHERE fkAccount  = '" + pAccount.getSecondaryEmail() + "'";
-
-        try {
-            pAccount = testAccount(pAccount);
-            ArrayList<String> profile = new ArrayList<>();
-            connect = DBConnection.getConnection();
-            //esecuzione della query
-            ResultSet rs = Utility.queryOperation(connect, sql);
-
-            while (rs.next()) {
-                if (pAccount.getTypeAccount().equals("phdstudent")) {
-                    profile.add(rs.getString("telephone"));
-                    profile.add(rs.getString("link"));
-                    profile.add(rs.getString("department"));
-                    profile.add(rs.getString("researchInterest"));
-                    profile.add(rs.getString("fkCurriculum"));
-                    profile.add(rs.getString("fkCycle"));
-                    profile.add(rs.getString("fkProfessor"));
-                    profile.add(rs.getString("fkAccount"));
-                }
-
-                if (pAccount.getTypeAccount().equals("professor")) {
-                    profile.add(rs.getString("link"));
-                    profile.add(rs.getString("department"));
-                    profile.add(rs.getString("fkAccount"));
-                }
-            }
-
-            return profile;
-
-        }finally {
-            DBConnection.releaseConnection(connect);
-        }
-    }
-
-    /**
      * Metodo della classe incaricato di ricercare tutti gli account dei
      * phdStudent presenti nella piattaforma
      *
@@ -338,16 +285,10 @@ public class AccountManager {
     public void updateIsAdmin(String secondaryEmail, boolean var) throws SQLException, EmailException {
         Connection conn = null;
         Statement stmt = null;
-        int bool;
-        if (var) {
-            bool = 1;
-        } else {
-            bool = 0;
-        }
-
+  
         String sql = "UPDATE account "
-                + "set isAdministrator = " + bool
-                + " WHERE secondaryEmail = '" + testEmail(secondaryEmail) + "'";
+                + "set isAdministrator = " + var
+                + " WHERE secondaryEmail = '" + testSecondaryEmail(secondaryEmail) + "'";
 
         try {
             conn = DBConnection.getConnection();
@@ -380,7 +321,6 @@ public class AccountManager {
         String sql = "SELECT * from account WHERE "
                 + "name LIKE '%" + search + "%' or surname LIKE '%" + search + "%' or email LIKE '%" + search + "%'";
         try {
-            search = testProfileData(search);
             //connesione al database
             connect = DBConnection.getConnection();
             accounts = new ArrayList<>();
@@ -426,7 +366,7 @@ public class AccountManager {
      * @throws EmailException
      */
     public void updateProfile(String key, Account pAccount) throws SQLException, ConnectionException,
-            MissingDataException, NullAccountException, ProfileException, PasswordException, EmailException {
+            MissingDataException, NullAccountException, ProfileException, PasswordException, EmailException, TelephoneException, NameException {
         try (Connection connect = DBConnection.getConnection()) {
             pAccount = testAccount(pAccount);
             key = testEmail(key);
@@ -437,39 +377,39 @@ public class AccountManager {
              */
             String sql = "UPDATE account "
                     + "set name = '"
-                    + testProfileData(pAccount.getName())
+                    + testname(pAccount.getName())
                     + "', surname = '"
-                    + testProfileData(addSlashes(pAccount.getSurname()))
+                    + testname(addSlashes(pAccount.getSurname()))
                     + "', password = '"
                     + testPassword(addSlashes(pAccount.getPassword()))
                     + "', secondaryEmail = '"
-                    + testEmail(pAccount.getSecondaryEmail())
+                    + testSecondaryEmail(pAccount.getSecondaryEmail())
                     + "' WHERE email = '"
-                    + key + "'";
+                    + testEmail(key) + "'";
 
             String sql2 = "UPDATE "
                     + pAccount.getTypeAccount() + " ";
 
             if (pAccount instanceof PhdStudent) {
                 sql2 += " set telephone = '"
-                        + testProfileData(((PhdStudent) pAccount).getTelephone())
+                        + testTelephone(((PhdStudent) pAccount).getTelephone())
                         + "', link =  '"
-                        + testProfileData(((PhdStudent) pAccount).getLink())
+                        + testLink(((PhdStudent) pAccount).getLink())
                         + "', department = '"
-                        + testProfileData(addSlashes(((PhdStudent) pAccount).getDepartment()))
+                        + testDepartment(addSlashes(((PhdStudent) pAccount).getDepartment()))
                         + "', researchInterest = '"
-                        + testProfileData(addSlashes(((PhdStudent) pAccount).getResearchInterest()))
+                        + testResearchInterest(addSlashes(((PhdStudent) pAccount).getResearchInterest()))
                         + "' WHERE fkAccount = '"
-                        + testProfileData(((PhdStudent) pAccount).getSecondaryEmail()) + "'";
+                        + testSecondaryEmail(((PhdStudent) pAccount).getSecondaryEmail()) + "'";
             }
 
             if (pAccount instanceof Professor) {
                 sql2 += " set link = '"
-                        + testProfileData(((Professor) pAccount).getLink())
+                        + testLink(((Professor) pAccount).getLink())
                         + "', department = '"
-                        + testProfileData(addSlashes(((Professor) pAccount).getDepartment()))
+                        + testDepartment(addSlashes(((Professor) pAccount).getDepartment()))
                         + "' WHERE fkAccount = '"
-                        + testProfileData(((Professor) pAccount).getSecondaryEmail())
+                        + testSecondaryEmail(((Professor) pAccount).getSecondaryEmail())
                         + "'";
             }
 
@@ -497,14 +437,15 @@ public class AccountManager {
      * @throws ConnectionException
      * @throws NullAccountException
      * @throws EmailException
+     * @throws java.lang.ClassNotFoundException
      */
     public void changeType(String email, String newType)
-            throws SQLException, ConnectionException, NullAccountException, EmailException, ClassNotFoundException, ProfileException {
+            throws SQLException, ConnectionException, NullAccountException, EmailException, ClassNotFoundException, ProfileException, NameException {
 
         Connection connect = null;
         try {
-            email = testEmail(email);
-            newType = testProfileData(newType);
+            email = testSecondaryEmail(email);
+            newType = testType(newType);
             //connessione al database
             connect = DBConnection.getConnection();
             Account pAccount = testAccount(this.getAccountByEmail(email));
@@ -519,12 +460,12 @@ public class AccountManager {
             String demotionSql = "DELETE FROM " // cancella vecchie info
                     + pAccount.getTypeAccount()
                     + " WHERE fkAccount = '"
-                    + testEmail(pAccount.getSecondaryEmail()) + "'";
+                    + testSecondaryEmail(pAccount.getSecondaryEmail()) + "'";
 
             String toProfessorSql = "INSERT INTO professor " //se nuovo professor
                     + "(fkAccount,link,department)"
                     + "VALUES ('"
-                    + testEmail(pAccount.getSecondaryEmail()) + "',"
+                    + testSecondaryEmail(pAccount.getSecondaryEmail()) + "',"
                     + "'',"
                     + "''"
                     + ")";
@@ -533,7 +474,7 @@ public class AccountManager {
                     + "(fkAccount,telephone,link,department,researchInterest,fkCycle,"
                     + "fkCurriculum, fkProfessor )" //nuovo dottorando
                     + "VALUES ('"
-                    + testEmail(pAccount.getSecondaryEmail()) + "',"
+                    + testSecondaryEmail(pAccount.getSecondaryEmail()) + "',"
                     + "'',"
                     + "'',"
                     + "'',"
@@ -596,7 +537,7 @@ public class AccountManager {
     //Dovrebbe inviare una mail, not tested
     public void inviteUser(String email) throws SQLException, EmailException {
         String to;
-        to = testEmail(email);
+        to = testSecondaryEmail(email);
         String from = "phdplatform@unisa.it";
 
         String host = "localhost"; //testing
@@ -630,7 +571,7 @@ public class AccountManager {
      * @throws java.sql.SQLException
      * @throws java.io.IOException
      */
-    public synchronized void insertStudentTutor(String fkPhdstudent, String fkProfessor) throws ClassNotFoundException, SQLException, IOException, EmailException {
+    public synchronized void insertStudentTutor(String fkPhdstudent, String fkProfessor) throws ClassNotFoundException, SQLException, IOException, EmailException, Exception {
         Connection connect = null;
         try {
             // Otteniamo una Connessione al DataBase
@@ -643,13 +584,14 @@ public class AccountManager {
             String tSql = "update  "
                     + AccountManager.TABLE_STUDENT
                     + " set fkProfessor ='"
-                    + testEmail(fkProfessor)
+                    + testSecondaryEmail(fkProfessor)
                     + "' where fkAccount = '"
-                    + testEmail(fkPhdstudent)
+                    + testSecondaryEmail(fkPhdstudent)
                     + "'";
 
             //Inviamo la Query al DataBase
-            Utility.executeOperation(connect, tSql);
+            if(Utility.executeOperation(connect, tSql)==0)
+                throw new Exception();
 
             connect.commit();
         } finally {
@@ -686,7 +628,7 @@ public class AccountManager {
                     + ","
                     + AccountManager.TABLE_ACCOUNT
                     + " WHERE phdstudent.fkAccount = '"
-                    + testEmail(idStudent)
+                    + testSecondaryEmail(idStudent)
                     + "' AND fkProfessor = professor.fkAccount AND professor.fkAccount = secondaryEmail";
 
             connect.commit();
@@ -725,7 +667,7 @@ public class AccountManager {
      * @throws java.sql.SQLException
      * @throws java.io.IOException
      */
-    public synchronized void updateStudentTutor(String fkPhdstudent, String Tutor) throws ClassNotFoundException, SQLException, IOException, EmailException {
+    public synchronized void updateStudentTutor(String fkPhdstudent, String Tutor) throws ClassNotFoundException, SQLException, IOException, EmailException, Exception {
         try (Connection connect = DBConnection.getConnection()) {
 
             /*
@@ -735,13 +677,14 @@ public class AccountManager {
             String tSql = "update  "
                     + AccountManager.TABLE_STUDENT
                     + " set fkProfessor ='"
-                    + testEmail(Tutor)
+                    + testSecondaryEmail(Tutor)
                     + "' where fkAccount = '"
-                    + testEmail(fkPhdstudent)
+                    + testSecondaryEmail(fkPhdstudent)
                     + "'";
 
             //Inviamo la Query al DataBase
-            Utility.executeOperation(connect, tSql);
+            if(Utility.executeOperation(connect, tSql)==0)
+                throw new Exception();
 
             connect.commit();
         }
@@ -755,8 +698,9 @@ public class AccountManager {
      * @throws java.lang.ClassNotFoundException
      * @throws java.sql.SQLException
      * @throws java.io.IOException
+     * @throws it.unisa.dottorato.autenticazione.EmailException
      */
-    public synchronized void deleteStudentTutor(String idStudent) throws ClassNotFoundException, SQLException, IOException, EmailException {
+    public synchronized void deleteStudentTutor(String idStudent) throws ClassNotFoundException, SQLException, IOException, EmailException, Exception {
         Connection connect = null;
         try {
             // Otteniamo una Connessione al DataBase
@@ -769,12 +713,13 @@ public class AccountManager {
             String tSql = "update  "
                     + AccountManager.TABLE_STUDENT
                     + " set fkProfessor =null where fkAccount = '"
-                    + testEmail(idStudent)
+                    + testSecondaryEmail(idStudent)
                     + "'";
 
             System.out.println("la query di deleteStudentTutor è  " + tSql);
             //Inviamo la Query al DataBase
-            Utility.executeOperation(connect, tSql);
+            if(Utility.executeOperation(connect, tSql)==0)
+                    throw new Exception();
 
             connect.commit();
         } finally {
@@ -808,8 +753,8 @@ public class AccountManager {
      * @return restituisce la stringa se valida, lancia un'eccezione altrimenti
      * @throws EmailException
      */
-    public String testEmail(String email) throws EmailException {
-        if (email.isEmpty() || (email.length() > 50) || !email.contains("@")) {
+    public String testSecondaryEmail(String email) throws EmailException {
+        if (email.isEmpty() || (email.length() < 10) || (email.length() > 50) || !email.contains("@")) {
             throw new EmailException();
         }
         return email;
@@ -843,5 +788,86 @@ public class AccountManager {
         }
         return data;
     }
+     /**
+     * Metodo della classe per il testing di una stringa; verifica se è vuota
+     *
+     * @param tele
+     * @return restituisce la stringa se valida, lancia un'eccezione altrimenti
+     * @throws ProfileException
+     * @throws it.unisa.dottorato.account.TelephoneException
+     */
+    public String testTelephone(String tele) throws ProfileException, TelephoneException {
+        int n=tele.length();
+        if (n>15) {
+            throw new TelephoneException();
+        }
+        int c;
+        for (int i=0; i<n;i++){
+            c=Integer.parseInt(tele.substring(i, i+1));
+            if(c>=0||c<=9){
+                
+            }else{
+                throw new TelephoneException();
+            }
+        }
+        return tele;
+    }
 
+   /**
+     * Metodo della classe per il testing dell'email; verifica che non sia una
+     * stringa vuota o piu' lunga di 50 caratteri
+     *
+     * @param email stringa da testare
+     * @return restituisce la stringa se valida, lancia un'eccezione altrimenti
+     * @throws EmailException
+     */
+    public String testEmail(String email) throws EmailException {
+        if (email.isEmpty() ||(email.length() < 10) || (email.length() > 50) || !email.contains("@unisa")) {
+            throw new EmailException();
+        }
+        return email;
+    }
+    
+    /**
+     * Metodo della classe per il testing dell'email; verifica che non sia una
+     * stringa vuota o piu' lunga di 50 caratteri
+     *
+     * @param name stringa da testare
+     * @return restituisce la stringa se valida, lancia un'eccezione altrimenti
+     * @throws NameException
+     */
+    public String testname(String name) throws NameException {
+        if (name.isEmpty() ||(name.length() < 1) || (name.length() > 25)) {
+            throw new NameException();
+        }
+        return name;
+    }
+    
+    public String testLink(String link) throws NameException {
+        if ((link.length() > 150)) {
+            throw new NameException();
+        }
+        return link;
+    }
+    
+    public String testDepartment(String link) throws NameException {
+        if ((link.length() > 50) ||(link.isEmpty()) || link.equals("")) {
+            throw new NameException();
+        }
+        return link;
+    }
+    
+     public String testType(String type) throws NameException {
+        if (!type.equals("basic") && !type.equals("phdstudent") && !type.equals("professor") && !type.equals("phd")) {
+            throw new NameException();
+        }
+        return type;
+    }
+    
+    public String testResearchInterest(String link) throws NameException {
+        if ((link.length() > 65536)) {
+            throw new NameException();
+        }
+        return link;
+    }
 }

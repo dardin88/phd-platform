@@ -42,7 +42,7 @@ public class ChangeTypeServlet extends HttpServlet {
      * @throws EmailException if an email error occurs
      */
     protected void processRequest(HttpServletRequest request, HttpServletResponse response)
-            throws ServletException, IOException, SQLException, ConnectionException, NullAccountException, EmailException, ClassNotFoundException, JSONException, ProfileException {
+            throws ServletException, IOException, SQLException, ConnectionException, NullAccountException, EmailException, ClassNotFoundException, JSONException, ProfileException, NameException {
         
         response.setContentType("text/html;charset=UTF-8");
         PrintWriter out = response.getWriter();
@@ -90,6 +90,8 @@ public class ChangeTypeServlet extends HttpServlet {
             processRequest(request, response);
         } catch (SQLException | ConnectionException | NullAccountException | EmailException | ClassNotFoundException | JSONException | ProfileException ex) {
             Logger.getLogger(ChangeTypeServlet.class.getName()).log(Level.SEVERE, null, ex);
+        } catch (NameException ex) {
+            Logger.getLogger(ChangeTypeServlet.class.getName()).log(Level.SEVERE, null, ex);
         }
                
     }
@@ -108,6 +110,8 @@ public class ChangeTypeServlet extends HttpServlet {
         try {
             processRequest(request, response);
         } catch (SQLException | ConnectionException | NullAccountException | EmailException | ClassNotFoundException | JSONException | ProfileException ex) {
+            Logger.getLogger(ChangeTypeServlet.class.getName()).log(Level.SEVERE, null, ex);
+        } catch (NameException ex) {
             Logger.getLogger(ChangeTypeServlet.class.getName()).log(Level.SEVERE, null, ex);
         }
     }

@@ -1,6 +1,5 @@
 package it.unisa.dottorato.account;
 import it.unisa.dottorato.autenticazione.EmailException;
-import it.unisa.integrazione.database.exception.ConnectionException;
 import java.io.IOException;
 import java.io.PrintWriter;
 import java.sql.SQLException;
@@ -11,7 +10,6 @@ import javax.servlet.annotation.WebServlet;
 import javax.servlet.http.HttpServlet;
 import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpServletResponse;
-import org.json.JSONException;
 import org.json.JSONObject;
 /**Servlet incaricata a settare i privilegi admin di un account data 
  * l'email secondaria

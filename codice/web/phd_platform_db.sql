@@ -172,7 +172,8 @@ foreign key (fkProfessor) references professor(fkAccount) on delete no action on
 
 INSERT INTO teach (fkCurriculum,fkCycle,fkProfessor	)VALUES
 ('Informatica, Sistemi Informativi e Tecnologie del Software',15,'adelucia@hotmail.it');
-
+INSERT INTO curriculumcic (fkCurriculum,fkCycle,fkProfessor)VALUES
+('Marketing e Comunicazione',15,null);
 
 create table if not exists course(
 idCourse				integer	primary key,
