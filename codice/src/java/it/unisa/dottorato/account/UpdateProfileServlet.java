@@ -42,7 +42,7 @@ public class UpdateProfileServlet extends HttpServlet {
      * @throws ProfileException if a profile error occurs
      */
     protected void processRequest(HttpServletRequest request, HttpServletResponse response)
-            throws ServletException, IOException, NullAccountException, ProfileException, PasswordException, EmailException {
+            throws ServletException, IOException, NullAccountException, ProfileException, PasswordException, EmailException, TelephoneException, NameException {
         response.setContentType("text/html;charset=UTF-8");
         PrintWriter out = response.getWriter();
         Account pAccount;
@@ -122,6 +122,10 @@ public class UpdateProfileServlet extends HttpServlet {
             Logger.getLogger(UpdateProfileServlet.class.getName()).log(Level.SEVERE, null, ex);
         } catch (EmailException ex) {
             Logger.getLogger(UpdateProfileServlet.class.getName()).log(Level.SEVERE, null, ex);
+        } catch (TelephoneException ex) {
+            Logger.getLogger(UpdateProfileServlet.class.getName()).log(Level.SEVERE, null, ex);
+        } catch (NameException ex) {
+            Logger.getLogger(UpdateProfileServlet.class.getName()).log(Level.SEVERE, null, ex);
         }
     }
 
@@ -145,6 +149,10 @@ public class UpdateProfileServlet extends HttpServlet {
         } catch (PasswordException ex) {
             Logger.getLogger(UpdateProfileServlet.class.getName()).log(Level.SEVERE, null, ex);
         } catch (EmailException ex) {
+            Logger.getLogger(UpdateProfileServlet.class.getName()).log(Level.SEVERE, null, ex);
+        } catch (TelephoneException ex) {
+            Logger.getLogger(UpdateProfileServlet.class.getName()).log(Level.SEVERE, null, ex);
+        } catch (NameException ex) {
             Logger.getLogger(UpdateProfileServlet.class.getName()).log(Level.SEVERE, null, ex);
         }
     }
