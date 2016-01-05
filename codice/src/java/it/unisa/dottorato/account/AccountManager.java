@@ -57,7 +57,6 @@ public class AccountManager {
      * @throws SQLException
      * @throws ConnectionException
      * @throws ClassNotFoundException
-     * @throws it.unisa.dottorato.autenticazione.EmailException
      */
     public Account getAccountByEmail(String sEmail) throws SQLException, ConnectionException,
             ClassNotFoundException, EmailException {
@@ -199,10 +198,8 @@ public class AccountManager {
      * @return restituisce un array list di tutti gli attributi dell'account
      * <code>pAccount</code>
      * @throws SQLException
-     * @throws it.unisa.dottorato.account.NullAccountException
      */
-    public ArrayList<String> viewProfile(Account pAccount) throws 
-            SQLException, NullAccountException {
+    public ArrayList<String> viewProfile(Account pAccount) throws SQLException, NullAccountException {
         Connection connect = null;
         /**
          * Stringa sql per selezionare un record dalla tabella phdstudent o
@@ -341,15 +338,21 @@ public class AccountManager {
     public void updateIsAdmin(String secondaryEmail, boolean var) throws SQLException, EmailException {
         Connection conn = null;
         Statement stmt = null;
-
+        int bool;
+        if (var) {
+            bool = 1;
+        } else {
+            bool = 0;
+        }
 
         String sql = "UPDATE account "
-                + "set isAdministrator = " + var
+                + "set isAdministrator = " + bool
                 + " WHERE secondaryEmail = '" + testEmail(secondaryEmail) + "'";
 
         try {
             conn = DBConnection.getConnection();
             stmt = conn.createStatement();
+            System.out.println(sql);
 
             stmt.execute(sql);
             conn.commit();
@@ -366,7 +369,6 @@ public class AccountManager {
      * @return restituisce un array list di account di tutti gli utenti trovati,
      * lancia un'eccezione altrimenti
      * @throws SQLException
-     * @throws it.unisa.dottorato.account.ProfileException
      */
     public ArrayList<Account> searchUser(String search) throws SQLException, ProfileException {
         Connection connect = null;
@@ -495,8 +497,6 @@ public class AccountManager {
      * @throws ConnectionException
      * @throws NullAccountException
      * @throws EmailException
-     * @throws java.lang.ClassNotFoundException
-     * @throws it.unisa.dottorato.account.ProfileException
      */
     public void changeType(String email, String newType)
             throws SQLException, ConnectionException, NullAccountException, EmailException, ClassNotFoundException, ProfileException {
@@ -629,10 +629,8 @@ public class AccountManager {
      * @throws java.lang.ClassNotFoundException
      * @throws java.sql.SQLException
      * @throws java.io.IOException
-     * @throws it.unisa.dottorato.autenticazione.EmailException
      */
-    public synchronized void insertStudentTutor(String fkPhdstudent, String fkProfessor) throws 
-            ClassNotFoundException, SQLException, IOException, EmailException {
+    public synchronized void insertStudentTutor(String fkPhdstudent, String fkProfessor) throws ClassNotFoundException, SQLException, IOException, EmailException {
         Connection connect = null;
         try {
             // Otteniamo una Connessione al DataBase
@@ -668,10 +666,8 @@ public class AccountManager {
      * @throws java.lang.ClassNotFoundException
      * @throws java.sql.SQLException
      * @throws java.io.IOException
-     * @throws it.unisa.dottorato.autenticazione.EmailException
      */
-    public synchronized Professor getTutor(String idStudent) throws 
-            ClassNotFoundException, SQLException, IOException, EmailException {
+    public synchronized Professor getTutor(String idStudent) throws ClassNotFoundException, SQLException, IOException, EmailException {
         Connection connect = null;
         Professor cord = null;
         try {
@@ -728,10 +724,8 @@ public class AccountManager {
      * @throws java.lang.ClassNotFoundException
      * @throws java.sql.SQLException
      * @throws java.io.IOException
-     * @throws it.unisa.dottorato.autenticazione.EmailException
      */
-    public synchronized void updateStudentTutor(String fkPhdstudent, String Tutor) throws 
-            ClassNotFoundException, SQLException, IOException, EmailException {
+    public synchronized void updateStudentTutor(String fkPhdstudent, String Tutor) throws ClassNotFoundException, SQLException, IOException, EmailException {
         try (Connection connect = DBConnection.getConnection()) {
 
             /*
@@ -761,10 +755,8 @@ public class AccountManager {
      * @throws java.lang.ClassNotFoundException
      * @throws java.sql.SQLException
      * @throws java.io.IOException
-     * @throws it.unisa.dottorato.autenticazione.EmailException
      */
-    public synchronized void deleteStudentTutor(String idStudent) throws 
-            ClassNotFoundException, SQLException, IOException, EmailException {
+    public synchronized void deleteStudentTutor(String idStudent) throws ClassNotFoundException, SQLException, IOException, EmailException {
         Connection connect = null;
         try {
             // Otteniamo una Connessione al DataBase
@@ -804,6 +796,8 @@ public class AccountManager {
             throw new NullAccountException();
         }
         return account;
+        
+                
     }
 
     /**

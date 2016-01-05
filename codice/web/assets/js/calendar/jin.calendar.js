@@ -5,30 +5,37 @@ var testObj;
 
 var date1 = new Date();
 var currentDate = new Date();
-
+var ciclo;
+var curriculum;
 var jinCalendar = new Object();
 
-jinCalendar.init = function() {
-	setCalendar(date1);
+jinCalendar.init = function(type, email) {
+        tipoAccount = type;
+        emailPrimaria = email;
+        
+            setCalendar(date1);
+        
+        
+           
 };
 
 
-
-jinCalendar.getScheduleDate = function() {
+//*** PER I DOCENTI/ADMIN ****
+jinCalendar.getScheduleDate1= function() {
 	$.getJSON("GetAllCourse", function (data) {
             
             $.each(data.course, function (index, value) {
                 var dataInizio= value.startDate;
                 dataInizio = dataInizio.toString();
-                var startDate = (dataInizio.substring(0,4))+(dataInizio.substring(8,10));
-                var startDay =(dataInizio.substring(5,7));
+                var startDate = (dataInizio.substring(0,4))+(dataInizio.substring(5,7));
+                var startDay =(dataInizio.substring(8,10));
                 var startDay = parseInt(startDay);
                 corso = value.idCourse;
                 var dataFine= value.endDate;
                 dataFine = dataFine.toString();
-                var endDate = (dataFine.substring(0,4)+dataFine.substring(8,10));
+                var endDate = (dataFine.substring(0,4)+dataFine.substring(5,7));
                 
-                var endDay =(dataFine.substring(5,7));
+                var endDay =(dataFine.substring(8,10));
                 var endDay = parseInt(endDay);
                 //oggetto corso
                 testObj = [{
@@ -46,6 +53,7 @@ jinCalendar.getScheduleDate = function() {
                     text : value.description 
                 }];
                 
+                
                 $.getJSON("GetAllLessonServlet",{fkCourse: corso}, function (data1) {
            
                    $.each(data1.lessons, function (index, value1) {
@@ -54,13 +62,13 @@ jinCalendar.getScheduleDate = function() {
                                 
 
                 dataInizio = dataInizio.toString();
-                var startDate = (dataInizio.substring(0,4))+(dataInizio.substring(8,10));
-                var startDay =(dataInizio.substring(5,7));
+                var startDate = (dataInizio.substring(0,4))+(dataInizio.substring(5,7));
+                var startDay =(dataInizio.substring(8,10));
                 var startDay = parseInt(startDay);
                 var inizio = value1.startTime;
                 inizio=inizio.toString();
                 var fine = value1.endTime;
-                fine = fine.toString()
+                fine = fine.toString();
                //oggetto lezione
                 testObj2 = [{
                     yyyymm : startDate,
@@ -69,19 +77,147 @@ jinCalendar.getScheduleDate = function() {
                     title: 'Lezione di '+value1.name + ' classe: '+value1.classroom ,
                     text : value1.description + '--- Inizio Lezione: '+ inizio + ' Fine lezione: '+fine
                 }];
-                
-                
+               
+                 jinCalendar.setScheduleCourseLesson();
             });
             
         });
-            });
-            
-        });
-         
         
-	
+            });
+            
+        });
+        $.getJSON("GetAllSeminarServlet", function (data2) {
+            
+            $.each(data2.seminar, function (index, value) {
+                 dataInizio= value.data;
+                dataInizio = dataInizio.toString();
+                
+                var startDate = (dataInizio.substring(0,4))+(dataInizio.substring(5,7));
+                var startDay =(dataInizio.substring(8,10));
+                var startDay = parseInt(startDay);
+                var inizio = value.startTime;
+                inizio=inizio.toString();
+                var fine = value.endTime;
+                fine = fine.toString();
+                
+                //oggetto seminario
+                testObj3 = [{
+                    yyyymm : startDate,
+                    day : startDay,
+                    type : '2',
+                    title: 'Seminario di '+value.name,
+                    text : value.description + ' classe: '+value.place
+                }];
+            jinCalendar.setScheduleSeminar();
+                
+        });
+    });	
+};
 
-	jinCalendar.setSchedule();
+
+//*** PER I DOTTORANDI ***
+jinCalendar.getScheduleDate2= function() {
+        $.getJSON("GetAccountbyEmail", {index: emailPrimaria}, function(data){
+            ciclo = data.fkCycle;
+            
+            curriculum = data.fkCurriculum;
+            
+        });
+        $.getJSON("getCourseListId",{cycle: ciclo, curriculum: curriculum}, function(data){
+            
+            $.each(data.courses, function (index, value1) {
+                idCorso = value1;
+                $.getJSON("GetCourseServlet",{idCourse: idCorso}, function (data) {
+                    
+                                            
+                                            
+                        var dataInizio= data.startDate;
+                        
+                        dataInizio = dataInizio.toString();
+                        var startDate = (dataInizio.substring(0,4))+(dataInizio.substring(5,7));
+                        var startDay =(dataInizio.substring(8,10));
+                        var startDay = parseInt(startDay);
+                        
+                        var dataFine= data.endDate;
+                        dataFine = dataFine.toString();
+                        var endDate = (dataFine.substring(0,4)+dataFine.substring(5,7));
+                
+                        var endDay =(dataFine.substring(8,10));
+                        var endDay = parseInt(endDay);
+                                               
+
+                        //oggetto corso
+                        testObj = [{
+                            yyyymm : startDate,
+                            day : startDay,
+                            type : '0',
+                            title: 'Inizio del corso di '+data.name,
+                            text : data.description
+                        },
+                        {
+                            yyyymm : endDate,
+                            day : endDay,
+                            type : '0',
+                            title: 'Fine del corso di '+data.name,
+                            text : data.description 
+                        }];
+                        $.getJSON("GetAllLessonServlet",{fkCourse: idCorso}, function (data1) {
+                                                
+
+                        $.each(data1.lessons, function (index, value) {
+                  
+                            dataInizio= value.data;
+                            dataInizio = dataInizio.toString();
+                            
+                            var startDate = (dataInizio.substring(0,4))+(dataInizio.substring(5,7));
+                            var startDay =(dataInizio.substring(8,10));
+                            var startDay = parseInt(startDay);
+                            var inizio = value.startTime;
+                            inizio=inizio.toString();
+                            var fine = value.endTime;
+                            fine = fine.toString();
+                            //oggetto lezione
+                            testObj2 = [{
+                                yyyymm : startDate,
+                                day : startDay,
+                                type : '1',
+                                title: 'Lezione di '+value.name + ' classe: '+value.classroom ,
+                                text : value.description + '--- Inizio Lezione: '+ inizio + ' Fine lezione: '+fine
+                             }];
+                             jinCalendar.setScheduleCourseLesson();
+                     });
+                 });
+                 $.getJSON("getAllSeminarOf",{fkCourse: idCorso}, function (data2) {
+            
+                    $.each(data2.seminar, function (index, value) {
+                        dataInizio= value.data;
+                        dataInizio = dataInizio.toString();
+                        var startDate = (dataInizio.substring(0,4))+(dataInizio.substring(5,7));
+                        var startDay =(dataInizio.substring(8,10));
+                        var startDay = parseInt(startDay);
+                        var inizio = value.startTime;
+                        inizio=inizio.toString();
+                        var fine = value.endTime;
+                        fine = fine.toString();
+                
+                        //oggetto seminario
+                        testObj3 = [{
+                            yyyymm : startDate,
+                            day : startDay,
+                            type : '2',
+                            title: 'Seminario di '+value.name,
+                            text : value.desription + ' classe: '+value.place
+                         }];
+                        jinCalendar.setScheduleSeminar();
+                
+                    });
+                });	
+             });
+         });
+                
+     });
+    
+	
 };
 
 function prev() {
@@ -173,14 +309,19 @@ function setCalendar(date1) {
 	$('table>tbody').append(weekData);
 
 	//jinCalendar.getScheduleDate(date.getFullYear() + FormatMe(date.getMonth() + 1) + '');
-	jinCalendar.getScheduleDate();
+        if (tipoAccount === 'professor'){
+            jinCalendar.getScheduleDate1();
+        }
+        if (tipoAccount === 'phdstudent'){
+            jinCalendar.getScheduleDate2();
+        }
 }
 
 function FormatMe(n) {
 	return (n < 10) ? '0' + n : n;
 }
 
-jinCalendar.setSchedule = function() {
+jinCalendar.setScheduleCourseLesson = function() {
         //oggetto corso
 	var obj = testObj ;
 	var sType = [ 'btn-default', 'btn-primary',
@@ -225,7 +366,7 @@ jinCalendar.setSchedule = function() {
                 }
 
 	}
-
+        
 	$('.standard-description').click(function() {
 		alert($(this).attr('title'));
 	});
@@ -234,5 +375,31 @@ jinCalendar.setSchedule = function() {
 		'max-height' : '90px',
 		'overflow-y' : 'auto'
 	}).addClass('scrolltest');
+
+};
+jinCalendar.setScheduleSeminar = function() {
+        //oggetto seminario
+	var obj = testObj3;
+	var sType = [ 'btn-default', 'btn-primary',
+			'btn-success', 'btn-info', 'btn-warning', 'btn-danger' ];
+
+	for ( var n in obj) {
+		var item = obj[n];
+
+		var html = '<button type="button" class="btn {TYPE} standard-description btn-xs" data-toggle="tooltip" data-placement="top" title="{TEXT}">{TITLE}</button>';
+
+		html = html.replace('{TITLE}',
+				item.title).replace('{TYPE}',
+				sType[item.type])
+				.replace('{TEXT}', item.text);
+                var data = date1.getFullYear() + '' + FormatMe(date1.getMonth() + 1) + '';
+                
+                if(data===item.yyyymm){
+                    var strDefault = $('#td-' + item.day).html();
+                    $('#td-' + item.day).html(strDefault + html);
+                }
+            }
+            
+        
 
 };

@@ -508,6 +508,97 @@ public class CalendarManager {
      
      
      }
+     public synchronized ArrayList<Integer> getCourseListId(int cycle, String curriculum) throws ClassNotFoundException, SQLException, IOException {
+        Connection connect = null;
+        try {
+            ArrayList<Integer> courses = new ArrayList<>();
+            // Otteniamo una Connessione al DataBase
+            connect = DBConnection.getConnection();
+
+            /*
+             * Prepariamo la stringa SQL per modificare un record 
+             * nella tabella phdCycle
+             */
+            String tSql = "SELECT * FROM course "
+                    + " WHERE fkCycle ='"+cycle+"' AND fkCurriculum='"+curriculum+"'";
+
+            //Inviamo la Query al DataBase
+            ResultSet result = Utility.queryOperation(connect, tSql);
+            connect.commit();
+            while (result.next()) {
+                courses.add(result.getInt("idCourse"));
+            }
+
+            return courses;
+
+        } finally {
+            DBConnection.releaseConnection(connect);
+        }
+    }
+    
+     public synchronized ArrayList<Seminar> getAllSeminar() throws ClassNotFoundException, SQLException, IOException, IdException {
+      
+    
+         Statement stmt = null;
+        ResultSet result = null;
+        Connection connection = null;
+       Seminar seminar = new Seminar();
+        ArrayList<Seminar> listSeminar = new ArrayList<Seminar>();
+        
+        try {
+            //connessione al database
+            connection = DBConnection.getConnection();
+            /*
+             *stringa SQL per effettuare la ricerca nella 
+             * tabella news
+             */
+        String query = "select * from seminar";
+       //  String query = "select * from course where curdate()<course.startDate";  quando lo ripopolo meglio
+
+            if (connection == null) {
+                throw new it.unisa.integrazione.database.exception.ConnectionException();
+            }
+            //esecuzione query
+            stmt = connection.createStatement();
+            result = stmt.executeQuery(query);
+               while (result.next()) {
+                seminar.setIdSeminar(result.getInt("idSeminar"));
+                seminar.setDate(result.getDate("date"));
+                seminar.setStartTime(result.getInt("startTime"));
+                seminar.setEndTime(result.getInt("endTime"));
+                seminar.setName(result.getString("name"));
+                seminar.setNameSpeacker(result.getString("nameSpeacker"));
+                seminar.setDescription(result.getString("desription"));
+                seminar.setPlace(result.getString("place"));
+                seminar.setFK_course(result.getInt("fkCourse"));
+              
+                
+                               
+               listSeminar.add(seminar);
+
+            }
+        } catch (ConnectionException ex) {
+            Logger.getLogger(CalendarManager.class.getName()).log(Level.SEVERE, null, ex);
+        } finally {
+
+            if (result != null) {
+                result.close();
+            }
+
+            if (stmt != null) {
+                stmt.close();
+            }
+
+            if (connection != null) {
+                connection.close();
+            }
+        }
+
+        return listSeminar;
+     
+     
+     
+     }
      /** Metodo della classe incaricato di ricercare un corso dato l'id
       * 
       * @param pCourseID l'id del corso da ricercare
@@ -605,7 +696,50 @@ public class CalendarManager {
         return lessons;
     }
       
-      
+      public synchronized ArrayList<Seminar> getAllSeminarOf(int idcourse) throws SQLException, IdException { //da modificare dato Person
+       Seminar seminar = new Seminar();
+          ArrayList<Seminar> seminars = new ArrayList<Seminar>();
+        
+        Connection connect = null;
+        try {
+            // Otteniamo una Connessione al DataBase
+            connect = DBConnection.getConnection();
+
+            /*
+             * Prepariamo la stringa SQL per ricercare uno o piu' record 
+             * nella tabella lesson
+             */
+            String tSql = "SELECT * FROM "
+                    + CalendarManager.TABLE_SEMINAR
+                    + " WHERE fkCourse = '"
+                    + testid(idcourse) + "'"; //da modificare ancora
+
+            //Inviamo la Query al DataBase
+            ResultSet result = Utility.queryOperation(connect, tSql);
+
+            while (result.next()) {
+                
+                
+                seminar.setIdSeminar(result.getInt("idSeminar"));
+                seminar.setDate(result.getDate("date"));
+                seminar.setStartTime(result.getInt("startTime"));
+                seminar.setEndTime(result.getInt("endTime"));
+                seminar.setName(result.getString("name"));
+                seminar.setNameSpeacker(result.getString("namespeacker"));
+                seminar.setPlace(result.getString("place"));
+                seminar.setDescription(result.getString("desription"));                             
+                seminar.setFK_course(result.getInt("fkCourse"));
+                
+                seminars.add(seminar);
+            }
+
+        } finally {
+            DBConnection.releaseConnection(connect);
+        }
+        
+        
+        return seminars;
+    }
       
        public synchronized ArrayList<Lesson> getAllLessonOfProfessor() throws SQLException, IdException { //da modificare dato Person
         ArrayList<Lesson> lessons = new ArrayList<>();
