@@ -50,7 +50,7 @@ public class GetAllCourseServlet  extends HttpServlet {
                 HttpSession session = request.getSession();
                 
               
-                ArrayList<Course> course = (ArrayList<Course>) CalendarManager.getInstance().getAllCourse(); // da modificare ancora
+                ArrayList<Course> course =  CalendarManager.getInstance().getAllCourse(); // da modificare ancora
                 JSONArray resultArray = new JSONArray(course);
                 result.put("course", resultArray);
                 out.write(result.toString());

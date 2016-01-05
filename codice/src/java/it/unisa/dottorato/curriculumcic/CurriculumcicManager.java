@@ -362,7 +362,7 @@ public class CurriculumcicManager {
                     +","+CurriculumcicManager.TABLE_ACCOUNT
                     + " WHERE fkCycle = "
                     + CycleManager.getInstance().testNumber(curriculumcic.getfkCycle())
-                    +"' AND fkCurriculum = '"
+                    +" AND fkCurriculum = '"
                     + CurriculumManager.getInstance().testName(curriculumcic.getfkCurriculum())
                     +"' AND secondaryEmail=fkAccount AND fkAccount=fkProfessor ";
 

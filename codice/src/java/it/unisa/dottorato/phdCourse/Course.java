@@ -182,4 +182,6 @@ public class Course implements Serializable{
     public void setEndDate(Date date){
         this.endDate = date;
     } 
+
+   
 }

@@ -9,8 +9,10 @@ import it.unisa.dottorato.exception.NameException;
 import java.io.IOException;
 import java.io.PrintWriter;
 import java.sql.SQLException;
+import java.text.DateFormat;
 import java.text.ParseException;
 import java.text.SimpleDateFormat;
+import java.util.Date;
 import java.util.logging.Level;
 import java.util.logging.Logger;
 import javax.servlet.ServletException;
@@ -41,7 +43,7 @@ public class AddCourseServlet extends HttpServlet {
      * @throws IOException if an I/O error occurs
      */
     protected void processRequest(HttpServletRequest request, HttpServletResponse response)
-            throws ServletException, IOException ,IdException,DescriptionException,NameException,DateException, CourseException{
+            throws ServletException, IOException ,IdException,DescriptionException,NameException,DateException, CourseException, ParseException{
 
         JSONObject result = new JSONObject();
         PrintWriter out = response.getWriter();
@@ -50,27 +52,34 @@ public class AddCourseServlet extends HttpServlet {
             response.setContentType("text/html;charset=UTF-8");
             
             //conserviamo gli attributi da settare nelle variabili
+            String id = request.getParameter("idCourse");
             String curriculum = request.getParameter("curriculum");
             String cycle = request.getParameter("cycle");
             String name = request.getParameter("name");
             String description = request.getParameter("description");
             String startDate = request.getParameter("starttime");
             String endDate = request.getParameter("endtime");
-            
+          //  DateFormat df = new SimpleDateFormat("yyyy-MM-dd");
+            //df.setLenient(false);
+            //String start = df.format(startDate);
+            //Date startdate = df.parse(start);
+           // String end = df.format(endDate);
+           // Date enddate = df.parse(end);
             HttpSession session = request.getSession();
             Professor loggedPerson = (Professor) session.getAttribute("professor");
             
             Course course = new Course();
             
             //inseriamo nell'oggetto corso i valori passati come parametri precedentemente
-            course.setCurriculum(curriculum);
-            course.setCycle(Integer.parseInt(cycle));
+            course.setIdCourse(Integer.parseInt(id));
+            course.setFK_curriculum(curriculum);
+            course.setFK_cycle(Integer.parseInt(cycle));
             course.setName(name);
             course.setDescription(description);
             course.setStartDate(java.sql.Date.valueOf(startDate));
             course.setEndDate(java.sql.Date.valueOf(endDate));
             
-           result.put("result", true);
+            result.put("result", true);
 
         try {
             CalendarManager.getInstance().insert_course(course);
@@ -108,6 +117,8 @@ public class AddCourseServlet extends HttpServlet {
             Logger.getLogger(AddCourseServlet.class.getName()).log(Level.SEVERE, null, ex);
         } catch (CourseException ex) {
             Logger.getLogger(AddCourseServlet.class.getName()).log(Level.SEVERE, null, ex);
+        } catch (ParseException ex) {
+            Logger.getLogger(AddCourseServlet.class.getName()).log(Level.SEVERE, null, ex);
         }
        
     }
@@ -128,6 +139,8 @@ public class AddCourseServlet extends HttpServlet {
         } catch (IdException | NameException | DateException | DescriptionException ex) {
             Logger.getLogger(AddCourseServlet.class.getName()).log(Level.SEVERE, null, ex);
         } catch (CourseException ex) {
+            Logger.getLogger(AddCourseServlet.class.getName()).log(Level.SEVERE, null, ex);
+        } catch (ParseException ex) {
             Logger.getLogger(AddCourseServlet.class.getName()).log(Level.SEVERE, null, ex);
         }
     }

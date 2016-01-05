@@ -39,8 +39,8 @@
         <![endif]-->
 <script type="text/javascript">
             function checkDate() {
-                var start = new Date($("#start-date").val());
-                var end = new Date($("#end-date").val());
+                var start = new Date($("#startdate").val());
+                var end = new Date($("#enddate").val());
 
                 if (start > end) {
                     alert('La data di fine della missione è precedente alla data di inizio!');
@@ -71,7 +71,7 @@
                                 <h1> Aggiungi Corso</h1>
                             </div>
                             <div class="panel-body">
-                                <form class="form-horizontal" method="POST" action="AddCourseServlet">
+                                <!--<form class="form-horizontal" method="POST" action="AddCourseServlet">-->
                                     <div class="form-group">
                                         <table width="90%" align="center">
                                             <tr><td>
@@ -81,42 +81,43 @@
                                                     <p>Id Corso:</p>
                                                     <div class="input-group">
                                                         <span class="input-group-addon"></span>
-                                                        <input class="form-control" name="idCourse" type="text" required>
+                                                        <input class="form-control" name="idCourse" type="text" id="numCorso" required>
                                                     </div>
                                                     <br>
                                                     <br>
-                                                                                                     
+                                                  <p>Ciclo:</p>
+                                                     <div class="input-group">
+                                                        
+                                                        <select class="form-control" name="fkCycle" id="CycleList" required onchange="selectedItem()"> 
+                                                          <option value="default" >Seleziona il ciclo</option>
+                                                        
+                                                                  
+                                                        </select>
+                                                     </div>
+                                                  <br>
+                                                    <br>
                                                  <p>Curriculum:</p>
                                                     <div class="input-group">
                                                         <select class="form-control" name="fkCurriculum" id="curriculum" required> 
-                                                          <option value="default" >Seleziona il tipo di curriculum</option>
+                                                          <option value="default" >Seleziona il curriculum</option>
                                                           
                                                                   
                                                         </select> </div>
                                                     <br>
                                                     <br>
-                                                    <p>Ciclo:</p>
-                                                     <div class="input-group">
-                                                        
-                                                        <select class="form-control" name="fkCycle" id="CycleList" required onclick="selectedItem()"> 
-                                                          <option value="default" >Seleziona  prima il tipo di ciclo</option>
-                                                        
-                                                                  
-                                                        </select>
-                                                     </div>
-                                                    <br>
-                                                    <br>
+                                                    
+                                                    
                                                      <p>Nome Corso:</p>
                                                     <div class="input-group">
                                                         <span class="input-group-addon"></span>
-                                                        <input class="form-control" name="name" type="text" required>
+                                                        <input class="form-control" name="name" type="text" id="nameCourse" required>
                                                     </div>
                                                     <br>
                                                     <br>
                                                     <p>Descrizione del Corso:</p>
                                                      <div class="input-group">
                                                         <span class="input-group-addon"></span>
-                                                        <textarea class="form-control" name="description" rows="5" cols="40"> </textarea>
+                                                        <textarea class="form-control" name="description" rows="5" cols="40" id="description"> </textarea>
                                                     </div>
                                                     <br>                          
 
@@ -134,14 +135,14 @@
                                                     <p>Data di Fine:</p>
                                                     <div class="input-group">
                                                         <span class="input-group-addon"></span>
-                                                        <input class="form-control" id="enddate" name="endDate" onblur="checkDate()" type="date" placeholder="aaaa-mm-gg" required>
+                                                        <input class="form-control" id="enddate" name="endDate" onblur="checkDate()" type="date" placeholder="aaaa-mm-gg"  required>
                                                     </div>
                                                     <br>
                                                     <br>
                                                     
 
                                                     <div>
-                                                        <input type="submit" class="btn btn-blue" value="Inserisci"> 
+                                                        <input type="submit" class="btn btn-blue" value="Inserisci" onclick="insertCourse()"> 
                                                         <br>
                                                         <br>
 
@@ -150,7 +151,7 @@
                                         </table>
 
                                     </div>
-                                </form>
+                                <!--</form>-->
                             </div>
                         </div>
                     </div>

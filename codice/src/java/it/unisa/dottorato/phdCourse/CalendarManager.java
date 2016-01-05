@@ -76,7 +76,7 @@ public class CalendarManager {
              */
             String tSql = "INSERT INTO "
                     + CalendarManager.TABLE_COURSE
-                    + " (idCourse, fkCurriculum, fkCycle, name,desription, startDate,endDate)"
+                    + " (idCourse, fkCurriculum, fkCycle, name,description, startDate,endDate)"
                     + " VALUES ("
                     + testid(pCourse.getIdCourse())
                     + ",'"
@@ -455,7 +455,7 @@ public class CalendarManager {
          Statement stmt = null;
         ResultSet result = null;
         Connection connection = null;
-       Course course = new Course();
+       
         ArrayList<Course> listAvviso = new ArrayList<Course>();
         
         try {
@@ -468,13 +468,12 @@ public class CalendarManager {
         String query = "select * from course";
        //  String query = "select * from course where curdate()<course.startDate";  quando lo ripopolo meglio
 
-            if (connection == null) {
-                throw new it.unisa.integrazione.database.exception.ConnectionException();
-            }
+            
             //esecuzione query
             stmt = connection.createStatement();
             result = stmt.executeQuery(query);
                while (result.next()) {
+                Course course = new Course();
                 course.setIdCourse(result.getInt("idCourse"));
                 course.setName(result.getString("name"));
                 course.setFK_curriculum(result.getString("fkCurriculum"));
@@ -486,28 +485,12 @@ public class CalendarManager {
                listAvviso.add(course);
 
             }
-        } catch (ConnectionException ex) {
-            Logger.getLogger(CalendarManager.class.getName()).log(Level.SEVERE, null, ex);
+               return listAvviso;
         } finally {
-
-            if (result != null) {
-                result.close();
-            }
-
-            if (stmt != null) {
-                stmt.close();
-            }
-
-            if (connection != null) {
-                connection.close();
-            }
+            DBConnection.releaseConnection(connection);
         }
-
-        return listAvviso;
-     
-     
-     
      }
+     
      public synchronized ArrayList<Integer> getCourseListId(int cycle, String curriculum) throws ClassNotFoundException, SQLException, IOException {
         Connection connect = null;
         try {
@@ -812,7 +795,7 @@ public class CalendarManager {
        * @throws IdException 
        */
       public int testid(int id) throws IdException {
-        if(id<0||id>6){
+        if(id<0){
             throw new IdException("l'id non puo' essere minore di 0");
         }
        else return id;
@@ -897,8 +880,9 @@ public class CalendarManager {
      * @throws NameException 
      */
       public String testName(String name) throws NameException {
-        if(name.isEmpty() || name.length() > 100) 
+        if(name.isEmpty() || name.length() > 100){ 
             throw new NameException();
+        }
         return name;
     }
       

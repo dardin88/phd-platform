@@ -32,6 +32,9 @@ function getCycleList()
      var selected = $("#CycleList option:selected").val();
      if (selected!== "default") 
     {
+        $("#curriculum").html("");
+        def = "<option class='optionItem' value='" + 'default' + "'> " + '- seleziona -' + "  </option> ";
+        $("#curriculum").append(def);
      $.getJSON("GetCurriculumcicList", {number:selected}, function (data) {
                 $.each(data.curriculumcicList, function (index, value) {
                     var curriculumDiv = "<option class='optionItem' value='" + value.name + "'> " + value.name + "  </option>";
@@ -39,4 +42,23 @@ function getCycleList()
                 });
             });
         }
+ }
+ 
+ function insertCourse(){
+     
+     idCorso = $("#numCorso").val();
+     ciclo = $("#CycleList option:selected").val();
+     cv = $("#curriculum option:selected").val();
+     nome = $("#nameCourse").val();
+     descrizione = $("#description").val();
+     datainizio = $("#startdate").val();
+     datafine = $("#enddate").val();
+     if(idCorso!=="" && ciclo!=="default" && cv!=="default" && nome!=="" && descrizione!==""){
+             $.getJSON("AddCourseServlet", {idCourse: idCorso, cycle: ciclo, curriculum: cv, name: nome, description: descrizione, starttime: datainizio, endtime: datafine}, function (data) {
+                   
+                    if(data.result){
+                        confirm("corso inserito!");
+                    }
+             });
+     }
  }
