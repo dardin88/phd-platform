@@ -7,8 +7,6 @@ package it.unisa.dottorato.account;
 
 import java.sql.SQLException;
 import java.util.ArrayList;
-import java.util.logging.Level;
-import java.util.logging.Logger;
 import org.junit.After;
 import org.junit.Before;
 import org.junit.Test;
@@ -107,101 +105,6 @@ public class AccountManagerTest {
     }
 
     @Test
-    public void testViewProfileOk() {
-        ac.setSecondaryEmail("dinucci@hotmail.it");
-        ac.setTypeAccount("phdstudent");
-        try{
-            ArrayList<String> result = instance.viewProfile(ac);
-            assertNotNull(result);
-        }catch(Exception e){
-            fail("non sono riuscito a fare l' op");
-        }
-    }
-
-    @Test
-    public void testViewProfileEmailNull() {
-        ac.setSecondaryEmail(null);
-        ac.setTypeAccount("phdstudent");
-        try{
-            instance.viewProfile(ac);
-            fail("sono riuscito a fare l' op");
-        }catch(Exception e){
-            assertTrue(true);
-        }
-    }
-
-    @Test
-    public void testViewProfileEmailMax() {
-        ac.setSecondaryEmail("qwertyuoi@eeqwertyuoi@eeqwertyuoi@eeqwertyuoi@eeqwertyuoi@eeqwertyuoi@ee");
-        ac.setTypeAccount("phdstudent");
-        try{
-            instance.viewProfile(ac);
-            fail("sono riuscito a fare l' op");
-        }catch(Exception e){
-            assertTrue(true);
-        }
-    }
-
-    @Test
-    public void testViewProfileEmailFormatError() {
-        ac.setSecondaryEmail("qwertyuodsdsdee");
-        ac.setTypeAccount("phdstudent");
-        try{
-            instance.viewProfile(ac);
-            fail("sono riuscito a fare l' op");
-        }catch(Exception e){
-            assertTrue(true);
-        }
-    }
-
-    @Test
-    public void testViewProfileEmailNotExists() {
-        ac.setSecondaryEmail("qwertyuo@dsdsdee");
-        ac.setTypeAccount("phdstudent");
-        try{
-            instance.viewProfile(ac);
-            fail("sono riuscito a fare l' op");
-        }catch(Exception e){
-            assertTrue(true);
-        }
-    }
-
-    @Test
-    public void testViewProfileTypeNull() {
-        ac.setSecondaryEmail("dinucci@hotmail.it");
-        ac.setTypeAccount(null);
-        try{
-            instance.viewProfile(ac);
-            fail("sono riuscito a fare l' op");
-        }catch(Exception e){
-            assertTrue(true);
-        }
-    }
-
-    @Test
-    public void testViewProfileTypeNotDominio() {
-        ac.setSecondaryEmail("dinucci@hotmail.it");
-        ac.setTypeAccount("sds");
-        try{
-            instance.viewProfile(ac);
-            fail("sono riuscito a fare l' op");
-        }catch(Exception e){
-            assertTrue(true);
-        }
-    }
-
-    @Test
-    public void testViewProfileAccountNull() {
-        Account nul=null;
-        try{
-            instance.viewProfile(nul);
-            fail("sono riuscito a fare l' op");
-        }catch(Exception e){
-            assertTrue(true);
-        }
-    }
-
-    @Test
     public void testGetPhdStudents() {
         ArrayList<PhdStudent> result;
         try {
@@ -235,20 +138,9 @@ public class AccountManagerTest {
     }
 
     @Test
-    public void testSearchUserSearchNull() {
-        String search = null;
-        try{
-            instance.searchUser(search);
-            fail("sono riuscoto a fare l' op");
-        }catch(Exception e){
-            assertTrue(true);
-        }
-    }
-
-    @Test
     public void testUpdateProfileOk() {
-        String key="dinucci@hotmail.it";
-        PhdStudent w=(PhdStudent)ac;
+        String key="dinucci@unisa.it";
+        PhdStudent w=new PhdStudent();
         w.setAdmin(true);
         w.setEmail("c");
         w.setPassword("provaaaa12");
@@ -270,10 +162,9 @@ public class AccountManagerTest {
     @Test
     public void testUpdateProfileKeyNull() {
         String key=null;
-        PhdStudent w=(PhdStudent)ac;
+        PhdStudent w=new PhdStudent();
         w.setAdmin(true);
-        w.setEmail(key);
-        w.setPassword(key);
+        w.setPassword("ciaoooooooo");
         w.setSurname("cognomeProva");
         w.setName("NomeProva");
         w.setSecondaryEmail("emaildiprova@hormail.it");
@@ -292,10 +183,9 @@ public class AccountManagerTest {
     @Test
     public void testUpdateProfileKeyMax() {
         String key="qwertyuiopqwertyuiopqwertyuiopqwertyuiopqwertyuiopqwertyuiop";
-        PhdStudent w=(PhdStudent)ac;
+        PhdStudent w=new PhdStudent();
         w.setAdmin(true);
-        w.setEmail(key);
-        w.setPassword(key);
+        w.setPassword("weewewrwerwre");
         w.setSurname("cognomeProva");
         w.setName("NomeProva");
         w.setSecondaryEmail("emaildiprova@hormail.it");
@@ -314,10 +204,9 @@ public class AccountManagerTest {
     @Test
     public void testUpdateProfileKeyFormatError() {
         String key="qwertyuiopqweqwertyuiopqwertyuiop";
-        PhdStudent w=(PhdStudent)ac;
+        PhdStudent w=new PhdStudent();
         w.setAdmin(true);
-        w.setEmail(key);
-        w.setPassword(key);
+        w.setPassword("sdwewewerwe");
         w.setSurname("cognomeProva");
         w.setName("NomeProva");
         w.setSecondaryEmail("emaildiprova@hormail.it");
@@ -335,8 +224,8 @@ public class AccountManagerTest {
 
     @Test
     public void testUpdateProfileNameMin() {
-        String key="dinucci@hotmail.it";
-        PhdStudent w=(PhdStudent)ac;
+        String key="dinucci@unisa.it";
+        PhdStudent w=new PhdStudent();
         w.setName("");
         w.setAdmin(true);
         w.setEmail(key);
@@ -357,8 +246,8 @@ public class AccountManagerTest {
 
     @Test
     public void testUpdateProfileNameMax() {
-        String key="dinucci@hotmail.it";
-        PhdStudent w=(PhdStudent)ac;
+        String key="dinucci@unisa.it";
+        PhdStudent w=new PhdStudent();
         w.setName("qwertyuiopqweqweqwertyuiopqweqweqwertyuiopqweqwe");
         w.setAdmin(true);
         w.setEmail(key);
@@ -379,8 +268,8 @@ public class AccountManagerTest {
 
     @Test
     public void testUpdateProfileNameFormatError() {
-        String key="dinucci@hotmail.it";
-        PhdStudent w=(PhdStudent)ac;
+        String key="dinucci@unisa.it";
+        PhdStudent w=new PhdStudent();
         w.setName("qw123");
         w.setAdmin(true);
         w.setEmail(key);
@@ -401,8 +290,8 @@ public class AccountManagerTest {
 
     @Test
     public void testUpdateProfileSurnameMin() {
-        String key="dinucci@hotmail.it";
-        PhdStudent w=(PhdStudent)ac;
+        String key="dinucci@unisa.it";
+        PhdStudent w=new PhdStudent();
         w.setName("prova");
         w.setAdmin(true);
         w.setEmail(key);
@@ -423,8 +312,8 @@ public class AccountManagerTest {
 
     @Test
     public void testUpdateProfileSurnameMax() {
-        String key="dinucci@hotmail.it";
-        PhdStudent w=(PhdStudent)ac;
+        String key="dinucci@unisa.it";
+        PhdStudent w=new PhdStudent();
         w.setName("prova");
         w.setAdmin(true);
         w.setEmail(key);
@@ -445,8 +334,8 @@ public class AccountManagerTest {
 
     @Test
     public void testUpdateProfileSurnameFormatError() {
-        String key="dinucci@hotmail.it";
-        PhdStudent w=(PhdStudent)ac;
+        String key="dinucci@unisa.it";
+        PhdStudent w=new PhdStudent();
         w.setName("prova");
         w.setAdmin(true);
         w.setEmail(key);
@@ -467,8 +356,8 @@ public class AccountManagerTest {
 
     @Test
     public void testUpdateProfilePasswordMin() {
-        String key="dinucci@hotmail.it";
-        PhdStudent w=(PhdStudent)ac;
+        String key="dinucci@unisa.it";
+        PhdStudent w=new PhdStudent();
         w.setName("prova");
         w.setAdmin(true);
         w.setEmail(key);
@@ -489,8 +378,8 @@ public class AccountManagerTest {
 
     @Test
     public void testUpdateProfilePasswordMax() {
-        String key="dinucci@hotmail.it";
-        PhdStudent w=(PhdStudent)ac;
+        String key="dinucci@unisa.it";
+        PhdStudent w=new PhdStudent();
         w.setName("prova");
         w.setAdmin(true);
         w.setEmail(key);
@@ -511,8 +400,8 @@ public class AccountManagerTest {
 
     @Test
     public void testUpdateProfilePasswordFormatError() {
-        String key="dinucci@hotmail.it";
-        PhdStudent w=(PhdStudent)ac;
+        String key="dinucci@unisa.it";
+        PhdStudent w=new PhdStudent();
         w.setName("prova");
         w.setAdmin(true);
         w.setEmail(key);
@@ -533,8 +422,8 @@ public class AccountManagerTest {
  
     @Test
     public void testUpdateProfileSecEmailMin() {
-        String key="dinucci@hotmail.it";
-        PhdStudent w=(PhdStudent)ac;
+        String key="dinucci@unisa.it";
+        PhdStudent w=new PhdStudent();
         w.setName("prova");
         w.setAdmin(true);
         w.setEmail(key);
@@ -555,8 +444,8 @@ public class AccountManagerTest {
 
     @Test
     public void testUpdateProfileSecEmailMax() {
-        String key="dinucci@hotmail.it";
-        PhdStudent w=(PhdStudent)ac;
+        String key="dinucci@unisa.it";
+        PhdStudent w=new PhdStudent();
         w.setName("prova");
         w.setAdmin(true);
         w.setEmail(key);
@@ -577,8 +466,8 @@ public class AccountManagerTest {
 
     @Test
     public void testUpdateProfileSecEmailFormatError() {
-        String key="dinucci@hotmail.it";
-        PhdStudent w=(PhdStudent)ac;
+        String key="dinucci@unisa.it";
+        PhdStudent w=new PhdStudent();
         w.setName("prova");
         w.setAdmin(true);
         w.setEmail(key);
@@ -598,53 +487,9 @@ public class AccountManagerTest {
     }
 
     @Test
-    public void testUpdateProfileEmailInsert() {
-        String key="dinucci@hotmail.it";
-        PhdStudent w=(PhdStudent)ac;
-        w.setName("prova");
-        w.setAdmin(true);
-        w.setEmail(key);
-        w.setPassword("wewqqwqwqw");
-        w.setSurname("freddo");
-        w.setSecondaryEmail("emaildiprova@hormail.it");
-        w.setDepartment("infoProva");
-        w.setLink("www.prova.it");
-        w.setTelephone("082457895");
-        w.setResearchInterest("Ricerca prova");
-        try{
-            instance.updateProfile(key, w);
-            fail("sono riuscito a fare l' op");
-        }catch(Exception e){
-            assertTrue(true);
-        }
-    }
-
-    @Test
-    public void testUpdateProfiletelephoneMin() {
-        String key="dinucci@hotmail.it";
-        PhdStudent w=(PhdStudent)ac;
-        w.setName("prova");
-        w.setAdmin(true);
-        w.setEmail(key);
-        w.setPassword("wewqqwqwqw");
-        w.setSurname("freddo");
-        w.setSecondaryEmail("emaildiprova@hormail.it");
-        w.setDepartment("infoProva");
-        w.setLink("www.prova.it");
-        w.setTelephone("082457895");
-        w.setResearchInterest("Ricerca prova");
-        try{
-            instance.updateProfile(key, w);
-            fail("sono riuscito a fare l' op");
-        }catch(Exception e){
-            assertTrue(true);
-        }
-    }
-
-    @Test
     public void testUpdateProfiletelephoneMax() {
-        String key="dinucci@hotmail.it";
-        PhdStudent w=(PhdStudent)ac;
+        String key="dinucci@unisa.it";
+        PhdStudent w=new PhdStudent();
         w.setName("prova");
         w.setAdmin(true);
         w.setEmail(key);
@@ -665,8 +510,8 @@ public class AccountManagerTest {
 
     @Test
     public void testUpdateProfiletelephoneFormatError() {
-        String key="dinucci@hotmail.it";
-        PhdStudent w=(PhdStudent)ac;
+        String key="dinucci@unisa.it";
+        PhdStudent w=new PhdStudent();
         w.setName("prova");
         w.setAdmin(true);
         w.setEmail(key);
@@ -686,31 +531,9 @@ public class AccountManagerTest {
     }
 
     @Test
-    public void testUpdateProfileLinkMin() {
-        String key="dinucci@hotmail.it";
-        PhdStudent w=(PhdStudent)ac;
-        w.setName("prova");
-        w.setAdmin(true);
-        w.setEmail(key);
-        w.setPassword("wewqqwqwqw");
-        w.setSurname("freddo");
-        w.setSecondaryEmail("emaildiprova@hormail.it");
-        w.setDepartment("infoProva");
-        w.setLink("www.va.it");
-        w.setTelephone("082457895");
-        w.setResearchInterest("Ricerca prova");
-        try{
-            instance.updateProfile(key, w);
-            fail("sono riuscito a fare l' op");
-        }catch(Exception e){
-            assertTrue(true);
-        }
-    }
-
-    @Test
     public void testUpdateProfileLinkMax() {
-        String key="dinucci@hotmail.it";
-        PhdStudent w=(PhdStudent)ac;
+        String key="dinucci@unisa.it";
+        PhdStudent w=new PhdStudent();
         w.setName("prova");
         w.setAdmin(true);
         w.setEmail(key);
@@ -731,8 +554,8 @@ public class AccountManagerTest {
 
     @Test
     public void testUpdateProfileDepartmentMin() {
-        String key="dinucci@hotmail.it";
-        PhdStudent w=(PhdStudent)ac;
+        String key="dinucci@unisa.it";
+        PhdStudent w=new PhdStudent();
         w.setName("prova");
         w.setAdmin(true);
         w.setEmail(key);
@@ -753,8 +576,8 @@ public class AccountManagerTest {
 
     @Test
     public void testUpdateProfileDepartmentMax() {
-        String key="dinucci@hotmail.it";
-        PhdStudent w=(PhdStudent)ac;
+        String key="dinucci@unisa.it";
+        PhdStudent w=new PhdStudent();
         w.setName("prova");
         w.setAdmin(true);
         w.setEmail(key);
@@ -775,8 +598,8 @@ public class AccountManagerTest {
 
     @Test
     public void testUpdateProfileDepartmentFormatError() {
-        String key="dinucci@hotmail.it";
-        PhdStudent w=(PhdStudent)ac;
+        String key="dinucci@unisa.it";
+        PhdStudent w=new PhdStudent();
         w.setName("prova");
         w.setAdmin(true);
         w.setEmail(key);
@@ -797,8 +620,8 @@ public class AccountManagerTest {
 
     @Test
     public void testUpdateProfileresearchInterestMin() {
-        String key="dinucci@hotmail.it";
-        PhdStudent w=(PhdStudent)ac;
+        String key="dinucci@unisa.it";
+        PhdStudent w=new PhdStudent();
         w.setName("prova");
         w.setAdmin(true);
         w.setEmail(key);

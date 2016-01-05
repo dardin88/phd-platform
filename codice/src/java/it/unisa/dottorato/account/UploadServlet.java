@@ -1,13 +1,9 @@
 package it.unisa.dottorato.account;
 
-import it.unisa.dottorato.autenticazione.EmailException;
-import it.unisa.dottorato.autenticazione.PasswordException;
+
 import java.io.File;
 import java.io.IOException;
-import java.io.InputStream;
 import java.io.PrintWriter;
-import java.util.Collection;
-import java.util.Iterator;
 import java.util.List;
 import java.util.logging.Level;
 import java.util.logging.Logger;

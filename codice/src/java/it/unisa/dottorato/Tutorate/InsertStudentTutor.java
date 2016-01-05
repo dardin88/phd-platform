@@ -37,7 +37,7 @@ public class InsertStudentTutor extends HttpServlet {
      * @throws it.unisa.dottorato.autenticazione.EmailException
      */
    protected void processRequest(HttpServletRequest request, HttpServletResponse response)
-            throws ServletException, IOException, EmailException {
+            throws ServletException, IOException, EmailException, Exception {
         response.setContentType("text/html;charset=UTF-8");
 
         PrintWriter out = response.getWriter();
@@ -80,6 +80,8 @@ public class InsertStudentTutor extends HttpServlet {
            processRequest(request, response);
        } catch (EmailException ex) {
            Logger.getLogger(InsertStudentTutor.class.getName()).log(Level.SEVERE, null, ex);
+       } catch (Exception ex) {
+           Logger.getLogger(InsertStudentTutor.class.getName()).log(Level.SEVERE, null, ex);
        }
     }
 
@@ -97,6 +99,8 @@ public class InsertStudentTutor extends HttpServlet {
        try {
            processRequest(request, response);
        } catch (EmailException ex) {
+           Logger.getLogger(InsertStudentTutor.class.getName()).log(Level.SEVERE, null, ex);
+       } catch (Exception ex) {
            Logger.getLogger(InsertStudentTutor.class.getName()).log(Level.SEVERE, null, ex);
        }
     }

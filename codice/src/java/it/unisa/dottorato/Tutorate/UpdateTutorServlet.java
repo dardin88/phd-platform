@@ -36,7 +36,7 @@ public class UpdateTutorServlet extends HttpServlet {
      * @throws IOException if an I/O error occurs
      */
    protected void processRequest(HttpServletRequest request, HttpServletResponse response)
-            throws ServletException, IOException, EmailException {
+            throws ServletException, IOException, EmailException, Exception {
         
         response.setContentType("text/html;charset=UTF-8");
         PrintWriter out = response.getWriter();
@@ -82,6 +82,8 @@ public class UpdateTutorServlet extends HttpServlet {
            processRequest(request, response);
        } catch (EmailException ex) {
            Logger.getLogger(UpdateTutorServlet.class.getName()).log(Level.SEVERE, null, ex);
+       } catch (Exception ex) {
+           Logger.getLogger(UpdateTutorServlet.class.getName()).log(Level.SEVERE, null, ex);
        }
     }
 
@@ -99,6 +101,8 @@ public class UpdateTutorServlet extends HttpServlet {
        try {
            processRequest(request, response);
        } catch (EmailException ex) {
+           Logger.getLogger(UpdateTutorServlet.class.getName()).log(Level.SEVERE, null, ex);
+       } catch (Exception ex) {
            Logger.getLogger(UpdateTutorServlet.class.getName()).log(Level.SEVERE, null, ex);
        }
     }
