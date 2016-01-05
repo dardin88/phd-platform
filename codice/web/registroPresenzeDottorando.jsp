@@ -66,7 +66,7 @@
      <FORM ACTION="Submit" METHOD="POST"> 
                                 <label  > Seleziona un corso</label>
                                 
-                                <select name="Corsoprofessore" class="form-control" id="Corsoprofessore"  onclick="selectedItemDot()" >
+                                <select name="Corsoprofessore1" class="form-control" id="Corsoprofessore1"  onclick="selectedItem()" >
  <% for (Course corso : corsi) {%>
                
                  <option value="default"  >  - selezionate il vostro  corso  -  </option>
@@ -76,7 +76,7 @@
                              
              <%  
   
-     String subject=request.getParameter("Corsoprofessore");
+     String subject=request.getParameter("Corsoprofessore1");
 // int subjectid = 0;
 
     // subjectid=Integer.parseInt(subject.trim());

@@ -92,57 +92,7 @@ public class PresenceManager {
     }
 
    
-   /** Metodo della classe incaricato di ritornare tutte le lezioni di un corso
-      * dato il corso
-      * 
-      * @param pCourse il corso da selezionare
-      * @return restituisce una lista di lezioni presenti nel corso
-      * @throws SQLException
-      * @throws IdException 
-      */
-      public synchronized List<Lesson> getAllLessonOf(int idcourse) throws SQLException, IdException { //da modificare dato Person
-        List<Lesson> lessons = new ArrayList<>();
-        
-        Connection connect = null;
-        try {
-            // Otteniamo una Connessione al DataBase
-            connect = DBConnection.getConnection();
-
-            /*
-             * Prepariamo la stringa SQL per ricercare uno o piu' record 
-             * nella tabella lesson
-             */
-            String tSql = "SELECT * FROM "
-                    + PresenceManager.TABLE_Lesson
-                    + " WHERE fkCourse = "
-                    + testid(idcourse) 
-                    + " order by date"; 
-
-            //Inviamo la Query al DataBase
-            ResultSet result = Utility.queryOperation(connect, tSql);
-
-            while (result.next()) {
-                Lesson lesson = new Lesson();
-                
-                lesson.setIdLesson(result.getInt("idLesson"));
-                lesson.setDate(result.getDate("date"));
-                lesson.setStartTime(result.getInt("startTime"));
-                lesson.setEndTime(result.getInt("endTime"));
-                lesson.setName(result.getString("name"));
-                lesson.setClassroom(result.getString("classroom"));
-                lesson.setDescription(result.getString("desription"));                             
-                lesson.setFK_course(result.getInt("fkCourse"));
-                
-                lessons.add(lesson);
-            }
-
-        } finally {
-            DBConnection.releaseConnection(connect);
-        }
-        
-        
-        return lessons;
-    }
+  
       
   
    

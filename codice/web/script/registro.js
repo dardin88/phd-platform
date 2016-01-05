@@ -34,6 +34,28 @@ function selectedItem()
         selected = $("#Corsoprofessore option:selected").val();
         $("#panelDiv").show();
         //metodo per stampare le date
+         $.getJSON("GetAllLessonServlet", {fkCourse: selected}, function (data1) {
+             
+            $.each(data1.lessons, function (index, value5) {
+              
+              data1=value5.data;
+              data1=data1.toString();
+              stardata = (data1.substring(0,4))+(data1.substring(5,7));
+              startday =(data1.substring(8,10));
+              startday  = parseInt(startday);
+              
+             
+
+
+         
+                dottorando1 = " <th> " + + " </th>  ";
+              
+                         
+                $("#resulthead ").append(dottorando1)
+                
+                
+                
+                ;});});
         $.getJSON("GetPresenceDottorandi", {idCourse: selected}, function (data) {
             $.each(data.presence, function (index, value) {
                 dottorando = "<tr id=" + index + "> <td> " + value.name + " " + value.surname + " </td>  </tr>";

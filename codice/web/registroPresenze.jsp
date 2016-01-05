@@ -60,7 +60,6 @@
  
       
     List<Course> corsi = CalendarManager.getInstance().getAllCourse();
-
             %>
 
      <FORM ACTION="Submit" METHOD="POST"> 
@@ -78,12 +77,10 @@
   
      String subject=request.getParameter("Corsoprofessore");
 // int subjectid = 0;
-
     // subjectid=Integer.parseInt(subject.trim());
  
-
-                  System.out.println("ciao" +subject );
-       dat=Integer.parseInt(subject.trim());
+              //    System.out.println("ciao" +subject );
+     //  dat=Integer.parseInt(subject.trim());
  
                %> 
      </form>
@@ -106,8 +103,7 @@
                                      <% 
  
       
-    List<Lesson> missions = PresenceManager.getInstance().getAllLessonOf(dat);
-
+    List<Lesson> missions = CalendarManager.getInstance().getAllLessonOf(1);
             %>
             
                                     <table id="resultst" class="table">
