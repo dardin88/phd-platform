@@ -31,7 +31,6 @@ public class GetAccountServlet extends HttpServlet {
      * @param response servlet response
      * @throws ServletException if a servlet-specific error occurs
      * @throws IOException if an I/O error occurs
-     * @throws it.unisa.dottorato.autenticazione.EmailException
      */
     
     protected void processRequest(HttpServletRequest request, HttpServletResponse response)
@@ -42,6 +41,19 @@ public class GetAccountServlet extends HttpServlet {
             JSONObject result = new JSONObject();
             try {
               Account avviso = AccountManager.getInstance().getAccountByEmail(id);
+              if(avviso.getTypeAccount().equals("phdstudent")){
+                PhdStudent student = (PhdStudent) AccountManager.getInstance().getAccountByEmail(id);
+                result.put("secondaryEmail", student.getSecondaryEmail());
+                result.put("email", student.getEmail());
+                result.put("surname", student.getSurname());
+                result.put("name", student.getName());
+                result.put("password", student.getPassword());
+                result.put("typeAccount", student.getTypeAccount());
+                result.put("isAdministrator", student.isAdmin());
+                result.put("fkCycle", student.getfkCycle());
+                result.put("fkCurriculum", student.getfkCurriculum());
+            }
+              else{
                 result.put("secondaryEmail", avviso.getSecondaryEmail());
                 result.put("email", avviso.getEmail());
                 result.put("surname", avviso.getSurname());
@@ -50,6 +62,7 @@ public class GetAccountServlet extends HttpServlet {
                 result.put("typeAccount", avviso.getTypeAccount());
                 result.put("isAdministrator", avviso.isAdmin());
                 
+              }
                 
                 out.write(result.toString());
             } catch (SQLException | JSONException | ConnectionException | ClassNotFoundException ex) {
