@@ -197,8 +197,7 @@ public class AccountManager {
      * phdStudent presenti nella piattaforma
      * @throws java.sql.SQLException
      */
-
-    public ArrayList<PhdStudent> getPhdStudents() throws SQLException{
+    public ArrayList<PhdStudent> getPhdStudents() throws SQLException {
         Connection connect = null;
 
         try {
@@ -233,7 +232,7 @@ public class AccountManager {
                 System.out.println(temp);
             }
             return students;
-        }finally {
+        } finally {
             DBConnection.releaseConnection(connect);
         }
     }
@@ -277,7 +276,7 @@ public class AccountManager {
 
             return professors;
 
-        }finally {
+        } finally {
             DBConnection.releaseConnection(connect);
         }
     }
@@ -286,11 +285,10 @@ public class AccountManager {
         Connection conn = null;
         Statement stmt = null;
         try {
-                String sql = "UPDATE account "
-                + "set isAdministrator = " + var
-                + " WHERE secondaryEmail = '" + testSecondaryEmail(secondaryEmail) + "'";
+            String sql = "UPDATE account "
+                    + "set isAdministrator = " + var
+                    + " WHERE secondaryEmail = '" + testSecondaryEmail(secondaryEmail) + "'";
 
-        
             conn = DBConnection.getConnection();
             stmt = conn.createStatement();
             System.out.println(sql);
@@ -431,6 +429,7 @@ public class AccountManager {
     /**
      * Metodo della classe incaricato dell'aggiornamento di un tipo di un
      * account
+     *
      * @param email
      * @param newType il nuovo tipo da inserire
      * @throws SQLException
@@ -536,29 +535,57 @@ public class AccountManager {
      */
     //Dovrebbe inviare una mail, not tested
     public void inviteUser(String email) throws SQLException, EmailException {
-        String to;
-        to = testSecondaryEmail(email);
-        String from = "phdplatform@unisa.it";
+ Properties props = System.getProperties();
 
-        String host = "localhost"; //testing
-        Properties properties = System.getProperties();
-        properties.setProperty("mail.smtp.host", host);
-
-        Session mailSession = Session.getDefaultInstance(properties);
-
+        props.setProperty("mail.smtp.user", "phdplatformunisa@gmail.com");
+        props.setProperty("mail.transport.protocol", "smtp");
+        props.setProperty("mail.host", "smtp.gmail.com");
+        props.put("mail.smtp.socketFactory.port", "465");
+        props.put("mail.smtp.starttls.enable","true");
+        props.put("mail.smtp.auth", "true");
+        props.put("mail.smtp.socketFactory.class", "javax.net.ssl.SSLSocketFactory");
+        props.put("mail.smtp.socketFactory.fallback", "false");
+        props.setProperty("mail.smtp.quitwait", "false");
         try {
 
-            MimeMessage message = new MimeMessage(mailSession);
-            message.setFrom(new InternetAddress(from));
-            message.addRecipient(Message.RecipientType.TO,
-                    new InternetAddress(to));
-            message.setSubject("Sei stato invitato ad iscriverti a"
-                    + " Phd-platform.");
-            message.setText("localhost:8080/phd-platform/codice/register.jsp"); //test
-            Transport.send(message);
-        } catch (MessagingException ex) {
-            ex.printStackTrace();
-        }
+            Session session = Session.getInstance(props, new Authenticator() {
+
+                protected PasswordAuthentication getPasswordAuthentication() {
+
+                    return new PasswordAuthentication(
+                            "phdplatformunisa@gmail.com",
+                            "unisaunisa");
+
+                }
+            });
+
+            Message message = new MimeMessage(session);
+            Address fromAdd = new InternetAddress(
+                   "phdplatformunisa@gmail.com");
+            Address toAdd = new InternetAddress(email);
+            message.setFrom(fromAdd);
+            message.setRecipient(Message.RecipientType.TO, toAdd);
+            message.setSubject("Conferma la registrazione");
+
+            MimeBodyPart messagePart = new MimeBodyPart();
+            MimeMultipart multipart = new MimeMultipart();
+            multipart.addBodyPart(messagePart);  // adding message part    
+
+            //Setting the Email Encoding
+            messagePart.setText("localhost:8080/codice/register.jsp?email=" + email, "utf-8");
+            messagePart.setHeader("Content-Type", "text/html; charset=\"utf-8\"");
+            messagePart.setHeader("Content-Transfer-Encoding", "quoted-printable");
+            message.setContent(multipart);
+            message.setSentDate(new Date());
+            
+            Transport transport = session.getTransport("smtps");
+            transport.connect("smtp.gmail.com", 465, "phdplatformunisa@gmail.com","unisaunisa");
+            transport.sendMessage(message,message.getAllRecipients());
+            transport.close();
+            
+        } catch (Exception e) {
+            e.printStackTrace();
+        }        
     }
 
     /**
@@ -590,8 +617,9 @@ public class AccountManager {
                     + "'";
 
             //Inviamo la Query al DataBase
-            if(Utility.executeOperation(connect, tSql)==0)
+            if (Utility.executeOperation(connect, tSql) == 0) {
                 throw new Exception();
+            }
 
             connect.commit();
         } finally {
@@ -683,8 +711,9 @@ public class AccountManager {
                     + "'";
 
             //Inviamo la Query al DataBase
-            if(Utility.executeOperation(connect, tSql)==0)
+            if (Utility.executeOperation(connect, tSql) == 0) {
                 throw new Exception();
+            }
 
             connect.commit();
         }
@@ -718,8 +747,9 @@ public class AccountManager {
 
             System.out.println("la query di deleteStudentTutor è  " + tSql);
             //Inviamo la Query al DataBase
-            if(Utility.executeOperation(connect, tSql)==0)
-                    throw new Exception();
+            if (Utility.executeOperation(connect, tSql) == 0) {
+                throw new Exception();
+            }
 
             connect.commit();
         } finally {
@@ -741,8 +771,7 @@ public class AccountManager {
             throw new NullAccountException();
         }
         return account;
-        
-                
+
     }
 
     /**
@@ -788,7 +817,8 @@ public class AccountManager {
         }
         return data;
     }
-     /**
+
+    /**
      * Metodo della classe per il testing di una stringa; verifica se è vuota
      *
      * @param tele
@@ -797,23 +827,23 @@ public class AccountManager {
      * @throws it.unisa.dottorato.account.TelephoneException
      */
     public String testTelephone(String tele) throws ProfileException, TelephoneException {
-        int n=tele.length();
-        if (n>15 || n<10) {
+        int n = tele.length();
+        if (n > 15 || n < 10) {
             throw new TelephoneException();
         }
         int c;
-        for (int i=0; i<n;i++){
-            c=Integer.parseInt(tele.substring(i, i+1));
-            if(c>=0 && c<=9){
-                
-            }else{
+        for (int i = 0; i < n; i++) {
+            c = Integer.parseInt(tele.substring(i, i + 1));
+            if (c >= 0 && c <= 9) {
+
+            } else {
                 throw new TelephoneException();
             }
         }
         return tele;
     }
 
-   /**
+    /**
      * Metodo della classe per il testing dell'email; verifica che non sia una
      * stringa vuota o piu' lunga di 50 caratteri
      *
@@ -822,12 +852,12 @@ public class AccountManager {
      * @throws EmailException
      */
     public String testEmail(String email) throws EmailException {
-        if (email.isEmpty() ||(email.length() < 10) || (email.length() > 50) || !email.contains("@unisa")) {
+        if (email.isEmpty() || (email.length() < 10) || (email.length() > 50) || !email.contains("@unisa")) {
             throw new EmailException();
         }
         return email;
     }
-    
+
     /**
      * Metodo della classe per il testing dell'email; verifica che non sia una
      * stringa vuota o piu' lunga di 50 caratteri
@@ -837,40 +867,41 @@ public class AccountManager {
      * @throws NameException
      */
     public String testname(String name) throws NameException {
-        if (name.isEmpty() ||(name.length() < 1) || (name.length() > 25)) {
+        if (name.isEmpty() || (name.length() < 1) || (name.length() > 25)) {
             throw new NameException();
         }
-        int n=name.length();
+        int n = name.length();
         char c;
-        for(int i=0;i<n;i++){
-            c=name.substring(i, i+1).charAt(0);
-            if(!Character.isLetter(c) && !Character.isSpaceChar(c))
+        for (int i = 0; i < n; i++) {
+            c = name.substring(i, i + 1).charAt(0);
+            if (!Character.isLetter(c) && !Character.isSpaceChar(c)) {
                 throw new NameException();
+            }
         }
         return name;
     }
-    
+
     public String testLink(String link) throws NameException {
         if ((link.length() > 150)) {
             throw new NameException();
         }
         return link;
     }
-    
+
     public String testDepartment(String link) throws NameException {
-        if ((link.length() > 50) ||(link.isEmpty()) || link.equals("")) {
+        if ((link.length() > 50) || (link.isEmpty()) || link.equals("")) {
             throw new NameException();
         }
         return link;
     }
-    
-     public String testType(String type) throws NameException {
+
+    public String testType(String type) throws NameException {
         if (!type.equals("basic") && !type.equals("phdstudent") && !type.equals("professor") && !type.equals("phd")) {
             throw new NameException();
         }
         return type;
     }
-    
+
     public String testResearchInterest(String link) throws NameException {
         if ((link.length() > 65536)) {
             throw new NameException();
