@@ -5,6 +5,8 @@
  */
 package it.unisa.dottorato.account;
 
+import it.unisa.dottorato.autenticazione.EmailException;
+import it.unisa.integrazione.database.exception.ConnectionException;
 import java.sql.SQLException;
 import java.util.ArrayList;
 import org.junit.After;
@@ -40,7 +42,7 @@ public class AccountManagerTest {
 
     @Test
     public void testGetAccountByEmailOk(){
-        String sEmail = "dinucci@hotmail.it";
+        String sEmail = "dinucci@unisa.it";
         try{
             instance.getAccountByEmail(sEmail);
             assertTrue(true);
@@ -142,11 +144,10 @@ public class AccountManagerTest {
         String key="dinucci@unisa.it";
         PhdStudent w=new PhdStudent();
         w.setAdmin(true);
-        w.setEmail("c");
         w.setPassword("provaaaa12");
         w.setSurname("cognomeProva");
         w.setName("NomeProva");
-        w.setSecondaryEmail("emaildiprova@hormail.it");
+        w.setSecondaryEmail("okemaildiprova@hormail.it");
         w.setDepartment("infoProvaw3w");
         w.setLink("www.prova.it");
         w.setTelephone("08245789534");
@@ -164,13 +165,13 @@ public class AccountManagerTest {
         String key=null;
         PhdStudent w=new PhdStudent();
         w.setAdmin(true);
-        w.setPassword("ciaoooooooo");
+        w.setPassword("ciaoooooooo3");
         w.setSurname("cognomeProva");
         w.setName("NomeProva");
         w.setSecondaryEmail("emaildiprova@hormail.it");
         w.setDepartment("infoProva");
         w.setLink("www.prova.it");
-        w.setTelephone("082457895");
+        w.setTelephone("08245789533");
         w.setResearchInterest("Ricerca prova");
         try{
             instance.updateProfile(key, w);
@@ -185,13 +186,13 @@ public class AccountManagerTest {
         String key="qwertyuiopqwertyuiopqwertyuiopqwertyuiopqwertyuiopqwertyuiop";
         PhdStudent w=new PhdStudent();
         w.setAdmin(true);
-        w.setPassword("weewewrwerwre");
+        w.setPassword("weewew3rwerwre");
         w.setSurname("cognomeProva");
         w.setName("NomeProva");
         w.setSecondaryEmail("emaildiprova@hormail.it");
         w.setDepartment("infoProva");
         w.setLink("www.prova.it");
-        w.setTelephone("082457895");
+        w.setTelephone("08245733895");
         w.setResearchInterest("Ricerca prova");
         try{
             instance.updateProfile(key, w);
@@ -206,13 +207,13 @@ public class AccountManagerTest {
         String key="qwertyuiopqweqwertyuiopqwertyuiop";
         PhdStudent w=new PhdStudent();
         w.setAdmin(true);
-        w.setPassword("sdwewewerwe");
+        w.setPassword("sdwewewerwe3");
         w.setSurname("cognomeProva");
         w.setName("NomeProva");
         w.setSecondaryEmail("emaildiprova@hormail.it");
         w.setDepartment("infoProva");
         w.setLink("www.prova.it");
-        w.setTelephone("082457895");
+        w.setTelephone("08245733895");
         w.setResearchInterest("Ricerca prova");
         try{
             instance.updateProfile(key, w);
@@ -229,12 +230,12 @@ public class AccountManagerTest {
         w.setName("");
         w.setAdmin(true);
         w.setEmail(key);
-        w.setPassword(key);
+        w.setPassword("qwerasdfre4");
         w.setSurname("cognomeProva");
         w.setSecondaryEmail("emaildiprova@hormail.it");
         w.setDepartment("infoProva");
         w.setLink("www.prova.it");
-        w.setTelephone("082457895");
+        w.setTelephone("08245783395");
         w.setResearchInterest("Ricerca prova");
         try{
             instance.updateProfile(key, w);
@@ -251,34 +252,12 @@ public class AccountManagerTest {
         w.setName("qwertyuiopqweqweqwertyuiopqweqweqwertyuiopqweqwe");
         w.setAdmin(true);
         w.setEmail(key);
-        w.setPassword(key);
+        w.setPassword("qwertrewq3");
         w.setSurname("cognomeProva");
         w.setSecondaryEmail("emaildiprova@hormail.it");
         w.setDepartment("infoProva");
         w.setLink("www.prova.it");
-        w.setTelephone("082457895");
-        w.setResearchInterest("Ricerca prova");
-        try{
-            instance.updateProfile(key, w);
-            fail("sono riuscito a fare l' op");
-        }catch(Exception e){
-            assertTrue(true);
-        }
-    }
-
-    @Test
-    public void testUpdateProfileNameFormatError() {
-        String key="dinucci@unisa.it";
-        PhdStudent w=new PhdStudent();
-        w.setName("qw123");
-        w.setAdmin(true);
-        w.setEmail(key);
-        w.setPassword(key);
-        w.setSurname("cognomeProva");
-        w.setSecondaryEmail("emaildiprova@hormail.it");
-        w.setDepartment("infoProva");
-        w.setLink("www.prova.it");
-        w.setTelephone("082457895");
+        w.setTelephone("08245783395");
         w.setResearchInterest("Ricerca prova");
         try{
             instance.updateProfile(key, w);
@@ -295,12 +274,12 @@ public class AccountManagerTest {
         w.setName("prova");
         w.setAdmin(true);
         w.setEmail(key);
-        w.setPassword(key);
+        w.setPassword("qwertrewq3");
         w.setSurname("");
         w.setSecondaryEmail("emaildiprova@hormail.it");
         w.setDepartment("infoProva");
         w.setLink("www.prova.it");
-        w.setTelephone("082457895");
+        w.setTelephone("082457893335");
         w.setResearchInterest("Ricerca prova");
         try{
             instance.updateProfile(key, w);
@@ -317,34 +296,12 @@ public class AccountManagerTest {
         w.setName("prova");
         w.setAdmin(true);
         w.setEmail(key);
-        w.setPassword(key);
+        w.setPassword("qwertyuiop5");
         w.setSurname("qwertyuiopoiuytrewqwertyuiopoiuyt");
         w.setSecondaryEmail("emaildiprova@hormail.it");
         w.setDepartment("infoProva");
         w.setLink("www.prova.it");
-        w.setTelephone("082457895");
-        w.setResearchInterest("Ricerca prova");
-        try{
-            instance.updateProfile(key, w);
-            fail("sono riuscito a fare l' op");
-        }catch(Exception e){
-            assertTrue(true);
-        }
-    }
-
-    @Test
-    public void testUpdateProfileSurnameFormatError() {
-        String key="dinucci@unisa.it";
-        PhdStudent w=new PhdStudent();
-        w.setName("prova");
-        w.setAdmin(true);
-        w.setEmail(key);
-        w.setPassword(key);
-        w.setSurname("wwe4");
-        w.setSecondaryEmail("emaildiprova@hormail.it");
-        w.setDepartment("infoProva");
-        w.setLink("www.prova.it");
-        w.setTelephone("082457895");
+        w.setTelephone("08245007895");
         w.setResearchInterest("Ricerca prova");
         try{
             instance.updateProfile(key, w);
@@ -359,14 +316,14 @@ public class AccountManagerTest {
         String key="dinucci@unisa.it";
         PhdStudent w=new PhdStudent();
         w.setName("prova");
-        w.setAdmin(true);
         w.setEmail(key);
+        w.setAdmin(true);
         w.setPassword("wewe");
         w.setSurname("freddo");
         w.setSecondaryEmail("emaildiprova@hormail.it");
         w.setDepartment("infoProva");
         w.setLink("www.prova.it");
-        w.setTelephone("082457895");
+        w.setTelephone("08245007895");
         w.setResearchInterest("Ricerca prova");
         try{
             instance.updateProfile(key, w);
@@ -388,7 +345,7 @@ public class AccountManagerTest {
         w.setSecondaryEmail("emaildiprova@hormail.it");
         w.setDepartment("infoProva");
         w.setLink("www.prova.it");
-        w.setTelephone("082457895");
+        w.setTelephone("08245007895");
         w.setResearchInterest("Ricerca prova");
         try{
             instance.updateProfile(key, w);
@@ -403,14 +360,14 @@ public class AccountManagerTest {
         String key="dinucci@unisa.it";
         PhdStudent w=new PhdStudent();
         w.setName("prova");
-        w.setAdmin(true);
         w.setEmail(key);
+        w.setAdmin(true);
         w.setPassword("wewqqwqwqw");
         w.setSurname("freddo");
         w.setSecondaryEmail("emaildiprova@hormail.it");
         w.setDepartment("infoProva");
         w.setLink("www.prova.it");
-        w.setTelephone("082457895");
+        w.setTelephone("08245007895");
         w.setResearchInterest("Ricerca prova");
         try{
             instance.updateProfile(key, w);
@@ -485,6 +442,28 @@ public class AccountManagerTest {
             assertTrue(true);
         }
     }
+    
+    @Test
+    public void testUpdateProfiletelephoneMin() {
+        String key="dinucci@unisa.it";
+        PhdStudent w=new PhdStudent();
+        w.setName("prova");
+        w.setAdmin(true);
+        w.setEmail(key);
+        w.setPassword("wewqqwqwqw1");
+        w.setSurname("freddo");
+        w.setSecondaryEmail("emaildiprova@hormail.it");
+        w.setDepartment("infoProva");
+        w.setLink("www.prova.it");
+        w.setTelephone("082955");
+        w.setResearchInterest("Ricerca prova");
+        try{
+            instance.updateProfile(key, w);
+            fail("sono riuscito a fare l' op");
+        }catch(Exception e){
+            assertTrue(true);
+        }
+    }
 
     @Test
     public void testUpdateProfiletelephoneMax() {
@@ -493,12 +472,12 @@ public class AccountManagerTest {
         w.setName("prova");
         w.setAdmin(true);
         w.setEmail(key);
-        w.setPassword("wewqqwqwqw");
+        w.setPassword("wewqqwqwqw2");
         w.setSurname("freddo");
         w.setSecondaryEmail("emaildiprova@hormail.it");
         w.setDepartment("infoProva");
         w.setLink("www.prova.it");
-        w.setTelephone("082457895998989");
+        w.setTelephone("08245789599898955");
         w.setResearchInterest("Ricerca prova");
         try{
             instance.updateProfile(key, w);
@@ -537,12 +516,14 @@ public class AccountManagerTest {
         w.setName("prova");
         w.setAdmin(true);
         w.setEmail(key);
-        w.setPassword("wewqqwqwqw");
+        w.setPassword("wewqqwqwqw4");
         w.setSurname("freddo");
         w.setSecondaryEmail("emaildiprova@hormail.it");
         w.setDepartment("infoProva");
-        w.setLink("www.vaqwertyuiopvaqwertyuiopvaqwertyuiopvaqwertyuiopvaqwertyuiopvaqwertyuiopvaqwertyuiopvaqwertyuiopvaqwertyuiopvaqwertyuiopvaqwertyuiopvaqwertyuiopvaqwertyuiopvaqwertyuiopvaqwertyuiop.it");
-        w.setTelephone("082457895");
+        w.setLink("www.vaqwertyuiopvaqwertyuiopvaqwertyuiopvaqwertyuiopvaqwertyuiopvaqwertyui"
+                + "opvaqwertyuiopvaqwertyuiopvaqwertyuiopvaqwertyuiopvaqwertyuiopvaqwertyuiopv"
+                + "aqwertyuiopvaqwertyuiopvaqwertyuiop.it");
+        w.setTelephone("082457895333");
         w.setResearchInterest("Ricerca prova");
         try{
             instance.updateProfile(key, w);
@@ -559,12 +540,12 @@ public class AccountManagerTest {
         w.setName("prova");
         w.setAdmin(true);
         w.setEmail(key);
-        w.setPassword("wewqqwqwqw");
+        w.setPassword("wewqqwqwqw2");
         w.setSurname("freddo");
         w.setSecondaryEmail("emaildiprova@hormail.it");
-        w.setDepartment("infoProva");
+        w.setDepartment("");
         w.setLink("www.provaa.it");
-        w.setTelephone("082457895");
+        w.setTelephone("08245447895");
         w.setResearchInterest("Ricerca prova");
         try{
             instance.updateProfile(key, w);
@@ -581,12 +562,12 @@ public class AccountManagerTest {
         w.setName("prova");
         w.setAdmin(true);
         w.setEmail(key);
-        w.setPassword("wewqqwqwqw");
+        w.setPassword("wewqqwqwqw2");
         w.setSurname("freddo");
         w.setSecondaryEmail("emaildiprova@hormail.it");
         w.setDepartment("infoProvaqinfoProvaqinfoProvaqinfoProvaqinfoProvaqinfoProvaq");
         w.setLink("www.provaa.it");
-        w.setTelephone("082457895");
+        w.setTelephone("08245789544");
         w.setResearchInterest("Ricerca prova");
         try{
             instance.updateProfile(key, w);
@@ -603,35 +584,13 @@ public class AccountManagerTest {
         w.setName("prova");
         w.setAdmin(true);
         w.setEmail(key);
-        w.setPassword("wewqqwqwqw");
+        w.setPassword("wewqqwqwqw3");
         w.setSurname("freddo");
         w.setSecondaryEmail("emaildiprova@hormail.it");
         w.setDepartment("infoProvaqinfoPro23infoProvaqinfoProvaq");
         w.setLink("www.provaa.it");
-        w.setTelephone("082457895");
+        w.setTelephone("08245789335");
         w.setResearchInterest("Ricerca prova");
-        try{
-            instance.updateProfile(key, w);
-            fail("sono riuscito a fare l' op");
-        }catch(Exception e){
-            assertTrue(true);
-        }
-    }
-
-    @Test
-    public void testUpdateProfileresearchInterestMin() {
-        String key="dinucci@unisa.it";
-        PhdStudent w=new PhdStudent();
-        w.setName("prova");
-        w.setAdmin(true);
-        w.setEmail(key);
-        w.setPassword("wewqqwqwqw");
-        w.setSurname("freddo");
-        w.setSecondaryEmail("emaildiprova@hormail.it");
-        w.setDepartment("infoProvaqinfoProvaq");
-        w.setLink("www.provaa.it");
-        w.setTelephone("082457895");
-        w.setResearchInterest("");
         try{
             instance.updateProfile(key, w);
             fail("sono riuscito a fare l' op");
@@ -643,11 +602,12 @@ public class AccountManagerTest {
     @Test
     public void testChangeTypeOk() {
         String newType="phdstudent";
-        String em="dracula@hotmail.it";
+        String em="test@hotmail.it";
         try{
             instance.changeType(em, newType);
             assertTrue(true);
-        }catch(Exception e){
+        }catch(SQLException | ConnectionException | NullAccountException | EmailException | ClassNotFoundException | ProfileException | NameException e){
+            System.out.println(e.toString());
             fail("non sono riuscito a fare l' op");
         }
     }
@@ -1063,12 +1023,7 @@ public class AccountManagerTest {
 
     @Test
     public void testDeleteStudentTutorOk() {
-        String ins="dinucci@hotmail.it";
-        String prof="adelucia@hotmail.it";
-        try {
-            instance.insertStudentTutor(ins, prof);
-        } catch (Exception ex) {
-        }
+        String ins="ballo@hotmail.it";
         try{
             instance.deleteStudentTutor(ins);
             assertTrue(true);

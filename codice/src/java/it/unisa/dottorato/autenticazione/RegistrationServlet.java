@@ -3,6 +3,7 @@ import it.unisa.integrazione.database.exception.ConnectionException;
 import it.unisa.integrazione.database.exception.MissingDataException;
 import it.unisa.dottorato.account.Account;
 import it.unisa.dottorato.account.AccountManager;
+import it.unisa.dottorato.account.NameException;
 import it.unisa.dottorato.account.NullAccountException;
 import java.io.IOException;
 import java.io.PrintWriter;
@@ -36,7 +37,7 @@ public class RegistrationServlet extends HttpServlet {
      * @throws IOException if an I/O error occurs
      */
     protected void processRequest(HttpServletRequest request, HttpServletResponse response)
-            throws ServletException, IOException, NullAccountException {
+            throws ServletException, IOException, NullAccountException, EmailException, PasswordException, NameException {
         response.setContentType("text/html;charset=UTF-8");
         PrintWriter out = response.getWriter();
         
@@ -101,7 +102,7 @@ public class RegistrationServlet extends HttpServlet {
             throws ServletException, IOException {
         try {
             processRequest(request, response);
-        } catch (NullAccountException ex) {
+        } catch (NullAccountException | EmailException | PasswordException | NameException ex) {
             Logger.getLogger(RegistrationServlet.class.getName()).log(Level.SEVERE, null, ex);
         }
     }

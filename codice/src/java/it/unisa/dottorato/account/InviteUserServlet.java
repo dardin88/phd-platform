@@ -37,8 +37,7 @@ public class InviteUserServlet extends HttpServlet {
         response.setContentType("text/html;charset=UTF-8");
         PrintWriter out = response.getWriter();
         AccountManager manager = AccountManager.getInstance();
-        
-        
+       
         String email = request.getParameter("email");
         manager.inviteUser(email);
         
