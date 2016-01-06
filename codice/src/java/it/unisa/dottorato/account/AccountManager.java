@@ -804,7 +804,7 @@ public class AccountManager {
         int c;
         for (int i=0; i<n;i++){
             c=Integer.parseInt(tele.substring(i, i+1));
-            if(c>=0||c<=9){
+            if(c>=0 && c<=9){
                 
             }else{
                 throw new TelephoneException();
@@ -839,6 +839,13 @@ public class AccountManager {
     public String testname(String name) throws NameException {
         if (name.isEmpty() ||(name.length() < 1) || (name.length() > 25)) {
             throw new NameException();
+        }
+        int n=name.length();
+        char c;
+        for(int i=0;i<n;i++){
+            c=name.substring(i, i+1).charAt(0);
+            if(!Character.isLetter(c) && !Character.isSpaceChar(c))
+                throw new NameException();
         }
         return name;
     }

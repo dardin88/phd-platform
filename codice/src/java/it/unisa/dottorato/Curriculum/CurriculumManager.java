@@ -270,7 +270,7 @@ public class CurriculumManager {
      * @throws NameException
      */
     public String testName(String name) throws NameException {
-        if (name.isEmpty() || (name.length() > 100)) {
+        if (name.isEmpty() || name.equals("") || (name.length() > 100)) {
             throw new NameException();
         }
         return name;
@@ -286,7 +286,7 @@ public class CurriculumManager {
      * @throws DescriptionException
      */
     public String testDescription(String description) throws DescriptionException {
-        if (description.isEmpty() || description.length() > 65536) {
+        if (description.isEmpty() || description.equals("") || description.length() > 65536) {
             throw new DescriptionException("Descrizione Curriculum errata.");
         }
         return description;
