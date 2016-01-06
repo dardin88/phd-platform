@@ -493,8 +493,9 @@ public class CalendarManager {
      
      public synchronized ArrayList<Integer> getCourseListId(int cycle, String curriculum) throws ClassNotFoundException, SQLException, IOException {
         Connection connect = null;
+        ArrayList<Integer> courses = new ArrayList<>();
         try {
-            ArrayList<Integer> courses = new ArrayList<>();
+            
             // Otteniamo una Connessione al DataBase
             connect = DBConnection.getConnection();
 
@@ -503,7 +504,7 @@ public class CalendarManager {
              * nella tabella phdCycle
              */
             String tSql = "SELECT * FROM course "
-                    + " WHERE fkCycle ='"+cycle+"' AND fkCurriculum='"+curriculum+"'";
+                    + " WHERE fkCycle ="+cycle+" AND fkCurriculum='"+curriculum+"'";
 
             //Inviamo la Query al DataBase
             ResultSet result = Utility.queryOperation(connect, tSql);
@@ -512,11 +513,12 @@ public class CalendarManager {
                 courses.add(result.getInt("idCourse"));
             }
 
-            return courses;
+           
 
         } finally {
             DBConnection.releaseConnection(connect);
         }
+         return courses;
     }
     
      public synchronized ArrayList<Seminar> getAllSeminar() throws ClassNotFoundException, SQLException, IOException, IdException {
@@ -636,7 +638,7 @@ public class CalendarManager {
       * @throws IdException 
       */
       public synchronized ArrayList<Lesson> getAllLessonOf(int idcourse) throws SQLException, IdException { //da modificare dato Person
-       Lesson lesson = new Lesson();
+       
           ArrayList<Lesson> lessons = new ArrayList<Lesson>();
         
         Connection connect = null;
@@ -650,15 +652,15 @@ public class CalendarManager {
              */
             String tSql = "SELECT * FROM "
                     + CalendarManager.TABLE_LESSON
-                    + " WHERE fkCourse = '"
-                    + testid(idcourse) + "'"; //da modificare ancora
+                    + " WHERE fkCourse = "
+                    + testid(idcourse) + ""; //da modificare ancora
 
             //Inviamo la Query al DataBase
             ResultSet result = Utility.queryOperation(connect, tSql);
 
             while (result.next()) {
                 
-                
+                Lesson lesson = new Lesson();
                 lesson.setIdLesson(result.getInt("idLesson"));
                 lesson.setDate(result.getDate("date"));
                 lesson.setStartTime(result.getInt("startTime"));
@@ -680,7 +682,6 @@ public class CalendarManager {
     }
       
       public synchronized ArrayList<Seminar> getAllSeminarOf(int idcourse) throws SQLException, IdException { //da modificare dato Person
-       Seminar seminar = new Seminar();
           ArrayList<Seminar> seminars = new ArrayList<Seminar>();
         
         Connection connect = null;
@@ -694,15 +695,16 @@ public class CalendarManager {
              */
             String tSql = "SELECT * FROM "
                     + CalendarManager.TABLE_SEMINAR
-                    + " WHERE fkCourse = '"
-                    + testid(idcourse) + "'"; //da modificare ancora
+                    + " WHERE fkCourse = "
+                    + testid(idcourse) + ""; //da modificare ancora
 
             //Inviamo la Query al DataBase
             ResultSet result = Utility.queryOperation(connect, tSql);
 
             while (result.next()) {
                 
-                
+                Seminar seminar = new Seminar();
+
                 seminar.setIdSeminar(result.getInt("idSeminar"));
                 seminar.setDate(result.getDate("date"));
                 seminar.setStartTime(result.getInt("startTime"));

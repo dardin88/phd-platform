@@ -1,4 +1,6 @@
 
+/* global data1 */
+
 var dayData = ['Sun', 'Mon', 'Tue', 'Wed', 'Thu', 'Fri', 'Sat'];
 var MonthData = ['January', 'February', 'March', 'Aprill', 'May', 'June', 'July', 'August', 'September', 'October', 'November', 'December'];
 var testObj, testObj2, testObj3;
@@ -31,7 +33,6 @@ jinCalendar.getScheduleDate1= function() {
                 var startDate = (dataInizio.substring(0,4))+(dataInizio.substring(5,7));
                 var startDay =(dataInizio.substring(8,10));
                 var startDay = parseInt(startDay);
-                corso = value.idCourse;
                 
                 var dataFine= value.endDate;
                 dataFine = dataFine.toString();
@@ -55,7 +56,7 @@ jinCalendar.getScheduleDate1= function() {
                     text : value.description 
                 }];
                 jinCalendar.setScheduleCourse();
-                $.getJSON("GetAllLessonServlet",{fkCourse: corso}, function (data1) {
+                $.getJSON("GetAllLessonServlet",{fkCourse: value.idCourse}, function (data1) {
                 if(data1.result){
                    $.each(data1.lessons, function (index, value1) {
                         
@@ -127,26 +128,17 @@ jinCalendar.getScheduleDate2= function() {
         $.getJSON("getCourseListId",{cycle: ciclo, curriculum: curriculum}, function(data){
             
             $.each(data.courses, function (index, value1) {
-                idCorso = value1;
-                $.getJSON("GetCourseServlet",{idCourse: idCorso}, function (data) {
-                    
-                                            
-                                            
+                $.getJSON("GetCourseServlet",{idCourse: value1}, function (data) {
                         var dataInizio= data.startDate;
-                        
                         dataInizio = dataInizio.toString();
                         var startDate = (dataInizio.substring(0,4))+(dataInizio.substring(5,7));
                         var startDay =(dataInizio.substring(8,10));
                         var startDay = parseInt(startDay);
-                        
                         var dataFine= data.endDate;
                         dataFine = dataFine.toString();
                         var endDate = (dataFine.substring(0,4)+dataFine.substring(5,7));
-                
                         var endDay =(dataFine.substring(8,10));
                         var endDay = parseInt(endDay);
-                                               
-
                         //oggetto corso
                         testObj = [{
                             yyyymm : startDate,
@@ -162,10 +154,10 @@ jinCalendar.getScheduleDate2= function() {
                             title: 'Fine del corso di '+data.name,
                             text : data.description 
                         }];
-                        $.getJSON("GetAllLessonServlet",{fkCourse: idCorso}, function (data1) {
-                                                
-
-                        $.each(data1.lessons, function (index, value) {
+                        jinCalendar.setScheduleCourse();
+                        $.getJSON("GetAllLessonServlet",{fkCourse: value1}, function (data1) {
+                        if(data1.result){                            
+                            $.each(data1.lessons, function (index, value) {
                   
                             dataInizio= value.data;
                             dataInizio = dataInizio.toString();
@@ -185,11 +177,14 @@ jinCalendar.getScheduleDate2= function() {
                                 title: 'Lezione di '+value.name + ' classe: '+value.classroom ,
                                 text : value.description + '--- Inizio Lezione: '+ inizio + ' Fine lezione: '+fine
                              }];
-                             jinCalendar.setScheduleCourseLesson();
+                             jinCalendar.setScheduleLesson();
+                        
                      });
+                    }
                  });
-                 $.getJSON("getAllSeminarOf",{fkCourse: idCorso}, function (data2) {
-            
+                 $.getJSON("getAllSeminarOf",{fkCourse: value1}, function (data2) {
+
+                    if(data2.result){  
                     $.each(data2.seminar, function (index, value) {
                         dataInizio= value.data;
                         dataInizio = dataInizio.toString();
@@ -200,7 +195,6 @@ jinCalendar.getScheduleDate2= function() {
                         inizio=inizio.toString();
                         var fine = value.endTime;
                         fine = fine.toString();
-                
                         //oggetto seminario
                         testObj3 = [{
                             yyyymm : startDate,
@@ -212,6 +206,7 @@ jinCalendar.getScheduleDate2= function() {
                         jinCalendar.setScheduleSeminar();
                 
                     });
+                }
                 });	
              });
          });
