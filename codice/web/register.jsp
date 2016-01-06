@@ -63,6 +63,8 @@
 
     </head>
     <body class="page-body">
+        
+        <% String email = request.getParameter("email"); %>
 
         <jsp:include page="barraMenu.jsp" flush="true"/>
         <!--BODY-->
@@ -112,7 +114,7 @@
                                 <div class ="form-group">
                                     <label class="col-sm-2 control-label">E-mail Secondaria: </label>
                                     <div class="col-sm-10">
-                                        <input type="text" class="form-control phd-required company-required student-required professor-required" id ="secondaryEmail" name="secondaryEmail" style="width: 75%"/>
+                                        <input type="text" class="form-control phd-required company-required student-required professor-required" value="<%= email %>" id ="secondaryEmail" name="secondaryEmail" style="width: 75%" readonly/>
                                     </div>
                                 </div>
 

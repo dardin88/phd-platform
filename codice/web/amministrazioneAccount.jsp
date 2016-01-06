@@ -98,8 +98,8 @@
                                  <div class="panel-footer" id ="emailDiv" style="background-color:transparent">
                                      <h2>Invita Utente</h2>
                                      
-                                     <form action="InviteUser"> <!-- da fixare il servlet !-->
-                                         <input type="text" id="email" placeholder="Email dell'utente"/>
+                                     <form action="InviteUserServlet"> <!-- da fixare il servlet !-->
+                                         <input type="text" name="email" placeholder="Email privata dell'utente"/>
                                          <input class="btn btn-blue" type="submit" value="Invita"></input>
                                      </form>
                                  </div>

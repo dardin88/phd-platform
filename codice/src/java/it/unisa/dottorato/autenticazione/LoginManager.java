@@ -1,6 +1,7 @@
 package it.unisa.dottorato.autenticazione;
 
 import it.unisa.dottorato.account.Account;
+import it.unisa.dottorato.account.NameException;
 import it.unisa.dottorato.account.NullAccountException;
 import it.unisa.dottorato.account.PhdStudent;
 import it.unisa.dottorato.account.Professor;
@@ -63,7 +64,7 @@ public class LoginManager  {
              * stringhe SQL per selezionare piu record 
              * nella tabella account, phdstudent e professor
              */
-        String query = "select * from account where email='" + testEmail(pUsername) + "' and password='" + testPassword(pPassword) + "'";
+        String query = "select * from account where email='" + addSlashes(testEmail(pUsername)) + "' and password='" + addSlashes(testPassword(pPassword)) + "'";
         String queryPhd = "select * from phdstudent where fkAccount ='";
         String queryProfessor = "select * from professor where fkAccount ='";
 
@@ -142,6 +143,15 @@ public class LoginManager  {
         return null;
   }
     
+       private static String addSlashes(String s) {
+        s = s.replaceAll("\\\\", "\\\\\\\\");
+        s = s.replaceAll("\\n", "\\\\n");
+        s = s.replaceAll("\\r", "\\\\r");
+        s = s.replaceAll("\\00", "\\\\0");
+        s = s.replaceAll("'", "\\\\'");
+        return s;
+    }
+    
     /** Metodo della classe incaricato di effettuare il log-out
      * 
      * @param session la sessione corrente
@@ -157,7 +167,7 @@ public class LoginManager  {
    * @throws SQLException
    * @throws NullAccountException 
    */
-  public void register(Account pAccount) throws SQLException, NullAccountException {
+  public void register(Account pAccount) throws SQLException, NullAccountException, EmailException, PasswordException, NameException {
       //connessione al database  
       Connection connect = DBConnection.getConnection();
       pAccount = testAccount(pAccount);
@@ -170,11 +180,11 @@ public class LoginManager  {
         String sql = "INSERT INTO account"
                 + "(email, secondaryemail, surname, name, password,typeAccount,isAdministrator)"
                 + " VALUES ('"
-                + pAccount.getEmail() + "','" 
-                + pAccount.getSecondaryEmail() + "','"
-                + pAccount.getSurname() + "','"
-                + pAccount.getName() + "','"
-                + pAccount.getPassword() +"','"
+                + testEmail(pAccount.getEmail()) + "','" 
+                + testSecondaryEmail(pAccount.getSecondaryEmail()) + "','"
+                + addSlashes(testName(pAccount.getSurname())) + "','"
+                + addSlashes(testName(pAccount.getName())) + "','"
+                + testPassword(pAccount.getPassword()) +"','"
                 + pAccount.getTypeAccount() + "',"
                 + pAccount.isAdmin() + ")";
 
@@ -201,30 +211,64 @@ public class LoginManager  {
         return account;
     }
   
-     /** Metodo della classe per il testing dell'email; verifica che non sia una
-     * stringa vuota o piu' lunga di 49 caratteri
-     * 
+    /**
+     * Metodo della classe per il testing dell'email; verifica che non sia una
+     * stringa vuota o piu' lunga di 50 caratteri
+     *
      * @param email stringa da testare
      * @return restituisce la stringa se valida, lancia un'eccezione altrimenti
-     * @throws EmailException 
+     * @throws EmailException
      */
     public String testEmail(String email) throws EmailException {
-        if(email == null || email.length() > 50) 
+        if (email.isEmpty() || (email.length() < 10) || (email.length() > 50) || !email.contains("@unisa")) {
             throw new EmailException();
+        }
         return email;
     }
-   
-     /** Metodo della classe per il testing della password; verifica che non sia una
-     * stringa vuota o piu' lunga di 19 caratteri
-     * 
+
+    /**
+     * Metodo della classe per il testing dell'email; verifica che non sia una
+     * stringa vuota o piu' lunga di 50 caratteri
+     *
+     * @param name stringa da testare
+     * @return restituisce la stringa se valida, lancia un'eccezione altrimenti
+     * @throws NameException
+     */
+    public String testName(String name) throws NameException {
+        if (name.isEmpty() || (name.length() < 1) || (name.length() > 25)) {
+            throw new NameException();
+        }
+        return name;
+    }
+     /**
+     * Metodo della classe per il testing della password; verifica che non sia
+     * una stringa vuota o piu' lunga di 20 caratteri o piu' corta di 8
+     *
      * @param pass stringa da testare
      * @return restituisce la stringa se valida, lancia un'eccezione altrimenti
-     * @throws PasswordException 
+     * @throws PasswordException
      */
-    public String testPassword(String pass) throws PasswordException {
-        if(pass == null || pass.length() > 20)
+      public String testPassword(String pass) throws PasswordException {
+        if ((pass.length() > 16) || (pass.length() < 8)) {
             throw new PasswordException();
+        }
         return pass;
     }
+      
+      /**
+     * Metodo della classe per il testing dell'email; verifica che non sia una
+     * stringa vuota o piu' lunga di 50 caratteri
+     *
+     * @param email stringa da testare
+     * @return restituisce la stringa se valida, lancia un'eccezione altrimenti
+     * @throws EmailException
+     */
+    public String testSecondaryEmail(String email) throws EmailException {
+        if (email.isEmpty() || (email.length() < 10) || (email.length() > 50) || !email.contains("@")) {
+            throw new EmailException();
+        }
+        return email;
+    }
+
   }
 
