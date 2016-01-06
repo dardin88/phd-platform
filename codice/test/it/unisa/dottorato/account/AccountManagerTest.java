@@ -146,7 +146,7 @@ public class AccountManagerTest {
         w.setPassword("provaaaa12");
         w.setSurname("cognomeProva");
         w.setName("NomeProva");
-        w.setSecondaryEmail("emaildiprova@hormail.it");
+        w.setSecondaryEmail("okemaildiprova@hormail.it");
         w.setDepartment("infoProvaw3w");
         w.setLink("www.prova.it");
         w.setTelephone("08245789534");
@@ -575,31 +575,9 @@ public class AccountManagerTest {
     }
 
     @Test
-    public void testUpdateProfileresearchInterestMin() {
-        String key="dinucci@unisa.it";
-        PhdStudent w=new PhdStudent();
-        w.setName("prova");
-        w.setAdmin(true);
-        w.setEmail(key);
-        w.setPassword("wewqqwqwqw");
-        w.setSurname("freddo");
-        w.setSecondaryEmail("emaildiprova@hormail.it");
-        w.setDepartment("infoProvaqinfoProvaq");
-        w.setLink("www.provaa.it");
-        w.setTelephone("082457895");
-        w.setResearchInterest("");
-        try{
-            instance.updateProfile(key, w);
-            fail("sono riuscito a fare l' op");
-        }catch(Exception e){
-            assertTrue(true);
-        }
-    }
-
-    @Test
     public void testChangeTypeOk() {
         String newType="phdstudent";
-        String em="dracula@hotmail.it";
+        String em="test@hotmail.it";
         try{
             instance.changeType(em, newType);
             assertTrue(true);
@@ -1019,7 +997,7 @@ public class AccountManagerTest {
 
     @Test
     public void testDeleteStudentTutorOk() {
-        String ins="dinucci@hotmail.it";
+        String ins="ballo@hotmail.it";
         try{
             instance.deleteStudentTutor(ins);
             assertTrue(true);
