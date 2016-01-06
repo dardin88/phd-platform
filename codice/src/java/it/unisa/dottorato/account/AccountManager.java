@@ -798,7 +798,7 @@ public class AccountManager {
      */
     public String testTelephone(String tele) throws ProfileException, TelephoneException {
         int n=tele.length();
-        if (n>15) {
+        if (n>15 || n<10) {
             throw new TelephoneException();
         }
         int c;

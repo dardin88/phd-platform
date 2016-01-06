@@ -441,6 +441,28 @@ public class AccountManagerTest {
             assertTrue(true);
         }
     }
+    
+    @Test
+    public void testUpdateProfiletelephoneMin() {
+        String key="dinucci@unisa.it";
+        PhdStudent w=new PhdStudent();
+        w.setName("prova");
+        w.setAdmin(true);
+        w.setEmail(key);
+        w.setPassword("wewqqwqwqw");
+        w.setSurname("freddo");
+        w.setSecondaryEmail("emaildiprova@hormail.it");
+        w.setDepartment("infoProva");
+        w.setLink("www.prova.it");
+        w.setTelephone("082955");
+        w.setResearchInterest("Ricerca prova");
+        try{
+            instance.updateProfile(key, w);
+            fail("sono riuscito a fare l' op");
+        }catch(Exception e){
+            assertTrue(true);
+        }
+    }
 
     @Test
     public void testUpdateProfiletelephoneMax() {
