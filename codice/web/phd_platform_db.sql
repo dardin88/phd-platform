@@ -23,12 +23,12 @@ isAdministrator		boolean default false);
 
 -- popolo la tabella degli account
 INSERT INTO account (secondaryEmail,email,surname,name,password,typeAccount,isAdministrator )VALUES
-('test@hotmail.it','rossi@unisa.it', 'Rossi', 'Mario', 'test','basic',false),
-('ballo@hotmail.it','ballo@unisa.it', 'Conti','Carlo', 'test1','phdstudent',false),
-('wrestler@hotmail.it','wrestler@unisa.it', 'Cena', 'John', 'test3','professor',false),
-('dracula@hotmail.it','dracula@unisa.it', 'Conte', 'Dracula', 'test4','professor',true),
-('adelucia@hotmail.it','adelucia@unisa.it', 'DeLucia', 'Andrea', 'test5','professor',true),
-('dinucci@hotmail.it','dinucci@unisa.it','Dario','Dinucci','test6','phdstudent',false);
+('test@hotmail.it','rossi@unisa.it', 'Rossi', 'Mario', 'testtest0','basic',false),
+('ballo@hotmail.it','ballo@unisa.it', 'Conti','Carlo', 'testtest1','phdstudent',false),
+('wrestler@hotmail.it','wrestler@unisa.it', 'Cena', 'John', 'testtest3','professor',false),
+('dracula@hotmail.it','dracula@unisa.it', 'Conte', 'Dracula', 'testtest4','professor',true),
+('adelucia@hotmail.it','adelucia@unisa.it', 'DeLucia', 'Andrea', 'testtest5','professor',true),
+('dinucci@hotmail.it','dinucci@unisa.it','Dario','Dinucci','testtest6','phdstudent',false);
 
 -- creo la tabella  dei professori
 create table if not exists professor(
@@ -159,7 +159,8 @@ foreign key (fkProfessor) references professor(fkAccount) on delete set null on 
 
 INSERT INTO curriculumcic (fkCurriculum,fkCycle,fkProfessor)VALUES
 ('Informatica, Sistemi Informativi e Tecnologie del Software',15,'adelucia@hotmail.it');
-
+INSERT INTO curriculumcic (fkCurriculum,fkCycle,fkProfessor)VALUES
+('Marketing e Comunicazione',15,null);
 
 create table if not exists teach(
 fkCurriculum                    varchar(100),
@@ -172,8 +173,6 @@ foreign key (fkProfessor) references professor(fkAccount) on delete no action on
 
 INSERT INTO teach (fkCurriculum,fkCycle,fkProfessor	)VALUES
 ('Informatica, Sistemi Informativi e Tecnologie del Software',15,'adelucia@hotmail.it');
-INSERT INTO curriculumcic (fkCurriculum,fkCycle,fkProfessor)VALUES
-('Marketing e Comunicazione',15,null);
 
 create table if not exists course(
 idCourse				integer	primary key,
