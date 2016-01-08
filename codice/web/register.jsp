@@ -48,7 +48,7 @@
                     return false;
                 }
 
-                var re = /^(([^<>()[\]\\.,;:\s@\"]+(\.[^<>()[\]\\.,;:\s@\"]+)*)|(\".+\"))@((\[[0-9]{1,3}\.[0-9]{1,3}\.[0-9]{1,3}\.[0-9]{1,3}\])|(([a-zA-Z\-0-9]+\.)+[a-zA-Z]{2,}))$/;
+                var re = /^(([^<>()[\]\\.,;:\s@\"]+(\.[^<>()[\]\\.,;:\s@\"]+)*)|(\".+\"))@unisa.it$/;
                 var patt = new RegExp(re);
 
                 if (patt.test(modulo.email.value) === false) {
@@ -58,6 +58,11 @@
                 }
 
                 return true;
+            }
+            
+            
+            function testmail(modulo) {
+                
             }
         </script>
 
@@ -94,7 +99,7 @@
                                 <div class="form-group">
                                     <label class="col-sm-2 control-label">Cognome: </label>
                                     <div class="col-sm-10">
-                                        <input type="text" name="surname"class="form-control company-required phd-required student-required professor-required" id="surname" style="width: 75%"/>
+                                        <input type="text" name="surname" class="form-control company-required phd-required student-required professor-required" id="surname" style="width: 75%"/>
                                         <span id="surname" style="color:#cc3f44"></span>
                                     </div>
                                 </div>
