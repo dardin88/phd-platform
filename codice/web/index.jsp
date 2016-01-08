@@ -53,10 +53,12 @@
                                 Benvenuto su PhD-Platform!
                             </div>
                             <div class="panel-body">
+                                <div class="panel-heading" id="descrizioneCiclo">
+                                  
+                                </div>
+                               
                                 
-                               <% for(Cycle rcycles : cycles) {%>
-                                <p><%=rcycles.getDescription()%></p>
-                                <% break; }%>
+                                
 
                             </div>
                         </div>
@@ -69,7 +71,7 @@
                             </div>
                             <div class="form-group">
                                 <label for="sel1">Seleziona uno dei cicli del dottorato di ricerca</label>
-                                    <select class="form-control" id="CycleList" onchange="getCurriculumCicList()">
+                                    <select class="form-control" id="CycleList" onchange="getCurriculumCicList()" onchange="getInfoCycle()">
                                         
                                     </select>
                             </div>
@@ -89,7 +91,7 @@
                                         </div>
                                         <div class="panel-body">
                                             Ciclo: <span style="text-justify: distribute" id="CycleNumber"></span><br>
-                                            Curriculum: <span style="text-justify: distribute" id="CurriculumName"></span>
+                                            Curriculum: <span style="text-justify: distribute" id="CurriculumName"></span><br>
                                             Coordinatore del ciclo: <span style="text-justify: auto" id="CoordinatorName"><br>
                                         </div>
                                         <div class="panel-footer " style="background-color: transparent">
@@ -118,7 +120,7 @@
                                int idNews= rnotizie.getId();
                                news =news.substring(0, 30);
                                %>
-                               <a href="viewNewsById.jsp?Id=<%=idNews%>" id="newsid"><p><%=news%>...</p></a>
+                               <a href="viewNewsById.jsp?Id=<%=idNews%>" id="newsid" class="link"><p><%=news%>...</p></a>
                                 <% } %>
                             </div>
                         </div>
