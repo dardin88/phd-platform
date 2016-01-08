@@ -59,13 +59,16 @@ function modifyButtonSelected(curriculumName)
     this.curriculumName = curriculumName;
     //in curriculumName abbiamo il nome del curriculum che vogliamo modificare
     //in curriculumDescription abbiamo la descrizione del curriculum che vogliamo modificare
+    $("#savePhdCurriculumModify").show();
+    $("#savePhdCurriculumAdd").hide();
+    
     $("#descriptionPanel").hide();
     $("#divPanelAddORModify").show();
     $("#phdCurriculumTitle").html("Mofica del curriculum selezionato");
     $("#phdCurriculumName").val(curriculumName);
     $("#phdCurriculumDescription").val(curriculumDescription);
     
-     $("#savePhdCurriculum").click(function () {
+     $("#savePhdCurriculumModify").click(function () {
                     // Invio dati alla servlet per l'inserimento del curriculum
                     $.getJSON("UpdateCurriculum",
                             {oldNameCurriculum: curriculumName,newNameCurriculum: $("#phdCurriculumName").val(),description: $("#phdCurriculumDescription").val()}, function(data) {
@@ -73,40 +76,22 @@ function modifyButtonSelected(curriculumName)
                                 $("#descriptionPanel").hide();
                                 $("#CurriculumList option").remove();
                                 getCurriculumsList();
-                                
-                                
                                 selectedItem();
-                                
                            });
                     
                                 //$("#CurriculumList option").remove();
                                 //getCurriculumsList();
-                    
                 });
     
 }
 
-function removeButtonSelected(curriculumName)
-{
-    this.curriculumName = curriculumName;
-    //in curriculumName abbiamo il nome del curriculum che vogliamo eliminare
-    
-                    // Servlet per la rimozione del curriculum
-                    
-                    $.getJSON("DeleteCurriculum",{nameCurriculum: curriculumName},function (data) {
-                        alert("curriculum eliminato correttamente");
-                        $("#descriptionPanel").hide();
-                        $("#CurriculumList option").remove();
-                        getCurriculumsList();
-                        selectedItem();
-                    });
-            
-                
-                
-}
+
 
 function addCurriculumButton()
 {
+    $("#savePhdCurriculumModify").hide();
+    $("#savePhdCurriculumAdd").show();
+    
     $("#phdCurriculumTitle").html("Aggiunta di un nuovo curriculum");
     $("#phdCurriculumName").val("");
     $("#phdCurriculumDescription").val("");
@@ -114,7 +99,7 @@ function addCurriculumButton()
     $("#divPanelAddORModify").show();
     curriculumName = $("#phdCurriculumName").val();
     
-    $("#savePhdCurriculum").click(function () {
+    $("#savePhdCurriculumAdd").click(function () {
                     // Invio dati alla servlet per l'inserimento del curriculum
                     $.getJSON("InsertCurriculum",
                             {name: $("#phdCurriculumName").val(),description: $("#phdCurriculumDescription").val()}, function(data) {
@@ -132,6 +117,22 @@ function addCurriculumButton()
                                 selectedItem();
                            });
                 });
+}
+
+function removeButtonSelected(curriculumName)
+{
+    this.curriculumName = curriculumName;
+    //in curriculumName abbiamo il nome del curriculum che vogliamo eliminare
+    
+                    // Servlet per la rimozione del curriculum
+                    
+                    $.getJSON("DeleteCurriculum",{nameCurriculum: curriculumName},function (data) {
+                        alert("curriculum eliminato correttamente");
+                        $("#descriptionPanel").hide();
+                        $("#CurriculumList option").remove();
+                        getCurriculumsList();
+                        selectedItem();
+                    });
 }
 
 //per il bottone X 
