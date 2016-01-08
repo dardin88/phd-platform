@@ -29,6 +29,7 @@ function selectedItem()
 {
     $("#TutorNameField").html("nessun tutor");
     $("#removeTutorButton").hide();
+    $("#addCurriculumButton").hide();
     $("#bodyCollegio tr").remove();
     $("#tutorTableList tr").remove();
     $("#curriculumList tr").remove();
@@ -81,7 +82,12 @@ function selectedItem()
             });
         });
         
-        
+         
+        //servlet per vedere se il ciclo selezionato è l'ultimo 
+        $.getJSON("IsLast", {number: selectedCycle}, function (data) {
+            if(data.controllo === true)  $("#addCurriculumButton").show();
+        }); 
+         
         
         
          $("#CycleSelectedDiv").show();
@@ -107,6 +113,7 @@ function addCycleButton()
     $("#coordinatoreDiv").hide();
     $("#curriculumsDiv").hide();
     $("#divPanelAddORModify").show();
+    $("#descriptionPanel").hide();
     
      $("#cycleTitle").html("Aggiunta di un nuovo ciclo");
      $("#cycleYearField").html("");
@@ -143,6 +150,7 @@ function viewCollegio()
 {
     $("#curriculumsDiv").hide();
     $("#collegioDiv").show();
+    $("#descriptionPanel").hide();
 }
 
 function closeCollegioDiv()
