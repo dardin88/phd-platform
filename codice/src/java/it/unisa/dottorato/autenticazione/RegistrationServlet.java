@@ -67,8 +67,12 @@ public class RegistrationServlet extends HttpServlet {
             
            // response.sendRedirect("login.jsp");
             
-        } catch (SQLException ex) {
+        } catch (SQLException ex ) {
             Logger.getLogger(RegistrationServlet.class.getName()).log(Level.SEVERE, null, ex);
+        } catch (EmailException ex) {
+            out.println("<script type=\"text/javascript\">");
+            out.println("alert('l'email deve essere universitaria);");
+            out.println("</script>");
         } finally {
             out.close();
     }
