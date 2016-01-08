@@ -137,18 +137,17 @@ var tut="Tutti";
 
 
 function searchForName()
-{ 
-   
-    
-   $('#search').click(function() {
+{   
+   $('#word').keyup(function() {
      
      $("#resultbody tr").remove();
                     var   name = $("#word").val();
+                    
+     
 
 
  
      $.getJSON("SearchUser",{name: name}, function (data) {
-         alert(data);
          if(data.account === null){
              alert("ssdd");
          }
