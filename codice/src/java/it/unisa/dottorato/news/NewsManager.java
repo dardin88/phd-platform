@@ -11,8 +11,6 @@ import java.sql.ResultSet;
 import java.sql.SQLException;
 import java.sql.Statement;
 import java.util.ArrayList;
-import java.util.logging.Level;
-import java.util.logging.Logger;
 
 /**Classe della gestione delle news
  *
@@ -79,9 +77,6 @@ private static final String TABLE_News = "news";
                     + "','"
                     + Utility.Replace(testDescription(anews.getDescription()))
                     + "')";      
-            
-            System.out.println(tSql);
-            //esecuzione query
             Statement stmt = connect.createStatement();
             stmt.executeUpdate(tSql);
             connect.commit();
@@ -99,7 +94,7 @@ private static final String TABLE_News = "news";
      * @throws ClassNotFoundException 
      */
     public News getNewsById(int aidnews) throws 
-            SQLException, ConnectionException,ClassNotFoundException,IdException{
+            SQLException, ConnectionException,ClassNotFoundException,IdException, Exception{
         Statement stmt = null;
         ResultSet rs = null;
         Connection connection = null;
@@ -129,6 +124,8 @@ private static final String TABLE_News = "news";
                 anews.setId(rs.getInt("idnews"));
                 anews.setTitle(rs.getString("title"));
                 anews.setDescription(rs.getString("description"));
+            }else{
+                throw new Exception();
             }
             
         }finally {
@@ -144,7 +141,7 @@ private static final String TABLE_News = "news";
      * @throws java.sql.SQLException
      * 
      */
-   public synchronized void deleteNews(int aidnews)throws IdException,SQLException {
+   public synchronized void deleteNews(int aidnews)throws IdException,SQLException, Exception {
         Connection connect = null;
         try {
             //connessione al database
@@ -159,9 +156,8 @@ private static final String TABLE_News = "news";
                     + " WHERE idNews = "
                     + testid(aidnews);
 
-            //esecuzione query
-            Utility.executeOperation(connect, tSql);
-
+            if(Utility.executeOperation(connect, tSql)==0)
+                throw new Exception();
             connect.commit();
         }finally {
             DBConnection.releaseConnection(connect);
@@ -183,7 +179,7 @@ private static final String TABLE_News = "news";
      * @throws it.unisa.dottorato.exception.DescriptionException 
     */
    public synchronized void update_news(int oldNewsId, News pNews) throws 
-           ClassNotFoundException, SQLException, IOException, IdException, TitleException,DescriptionException {
+           ClassNotFoundException, SQLException, IOException, IdException, TitleException,DescriptionException, Exception {
             Connection connect = null;
             try {
             //connessione al database
@@ -202,7 +198,8 @@ private static final String TABLE_News = "news";
                     + "' WHERE idNews = "
                     + testid(oldNewsId);           
             //esecuzione query
-            Utility.executeOperation(connect, tSql);
+            if(Utility.executeOperation(connect, tSql)==0)
+                throw new Exception();
 
             connect.commit();
         }finally {
@@ -274,7 +271,7 @@ private static final String TABLE_News = "news";
      * @throws IdException 
      */
     public int testid(int id) throws IdException {
-        if(id<0){
+        if(id<0 || id>999999){
             throw new IdException("l'id non puo' essere minore di 0");
         }
         return id;
@@ -288,8 +285,7 @@ private static final String TABLE_News = "news";
      * @throws TitleException 
      */
     public String testTitle(String title) throws TitleException {
-        if(title.equals("")&&title.length()>50){
-            
+        if(title.equals("") || title.length()>50){
             throw new TitleException("il titolo e' sbagliato"); 
         }
         return title;
@@ -302,8 +298,7 @@ private static final String TABLE_News = "news";
      * @throws DescriptionException 
      */
     public String testDescription(String description) throws DescriptionException{
-         if(description.equals("")){
-            
+         if(description.isEmpty() || description.equals("") || (description.length()>65536)){
             throw new DescriptionException("la descrizione e' sbagliata"); 
         }
          return description;
@@ -329,6 +324,8 @@ private static final String TABLE_News = "news";
              ResultSet result = Utility.queryOperation(connect, tSql);
             if(result.next()){
                 c = result.getInt("IdNews")+1;
+            }else{
+                return 1;
             }
             connect.commit();
             return c;
