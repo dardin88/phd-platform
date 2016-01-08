@@ -37,7 +37,7 @@ public class RegistrationServlet extends HttpServlet {
      * @throws IOException if an I/O error occurs
      */
     protected void processRequest(HttpServletRequest request, HttpServletResponse response)
-            throws ServletException, IOException, NullAccountException, EmailException, PasswordException, NameException {
+            throws ServletException, IOException, NullAccountException, EmailException, PasswordException, NameException, Exception {
         response.setContentType("text/html;charset=UTF-8");
         PrintWriter out = response.getWriter();
         
@@ -107,6 +107,8 @@ public class RegistrationServlet extends HttpServlet {
         try {
             processRequest(request, response);
         } catch (NullAccountException | EmailException | PasswordException | NameException ex) {
+            Logger.getLogger(RegistrationServlet.class.getName()).log(Level.SEVERE, null, ex);
+        } catch (Exception ex) {
             Logger.getLogger(RegistrationServlet.class.getName()).log(Level.SEVERE, null, ex);
         }
     }

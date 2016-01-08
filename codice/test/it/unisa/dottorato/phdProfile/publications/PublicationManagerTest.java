@@ -92,7 +92,7 @@ public class PublicationManagerTest {
     }
     
     @Test
-    public void testInsertMaxId() throws Exception {
+    public void testInsertMaxId(){
         pub.setIdPublication(12345678);
               
          try{

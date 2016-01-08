@@ -393,7 +393,7 @@ public class MissionManager {
             //Inviamo la Query al DataBase
              ResultSet result = Utility.queryOperation(connect, tSql);
             if(result.next()){
-                c = result.getInt("number")+1;
+                c = result.getInt("idMission")+1;
             }
             connect.commit();
             return c;

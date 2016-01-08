@@ -7,11 +7,6 @@ package it.unisa.dottorato.autenticazione;
 
 import it.unisa.dottorato.account.Account;
 import it.unisa.dottorato.account.AccountManager;
-import java.text.DateFormat;
-import java.text.ParseException;
-import java.text.SimpleDateFormat;
-import java.util.Date;
-import javax.servlet.http.HttpSession;
 import org.junit.After;
 import org.junit.AfterClass;
 import org.junit.Before;
@@ -63,8 +58,8 @@ public class LoginManagerTest {
     }
     
 @Test
-    public void testMinUserLogin() throws Exception {
-       String user = "null";
+    public void testMinUserLogin(){
+       String user = "";
        String pass = "";
         
         
@@ -78,8 +73,8 @@ public class LoginManagerTest {
 
     
     @Test
-    public void testMaxUserLogin() throws Exception {
-       String user = testsup100();
+    public void testMaxUserLogin(){
+       String user = "Prova superamento stringa,Prova superamento stringa,Prova superamento stringa,Prova superamento stringa,Prova superamento stringa,Prova superamento stringa,Prova superamento stringa,Prova superamento stringa,Prova superamento stringa,Prova superamento stringa,Prova superamento stringa,";
        String pass = "";
         
         
@@ -93,7 +88,7 @@ public class LoginManagerTest {
     
     
     @Test
-    public void testMinPassLogin() throws Exception {
+    public void testMinPassLogin(){
        String user = "adelucia@hotmail.it";
        String pass = "";
         
@@ -108,9 +103,9 @@ public class LoginManagerTest {
     
     
     @Test
-    public void testMaxPassLogin() throws Exception {
+    public void testMaxPassLogin(){
        String user = "adelucia@hotmail.it";
-       String pass = testsup100();
+       String pass = "Prova superamento stringa,Prova superamento stringa,Prova superamento stringa,Prova superamento stringa,Prova superamento stringa,Prova superamento stringa,Prova superamento stringa,Prova superamento stringa,Prova superamento stringa,Prova superamento stringa,Prova superamento stringa,";
         
         
          try{
@@ -123,28 +118,146 @@ public class LoginManagerTest {
     
     
     @Test
-    public void testLoginok() throws Exception {
-       String user = "adelucia@hotmail.it";
-       String pass = null;
-        
-        
-         try{
+    public void testLoginok(){
+       String user = "adelucia@unisa.it";
+       String pass = "testtest5";
+       try{
             instance.login(user,pass);
-            fail("sono riuscito a fare l' op");
-        }catch(Exception x){
             assertTrue(true);
+        }catch(Exception x){
+            fail("sono riuscito a fare l' op");
         }
     }
     
     /////////////////////
     @Test
-    public void testIscrizioneok() throws Exception {
-       acc.setEmail("pippo@unisa.com");
+    public void testIscrizioneok(){
+       acc.setEmail("pippo2@unisa.it");
+       acc.setSecondaryEmail("plut4o@gmail.com");
+       acc.setSurname("Verdi");
+       acc.setName("Antonio");
+       acc.setPassword("ziookwrfo");
+        
+         try{
+            instance.register(acc);
+           assertTrue(true);
+        }catch(Exception x){
+             fail("sono riuscito a fare l' op");
+        }
+    }
+    
+     @Test
+    public void testMinEmailIscrizione(){
+       acc.setEmail("");
        acc.setSecondaryEmail("pluto@gmail.com");
        acc.setSurname("Verdi");
        acc.setName("Antonio");
        acc.setPassword("zio");
-       acc.setTypeAccount("phdstudent");    
+       acc.setTypeAccount("phdstudent");  
+        
+         try{
+            instance.register(acc);
+            fail("sono riuscito a fare l' op");
+        }catch(Exception x){
+            assertTrue(true);
+        }
+    }
+    
+    
+     @Test
+    public void testMaxEmailIscrizione(){
+       acc.setEmail("Prova stringa massimaProva stringa massimaProva stringa massimaProva stringa massimaProva stringa massimaProva stringa massimaProva stringa massimaProva stringa massimaProva stringa massimaProva stringa massimaProva stringa massimaProva stringa massimaProva stringa massimaProva stringa massima");
+       acc.setSecondaryEmail("pluto@gmail.com");
+       acc.setSurname("Verdi");
+       acc.setName("Antonio");
+       acc.setPassword("zio");
+       acc.setTypeAccount("phdstudent");  
+        
+         try{
+            instance.register(acc);
+            fail("sono riuscito a fare l' op");
+        }catch(Exception x){
+            assertTrue(true);
+        }
+    }
+    
+    @Test
+    public void testMinSurnameIscrizione(){
+       acc.setEmail("Prova@unisa.it");
+       acc.setSecondaryEmail("pluto@gmail.com");
+       acc.setSurname("");
+       acc.setName("Antonio");
+       acc.setPassword("zio");
+       acc.setTypeAccount("phdstudent");  
+        
+         try{
+            instance.register(acc);
+            fail("sono riuscito a fare l' op");
+        }catch(Exception x){
+            assertTrue(true);
+        }
+    }
+    
+    @Test
+    public void testMaxSurnameIscrizione(){
+       acc.setEmail("Prova@unisa.it");
+       acc.setSecondaryEmail("pluto@gmail.com");
+       acc.setSurname("provaprovaprovaprovaprovaprovaprovaprovaprovaprovaprovaprovaprovaprovaprovaprovaprovaprovaprovaprovaprovaprovaprovaprovaprovaprovaprovaprovaprovaprovaprovaprovaprovaprovaprovaprovaprovaprovaprovaprovaprovaprovaprovaprovaprovaprovaprovaprovaprovaprovaprovaprovaprovaprovaprovaprovaprovaprovaprovaprovaprovaprovaprovaprovaprovaprovaprovaprovaprovaprovaprovaprovaprovaprovaprovaprovaprovaprovaprovaprovaprovaprovaprovaprovaprovaprovaprovaprovaprovaprovaprovaprovaprovaprovaprovaprovaprovaprovaprovaprovaprova");
+       acc.setName("Antonio");
+       acc.setPassword("zio");
+       acc.setTypeAccount("phdstudent");  
+        
+         try{
+            instance.register(acc);
+            fail("sono riuscito a fare l' op");
+        }catch(Exception x){
+            assertTrue(true);
+        }
+    }
+    
+     @Test
+    public void testMinPasswordIscrizione(){
+       acc.setEmail("Prova@unisa.it");
+       acc.setSecondaryEmail("pluto@gmail.com");
+       acc.setSurname("prova");
+       acc.setName("Antonio");
+       acc.setPassword("");
+       acc.setTypeAccount("Phdstudent");  
+        
+         try{
+            instance.register(acc);
+            fail("sono riuscito a fare l' op");
+        }catch(Exception x){
+            assertTrue(true);
+        }
+    }
+    
+    
+    @Test
+    public void testMaxPasswordIscrizione(){
+       acc.setEmail("Prova@unisa.it");
+       acc.setSecondaryEmail("pluto@gmail.com");
+       acc.setSurname("prova");
+       acc.setName("Antonio");
+       acc.setPassword("provaprovaprovaprovaprovaprovaprovaprovaprovaprovaprovaprovaprovaprovaprovaprovaprovaprovaprovaprovaprovaprovaprovaprovaprovaprovaprovaprovaprovaprovaprovaprovaprovaprovaprovaprovaprovaprovaprovaprovaprova");
+       acc.setTypeAccount("phdstudent");  
+        
+         try{
+            instance.register(acc);
+            fail("sono riuscito a fare l' op");
+        }catch(Exception x){
+            assertTrue(true);
+        }
+    }
+    
+    @Test
+    public void testMinTypeIscrizione(){
+       acc.setEmail("Prova@unisa.it");
+       acc.setSecondaryEmail("pluto@gmail.com");
+       acc.setSurname("prova");
+       acc.setName("Antonio");
+       acc.setPassword("prova");
+       acc.setTypeAccount("");  
         
          try{
             instance.register(acc);
@@ -156,32 +269,22 @@ public class LoginManagerTest {
     
     
     
-///////// metodi di utilità
-    
-    
-    public Date convertStringToDate(String dateString) throws ParseException
-{
-    DateFormat df = new SimpleDateFormat ("dd/M/yyyy");
-    df.setLenient (false);
-    Date d = df.parse (dateString);
-    return d;
-}
-    private String testsup100() {
-        String c="dsdff";
-        for(int e=0; e<200; e++)
-            c=c.concat(c);
-        return c;
-    }
-    
-    private int testint(String str){
-    int num;
-    num = Integer.parseInt(str);
-    return num;
-    }
-    
-    private int supint100(){
-        int c=444;
+     @Test
+    public void testMaxTypeIscrizione(){
+       acc.setEmail("Prova@unisa.it");
+       acc.setSecondaryEmail("pluto@gmail.com");
+       acc.setSurname("prova");
+       acc.setName("Antonio");
+       acc.setPassword("prova");
+       acc.setTypeAccount("prova stringaprova stringaprova stringaprova stringaprova stringaprova stringaprova stringaprova stringaprova stringaprova stringaprova stringaprova stringaprova stringaprova stringaprova stringaprova stringaprova stringaprova stringaprova stringaprova stringaprova stringaprova stringaprova stringaprova stringaprova stringaprova stringaprova stringaprova stringaprova stringaprova stringaprova stringaprova stringaprova stringaprova stringaprova stringaprova stringaprova stringaprova stringa");  
         
-        return c^36435356;
+         try{
+            instance.register(acc);
+            fail("sono riuscito a fare l' op");
+        }catch(Exception x){
+            assertTrue(true);
+        }
     }
+    
+    
 }

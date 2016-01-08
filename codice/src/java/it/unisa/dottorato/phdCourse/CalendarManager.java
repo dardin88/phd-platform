@@ -978,5 +978,56 @@ public class CalendarManager {
         }
     }
     
+     public synchronized int nextNumberCourse() throws SQLException, IOException {
+        int c=1;
+        
+       
+        try (Connection connect = DBConnection.getConnection()) {
+            String tSql = "SELECT idCourse FROM "
+                    + CalendarManager.TABLE_COURSE
+                    + " ORDER BY idCourse DESC LIMIT 1";
+            //Inviamo la Query al DataBase
+             ResultSet result = Utility.queryOperation(connect, tSql);
+            if(result.next()){
+                c = result.getInt("idCourse")+1;
+            }
+            connect.commit();
+            return c;
+        } 
+     }
+     
+     public synchronized int nextNumberLesson() throws SQLException, IOException {
+        int c=1;
+        
+       
+        try (Connection connect = DBConnection.getConnection()) {
+            String tSql = "SELECT idLesson FROM "
+                    + CalendarManager.TABLE_LESSON
+                    + " ORDER BY idLesson DESC LIMIT 1";
+            //Inviamo la Query al DataBase
+             ResultSet result = Utility.queryOperation(connect, tSql);
+            if(result.next()){
+                c = result.getInt("idLesson")+1;
+            }
+            connect.commit();
+            return c;
+        } 
+     }
+     
+     public synchronized int nextNumberSeminar() throws SQLException, IOException {
+        int c=1;
+        try (Connection connect = DBConnection.getConnection()) {
+            String tSql = "SELECT idSeminar FROM "
+                    + CalendarManager.TABLE_LESSON
+                    + " ORDER BY idSeminar DESC LIMIT 1";
+            //Inviamo la Query al DataBase
+             ResultSet result = Utility.queryOperation(connect, tSql);
+            if(result.next()){
+                c = result.getInt("idSeminar")+1;
+            }
+            connect.commit();
+            return c;
+        } 
+     }
 }
 
