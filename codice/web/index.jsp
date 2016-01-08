@@ -53,6 +53,7 @@
                                 Benvenuto su PhD-Platform!
                             </div>
                             <div class="panel-body">
+                                
                                <% for(Cycle rcycles : cycles) {%>
                                 <p><%=rcycles.getDescription()%></p>
                                 <% break; }%>

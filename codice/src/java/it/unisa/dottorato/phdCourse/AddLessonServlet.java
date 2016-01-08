@@ -50,14 +50,16 @@ public class AddLessonServlet extends HttpServlet {
             response.setContentType("text/html;charset=UTF-8");
             
             //conserviamo gli attributi da settare nelle variabili
+            String idlesson = request.getParameter("id");
             String date = request.getParameter("data");
-            String starttime = request.getParameter("starttime");
-            String endtime = request.getParameter("endtime");
+            String startTime = request.getParameter("starttime");
+            String starttime = startTime.substring(0,5);
+            String endTime = request.getParameter("endtime");
+            String endtime = endTime.substring(0,5);
             String name = request.getParameter("name");
             String classroom = request.getParameter("classroom");
             String description = request.getParameter("description");
-            String cycle = request.getParameter("cycle");
-            String curriculum = request.getParameter("curriculum");
+
             String course = request.getParameter("course");
             
             HttpSession session = request.getSession();
@@ -66,14 +68,13 @@ public class AddLessonServlet extends HttpServlet {
             Lesson lesson = new Lesson();
             
             //inseriamo nell'oggetto corso i valori passati come parametri precedentemente
+            lesson.setIdLesson(Integer.parseInt(idlesson));
             lesson.setDate(java.sql.Date.valueOf(date));
-            lesson.setStartTime(Integer.parseInt(starttime));
-            lesson.setEndTime(Integer.parseInt(endtime));
+            lesson.setStartTime(starttime);
+            lesson.setEndTime(endtime);
             lesson.setName(name);
             lesson.setClassroom(classroom);
             lesson.setDescription(description);
-            lesson.setCycle(Integer.parseInt(cycle));
-            lesson.setCurriculum(curriculum);
             lesson.setFK_course(Integer.parseInt(course));
             
            result.put("result", true);
