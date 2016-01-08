@@ -131,7 +131,8 @@
 
                                     <!-- Pulsanti di invio e reset del form -->
                                     <div class="form-group">
-                                        <input type="button" id="savePhdCurriculum" class="btn btn-blue" value="Salva"> 
+                                        <input type="button" id="savePhdCurriculumAdd" class="btn btn-blue" value="Salva" hidden> 
+                                        <input type="button" id="savePhdCurriculumModify" class="btn btn-blue" value="Salva" hidden> 
                                         <input type="reset" id="resetCurriculumButton" class="btn btn-white" value="Reset">
                                     </div>
                                 </form >
