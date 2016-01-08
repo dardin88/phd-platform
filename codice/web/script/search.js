@@ -24,12 +24,27 @@ var tut="Tutti";
 
  $.getJSON("getAccountList", function (data) {
             $.each(data.account, function (index, value) {
-                account = "<tr>  <td> " + value.typeAccount + "</td>  <td> " + value.name + "</td> <td> " + value.surname + "</td>    <td> " + value.email + "</td>  <td> <button class='btn btn-blu' id=" + value.email + " onclick='viewProfile(" + 'id' + ")' > <span class='glyphicon glyphicon-user' aria-hidden='true' ></span> Profilo</button>  </td> </tr>";
+                 var nuovoType = value.typeAccount;
+            var realType;
+            
+            switch(nuovoType) {
+                case "phdstudent":
+                    realType = "Dottorando";
+                    break;
+                case "professor":
+                  realType = "Docente";
+                    break;
+                case "basic":
+                   realType = "Base";
+                    break;
+            }
+                account = "<tr>  <td> " + realType + "</td>  <td> " + value.name + "</td> <td> " + value.surname + "</td>    <td> " + value.email + "</td>  <td> <button class='btn btn-blu' id=" + value.email + " onclick='viewProfile(" + 'id' + ")' > <span class='glyphicon glyphicon-user' aria-hidden='true' ></span> Profilo</button>  </td> </tr>";
                 $("#resultbody").append(account);
             });
         });
         
     $('#sel1').on('change', function() {
+        $("#word").val("");
         if (this.value==dot){ 
             
           
@@ -37,7 +52,24 @@ var tut="Tutti";
               $.getJSON("GetPhdStudentList", function (data) {
     
         $.each(data.account, function (index, value) {
-           phdstudent = "<tr  id="+  value.secondaryEmail+">  <td> "  + value.typeAccount+ "</td>  <td> " + value.name + "</td> <td> " + value.surname + "</td>    <td> " + value.email + "</td>  <td> <button class='btn btn-blu' id=" + value.email + " onclick='viewProfile(" + 'id' + ")' > <span class='glyphicon glyphicon-user' aria-hidden='true' ></span> Profilo</button>  </td> ";
+            var nuovoType = value.typeAccount;
+            var realType;
+            
+            switch(nuovoType) {
+                case "phdstudent":
+                    realType = "Dottorando";
+                    break;
+                case "professor":
+                  realType = "Docente";
+                    break;
+                case "basic":
+                   realType = "Base";
+                    break;
+            }
+            
+            
+            
+           phdstudent = "<tr  id="+  value.secondaryEmail+">  <td> "  + realType + "</td>  <td> " + value.name + "</td> <td> " + value.surname + "</td>    <td> " + value.email + "</td>  <td> <button class='btn btn-blu' id=" + value.email + " onclick='viewProfile(" + 'id' + ")' > <span class='glyphicon glyphicon-user' aria-hidden='true' ></span> Profilo</button>  </td> ";
             
             $("#resultbody").append(phdstudent);
         });
@@ -53,7 +85,21 @@ var tut="Tutti";
  $("#resultbody tr").remove();
             $.getJSON("GetProfessorsList", function (data) {
        $.each(data.account, function (index, value) {
-           professor = "<tr>  <td> "  + value.typeAccount+ "</td>  <td> " + value.name + "</td> <td> " + value.surname + "</td>    <td> " + value.email + "</td>  <td> <button class='btn btn-blu' id=" + value.email + " onclick='viewProfile(" + 'id' + ")' > <span class='glyphicon glyphicon-user' aria-hidden='true' ></span> Profilo</button>  </td> </tr> ";
+            var nuovoType = value.typeAccount;
+            var realType;
+            
+            switch(nuovoType) {
+                case "phdstudent":
+                    realType = "Dottorando";
+                    break;
+                case "professor":
+                  realType = "Docente";
+                    break;
+                case "basic":
+                   realType = "Base";
+                    break;
+            }
+           professor = "<tr>  <td> "  + realType+ "</td>  <td> " + value.name + "</td> <td> " + value.surname + "</td>    <td> " + value.email + "</td>  <td> <button class='btn btn-blu' id=" + value.email + " onclick='viewProfile(" + 'id' + ")' > <span class='glyphicon glyphicon-user' aria-hidden='true' ></span> Profilo</button>  </td> </tr> ";
                 $("#resultbody").append(professor);
         });
           });
@@ -63,7 +109,21 @@ var tut="Tutti";
             $("#resultbody tr").remove();
              $.getJSON("getAccountList", function (data) {
             $.each(data.account, function (index, value) {
-                account = "<tr>  <td> " + value.typeAccount + "</td>  <td> " + value.name + "</td> <td> " + value.surname + "</td>    <td> " + value.email + "</td>  <td> <button class='btn btn-blu' id=" + value.email + " onclick='viewProfile(" + 'id' + ")' > <span class='glyphicon glyphicon-user' aria-hidden='true' ></span> Profilo</button>  </td> </tr>";
+                 var nuovoType = value.typeAccount;
+            var realType;
+            
+            switch(nuovoType) {
+                case "phdstudent":
+                    realType = "Dottorando";
+                    break;
+                case "professor":
+                  realType = "Docente";
+                    break;
+                case "basic":
+                   realType = "Base";
+                    break;
+            }
+                account = "<tr>  <td> " + realType + "</td>  <td> " + value.name + "</td> <td> " + value.surname + "</td>    <td> " + value.email + "</td>  <td> <button class='btn btn-blu' id=" + value.email + " onclick='viewProfile(" + 'id' + ")' > <span class='glyphicon glyphicon-user' aria-hidden='true' ></span> Profilo</button>  </td> </tr>";
                 $("#resultbody").append(account);
             });
         });
@@ -88,10 +148,27 @@ function searchForName()
 
  
      $.getJSON("SearchUser",{name: name}, function (data) {
-        
+         alert(data);
+         if(data.account === null){
+             alert("ssdd");
+         }
             $.each(data.account, function (index, value) {
+                 var nuovoType = value.typeAccount;
+            var realType;
+            
+            switch(nuovoType) {
+                case "phdstudent":
+                    realType = "Dottorando";
+                    break;
+                case "professor":
+                  realType = "Docente";
+                    break;
+                case "basic":
+                   realType = "Base";
+                    break;
+            }
                 
-    var   account = "<tr>  <td> " + value.typeAccount + "</td>  <td> " + value.name + "</td> <td> " + value.surname + "</td>  <td> " + value.email + "</td>   <td> <button class='btn btn-blu' id=" + value.email + " onclick='viewProfile(" + 'id' + ")' > <span class='glyphicon glyphicon-user' aria-hidden='true' ></span> Profilo</button>  </td> </tr>";
+    var   account = "<tr>  <td> " + realType + "</td>  <td> " + value.name + "</td> <td> " + value.surname + "</td>  <td> " + value.email + "</td>   <td> <button class='btn btn-blu' id=" + value.email + " onclick='viewProfile(" + 'id' + ")' > <span class='glyphicon glyphicon-user' aria-hidden='true' ></span> Profilo</button>  </td> </tr>";
            
                 $("#resultbody").append(account);
            
