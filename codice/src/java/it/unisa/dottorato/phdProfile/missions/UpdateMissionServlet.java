@@ -41,7 +41,7 @@ public class UpdateMissionServlet extends HttpServlet {
      * @throws IOException if an I/O error occurs
      */
     protected void processRequest(HttpServletRequest request, HttpServletResponse response)
-            throws ServletException, IOException, JSONException, SQLException {
+            throws ServletException, IOException, JSONException, SQLException, Exception {
         response.setContentType("text/html;charset=UTF-8");
         JSONObject result = new JSONObject();
         PrintWriter out = response.getWriter();
@@ -115,6 +115,8 @@ try{
             Logger.getLogger(UpdateMissionServlet.class.getName()).log(Level.SEVERE, null, ex);
         } catch (SQLException ex) {
             Logger.getLogger(UpdateMissionServlet.class.getName()).log(Level.SEVERE, null, ex);
+        } catch (Exception ex) {
+            Logger.getLogger(UpdateMissionServlet.class.getName()).log(Level.SEVERE, null, ex);
         }
     }
 
@@ -135,6 +137,8 @@ try{
         } catch (JSONException ex) {
             Logger.getLogger(UpdateMissionServlet.class.getName()).log(Level.SEVERE, null, ex);
         } catch (SQLException ex) {
+            Logger.getLogger(UpdateMissionServlet.class.getName()).log(Level.SEVERE, null, ex);
+        } catch (Exception ex) {
             Logger.getLogger(UpdateMissionServlet.class.getName()).log(Level.SEVERE, null, ex);
         }
       

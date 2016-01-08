@@ -68,7 +68,7 @@ public class PublicationManagerTest {
         pub.setType("Demo");
         pub.setAuthors("Marco Orsi");
         pub.setAbstract("Abstract");
-        pub.setFkPhdstudent("prova@gmail.com");
+        pub.setFkPhdstudent("dinucci@hotmail.it");
         
          try{
             instance.insert(pub);
