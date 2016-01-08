@@ -67,8 +67,8 @@ public class UpdateLessonServlet extends HttpServlet {
                 Lesson lesson = new Lesson();
 
                 lesson.setDate(java.sql.Date.valueOf(date));
-                lesson.setStartTime(Integer.parseInt(starttime));
-                lesson.setEndTime(Integer.parseInt(endtime));
+                lesson.setStartTime((starttime));
+                lesson.setEndTime((endtime));
                 lesson.setName(name);
                 lesson.setClassroom(classroom);
                 lesson.setDescription(description);
