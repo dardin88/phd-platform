@@ -57,8 +57,12 @@
                     document.getElementById("showArrow").className = 'glyphicon glyphicon-chevron-down pointer';
             }
             function display(x) {
+                var links = document.querySelectorAll(".bottoni > a");
                 if (x === 'table-pub') {
-                    document.getElementsByTagName("li")[0].className = 'active';
+                    
+                    links[0].style.background = 'white';
+                    links[1].style.background = '#e5e5e5';
+                    links[2].style.background = '#e5e5e5';
                     var blessed = document.getElementById(x);
                     var other = document.getElementById("table-coll");
                     var other1 = document.getElementById("table-miss");
@@ -67,7 +71,9 @@
                     other1.style.display = 'none';
                 }
                 if (x === 'table-coll') {
-                    document.getElementsByTagName("li")[1].className = 'active';
+                    links[1].style.background = 'white';
+                    links[2].style.background = '#e5e5e5';
+                    links[0].style.background = '#e5e5e5';
                     var blessed = document.getElementById(x);
                     var other = document.getElementById('table-pub');
                     var other1 = document.getElementById('table-miss');
@@ -76,7 +82,9 @@
                     other1.style.display = 'none';
                 }
                 if (x === 'table-miss') {
-                    document.getElementsByTagName("li")[2].className = 'active';
+                    links[2].style.background = 'white';
+                    links[1].style.background = '#e5e5e5';
+                    links[0].style.background = '#e5e5e5';
                     var blessed = document.getElementById(x);
                     var other = document.getElementById('table-coll');
                     var other1 = document.getElementById('table-pub');
@@ -104,6 +112,21 @@
             #table-miss {
                 display:none;
             }
+            
+            #showArrow {
+                font-size:70%;
+            }
+            
+            .bottoni:hover {
+                cursor:pointer;
+                
+            }
+            
+           
+            .bottoni a {
+                background: yellow;
+            }
+         
         </style>
 
 
@@ -215,7 +238,11 @@
                                             <br>
                                             <h3 id = "diocane"> Attività di ricerca </h3> <br>
                                             <p class="text-justify" > 
-                                                <%= ((PhdStudent) profile).getResearchInterest()%> <br> <br>
+                                                <% String a = ((PhdStudent) profile).getResearchInterest();
+                                                if (a != null){
+                                                    out.println(a);
+                                                  } %> 
+                                                <br> <br>
                                             </p>
 
                                             <p class="text-justify"> 
@@ -224,9 +251,9 @@
                                             <div id="rawr">
                                                 <div class="panel-heading">
                                                     <ul class="nav nav-tabs" >
-                                                        <li role="presentation" onclick="display('table-pub')"><a>Pubblicazioni</a></li>
-                                                        <li role="presentation" onclick="display('table-coll')"><a>Collaborazioni</a></li>
-                                                        <li role="presentation" onclick="display('table-miss')"><a>Mission</a></li>
+                                                        <li class="bottoni" role="presentation" onclick="display('table-pub')"><a>Pubblicazioni</a></li>
+                                                        <li class="bottoni" role="presentation" onclick="display('table-coll')"><a>Collaborazioni</a></li>
+                                                        <li class="bottoni" role="presentation" onclick="display('table-miss')"><a>Mission</a></li>
                                                     </ul>
                                                     <br>
 
