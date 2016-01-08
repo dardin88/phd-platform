@@ -70,6 +70,7 @@
                         </button> 
                     </div>
                 </div>
+                <div class="alert alert-success" role="alert" id="successAlert" hidden><b>Perfetto!</b> Operazione avvenuta con successo</div>
                     
                 <div>    
                     <div class="well-small col-lg-12 col-lg-offset-0 col-md-8 col-md-offset-6 col-sm-10 col-sm-offset-1 col-xs-12">
@@ -135,10 +136,13 @@
                                         <input type="button" id="savePhdCurriculumModify" class="btn btn-blue" value="Salva" hidden> 
                                         <input type="reset" id="resetCurriculumButton" class="btn btn-white" value="Reset">
                                     </div>
+                                    <div class="alert alert-danger" role="alert" hidden id="errorAlert"><b>Attenzione!</b> Ricontrolla i campi inseriti</div>
                                 </form >
                             </div>
                         </div>
-            </div> 
+                        
+            </div>
+                        
         </div> 
 
 
