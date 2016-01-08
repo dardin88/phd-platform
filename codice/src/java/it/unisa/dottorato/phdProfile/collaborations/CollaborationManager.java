@@ -385,6 +385,8 @@ public class CollaborationManager {
         }
         return fkPhdstudent;
     }
+    
+    
      public synchronized int nextNumber() throws SQLException, IOException {
         int c=1;
         
