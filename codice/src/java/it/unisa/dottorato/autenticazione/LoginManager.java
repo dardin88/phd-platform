@@ -64,7 +64,7 @@ public class LoginManager  {
              * stringhe SQL per selezionare piu record 
              * nella tabella account, phdstudent e professor
              */
-        String query = "select * from account where email='" + addSlashes(testEmail(pUsername)) + "' and password='" + addSlashes(testPassword(pPassword)) + "'";
+        String query = "select * from account where email='" + addSlashes(pUsername) + "' and password='" + addSlashes(pPassword) + "'";
         String queryPhd = "select * from phdstudent where fkAccount ='";
         String queryProfessor = "select * from professor where fkAccount ='";
 
