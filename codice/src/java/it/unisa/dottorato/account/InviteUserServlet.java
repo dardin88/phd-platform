@@ -41,6 +41,12 @@ public class InviteUserServlet extends HttpServlet {
         String email = request.getParameter("email");
         manager.inviteUser(email);
         
+        
+        out.println("<script type=\"text/javascript\">");
+        out.println("alert('Utente invitato');");
+        out.println("location='amministrazioneAccount.jsp';");
+        out.println("</script>");
+        
     
     }
 
