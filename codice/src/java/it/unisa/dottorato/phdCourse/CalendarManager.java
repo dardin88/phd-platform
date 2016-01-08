@@ -1,6 +1,5 @@
 package it.unisa.dottorato.phdCourse;
 
-import it.unisa.dottorato.Curriculum.CurriculumManager;
 import it.unisa.dottorato.exception.DateException;
 import it.unisa.dottorato.exception.DescriptionException;
 import it.unisa.dottorato.exception.IdException;
@@ -15,7 +14,6 @@ import java.sql.SQLException;
 import java.sql.Statement;
 import java.util.ArrayList;
 import java.util.Date;
-import java.util.List;
 import java.util.logging.Level;
 import java.util.logging.Logger;
 
@@ -80,9 +78,9 @@ public class CalendarManager {
                     + " VALUES ("
                     + testid(pCourse.getIdCourse())
                     + ",'"
-                    + testName(pCourse.getFK_curriculum())
+                    + testName(pCourse.getFkCurriculum())
                     + "',"
-                    + testid(pCourse.getFK_cycle())
+                    + testid(pCourse.getFkCycle())
                     + ",'"
                     +testName(pCourse.getName())
                      + "','"
@@ -472,8 +470,8 @@ public class CalendarManager {
                 Course course = new Course();
                 course.setIdCourse(result.getInt("idCourse"));
                 course.setName(result.getString("name"));
-                course.setFK_curriculum(result.getString("fkCurriculum"));
-                course.setFK_cycle(result.getInt("fkCycle"));
+                course.setFkCurriculum(result.getString("fkCurriculum"));
+                course.setFkCycle(result.getInt("fkCycle"));
                 course.setDescription(result.getString("description"));
                 course.setStartDate(result.getDate("startDate"));
                 course.setEndDate(result.getDate("endDate"));
@@ -611,8 +609,8 @@ public class CalendarManager {
             if (result.next()) {
                 course.setIdCourse(result.getInt("idCourse"));
                 course.setName(result.getString("name"));
-                course.setFK_curriculum(result.getString("fkCurriculum"));
-                course.setFK_cycle(result.getInt("fkCycle"));
+                course.setFkCurriculum(result.getString("fkCurriculum"));
+                course.setFkCycle(result.getInt("fkCycle"));
                 course.setDescription(result.getString("description"));
                 course.setStartDate(result.getDate("startDate"));
                 course.setEndDate(result.getDate("endDate"));

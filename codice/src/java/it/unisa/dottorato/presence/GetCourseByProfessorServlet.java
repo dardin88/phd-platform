@@ -1,9 +1,13 @@
-package it.unisa.dottorato.phdCourse;
 
-import it.unisa.dottorato.exception.IdException;
+package it.unisa.dottorato.presence;
+
+
+import it.unisa.dottorato.phdCourse.CalendarManager;
+import it.unisa.dottorato.phdCourse.Course;
 import java.io.IOException;
 import java.io.PrintWriter;
 import java.sql.SQLException;
+import java.util.ArrayList;
 import java.util.logging.Level;
 import java.util.logging.Logger;
 import javax.servlet.ServletException;
@@ -11,45 +15,41 @@ import javax.servlet.annotation.WebServlet;
 import javax.servlet.http.HttpServlet;
 import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpServletResponse;
+import org.json.JSONArray;
 import org.json.JSONException;
 import org.json.JSONObject;
 
-/**Servlet incaricata ad effettuare la richiesta di visualizzazione di un corso
+/**
  *
- * @author Giuseppe Picciocchi
+ * @author matteo
  */
-@WebServlet(name = "GetCourseServlet", urlPatterns = {"/GetCourseServlet"})
-public class GetCourseServlet extends HttpServlet {
+@WebServlet(name = "GetCourseByProfessor", urlPatterns = {"/GetCourseByProfessor"})
+public class GetCourseByProfessorServlet extends HttpServlet {
 
     /**
      * Processes requests for both HTTP <code>GET</code> and <code>POST</code>
      * methods.
      *
-     * @param request oggetto request per accedere ai parametri inviati attraverso
-     * il metodo getParameter per ottenere l'id del corso idCourse per 
-     * effettuare la richiesta di ricerca e visualizzazione di un corso
+     * @param request servlet request
      * @param response servlet response
      * @throws ServletException if a servlet-specific error occurs
      * @throws IOException if an I/O error occurs
      */
     protected void processRequest(HttpServletRequest request, HttpServletResponse response)
-            throws ServletException, IOException {
+            throws ServletException, IOException, ClassNotFoundException, SQLException, PhdStudentexception {
         response.setContentType("text/html;charset=UTF-8");
+        ArrayList<Course> course =null;
         try (PrintWriter out = response.getWriter()) {
-            int courseId = Integer.parseInt(request.getParameter("idCourse"));
+            String Professor = request.getParameter("fkProfessor");
             JSONObject result = new JSONObject();
-            try {
-                Course c = CalendarManager.getInstance().getCourseById(courseId);
-                result.put("idCourse", c.getIdCourse());
-                result.put("name", c.getName());
-                result.put("fkCurriculum", c.getFkCurriculum());
-                result.put("fkCycle", c.getFkCycle());
-                result.put("description", c.getDescription());
-                result.put("startDate", c.getStartDate());
-                result.put("endDate", c.getEndDate());
+            
+            try { 
+                course= PresenceManager.getInstance().getCourseByProfessor(Professor);
+                JSONArray resultArray = new JSONArray(course);
+                result.put("CorsiProfessor", resultArray);
                 out.write(result.toString());
-            } catch (ClassNotFoundException | SQLException | JSONException | IdException ex) {
-                Logger.getLogger(GetCourseServlet.class.getName()).log(Level.SEVERE, null, ex);
+            }  catch (JSONException ex) {
+                Logger.getLogger(GetCourseByProfessorServlet.class.getName()).log(Level.SEVERE, null, ex);
             }
         }
     }
@@ -66,7 +66,15 @@ public class GetCourseServlet extends HttpServlet {
     @Override
     protected void doGet(HttpServletRequest request, HttpServletResponse response)
             throws ServletException, IOException {
-        processRequest(request, response);
+        try {
+            processRequest(request, response);
+        } catch (ClassNotFoundException ex) {
+            Logger.getLogger(GetCourseByProfessorServlet.class.getName()).log(Level.SEVERE, null, ex);
+        } catch (SQLException ex) {
+            Logger.getLogger(GetCourseByProfessorServlet.class.getName()).log(Level.SEVERE, null, ex);
+        } catch (PhdStudentexception ex) {
+            Logger.getLogger(GetCourseByProfessorServlet.class.getName()).log(Level.SEVERE, null, ex);
+        }
     }
 
     /**
@@ -80,7 +88,15 @@ public class GetCourseServlet extends HttpServlet {
     @Override
     protected void doPost(HttpServletRequest request, HttpServletResponse response)
             throws ServletException, IOException {
-        processRequest(request, response);
+        try {
+            processRequest(request, response);
+        } catch (ClassNotFoundException ex) {
+            Logger.getLogger(GetCourseByProfessorServlet.class.getName()).log(Level.SEVERE, null, ex);
+        } catch (SQLException ex) {
+            Logger.getLogger(GetCourseByProfessorServlet.class.getName()).log(Level.SEVERE, null, ex);
+        } catch (PhdStudentexception ex) {
+            Logger.getLogger(GetCourseByProfessorServlet.class.getName()).log(Level.SEVERE, null, ex);
+        }
     }
 
     /**
@@ -92,5 +108,5 @@ public class GetCourseServlet extends HttpServlet {
     public String getServletInfo() {
         return "Short description";
     }// </editor-fold>
-}
 
+}

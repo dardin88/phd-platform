@@ -17,11 +17,9 @@ import java.util.Date;
 public class Course implements Serializable{
     
     private int idCourse; 
-    private String curriculum; 
-    private int cycle;  
+    private String fkCurriculum; 
     private String name; 
-    private String FK_curriculum; 
-    private int FK_cycle; 
+    private int fkCycle; 
     private String description;
     private Date startDate;
     private Date endDate;
@@ -49,35 +47,33 @@ public class Course implements Serializable{
      * 
      * @return restituisce il nome del curriculum del corso
      */
-    public String getCurriculum(){
-        return curriculum;            
+    public String getFkCurriculum(){
+        return fkCurriculum;            
     }
    
     /** Metodo della classe incaricato di settare il curriculum del corso
      * 
      * @param curr 
      */
-    public void setCurriculum(String curr){
-        this.curriculum = curr;
+    public void setFkCurriculum(String curr){
+        this.fkCurriculum = curr;
     }
-
     
     /** Metodo della classe incaricato di ritornare il numero del ciclo del corso
      * 
      * @return restituisce il numero del ciclo del corso
      */
-    public int getCycle(){
-        return cycle;
+    public int getFkCycle(){
+        return fkCycle;
     }
     
     /** Metodo della classe incaricato di settare il numero del ciclo del corso
      * 
      * @param ciclo 
      */
-    public void setCycle(int ciclo){
-        this.cycle = ciclo;
+    public void setFkCycle(int ciclo){
+        this.fkCycle = ciclo;
     }
-    
     
     /** Metodo della classe incaricato di ritornare il nome del corso
      *
@@ -94,45 +90,6 @@ public class Course implements Serializable{
     public void setName(String nome){
         this.name = nome;
     }
-    
-    /** Metodo della classe incaricato di ritornare il nome del curriculum
-     * del corso, chiave esterna di curriculum
-     * 
-     * @return restituisce la chiave esterna di curriculum
-     */
-    public String getFK_curriculum(){
-        return FK_curriculum;
-    }
-    
-    /** Metodo della classe incaricato di settare il nome del curriculum
-     * del corso, chiave esterna di curriculum
-     * 
-     * @param chiave_curr 
-     */
-    public void setFK_curriculum(String chiave_curr){
-        this.FK_curriculum = chiave_curr;
-    }
-    
-    
-    /** Metodo della classe incaricato di ritornare l'id del ciclo del corso,
-     * chiave esterna di cycle
-     * 
-     * @return restituisce la chiave esterna di cycle
-     */
-    public int getFK_cycle(){
-        return FK_cycle;
-    }
-    
-   /** Metodo della classe incaricato di settare l'id del ciclo del corso,
-    * chiave esterna di cycle
-    * 
-    * @param chiave_cycle 
-    */
-    public void setFK_cycle(int chiave_cycle){
-        this.FK_cycle = chiave_cycle;
-    }
- 
-    
     
     /** Metodo della classe incaricato di ritornare la descrizione del corso
      *  
@@ -181,7 +138,5 @@ public class Course implements Serializable{
      */
     public void setEndDate(Date date){
         this.endDate = date;
-    } 
-
-   
+    }
 }
