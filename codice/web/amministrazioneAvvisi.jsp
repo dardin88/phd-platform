@@ -115,7 +115,8 @@
 
                                     <!-- Pulsanti di invio e reset del form -->
                                     <div class="form-group">
-                                        <input type="button" id="saveNews" class="btn btn-blue" value="Salva"> 
+                                        <input type="button" id="saveNewsModify" class="btn btn-blue" value="Salva" hidden> 
+                                        <input type="button" id="saveNewsAdd" class="btn btn-blue" value="Salva" hidden> 
                                         <input type="reset" id="resetNews" class="btn btn-white" value="Reset">
                                     </div>
                                 </form >
