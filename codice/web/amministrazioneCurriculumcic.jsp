@@ -212,7 +212,7 @@
                             </div>
 
                             <div class="panel-footer" style="background-color: transparent">
-                                <button type="button" class="btn btn-large btn-block btn-secondary" style="column-span: all" onclick="addCurriculuminCicButton()">
+                                <button type="button" class="btn btn-large btn-block btn-secondary" id="addCurriculumButton" hidden onclick="addCurriculuminCicButton()">
                                     <span class="glyphicon glyphicon-plus" aria-hidden="true">
                                     </span> Aggiungi Curriculum al Ciclo
                                 </button>
