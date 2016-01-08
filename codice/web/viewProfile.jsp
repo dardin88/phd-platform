@@ -104,6 +104,10 @@
             #table-miss {
                 display:none;
             }
+            
+            #showArrow {
+                font-size:70%;
+            }
         </style>
 
 
@@ -215,7 +219,11 @@
                                             <br>
                                             <h3 id = "diocane"> Attività di ricerca </h3> <br>
                                             <p class="text-justify" > 
-                                                <%= ((PhdStudent) profile).getResearchInterest()%> <br> <br>
+                                                <% String a = ((PhdStudent) profile).getResearchInterest();
+                                                if (a != null){
+                                                    out.println(a);
+                                                  } %> 
+                                                <br> <br>
                                             </p>
 
                                             <p class="text-justify"> 
