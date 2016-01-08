@@ -43,6 +43,7 @@ public class LoginManagerTest {
     public void setUp() {
         instance = LoginManager.getInstance();
         instances = AccountManager.getInstance();
+        acc=new Account();
     }
     
     @After
