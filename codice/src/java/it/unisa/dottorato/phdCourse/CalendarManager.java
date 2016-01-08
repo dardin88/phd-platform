@@ -771,7 +771,7 @@ public class CalendarManager {
 
             //Inviamo la Query al DataBase
             ResultSet result = Utility.queryOperation(connect, tSql);
- if(result.next()){
+        if(result.next()){
      numerLezio=result.getInt("COUNT(idLesson)");
  }
             
@@ -791,7 +791,7 @@ public class CalendarManager {
        * @throws IdException 
        */
       public int testid(int id) throws IdException {
-        if(id<0){
+        if(id<0 || id>999999){
             throw new IdException("l'id non puo' essere minore di 0");
         }
        else return id;
@@ -818,7 +818,7 @@ public class CalendarManager {
         * @throws DescriptionException 
         */
     private String testDescriptionLesson(String description) throws DescriptionException {
-        if(description.isEmpty()){
+        if(description.isEmpty()|| description.length()>65536){
             
             throw new DescriptionException("la descrizione e' sbagliata"); 
         }
@@ -847,7 +847,7 @@ public class CalendarManager {
      * @throws DateException 
      */
     public Date testStartData(Date data) throws DateException{
-         if(data.equals(null)){
+         if(data == null){
             
             throw new DateException("la data di inizio e' sbagliata"); 
         }
@@ -861,7 +861,7 @@ public class CalendarManager {
      * @throws DateException 
      */
     public Date testEndData(Date data) throws DateException{
-         if(data.equals(null)){
+         if(data == null){
             
             throw new DateException("la data di fine e' sbagliata"); 
         }
@@ -964,7 +964,7 @@ public class CalendarManager {
      * @throws DateException 
      */
     private Date testData(Date data)  throws DateException{
-         if(data.equals(null)){
+         if(data == null){
             
             throw new DateException("la data e' sbagliata"); 
         }
@@ -988,6 +988,8 @@ public class CalendarManager {
              ResultSet result = Utility.queryOperation(connect, tSql);
             if(result.next()){
                 c = result.getInt("idCourse")+1;
+            }else{
+                return 1;
             }
             connect.commit();
             return c;
@@ -1006,6 +1008,8 @@ public class CalendarManager {
              ResultSet result = Utility.queryOperation(connect, tSql);
             if(result.next()){
                 c = result.getInt("idLesson")+1;
+            }else{
+                return 1;
             }
             connect.commit();
             return c;
@@ -1022,6 +1026,8 @@ public class CalendarManager {
              ResultSet result = Utility.queryOperation(connect, tSql);
             if(result.next()){
                 c = result.getInt("idSeminar")+1;
+            }else{
+                return 1;
             }
             connect.commit();
             return c;
