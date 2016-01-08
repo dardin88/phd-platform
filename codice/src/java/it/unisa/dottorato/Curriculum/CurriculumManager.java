@@ -113,11 +113,11 @@ public class CurriculumManager {
             String tSql = "UPDATE "
                     + CurriculumManager.TABLE_CURRICULUM
                     + " set name = '"
-                    + testName(pCurriculum.getName())
+                    + Utility.Replace(testName(pCurriculum.getName()))
                     + "', description = '"
-                    + testDescription(pCurriculum.getDescription())
+                    + Utility.Replace(testDescription(pCurriculum.getDescription()))
                     + "' WHERE name = '"
-                    + testName(oldNameCurriculum) + "'";
+                    + Utility.Replace(testName(oldNameCurriculum)) + "'";
             System.out.println(tSql);
             //Inviamo la Query al DataBase
             int res = Utility.executeOperation(connect, tSql);
