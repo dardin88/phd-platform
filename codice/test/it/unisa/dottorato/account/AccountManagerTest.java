@@ -606,8 +606,7 @@ public class AccountManagerTest {
         try{
             instance.changeType(em, newType);
             assertTrue(true);
-        }catch(SQLException | ConnectionException | NullAccountException | EmailException | ClassNotFoundException | ProfileException | NameException e){
-            System.out.println(e.toString());
+        }catch(Exception e){
             fail("non sono riuscito a fare l' op");
         }
     }
