@@ -1,6 +1,7 @@
 package it.unisa.dottorato.presence;
 import it.unisa.dottorato.account.Account;
 import it.unisa.dottorato.exception.IdException;
+import it.unisa.dottorato.phdCourse.Course;
 import it.unisa.dottorato.phdCourse.Lesson;
 import it.unisa.dottorato.utility.Utility;
 import it.unisa.integrazione.database.DBConnection;
@@ -53,6 +54,50 @@ public class PresenceManager {
         }
         return instance;
     }
+   
+   /**
+    * Metodo della classe incaricato di inserire la presenza  di un dottorando  una lezione
+    * 
+     * @param Professor
+     * @return 
+    * @throws SQLException 
+     * @throws it.unisa.dottorato.presence.PhdStudentexception 
+    */
+   public ArrayList<Course> getCourseByProfessor(String Professor) throws SQLException, PhdStudentexception{
+        //connessione al database
+        Connection connect = DBConnection.getConnection();
+        ArrayList<Course> corsi=null;
+     try {
+            /*
+             *stringa SQL per effettuare l'inserimento nella 
+             * tabella news
+             */
+            corsi=new ArrayList<>();
+             String tSql = "SELECT course.* FROM course, lesson, keep, professor "
+                    + PresenceManager.TABLE_Presence
+                    + " where fkAccount=fkProfessor and fkLesson=IdLesson and fkCourse=IdCourse "
+                    + " and fkAccount= '"+testDottorando(Professor)+"'";      
+            
+            ResultSet result = Utility.queryOperation(connect, tSql);
+
+            while (result.next()) {
+                Course corso=new Course();
+                corso.setIdCourse(result.getInt("idCourse"));
+                corso.setFkCurriculum(result.getString("fkCurriculum"));
+                corso.setIdCourse(result.getInt("idCourse"));
+                corso.setName(result.getString("name"));
+                corso.setDescription(result.getString("description"));
+                corso.setStartDate(result.getDate("startDate"));
+                corso.setEndDate(result.getDate("endDate"));
+                corsi.add(corso);
+            }
+            return corsi;
+        }finally {
+            DBConnection.releaseConnection(connect);
+        }
+    }
+   
+
    /**
     * Metodo della classe incaricato di inserire la presenza  di un dottorando  una lezione
     * 
@@ -339,7 +384,7 @@ public class PresenceManager {
    
    }
    public String testDottorando(String title) throws PhdStudentexception{
-        if((title.length()<1) || title.equals("") ||(title.length()>50)|| (title.indexOf("@")==-1)){
+        if((title.length()<10) || (title.length()>50) || (!title.contains("@"))){
             
             throw new PhdStudentexception("l'email del dottorando e' sbagliata "); 
         }

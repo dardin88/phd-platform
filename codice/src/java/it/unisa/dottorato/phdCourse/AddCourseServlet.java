@@ -72,8 +72,8 @@ public class AddCourseServlet extends HttpServlet {
             
             //inseriamo nell'oggetto corso i valori passati come parametri precedentemente
             course.setIdCourse(Integer.parseInt(id));
-            course.setFK_curriculum(curriculum);
-            course.setFK_cycle(Integer.parseInt(cycle));
+            course.setFkCurriculum(curriculum);
+            course.setFkCycle(Integer.parseInt(cycle));
             course.setName(name);
             course.setDescription(description);
             course.setStartDate(java.sql.Date.valueOf(startDate));

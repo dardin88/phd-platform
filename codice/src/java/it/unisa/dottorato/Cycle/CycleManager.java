@@ -571,8 +571,12 @@ public class CycleManager {
             DBConnection.releaseConnection(connect);
         }
     }
+    
+    public boolean isLast(int number) throws SQLException, IOException{
+        int tmp=number+1;
+        return nextNumber()==tmp;
+    }
 
-   
     /**
      * Metodo della classe incaricato della ricerca delle classi esistenti.
      *@param number il numero del ciclo da selezionare
