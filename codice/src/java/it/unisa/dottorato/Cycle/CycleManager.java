@@ -325,12 +325,11 @@ public class CycleManager {
     public synchronized Cycle getCycleByNumber(int number) throws ClassNotFoundException,
             SQLException, IOException, IdException, Exception {
         Connection connect = null;
-        Cycle cycle=null;
         try {
-            cycle = new Cycle();
+            
             // Otteniamo una Connessione al DataBase
             connect = DBConnection.getConnection();
-
+            Cycle cycle = new Cycle();
             /*
              * Prepariamo la stringa SQL per modificare un record 
              * nella tabella phdCycle
@@ -344,6 +343,7 @@ public class CycleManager {
             ResultSet result = Utility.queryOperation(connect, tSql);
             
             if (result.next()) {
+                
                 cycle.setNumber(result.getInt("number"));
                 cycle.setDescription(result.getString("description"));
                 cycle.setYear(result.getString("year"));
@@ -592,7 +592,7 @@ public class CycleManager {
         ArrayList<Curriculum> List=null;
         try {
             List= new ArrayList<>();
-            Curriculum c=new Curriculum();
+            
             // Otteniamo una Connessione al DataBase
             connect = DBConnection.getConnection();
 
@@ -611,6 +611,7 @@ public class CycleManager {
             ResultSet result = Utility.queryOperation(connect, tSql);
 
             while (result.next()) {
+                Curriculum c=new Curriculum();
                 c.setName(result.getString("curriculum.name"));
                 c.setDescription(result.getString("curriculum.description"));
                 List.add(c);

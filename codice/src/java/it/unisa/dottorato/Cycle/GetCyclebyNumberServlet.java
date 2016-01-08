@@ -38,7 +38,8 @@ public class GetCyclebyNumberServlet extends HttpServlet {
             throws ServletException, IOException, IdException, Exception {
         response.setContentType("text/html;charset=UTF-8");
         try (PrintWriter out = response.getWriter()) {
-            int number = Integer.parseInt(request.getParameter("number"));
+            String num = (request.getParameter("number"));
+            int number = Integer.parseInt(num);
             JSONObject result = new JSONObject();
             try {
                 Cycle cycle = CycleManager.getInstance().getCycleByNumber(number);

@@ -102,31 +102,42 @@ function selectedItem()
 
 function addCycleButton()
 {
+    $("#CycleSelectedDiv").hide();
+    $("#collegioDiv").hide();
     $("#coordinatoreDiv").hide();
     $("#curriculumsDiv").hide();
     $("#divPanelAddORModify").show();
     
      $("#cycleTitle").html("Aggiunta di un nuovo ciclo");
-     //$("#cycleYear").html("");
+     $("#cycleYearField").html("");
      $("#cycleDescription").val("");
      
      $("#saveCycle").click(function () {
-         alert("hai clickato salva");
-         alert($("#cycleDescription").val());
-         alert($("#cycleYear").val());
-                    // Invio dati alla servlet per l'inserimento del ciclo
+                   // Invio dati alla servlet per l'inserimento del ciclo
                     $.getJSON("InsertCycle",
-                            {description: $("#cycleDescription").val(),year: $("#cycleYear").val()}, function(data) {
-                                alert("siamo nella servlet");
-                                
-                                /*$("#descriptionPanel").hide();
-                                 $("#CurriculumList option").remove();
-                               
+                            {description: $("#cycleDescription").val(),year: $("#cycleYearField").val()}, function(data) {
+                                alert("ciclo aggiunto correttamente");
+                                $("#descriptionPanel").hide();
+                                //$("#CurriculumList option").remove();
+                                $("#CycleList option").remove();
                                 getCycleList();
-                                selectedItem();*/
+                                selectedItem();
                            });
                 });
-   
+}
+
+function removeCycleButton(){
+    $("#CycleSelectedDiv").hide();
+    $("#coordinatoreDiv").hide();
+    $("#curriculumsDiv").hide();
+    
+    $.getJSON("DeleteCycle", {number: selectedCycle}, function (data) {
+        $("#CycleList option").remove();
+        getCycleList();
+        //$("#CycleList option").remove();
+        $("#CycleList").val('default');
+        selectedItem();
+    });
 }
 
 function viewCollegio()

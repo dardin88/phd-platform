@@ -7,5 +7,7 @@
 body {	
 }
 
-a {
+a.link:visited {
+    text-decoration: underline;
+    color:blue;
 }

@@ -1,7 +1,7 @@
 // Funzione per la gestione del menù
 $(document).ready(function () {
-
     getCycleList();
+    getInfoCycle();
     getCurriculumCicList();
     viewInfoCurriculumCic();
   
@@ -21,12 +21,36 @@ function getCycleList()
     });
 }
 
+function getInfoCycle(){
+    numerociclo = $("#CycleList option:selected").val(); 
+    
+    if (numerociclo !== "default")
+    {
+        
+        $.getJSON("GetCyclebyNumber", {number: numerociclo}, function(data){
+            descrizione = data.Description;
+            
+            $("#descrizioneCiclo").append(descrizione);
+        });
+        
+    }
+    else
+    {
+        $.getJSON("GetCycleList",function(data){
+            $.each(data.cycles, function (index, value) {
+                descrizione = value.description;
+               $("#descrizioneCiclo").append(descrizione);
+               return false;
+       });
+     });
+    }
+    
+}
 
 function getCurriculumCicList()
 {
-    
+    $("#descriptionPanel").hide();
     numeroCycle = $("#CycleList option:selected").val(); // la chiave primaria di account
-    
     if (numeroCycle !== "default") //se il valore della select è default non mostriamo il div contenente le informazioni
     {
        
@@ -47,6 +71,12 @@ function getCurriculumCicList()
 function viewInfoCurriculumCic(){
     numeroCycle = $("#CycleList option:selected").val();
     nomeCurriculum = $("#CurriculumCicList option:selected").val();
+    $("#CoordinatorName").html("");
+    $("#CycleNumber").html("");
+    $("#CurriculumName").html("");
+    $("#CoordinatorName").html("");
+    $("#ProfessorOfCVCic").html("");
+    $("#StudentOfCVCic").html("");
     if(numeroCycle!=="default"){
         if(nomeCurriculum!=="default"){
             $("#descriptionPanel").show();
