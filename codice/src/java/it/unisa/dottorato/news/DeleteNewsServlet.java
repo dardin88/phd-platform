@@ -11,6 +11,7 @@ import javax.servlet.annotation.WebServlet;
 import javax.servlet.http.HttpServlet;
 import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpServletResponse;
+import org.json.JSONException;
 import org.json.JSONObject;
 
 /**Servlet incaricata ad effettuare la richiesta di cancellazione di una news
@@ -31,17 +32,35 @@ public class DeleteNewsServlet extends HttpServlet {
      * @throws ServletException if a servlet-specific error occurs
      * @throws IOException if an I/O error occurs
      */
-   protected void processRequest(HttpServletRequest request, HttpServletResponse response)
-            throws ServletException, IOException, IdException, SQLException {
+   
+    protected void processRequest(HttpServletRequest request, HttpServletResponse response)
+            throws ServletException, IOException, IdException, SQLException, JSONException {
+
+        
         response.setContentType("text/html;charset=UTF-8");
+
         PrintWriter out = response.getWriter();
-        JSONObject result = new JSONObject();
-        String idNews = request.getParameter("idNews");
-        NewsManager.getInstance().deleteNews(Integer.parseInt(idNews));
-        out.println("<script type=\"text/javascript\">");
-        out.println("alert('La news è stata eliminata');");
-        out.println("location='collaborationActivity.jsp';"); // da modificare
-        out.println("</script>");
+        try {
+
+            JSONObject result = new JSONObject();
+            String idNews = request.getParameter("idNews");
+            
+            result.put("result", true);
+
+            try {
+                NewsManager.getInstance().deleteNews(Integer.parseInt(idNews));
+            } catch (SQLException ex) {
+                result.put("result", false);
+                Logger.getLogger(DeleteNewsServlet.class.getName()).log(Level.SEVERE, null, ex);
+            }
+            
+            out.write(result.toString());
+
+        } catch (JSONException ex) {
+            Logger.getLogger(DeleteNewsServlet.class.getName()).log(Level.SEVERE, null, ex);
+        }finally {
+            out.close();
+        }
     }
 
     // <editor-fold defaultstate="collapsed" desc="HttpServlet methods. Click on the + sign on the left to edit the code.">
@@ -63,7 +82,9 @@ public class DeleteNewsServlet extends HttpServlet {
            Logger.getLogger(DeleteNewsServlet.class.getName()).log(Level.SEVERE, null, ex);
        } catch (SQLException ex) {
            Logger.getLogger(DeleteNewsServlet.class.getName()).log(Level.SEVERE, null, ex);
-       }
+       } catch (JSONException ex) {
+            Logger.getLogger(DeleteNewsServlet.class.getName()).log(Level.SEVERE, null, ex);
+        }
       
     }
 
@@ -85,7 +106,9 @@ public class DeleteNewsServlet extends HttpServlet {
            Logger.getLogger(DeleteNewsServlet.class.getName()).log(Level.SEVERE, null, ex);
        } catch (SQLException ex) {
            Logger.getLogger(DeleteNewsServlet.class.getName()).log(Level.SEVERE, null, ex);
-       }
+       } catch (JSONException ex) {
+            Logger.getLogger(DeleteNewsServlet.class.getName()).log(Level.SEVERE, null, ex);
+        }
        
     }
 

@@ -12,7 +12,9 @@ $(document).ready(function () {
 
 function getNewsList()
 {
-    alert("siamo in getnewslist");
+    //alert("siamo in getnewslist");
+    $("#divPanelAddORModify").hide();
+    $("#accountListTable tr").remove();
     $("#tableDiv").show();
 
     //servlet per riempire la tabella con tutti gli avvisi
@@ -47,7 +49,7 @@ function addNewsButton()
         // Invio dati alla servlet per l'inserimento della news
         $.getJSON("InsertNews",
                 {title: newsTitle, description: newsDescription}, function (data) {
-            alert("news aggiunta correttamente");
+            //alert("news aggiunta correttamente");
             $("#divPanelAddORModify").hide();
             $("#accountListTable tr").remove();
             getNewsList();
@@ -65,7 +67,7 @@ function modifyNewsButton(id)
     $("#saveNewsModify").show();
 
     $("#descriptionPanel").hide();
-    alert("bottone MODIFICA premuto " + id);
+    // alert("bottone MODIFICA premuto " + id);
     $("#tableDiv").hide();
     $("#divPanelAddORModify").show();
 
@@ -81,8 +83,7 @@ function modifyNewsButton(id)
         $.getJSON("ModifyNews",
                 {idNews: id, title: $("#newsTitle").val(), description: $("#newsDescription").val()}, function (data) {
             //alert("news modificata correttamente");
-            $("#divPanelAddORModify").hide();
-            $("#accountListTable tr").remove();
+            
             getNewsList();
         });
 
@@ -94,12 +95,12 @@ function modifyNewsButton(id)
 
 function removeNewsButton(id)
 {
-    alert("bottone ELIMINAZIONE premuto " + id);
+    //alert("bottone ELIMINAZIONE premuto " + id);
     $("#descriptionPanel").hide();
 
     // Servlet per la rimozione della news
     $.getJSON("DeleteNews", {idNews: id}, function (data) {
-        alert("news eliminata correttamente");
+       // alert("news eliminata correttamente");
         $("#accountListTable tr").remove();
         $("#tableDiv").hide();
         getNewsList();
