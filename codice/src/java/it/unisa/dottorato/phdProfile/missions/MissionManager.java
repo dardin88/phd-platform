@@ -76,7 +76,7 @@ public class MissionManager {
                     + MissionManager.TABLE_MISSION
                     + " (idMission,description, startDate, endDate, reference, place, fkPhdstudent)"
                     + " VALUES ("
-                    + testId(pMission.getIdMission())
+                    + testId(nextNumber())
                     + ",'"
                     + Utility.Replace(MissionManager.getInstance().testDescription(pMission.getDescription()))
                     + "','"
@@ -106,8 +106,14 @@ public class MissionManager {
      * @throws ClassNotFoundException
      * @throws SQLException
      * @throws IOException 
+     * @throws it.unisa.dottorato.exception.IdException 
+     * @throws it.unisa.dottorato.exception.MissionException 
+     * @throws it.unisa.dottorato.exception.DescriptionException 
+     * @throws it.unisa.dottorato.exception.DateException 
+     * @throws it.unisa.dottorato.exception.ReferenceAttributeException 
+     * @throws it.unisa.dottorato.exception.PlaceException 
      */
-    public synchronized void update(int oldMissionID, Mission pMission) throws ClassNotFoundException, SQLException, IOException,IdException , MissionException , DescriptionException , DateException , ReferenceAttributeException , PlaceException {
+    public synchronized void update(int oldMissionID, Mission pMission) throws ClassNotFoundException, SQLException, IOException,IdException , MissionException , DescriptionException , DateException , ReferenceAttributeException , PlaceException, Exception {
         try (Connection connect = DBConnection.getConnection()) {
 
             testId(oldMissionID);
@@ -133,7 +139,8 @@ public class MissionManager {
 
             System.out.println(tSql);
             //Inviamo la Query al DataBase
-            Utility.executeOperation(connect, tSql);
+            if(Utility.executeOperation(connect, tSql)==0)
+                throw new Exception();
 
             connect.commit();
         } 
@@ -146,7 +153,7 @@ public class MissionManager {
      * @throws SQLException
      * @throws IOException 
      */
-    public synchronized void delete(int idMission) throws ClassNotFoundException, SQLException, IOException, IdException {
+    public synchronized void delete(int idMission) throws ClassNotFoundException, SQLException, IOException, IdException, Exception {
         Connection connect = null;
         try {
             // Otteniamo una Connessione al DataBase
@@ -161,7 +168,8 @@ public class MissionManager {
                     + testId(idMission);
 
             //Inviamo la Query al DataBase
-            Utility.executeOperation(connect, tSql);
+            if(Utility.executeOperation(connect, tSql)==0)
+                throw new Exception();
 
             connect.commit();
         } finally {
@@ -177,7 +185,7 @@ public class MissionManager {
      * @throws SQLException
      * @throws IOException 
      */
-    public synchronized Mission getMissionById(int pMissionID) throws ClassNotFoundException, SQLException, IOException,IdException {
+    public synchronized Mission getMissionById(int pMissionID) throws ClassNotFoundException, SQLException, IOException,IdException, Exception {
         Connection connect = null;
         Mission mission = new Mission();
         try {
@@ -192,8 +200,8 @@ public class MissionManager {
              */
             String tSql = "SELECT * FROM "
                     + MissionManager.TABLE_MISSION
-                    + " WHERE idMission = '"
-                    + pMissionID + "'";
+                    + " WHERE idMission = "
+                    + pMissionID;
 
             //Inviamo la Query al DataBase
             ResultSet result = Utility.queryOperation(connect, tSql);
@@ -206,6 +214,8 @@ public class MissionManager {
                 mission.setReference(result.getString("reference"));
                 mission.setPlace(result.getString("place"));
                 mission.setFkPhdstudent(result.getString("fkPhdstudent"));
+            }else{
+                throw new Exception();
             }
 
         }  finally {
@@ -269,7 +279,7 @@ public class MissionManager {
      * @throws IdException 
      */
     public int testId(int id) throws IdException {
-        if(id<0 ||id >6){
+        if(id<0 ||id >999999){
             throw new IdException("L'id non puo' essere minore di 0 o maggiore di 6");
         }
         return id;
@@ -296,7 +306,7 @@ public class MissionManager {
      * @throws DateException 
      */
     public Date testStartDate(Date startDate) throws DateException{
-         if(startDate.equals(null)){
+         if(startDate == null){
             
             throw new DateException("la data e' nulla"); 
         }
@@ -310,7 +320,7 @@ public class MissionManager {
      * @throws DateException 
      */
     public Date testEndDate(Date endDate) throws DateException{
-         if(endDate.equals(null)){
+         if(endDate == null){
             
             throw new DateException("la data e' nulla"); 
         }
@@ -393,7 +403,9 @@ public class MissionManager {
             //Inviamo la Query al DataBase
              ResultSet result = Utility.queryOperation(connect, tSql);
             if(result.next()){
-                c = result.getInt("number")+1;
+                c = result.getInt("idMission")+1;
+            }else{
+                return 1;
             }
             connect.commit();
             return c;

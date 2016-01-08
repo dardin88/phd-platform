@@ -29,9 +29,10 @@
         <link rel="stylesheet" href="assets/css/custom.css">
 
         <script src="assets/js/jquery-1.11.1.min.js"></script>
+        
 
         <c:choose>
-            <c:when test="${sessionScope.loginError != null}">
+            <c:when test="${session.getAttribute("loginError")!=null}">
                 <script type="text/javascript">
                     $(function () {
                         $("#loginErrorDialog").modal();

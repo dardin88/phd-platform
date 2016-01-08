@@ -78,14 +78,14 @@ public class PublicationManager {
                     + PublicationManager.TABLE_PUBLICATION
                     + " (idPublication,title, publicationIssue, year, numberPage, link, type, otherAuthors, abstract, fkPhdstudent)"
                     + " VALUES ("
-                    + testId(pPublication.getIdPublication())
+                    + testId(nextNumber())
                     + ",'"
                     + Utility.Replace(PublicationManager.getInstance().testTitle(pPublication.getTitle()))
                     + "','"
                     + Utility.Replace(PublicationManager.getInstance().testPubliocationIssue(pPublication.getPublicationIssue()))
                     + "','"
                     + Utility.Replace(PublicationManager.getInstance().testYear(pPublication.getYear()))
-                    + "','"
+                    + "',"
                     + PublicationManager.getInstance().testNumberPage(pPublication.getNumberPages())
                     + ",'"
                     + Utility.Replace(PublicationManager.getInstance().testLink(pPublication.getLink()))
@@ -99,8 +99,6 @@ public class PublicationManager {
                     + PublicationManager.getInstance().testfkPhdStudent(pPublication.getFkPhdstudent())
                     + "')";
 
-            System.out.println("La query: " +tSql);
-            //Inviamo la Query al DataBase
             Utility.executeOperation(connect, tSql);
 
             connect.commit();
@@ -115,7 +113,7 @@ public class PublicationManager {
      * @throws SQLException
      * @throws IOException 
      */
-    public synchronized void update(int oldPublicationID, Publication pPublication) throws ClassNotFoundException, SQLException, IOException,IdException ,PublicationException , TitleException , PublicationIssueException , YearException , NumberPageException , LinkException , TypeException , OtherAuthorsException , pAbstractException {
+    public synchronized void update(int oldPublicationID, Publication pPublication) throws ClassNotFoundException, SQLException, IOException,IdException ,PublicationException , TitleException , PublicationIssueException , YearException , NumberPageException , LinkException , TypeException , OtherAuthorsException , pAbstractException, Exception {
         try (Connection connect = DBConnection.getConnection()) {
             
             testId(oldPublicationID);
@@ -132,9 +130,9 @@ public class PublicationManager {
                     + Utility.Replace(PublicationManager.getInstance().testPubliocationIssue(pPublication.getPublicationIssue()))
                     + "', year = '"
                     + Utility.Replace(PublicationManager.getInstance().testYear(pPublication.getYear()))
-                    + "', numberPage = '"
+                    + "', numberPage = "
                     + PublicationManager.getInstance().testNumberPage(pPublication.getNumberPages())
-                    + "', link = '"
+                    + ", link = '"
                     + Utility.Replace(PublicationManager.getInstance().testLink(pPublication.getLink()))
                     + "', type = '"
                     + Utility.Replace(PublicationManager.getInstance().testType(pPublication.getType()))
@@ -143,11 +141,10 @@ public class PublicationManager {
                     + "', abstract = '"
                     + Utility.Replace(PublicationManager.getInstance().testAbstract(pPublication.getAbstract()))
                     + "' WHERE idPublication = "
-                    + oldPublicationID + "";           
+                    + oldPublicationID;           
 
-            System.out.println(tSql);
-            //Inviamo la Query al DataBase
-            Utility.executeOperation(connect, tSql);
+            if(Utility.executeOperation(connect, tSql)==0)
+                throw new Exception();
 
             connect.commit();
         } 
@@ -160,7 +157,7 @@ public class PublicationManager {
      * @throws SQLException
      * @throws IOException 
      */
-    public synchronized void delete(String idPublication) throws ClassNotFoundException, SQLException, IOException,IdException {
+    public synchronized void delete(String idPublication) throws ClassNotFoundException, SQLException, IOException,IdException, Exception {
         Connection connect = null;
         try {
             // Otteniamo una Connessione al DataBase
@@ -174,11 +171,12 @@ public class PublicationManager {
              */
             String tSql = "DELETE FROM "
                     + PublicationManager.TABLE_PUBLICATION
-                    + " WHERE idPublication = '"
-                    + testId(id) + "'";
+                    + " WHERE idPublication = "
+                    + testId(id);
 
             //Inviamo la Query al DataBase
-            Utility.executeOperation(connect, tSql);
+            if(Utility.executeOperation(connect, tSql)==0)
+                throw new Exception();
 
             connect.commit();
         } finally {
@@ -194,7 +192,7 @@ public class PublicationManager {
      * @throws SQLException
      * @throws IOException 
      */
-    public synchronized Publication getPublicationById(int pPublicationID) throws ClassNotFoundException, SQLException, IOException,IdException {
+    public synchronized Publication getPublicationById(int pPublicationID) throws ClassNotFoundException, SQLException, IOException,IdException, Exception {
         Connection connect = null;
         Publication publication = new Publication();
         try {
@@ -209,8 +207,8 @@ public class PublicationManager {
              */
             String tSql = "SELECT * FROM "
                     + PublicationManager.TABLE_PUBLICATION
-                    + " WHERE idPublication = '"
-                    + pPublicationID + "'";
+                    + " WHERE idPublication = "
+                    + pPublicationID;
 
             //Inviamo la Query al DataBase
             ResultSet result = Utility.queryOperation(connect, tSql);
@@ -226,6 +224,8 @@ public class PublicationManager {
                 publication.setAuthors(result.getString("otherAuthors"));
                 publication.setAbstract(result.getString("abstract"));
                 publication.setFkPhdstudent(result.getString("fkPhdstudent"));
+            }else{
+                throw new Exception();
             }
 
         }  finally {
@@ -256,7 +256,7 @@ public class PublicationManager {
             String tSql = "SELECT * FROM "
                     + PublicationManager.TABLE_PUBLICATION
                     + " WHERE fkPhdstudent = '"
-                    + phdStudent.getfkAccount() + "'"; // da verificare
+                    + phdStudent.getfkAccount() + "'"; 
 
             //Inviamo la Query al DataBase
             ResultSet result = Utility.queryOperation(connect, tSql);
@@ -349,7 +349,7 @@ public class PublicationManager {
      * @throws NumberPageException 
      */
     public int testNumberPage(int numberPage) throws NumberPageException {
-        if(numberPage<0){
+        if(numberPage<=0){
             throw new NumberPageException("Il numero delle pagine è sbagliato");
         }
         return numberPage;
@@ -459,6 +459,8 @@ public class PublicationManager {
              ResultSet result = Utility.queryOperation(connect, tSql);
             if(result.next()){
                 c = result.getInt("idPublication")+1;
+            }else{
+                return 1;
             }
             connect.commit();
             return c;

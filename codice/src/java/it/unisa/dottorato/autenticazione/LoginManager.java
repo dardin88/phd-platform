@@ -53,7 +53,7 @@ public class LoginManager  {
      * @throws PasswordException 
      */
     public Account login (String pUsername, String pPassword) throws SQLException,
-            ConnectionException, EmailException,PasswordException {
+            ConnectionException, EmailException,PasswordException, Exception {
         Connection connection = null;
         Statement stmt = null;
         Statement stmt2 = null;
@@ -64,7 +64,7 @@ public class LoginManager  {
              * stringhe SQL per selezionare piu record 
              * nella tabella account, phdstudent e professor
              */
-        String query = "select * from account where email='" + addSlashes(testEmail(pUsername)) + "' and password='" + addSlashes(testPassword(pPassword)) + "'";
+        String query = "select * from account where email='" + addSlashes(pUsername) + "' and password='" + addSlashes(pPassword) + "'";
         String queryPhd = "select * from phdstudent where fkAccount ='";
         String queryProfessor = "select * from professor where fkAccount ='";
 
@@ -136,6 +136,8 @@ public class LoginManager  {
                         account.setAdmin(rs.getBoolean("isAdministrator"));
                         return account;
                 }
+            }else{
+                throw new Exception();
             }
         } finally {
             DBConnection.releaseConnection(connection);
@@ -167,7 +169,7 @@ public class LoginManager  {
    * @throws SQLException
    * @throws NullAccountException 
    */
-  public void register(Account pAccount) throws SQLException, NullAccountException, EmailException, PasswordException, NameException {
+  public void register(Account pAccount) throws SQLException, NullAccountException, EmailException, PasswordException, NameException, Exception {
       //connessione al database  
       Connection connect = DBConnection.getConnection();
       pAccount = testAccount(pAccount);
@@ -184,13 +186,12 @@ public class LoginManager  {
                 + testSecondaryEmail(pAccount.getSecondaryEmail()) + "','"
                 + addSlashes(testName(pAccount.getSurname())) + "','"
                 + addSlashes(testName(pAccount.getName())) + "','"
-                + testPassword(pAccount.getPassword()) +"','"
-                + pAccount.getTypeAccount() + "',"
-                + pAccount.isAdmin() + ")";
+                + testPassword(pAccount.getPassword()) +"','basic',false)";
 
         try {
             //esecuzione query
-            Utility.executeOperation(connect, sql);
+            if(Utility.executeOperation(connect, sql)==0)
+                throw new Exception();
             connect.commit();
            
         } finally {

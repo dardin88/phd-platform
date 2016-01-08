@@ -37,7 +37,7 @@ public class RegistrationServlet extends HttpServlet {
      * @throws IOException if an I/O error occurs
      */
     protected void processRequest(HttpServletRequest request, HttpServletResponse response)
-            throws ServletException, IOException, NullAccountException, EmailException, PasswordException, NameException {
+            throws ServletException, IOException, NullAccountException, EmailException, PasswordException, NameException, Exception {
         response.setContentType("text/html;charset=UTF-8");
         PrintWriter out = response.getWriter();
         
@@ -67,8 +67,12 @@ public class RegistrationServlet extends HttpServlet {
             
            // response.sendRedirect("login.jsp");
             
-        } catch (SQLException ex) {
+        } catch (SQLException ex ) {
             Logger.getLogger(RegistrationServlet.class.getName()).log(Level.SEVERE, null, ex);
+        } catch (EmailException ex) {
+            out.println("<script type=\"text/javascript\">");
+            out.println("alert('l'email deve essere universitaria);");
+            out.println("</script>");
         } finally {
             out.close();
     }
@@ -103,6 +107,8 @@ public class RegistrationServlet extends HttpServlet {
         try {
             processRequest(request, response);
         } catch (NullAccountException | EmailException | PasswordException | NameException ex) {
+            Logger.getLogger(RegistrationServlet.class.getName()).log(Level.SEVERE, null, ex);
+        } catch (Exception ex) {
             Logger.getLogger(RegistrationServlet.class.getName()).log(Level.SEVERE, null, ex);
         }
     }

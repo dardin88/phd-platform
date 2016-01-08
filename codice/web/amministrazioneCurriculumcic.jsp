@@ -71,16 +71,20 @@
                     <div class="well-small col-lg-6 col-lg-offset-0 col-md-8 col-md-offset-2 col-sm-10 col-sm-offset-1 col-xs-12">
                            <div class="panel panel-default" style="margin-top: 10px" id="CycleSelectedDiv" hidden>
                             <div class="panel-heading">
-                                <h3 id="cycleName">--Ciclo selezionato-- <button type="button" class="btn btn-default btn-red ">
-                                            <span class="glyphicon glyphicon-remove-sign" aria-hidden="true" style="margin-top: 2px"></span> Rimuovi Ciclo
-                                    </button>  </h3>  
+                                <h3 id="cycleName">--Ciclo selezionato-- </h3>  
+                                
                                 <h4 id="cycleYear"> anno del ciclo </h4>
                             </div>
-                            <div class="panel-footer" style="background-color: transparent">
-                                  <button type="button" class="btn btn-large btn-block " onclick="viewCollegio()">
+                            <div class="panel-footer" style="background-color: transparent" >
+                                <button type="button" class="btn btn-default btn-red" onclick="removeCycleButton()"> 
+                                      Rimuovi Ciclo
+                                      <span class="glyphicon glyphicon-remove-sign" aria-hidden="true"></span> 
+                                </button>
+                                
+                                <button type="button" class="btn btn-large" onclick="viewCollegio()">
                                       Visualizza il colleggio docenti
                                       <span class="glyphicon glyphicon-arrow-right" aria-hidden="true"></span>
-                                  </button>
+                                </button>
                               </div>  
                         </div>
                     </div>    
@@ -110,7 +114,7 @@
                         
                         
                               <!-- Pannello per creazione di un nuovo ciclo --> 
-                    <div class="well-small col-lg-6 col-lg-offset-0 col-md-8 col-md-offset-6 col-sm-10 col-sm-offset-1 col-xs-12">
+                    <div class="well-small col-lg-12 col-lg-offset-0 col-md-8 col-md-offset-6 col-sm-10 col-sm-offset-1 col-xs-12">
                         <div class="panel panel-default" id="divPanelAddORModify" hidden>
                             <div class="panel-heading">
                                 <button type="button" class="close" id="buttonCloseCurriculumDialog" onclick="closeModifyORaddDiv()" >&times;</button>
@@ -126,7 +130,7 @@
                                         <label>Anno:</label>
                                         <div class="input-group">
                                             <span class="input-group-addon"></span>
-                                            <input type="text" id="cycleYear" class="form-control" name="name" placeholder="Inserisci l'anno del diclo"  pattern="[0-9]{4}" required/>
+                                            <input type="text" id="cycleYearField" class="form-control" name="name" placeholder="Inserisci l'anno del diclo"  pattern="[0-9]{4}" required/>
                                         </div>
                                     </div>
 

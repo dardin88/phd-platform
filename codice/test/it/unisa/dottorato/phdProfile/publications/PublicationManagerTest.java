@@ -68,7 +68,7 @@ public class PublicationManagerTest {
         pub.setType("Demo");
         pub.setAuthors("Marco Orsi");
         pub.setAbstract("Abstract");
-        pub.setFkPhdstudent("prova@gmail.com");
+        pub.setFkPhdstudent("dinucci@hotmail.it");
         
          try{
             instance.insert(pub);
@@ -92,7 +92,7 @@ public class PublicationManagerTest {
     }
     
     @Test
-    public void testInsertMaxId() throws Exception {
+    public void testInsertMaxId(){
         pub.setIdPublication(12345678);
               
          try{

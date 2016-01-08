@@ -37,7 +37,7 @@ public class LoginServlet extends HttpServlet {
      * @throws PasswordException if a password error occurs
      */
     protected void processRequest(HttpServletRequest request, HttpServletResponse response)
-            throws ServletException, IOException, EmailException, PasswordException {
+            throws ServletException, IOException, EmailException, PasswordException, Exception {
         response.setContentType("text/html;charset=UTF-8");
         PrintWriter out = response.getWriter();
         HttpSession session = request.getSession();
@@ -113,6 +113,8 @@ public class LoginServlet extends HttpServlet {
         } catch (EmailException ex) {
             Logger.getLogger(LoginServlet.class.getName()).log(Level.SEVERE, null, ex);
         } catch (PasswordException ex) {
+            Logger.getLogger(LoginServlet.class.getName()).log(Level.SEVERE, null, ex);
+        } catch (Exception ex) {
             Logger.getLogger(LoginServlet.class.getName()).log(Level.SEVERE, null, ex);
         }
     }
