@@ -31,6 +31,7 @@
 
         <script src="assets/js/jquery-1.11.1.min.js"></script>
         <script type="text/javascript" src="script/search.js"></script>
+        
 
         <!-- HTML5 shim and Respond.js for IE8 support of HTML5 elements and media queries -->
         <!-- WARNING: Respond.js doesn't work if you view the page via file:// -->
@@ -63,7 +64,7 @@
 
                  
                         <div class="input-group col-lg-8 col-md-8 col-sm-8 pull-left col-xs-8">
-                            <input id="word" class="form-control" type="text" value="" placeholder="Search" name="q" autofocus="autofocus" />
+                            <input id="word" class="form-control" type="text" value="" placeholder="Search(inizia a digitare)" name="q" autofocus="autofocus" />
 
                             <div class="input-group col-lg-8 col-md-8 col-sm-8 pull-left col-xs-8" >
                                 <select class="form-control" id="sel1"  name="sel1"  >
@@ -76,7 +77,6 @@
                             </div>  
                             <!-- /btn-group -->
                         </div>
-                        <button id="search" data-style="slide-left" class="btn btn-success col-lg-3 col-md-3 col-sm-3 col-xs-3 pull-right" type="submit"> <i id="icon" class="fa fa-search"></i>Search</button>
 
                 </div>
                 <div id="results" class="well col-lg-8 col-lg-offset-2 col-md-8 col-md-offset-2 col-sm-10 col-sm-offset-1 col-xs-12">
@@ -88,6 +88,7 @@
                                 <th data-field="name" data-sortable="true">Nome</th>
                                 <th data-field= "surname" data-sortable="true">Cognome</th>
                                 <th data-field="email" data-sortable="true">Email</th>
+                                <th> </th>
                             </tr>
                         </thead>
                         <tbody id="resultbody">
