@@ -143,6 +143,22 @@ function removeButtonSelected(curriculumName)
     });
 }
 
+function removeButtonSelected(curriculumName)
+{
+    this.curriculumName = curriculumName;
+    //in curriculumName abbiamo il nome del curriculum che vogliamo eliminare
+    
+                    // Servlet per la rimozione del curriculum
+                    
+                    $.getJSON("DeleteCurriculum",{nameCurriculum: curriculumName},function (data) {
+                        alert("curriculum eliminato correttamente");
+                        $("#descriptionPanel").hide();
+                        $("#CurriculumList option").remove();
+                        getCurriculumsList();
+                        selectedItem();
+                    });
+}
+
 //per il bottone X 
 function closeModifyORaddDiv()
 {
