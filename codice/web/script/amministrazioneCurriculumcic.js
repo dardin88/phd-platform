@@ -29,6 +29,7 @@ function selectedItem()
 {
     $("#TutorNameField").html("nessun tutor");
     $("#removeTutorButton").hide();
+    $("#addCurriculumButton").hide();
     $("#bodyCollegio tr").remove();
     $("#tutorTableList tr").remove();
     $("#curriculumList tr").remove();
@@ -76,12 +77,17 @@ function selectedItem()
         //servlet per richiamare i curriculum attivi nel ciclo selezionato
         $.getJSON("GetCurriculumcicList", {number: selectedCycle}, function (data) {
             $.each(data.curriculumcicList, function (index, value) {
-                curriculum = "<tr> <td> " + value.name + "</td>   <td> <button class='btn btn-blue' id=" + value.name + " onclick='viewCurriculumButton(" + 'id' + ")' >  Visualizza </button>  </td>  <td> <button class='btn btn-red' id=" + value.name + " onclick='removeCurriculumButton(" + 'id' + ")' >  Elimina </button>  </td>  </tr> "; // la secondaryEmail è la chiave primaria del professore che dovrà essere settato come nuovo tutor
+                curriculum = "<tr> <td> " + value.name + "</td>   <td> <button class='btn btn-blue' id='" + value.name + "' onclick='viewCurriculumButton(" + 'id' + ")' >  Visualizza </button>  </td>  <td> <button class='btn btn-red' id='" + value.name + "' onclick='removeCurriculumButton(" + 'id' + ")' >  Elimina </button>  </td>  </tr> "; // la secondaryEmail è la chiave primaria del professore che dovrà essere settato come nuovo tutor
                 $("#curriculumList").append(curriculum);
             });
         });
         
-        
+         
+        //servlet per vedere se il ciclo selezionato è l'ultimo 
+        $.getJSON("IsLast", {number: selectedCycle}, function (data) {
+            if(data.controllo === true)  $("#addCurriculumButton").show();
+        }); 
+         
         
         
          $("#CycleSelectedDiv").show();
@@ -107,6 +113,7 @@ function addCycleButton()
     $("#coordinatoreDiv").hide();
     $("#curriculumsDiv").hide();
     $("#divPanelAddORModify").show();
+    $("#descriptionPanel").hide();
     
      $("#cycleTitle").html("Aggiunta di un nuovo ciclo");
      $("#cycleYearField").html("");
@@ -116,7 +123,7 @@ function addCycleButton()
                    // Invio dati alla servlet per l'inserimento del ciclo
                     $.getJSON("InsertCycle",
                             {description: $("#cycleDescription").val(),year: $("#cycleYearField").val()}, function(data) {
-                                alert("ciclo aggiunto correttamente");
+                               // alert("ciclo aggiunto correttamente");
                                 $("#descriptionPanel").hide();
                                 //$("#CurriculumList option").remove();
                                 $("#CycleList option").remove();
@@ -134,7 +141,6 @@ function removeCycleButton(){
     $.getJSON("DeleteCycle", {number: selectedCycle}, function (data) {
         $("#CycleList option").remove();
         getCycleList();
-        //$("#CycleList option").remove();
         $("#CycleList").val('default');
         selectedItem();
     });
@@ -144,6 +150,7 @@ function viewCollegio()
 {
     $("#curriculumsDiv").hide();
     $("#collegioDiv").show();
+    $("#descriptionPanel").hide();
 }
 
 function closeCollegioDiv()
@@ -203,14 +210,21 @@ function removeTutorButton()
 
 
 
-function viewCurriculumButton()
+function viewCurriculumButton(id)
 {
+   // alert("vuoi visualizzare il curriculum con id " +id);
     
+    //servlet per richiamare le informazioni sul curriculum selezionato
+        $.getJSON("GetCurriculumByName", {CurriculumName: id}, function (data) {
+            $("#CurriculumNameField").html(" <b> " + data.CurriculumName + "  </b> ");
+            $("#CurriculumDescriptionField").html(data.CurriculumDescription);
+            $("#descriptionPanel").show();
+        });
 }
 
-function removeCurriculumButton()
+function removeCurriculumButton(id)
 {
-    
+    alert("vuoi eliminare il curriculum con id " +id)
 }
 
 
