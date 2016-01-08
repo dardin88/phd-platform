@@ -192,50 +192,7 @@ public class PresenceManager {
 
       
    
- /**  Metodo della classe incaricato di ritornare il numero  delle presenze di un dottorando a un corso
-  *     @param idCourse
-     * @param studente
-  * @return restituisce un array list di presenze, lancia un'eccezione altrimenti
-  * @throws ClassNotFoundException
-  * @throws SQLException
-  * @throws IOException 
-  */ 
-   public synchronized int getPresenceCourse(String dottorando,int idCourse) throws ClassNotFoundException, SQLException, IOException, IdException {
-        Connection connect = null;
-        Presence corso = null ;
-       int presence=0;
-        try {
-         
-          
-            // Otteniamo una Connessione al DataBase
-            connect = DBConnection.getConnection();
-
-            /*
-             * Prepariamo la stringa SQL per la ricerca dei record 
-             * nella tabella presence
-           */
-            String tSql = "SELECT COUNT(presence.isPresent) FROM presence,lesson  "
-                    + " where isPresent=true and presence.fkLesson = lesson.idLesson" +
-                   " and lesson.fkCourse ="+ testid(idCourse)+ 
-                    " and presence.fkPhdstudent ='"+testDottorando(dottorando) +"'" ;
-            //Inviamo la Query al DataBase
-            ResultSet result = Utility.queryOperation(connect, tSql);
-
-         if(result.next()) {
-                 
-           presence=result.getInt(1);
-            }
-
-        
-
-        } catch (PhdStudentexception ex) {
-          Logger.getLogger(PresenceManager.class.getName()).log(Level.SEVERE, null, ex);
-      }  finally {
-            DBConnection.releaseConnection(connect);
-        }
-        return presence;
-     
-    }
+ 
    /**metodo che dato un idCorso restituisce tutti i dottorandi che seguono quel corso
     * 
     * 

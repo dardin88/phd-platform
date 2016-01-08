@@ -33,6 +33,7 @@ function selectedItem()
     $("#bodyCollegio tr").remove();
     $("#tutorTableList tr").remove();
     $("#curriculumList tr").remove();
+    $("#descriptionPanel").hide();
     
     selectedCycle = $("#CycleList option:selected").val(); // la chiave primaria di ciclo
     if (selectedCycle !== "default")
@@ -212,8 +213,7 @@ function removeTutorButton()
 
 function viewCurriculumButton(id)
 {
-   // alert("vuoi visualizzare il curriculum con id " +id);
-    
+    $("#sezioneCurriculum").show();
     //servlet per richiamare le informazioni sul curriculum selezionato
         $.getJSON("GetCurriculumByName", {CurriculumName: id}, function (data) {
             $("#CurriculumNameField").html(" <b> " + data.CurriculumName + "  </b> ");

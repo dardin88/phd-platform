@@ -66,6 +66,10 @@
                 </div>
 
                 <div class="row"> 
+                    <h3 class="text-center"><i> Sezione informazioni ciclo</i></h3>
+                </div>
+                
+                <div class="row"> 
 
 
                     <div class="well-small col-lg-6 col-lg-offset-0 col-md-8 col-md-offset-2 col-sm-10 col-sm-offset-1 col-xs-12">
@@ -221,6 +225,10 @@
                     </div>
                 </div>
 
+                <div class="row"> 
+                    <h3 id="sezioneCurriculum" class="text-center" hidden><i> Sezione informazioni curriculum legati al ciclo selezionato</i></h3>
+                </div>
+                
                 <div class="row"> 
                         <div class="well-small col-lg-12 col-lg-offset-0 col-md-8 col-md-offset-6 col-sm-10 col-sm-offset-1 col-xs-12">
                             <div class="panel panel-default " id="descriptionPanel" hidden  style="margin-top: 5px">
