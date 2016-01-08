@@ -16,8 +16,8 @@ public class Lesson implements Serializable{
     
     private int idLesson;
     private Date data; 
-    private int startTime;
-    private int endTime;  
+    private String startTime;
+    private String endTime;  
     private String name; 
     private String classroom;
     private String description;
@@ -61,7 +61,7 @@ public class Lesson implements Serializable{
      * 
      * @return restituisce l'ora di inizio della lezione
      */
-    public int getStartTime(){
+    public String getStartTime(){
         return startTime;            
     }
     
@@ -69,7 +69,7 @@ public class Lesson implements Serializable{
      * 
      * @param start_time 
      */
-    public void setStartTime(int start_time){
+    public void setStartTime(String start_time){
         this.startTime = start_time;
     }
     
@@ -77,7 +77,7 @@ public class Lesson implements Serializable{
     * 
     * @return restituisce l'ora di fine lezione
     */
-    public int getEndTime(){
+    public String getEndTime(){
         return endTime;            
     }
     
@@ -85,7 +85,7 @@ public class Lesson implements Serializable{
      * 
      * @param end_time 
      */
-    public void setEndTime(int end_time){
+    public void setEndTime(String end_time){
         this.endTime = end_time;
     }
     
