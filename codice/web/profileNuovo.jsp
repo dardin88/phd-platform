@@ -57,7 +57,11 @@
                     document.getElementById("showArrow").className = 'glyphicon glyphicon-chevron-down pointer';
             }
             function display(x) {
+                var links = document.querySelectorAll(".bottoni > a");
                 if (x === 'table-pub') {
+                    links[0].style.background = 'white';
+                    links[1].style.background = '#e5e5e5';
+                    links[2].style.background = '#e5e5e5';
                     document.getElementsByTagName("li")[0].className = 'active';
                     var blessed = document.getElementById(x);
                     var other = document.getElementById("table-coll");
@@ -67,6 +71,9 @@
                     other1.style.display = 'none';
                 }
                 if (x === 'table-coll') {
+                    links[0].style.background = 'white';
+                    links[1].style.background = '#e5e5e5';
+                    links[2].style.background = '#e5e5e5';
                     document.getElementsByTagName("li")[1].className = 'active';
                     var blessed = document.getElementById(x);
                     var other = document.getElementById('table-pub');
@@ -76,6 +83,9 @@
                     other1.style.display = 'none';
                 }
                 if (x === 'table-miss') {
+                    links[0].style.background = 'white';
+                    links[1].style.background = '#e5e5e5';
+                    links[2].style.background = '#e5e5e5';
                     document.getElementsByTagName("li")[2].className = 'active';
                     var blessed = document.getElementById(x);
                     var other = document.getElementById('table-coll');
