@@ -104,6 +104,10 @@
             #table-miss {
                 display:none;
             }
+            
+            #showArrow {
+                font-size:70%;
+            }
         </style>
 
 
