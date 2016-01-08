@@ -51,9 +51,12 @@ public class AddSeminarServlet extends HttpServlet {
             response.setContentType("text/html;charset=UTF-8");
             
             //conserviamo gli attributi da settare nelle variabili
+            String idSeminar = request.getParameter("id");
             String date = request.getParameter("data");
-            String starttime = request.getParameter("starttime");
-            String endtime = request.getParameter("endtime");
+            String startTime = request.getParameter("starttime");
+            String starttime = startTime.substring(0,5);
+            String endTime = request.getParameter("endtime");
+            String endtime = endTime.substring(0,5);
             String name = request.getParameter("name");
             String namespeacker = request.getParameter("namespeacker");
             String description = request.getParameter("description");
@@ -66,9 +69,10 @@ public class AddSeminarServlet extends HttpServlet {
             Seminar seminar = new Seminar();
             
             //inseriamo nell'oggetto corso i valori passati come parametri precedentemente
+            seminar.setIdSeminar(Integer.parseInt(idSeminar));
             seminar.setDate(java.sql.Date.valueOf(date));
-            seminar.setStartTime(Integer.parseInt(starttime));
-            seminar.setEndTime(Integer.parseInt(endtime));
+            seminar.setStartTime((starttime));
+            seminar.setEndTime((endtime));
             seminar.setName(name);
             seminar.setNameSpeacker(namespeacker);
             seminar.setDescription(description);

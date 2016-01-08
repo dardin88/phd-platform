@@ -116,28 +116,24 @@ public class CalendarManager {
              */
             String tSql = "INSERT INTO "
                     + CalendarManager.TABLE_LESSON
-                    + " ( idLesson, date, startTime, endTime, name, classroom, desription, cycle, curriculum, fkCourse)"
+                    + " ( idLesson, date, startTime, endTime, name, classroom, desription, fkCourse)"
                     + " VALUES ('"
                     + testid(pLesson.getIdLesson()) // int
                     + "','"
                     + testStartData(pLesson.getData()) // Date
                     + "','"
-                    + testid(pLesson.getStartTime()) // int
+                    + pLesson.getStartTime() // int
                     + "','"
-                    + testid(pLesson.getEndTime()) // int 
+                    + pLesson.getEndTime() // int 
                     + "','"
                     + Utility.Replace(testNomeLesson(pLesson.getName())) // String
                     + "','"
                     + Utility.Replace(testClassroom(pLesson.getClassroom())) // String
                       + "','"
                     + Utility.Replace(testDescriptionLesson(pLesson.getDescription())) // String
-                      + "','"
-                    + testid(pLesson.getCycle()) // int
-                      + "','"
-                    + Utility.Replace(testName(pLesson.getCurriculum()))
-                     + "','"
+                      + "',"
                     + testid(pLesson.getFK_course()) // int
-                    + "')";
+                    + ")";
 
             System.out.println("La query: " +tSql);
             //Inviamo la Query al DataBase
@@ -163,14 +159,14 @@ public class CalendarManager {
             String tSql = "INSERT INTO "
                     + CalendarManager.TABLE_SEMINAR
                     + " ( idSeminar, date, startTime, endTime, name, namespeacker, desription, place, fkCourse)"
-                    + " VALUES ('"
+                    + " VALUES ("
                     + testid(pSeminar.getIdSeminar()) // int
-                    + "','"
+                    + ",'"
                     + testStartData(pSeminar.getData()) // Date
                     + "','"
-                    + testid(pSeminar.getStartTime()) // int
+                    + pSeminar.getStartTime() // int
                     + "','"
-                    + testid(pSeminar.getEndTime()) // int 
+                    + pSeminar.getEndTime() // int 
                     + "','"
                     + Utility.Replace(testNomeSeminar(pSeminar.getName())) // String
                     + "','"
@@ -179,9 +175,9 @@ public class CalendarManager {
                     + Utility.Replace(seminarTestDescription(pSeminar.getDescription())) // String
                       + "','"
                     + Utility.Replace(testPlaceSeminar(pSeminar.getPlace()))
-                      + "','"
+                      + "',"
                     + testid(pSeminar.getFK_course())
-                    + "')";
+                    + ")";
 
             System.out.println("La query: " +tSql);
             //Inviamo la Query al DataBase
@@ -214,9 +210,9 @@ public class CalendarManager {
                     + "', date = '"
                     + testStartData(pLesson.getData())
                     + "', startTime = '"
-                    + testid(pLesson.getStartTime())
+                    + pLesson.getStartTime()
                     + "', endTime = '"
-                    + testid(pLesson.getEndTime())
+                    + pLesson.getEndTime()
                     + "', name = '"
                     + Utility.Replace(testNomeLesson(pLesson.getName()))
                     + "', classroom = '"
@@ -263,9 +259,9 @@ public class CalendarManager {
                     + "', date = '"
                     + testStartData(pSeminar.getData())
                     + "', startTime = '"
-                    + testid(pSeminar.getStartTime())
+                    + pSeminar.getStartTime()
                     + "', endTime = '"
-                    + testid(pSeminar.getEndTime())
+                    + pSeminar.getEndTime()
                     + "', name = '"
                     + Utility.Replace(testNomeSeminar(pSeminar.getName()))
                     + "', namespeacker = '"
@@ -384,8 +380,8 @@ public class CalendarManager {
             if (result.next()) {
                 lesson.setIdLesson(result.getInt("idLesson"));
                 lesson.setDate(result.getDate("date"));
-                lesson.setStartTime(result.getInt("startTime"));
-                lesson.setEndTime(result.getInt("endTime"));
+                lesson.setStartTime(result.getString("startTime"));
+                lesson.setEndTime(result.getString("endTime"));
                 lesson.setName(result.getString("name"));
                 lesson.setClassroom(result.getString("classroom"));
                 lesson.setDescription(result.getString("description"));
@@ -433,8 +429,8 @@ public class CalendarManager {
             if (result.next()) {
                 seminar.setIdSeminar(result.getInt("idSeminar"));
                 seminar.setDate(result.getDate("date"));
-                seminar.setStartTime(result.getInt("startTime"));
-                seminar.setEndTime(result.getInt("endTime"));
+                seminar.setStartTime(("startTime"));
+                seminar.setEndTime(("endTime"));
                 seminar.setName(result.getString("name"));
                 seminar.setNameSpeacker(result.getString("namespeacker"));
                 seminar.setDescription(result.getString("description"));
@@ -549,8 +545,8 @@ public class CalendarManager {
                while (result.next()) {
                 seminar.setIdSeminar(result.getInt("idSeminar"));
                 seminar.setDate(result.getDate("date"));
-                seminar.setStartTime(result.getInt("startTime"));
-                seminar.setEndTime(result.getInt("endTime"));
+                seminar.setStartTime(("startTime"));
+                seminar.setEndTime(("endTime"));
                 seminar.setName(result.getString("name"));
                 seminar.setNameSpeacker(result.getString("nameSpeacker"));
                 seminar.setDescription(result.getString("desription"));
@@ -663,8 +659,8 @@ public class CalendarManager {
                 Lesson lesson = new Lesson();
                 lesson.setIdLesson(result.getInt("idLesson"));
                 lesson.setDate(result.getDate("date"));
-                lesson.setStartTime(result.getInt("startTime"));
-                lesson.setEndTime(result.getInt("endTime"));
+                lesson.setStartTime(result.getString("startTime"));
+                lesson.setEndTime(result.getString("endTime"));
                 lesson.setName(result.getString("name"));
                 lesson.setClassroom(result.getString("classroom"));
                 lesson.setDescription(result.getString("desription"));                             
@@ -707,8 +703,8 @@ public class CalendarManager {
 
                 seminar.setIdSeminar(result.getInt("idSeminar"));
                 seminar.setDate(result.getDate("date"));
-                seminar.setStartTime(result.getInt("startTime"));
-                seminar.setEndTime(result.getInt("endTime"));
+                seminar.setStartTime(("startTime"));
+                seminar.setEndTime(("endTime"));
                 seminar.setName(result.getString("name"));
                 seminar.setNameSpeacker(result.getString("namespeacker"));
                 seminar.setPlace(result.getString("place"));

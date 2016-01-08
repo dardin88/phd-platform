@@ -56,7 +56,7 @@
                          %>  
                         <ul class="nav navbar-nav">
                             <li class="active"><a href="addcorso.jsp">Aggiungi Corso</a></li>
-                            <li><a href="aggiungievento.jsp">Aggiungi Eventi</a></li>
+                            <li><a href="addevent.jsp">Aggiungi Eventi</a></li>
                             
                         </ul>
                         <% } %>

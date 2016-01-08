@@ -67,8 +67,8 @@ public class UpdateSeminarServlet extends HttpServlet {
 
                 //inseriamo nell'oggetto corso i valori passati come parametri precedentemente
                 seminar.setDate(java.sql.Date.valueOf(date));
-                seminar.setStartTime(Integer.parseInt(starttime));
-                seminar.setEndTime(Integer.parseInt(endtime));
+                seminar.setStartTime((starttime));
+                seminar.setEndTime((endtime));
                 seminar.setName(name);
                 seminar.setNameSpeacker(namespeacker);
                 seminar.setDescription(description);

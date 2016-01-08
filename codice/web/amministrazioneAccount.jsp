@@ -29,6 +29,21 @@
         <link rel="stylesheet" href="assets/css/custom.css">  
         <link rel="stylesheet" href="style/dottorato.css">
         
+        
+        <style>
+            #bodyTable {
+                color:black;
+            }
+            
+            #emailInput {
+                width:25%;
+            }
+            
+            #spanSpace {
+               visibility: hidden;
+            }
+        </style>
+        
         <script src="assets/js/jquery-1.11.1.min.js"></script>
         <script type="text/javascript" src="script/amministrazioneAccount.js"></script> <!-- da modificare -->
                 
@@ -67,12 +82,13 @@
                               <div class="panel-heading">Lista utenti</div>
                                  <div class="panel-body">
                                  <!-- Table -->
-                                    <table class="table" id = "accountListTable">
+                                    <table class="table table-hover table-striped table-condensed" id = "accountListTable">
                                         <thead>
                                                 <tr>
                                                     <th>Nome</th>
                                                     <th>Email</th>
                                                     <th>Tipologia</th>
+                                                    <th> </th>
                                                     
                                                 </tr>                               
                                         </thead>
@@ -99,7 +115,8 @@
                                      <h2>Invita Utente</h2>
                                      
                                      <form action="InviteUserServlet"> <!-- da fixare il servlet !-->
-                                         <input type="text" name="email" placeholder="Email privata dell'utente"/>
+                                         <input id ="emailInput" type="text" name="email" placeholder="Email privata dell'utente"/>
+                                         <span id = "spanSpace" >asdasjsdfij      </span>
                                          <input class="btn btn-blue" type="submit" value="Invita"></input>
                                      </form>
                                  </div>
