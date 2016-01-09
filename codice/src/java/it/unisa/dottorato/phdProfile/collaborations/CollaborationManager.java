@@ -182,9 +182,7 @@ public class CollaborationManager {
                     + testId(idCollaboration);
 
             //Inviamo la Query al DataBase
-            if(Utility.executeOperation(connect, tSql)==0)
-                throw new Exception();
-
+            Utility.executeOperation(connect, tSql);
             connect.commit();
         } finally {
             DBConnection.releaseConnection(connect);

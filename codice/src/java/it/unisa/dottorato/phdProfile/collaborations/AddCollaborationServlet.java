@@ -72,7 +72,7 @@ public class AddCollaborationServlet extends HttpServlet {
             
             out.println("<script type=\"text/javascript\">");
             out.println("alert('La collaborazione è stata inserita');");
-            out.println("location='collaborationActivity.jsp';");
+            out.println("location='profileNuovo.jsp';");
             out.println("</script>");
             
         } catch (SQLException ex) {

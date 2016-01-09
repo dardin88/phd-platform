@@ -36,7 +36,7 @@ public class DeleteMissionServlet extends HttpServlet {
         response.setContentType("text/html;charset=UTF-8");
         PrintWriter out = response.getWriter();
         JSONObject result = new JSONObject();
-        int idMission = Integer.parseInt(request.getParameter("idMission"));
+        int idMission = Integer.parseInt(request.getParameter("id"));
         try {
             MissionManager.getInstance().delete(idMission);
         } catch (ClassNotFoundException | SQLException ex) {
@@ -47,7 +47,7 @@ public class DeleteMissionServlet extends HttpServlet {
         }
         out.println("<script type=\"text/javascript\">");
         out.println("alert('La missione è stata eliminata.');");
-        out.println("location='missionActivity.jsp';");
+        out.println("location='profileNuovo.jsp';");
         out.println("</script>");
     }
 

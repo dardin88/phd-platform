@@ -73,7 +73,7 @@ public class UploadServlet extends HttpServlet {
                     if (!item.isFormField()) {
                         String[] fileNameSplits = item.getName().split("\\.");
                         int extIndex = fileNameSplits.length - 1;
-                        String fileName = phd.getName() + "_" + phd.getSurname() + "." + fileNameSplits[extIndex];
+                        String fileName = phd.getEmail() + "." + fileNameSplits[extIndex];
                         String filePath = uploadPath + File.separator + fileName;
                         File storeFile = new File(filePath);
                         item.write(storeFile);
@@ -84,6 +84,9 @@ public class UploadServlet extends HttpServlet {
                     }
                 }
             }
+            
+            
+            
         } catch (Exception ex) {
         }
 
