@@ -572,7 +572,7 @@ public class AccountManager {
             multipart.addBodyPart(messagePart);  // adding message part    
 
             //Setting the Email Encoding
-            messagePart.setText("localhost:8080/codice/register.jsp?email=" + email, "utf-8");
+            messagePart.setText("http://localhost:8080/codice/register.jsp?email=" + email, "utf-8");
             messagePart.setHeader("Content-Type", "text/html; charset=\"utf-8\"");
             messagePart.setHeader("Content-Transfer-Encoding", "quoted-printable");
             message.setContent(multipart);
