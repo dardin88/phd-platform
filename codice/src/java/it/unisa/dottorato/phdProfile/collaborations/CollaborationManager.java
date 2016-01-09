@@ -253,10 +253,15 @@ public class CollaborationManager {
         List<Collaboration> collaborations = new ArrayList<>();
         
         Connection connect = null;
+        Connection connect1 = null;
         try {
             // Otteniamo una Connessione al DataBase
             connect = DBConnection.getConnection();
-
+            connect1 = DBConnection.getConnection();
+            String t="select fkAccount from phdstudent where fkAccount= '"+phdStudent.getfkAccount()+"'";
+            ResultSet result2 = Utility.queryOperation(connect1, t);
+            if(!result2.next())
+                throw new ReferenceException();
             /*
              * Prepariamo la stringa SQL per ricercare un record 
              * nella tabella collaboration
@@ -310,7 +315,7 @@ public class CollaborationManager {
      * @throws DescriptionException 
      */
     public String testDescription(String description) throws DescriptionException{
-         if(description.equals(null)|| (description.length()>65536)){
+         if(description == null|| (description.length()>65536)){
             
             throw new DescriptionException("la descrizione e' sbagliata"); 
         }
@@ -324,7 +329,7 @@ public class CollaborationManager {
      * @throws DateException 
      */
     public Date testStartDate(Date startDate) throws DateException{
-         if(startDate.equals(null)){
+         if(startDate == null){
             
             throw new DateException("la data e' nulla"); 
         }
@@ -338,7 +343,7 @@ public class CollaborationManager {
      * @throws DateException 
      */
     public Date testEndDate(Date endDate) throws DateException{
-         if(endDate.equals(null)){
+         if(endDate == null){
             
             throw new DateException("la data e' nulla"); 
         }
@@ -379,8 +384,7 @@ public class CollaborationManager {
      * @throws ReferenceException 
      */
     public String testfkPhdStudent(String fkPhdstudent) throws ReferenceException {
-        if(fkPhdstudent.equals(null) || fkPhdstudent.length()>50){
-            
+        if(fkPhdstudent == null || fkPhdstudent.length()<10 || fkPhdstudent.length()>50 ||(!fkPhdstudent.contains("@"))){
             throw new ReferenceException("il campo per il riferimento al PhdStudent e' sbagliato"); 
         }
         return fkPhdstudent;
@@ -399,6 +403,8 @@ public class CollaborationManager {
              ResultSet result = Utility.queryOperation(connect, tSql);
             if(result.next()){
                 c = result.getInt("idCollaboration")+1;
+            }else{
+                return 1;
             }
             connect.commit();
             return c;

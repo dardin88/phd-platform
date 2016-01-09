@@ -652,7 +652,7 @@ public class CycleManagerTest {
     public void testInsertCurriculumcicOk(){
         Curriculumcic pCurriculumcic = new Curriculumcic();
         pCurriculumcic.setfkCurriculum("Marketing e Comunicazione");
-        pCurriculumcic.setfkCycle(15);
+        pCurriculumcic.setfkCycle(16);
         try{
             instance.insertCurriculumcic(pCurriculumcic);
             assertTrue(true);
@@ -886,7 +886,7 @@ public class CycleManagerTest {
      */
     @Test
     public void testDeleteCurriculumcicNotExists(){
-        int fkCycle = 15;
+        int fkCycle = 17;
         String fkCurriculum = "Marketing e Comunicazione";
         try{
             instance.deleteCurriculumcic(fkCycle, fkCurriculum);

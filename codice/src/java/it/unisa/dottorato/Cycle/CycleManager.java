@@ -268,7 +268,9 @@ public class CycleManager {
                 cord.setAdmin(false);
                 cord.setTypeAccount(null);
                 cord.setfkAccount(cord.getSecondaryEmail());
-            }
+            }else{
+                 throw new Exception();
+             }
             return cord;
         }finally {
             DBConnection.releaseConnection(connect);
@@ -348,6 +350,8 @@ public class CycleManager {
                 cycle.setDescription(result.getString("description"));
                 cycle.setYear(result.getString("year"));
                 cycle.setFkProfessor(result.getString("fkProfessor"));
+            }else{
+                throw new Exception();
             }
 
             return cycle;
@@ -448,12 +452,18 @@ public class CycleManager {
     public synchronized ArrayList<Professor> viewCollegeCycle(int number) throws ClassNotFoundException,
             SQLException, IOException, IdException, Exception {
         Connection connect = null;
+        Connection connect2 = null;
         ArrayList<Professor> prof=null;
         try {
             prof = new ArrayList<>();
             Professor cord=new Professor();
+            String t= "SELECT  number from cycle where number="+number;  
             // Otteniamo una Connessione al DataBase
             connect = DBConnection.getConnection();
+            connect2 = DBConnection.getConnection();
+            ResultSet result2 = Utility.queryOperation(connect2, t);
+            if(!result2.next())
+                throw new Exception();
 
             /*
              * Prepariamo la stringa SQL per modificare un record 
@@ -504,11 +514,20 @@ public class CycleManager {
     public synchronized void insertCurriculumcic(Curriculumcic pCurriculumcic) throws ClassNotFoundException, 
             SQLException, IOException, NameException,CurriculumcicException, IdException, Exception {
         Connection connect=null;
+        Connection connect1=null;
+        Connection connect2=null;
         try{
+            String t= "SELECT COUNT(*) AS num FROM curriculumcic ";            
+            connect = DBConnection.getConnection();
+            connect1 = DBConnection.getConnection();
+            connect2 = DBConnection.getConnection();
+            ResultSet result1 = Utility.queryOperation(connect1, t);
+            int i=0;
+            if(result1.next())
+                i=result1.getInt("num");
+                  
             
-            CurriculumManager d=CurriculumManager.getInstance();
-            
-            connect = DBConnection.getConnection(); 
+            System.out.println(""+i);
             CurriculumcicManager.getInstance().testCurriculucic(pCurriculumcic);
             /*
              * Prepariamo la stringa SQL per inserire un nuovo record 
@@ -522,14 +541,24 @@ public class CycleManager {
                     + "',"
                     + testNumber(pCurriculumcic.getfkCycle())
                     + ",null)";
-
+            System.out.println(tSql);
             //Inviamo la Query al DataBase
-            if(Utility.executeOperation(connect, tSql)==0)
+            Utility.executeOperation(connect, tSql);
+            ResultSet re = Utility.queryOperation(connect2, t);
+            int ei=0;
+            if(re.next())
+                ei=re.getInt("num");
+            System.out.println(""+ei);
+            if(ei==i)
                 throw new Exception();
-
+                
             connect.commit();
+            connect1.commit();
+            connect2.commit();
         } finally {
             DBConnection.releaseConnection(connect);
+            DBConnection.releaseConnection(connect1);
+            DBConnection.releaseConnection(connect2);
         }
     }
 
@@ -552,7 +581,6 @@ public class CycleManager {
         try {
             // Otteniamo una Connessione al DataBase
             connect = DBConnection.getConnection();
-
             /*
              * Prepariamo la stringa SQL per modificare un record 
              * nella tabella curriculumcic
@@ -565,7 +593,8 @@ public class CycleManager {
                     + CurriculumManager.getInstance().testName(fkCurriculum) + "'";
 
             //Inviamo la Query al DataBase
-            Utility.executeOperation(connect, tSql);
+            if(Utility.executeOperation(connect, tSql)==0)
+                throw new Exception();
             connect.commit();
         } finally {
             DBConnection.releaseConnection(connect);
@@ -589,13 +618,19 @@ public class CycleManager {
     public synchronized ArrayList<Curriculum> getCurriculumcicList(int number) throws ClassNotFoundException, 
             SQLException, IOException, IdException, Exception {
         Connection connect = null;
+        Connection connect2 = null;
         ArrayList<Curriculum> List=null;
         try {
+            String t= "SELECT  fkCycle from curriculumcic where fkCycle="+number;  
             List= new ArrayList<>();
-            
+           // if(CycleManager.getInstance().existCycle(number))
+            //    throw new Exception();
             // Otteniamo una Connessione al DataBase
             connect = DBConnection.getConnection();
-
+            connect2 = DBConnection.getConnection();
+            ResultSet result2 = Utility.queryOperation(connect2, t);
+            if(!result2.next())
+                throw new Exception();
             /*
              * Prepariamo la stringa SQL per la ricerca dei record 
              * nella tabella curriculumcic
@@ -708,8 +743,8 @@ public class CycleManager {
      * @throws SQLException
      * @throws IOException 
      */
-   /*  public boolean existCycle(int number)throws ClassNotFoundException, SQLException, IOException{
-         Connection connect = null;
+    /* public boolean existCycle(int number)throws ClassNotFoundException, SQLException, IOException{
+        Connection connect = null;
         try {         
             connect = DBConnection.getConnection();
             
@@ -720,19 +755,12 @@ public class CycleManager {
             //Inviamo la Query al DataBase
             ResultSet result = Utility.queryOperation(connect, tSql);
             connect.commit();
-            if (result.next()) {
-                DBConnection.releaseConnection(connect);
-                return true;
-            }else{
-                DBConnection.releaseConnection(connect);
-                return false;
-            }
+            return result.next();
         } finally {
             DBConnection.releaseConnection(connect);
         }
     }
-    */
-    
+    */ 
     /** Metodo della classe per il testing di un ciclo; verifica che il ciclo non 
      * sia <code>null</code>
      * 
@@ -753,7 +781,7 @@ public class CycleManager {
      * @throws ReferenceException 
      */
     public String testFkProfessor(String s) throws ReferenceException{
-        if (s==null) return s;
+            if (s==null) throw new ReferenceException();
         if(s.length()<10 || s.length()>50 || !s.contains("@"))
             throw new ReferenceException();
         return s;

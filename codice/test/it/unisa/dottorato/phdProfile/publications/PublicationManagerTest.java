@@ -395,7 +395,7 @@ public class PublicationManagerTest {
     ////////////////////
      @Test
     public void testUpdatePublicationok(){
-        int oldId = 2;
+        int oldId = 1;
         pub.setIdPublication(1);
         pub.setTitle("Prova di pubblicazione");
         pub.setPublicationIssue("Prova");
@@ -405,7 +405,7 @@ public class PublicationManagerTest {
         pub.setType("Demo");
         pub.setAuthors("Marco Orsi");
         pub.setAbstract("Abstract");
-        pub.setFkPhdstudent("prova@gmail.com");
+        pub.setFkPhdstudent("dinucci@hotmail.it");
         
          try{
         instance.update(oldId,pub);

@@ -63,6 +63,7 @@ private static final String TABLE_News = "news";
         //connessione al database
         Connection connect = DBConnection.getConnection();
      try {
+         testid(anews.getId());
             /*
              *stringa SQL per effettuare l'inserimento nella 
              * tabella news
