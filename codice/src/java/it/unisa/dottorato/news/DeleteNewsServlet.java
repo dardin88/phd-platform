@@ -34,7 +34,7 @@ public class DeleteNewsServlet extends HttpServlet {
      */
    
     protected void processRequest(HttpServletRequest request, HttpServletResponse response)
-            throws ServletException, IOException, IdException, SQLException, JSONException {
+            throws ServletException, IOException, IdException, SQLException, JSONException, Exception {
 
         
         response.setContentType("text/html;charset=UTF-8");
@@ -84,6 +84,8 @@ public class DeleteNewsServlet extends HttpServlet {
            Logger.getLogger(DeleteNewsServlet.class.getName()).log(Level.SEVERE, null, ex);
        } catch (JSONException ex) {
             Logger.getLogger(DeleteNewsServlet.class.getName()).log(Level.SEVERE, null, ex);
+        } catch (Exception ex) {
+            Logger.getLogger(DeleteNewsServlet.class.getName()).log(Level.SEVERE, null, ex);
         }
       
     }
@@ -107,6 +109,8 @@ public class DeleteNewsServlet extends HttpServlet {
        } catch (SQLException ex) {
            Logger.getLogger(DeleteNewsServlet.class.getName()).log(Level.SEVERE, null, ex);
        } catch (JSONException ex) {
+            Logger.getLogger(DeleteNewsServlet.class.getName()).log(Level.SEVERE, null, ex);
+        } catch (Exception ex) {
             Logger.getLogger(DeleteNewsServlet.class.getName()).log(Level.SEVERE, null, ex);
         }
        

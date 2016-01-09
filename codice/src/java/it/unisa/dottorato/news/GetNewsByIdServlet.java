@@ -32,7 +32,7 @@ public class GetNewsByIdServlet extends HttpServlet{
      * @throws IOException if an I/O error occurs
      */
     protected void processRequest(HttpServletRequest request, HttpServletResponse response)
-            throws ServletException, IOException, IdException {
+            throws ServletException, IOException, IdException, Exception {
         response.setContentType("text/html;charset=UTF-8");
         try (PrintWriter out = response.getWriter()) {
             int id = Integer.parseInt(request.getParameter("idNews"));
@@ -66,6 +66,8 @@ public class GetNewsByIdServlet extends HttpServlet{
             processRequest(request, response);
         } catch (IdException ex) {
             Logger.getLogger(GetNewsByIdServlet.class.getName()).log(Level.SEVERE, null, ex);
+        } catch (Exception ex) {
+            Logger.getLogger(GetNewsByIdServlet.class.getName()).log(Level.SEVERE, null, ex);
         }
     }
 
@@ -83,6 +85,8 @@ public class GetNewsByIdServlet extends HttpServlet{
         try {
             processRequest(request, response);
         } catch (IdException ex) {
+            Logger.getLogger(GetNewsByIdServlet.class.getName()).log(Level.SEVERE, null, ex);
+        } catch (Exception ex) {
             Logger.getLogger(GetNewsByIdServlet.class.getName()).log(Level.SEVERE, null, ex);
         }
     }
