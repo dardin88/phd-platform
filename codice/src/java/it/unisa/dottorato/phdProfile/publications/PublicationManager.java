@@ -113,7 +113,7 @@ public class PublicationManager {
      * @throws SQLException
      * @throws IOException 
      */
-    public synchronized void update(int oldPublicationID, Publication pPublication) throws ClassNotFoundException, SQLException, IOException,IdException ,PublicationException , TitleException , PublicationIssueException , YearException , NumberPageException , LinkException , TypeException , OtherAuthorsException , pAbstractException, Exception {
+    public synchronized void update(int oldPublicationID, Publication pPublication) throws ClassNotFoundException, SQLException, IOException,IdException ,PublicationException , TitleException , PublicationIssueException , YearException , NumberPageException , LinkException , TypeException , OtherAuthorsException , pAbstractException,Exception {
         try (Connection connect = DBConnection.getConnection()) {
             
             testId(oldPublicationID);
@@ -143,9 +143,7 @@ public class PublicationManager {
                     + "' WHERE idPublication = "
                     + oldPublicationID;           
 
-            if(Utility.executeOperation(connect, tSql)==0)
-                throw new Exception();
-
+            Utility.executeOperation(connect, tSql);
             connect.commit();
         } 
     }

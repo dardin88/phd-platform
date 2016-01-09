@@ -36,7 +36,7 @@ public class DeleteCollaborationServlet extends HttpServlet {
         response.setContentType("text/html;charset=UTF-8");
         PrintWriter out = response.getWriter();
         JSONObject result = new JSONObject();
-        int idCollaboration = Integer.parseInt(request.getParameter("idCollaboration"));
+        int idCollaboration = Integer.parseInt(request.getParameter("id"));
         try {
             CollaborationManager.getInstance().delete(idCollaboration);
         } catch (ClassNotFoundException | SQLException ex) {
@@ -44,7 +44,7 @@ public class DeleteCollaborationServlet extends HttpServlet {
         }
         out.println("<script type=\"text/javascript\">");
         out.println("alert('La collaborazione è stata eliminata');");
-        out.println("location='collaborationActivity.jsp';");
+        out.println("location='profileNuovo.jsp';");
         out.println("</script>");
     }
 

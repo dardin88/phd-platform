@@ -13,11 +13,27 @@ $(document).ready(function () {
 
 
 function getAccountList() {
+
     $.getJSON("getAccountList", function (data) {
+
         $.each(data.account, function (index, value) {
+            var type = value.typeAccount;
+            var realType;
+
+            switch (type) {
+                case "phdstudent":
+                    realType = "Dottorando";
+                    break;
+                case "professor":
+                    realType = "Docente";
+                    break;
+                case "basic":
+                    realType = "Base";
+                    break;
+            }
             account = "<tr><td> " + value.name + " " + value.surname
                     + "</td><td> " + value.secondaryEmail + "</td>"
-                    + "<td> " + value.typeAccount + "</td>"
+                    + "<td> " + realType + "</td>"
                     + "<td><button class='btn btn-blu' id=" + value.email +
                     " onclick='changeType(" + 'id' + ")' > <span class='glyphicon glyphicon-user' aria-hidden='true' ></span> Modifica </button>  </td></tr>";
             $("#accountListTable").append(account);
@@ -31,6 +47,7 @@ function getAccountList() {
 
 function searchForName()
 {
+
     $('#word').on("keyup", function () {
         $("#bodyTable tr").remove();
         var name = $("#word").val();
@@ -38,10 +55,25 @@ function searchForName()
             getAccountList();
         else {
             $.getJSON("SearchUser", {name: name}, function (data) {
+
                 $.each(data.account, function (index, value) {
+                    var type = value.typeAccount;
+                    var realType;
+
+                    switch (type) {
+                        case "phdstudent":
+                            realType = "Dottorando";
+                            break;
+                        case "professor":
+                            realType = "Docente";
+                            break;
+                        case "basic":
+                            realType = "Base";
+                            break;
+                    }
                     account = "<tr><td> " + value.name + " " + value.surname
                             + "</td><td> " + value.secondaryEmail + "</td>"
-                            + "<td> " + value.typeAccount + "</td>"
+                            + "<td> " + realType + "</td>"
                             + "<td><button class='btn btn-blu' id=" + value.email +
                             " onclick='changeType(" + 'id' + ")' > <span class='glyphicon glyphicon-user' aria-hidden='true' ></span> Modifica </button>  </td></tr>";
                     $("#accountListTable").append(account);

@@ -77,7 +77,7 @@ public class AddMissionServlet extends HttpServlet {
 
                 out.println("<script type=\"text/javascript\">");
                 out.println("alert('La missione è stata inserita');");
-                out.println("location='missionActivity.jsp';");
+                out.println("location='profileNuovo.jsp';");
                 out.println("</script>");
             } catch (SQLException ex) {
                 Logger.getLogger(AddMissionServlet.class.getName()).log(Level.SEVERE, null, ex);

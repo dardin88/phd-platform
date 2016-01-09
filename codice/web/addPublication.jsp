@@ -80,6 +80,13 @@
                                                     </div>
                                                     <br>
                                                     <br>
+                                                    <p>Link:</p>
+                                                    <div class="input-group">
+                                                        <span class="input-group-addon"></span>
+                                                        <input class="form-control" name="link" type="text" required>
+                                                    </div>
+                                                    <br>
+                                                    <br>
                                                     <p>Anno:</p>
                                                     <div class="input-group">
                                                         <span class="input-group-addon"></span>

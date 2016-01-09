@@ -39,13 +39,13 @@ public class DeletePublicationServlet extends HttpServlet {
         try {
 
             JSONObject result = new JSONObject();
-            String idPublication = request.getParameter("idPublication");
+            String idPublication = request.getParameter("id");
 
             result.put("result", true);
 
             out.println("<script type=\"text/javascript\">");
             out.println("alert('La pubblicazione è stata eliminata.');");
-            out.println("location='publicationActivity.jsp';");
+            out.println("location='profileNuovo.jsp';");
             out.println("</script>");
             try {
                 PublicationManager.getInstance().delete(idPublication);

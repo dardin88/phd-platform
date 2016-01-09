@@ -1,5 +1,6 @@
 package it.unisa.dottorato.phdProfile.publications;
 
+import it.unisa.dottorato.account.Account;
 import it.unisa.dottorato.account.PhdStudent;
 import it.unisa.dottorato.exception.IdException;
 import it.unisa.dottorato.exception.LinkException;
@@ -80,14 +81,14 @@ public class AddPublicationServlet extends HttpServlet {
                 publication.setAuthors(authors);
                 publication.setAbstract(pAbstract);
                 
-                publication.setFkPhdstudent(loggedPerson.getfkAccount()); // da verificare 
+                publication.setFkPhdstudent(loggedPerson.getfkAccount()); 
 
                 PublicationManager.getInstance().insert(publication);
                 result.put("result", true);
 
                 out.println("<script type=\"text/javascript\">");
                 out.println("alert('La pubblicazione è stata inserita.');");
-                out.println("location='publicationActivity.jsp';");
+                out.println("location='profileNuovo.jsp';");
                 out.println("</script>");
                 
             } catch (SQLException ex) {

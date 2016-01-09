@@ -71,8 +71,8 @@
                     other1.style.display = 'none';
                 }
                 if (x === 'table-coll') {
-                    links[0].style.background = 'white';
-                    links[1].style.background = '#e5e5e5';
+                    links[1].style.background = 'white';
+                    links[0].style.background = '#e5e5e5';
                     links[2].style.background = '#e5e5e5';
                     document.getElementsByTagName("li")[1].className = 'active';
                     var blessed = document.getElementById(x);
@@ -83,9 +83,9 @@
                     other1.style.display = 'none';
                 }
                 if (x === 'table-miss') {
-                    links[0].style.background = 'white';
+                    links[2].style.background = 'white';
                     links[1].style.background = '#e5e5e5';
-                    links[2].style.background = '#e5e5e5';
+                    links[0].style.background = '#e5e5e5';
                     document.getElementsByTagName("li")[2].className = 'active';
                     var blessed = document.getElementById(x);
                     var other = document.getElementById('table-coll');
@@ -113,6 +113,10 @@
 
             #table-miss {
                 display:none;
+            }
+            
+            .bottoni > a:hover {
+                cursor:pointer;
             }
             
             #showArrow {
@@ -217,12 +221,12 @@
                                     %>
                                     <tr>
                                         <td colspan="2">
-                                            <% File file = new File(getServletContext().getRealPath("") + "\\tesi" + File.separator + loggedPerson.getName() + "_" + loggedPerson.getSurname() + ".pdf");
+                                            <% File file = new File(getServletContext().getRealPath("") + "\\tesi" + File.separator + loggedPerson.getEmail() + ".pdf");
                                                if(file.exists()) {
                                             %>
                                             <br>
                                             <br>
-                                            <a href="tesi\<%= loggedPerson.getName() + "_" + loggedPerson.getSurname() + ".pdf"%>" download><b>Download Tesi</b></a>
+                                            <a href="tesi\<%= loggedPerson.getEmail() + ".pdf"%>" download><b>Download Tesi</b></a>
                                          <%} %>
                                             <br>
                                             <h3 id = "diocane"> Attività di ricerca </h3> <br>
@@ -236,9 +240,9 @@
                                             <div id="rawr">
                                                 <div class="panel-heading">
                                                     <ul class="nav nav-tabs" >
-                                                        <li role="presentation" onclick="display('table-pub')"><a>Pubblicazioni</a></li>
-                                                        <li role="presentation" onclick="display('table-coll')"><a>Collaborazioni</a></li>
-                                                        <li role="presentation" onclick="display('table-miss')"><a>Mission</a></li>
+                                                        <li class="bottoni" role="presentation" onclick="display('table-pub')"><a>Pubblicazioni</a></li>
+                                                        <li class="bottoni" role="presentation" onclick="display('table-coll')"><a>Collaborazioni</a></li>
+                                                        <li class="bottoni" role="presentation" onclick="display('table-miss')"><a>Mission</a></li>
                                                     </ul>
                                                     <br>
 
