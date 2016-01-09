@@ -141,56 +141,8 @@ public class PresenceManager {
       
   
    
-   /** Metodo della classe incaricato di ritornare la lista delle presenze di una lezione
-    * 
-     * @param lesson
-    * @return restituisce un array list di presenze, lancia un'eccezione altrimenti
-    * @throws ClassNotFoundException
-    * @throws SQLException
-    * @throws IOException 
-    */
-  
    
-   public synchronized ArrayList<Presence> getPresenceList(int lesson) throws ClassNotFoundException, SQLException, IOException, IdException {
-        Connection connect = null;
-        try {
-            ArrayList<Presence> classList = new ArrayList <Presence>();
-          Presence registro;
-            // Otteniamo una Connessione al DataBase
-            connect = DBConnection.getConnection();
-
-            /*
-             * Prepariamo la stringa SQL per la ricerca dei record 
-             * nella tabella presence
-             */
-            String tSql = "SELECT name, surname ,isPresent FROM account,presence "
-                    + " WHERE secondaryEmail = fkPhdstudent and fkLesson= "+testid(lesson);
-
-            //Inviamo la Query al DataBase
-            ResultSet result = Utility.queryOperation(connect, tSql);
-
-            while (result.next()) {
-                /*String  nome =result.getString("name");
-                String surname= result.getString("surname");
-                boolean isPresent=result.getBoolean("isPresent");
-                */
-                 registro = new Presence();
-                  registro.setFkPhdstudent(result.getString("fkPhdstudent"));
-                  registro.setFkLesson(result.getInt("fkLesson"));
-                 registro.setIsPresent(result.getBoolean("isPresent"));
-
-                classList.add(registro);
-            }
-
-            return classList;
-
-        } finally {
-            DBConnection.releaseConnection(connect);
-        }
-    }
-    
-
-      
+   
    
  
    /**metodo che dato un idCorso restituisce tutti i dottorandi che seguono quel corso
@@ -221,7 +173,7 @@ public class PresenceManager {
         " FROM presence, account, lesson " +
         " where presence.fkPhdstudent = account.secondaryEmail " +
          " and presence.fkLesson = lesson.idLesson " +
-          " and lesson.fkCourse="+testid(idCorso)+
+          " and lesson.fkCourse= "+testid(idCorso)+
           " group by account.secondaryEmail" ;
             //Inviamo la Query al DataBase
             ResultSet result = Utility.queryOperation(connect, tSql);
@@ -276,7 +228,7 @@ public class PresenceManager {
             String tSql = "SELECT  presence.isPresent, presence.fkLesson, presence.fkPhdstudent " +
                " FROM presence, lesson " +
            " where presence.fkLesson = lesson.idLesson " +
-            "and lesson.fkCourse ="+testid(idCorso) +" and presence.fkPhdstudent = '"
+            " and lesson.fkCourse ="+testid(idCorso) +" and presence.fkPhdstudent = '"
                     +testDottorando(dottorando) 
              +"' order by date" ;
             //Inviamo la Query al DataBase
