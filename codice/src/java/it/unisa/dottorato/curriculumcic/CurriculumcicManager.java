@@ -309,14 +309,20 @@ public class CurriculumcicManager {
     public synchronized void insertPhdSudent(Curriculumcic pCurriculumcic, String fkPhdstudent) throws
             ClassNotFoundException, SQLException, IOException, ReferenceException, IdException, NameException, CurriculumcicException, Exception {
         Connection connect = null;
+        Connection connect1 = null;
         try {
             // Otteniamo una Connessione al DataBase
             connect = DBConnection.getConnection();
+            connect1 = DBConnection.getConnection();
             testCurriculucic(pCurriculumcic);
-            /*
-             * Prepariamo la stringa SQL per effettuare la modifica alla 
-             * tabella phdstudent
-             */
+            String t="select fkCycle from phdstudent where fkAccount='"+fkPhdstudent;
+            ResultSet s=Utility.queryOperation(connect1, t);
+            if(s.next()){
+                if(s.getInt("fkCycle")>0)
+                    return;
+            }
+            
+            
             String tSql = "UPDATE phdstudent SET fkCurriculum = '"
                     + CurriculumManager.getInstance().testName(pCurriculumcic.getfkCurriculum())
                     + "',fkCycle = "
