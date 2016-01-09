@@ -163,50 +163,6 @@ public class PresenceManagerTest {
     }
 
     @Test
-    public void testGetPresenceListOk(){
-        int lesson = 1;
-        try{
-            instance.getPresenceList(lesson);
-            assertTrue(true);
-        }catch(Exception e){
-            fail("non sono riuscito a fare l' op");
-        }
-    }
-        
-    @Test
-    public void testGetPresenceListLessonMin(){
-        int lesson = -41;
-        try{
-            instance.getPresenceList(lesson);
-            fail("sono riuscito a fare l' op");
-        }catch(Exception e){
-            assertTrue(true);
-        }
-    }
-    
-    @Test
-    public void testGetPresenceListLessonMax(){
-        int lesson = 98989889;
-        try{
-            instance.getPresenceList(lesson);
-            fail("sono riuscito a fare l' op");
-        }catch(Exception e){
-            assertTrue(true);
-        }
-    }
-    
-    @Test
-    public void testGetPresenceListLessonNotExists(){
-        int lesson = 98989;
-        try{
-            instance.getPresenceList(lesson);
-            fail("sono riuscito a fare l' op");
-        }catch(Exception e){
-            assertTrue(true);
-        }
-    }
-
-    @Test
     public void testGetPresenceDottorandiOk(){
         int idCorso = 1;
         try{
