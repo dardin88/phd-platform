@@ -6,7 +6,6 @@
 package it.unisa.dottorato.phdProfile.missions;
 
 import it.unisa.dottorato.account.PhdStudent;
-import java.sql.SQLException;
 import java.util.Date;
 import org.junit.After;
 import org.junit.Before;
@@ -45,15 +44,15 @@ public class MissionManagerTest {
 
     /**
      * Test of insert method, of class MissionManager.
-     * @throws java.lang.Exception
      */
     @Test
     public void testInsertOk(){
+        m.setIdMission(2);
         m.setDescription("prova");
         m.setPlace("unisaProva");
         m.setReference("io");
-        m.setStartDate(new Date(2014, 02, 15));
-        m.setEndDate(new Date(2015, 02, 05));
+        m.setStartDate(new java.sql.Date(2014, 02, 05));
+        m.setEndDate(new java.sql.Date(2015, 02, 05));
         m.setFkPhdstudent("dinucci@hotmail.it");
         try{
             instance.insert(m);
@@ -280,8 +279,8 @@ public class MissionManagerTest {
         m.setDescription("prova");
         m.setPlace("unisaProva");
         m.setReference("io");
-        m.setStartDate(new Date(2014, 02, 15));
-        m.setEndDate(new Date(2015, 02, 05));
+        m.setStartDate(new java.sql.Date(2014, 02, 15));
+        m.setEndDate(new java.sql.Date(2015, 02, 05));
         try{
             instance.update(oldMissionID, m);
             assertTrue(true);
@@ -498,7 +497,6 @@ public class MissionManagerTest {
     }
     /**
      * Test of delete method, of class MissionManager.
-     * @throws java.lang.Exception
      */
     @Test
     public void testDeleteIdOk(){
@@ -506,14 +504,15 @@ public class MissionManagerTest {
         m.setDescription("prova");
         m.setPlace("unisaProva");
         m.setReference("io");
-        m.setStartDate(new Date(2014, 02, 15));
-        m.setEndDate(new Date(2015, 02, 05));
+        m.setStartDate(new java.sql.Date(2014, 02, 05));
+        m.setEndDate(new java.sql.Date(2015, 02, 05));
         m.setFkPhdstudent("dinucci@hotmail.it");
-       
-        int pMissionID = 2;
+        try{
+            instance.insert(m);
+        }catch(Exception e){}
+        
         try{ 
-           
-            instance.delete(pMissionID);
+            instance.delete(instance.nextNumber()-1);
             assertTrue(true);
         }catch(Exception e){
             fail("non sono riuscito a fare l' op");
@@ -522,7 +521,6 @@ public class MissionManagerTest {
     
     /**
      * Test of delete method, of class MissionManager.
-     * @throws java.lang.Exception
      */
     @Test
     public void testDeleteIdMin(){

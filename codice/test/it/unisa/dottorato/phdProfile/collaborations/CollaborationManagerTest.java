@@ -14,7 +14,7 @@ import static org.junit.Assert.*;
 
 /**
  *
- * @author Tommaso
+ * @author Giuseppe Picciocchi
  */
 public class CollaborationManagerTest {
     private CollaborationManager instance;
@@ -346,8 +346,8 @@ public class CollaborationManagerTest {
     public void testUpdateEndDateMin(){
         int old=1;
         c.setDescription("prova");
-        c.setEndDate(new Date(225,10,05));
-        c.setIstitution("Dipartimento di Informatica");
+        c.setEndDate(new Date(-985,10,05));
+        c.setIstitution("");
         c.setStartDate(new Date(2015,10,05));
         try{
             instance.update(old,c);
@@ -400,8 +400,8 @@ public class CollaborationManagerTest {
         int old=1;
         c.setDescription("prova");
         c.setEndDate(new Date(2005,10,05));
-        c.setIstitution("Dipartimento di Informatica");
-        c.setStartDate(new Date(201,10,05));
+        c.setIstitution("");
+        c.setStartDate(new Date(-99,10,05));
         try{
             instance.update(old,c);
             fail("sono riuscito a fare l' op");

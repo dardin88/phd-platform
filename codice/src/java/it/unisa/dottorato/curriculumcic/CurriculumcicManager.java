@@ -203,9 +203,16 @@ public class CurriculumcicManager {
             ClassNotFoundException, SQLException, IOException, IdException, NameException, CurriculumcicException  {
         Professor cord=new Professor();
         Connection connect = null;
+        Connection connect2 = null;
         try {
             // Otteniamo una Connessione al DataBase
             connect = DBConnection.getConnection();
+            connect2 = DBConnection.getConnection();
+            String t="select * from curriculumcic"
+                    + " where fkCycle="+pCurriculumcic.getfkCycle()+" and fkCurriculum='"+pCurriculumcic.getfkCurriculum()+"'";
+            ResultSet result2 = Utility.queryOperation(connect, t);
+            if(!result2.next())
+                throw new NameException();
             testCurriculucic(pCurriculumcic);
             /*
              * Prepariamo la stringa SQL per effettuare la modifica alla 
@@ -345,6 +352,7 @@ public class CurriculumcicManager {
     public synchronized ArrayList<Professor> viewProfessorList(Curriculumcic curriculumcic) throws 
             ClassNotFoundException, SQLException, IOException, CurriculumcicException, IdException, NameException {
         Connection connect = null;
+        Connection connect2 = null;
         ArrayList<Professor> prof=null;
         try {
             testCurriculucic(curriculumcic);
@@ -352,7 +360,12 @@ public class CurriculumcicManager {
             Professor cord=new Professor();
             // Otteniamo una Connessione al DataBase
             connect = DBConnection.getConnection();
-
+            connect2 = DBConnection.getConnection();
+            String t="select * from curriculumcic"
+                    + " where fkCycle="+curriculumcic.getfkCycle()+" and fkCurriculum='"+curriculumcic.getfkCurriculum()+"'";
+            ResultSet result2 = Utility.queryOperation(connect, t);
+            if(!result2.next())
+                throw new CurriculumcicException();
             /*
              * Prepariamo la stringa SQL per modificare un record 
              * nella tabella teach
@@ -403,13 +416,19 @@ public class CurriculumcicManager {
     public synchronized ArrayList<PhdStudent> viewPhdstudentCurriculumcic(Curriculumcic curriculumcic) 
             throws ClassNotFoundException, SQLException, IOException, IdException, NameException {
         Connection connect = null;
+        Connection connect2 = null;
         ArrayList<PhdStudent> stud=null;
         try {
             stud = new ArrayList<>();
             PhdStudent cord=new PhdStudent();
             // Otteniamo una Connessione al DataBase
             connect = DBConnection.getConnection();
-
+            connect2 = DBConnection.getConnection();
+            String t="select * from curriculumcic"
+                    + " where fkCycle="+curriculumcic.getfkCycle()+" and fkCurriculum='"+curriculumcic.getfkCurriculum()+"'";
+            ResultSet result2 = Utility.queryOperation(connect, t);
+            if(!result2.next())
+                throw new NameException();
             /*
              * Prepariamo la stringa SQL per modificare un record 
              * nella tabella phdstudent

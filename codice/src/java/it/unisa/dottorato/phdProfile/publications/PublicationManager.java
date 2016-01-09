@@ -405,7 +405,7 @@ public class PublicationManager {
      * @throws pAbstractException 
      */
     public String testAbstract(String pAbstract) throws pAbstractException {
-        if(pAbstract.isEmpty()){
+        if(pAbstract.isEmpty() || pAbstract.length()>65536){
             
             throw new pAbstractException("il campo dell'abstract e' sbagliato"); 
         }
@@ -433,7 +433,7 @@ public class PublicationManager {
      * @throws ReferenceException 
      */
     public String testfkPhdStudent(String fkPhdstudent) throws ReferenceException {
-        if(fkPhdstudent.isEmpty()||fkPhdstudent.length()>50){
+        if(fkPhdstudent.isEmpty() || !(fkPhdstudent.contains("@")) ||fkPhdstudent.length()>50){
             
             throw new ReferenceException("il campo per il riferimento al PhdStudent e' sbagliato"); 
         }
