@@ -119,6 +119,7 @@ function addCycleButton()
     $("#descriptionPanel").hide();
     $("#coordinatoreCurriculumDiv").hide();
     $("#DocentiCurriculumDiv").hide();
+    $("#StudentiCurriculumDiv").hide();
 
 
     $("#cycleTitle").html("Aggiunta di un nuovo ciclo");
@@ -161,6 +162,7 @@ function viewCollegio()
     $("#DocentiCurriculumDiv").hide();
     $("#sezioneCurriculum").hide();
     $("#buttonCloseSezioneCurriculum").hide();
+    $("#StudentiCurriculumDiv").hide();
 
 }
 

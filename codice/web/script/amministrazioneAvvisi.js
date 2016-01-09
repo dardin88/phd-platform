@@ -12,7 +12,6 @@ $(document).ready(function () {
 
 function getNewsList()
 {
-    //alert("siamo in getnewslist");
     $("#divPanelAddORModify").hide();
     $("#accountListTable tr").remove();
     $("#tableDiv").show();
@@ -31,7 +30,6 @@ function getNewsList()
 
 function addNewsButton()
 {
-    //alert("bottone INSERIMENTO premuto");
     $("#saveNewsAdd").show();
     $("#saveNewsModify").hide();
 
@@ -49,12 +47,11 @@ function addNewsButton()
         // Invio dati alla servlet per l'inserimento della news
         $.getJSON("InsertNews",
                 {title: newsTitle, description: newsDescription}, function (data) {
-            //alert("news aggiunta correttamente");
             $("#divPanelAddORModify").hide();
             $("#accountListTable tr").remove();
-            getNewsList();
+            location.reload();
         });
-        
+
 
     });
 
@@ -67,7 +64,6 @@ function modifyNewsButton(id)
     $("#saveNewsModify").show();
 
     $("#descriptionPanel").hide();
-    // alert("bottone MODIFICA premuto " + id);
     $("#tableDiv").hide();
     $("#divPanelAddORModify").show();
 
@@ -78,34 +74,29 @@ function modifyNewsButton(id)
     });
 
     $("#saveNewsModify").click(function () {
-        // alert("hai clickato salva");
         // Invio dati alla servlet per la modifica della news
         $.getJSON("ModifyNews",
                 {idNews: id, title: $("#newsTitle").val(), description: $("#newsDescription").val()}, function (data) {
-            //alert("news modificata correttamente");
-            
-            getNewsList();
+            location.reload();
         });
 
-        
+
     });
-    
+
 }
 
 
 function removeNewsButton(id)
 {
-    //alert("bottone ELIMINAZIONE premuto " + id);
     $("#descriptionPanel").hide();
 
     // Servlet per la rimozione della news
     $.getJSON("DeleteNews", {idNews: id}, function (data) {
-       // alert("news eliminata correttamente");
         $("#accountListTable tr").remove();
         $("#tableDiv").hide();
         getNewsList();
     });
-     
+
 
 }
 
