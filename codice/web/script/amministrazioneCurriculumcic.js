@@ -49,11 +49,11 @@ function selectedItem()
 
         //servlet per riempire la tabella con tutti i professori del collegio
         $.getJSON("ViewCollegeCycleServlet", {number: selectedCycle}, function (data) {
-
             $.each(data.prof, function (index, value) {
-
                 professorColl = "<tr> <td> " + value.name + "</td> <td> " + value.surname + "</td> </tr> "; // la secondaryEmail è la chiave primaria del professore che dovrà essere settato come nuovo tutor
                 $("#bodyCollegio").append(professorColl);
+                professor = "<tr> <td> " + value.name + "</td> <td> " + value.surname + "</td>   <td> <button class='btn btn-orange' id=" + value.secondaryEmail + " onclick='addTutorButton(" + 'id' + ")' > <span class='glyphicon glyphicon-sort' aria-hidden='true' ></span> Aggiorna </button>  </td>  </tr> "; // la secondaryEmail è la chiave primaria del professore che dovrà essere settato come nuovo tutor
+                $("#tutorTableList").append(professor);
             });
         });
 
@@ -66,17 +66,7 @@ function selectedItem()
         });
 
 
-
-        //servlet per riempire la tabella con tutti i professori
-        $.getJSON("GetProfessorsList", function (data) {
-            $.each(data.account, function (index, value) {
-                professor = "<tr> <td> " + value.name + "</td> <td> " + value.surname + "</td>   <td> <button class='btn btn-orange' id=" + value.secondaryEmail + " onclick='addTutorButton(" + 'id' + ")' > <span class='glyphicon glyphicon-sort' aria-hidden='true' ></span> Aggiorna </button>  </td>  </tr> "; // la secondaryEmail è la chiave primaria del professore che dovrà essere settato come nuovo tutor
-                $("#tutorTableList").append(professor);
-            });
-        });
-
-
-        //servlet per richiamare i curriculum attivi nel ciclo selezionato
+ //servlet per richiamare i curriculum attivi nel ciclo selezionato
         $.getJSON("GetCurriculumcicList", {number: selectedCycle}, function (data) {
             $.each(data.curriculumcicList, function (index, value) {
                 curriculum = "<tr> <td> " + value.name + "</td>   <td> <button class='btn btn-blue' id='" + value.name + "' onclick='viewCurriculumButton(" + 'id' + ")' >  Visualizza </button>  </td>  <td> <button class='btn btn-red' id='" + value.name + "' onclick='removeCurriculumButton(" + 'id' + ")' >  Elimina </button>  </td>  </tr> "; // la secondaryEmail è la chiave primaria del professore che dovrà essere settato come nuovo tutor
@@ -241,6 +231,7 @@ function viewCurriculumButton(id)
     $("#descriptionPanel").show();
     $("#coordinatoreCurriculumDiv").show();
     $("#coordinatoreCurriculumDiv tr").remove();
+    $("#ProfessorsSelectebleList option").remove();
     $("#DocentiCurriculumDiv").show();
     //$("#CurriculumTutorNameField").html("nessun tutor");
 
@@ -271,13 +262,20 @@ function viewCurriculumButton(id)
      
     
     //servlet per riempire la tabella con tutti i professori del collegio
-        $.getJSON("ViewProfessorListServlet", {fkCycle: selectedCycle, fkCurriculum: id, fkProfessor:null}, function (data) {
+        $.getJSON("ViewProfessorListServlet", {fkCycle: selectedCycle, fkCurriculum: id}, function (data) {
             $.each(data.prof, function (index, value) {
                 professore = "<tr> <td> " + value.name + " " + value.surname + "</td>   <td> <button class='btn btn-red' id=" + value.secondaryEmail + " onclick='removeProfessorFromCurriculum(" + 'id' + ")' > <span class='glyphicon glyphicon-remove' aria-hidden='true' ></span> Rimuovi </button>  </td>  </tr> "; // la secondaryEmail è la chiave primaria del professore che dovrà essere settato come nuovo tutor
                 $("#CurriculumDocentiTableList").append(professore);
             });
         });
     
+    //servlet per richiamare la lista dei professori all'interno della select per aggiungere un nuovo professore al curriculum
+    $.getJSON("GetProfessorsList", function (data) {
+        $.each(data.account, function (index, value) {
+            professorToAppend = "<option class='optionItem' value='" + value.secondaryEmail + "'> " + value.name + " " + value.surname + " </option> ";
+            $("#ProfessorsSelectebleList").append(professorToAppend);
+        });
+    });
     
 }
 
@@ -387,4 +385,20 @@ function removeCurriculumTutorButton()
 function removeProfessorFromCurriculum(id)
 {
  alert(id);   
+}
+
+function selectedProfessortoAdd()
+{
+    
+        selectedProfessorToAdd = $("#ProfessorsSelectebleList option:selected").val();
+        //alert(selectedProfessorToAdd);
+        
+        //servlet per inserire il professore selezionato
+        $.getJSON("InsertProfessor", {fkCycle: selectedCycle, fkCurriculum: selectedDescriptionCurriculum, teach: selectedProfessorToAdd}, function (data) {
+                $("#ProfessorsSelectebleList option").remove();
+                $("#CurriculumDocentiTableList tr").remove();
+                selectedItem();
+                viewCurriculumButton(selectedDescriptionCurriculum);
+            });
+      
 }

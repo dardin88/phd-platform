@@ -22,7 +22,7 @@ import org.json.JSONObject;
  *
  * @author Tommaso Minichiello
  */
-@WebServlet(name = "InsertProfessor", urlPatterns = {"/dottorato/InsertProfessor"})
+@WebServlet(name = "InsertProfessor", urlPatterns = {"/InsertProfessor"})
 public class InsertProfessorServlet extends HttpServlet {
 
     /**
@@ -51,14 +51,13 @@ public class InsertProfessorServlet extends HttpServlet {
             JSONObject result = new JSONObject();
             int number = Integer.parseInt( request.getParameter("fkCycle"));
             String name = request.getParameter("fkCurriculum");
-            String coordinatore = request.getParameter("fkProfessor");
-            
+            //String coordinatore = request.getParameter("fkProfessor");
             String prof= request.getParameter("teach");
             
             Curriculumcic curr=new Curriculumcic();
             curr.setfkCycle(number);
             curr.setfkCurriculum(name);
-            curr.setfkProfessor(coordinatore);
+            //curr.setfkProfessor(coordinatore);
             
             
             result.put("result", true);

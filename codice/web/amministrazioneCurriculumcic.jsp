@@ -306,7 +306,7 @@
                     </div>   
                     
                     
-                    <div class="col-lg-4 col-lg-offset-0 col-md-8 col-md-offset-2 col-sm-10 col-sm-offset-1 col-xs-12" > 
+                    <div class="col-lg-7 col-lg-offset-0 col-md-8 col-md-offset-2 col-sm-10 col-sm-offset-1 col-xs-12" > 
                         <div class="panel panel-default" id="DocentiCurriculumDiv" hidden>
                             <div class="panel-heading">
                                 <h4>Docenti</h4>
@@ -324,7 +324,15 @@
                             </div>
 
                             <div class="panel-footer" style="background-color: transparent">
-                                
+                                <div class="form-group" id="selectProfessor" >
+                                    <label for="sel1">Seleziona un professore da aggiungere al curriculum</label>
+                                    <select class="form-control" id="ProfessorsSelectebleList"  >
+                                    </select>
+
+
+                                    <br>
+                                    <input type="button" id="addProfessorsToCurrButton" class="btn btn-secondary btn-block" value="Aggiungi il professore selezionato" onclick="selectedProfessortoAdd()"> 
+                                </div>
                             </div>  
                         </div>
                     </div>   
