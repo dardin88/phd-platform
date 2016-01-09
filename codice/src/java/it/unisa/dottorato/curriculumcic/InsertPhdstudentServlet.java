@@ -42,7 +42,7 @@ public class InsertPhdstudentServlet extends HttpServlet {
      * @throws it.unisa.dottorato.exception.IdException
      */
     protected void processRequest(HttpServletRequest request, HttpServletResponse response)
-            throws ServletException, IOException, CurriculumcicException, ReferenceException, NameException, IdException {
+            throws ServletException, IOException, CurriculumcicException, ReferenceException, NameException, IdException, Exception {
 
         try {
             response.setContentType("text/html;charset=UTF-8");
@@ -51,7 +51,6 @@ public class InsertPhdstudentServlet extends HttpServlet {
             JSONObject result = new JSONObject();
             int number = Integer.parseInt( request.getParameter("fkCycle"));
             String name = request.getParameter("fkCurriculum");
-            
             String dott= request.getParameter("fkPhdstudent");
             
             Curriculumcic curr=new Curriculumcic();
@@ -63,7 +62,7 @@ public class InsertPhdstudentServlet extends HttpServlet {
             result.put("result", true);
             
             try {
-                CurriculumcicManager.getInstance().insertProfessor(curr,dott);
+                CurriculumcicManager.getInstance().insertPhdSudent(curr,dott);
             } catch (ClassNotFoundException | SQLException ex) {
                 result.put("result", false);
                 Logger.getLogger(InsertPhdstudentServlet.class.getName()).log(Level.SEVERE, null, ex);
@@ -99,6 +98,8 @@ public class InsertPhdstudentServlet extends HttpServlet {
             Logger.getLogger(InsertPhdstudentServlet.class.getName()).log(Level.SEVERE, null, ex);
         } catch (IdException ex) {
             Logger.getLogger(InsertPhdstudentServlet.class.getName()).log(Level.SEVERE, null, ex);
+        } catch (Exception ex) {
+            Logger.getLogger(InsertPhdstudentServlet.class.getName()).log(Level.SEVERE, null, ex);
         }
     }
 
@@ -122,6 +123,8 @@ public class InsertPhdstudentServlet extends HttpServlet {
         } catch (NameException ex) {
             Logger.getLogger(InsertPhdstudentServlet.class.getName()).log(Level.SEVERE, null, ex);
         } catch (IdException ex) {
+            Logger.getLogger(InsertPhdstudentServlet.class.getName()).log(Level.SEVERE, null, ex);
+        } catch (Exception ex) {
             Logger.getLogger(InsertPhdstudentServlet.class.getName()).log(Level.SEVERE, null, ex);
         }
     }

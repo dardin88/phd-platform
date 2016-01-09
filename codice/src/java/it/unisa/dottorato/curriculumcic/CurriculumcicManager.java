@@ -357,7 +357,6 @@ public class CurriculumcicManager {
         try {
             testCurriculucic(curriculumcic);
              prof= new ArrayList<>();
-            Professor cord=new Professor();
             // Otteniamo una Connessione al DataBase
             connect = DBConnection.getConnection();
             connect2 = DBConnection.getConnection();
@@ -382,6 +381,7 @@ public class CurriculumcicManager {
             //Inviamo la Query al DataBase
             ResultSet result = Utility.queryOperation(connect, tSql);
             while (result.next()) {
+                Professor cord=new Professor();
                 cord.setEmail(result.getString("email"));
                 cord.setSecondaryEmail(result.getString("secondaryEmail"));
                 cord.setSurname(result.getString("surname"));
@@ -420,7 +420,6 @@ public class CurriculumcicManager {
         ArrayList<PhdStudent> stud=null;
         try {
             stud = new ArrayList<>();
-            PhdStudent cord=new PhdStudent();
             // Otteniamo una Connessione al DataBase
             connect = DBConnection.getConnection();
             connect2 = DBConnection.getConnection();
@@ -444,6 +443,7 @@ public class CurriculumcicManager {
             //Inviamo la Query al DataBase
             ResultSet result = Utility.queryOperation(connect, tSql);
             while (result.next()) {
+                PhdStudent cord=new PhdStudent();
                 cord.setEmail(result.getString("email"));
                 cord.setSecondaryEmail(result.getString("secondaryEmail"));
                 cord.setSurname(result.getString("surname"));
