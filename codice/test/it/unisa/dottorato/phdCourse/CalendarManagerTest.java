@@ -659,13 +659,13 @@ public class CalendarManagerTest {
     public void testUpdateLessonok(){
            int oldId = 1;
         les.setIdLesson(1);    
-       // les.setDate(new Date(2015-12-12));
+        les.setDate(new java.sql.Date(2015,10,12));
         les.setStartTime("12:00");
         les.setEndTime("13:22");
         les.setName("BD");
         les.setDescription("Lezione Basi di dati");
         les.setClassroom("P1");
-        les.setFK_course(6);
+        les.setFK_course(1);
          try{
              instance.update_lesson(oldId,les);
              assertTrue(true);
@@ -965,18 +965,17 @@ public class CalendarManagerTest {
     
      @Test
     public void testUpdateSeminarok() throws Exception {
-       int oldId = 2;
+       int oldId = 1;
         sem.setIdSeminar(1);
-      //  sem.setDate(new Date(2015,15,12));
+        sem.setDate(new java.sql.Date(2015,10,12));
         sem.setStartTime("12:00");
         sem.setEndTime("15:00");
         sem.setName("Algoritmi");
         sem.setNameSpeacker("Antonio Verdi");
         sem.setDescription("Seminario su algoritmi avanzati");
         sem.setPlace("aula p2");
-        sem.setFK_course(2);
-        
-         try{
+        sem.setFK_course(1);
+        try{
             instance.update_seminar(oldId,sem);
             assertTrue(true);
         }catch(Exception x){
@@ -1261,11 +1260,21 @@ public class CalendarManagerTest {
     
     @Test
     public void testDeleteSeminarok() throws Exception {
-        String oldId = "2";
-        sem.setIdSeminar(2);
+        sem.setIdSeminar(1);
+        sem.setDate(new java.sql.Date(2015,10,12));
+        sem.setStartTime("12:00");
+        sem.setEndTime("15:00");
+        sem.setName("Algoritmi");
+        sem.setNameSpeacker("Antonio Verdi");
+        sem.setDescription("Seminario su algoritmi avanzati");
+        sem.setPlace("aula p2");
+        sem.setFK_course(1);
         try{
             instance.insert_seminar(sem);
-            instance.delete_seminar(oldId);
+        }catch(Exception e){}
+        int c=instance.nextNumberSeminar()-1;
+        try{
+            instance.delete_seminar(""+c);
             assertTrue(true);
         }catch(Exception x){
                fail("sono riuscito a fare l' op"); 
