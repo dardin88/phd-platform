@@ -39,7 +39,7 @@ public class ModifyNewsServlet extends HttpServlet {
      * @throws IOException if an I/O error occurs
      */
       protected void processRequest(HttpServletRequest request, HttpServletResponse response)
-            throws ServletException, IOException, IdException, TitleException, DescriptionException{
+            throws ServletException, IOException, IdException, TitleException, DescriptionException, Exception{
         response.setContentType("text/html;charset=UTF-8");
 
         PrintWriter out = response.getWriter();
@@ -96,6 +96,8 @@ public class ModifyNewsServlet extends HttpServlet {
               Logger.getLogger(ModifyNewsServlet.class.getName()).log(Level.SEVERE, null, ex);
           } catch (DescriptionException ex) {
               Logger.getLogger(ModifyNewsServlet.class.getName()).log(Level.SEVERE, null, ex);
+          } catch (Exception ex) {
+              Logger.getLogger(ModifyNewsServlet.class.getName()).log(Level.SEVERE, null, ex);
           }
     }
 
@@ -117,6 +119,8 @@ public class ModifyNewsServlet extends HttpServlet {
           } catch (TitleException ex) {
               Logger.getLogger(ModifyNewsServlet.class.getName()).log(Level.SEVERE, null, ex);
           } catch (DescriptionException ex) {
+              Logger.getLogger(ModifyNewsServlet.class.getName()).log(Level.SEVERE, null, ex);
+          } catch (Exception ex) {
               Logger.getLogger(ModifyNewsServlet.class.getName()).log(Level.SEVERE, null, ex);
           }
     }

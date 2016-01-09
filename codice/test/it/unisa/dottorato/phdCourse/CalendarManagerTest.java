@@ -57,20 +57,19 @@ public class CalendarManagerTest {
 
     @Test
     public void testInsertCurseok(){
-       
         cur.setIdCourse(1);
-        cur.setFK_curriculum("Il curriculum è di prova");
-        cur.setFK_cycle(2);
+        cur.setFkCurriculum("Marketing e Comunicazione");
+        cur.setFkCycle(15);
         cur.setName("Basi di dati");
         cur.setDescription("Il corso di basi di dati verterà su argomenti avanzati di SQL");
-        cur.setStartDate(new Date(2015,12,12));
-        cur.setEndDate(new Date(2016,12,12));
+        cur.setStartDate(new java.sql.Date(2015,10,12));
+        cur.setEndDate(new java.sql.Date(2016,10,12));
         
          try{
             instance.insert_course(cur);
              assertTrue(true);
         }catch(Exception x){
-           fail("sono riuscito a fare l' op");
+           fail("non sono riuscito a fare l' op");
         }
     }
     
@@ -103,7 +102,7 @@ public class CalendarManagerTest {
     @Test
     public void testInsertMinCurriculum() {
         cur.setIdCourse(1); 
-        cur.setFK_curriculum("");
+        cur.setFkCurriculum("");
          try{
             instance.insert_course(cur);
             fail("lunghezza minima non raggiunta");
@@ -115,7 +114,7 @@ public class CalendarManagerTest {
     @Test
     public void testInsertMaxCurriculum(){
         cur.setIdCourse(1); 
-        cur.setFK_curriculum("Prova superamento stringa,Prova superamento stringa,Prova superamento stringa,Prova superamento stringa,Prova superamento stringa,Prova superamento stringa,Prova superamento stringa,Prova superamento stringa,Prova superamento stringa,Prova superamento stringa,Prova superamento stringaProva superamento stringa,,");
+        cur.setFkCurriculum("Prova superamento stringa,Prova superamento stringa,Prova superamento stringa,Prova superamento stringa,Prova superamento stringa,Prova superamento stringa,Prova superamento stringa,Prova superamento stringa,Prova superamento stringa,Prova superamento stringa,Prova superamento stringaProva superamento stringa,,");
          try{
             instance.insert_course(cur);
             fail("lunghezza massima superata");
@@ -128,8 +127,8 @@ public class CalendarManagerTest {
     @Test
     public void testInsertMinCycle(){
         cur.setIdCourse(1); 
-        cur.setFK_curriculum("Curriculum di prova");
-        cur.setFK_cycle(-1);
+        cur.setFkCurriculum("Curriculum di prova");
+        cur.setFkCycle(-1);
          try{
             instance.insert_course(cur);
             fail("lunghezza minima non raggiunta");
@@ -141,8 +140,8 @@ public class CalendarManagerTest {
 @Test
     public void testInsertMaxCycle() {
         cur.setIdCourse(1); 
-        cur.setFK_curriculum("Curriculum di prova");
-        cur.setFK_cycle(123456789);
+        cur.setFkCurriculum("Curriculum di prova");
+        cur.setFkCycle(123456789);
          try{
             instance.insert_course(cur);
             fail("lunghezza massima superata");
@@ -155,8 +154,8 @@ public class CalendarManagerTest {
      @Test
     public void testInsertMinDescription() {
         cur.setIdCourse(1); 
-        cur.setFK_curriculum("Curriculum di prova");
-        cur.setFK_cycle(3);
+        cur.setFkCurriculum("Curriculum di prova");
+        cur.setFkCycle(3);
         cur.setDescription("");
          try{
             instance.insert_course(cur);
@@ -169,8 +168,8 @@ public class CalendarManagerTest {
     @Test
     public void testInsertMaxDescription() {
         cur.setIdCourse(1); 
-        cur.setFK_curriculum("Curriculum di prova");
-        cur.setFK_cycle(3);
+        cur.setFkCurriculum("Curriculum di prova");
+        cur.setFkCycle(3);
         cur.setDescription("Prova superamento stringa,Prova superamento stringa,Prova superamento stringa,Prova superamento stringa,Prova superamento stringa,Prova superamento stringa,Prova superamento stringa,Prova superamento stringa,Prova superamento stringa,Prova superamento stringa,Prova superamento stringaProva superamento stringa,,");
          try{
             instance.insert_course(cur);
@@ -183,8 +182,8 @@ public class CalendarManagerTest {
     @Test
     public void testInsertErrDate() {
         cur.setIdCourse(1); 
-        cur.setFK_curriculum("Curriculum di prova");
-        cur.setFK_cycle(3);
+        cur.setFkCurriculum("Curriculum di prova");
+        cur.setFkCycle(3);
         cur.setDescription("Basi di dati");
         cur.setStartDate(null);
          try{
@@ -198,8 +197,8 @@ public class CalendarManagerTest {
      @Test
     public void testInsertErr2Date() {
         cur.setIdCourse(1); 
-        cur.setFK_curriculum("Curriculum di prova");
-        cur.setFK_cycle(3);
+        cur.setFkCurriculum("Curriculum di prova");
+        cur.setFkCycle(3);
         cur.setDescription("Basi di dati");
         cur.setStartDate(null);
         cur.setEndDate(null);
@@ -215,8 +214,8 @@ public class CalendarManagerTest {
      @Test
     public void testInsertMinName() {
         cur.setIdCourse(1); 
-        cur.setFK_curriculum("Curriculum di prova");
-        cur.setFK_cycle(3);
+        cur.setFkCurriculum("Curriculum di prova");
+        cur.setFkCycle(3);
         cur.setDescription("Basi di dati");
         cur.setStartDate(new Date(2015,12,12));
         cur.setEndDate(new Date(2016,12,12));
@@ -232,8 +231,8 @@ public class CalendarManagerTest {
     @Test
     public void testInsertMaxName() {
         cur.setIdCourse(1); 
-        cur.setFK_curriculum("Curriculum di prova");
-        cur.setFK_cycle(3);
+        cur.setFkCurriculum("Curriculum di prova");
+        cur.setFkCycle(3);
         cur.setDescription("Basi di dati");
         cur.setStartDate(new Date(2015,12,12));
         cur.setEndDate(new Date(2016,12,12));
@@ -289,8 +288,8 @@ public class CalendarManagerTest {
     public void testInsertErrTimeLesson() {
         les.setIdLesson(1);    
         les.setDate(new Date(2015,12,12));
-        les.setStartTime(-1);
-        les.setEndTime(-2);
+        les.setStartTime("-1");
+        les.setEndTime("-2");
          try{
              instance.insert_lesson(les);
             fail("formato errato");
@@ -303,8 +302,8 @@ public class CalendarManagerTest {
     public void testInsertMinNameLesson() {
         les.setIdLesson(1);    
         les.setDate(new Date(2015,12,12));
-        les.setStartTime(1222);
-        les.setEndTime(1300);
+        les.setStartTime("12:22");
+        les.setEndTime("13:00");
         les.setName("");
          try{
              instance.insert_lesson(les);
@@ -319,8 +318,8 @@ public class CalendarManagerTest {
     public void testInsertMaxNameLesson() {
         les.setIdLesson(1);    
         les.setDate(new Date(2015,12,12));
-        les.setStartTime(1222);
-        les.setEndTime(1300);
+        les.setStartTime("12:22");
+        les.setEndTime("13:00");
         les.setName("Prova superamento stringa,Prova superamento stringa,Prova superamento stringa,Prova superamento stringa,Prova superamento stringa,Prova superamento stringa,Prova superamento stringa,Prova superamento stringa,Prova superamento stringa,Prova superamento stringa,Prova superamento stringaProva superamento stringa,,");
          try{
              instance.insert_lesson(les);
@@ -334,8 +333,8 @@ public class CalendarManagerTest {
     public void testInsertMinDescriptionLesson(){
         les.setIdLesson(1);    
         les.setDate(new Date(2015,12,12));
-        les.setStartTime(1222);
-        les.setEndTime(1300);
+        les.setStartTime("12:22");
+        les.setEndTime("13:00");
         les.setName("BD");
         les.setDescription("");
          try{
@@ -351,8 +350,8 @@ public class CalendarManagerTest {
     public void testInsertMinClassroomLesson() {
         les.setIdLesson(1);    
         les.setDate(new Date(2015,12,12));
-        les.setStartTime(1222);
-        les.setEndTime(1300);
+        les.setStartTime("12:22");
+        les.setEndTime("13:00");
         les.setName("BD");
         les.setDescription("Lezione Basi di dati");
         les.setClassroom("");
@@ -369,8 +368,8 @@ public class CalendarManagerTest {
     public void testInsertMaxClassroomLesson() {
         les.setIdLesson(1);    
         les.setDate(new Date(2015,12,12));
-        les.setStartTime(1222);
-        les.setEndTime(1300);
+        les.setStartTime("12:22");
+        les.setEndTime("13:00");
         les.setName("BD");
         les.setDescription("Lezione Basi di dati");
         les.setClassroom("Prova superamento stringa,Prova superamento stringa,Prova superamento stringa,Prova superamento stringa,Prova superamento stringa,Prova superamento stringa,Prova superamento stringa,Prova superamento stringa,Prova superamento stringa,Prova superamento stringa,Prova superamento stringaProva superamento stringa,,");
@@ -386,8 +385,8 @@ public class CalendarManagerTest {
     public void testInsertMinCycleLesson() {
         les.setIdLesson(1);    
         les.setDate(new Date(2015,12,12));
-        les.setStartTime(1222);
-        les.setEndTime(1300);
+        les.setStartTime("12:22");
+        les.setEndTime("13:00");
         les.setName("BD");
         les.setDescription("Lezione Basi di dati");
         les.setClassroom("P1");
@@ -404,8 +403,8 @@ public class CalendarManagerTest {
     public void testInsertMaxCycleLesson() {
         les.setIdLesson(1);    
         les.setDate(new Date(2015,12,12));
-        les.setStartTime(1222);
-        les.setEndTime(1300);
+        les.setStartTime("12:22");
+        les.setEndTime("13:00");
         les.setName("BD");
         les.setDescription("Lezione Basi di dati");
         les.setClassroom("P1");
@@ -425,8 +424,8 @@ public class CalendarManagerTest {
     public void testInsertMinCurriculumLesson() {
         les.setIdLesson(1);    
         les.setDate(new Date(2015,12,12));
-        les.setStartTime(1222);
-        les.setEndTime(1300);
+        les.setStartTime("12:22");
+        les.setEndTime("13:00");
         les.setName("BD");
         les.setDescription("Lezione Basi di dati");
         les.setClassroom("P1");
@@ -445,8 +444,8 @@ public class CalendarManagerTest {
     public void testInsertMaxCurriculumLesson() {
         les.setIdLesson(1);    
         les.setDate(new Date(2015,12,12));
-        les.setStartTime(1222);
-        les.setEndTime(1300);
+        les.setStartTime("12:22");
+        les.setEndTime("13:00");
         les.setName("BD");
         les.setDescription("Lezione Basi di dati");
         les.setClassroom("P1");
@@ -465,8 +464,8 @@ public class CalendarManagerTest {
     public void testInsertMinCourseLesson() {
         les.setIdLesson(1);    
         les.setDate(new Date(2015,12,12));
-        les.setStartTime(1222);
-        les.setEndTime(1300);
+        les.setStartTime("12:22");
+        les.setEndTime("13:00");
         les.setName("BD");
         les.setDescription("Lezione Basi di dati");
         les.setClassroom("P1");
@@ -485,8 +484,8 @@ public class CalendarManagerTest {
     public void testInsertMaxCourseLesson() {
         les.setIdLesson(1);    
         les.setDate(new Date(2015,12,12));
-        les.setStartTime(1222);
-        les.setEndTime(1300);
+        les.setStartTime("12:22");
+        les.setEndTime("13:00");
         les.setName("BD");
         les.setDescription("Lezione Basi di dati");
         les.setClassroom("P1");
@@ -508,8 +507,8 @@ public class CalendarManagerTest {
       
         les.setIdLesson(5);    
         les.setDate(new Date(2000,12,12));       
-        les.setStartTime(12);
-        les.setEndTime(13);
+        les.setStartTime("12:00");
+        les.setEndTime("13:22");
         les.setName("Basi di dati");
         les.setDescription("Lezione Basi di dati");
         les.setClassroom("P1");
@@ -586,8 +585,8 @@ public class CalendarManagerTest {
          
         les.setIdLesson(1);    
         les.setDate(new Date(2015,12,12));
-        les.setStartTime(-1);
-        les.setEndTime(-2);
+        les.setStartTime("-1");
+        les.setEndTime("-2");
          try{
               instance.update_lesson(oldId,les);
             fail("formato errato");
@@ -601,8 +600,8 @@ public class CalendarManagerTest {
         int oldId = 5;
         les.setIdLesson(1);    
         les.setDate(new Date(2015,12,12));
-        les.setStartTime(1222);
-        les.setEndTime(1300);
+        les.setStartTime("12:22");
+        les.setEndTime("13:00");
         les.setName("");
          try{
              instance.update_lesson(oldId,les);
@@ -618,8 +617,8 @@ public class CalendarManagerTest {
          int oldId = 5;
         les.setIdLesson(1);    
         les.setDate(new Date(2015,12,12));
-        les.setStartTime(1222);
-        les.setEndTime(1300);
+        les.setStartTime("12:22");
+        les.setEndTime("13:00");
         les.setName("Prova superamento stringa,Prova superamento stringa,Prova superamento stringa,Prova superamento stringa,Prova superamento stringa,Prova superamento stringa,Prova superamento stringa,Prova superamento stringa,Prova superamento stringa,Prova superamento stringa,Prova superamento stringaProva superamento stringa,,");
          try{
             instance.update_lesson(oldId,les);
@@ -634,8 +633,8 @@ public class CalendarManagerTest {
             int oldId = 5;
         les.setIdLesson(1);    
         les.setDate(new Date(2015,12,12));
-        les.setStartTime(1222);
-        les.setEndTime(1300);
+        les.setStartTime("12:22");
+        les.setEndTime("13:00");
         les.setName("BD");
         les.setDescription("");
          try{
@@ -651,8 +650,8 @@ public class CalendarManagerTest {
          int oldId = 5;
         les.setIdLesson(1);    
         les.setDate(new Date(2015,12,12));
-        les.setStartTime(1222);
-        les.setEndTime(1300);
+        les.setStartTime("12:22");
+        les.setEndTime("13:00");
         les.setName("BD");
         les.setDescription("Prova superamento stringa,Prova superamento stringa,Prova superamento stringa,Prova superamento stringa,Prova superamento stringa,Prova superamento stringa,Prova superamento stringa,Prova superamento stringa,Prova superamento stringa,Prova superamento stringa,Prova superamento stringaProva superamento stringa,,");
          try{
@@ -668,8 +667,8 @@ public class CalendarManagerTest {
          int oldId = 5;
         les.setIdLesson(1);    
         les.setDate(new Date(2015,12,12));
-        les.setStartTime(1222);
-        les.setEndTime(1300);
+        les.setStartTime("12:22");
+        les.setEndTime("13:00");
         les.setName("BD");
         les.setDescription("Lezione Basi di dati");
         les.setClassroom("");
@@ -687,8 +686,8 @@ public class CalendarManagerTest {
          int oldId = 5;
         les.setIdLesson(1);    
         les.setDate(new Date(2015,12,12));
-        les.setStartTime(1222);
-        les.setEndTime(1300);
+        les.setStartTime("12:22");
+        les.setEndTime("13:00");
         les.setName("BD");
         les.setDescription("Lezione Basi di dati");
         les.setClassroom("Prova superamento stringa,Prova superamento stringa,Prova superamento stringa,Prova superamento stringa,Prova superamento stringa,Prova superamento stringa,Prova superamento stringa,Prova superamento stringa,Prova superamento stringa,Prova superamento stringa,Prova superamento stringaProva superamento stringa,,");
@@ -705,8 +704,8 @@ public class CalendarManagerTest {
            int oldId = 5;
         les.setIdLesson(1);    
         les.setDate(new Date(2015,12,12));
-        les.setStartTime(1222);
-        les.setEndTime(1300);
+        les.setStartTime("12:22");
+        les.setEndTime("13:00");
         les.setName("BD");
         les.setDescription("Lezione Basi di dati");
         les.setClassroom("P1");
@@ -724,8 +723,8 @@ public class CalendarManagerTest {
            int oldId = 5;
         les.setIdLesson(1);    
         les.setDate(new Date(2015,12,12));
-        les.setStartTime(1222);
-        les.setEndTime(1300);
+        les.setStartTime("12:22");
+        les.setEndTime("13:00");
         les.setName("BD");
         les.setDescription("Lezione Basi di dati");
         les.setClassroom("P1");
@@ -746,8 +745,8 @@ public class CalendarManagerTest {
          int oldId = 5;
         les.setIdLesson(1);    
         les.setDate(new Date(2015,12,12));
-        les.setStartTime(1222);
-        les.setEndTime(1300);
+        les.setStartTime("12:22");
+        les.setEndTime("13:00");
         les.setName("BD");
         les.setDescription("Lezione Basi di dati");
         les.setClassroom("P1");
@@ -767,8 +766,8 @@ public class CalendarManagerTest {
           int oldId = 5;
         les.setIdLesson(1);    
         les.setDate(new Date(2015,12,12));
-        les.setStartTime(1222);
-        les.setEndTime(1300);
+        les.setStartTime("12:22");
+        les.setEndTime("13:00");
         les.setName("BD");
         les.setDescription("Lezione Basi di dati");
         les.setClassroom("P1");
@@ -788,8 +787,8 @@ public class CalendarManagerTest {
           int oldId = 5;
         les.setIdLesson(1);    
         les.setDate(new Date(2015,12,12));
-        les.setStartTime(1222);
-        les.setEndTime(1300);
+        les.setStartTime("12:22");
+        les.setEndTime("13:00");
         les.setName("BD");
         les.setDescription("Lezione Basi di dati");
         les.setClassroom("P1");
@@ -809,8 +808,8 @@ public class CalendarManagerTest {
          int oldId = 5;
         les.setIdLesson(1);    
         les.setDate(new Date(2015,12,12));
-        les.setStartTime(1222);
-        les.setEndTime(1300);
+        les.setStartTime("12:22");
+        les.setEndTime("13:00");
         les.setName("BD");
         les.setDescription("Lezione Basi di dati");
         les.setClassroom("P1");
@@ -829,11 +828,11 @@ public class CalendarManagerTest {
     
     @Test
     public void testUpdateLessonok(){
-           int oldId = 5;
+           int oldId = 1;
         les.setIdLesson(1);    
        // les.setDate(new Date(2015-12-12));
-        les.setStartTime(12);
-        les.setEndTime(13);
+        les.setStartTime("12:00");
+        les.setEndTime("13:22");
         les.setName("BD");
         les.setDescription("Lezione Basi di dati");
         les.setClassroom("P1");
@@ -891,8 +890,8 @@ public class CalendarManagerTest {
        
         sem.setIdSeminar(1);
       //  sem.setDate(new Date(2015,15,12));
-        sem.setStartTime(12);
-        sem.setEndTime(15);
+        sem.setStartTime("12:00");
+        sem.setEndTime("15:00");
         sem.setName("Algoritmi");
         sem.setNameSpeacker("Antonio Verdi");
         sem.setDescription("Seminario su algoritmi avanzati");
@@ -950,8 +949,8 @@ public class CalendarManagerTest {
     public void testInsertErrTimeSeminar() {
         sem.setIdSeminar(1);    
         sem.setDate(new Date(2015,12,12));
-        sem.setStartTime(-1);
-        sem.setEndTime(-2);
+        sem.setStartTime("-1");
+        sem.setEndTime("-2");
          try{
              instance.insert_seminar(sem);
             fail("formato errato");
@@ -964,8 +963,8 @@ public class CalendarManagerTest {
     public void testInsertMinNameSeminar() {
         sem.setIdSeminar(1);    
         sem.setDate(new Date(2015,12,12));
-        sem.setStartTime(1222);
-        sem.setEndTime(1300);
+        sem.setStartTime("12:22");
+        sem.setEndTime("13:00");
         sem.setName("");
          try{
               instance.insert_seminar(sem);
@@ -980,8 +979,8 @@ public class CalendarManagerTest {
     public void testInsertMaxNameSeminar() {
         sem.setIdSeminar(1);    
         sem.setDate(new Date(2015,12,12));
-        sem.setStartTime(1222);
-        sem.setEndTime(1300);
+        sem.setStartTime("12:22");
+        sem.setEndTime("13:00");
         sem.setName("Prova superamento stringa,Prova superamento stringa,Prova superamento stringa,Prova superamento stringa,Prova superamento stringa,Prova superamento stringa,Prova superamento stringa,Prova superamento stringa,Prova superamento stringa,Prova superamento stringa,Prova superamento stringaProva superamento stringa,,");
          try{
               instance.insert_seminar(sem);
@@ -995,8 +994,8 @@ public class CalendarManagerTest {
     public void testInsertMinNameSpeackerSeminar(){
         sem.setIdSeminar(1);    
         sem.setDate(new Date(2015,12,12));
-        sem.setStartTime(1222);
-        sem.setEndTime(1300);
+        sem.setStartTime("12:22");
+        sem.setEndTime("13:00");
         sem.setName("BD");
         sem.setNameSpeacker("");
          try{
@@ -1011,8 +1010,8 @@ public class CalendarManagerTest {
     public void testInsertMaxNameSpeackerSeminar() {
         sem.setIdSeminar(1);    
         sem.setDate(new Date(2015,12,12));
-        sem.setStartTime(1222);
-        sem.setEndTime(1300);
+        sem.setStartTime("12:22");
+        sem.setEndTime("13:00");
         sem.setName("BD");
         sem.setNameSpeacker("Prova superamento stringa,Prova superamento stringa,Prova superamento stringa,Prova superamento stringa,Prova superamento stringa,Prova superamento stringa,Prova superamento stringa,Prova superamento stringa,Prova superamento stringa,Prova superamento stringa,Prova superamento stringaProva superamento stringa,,");
          try{
@@ -1027,8 +1026,8 @@ public class CalendarManagerTest {
     public void testInsertMinDescriptionSeminar(){
         sem.setIdSeminar(1);    
         sem.setDate(new Date(2015,12,12));
-        sem.setStartTime(1222);
-        sem.setEndTime(1300);
+        sem.setStartTime("12:22");
+        sem.setEndTime("13:00");
         sem.setName("BD");
         sem.setNameSpeacker("Olmo");
         sem.setDescription("");
@@ -1045,8 +1044,8 @@ public class CalendarManagerTest {
     public void testInsertMaxDescriptionSeminar(){
         sem.setIdSeminar(1);    
         sem.setDate(new Date(2015,12,12));
-        sem.setStartTime(1222);
-        sem.setEndTime(1300);
+        sem.setStartTime("12:22");
+        sem.setEndTime("13:00");
         sem.setName("BD");
         sem.setNameSpeacker("Olmo");
         sem.setDescription("Prova superamento stringa,Prova superamento stringa,Prova superamento stringa,Prova superamento stringa,Prova superamento stringa,Prova superamento stringa,Prova superamento stringa,Prova superamento stringa,Prova superamento stringa,Prova superamento stringa,Prova superamento stringaProva superamento stringa,,");
@@ -1062,8 +1061,8 @@ public class CalendarManagerTest {
     public void testInsertMinPlaceSeminar(){
         sem.setIdSeminar(1);    
         sem.setDate(new Date(2015,12,12));
-        sem.setStartTime(1222);
-        sem.setEndTime(1300);
+        sem.setStartTime("12:22");
+        sem.setEndTime("13:00");
         sem.setName("BD");
         sem.setNameSpeacker("Olmo");
         sem.setDescription("prove");
@@ -1080,8 +1079,8 @@ public class CalendarManagerTest {
     public void testInsertMaxPlace(){
         sem.setIdSeminar(1);    
         sem.setDate(new Date(2015,12,12));
-        sem.setStartTime(1222);
-        sem.setEndTime(1300);
+        sem.setStartTime("12:22");
+        sem.setEndTime("13:00");
         sem.setName("BD");
         sem.setNameSpeacker("Olmo");
         sem.setDescription("prove");
@@ -1101,8 +1100,8 @@ public class CalendarManagerTest {
     public void testInsertMinCourseSeminar(){
         sem.setIdSeminar(1);    
         sem.setDate(new Date(2015,12,12));
-        sem.setStartTime(1222);
-        sem.setEndTime(1300);
+        sem.setStartTime("12:22");
+        sem.setEndTime("13:00");
         sem.setName("BD");
         sem.setNameSpeacker("Olmo");
         sem.setDescription("Prove");
@@ -1120,8 +1119,8 @@ public class CalendarManagerTest {
     public void testInsertMaxCourseSeminar(){
         sem.setIdSeminar(1);    
         sem.setDate(new Date(2015,12,12));
-        sem.setStartTime(1222);
-        sem.setEndTime(1300);
+        sem.setStartTime("12:22");
+        sem.setEndTime("13:00");
         sem.setName("BD");
         sem.setNameSpeacker("Olmo");
         sem.setDescription("Prove");
@@ -1142,8 +1141,8 @@ public class CalendarManagerTest {
        int oldId = 2;
         sem.setIdSeminar(1);
       //  sem.setDate(new Date(2015,15,12));
-        sem.setStartTime(12);
-        sem.setEndTime(15);
+        sem.setStartTime("12:00");
+        sem.setEndTime("15:00");
         sem.setName("Algoritmi");
         sem.setNameSpeacker("Antonio Verdi");
         sem.setDescription("Seminario su algoritmi avanzati");
@@ -1209,8 +1208,8 @@ public class CalendarManagerTest {
          
         sem.setIdSeminar(1);    
         sem.setDate(new Date(2015,12,12));
-        sem.setStartTime(-1);
-        sem.setEndTime(-2);
+        sem.setStartTime("-1");
+        sem.setEndTime("-2");
          try{
               instance.update_seminar(oldId,sem);
             fail("formato errato");
@@ -1224,8 +1223,8 @@ public class CalendarManagerTest {
         int oldId = 5;
         sem.setIdSeminar(1);    
         sem.setDate(new Date(2015,12,12));
-        sem.setStartTime(1222);
-        sem.setEndTime(1300);
+        sem.setStartTime("12:22");
+        sem.setEndTime("13:00");
         sem.setName("");
          try{
              instance.update_seminar(oldId,sem);
@@ -1241,8 +1240,8 @@ public class CalendarManagerTest {
          int oldId = 5;
         sem.setIdSeminar(1);    
         sem.setDate(new Date(2015,12,12));
-        sem.setStartTime(1222);
-        sem.setEndTime(1300);
+        sem.setStartTime("12:22");
+        sem.setEndTime("13:00");
         sem.setName("Prova superamento stringa,Prova superamento stringa,Prova superamento stringa,Prova superamento stringa,Prova superamento stringa,Prova superamento stringa,Prova superamento stringa,Prova superamento stringa,Prova superamento stringa,Prova superamento stringa,Prova superamento stringaProva superamento stringa,,");
          try{
             instance.update_seminar(oldId,sem);
@@ -1257,8 +1256,8 @@ public class CalendarManagerTest {
             int oldId = 5;
         sem.setIdSeminar(1);    
         sem.setDate(new Date(2015,12,12));
-        sem.setStartTime(1222);
-        sem.setEndTime(1300);
+        sem.setStartTime("12:22");
+        sem.setEndTime("13:00");
         sem.setName("BD");
         sem.setNameSpeacker("");
          try{
@@ -1274,8 +1273,8 @@ public class CalendarManagerTest {
          int oldId = 5;
         sem.setIdSeminar(1);    
         sem.setDate(new Date(2015,12,12));
-        sem.setStartTime(1222);
-        sem.setEndTime(1300);
+        sem.setStartTime("12:22");
+        sem.setEndTime("13:00");
         sem.setName("BD");
         sem.setNameSpeacker("Prova superamento stringa,Prova superamento stringa,Prova superamento stringa,Prova superamento stringa,Prova superamento stringa,Prova superamento stringa,Prova superamento stringa,Prova superamento stringa,Prova superamento stringa,Prova superamento stringa,Prova superamento stringaProva superamento stringa,,");
          try{
@@ -1291,8 +1290,8 @@ public class CalendarManagerTest {
          int oldId = 5;
         sem.setIdSeminar(1);    
         sem.setDate(new Date(2015,12,12));
-        sem.setStartTime(1222);
-        sem.setEndTime(1300);
+        sem.setStartTime("12:22");
+        sem.setEndTime("13:00");
         sem.setName("BD");
         sem.setNameSpeacker("Olmo");
         sem.setDescription("");
@@ -1310,8 +1309,8 @@ public class CalendarManagerTest {
          int oldId = 5;
         sem.setIdSeminar(1);    
         sem.setDate(new Date(2015,12,12));
-        sem.setStartTime(1222);
-        sem.setEndTime(1300);
+        sem.setStartTime("12:22");
+        sem.setEndTime("13:00");
         sem.setName("BD");
         sem.setNameSpeacker("Olmo");
         sem.setDescription("Prova superamento stringa,Prova superamento stringa,Prova superamento stringa,Prova superamento stringa,Prova superamento stringa,Prova superamento stringa,Prova superamento stringa,Prova superamento stringa,Prova superamento stringa,Prova superamento stringa,Prova superamento stringaProva superamento stringa,,");
@@ -1328,8 +1327,8 @@ public class CalendarManagerTest {
            int oldId = 5;
         sem.setIdSeminar(1);    
         sem.setDate(new Date(2015,12,12));
-        sem.setStartTime(1222);
-        sem.setEndTime(1300);
+        sem.setStartTime("12:22");
+        sem.setEndTime("13:00");
         sem.setName("BD");
         sem.setNameSpeacker("Olmo");
         sem.setDescription("Seminario sugli algoritmi");
@@ -1347,8 +1346,8 @@ public class CalendarManagerTest {
            int oldId = 5;
         sem.setIdSeminar(1);    
         sem.setDate(new Date(2015,12,12));
-        sem.setStartTime(1222);
-        sem.setEndTime(1300);
+        sem.setStartTime("12:22");
+        sem.setEndTime("13:00");
         sem.setName("BD");
         sem.setNameSpeacker("Olmo");
         sem.setDescription("Seminario sugli algoritmi");
@@ -1366,8 +1365,8 @@ public class CalendarManagerTest {
            int oldId = 5;
         sem.setIdSeminar(1);    
         sem.setDate(new Date(2015,12,12));
-        sem.setStartTime(1222);
-        sem.setEndTime(1300);
+        sem.setStartTime("12:22");
+        sem.setEndTime("13:00");
         sem.setName("BD");
         sem.setNameSpeacker("Olmo");
         sem.setDescription("Seminario sugli algoritmi");
@@ -1387,8 +1386,8 @@ public class CalendarManagerTest {
            int oldId = 5;
         sem.setIdSeminar(1);    
         sem.setDate(new Date(2015,12,12));
-        sem.setStartTime(1222);
-        sem.setEndTime(1300);
+        sem.setStartTime("12:22");
+        sem.setEndTime("13:00");
         sem.setName("BD");
         sem.setNameSpeacker("Olmo");
         sem.setDescription("Seminario sugli algoritmi");
