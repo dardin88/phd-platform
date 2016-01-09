@@ -11,6 +11,11 @@
 <%@ taglib prefix="c" uri="http://java.sun.com/jsp/jstl/core" %>
 <%@page contentType="text/html" pageEncoding="UTF-8"%>
 <!DOCTYPE html>
+<c:choose>
+    <c:when test="${sessionScope.account == null}">
+        <c:redirect url="login.jsp" />
+    </c:when>
+</c:choose>
 <html lang="en">
     <head>
         <meta charset="utf-8">
@@ -42,6 +47,11 @@
                 <script src="https://oss.maxcdn.com/respond/1.4.2/respond.min.js"></script>
         <![endif]-->
     </head>
+    <c:choose>
+                <c:when test="${sessionScope.account != null}">
+                    <% Account loggedPerson = ((Account) session.getAttribute("account"));
+                        if (loggedPerson.getTypeAccount().equals("phdstudent")) {
+                    %> 
     <body class="page-body">
 
         <!-- Inclusione della pagina contenente il menù superiore --> 
@@ -50,7 +60,7 @@
 
             <!-- Inclusione della pagina contenente il menù laterale --> 
 
-            <% Account loggedPerson = ((Account) session.getAttribute("account"));
+            <% 
                 List<Collaboration> collaborations = CollaborationManager.getInstance().getAllCollaborationOf((PhdStudent)loggedPerson);
 
             %>
@@ -118,7 +128,12 @@
             </div>
                                 
         </div>
-
+        <%}else{%>
+                <c:redirect url="index.jsp" />
+          <%  }
+    %>
+            </c:when>
+        </c:choose>                        
     </body>
 </html>
 
