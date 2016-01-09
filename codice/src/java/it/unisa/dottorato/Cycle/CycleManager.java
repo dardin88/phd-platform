@@ -456,7 +456,6 @@ public class CycleManager {
         ArrayList<Professor> prof=null;
         try {
             prof = new ArrayList<>();
-            Professor cord=new Professor();
             String t= "SELECT  number from cycle where number="+number;  
             // Otteniamo una Connessione al DataBase
             connect = DBConnection.getConnection();
@@ -479,6 +478,7 @@ public class CycleManager {
             //Inviamo la Query al DataBase
             ResultSet result = Utility.queryOperation(connect, tSql);
             while (result.next()) {
+                Professor cord=new Professor();
                 cord.setEmail(result.getString("email"));
                 cord.setSecondaryEmail(result.getString("secondaryEmail"));
                 cord.setSurname(result.getString("surname"));
