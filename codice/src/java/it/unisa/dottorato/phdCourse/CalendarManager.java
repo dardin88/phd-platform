@@ -1021,7 +1021,7 @@ public class CalendarManager {
         int c=1;
         try (Connection connect = DBConnection.getConnection()) {
             String tSql = "SELECT idSeminar FROM "
-                    + CalendarManager.TABLE_LESSON
+                    + CalendarManager.TABLE_SEMINAR
                     + " ORDER BY idSeminar DESC LIMIT 1";
             //Inviamo la Query al DataBase
              ResultSet result = Utility.queryOperation(connect, tSql);
