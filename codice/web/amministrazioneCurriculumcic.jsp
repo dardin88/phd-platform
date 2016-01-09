@@ -66,9 +66,9 @@
                 </div>
 
                 <div class="row"> 
-                    <h3 class="text-center"><i> Sezione informazioni ciclo</i></h3>
+                    <h3 class="text-center" id="sezioneCiclo"><i> Sezione informazioni ciclo</i></h3>
                 </div>
-                
+
                 <div class="row"> 
 
 
@@ -220,6 +220,18 @@
                                     <span class="glyphicon glyphicon-plus" aria-hidden="true">
                                     </span> Aggiungi Curriculum al Ciclo
                                 </button>
+
+                                <div class="form-group" id="selectCurriculum" hidden>
+                                    <label for="sel1">Seleziona uno dei curriculum attivi nel dottorato di ricerca</label>
+                                    <select class="form-control" id="CurriculumSelectebleList" onclick="selectedCurriculumtoAdd()" >
+                                    </select>
+
+
+                                    <br>
+                                    <input type="button" id="addCurriculumtoCicButton" class="btn btn-secondary btn-block" value="Aggiungi il curriculum selezionato" hidden> 
+                                </div>
+
+
                             </div>  
                         </div>
                     </div>
@@ -228,22 +240,22 @@
                 <div class="row"> 
                     <h3 id="sezioneCurriculum" class="text-center" hidden><i> Sezione informazioni curriculum legati al ciclo selezionato</i></h3>
                 </div>
-                
-                <div class="row"> 
-                        <div class="well-small col-lg-12 col-lg-offset-0 col-md-8 col-md-offset-6 col-sm-10 col-sm-offset-1 col-xs-12">
-                            <div class="panel panel-default " id="descriptionPanel" hidden  style="margin-top: 5px">
-                                <div class="panel-heading">
-                                    <h3 class="panel-title">Nome Curriculum: <span style="text-justify: auto" id="CurriculumNameField">  </h3> 
-                                </div>
-                                <div class="panel-body">
-                                    <p id="CurriculumDescriptionField"> 
 
-                                </div>
-                                <div class="panel-footer " style="background-color: transparent">
-                                    
-                                </div>
+                <div class="row"> 
+                    <div class="well-small col-lg-12 col-lg-offset-0 col-md-8 col-md-offset-6 col-sm-10 col-sm-offset-1 col-xs-12">
+                        <div class="panel panel-default " id="descriptionPanel" hidden  style="margin-top: 5px">
+                            <div class="panel-heading">
+                                <h3 class="panel-title">Nome Curriculum: <span style="text-justify: auto" id="CurriculumNameField">  </h3> 
+                            </div>
+                            <div class="panel-body">
+                                <p id="CurriculumDescriptionField"> 
+
+                            </div>
+                            <div class="panel-footer " style="background-color: transparent">
+
                             </div>
                         </div>
+                    </div>
                 </div>
 
             </div> 

@@ -21,7 +21,7 @@ import org.json.JSONObject;
  * curriculum-ciclo (curriculumcic)
  * @author Tommaso Minichiello
  */
-@WebServlet(name = "InsertCurriculumcic", urlPatterns = {"/dottorato/InsertCurriculumcic"})
+@WebServlet(name = "InsertCurriculumcic", urlPatterns = {"/InsertCurriculumcic"})
 public class InsertCurriculumcicServlet extends HttpServlet {
 
     /**

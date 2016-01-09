@@ -20,7 +20,7 @@ import org.json.JSONObject;
  *
  * @author Tommaso Minichiello
  */
-@WebServlet(name = "DeleteCurriculumcic", urlPatterns = {"/dottorato/DeleteCurriculumcic"})
+@WebServlet(name = "DeleteCurriculumcic", urlPatterns = {"/DeleteCurriculumcic"})
 public class DeleteCurriculumcicServlet extends HttpServlet {
 
     /**
