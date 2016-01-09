@@ -5,8 +5,13 @@
  */
 package it.unisa.dottorato.presence;
 
+import it.unisa.dottorato.account.Account;
+import it.unisa.dottorato.phdCourse.Course;
+import java.util.ArrayList;
 import org.junit.After;
+import org.junit.AfterClass;
 import org.junit.Before;
+import org.junit.BeforeClass;
 import org.junit.Test;
 import static org.junit.Assert.*;
 
@@ -15,12 +20,11 @@ import static org.junit.Assert.*;
  * @author Tommaso
  */
 public class PresenceManagerTest {
-    private Presence pre;
     private PresenceManager instance;
+    private Presence pre;
     
     public PresenceManagerTest() {
     }
-    
     
     @Before
     public void setUp() {
@@ -42,213 +46,121 @@ public class PresenceManagerTest {
     }
 
     /**
-     * Test of getPresenceList method, of class PresenceManager.
-     * @throws java.lang.Exception
+     * Test of getCourseByProfessor method, of class PresenceManager.
      */
     @Test
-    public void testGetPresenceListOk() throws Exception {
-        int idlesson=1;
-        try{
-            instance.getPresenceList(idlesson);
-            assertTrue(true);
-        }catch(Exception e){
-            fail("non sono riuscito a fare l' op");
-        }
-    }
-    
-    /**
-     * Test of getPresenceList method, of class PresenceManager.
-     * @throws java.lang.Exception
-     */
-    @Test
-    public void testGetPresenceListIdMin() throws Exception {
-        int idlesson=-9;
-        try{
-            instance.getPresenceList(idlesson);
-            fail("sono riuscito a fare l' op");
-        }catch(Exception e){
-            assertTrue(true);
-        }
-    }
-    
-    /**
-     * Test of getPresenceList method, of class PresenceManager.
-     * @throws java.lang.Exception
-     */
-    @Test
-    public void testGetPresenceListIdMax() throws Exception {
-        int idlesson=9999999;
-        try{
-            instance.getPresenceList(idlesson);
-            fail("sono riuscito a fare l' op");
-        }catch(Exception e){
-            assertTrue(true);
-        }
+    public void testGetCourseByProfessor() throws Exception {
+        System.out.println("getCourseByProfessor");
+        String Professor = "";
+        PresenceManager instance = null;
+        ArrayList<Course> expResult = null;
+        ArrayList<Course> result = instance.getCourseByProfessor(Professor);
+        assertEquals(expResult, result);
+        // TODO review the generated test code and remove the default call to fail.
+        fail("The test case is a prototype.");
     }
 
     /**
-     * Test of getPresenceCourse method, of class PresenceManager.
-     * @throws java.lang.Exception
+     * Test of insertPresence method, of class PresenceManager.
      */
     @Test
-    public void testGetPresenceCourseOk() throws Exception {
-        String studente="dinucci@hotmail.it";
-        try{
-            instance.getPresenceCourse(studente);
-            assertTrue(true);
-        }catch(Exception e){
-            fail("non sono riuscito a fare l' op");
-        }
+    public void testInsertPresence() throws Exception {
+        System.out.println("insertPresence");
+        Presence dottorando = null;
+        PresenceManager instance = null;
+        instance.insertPresence(dottorando);
+        // TODO review the generated test code and remove the default call to fail.
+        fail("The test case is a prototype.");
     }
-    
+
     /**
-     * Test of getPresenceCourse method, of class PresenceManager.
-     * @throws java.lang.Exception
+     * Test of getPresenceList method, of class PresenceManager.
      */
     @Test
-    public void testGetPresenceCourseFkStudentNull() throws Exception {
-        String studente=null;
-        try{
-            instance.getPresenceCourse(studente);
-            fail("sono riuscito a fare l' op");
-        }catch(Exception e){
-            assertTrue(true);
-        }
+    public void testGetPresenceList() throws Exception {
+        System.out.println("getPresenceList");
+        int lesson = 0;
+        PresenceManager instance = null;
+        ArrayList<Presence> expResult = null;
+        ArrayList<Presence> result = instance.getPresenceList(lesson);
+        assertEquals(expResult, result);
+        // TODO review the generated test code and remove the default call to fail.
+        fail("The test case is a prototype.");
     }
-    
+
     /**
-     * Test of getPresenceCourse method, of class PresenceManager.
-     * @throws java.lang.Exception
+     * Test of getPresenceDottorandi method, of class PresenceManager.
      */
     @Test
-    public void testGetPresenceCourseFkStudentMax() throws Exception {
-        String studente="qwertyuiopqwertyuiopqwertyuiopqwertyuiopqwertyuiopqwertyuiop";
-        try{
-            instance.getPresenceCourse(studente);
-            fail("sono riuscito a fare l' op");
-        }catch(Exception e){
-            assertTrue(true);
-        }
+    public void testGetPresenceDottorandi() throws Exception {
+        System.out.println("getPresenceDottorandi");
+        int idCorso = 0;
+        PresenceManager instance = null;
+        ArrayList<Account> expResult = null;
+        ArrayList<Account> result = instance.getPresenceDottorandi(idCorso);
+        assertEquals(expResult, result);
+        // TODO review the generated test code and remove the default call to fail.
+        fail("The test case is a prototype.");
     }
-    
+
     /**
-     * Test of getPresenceCourse method, of class PresenceManager.
-     * @throws java.lang.Exception
+     * Test of getPresenceToLesson method, of class PresenceManager.
      */
     @Test
-    public void testGetPresenceCourseFkStudentFormatError() throws Exception {
-        String studente="qwertyuiopqwertyopqwertyuiopqwertyuiop";
-        try{
-            instance.getPresenceCourse(studente);
-            fail("sono riuscito a fare l' op");
-        }catch(Exception e){
-            assertTrue(true);
-        }
+    public void testGetPresenceToLesson() throws Exception {
+        System.out.println("getPresenceToLesson");
+        String dottorando = "";
+        int idCorso = 0;
+        PresenceManager instance = null;
+        ArrayList<Presence> expResult = null;
+        ArrayList<Presence> result = instance.getPresenceToLesson(dottorando, idCorso);
+        assertEquals(expResult, result);
+        // TODO review the generated test code and remove the default call to fail.
+        fail("The test case is a prototype.");
     }
-    
-    /**
-     * Test of getPresence method, of class PresenceManager.
-     * @throws java.lang.Exception
-     */
-    @Test
-    public void testGetPresenceOk() throws Exception {
-        int idlesson=1;
-        try{
-            instance.getPresence(idlesson);
-            assertTrue(true);
-        }catch(Exception e){
-            fail("non sono riuscito a fare l' op");
-        }
-    }
-    
-    /**
-     * Test of getPresence method, of class PresenceManager.
-     * @throws java.lang.Exception
-     */
-    @Test
-    public void testGetPresenceIdlessonMin() throws Exception {
-        int idlesson=-7;
-        try{
-            instance.getPresence(idlesson);
-            fail("sono riuscito a fare l' op");
-        }catch(Exception e){
-            assertTrue(true);
-        }
-    }
-    
-    /**
-     * Test of getPresence method, of class PresenceManager.
-     * @throws java.lang.Exception
-     */
-    @Test
-    public void testGetPresenceIdlessonMax() throws Exception {
-        int idlesson=899898989;
-        try{
-            instance.getPresence(idlesson);
-            fail("sono riuscito a fare l' op");
-        }catch(Exception e){
-            assertTrue(true);
-        }
-    }
-    
+
     /**
      * Test of modifyPresence method, of class PresenceManager.
-     * @throws java.lang.Exception
      */
     @Test
-    public void testModifyPresenceOk() throws Exception {
-        String dottorando="dinucci@hotmail.it";
-        try{
-            instance.modifyPresence(dottorando);
-            assertTrue(true);
-        }catch(Exception e){
-            fail("non sono riuscito a fare l' op");
-        }
+    public void testModifyPresence() throws Exception {
+        System.out.println("modifyPresence");
+        String dottorando = "";
+        int idLesson = 0;
+        PresenceManager instance = null;
+        instance.modifyPresence(dottorando, idLesson);
+        // TODO review the generated test code and remove the default call to fail.
+        fail("The test case is a prototype.");
     }
-    
+
     /**
-     * Test of modifyPresence method, of class PresenceManager.
-     * @throws java.lang.Exception
+     * Test of testDottorando method, of class PresenceManager.
      */
     @Test
-    public void testModifyPresenceFkStuddentNull() throws Exception {
-        String dottorando=null;
-        try{
-            instance.modifyPresence(dottorando);
-            fail("sono riuscito a fare l' op");
-        }catch(Exception e){
-            assertTrue(true);
-        }
+    public void testTestDottorando() throws Exception {
+        System.out.println("testDottorando");
+        String title = "";
+        PresenceManager instance = null;
+        String expResult = "";
+        String result = instance.testDottorando(title);
+        assertEquals(expResult, result);
+        // TODO review the generated test code and remove the default call to fail.
+        fail("The test case is a prototype.");
     }
-    
+
     /**
-     * Test of modifyPresence method, of class PresenceManager.
-     * @throws java.lang.Exception
+     * Test of testid method, of class PresenceManager.
      */
     @Test
-    public void testModifyPresenceFkStuddentMax() throws Exception {
-        String dottorando="qwertyuioplkqwertyuioplkqwertyuioplkqwertyuioplkqwertyuioplk";
-        try{
-            instance.modifyPresence(dottorando);
-            fail("sono riuscito a fare l' op");
-        }catch(Exception e){
-            assertTrue(true);
-        }
-    }
-    
-    /**
-     * Test of modifyPresence method, of class PresenceManager.
-     * @throws java.lang.Exception
-     */
-    @Test
-    public void testModifyPresenceFkStuddentFormatError() throws Exception {
-        String dottorando="qwertyuioplkqwetyuioplkqwertyuioplk";
-        try{
-            instance.modifyPresence(dottorando);
-            fail("sono riuscito a fare l' op");
-        }catch(Exception e){
-            assertTrue(true);
-        }
+    public void testTestid() throws Exception {
+        System.out.println("testid");
+        int id = 0;
+        PresenceManager instance = null;
+        int expResult = 0;
+        int result = instance.testid(id);
+        assertEquals(expResult, result);
+        // TODO review the generated test code and remove the default call to fail.
+        fail("The test case is a prototype.");
     }
     
 }

@@ -62,7 +62,7 @@ public class CalendarManager {
      * @param pCourse il nuovo corso da inserire
      * @throws SQLException 
      */
-    public synchronized void insert_course(Course pCourse) throws SQLException ,IdException , DescriptionException , NameException , DateException,CourseException{
+    public synchronized void insert_course(Course pCourse) throws SQLException ,IdException , DescriptionException , NameException , DateException,CourseException, IOException{
        
          Connection connect = null;
         try  {
@@ -76,7 +76,7 @@ public class CalendarManager {
                     + CalendarManager.TABLE_COURSE
                     + " (idCourse, fkCurriculum, fkCycle, name,description, startDate,endDate)"
                     + " VALUES ("
-                    + testid(pCourse.getIdCourse())
+                    + testid(nextNumberCourse())
                     + ",'"
                     + testName(pCourse.getFkCurriculum())
                     + "',"
@@ -105,7 +105,7 @@ public class CalendarManager {
      * @param pLesson la nuova lezione da inserire
      * @throws SQLException 
      */
-    public synchronized void insert_lesson(Lesson pLesson) throws SQLException,IdException , DescriptionException , DateException, NameException , ClassroomException {
+    public synchronized void insert_lesson(Lesson pLesson) throws SQLException,IdException , DescriptionException , DateException, NameException , ClassroomException, IOException {
         try (Connection connect = DBConnection.getConnection()) {
 
             /*
@@ -116,7 +116,7 @@ public class CalendarManager {
                     + CalendarManager.TABLE_LESSON
                     + " ( idLesson, date, startTime, endTime, name, classroom, desription, fkCourse)"
                     + " VALUES ('"
-                    + testid(pLesson.getIdLesson()) // int
+                    + testid(nextNumberLesson()) // int
                     + "','"
                     + testStartData(pLesson.getData()) // Date
                     + "','"
@@ -147,7 +147,7 @@ public class CalendarManager {
     * @param pSeminar il nuovo seminario da inserire
     * @throws SQLException 
     */
-    public synchronized void insert_seminar(Seminar pSeminar) throws SQLException,IdException , NameException , PlaceException , DescriptionException , SpeakerException , DateException{
+    public synchronized void insert_seminar(Seminar pSeminar) throws SQLException,IdException , NameException , PlaceException , DescriptionException , SpeakerException , DateException, IOException{
         try (Connection connect = DBConnection.getConnection()) {
 
             /*
@@ -158,7 +158,7 @@ public class CalendarManager {
                     + CalendarManager.TABLE_SEMINAR
                     + " ( idSeminar, date, startTime, endTime, name, namespeacker, desription, place, fkCourse)"
                     + " VALUES ("
-                    + testid(pSeminar.getIdSeminar()) // int
+                    + testid(nextNumberSeminar()) // int
                     + ",'"
                     + testStartData(pSeminar.getData()) // Date
                     + "','"
