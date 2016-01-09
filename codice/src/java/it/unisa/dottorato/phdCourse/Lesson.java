@@ -21,8 +21,6 @@ public class Lesson implements Serializable{
     private String name; 
     private String classroom;
     private String description;
-    private int cycle;
-    private String curriculum;
     private int FK_course;    
     
    /**Metodo della classe incaricato di ritornare l'id della lezione
@@ -138,42 +136,6 @@ public class Lesson implements Serializable{
      */
     public void setDescription(String descrizione){
         this.description = descrizione;
-    }
-    
-    /** Metodo della classe incaricato di ritornare il numero del ciclo a cui la lezione 
-     * e' associata
-     * 
-     * @return restituisce il numero del ciclo a cui la lezione e' associata
-     */
-    public int getCycle(){
-        return cycle;            
-    }
-    
-    /** Metodo della classe incaricato di settare il numero del ciclo a cui
-     * la lezione e' associata
-     * 
-     * @param ciclo 
-     */
-    public void setCycle(int ciclo){
-        this.cycle = ciclo;
-    }
-    
-    /** Metodo della classe incaricato di ritornare il curriculum a cui la lezione
-     * e' associata
-     * 
-     * @return restituisce il curriculum a cui la lezione e' associata
-     */
-    public String getCurriculum(){
-        return curriculum;            
-    }
-    
-    /** Metodo della classe incaricato di settare il curriculum a cui la lezione
-     * e' associata
-     * 
-     * @param curri 
-     */
-    public void setCurriculum(String curri){
-        this.curriculum = curri;
     }
     
     /** Metodo della classe incaricato di ritornare l'id del corso a cui la lezione

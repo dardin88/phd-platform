@@ -194,7 +194,8 @@ public class CalendarManager {
      * @throws SQLException
      * @throws IOException 
      */
-     public synchronized void update_lesson(int oldLessonID, Lesson pLesson) throws ClassNotFoundException, SQLException, IOException,IdException , NameException , ClassroomException , DescriptionException , DateException {
+     public synchronized void update_lesson(int oldLessonID, Lesson pLesson) throws 
+             ClassNotFoundException, SQLException, IOException,IdException , NameException , ClassroomException , DescriptionException , DateException {
         try (Connection connect = DBConnection.getConnection()) {
 
             /*
@@ -203,9 +204,9 @@ public class CalendarManager {
              */
             String tSql = "UPDATE "
                     + CalendarManager.TABLE_LESSON
-                    + " set idLesson = '"
+                    + " set idLesson = "
                     + testid(pLesson.getIdLesson())
-                    + "', date = '"
+                    + ", date = '"
                     + testStartData(pLesson.getData())
                     + "', startTime = '"
                     + pLesson.getStartTime()
@@ -217,18 +218,14 @@ public class CalendarManager {
                     + Utility.Replace(testClassroom(pLesson.getClassroom()))
                     + "', description = '"
                     + Utility.Replace(testDescriptionLesson(pLesson.getDescription()))
-                    + "', cycle = '"
-                    + testid(pLesson.getCycle())
-                    + "', curriculum = '"
-                    + Utility.Replace(testNomeLesson(pLesson.getCurriculum()))
                     + "', fkCourse = '"
                     + testid(pLesson.getFK_course())
                     + "' WHERE idLesson = "
                     + oldLessonID;           
 
-            System.out.println(tSql);
-            //Inviamo la Query al DataBase
-            Utility.executeOperation(connect, tSql);
+            
+            if(Utility.executeOperation(connect, tSql)==0)
+                throw new NameException();
 
             connect.commit();
         } 
@@ -369,8 +366,8 @@ public class CalendarManager {
              */
             String tSql = "SELECT * FROM "
                     + CalendarManager.TABLE_LESSON
-                    + " WHERE idLesson = '"
-                    + testid(pLessonID) + "'";
+                    + " WHERE idLesson = "
+                    + testid(pLessonID);
 
             //Inviamo la Query al DataBase
             ResultSet result = Utility.queryOperation(connect, tSql);
@@ -383,8 +380,6 @@ public class CalendarManager {
                 lesson.setName(result.getString("name"));
                 lesson.setClassroom(result.getString("classroom"));
                 lesson.setDescription(result.getString("description"));
-                lesson.setCycle(result.getInt("cycle"));
-                lesson.setCurriculum(result.getString("curriculum"));
                 lesson.setFK_course(result.getInt("fkCourse"));
             }
 
@@ -405,7 +400,8 @@ public class CalendarManager {
       * @throws IOException
       * @throws IdException 
       */
-     public synchronized Seminar getSeminarById(int pSeminarID) throws ClassNotFoundException, SQLException, IOException, IdException {
+     public synchronized Seminar getSeminarById(int pSeminarID) throws 
+             ClassNotFoundException, SQLException, IOException, IdException {
         Connection connect = null;
         try {
             Seminar seminar = new Seminar();
@@ -418,8 +414,8 @@ public class CalendarManager {
              */
             String tSql = "SELECT * FROM "
                     + CalendarManager.TABLE_SEMINAR
-                    + " WHERE idSeminar = '"
-                    + testid(pSeminarID) + "'";
+                    + " WHERE idSeminar ="
+                    + testid(pSeminarID);
 
             //Inviamo la Query al DataBase
             ResultSet result = Utility.queryOperation(connect, tSql);
@@ -434,6 +430,8 @@ public class CalendarManager {
                 seminar.setDescription(result.getString("description"));
                 seminar.setPlace(result.getString("place"));
                 seminar.setFK_course(result.getInt("fkCourse"));
+            }else{
+                throw new IdException();
             }
 
             return seminar;
@@ -443,7 +441,8 @@ public class CalendarManager {
         }
     }
        
-     public synchronized ArrayList<Course> getAllCourse() throws ClassNotFoundException, SQLException, IOException, IdException {
+     public synchronized ArrayList<Course> getAllCourse() throws 
+             ClassNotFoundException, SQLException, IOException, IdException {
       
     
          Statement stmt = null;
@@ -588,7 +587,8 @@ public class CalendarManager {
       * @throws IOException
       * @throws IdException 
       */
-     public synchronized Course getCourseById(int pCourseID) throws ClassNotFoundException, SQLException, IOException, IdException {
+     public synchronized Course getCourseById(int pCourseID) throws 
+             ClassNotFoundException, SQLException, IOException, IdException {
         Connection connect = null;
         try {
             Course course = new Course();
@@ -615,6 +615,8 @@ public class CalendarManager {
                 course.setDescription(result.getString("description"));
                 course.setStartDate(result.getDate("startDate"));
                 course.setEndDate(result.getDate("endDate"));
+            }else{
+                throw new IdException();
             }
 
             return course;
@@ -637,10 +639,15 @@ public class CalendarManager {
           ArrayList<Lesson> lessons = new ArrayList<Lesson>();
         
         Connection connect = null;
+        Connection connect2 = null;
         try {
             // Otteniamo una Connessione al DataBase
             connect = DBConnection.getConnection();
-
+            connect2 = DBConnection.getConnection();
+            String t="select * from course where idCourse="+idcourse;
+            ResultSet re=Utility.queryOperation(connect2, t);
+                if(!re.next())
+                    throw new IdException();
             /*
              * Prepariamo la stringa SQL per ricercare uno o piu' record 
              * nella tabella lesson
@@ -648,7 +655,7 @@ public class CalendarManager {
             String tSql = "SELECT * FROM "
                     + CalendarManager.TABLE_LESSON
                     + " WHERE fkCourse = "
-                    + testid(idcourse) + ""; //da modificare ancora
+                    + testid(idcourse); //da modificare ancora
 
             //Inviamo la Query al DataBase
             ResultSet result = Utility.queryOperation(connect, tSql);
@@ -670,6 +677,7 @@ public class CalendarManager {
 
         } finally {
             DBConnection.releaseConnection(connect);
+            DBConnection.releaseConnection(connect2);
         }
         
         
@@ -680,10 +688,15 @@ public class CalendarManager {
           ArrayList<Seminar> seminars = new ArrayList<Seminar>();
         
         Connection connect = null;
+        Connection connect2 = null;
         try {
             // Otteniamo una Connessione al DataBase
             connect = DBConnection.getConnection();
-
+            connect2 = DBConnection.getConnection();
+            String t="select * from course where idCourse="+idcourse;
+            ResultSet re=Utility.queryOperation(connect2, t);
+                if(!re.next())
+                    throw new IdException();
             /*
              * Prepariamo la stringa SQL per ricercare uno o piu' record 
              * nella tabella lesson
@@ -691,7 +704,7 @@ public class CalendarManager {
             String tSql = "SELECT * FROM "
                     + CalendarManager.TABLE_SEMINAR
                     + " WHERE fkCourse = "
-                    + testid(idcourse) + ""; //da modificare ancora
+                    + testid(idcourse);
 
             //Inviamo la Query al DataBase
             ResultSet result = Utility.queryOperation(connect, tSql);
@@ -715,6 +728,7 @@ public class CalendarManager {
 
         } finally {
             DBConnection.releaseConnection(connect);
+            DBConnection.releaseConnection(connect2);
         }
         
         

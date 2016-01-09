@@ -47,8 +47,6 @@ public class GetLessonServlet extends HttpServlet {
                 result.put("name", c.getName());
                 result.put("classroom", c.getClassroom());
                 result.put("description", c.getDescription());
-                result.put("cycle", c.getCycle());
-                result.put("curriculum", c.getCurriculum());
                 result.put("fkCourse", c.getFK_course());
                 out.write(result.toString());
             } catch (ClassNotFoundException | SQLException | JSONException | IdException ex) {

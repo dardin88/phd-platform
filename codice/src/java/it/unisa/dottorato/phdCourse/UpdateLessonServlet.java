@@ -72,8 +72,6 @@ public class UpdateLessonServlet extends HttpServlet {
                 lesson.setName(name);
                 lesson.setClassroom(classroom);
                 lesson.setDescription(description);
-                lesson.setCycle(Integer.parseInt(cycle));
-                lesson.setCurriculum(curriculum);
                 lesson.setFK_course(Integer.parseInt(course));
 
                 result.put("result", true);

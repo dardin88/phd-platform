@@ -380,85 +380,7 @@ public class CalendarManagerTest {
             assertTrue(true);
         }
     }
-    
-    @Test
-    public void testInsertMinCycleLesson() {
-        les.setIdLesson(1);    
-        les.setDate(new Date(2015,12,12));
-        les.setStartTime("12:22");
-        les.setEndTime("13:00");
-        les.setName("BD");
-        les.setDescription("Lezione Basi di dati");
-        les.setClassroom("P1");
-        les.setCycle(-1);
-         try{
-             instance.insert_lesson(les);
-            fail("fail");
-        }catch(Exception x){
-            assertTrue(true);
-        }
-    }
-    
-    @Test
-    public void testInsertMaxCycleLesson() {
-        les.setIdLesson(1);    
-        les.setDate(new Date(2015,12,12));
-        les.setStartTime("12:22");
-        les.setEndTime("13:00");
-        les.setName("BD");
-        les.setDescription("Lezione Basi di dati");
-        les.setClassroom("P1");
-        les.setCycle(123456997);
-         try{
-             instance.insert_lesson(les);
-            fail("fail");
-        }catch(Exception x){
-            assertTrue(true);
-        }
-    }
-    
-   
-    
-    
-    @Test
-    public void testInsertMinCurriculumLesson() {
-        les.setIdLesson(1);    
-        les.setDate(new Date(2015,12,12));
-        les.setStartTime("12:22");
-        les.setEndTime("13:00");
-        les.setName("BD");
-        les.setDescription("Lezione Basi di dati");
-        les.setClassroom("P1");
-        les.setCycle(3);
-        les.setCurriculum("");
-         try{
-             instance.insert_lesson(les);
-            fail("fail");
-        }catch(Exception x){
-            assertTrue(true);
-        }
-    }
-    
-    
-    @Test
-    public void testInsertMaxCurriculumLesson() {
-        les.setIdLesson(1);    
-        les.setDate(new Date(2015,12,12));
-        les.setStartTime("12:22");
-        les.setEndTime("13:00");
-        les.setName("BD");
-        les.setDescription("Lezione Basi di dati");
-        les.setClassroom("P1");
-        les.setCycle(3);
-        les.setCurriculum("Prova superamento stringa,Prova superamento stringa,Prova superamento stringa,Prova superamento stringa,Prova superamento stringa,Prova superamento stringa,Prova superamento stringa,Prova superamento stringa,Prova superamento stringa,Prova superamento stringa,Prova superamento stringaProva superamento stringa,,");
-         try{
-             instance.insert_lesson(les);
-            fail("fail");
-        }catch(Exception x){
-            assertTrue(true);
-        }
-    }
-    
+
     
     @Test
     public void testInsertMinCourseLesson() {
@@ -469,8 +391,6 @@ public class CalendarManagerTest {
         les.setName("BD");
         les.setDescription("Lezione Basi di dati");
         les.setClassroom("P1");
-        les.setCycle(3);
-        les.setCurriculum("Curriculum di prova");
         les.setFK_course(-1);
          try{
              instance.insert_lesson(les);
@@ -489,8 +409,6 @@ public class CalendarManagerTest {
         les.setName("BD");
         les.setDescription("Lezione Basi di dati");
         les.setClassroom("P1");
-        les.setCycle(3);
-        les.setCurriculum("Curriculum di prova");
         les.setFK_course(88888888);
          try{
              instance.insert_lesson(les);
@@ -506,15 +424,13 @@ public class CalendarManagerTest {
     public void testInsertLessonok() throws Exception {
       
         les.setIdLesson(5);    
-        les.setDate(new Date(2000,12,12));       
+        les.setDate(new java.sql.Date(2015,10,12));       
         les.setStartTime("12:00");
         les.setEndTime("13:22");
         les.setName("Basi di dati");
         les.setDescription("Lezione Basi di dati");
         les.setClassroom("P1");
-        les.setCycle(3);
-        les.setCurriculum("Curriculum di prova");
-        les.setFK_course(6);
+        les.setFK_course(1);
          try{
             instance.insert_lesson(les);
             assertTrue(true);
@@ -700,89 +616,6 @@ public class CalendarManagerTest {
     }
     
     @Test
-    public void testUpdateMinCycleLesson(){
-           int oldId = 5;
-        les.setIdLesson(1);    
-        les.setDate(new Date(2015,12,12));
-        les.setStartTime("12:22");
-        les.setEndTime("13:00");
-        les.setName("BD");
-        les.setDescription("Lezione Basi di dati");
-        les.setClassroom("P1");
-        les.setCycle(-1);
-         try{
-            instance.update_lesson(oldId,les);
-            fail("fail");
-        }catch(Exception x){
-            assertTrue(true);
-        }
-    }
-    
-    @Test
-    public void testUpdateMaxCycleLesson(){
-           int oldId = 5;
-        les.setIdLesson(1);    
-        les.setDate(new Date(2015,12,12));
-        les.setStartTime("12:22");
-        les.setEndTime("13:00");
-        les.setName("BD");
-        les.setDescription("Lezione Basi di dati");
-        les.setClassroom("P1");
-        les.setCycle(12345678);
-         try{
-           instance.update_lesson(oldId,les);
-            fail("fail");
-        }catch(Exception x){
-            assertTrue(true);
-        }
-    }
-    
-   
-    
-    
-    @Test
-    public void testUpdateMinCurriculumLesson() {
-         int oldId = 5;
-        les.setIdLesson(1);    
-        les.setDate(new Date(2015,12,12));
-        les.setStartTime("12:22");
-        les.setEndTime("13:00");
-        les.setName("BD");
-        les.setDescription("Lezione Basi di dati");
-        les.setClassroom("P1");
-        les.setCycle(3);
-        les.setCurriculum("");
-         try{
-              instance.update_lesson(oldId,les);
-            fail("fail");
-        }catch(Exception x){
-            assertTrue(true);
-        }
-    }
-    
-    
-    @Test
-    public void testUpdateMaxCurriculumLesson(){
-          int oldId = 5;
-        les.setIdLesson(1);    
-        les.setDate(new Date(2015,12,12));
-        les.setStartTime("12:22");
-        les.setEndTime("13:00");
-        les.setName("BD");
-        les.setDescription("Lezione Basi di dati");
-        les.setClassroom("P1");
-        les.setCycle(3);
-        les.setCurriculum("Prova superamento stringa,Prova superamento stringa,Prova superamento stringa,Prova superamento stringa,Prova superamento stringa,Prova superamento stringa,Prova superamento stringa,Prova superamento stringa,Prova superamento stringa,Prova superamento stringa,Prova superamento stringaProva superamento stringa,,");
-         try{
-          instance.update_lesson(oldId,les);
-            fail("fail");
-        }catch(Exception x){
-            assertTrue(true);
-        }
-    }
-    
-    
-    @Test
     public void testUpdateMinCourseLesson(){
           int oldId = 5;
         les.setIdLesson(1);    
@@ -792,8 +625,6 @@ public class CalendarManagerTest {
         les.setName("BD");
         les.setDescription("Lezione Basi di dati");
         les.setClassroom("P1");
-        les.setCycle(3);
-        les.setCurriculum("Curriculum di prova");
         les.setFK_course(-1);
          try{
              instance.update_lesson(oldId,les);
@@ -813,8 +644,6 @@ public class CalendarManagerTest {
         les.setName("BD");
         les.setDescription("Lezione Basi di dati");
         les.setClassroom("P1");
-        les.setCycle(3);
-        les.setCurriculum("Curriculum di prova");
         les.setFK_course(88888888);
          try{
               instance.update_lesson(oldId,les);
@@ -836,8 +665,6 @@ public class CalendarManagerTest {
         les.setName("BD");
         les.setDescription("Lezione Basi di dati");
         les.setClassroom("P1");
-        les.setCycle(3);
-        les.setCurriculum("Curriculum di prova");
         les.setFK_course(6);
          try{
              instance.update_lesson(oldId,les);
@@ -889,14 +716,14 @@ public class CalendarManagerTest {
     public void testInsertSeminarok() {
        
         sem.setIdSeminar(1);
-      //  sem.setDate(new Date(2015,15,12));
+        sem.setDate(new java.sql.Date(2015,10,12));
         sem.setStartTime("12:00");
         sem.setEndTime("15:00");
         sem.setName("Algoritmi");
         sem.setNameSpeacker("Antonio Verdi");
         sem.setDescription("Seminario su algoritmi avanzati");
         sem.setPlace("aula p2");
-        sem.setFK_course(2);
+        sem.setFK_course(1);
         
          try{
             instance.insert_seminar(sem);
