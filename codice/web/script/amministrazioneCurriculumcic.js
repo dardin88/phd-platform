@@ -5,8 +5,8 @@
  */
 
 $(document).ready(function () {
-    getCycleList();
     $("#sezioneCiclo").hide();
+    getCycleList();
 });
 
 function getCycleList()
@@ -60,7 +60,6 @@ function selectedItem()
 
         //servlet per richiamare il tutor
         $.getJSON("ViewCycleCoordinator", {number: selectedCycle}, function (data) {
-
             $("#removeTutorButton").show();
             $("#TutorNameField").html(" <b> " + data.name + " " + data.surname + " </b> ");
             tutorKey = data.fkAccount; //salviamo la mail del professore 
@@ -167,6 +166,8 @@ function viewCollegio()
     $("#descriptionPanel").hide();
     $("#coordinatoreCurriculumDiv").hide();
     $("#DocentiCurriculumDiv").hide();
+    $("#sezioneCurriculum").hide();
+    $("#buttonCloseSezioneCurriculum").hide();
 
 }
 
@@ -229,6 +230,7 @@ function removeTutorButton()
 
 function viewCurriculumButton(id)
 {
+    selectedDescriptionCurriculum = id;
     $("#sezioneCurriculum").show();
     //servlet per richiamare le informazioni sul curriculum selezionato
     $.getJSON("GetCurriculumByName", {CurriculumName: id}, function (data) {
@@ -238,7 +240,9 @@ function viewCurriculumButton(id)
     
     $("#descriptionPanel").show();
     $("#coordinatoreCurriculumDiv").show();
+    $("#coordinatoreCurriculumDiv tr").remove();
     $("#DocentiCurriculumDiv").show();
+    //$("#CurriculumTutorNameField").html("nessun tutor");
 
     
     
@@ -250,20 +254,26 @@ function viewCurriculumButton(id)
             });
         });
     
-    /*
-    //servlet per richiamare il coordinatore del curriculum
-        $.getJSON("ViewCurriculumcicCoordinatorServlet", {fkCycle: selectedCycle, fkCurriculum:id, fkProfessor:boh}, function (data) {
-
+    
+    //servlet per richiamare il coordinatore del curriculum all'interno del ciclo
+        $.getJSON("ViewCurriculumcicCoordinatorServlet", {fkCycle: selectedCycle, fkCurriculum:id}, function (data) {
+            if(data.result === false) 
+            {
+                $("#CurriculumTutorNameField").html("nessun tutor");
+                $("#removeCurriculumTutorButton").hide();
+            }
+            else{
             $("#removeCurriculumTutorButton").show();
             $("#CurriculumTutorNameField").html(" <b> " + data.name + " " + data.surname + " </b> ");
-            tutorKey = data.fkAccount; //salviamo la mail del professore 
+            CurriculumtutorKey = data.fkAccount; //salviamo la mail del professore 
+        }
         });
-     */
+     
     
     //servlet per riempire la tabella con tutti i professori del collegio
         $.getJSON("ViewProfessorListServlet", {fkCycle: selectedCycle, fkCurriculum: id, fkProfessor:null}, function (data) {
             $.each(data.prof, function (index, value) {
-                professore = "<tr> <td> " + value.name + " " + value.surname + "</td>   <td> <button class='btn btn-red' id=" + value.secondaryEmail + " onclick='addCurriculumTutorButton(" + 'id' + ")' > <span class='glyphicon glyphicon-remove' aria-hidden='true' ></span> Rimuovi </button>  </td>  </tr> "; // la secondaryEmail è la chiave primaria del professore che dovrà essere settato come nuovo tutor
+                professore = "<tr> <td> " + value.name + " " + value.surname + "</td>   <td> <button class='btn btn-red' id=" + value.secondaryEmail + " onclick='removeProfessorFromCurriculum(" + 'id' + ")' > <span class='glyphicon glyphicon-remove' aria-hidden='true' ></span> Rimuovi </button>  </td>  </tr> "; // la secondaryEmail è la chiave primaria del professore che dovrà essere settato come nuovo tutor
                 $("#CurriculumDocentiTableList").append(professore);
             });
         });
@@ -325,5 +335,56 @@ function closeSezioneCurriculum()
 
 function addCurriculumTutorButton(id)
 {
-    alert(id);
+    //in id abbiamo la mail del nuovo coordinatore che deve essere assegnato
+    //alert(id);
+    
+    CurriculumTutorName = $("#CurriculumTutorNameField").html();
+    if (CurriculumTutorName === 'nessun tutor') { //non c'è un tutor assegnato, dobbiamo soltanto aggiungercelo
+        //servlet per fare inserire il nuovo coordinatore
+        $.getJSON("InsertCurriculumcicCoordinator", {fkCycle: selectedCycle, fkCurriculum: selectedDescriptionCurriculum, fkProfessor: id}, function (data) {
+            //alert("siamo nella servlet");
+            selectedItem();
+            viewCurriculumButton(selectedDescriptionCurriculum);
+        });
+
+    }
+    else { //c'è gia un tutor assegnato: dobbiamo  aggiornarlo
+        if (CurriculumtutorKey === id)
+        {
+            alert("Hai selezionato il tutor attuale");
+        }
+        else {
+            // da IMPLEMENTARE e provare ancora PERCHE SERVE UN ALTRO PROFESSORE
+            //servlet per rimuovere il vecchio coordinatore assegnato 
+            $.getJSON("DeleteCurriculumcicCoordinatorServlet", {fkCycle: selectedCycle, fkCurriculum: selectedDescriptionCurriculum}, function (data) {
+           
+        });
+
+            //servlet per fare inserire il nuovo coordinatore
+            $.getJSON("InsertCurriculumcicCoordinator", {fkCycle: selectedCycle, fkCurriculum: selectedDescriptionCurriculum, fkProfessor: id}, function (data) {
+            //alert("siamo nella servlet");
+            selectedItem();
+            viewCurriculumButton(selectedDescriptionCurriculum);
+        });
+        }
+    }
+    
+}
+
+function removeCurriculumTutorButton()
+
+{
+    alert(CurriculumtutorKey);
+    
+    //servlet per eliminare il coordinatore del curriculum all'interno del ciclo
+        $.getJSON("DeleteCurriculumcicCoordinatorServlet", {fkCycle: selectedCycle, fkCurriculum: selectedDescriptionCurriculum}, function (data) {
+           // alert("siamo nella servlet");
+            selectedItem();
+            viewCurriculumButton(selectedDescriptionCurriculum);
+        });
+}
+
+function removeProfessorFromCurriculum(id)
+{
+ alert(id);   
 }

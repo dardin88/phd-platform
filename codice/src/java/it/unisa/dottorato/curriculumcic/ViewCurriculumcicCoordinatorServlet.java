@@ -1,5 +1,6 @@
 package it.unisa.dottorato.curriculumcic;
 
+import it.unisa.dottorato.account.Professor;
 import it.unisa.dottorato.exception.IdException;
 import it.unisa.dottorato.exception.NameException;
 import java.io.IOException;
@@ -49,18 +50,18 @@ public class ViewCurriculumcicCoordinatorServlet extends HttpServlet {
             JSONObject result = new JSONObject();
             int number = Integer.parseInt( request.getParameter("fkCycle"));
             String name = request.getParameter("fkCurriculum");
-            String coordinatore = request.getParameter("fkProfessor");
             
             Curriculumcic curr=new Curriculumcic();
             curr.setfkCycle(number);
             curr.setfkCurriculum(name);
-            curr.setfkProfessor(coordinatore);
-            
-            
-            result.put("result", true);
             
             try {
-                CurriculumcicManager.getInstance().viewCurriculumcicCoordinator(curr);
+                Professor professor = CurriculumcicManager.getInstance().viewCurriculumcicCoordinator(curr);
+                result.put("fkAccount", professor.getfkAccount());
+                result.put("name", professor.getName());
+                result.put("surname", professor.getSurname());
+                if(professor.getName() == null) result.put("result", false);
+                else result.put("result", true);
             } catch (ClassNotFoundException | SQLException ex) {
                 result.put("result", false);
                 Logger.getLogger(ViewCurriculumcicCoordinatorServlet.class.getName()).log(Level.SEVERE, null, ex);
