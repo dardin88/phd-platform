@@ -6,6 +6,7 @@
 package it.unisa.dottorato.presence;
 
 
+import it.unisa.dottorato.exception.IdException;
 import java.io.IOException;
 import java.io.PrintWriter;
 import java.sql.SQLException;
@@ -37,7 +38,7 @@ public class InsertPresenceServlet extends HttpServlet {
      * @throws IOException if an I/O error occurs
      */
     protected void processRequest(HttpServletRequest request, HttpServletResponse response)
-            throws ServletException, IOException {
+            throws ServletException, IOException, PhdStudentexception, IdException {
 
          try {
             response.setContentType("text/html;charset=UTF-8");
@@ -86,7 +87,13 @@ public class InsertPresenceServlet extends HttpServlet {
     protected void doGet(HttpServletRequest request, HttpServletResponse response)
             throws ServletException, IOException {
        
+        try {
             processRequest(request, response);
+        } catch (PhdStudentexception ex) {
+            Logger.getLogger(InsertPresenceServlet.class.getName()).log(Level.SEVERE, null, ex);
+        } catch (IdException ex) {
+            Logger.getLogger(InsertPresenceServlet.class.getName()).log(Level.SEVERE, null, ex);
+        }
         
     }
 
@@ -102,7 +109,13 @@ public class InsertPresenceServlet extends HttpServlet {
     protected void doPost(HttpServletRequest request, HttpServletResponse response)
             throws ServletException, IOException {
         
+        try {
             processRequest(request, response);
+        } catch (PhdStudentexception ex) {
+            Logger.getLogger(InsertPresenceServlet.class.getName()).log(Level.SEVERE, null, ex);
+        } catch (IdException ex) {
+            Logger.getLogger(InsertPresenceServlet.class.getName()).log(Level.SEVERE, null, ex);
+        }
         
     }
 
