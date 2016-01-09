@@ -1,4 +1,5 @@
 package it.unisa.dottorato.presence;
+import it.unisa.dottorato.exception.IdException;
 import java.io.IOException;
 import java.io.PrintWriter;
 import java.sql.SQLException;
@@ -35,7 +36,7 @@ public class ModifyPresenceServlet extends HttpServlet{
      * @throws JSONException if a JSON error occurs
      */
      protected void processRequest(HttpServletRequest request, HttpServletResponse response)
-            throws ServletException, IOException, JSONException {
+            throws ServletException, IOException, JSONException, IdException {
         response.setContentType("text/html;charset=UTF-8");
         PrintWriter out = response.getWriter();
         JSONObject result = new JSONObject();
@@ -80,6 +81,8 @@ public class ModifyPresenceServlet extends HttpServlet{
              processRequest(request, response);
          } catch (JSONException ex) {
              Logger.getLogger(ModifyPresenceServlet.class.getName()).log(Level.SEVERE, null, ex);
+         } catch (IdException ex) {
+             Logger.getLogger(ModifyPresenceServlet.class.getName()).log(Level.SEVERE, null, ex);
          }
     }
 
@@ -97,6 +100,8 @@ public class ModifyPresenceServlet extends HttpServlet{
          try {
              processRequest(request, response);
          } catch (JSONException ex) {
+             Logger.getLogger(ModifyPresenceServlet.class.getName()).log(Level.SEVERE, null, ex);
+         } catch (IdException ex) {
              Logger.getLogger(ModifyPresenceServlet.class.getName()).log(Level.SEVERE, null, ex);
          }
     }
