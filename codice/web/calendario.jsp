@@ -7,6 +7,11 @@
 <%@page import="it.unisa.dottorato.account.*"%>
 <%@page contentType="text/html" pageEncoding="UTF-8"%>
 <!DOCTYPE html>
+<c:choose>
+    <c:when test="${sessionScope.account == null}">
+        <c:redirect url="login.jsp" />
+    </c:when>
+</c:choose>
 <html>
     <head>
      
