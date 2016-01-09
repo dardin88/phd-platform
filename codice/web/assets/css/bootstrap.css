@@ -185,7 +185,7 @@ th {
         background: transparent !important;
         box-shadow: none !important;
     }
-    a,
+    #linkBar a,
     a:visited {
         text-decoration: underline;
         color:#e8eaf6;

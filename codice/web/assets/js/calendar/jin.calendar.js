@@ -74,8 +74,8 @@ jinCalendar.getScheduleDate1= function() {
                             yyyymm : startDate,
                             day : startDay,
                             type : '1',
-                            title: 'Lezione di '+value1.name + ' classe: '+value1.classroom ,
-                            text : value1.description + '--- Inizio Lezione: '+ inizio + ' Fine lezione: '+fine
+                            title: 'Lezione di '+value1.name + '<br> classe: '+value1.classroom ,
+                            text : value1.description + '<br> Inizio Lezione: '+ inizio + '<br> Fine lezione: '+fine
                         }];
                         
                         jinCalendar.setScheduleLesson();
@@ -109,7 +109,7 @@ jinCalendar.getScheduleDate1= function() {
                     day : startDay,
                     type : '2',
                     title: 'Seminario di '+value.name,
-                    text : value.description + ' classe: '+value.place
+                    text : value.description + '<br> luogo: '+value.place
                 }];
             jinCalendar.setScheduleSeminar();
                 
@@ -174,8 +174,8 @@ jinCalendar.getScheduleDate2= function() {
                                 yyyymm : startDate,
                                 day : startDay,
                                 type : '1',
-                                title: 'Lezione di '+value.name + ' classe: '+value.classroom ,
-                                text : value.description + '--- Inizio Lezione: '+ inizio + ' Fine lezione: '+fine
+                                title: 'Lezione di '+value.name + '<br> classe: '+value.classroom ,
+                                text : value.description + '<br> Inizio Lezione: '+ inizio + '<br> Fine lezione: '+fine
                              }];
                              jinCalendar.setScheduleLesson();
                         
@@ -201,7 +201,7 @@ jinCalendar.getScheduleDate2= function() {
                             day : startDay,
                             type : '2',
                             title: 'Seminario di '+value.name,
-                            text : value.desription + ' classe: '+value.place
+                            text : value.desription + '<br> luogo: '+value.place
                          }];
                         jinCalendar.setScheduleSeminar();
                 
@@ -326,12 +326,13 @@ jinCalendar.setScheduleCourse = function() {
 	for ( var n in obj) {
 		var item = obj[n];
 
-		var html = '<button type="button" class="btn {TYPE} standard-description-course btn-xs" data-toggle="tooltip" data-placement="top" title="{TEXT}">{TITLE}</button>';
+		var html = '<button type="button" class="btn {TYPE} standard-description-course btn-xs" data-toggle="tooltip" data-placement="top" title="{TEXT}" descr="{TITLE}">{TITLE}</button>';
 
 		html = html.replace('{TITLE}',
 				item.title).replace('{TYPE}',
 				sType[item.type])
-				.replace('{TEXT}', item.text);
+				.replace('{TEXT}', item.text).replace('{TITLE}',
+				item.title);;
                 var data = date1.getFullYear() + '' + FormatMe(date1.getMonth() + 1) + '';
                 
                 if(data===item.yyyymm){
@@ -339,9 +340,15 @@ jinCalendar.setScheduleCourse = function() {
                     $('#td-' + item.day).html(strDefault + html);
                 }
             }
-     ///CLICK SUL CALENDARIO
+     ///CLICK SUL CORSO
    $('.standard-description-course').click(function() {
-		alert($(this).attr('title'));
+                $("#titleInfo").html("");
+                $("#descriptionInfo").html("");
+                $("#infoDialog").modal();
+                title = $(this).attr('descr');
+                text = $(this).attr('title');
+                $("#titleInfo").html(title);
+                $("#descriptionInfo").html(text);
 	});
 
 	$("td>div").css({
@@ -359,12 +366,13 @@ jinCalendar.setScheduleLesson = function() {
 	for ( var n in obj) {
 		var item = obj[n];
 
-		var html = '<button type="button" class="btn {TYPE} standard-description-lesson btn-xs" data-toggle="tooltip" data-placement="top" title="{TEXT}">{TITLE}</button>';
+		var html = '<button type="button" class="btn {TYPE} standard-description-lesson btn-xs" data-toggle="tooltip" data-placement="top" title="{TEXT}" descr="{TITLE}">{TITLE}</button>';
 
 		html = html.replace('{TITLE}',
 				item.title).replace('{TYPE}',
 				sType[item.type])
-				.replace('{TEXT}', item.text);
+				.replace('{TEXT}', item.text).replace('{TITLE}',
+				item.title);
                 var data = date1.getFullYear() + '' + FormatMe(date1.getMonth() + 1) + '';
                 
                 if(data===item.yyyymm){
@@ -373,9 +381,15 @@ jinCalendar.setScheduleLesson = function() {
                 }
 
 	}
-     ///CLICK SUL CALENDARIO
+     ///CLICK SULLA LEZIONE
    $('.standard-description-lesson').click(function() {
-		alert($(this).attr('title'));
+                $("#titleInfo").html("");
+                $("#descriptionInfo").html("");
+                $("#infoDialog").modal();
+                title = $(this).attr('descr');
+                text = $(this).attr('title');
+                $("#titleInfo").html(title);
+                $("#descriptionInfo").html(text);
 	});
 
 	$("td>div").css({
@@ -395,12 +409,13 @@ jinCalendar.setScheduleSeminar = function() {
 	for ( var n in obj) {
 		var item = obj[n];
 
-		var html = '<button type="button" class="btn {TYPE} standard-description-seminar btn-xs" data-toggle="tooltip" data-placement="top" title="{TEXT}">{TITLE}</button>';
+		var html = '<button type="button" class="btn {TYPE} standard-description-seminar btn-xs" data-toggle="tooltip" data-placement="top" title="{TEXT}"  descr="{TITLE}">{TITLE}</button>';
 
 		html = html.replace('{TITLE}',
 				item.title).replace('{TYPE}',
 				sType[item.type])
-				.replace('{TEXT}', item.text);
+				.replace('{TEXT}', item.text).replace('{TITLE}',
+				item.title);;
                 var data = date1.getFullYear() + '' + FormatMe(date1.getMonth() + 1) + '';
                 
                 if(data===item.yyyymm){
@@ -409,9 +424,15 @@ jinCalendar.setScheduleSeminar = function() {
                 }
             }
          
-       ///CLICK SUL CALENDARIO
+       ///CLICK SUL SEMINARIO
    $('.standard-description-seminar').click(function() {
-		alert($(this).attr('title'));
+                 $("#titleInfo").html("");
+                $("#descriptionInfo").html("");
+                $("#infoDialog").modal();
+                title = $(this).attr('descr');
+                text = $(this).attr('title');
+                $("#titleInfo").html(title);
+                $("#descriptionInfo").html(text);
 	});
 
 	$("td>div").css({

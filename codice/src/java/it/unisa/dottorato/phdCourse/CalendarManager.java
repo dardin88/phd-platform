@@ -521,7 +521,7 @@ public class CalendarManager {
          Statement stmt = null;
         ResultSet result = null;
         Connection connection = null;
-       Seminar seminar = new Seminar();
+       
         ArrayList<Seminar> listSeminar = new ArrayList<Seminar>();
         
         try {
@@ -541,6 +541,7 @@ public class CalendarManager {
             stmt = connection.createStatement();
             result = stmt.executeQuery(query);
                while (result.next()) {
+                Seminar seminar = new Seminar();
                 seminar.setIdSeminar(result.getInt("idSeminar"));
                 seminar.setDate(result.getDate("date"));
                 seminar.setStartTime(("startTime"));
