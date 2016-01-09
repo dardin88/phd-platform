@@ -34,6 +34,8 @@ function selectedItem()
     $("#tutorTableList tr").remove();
     $("#curriculumList tr").remove();
     $("#descriptionPanel").hide();
+    $("#coordinatoreCurriculumDiv").hide();
+    $("#DocentiCurriculumDiv").hide();
 
     selectedCycle = $("#CycleList option:selected").val(); // la chiave primaria di ciclo
     if (selectedCycle !== "default")
@@ -123,6 +125,9 @@ function addCycleButton()
     $("#curriculumsDiv").hide();
     $("#divPanelAddORModify").show();
     $("#descriptionPanel").hide();
+    $("#coordinatoreCurriculumDiv").hide();
+    $("#DocentiCurriculumDiv").hide();
+
 
     $("#cycleTitle").html("Aggiunta di un nuovo ciclo");
     $("#cycleYearField").html("");
@@ -160,6 +165,9 @@ function viewCollegio()
     $("#curriculumsDiv").hide();
     $("#collegioDiv").show();
     $("#descriptionPanel").hide();
+    $("#coordinatoreCurriculumDiv").hide();
+    $("#DocentiCurriculumDiv").hide();
+
 }
 
 function closeCollegioDiv()
@@ -226,13 +234,46 @@ function viewCurriculumButton(id)
     $.getJSON("GetCurriculumByName", {CurriculumName: id}, function (data) {
         $("#CurriculumNameField").html(" <b> " + data.CurriculumName + "  </b> ");
         $("#CurriculumDescriptionField").html(data.CurriculumDescription);
-        $("#descriptionPanel").show();
     });
+    
+    $("#descriptionPanel").show();
+    $("#coordinatoreCurriculumDiv").show();
+    $("#DocentiCurriculumDiv").show();
+
+    
+    
+    //servlet per riempire la tabella con tutti i professori del collegio per la tabella del tutor
+        $.getJSON("ViewCollegeCycleServlet", {number: selectedCycle}, function (data) {
+            $.each(data.prof, function (index, value) {
+                professorColleg = "<tr> <td> " + value.name + "</td> <td> " + value.surname + "</td>  <td> <button class='btn btn-orange' id=" + value.secondaryEmail + " onclick='addCurriculumTutorButton(" + 'id' + ")' > <span class='glyphicon glyphicon-sort' aria-hidden='true' ></span> Aggiorna </button>  </td>  </tr> "; // la secondaryEmail è la chiave primaria del professore che dovrà essere settato come nuovo tutor
+                $("#CurriculumtutorTableList").append(professorColleg);
+            });
+        });
+    
+    /*
+    //servlet per richiamare il coordinatore del curriculum
+        $.getJSON("ViewCurriculumcicCoordinatorServlet", {fkCycle: selectedCycle, fkCurriculum:id, fkProfessor:boh}, function (data) {
+
+            $("#removeCurriculumTutorButton").show();
+            $("#CurriculumTutorNameField").html(" <b> " + data.name + " " + data.surname + " </b> ");
+            tutorKey = data.fkAccount; //salviamo la mail del professore 
+        });
+     */
+    
+    //servlet per riempire la tabella con tutti i professori del collegio
+        $.getJSON("ViewProfessorListServlet", {fkCycle: selectedCycle, fkCurriculum: id, fkProfessor:null}, function (data) {
+            $.each(data.prof, function (index, value) {
+                professore = "<tr> <td> " + value.name + " " + value.surname + "</td>   <td> <button class='btn btn-red' id=" + value.secondaryEmail + " onclick='addCurriculumTutorButton(" + 'id' + ")' > <span class='glyphicon glyphicon-remove' aria-hidden='true' ></span> Rimuovi </button>  </td>  </tr> "; // la secondaryEmail è la chiave primaria del professore che dovrà essere settato come nuovo tutor
+                $("#CurriculumDocentiTableList").append(professore);
+            });
+        });
+    
+    
 }
 
 function removeCurriculumButton(id)
 {
-    alert("vuoi eliminare il curriculum con id " + id);
+    //alert("vuoi eliminare il curriculum con id " + id);
     
     //servlet per rimuovere il curriculum selezionato
         $.getJSON("DeleteCurriculumcic", {number: selectedCycle, name: id}, function (data) {
@@ -274,4 +315,15 @@ function addCurriculuminCicButton()
 function closeModifyORaddDiv()
 {
     selectedItem();
+}
+
+function closeSezioneCurriculum()
+{
+    selectedItem();
+}
+
+
+function addCurriculumTutorButton(id)
+{
+    alert(id);
 }

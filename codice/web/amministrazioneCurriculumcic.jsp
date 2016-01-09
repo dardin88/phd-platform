@@ -72,7 +72,7 @@
                 <div class="row"> 
 
 
-                    <div class="well-small col-lg-6 col-lg-offset-0 col-md-8 col-md-offset-2 col-sm-10 col-sm-offset-1 col-xs-12">
+                    <div class="well-small col-lg-5 col-lg-offset-0 col-md-8 col-md-offset-2 col-sm-10 col-sm-offset-1 col-xs-12">
                         <div class="panel panel-default" style="margin-top: 10px" id="CycleSelectedDiv" hidden>
                             <div class="panel-heading">
                                 <h3 id="cycleName">--Ciclo selezionato-- </h3>  
@@ -80,20 +80,35 @@
                                 <h4 id="cycleYear"> anno del ciclo </h4>
                             </div>
                             <div class="panel-footer" style="background-color: transparent" >
-                                <button type="button" class="btn btn-default btn-red" onclick="removeCycleButton()"> 
-                                    Rimuovi Ciclo
-                                    <span class="glyphicon glyphicon-remove-sign" aria-hidden="true"></span> 
-                                </button>
+                                <div class="row">
+                                    <div class=" col-lg-2 col-lg-offset-0 col-md-8 col-md-offset-2 col-sm-10 col-sm-offset-1 col-xs-12" id="removeButtonSpace">
+                                        <button type="button" class="btn btn-default btn-red" onclick="removeCycleButton()"> 
+                                            Rimuovi Ciclo
+                                        </button>
+                                    </div> 
+                                      
+                                    <div class=" col-lg-3 col-lg-offset-2 col-md-8 col-md-offset-2 col-sm-10 col-sm-offset-1 col-xs-12" id="modifyButtonSpace">
+                                        <button type="button" class="btn"  onclick="viewCollegio()">
+                                            Visualizza il colleggio docenti
+                                        </button>
+                                    </div>  
+                                </div>
 
-                                <button type="button" class="btn btn-large" onclick="viewCollegio()">
-                                    Visualizza il colleggio docenti
-                                    <span class="glyphicon glyphicon-arrow-right" aria-hidden="true"></span>
-                                </button>
+
+
+
+
+
+
+
+
+
+
                             </div>  
                         </div>
                     </div>    
 
-                    <div class="well-small col-lg-6 col-lg-offset-0 col-md-8 col-md-offset-2 col-sm-10 col-sm-offset-1 col-xs-12">
+                    <div class="well-small col-lg-7 col-lg-offset-0 col-md-8 col-md-offset-2 col-sm-10 col-sm-offset-1 col-xs-12">
 
                         <div class="panel panel-default" style="margin-top: 10px" id="collegioDiv" hidden>
                             <div class="panel-heading">
@@ -114,6 +129,7 @@
 
                         </div>    
                     </div> 
+
 
 
 
@@ -238,7 +254,9 @@
                 </div>
 
                 <div class="row"> 
-                    <h3 id="sezioneCurriculum" class="text-center" hidden><i> Sezione informazioni curriculum legati al ciclo selezionato</i></h3>
+                    <h3 id="sezioneCurriculum" class="text-center" hidden><i> Sezione informazioni curriculum legati al ciclo selezionato</i>
+                        <button type="button" class="btn-black" id="buttonCloseSezioneCurriculum" onclick="closeSezioneCurriculum()" >&times;</button>
+                    </h3>
                 </div>
 
                 <div class="row"> 
@@ -257,6 +275,66 @@
                         </div>
                     </div>
                 </div>
+
+                <div class="row">
+                    <div class="col-lg-5 col-lg-offset-0 col-md-8 col-md-offset-2 col-sm-10 col-sm-offset-1 col-xs-12" > 
+                        <div class="panel panel-default" id="coordinatoreCurriculumDiv" hidden>
+                            <div class="panel-heading">
+                                <h3 class="panel-title">Coordinatore curriculum: <span style="font-style: italic" id="CurriculumTutorNameField" style="margin-left: 4px">  </span> 
+                                    <button type="button" class="btn btn-default btn-red btn-block" id="removeCurriculumTutorButton" hidden onclick="removeCurriculumTutorButton()">
+                                        <span class="glyphicon glyphicon-remove-sign" aria-hidden="true">
+                                        </span> Rimuovi coordinatore
+                                    </button> </h3> 
+                            </div>
+                            <div class="panel-body">
+                                <table class="table">
+                                    <thead>
+                                        <tr>
+                                            <th>Nome</th>
+                                            <th>Cognome</th>
+                                            <th>Aggiorna</th>
+                                        </tr>
+                                    </thead>
+                                    <tbody id="CurriculumtutorTableList"></tbody>
+                                </table>
+                            </div>
+
+                            <div class="panel-footer" style="background-color: transparent">
+                                <p class="text-center"> -- Seleziona il coordinatore -- 
+                            </div>  
+                        </div>
+                    </div>   
+                    
+                    
+                    <div class="col-lg-4 col-lg-offset-0 col-md-8 col-md-offset-2 col-sm-10 col-sm-offset-1 col-xs-12" > 
+                        <div class="panel panel-default" id="DocentiCurriculumDiv" hidden>
+                            <div class="panel-heading">
+                                <h4>Docenti</h4>
+                            </div>
+                            <div class="panel-body">
+                                <table class="table">
+                                    <thead>
+                                        <tr>
+                                            <th>Nome e cognome</th>
+                                            <th>Elimina</th>
+                                        </tr>
+                                    </thead>
+                                    <tbody id="CurriculumDocentiTableList"></tbody>
+                                </table>
+                            </div>
+
+                            <div class="panel-footer" style="background-color: transparent">
+                                
+                            </div>  
+                        </div>
+                    </div>   
+                    
+                    
+                    
+                    
+                    
+                </div>
+
 
             </div> 
         </div> 
