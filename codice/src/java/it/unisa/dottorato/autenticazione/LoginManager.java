@@ -136,8 +136,6 @@ public class LoginManager  {
                         account.setAdmin(rs.getBoolean("isAdministrator"));
                         return account;
                 }
-            }else{
-                throw new Exception();
             }
         } finally {
             DBConnection.releaseConnection(connection);

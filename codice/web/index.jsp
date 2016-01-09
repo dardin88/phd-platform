@@ -34,6 +34,8 @@
         
     </head>
     <body class="page-body">
+        
+        <% session.removeAttribute("loginError"); %>
 
         <jsp:include page="barraMenu.jsp" flush="true"/>
 

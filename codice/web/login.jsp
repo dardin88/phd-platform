@@ -31,15 +31,16 @@
         <script src="assets/js/jquery-1.11.1.min.js"></script>
         
 
-        <c:choose>
-            <c:when test="${session.getAttribute("loginError")!=null}">
-                <script type="text/javascript">
+          <% if(session.getAttribute("loginError") != null)  { %>
+              <script type="text/javascript">
                     $(function () {
                         $("#loginErrorDialog").modal();
                     });
-                </script>
-            </c:when>
-        </c:choose>
+              </script>
+              
+          <%} %>
+          
+       
     </head>
 
     <div id="loginErrorDialog" class="modal fade">
