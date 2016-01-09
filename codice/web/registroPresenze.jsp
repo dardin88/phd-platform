@@ -13,6 +13,11 @@
 <%@page import="it.unisa.dottorato.account.Account"%>
 <%@page contentType="text/html" pageEncoding="UTF-8"%>
 <!DOCTYPE html>
+<c:choose>
+    <c:when test="${sessionScope.account == null}">
+        <c:redirect url="login.jsp" />
+    </c:when>
+</c:choose>
 <html>
     <head>
         <meta charset="utf-8">
@@ -39,7 +44,11 @@
  
     </head>
  
- 
+    <c:choose>
+                <c:when test="${sessionScope.account != null}">
+                    <% Account loggedPerson = ((Account) session.getAttribute("account"));
+                        if (loggedPerson.getTypeAccount().equals("professor")) {
+                    %> 
     <body class="page-body">
 
         <div class="page-body">
@@ -128,4 +137,10 @@
         <!-- JavaScripts initializations and stuff -->
         <script src="assets/js/xenon-custom.js"></script>    
     </body>
+    <%}else{%>
+                <c:redirect url="index.jsp" />
+          <%  }
+    %>
+            </c:when>
+        </c:choose>
 </html>

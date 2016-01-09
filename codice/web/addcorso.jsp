@@ -4,9 +4,15 @@
     Author     : Rembor
 --%>
 
+<%@page import="it.unisa.dottorato.account.Account"%>
 <%@ taglib prefix="c" uri="http://java.sun.com/jsp/jstl/core" %>
 <%@page contentType="text/html" pageEncoding="UTF-8"%>
 <!DOCTYPE html>
+<c:choose>
+    <c:when test="${sessionScope.account == null}">
+        <c:redirect url="login.jsp" />
+    </c:when>
+</c:choose>
 <html lang="en">
     <head>
         <meta charset="utf-8">
@@ -62,6 +68,11 @@
             </div>
         </div>
     </div>
+    <c:choose>
+        <c:when test="${sessionScope.account != null}">
+                    <% Account loggedPerson = ((Account) session.getAttribute("account"));
+                        if (loggedPerson.isAdmin()) {
+                    %> 
     <body class="page-body">
 
         <!-- Inclusione della pagina contenente il menù superiore -->
@@ -182,4 +193,10 @@
         <!-- JavaScripts initializations and stuff -->
         <script src="assets/js/xenon-custom.js"></script>
     </body>
+    <%}else{%>
+                <c:redirect url="index.jsp" />
+          <%  }
+    %>
+            </c:when>
+        </c:choose>
 </html>

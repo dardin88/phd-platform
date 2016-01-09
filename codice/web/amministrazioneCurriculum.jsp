@@ -4,11 +4,17 @@
     Author     : andre
 --%>
 
+<%@page import="it.unisa.dottorato.account.Account"%>
 <%@page import="it.unisa.dottorato.Curriculum.CurriculumManager"%>
 <%@page import="it.unisa.dottorato.Curriculum.Curriculum"%>
 <%@page import="java.util.ArrayList"%>
 <%@page contentType="text/html" pageEncoding="UTF-8"%>
 <!DOCTYPE html>
+<c:choose>
+    <c:when test="${sessionScope.account == null}">
+        <c:redirect url="login.jsp" />
+    </c:when>
+</c:choose>
 <html lang="en">
     <head>
         <meta charset="utf-8">
@@ -35,7 +41,11 @@
         <script type="text/javascript" src="script/amministrazioneCurriculum.js"></script> <!-- da modificare -->
 
     </head>
-
+    <c:choose>
+        <c:when test="${sessionScope.account != null}">
+                    <% Account loggedPerson = ((Account) session.getAttribute("account"));
+                        if (loggedPerson.isAdmin()) {
+                    %> 
     <body class="page-body">
         <!-- Inclusione della pagina contenente il menù superiore -->
         <jsp:include page="barraMenu.jsp"/><!--da modificare con la nuova -->
@@ -144,7 +154,12 @@
             </div>
                         
         </div> 
-
+            <%}else{%>
+                <c:redirect url="index.jsp" />
+          <%  }
+    %>
+            </c:when>
+        </c:choose>
 
         <!-- Bottom Scripts -->
         <script src="assets/js/bootstrap.min.js"></script>
