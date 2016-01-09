@@ -40,7 +40,7 @@ public class GetPresenceToLessonServlet extends HttpServlet{
      * 
      */
      protected void processRequest(HttpServletRequest request, HttpServletResponse response)
-            throws ServletException, IOException {
+            throws ServletException, IOException, PhdStudentexception {
 PrintWriter out = response.getWriter();
 
         try {
@@ -76,7 +76,11 @@ PrintWriter out = response.getWriter();
     @Override
     protected void doGet(HttpServletRequest request, HttpServletResponse response)
             throws ServletException, IOException {
-        processRequest(request, response);
+         try {
+             processRequest(request, response);
+         } catch (PhdStudentexception ex) {
+             Logger.getLogger(GetPresenceToLessonServlet.class.getName()).log(Level.SEVERE, null, ex);
+         }
     }
 
     /**
@@ -90,7 +94,11 @@ PrintWriter out = response.getWriter();
     @Override
     protected void doPost(HttpServletRequest request, HttpServletResponse response)
             throws ServletException, IOException {
-        processRequest(request, response);
+         try {
+             processRequest(request, response);
+         } catch (PhdStudentexception ex) {
+             Logger.getLogger(GetPresenceToLessonServlet.class.getName()).log(Level.SEVERE, null, ex);
+         }
     }
 
     /**
