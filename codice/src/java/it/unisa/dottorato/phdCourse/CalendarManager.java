@@ -204,9 +204,7 @@ public class CalendarManager {
              */
             String tSql = "UPDATE "
                     + CalendarManager.TABLE_LESSON
-                    + " set idLesson = "
-                    + testid(pLesson.getIdLesson())
-                    + ", date = '"
+                    + " set date = '"
                     + testStartData(pLesson.getData())
                     + "', startTime = '"
                     + pLesson.getStartTime()
@@ -218,9 +216,9 @@ public class CalendarManager {
                     + Utility.Replace(testClassroom(pLesson.getClassroom()))
                     + "', description = '"
                     + Utility.Replace(testDescriptionLesson(pLesson.getDescription()))
-                    + "', fkCourse = '"
+                    + "', fkCourse = "
                     + testid(pLesson.getFK_course())
-                    + "' WHERE idLesson = "
+                    + " WHERE idLesson = "
                     + oldLessonID;           
 
             
@@ -249,9 +247,7 @@ public class CalendarManager {
              */
             String tSql = "UPDATE "
                     + CalendarManager.TABLE_SEMINAR
-                    + " set idSeminar = '"
-                    + testid(pSeminar.getIdSeminar())
-                    + "', date = '"
+                    + " set date = '"
                     + testStartData(pSeminar.getData())
                     + "', startTime = '"
                     + pSeminar.getStartTime()
@@ -265,9 +261,9 @@ public class CalendarManager {
                     + Utility.Replace(testDescriptionLesson(pSeminar.getDescription()))
                     + "', place = '"
                     + Utility.Replace(testPlaceSeminar(pSeminar.getPlace()))
-                    + "', fkCourse = '"
+                    + "', fkCourse = "
                     + testid(pSeminar.getFK_course())
-                    + "' WHERE idLesson = "
+                    + " WHERE idLesson = "
                     + oldSeminarID;           
 
             System.out.println(tSql);
@@ -298,8 +294,8 @@ public class CalendarManager {
              */
             String tSql = "DELETE FROM "
                     + CalendarManager.TABLE_LESSON
-                    + " WHERE idLesson = '"
-                    + testid(id) + "'";
+                    + " WHERE idLesson = "
+                    + testid(id);
 
             //Inviamo la Query al DataBase
             Utility.executeOperation(connect, tSql);
@@ -330,8 +326,8 @@ public class CalendarManager {
              */
             String tSql = "DELETE FROM "
                     + CalendarManager.TABLE_SEMINAR
-                    + " WHERE idSeminar = '"
-                    + testid(id) + "'";
+                    + " WHERE idSeminar = "
+                    + testid(id);
 
             //Inviamo la Query al DataBase
             Utility.executeOperation(connect, tSql);
@@ -601,8 +597,8 @@ public class CalendarManager {
              */
             String tSql = "SELECT * FROM "
                     + CalendarManager.TABLE_COURSE
-                    + " WHERE idCourse = '"
-                    + testid(pCourseID) + "'";
+                    + " WHERE idCourse = "
+                    + testid(pCourseID);
 
             //Inviamo la Query al DataBase
             ResultSet result = Utility.queryOperation(connect, tSql);
