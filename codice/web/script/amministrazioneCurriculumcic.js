@@ -406,7 +406,7 @@ function removeCurriculumTutorButton()
 
 function removeProfessorFromCurriculum(id)
 {
-    alert(id);
+   // alert(id);
 //servlet per eliminare un professore da un curriculum all'interno di un ciclo
     $.getJSON("DeleteProfessor", {fkCycle: selectedCycle, fkCurriculum: selectedDescriptionCurriculum, teach:id}, function (data) {
         // alert("siamo nella servlet");
@@ -417,7 +417,15 @@ function removeProfessorFromCurriculum(id)
 
 function removeStudentFromCurriculum (id)
 {
-    alert(id);
+    //alert(id);
+    
+    //servlet per eliminare uno studente da un curriculum all'interno di un ciclo
+    $.getJSON("DeletePhdstudent", {fkPhdstudent :id}, function (data) {
+        // alert("siamo nella servlet");
+        selectedItem();
+        viewCurriculumButton(selectedDescriptionCurriculum);
+    });
+    
 }
 
 function selectedProfessortoAdd()
