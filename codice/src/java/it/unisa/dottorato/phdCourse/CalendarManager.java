@@ -115,9 +115,9 @@ public class CalendarManager {
             String tSql = "INSERT INTO "
                     + CalendarManager.TABLE_LESSON
                     + " ( idLesson, date, startTime, endTime, name, classroom, desription, fkCourse)"
-                    + " VALUES ('"
+                    + " VALUES ("
                     + testid(nextNumberLesson()) // int
-                    + "','"
+                    + ",'"
                     + testStartData(pLesson.getData()) // Date
                     + "','"
                     + pLesson.getStartTime() // int
@@ -214,7 +214,7 @@ public class CalendarManager {
                     + Utility.Replace(testNomeLesson(pLesson.getName()))
                     + "', classroom = '"
                     + Utility.Replace(testClassroom(pLesson.getClassroom()))
-                    + "', description = '"
+                    + "', desription = '"
                     + Utility.Replace(testDescriptionLesson(pLesson.getDescription()))
                     + "', fkCourse = "
                     + testid(pLesson.getFK_course())
@@ -238,9 +238,12 @@ public class CalendarManager {
       * @throws SQLException
       * @throws IOException 
       */
-     public synchronized void update_seminar(int oldSeminarID, Seminar pSeminar) throws ClassNotFoundException, SQLException, IOException,IdException , DescriptionException , NameException , SpeakerException , PlaceException , DateException {
-        try (Connection connect = DBConnection.getConnection()) {
-
+     public synchronized void update_seminar(int oldSeminarID, Seminar pSeminar) throws 
+             ClassNotFoundException, SQLException, IOException,IdException , 
+             DescriptionException , NameException , SpeakerException , PlaceException , DateException {
+         Connection connect=null;
+        try{
+            connect = DBConnection.getConnection();
             /*
              * Prepariamo la stringa SQL per modificare un record 
              * nella tabella seminar
@@ -257,20 +260,20 @@ public class CalendarManager {
                     + Utility.Replace(testNomeSeminar(pSeminar.getName()))
                     + "', namespeacker = '"
                     + Utility.Replace(testSpeakerSeminar(pSeminar.getNameSpeacker()))
-                    + "', description = '"
+                    + "', desription = '"
                     + Utility.Replace(testDescriptionLesson(pSeminar.getDescription()))
                     + "', place = '"
                     + Utility.Replace(testPlaceSeminar(pSeminar.getPlace()))
                     + "', fkCourse = "
                     + testid(pSeminar.getFK_course())
-                    + " WHERE idLesson = "
+                    + " WHERE idSeminar = "
                     + oldSeminarID;           
 
-            System.out.println(tSql);
-            //Inviamo la Query al DataBase
             Utility.executeOperation(connect, tSql);
 
             connect.commit();
+        }finally {
+            DBConnection.releaseConnection(connect);
         } 
     }
      

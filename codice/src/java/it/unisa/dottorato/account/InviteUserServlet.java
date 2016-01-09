@@ -33,7 +33,7 @@ public class InviteUserServlet extends HttpServlet {
      * @throws EmailException if an email error occurs
      */
     protected void processRequest(HttpServletRequest request, HttpServletResponse response)
-            throws ServletException, IOException, SQLException, EmailException {
+            throws ServletException, IOException, SQLException, EmailException, Exception {
         response.setContentType("text/html;charset=UTF-8");
         PrintWriter out = response.getWriter();
         AccountManager manager = AccountManager.getInstance();
@@ -68,6 +68,8 @@ public class InviteUserServlet extends HttpServlet {
             Logger.getLogger(InviteUserServlet.class.getName()).log(Level.SEVERE, null, ex);
         } catch (EmailException ex) {
             Logger.getLogger(InviteUserServlet.class.getName()).log(Level.SEVERE, null, ex);
+        } catch (Exception ex) {
+            Logger.getLogger(InviteUserServlet.class.getName()).log(Level.SEVERE, null, ex);
         }
     }
 
@@ -87,6 +89,8 @@ public class InviteUserServlet extends HttpServlet {
         } catch (SQLException ex) {
             Logger.getLogger(InviteUserServlet.class.getName()).log(Level.SEVERE, null, ex);
         } catch (EmailException ex) {
+            Logger.getLogger(InviteUserServlet.class.getName()).log(Level.SEVERE, null, ex);
+        } catch (Exception ex) {
             Logger.getLogger(InviteUserServlet.class.getName()).log(Level.SEVERE, null, ex);
         }
     }

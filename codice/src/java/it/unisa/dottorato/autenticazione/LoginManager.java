@@ -251,6 +251,17 @@ public class LoginManager  {
         if ((pass.length() > 16) || (pass.length() < 8)) {
             throw new PasswordException();
         }
+        int l=pass.length();
+        int contL=0;
+        int contN=0;
+        for(int i=0;i<l;i++){
+            if(Character.isLetter(pass.charAt(i)))
+                    contL++;
+            if(Character.isDigit(pass.charAt(i)))
+                    contN++;
+        }
+        if(contN==0 || contL==0)
+            throw new PasswordException();
         return pass;
     }
       

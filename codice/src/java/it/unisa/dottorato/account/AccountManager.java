@@ -316,6 +316,8 @@ public class AccountManager {
              * stringa SQL per selezionare piu record 
              * nella tabella account
          */
+        if(search==null)
+            throw new ProfileException();
         String sql = "SELECT * from account WHERE "
                 + "name LIKE '%" + search + "%' or surname LIKE '%" + search + "%' or email LIKE '%" + search + "%'";
         try {
@@ -443,7 +445,7 @@ public class AccountManager {
 
         Connection connect = null;
         try {
-            email = testSecondaryEmail(email);
+            email = testEmail(email);
             newType = testType(newType);
             //connessione al database
             connect = DBConnection.getConnection();
@@ -534,7 +536,7 @@ public class AccountManager {
      * @throws EmailException
      */
     //Dovrebbe inviare una mail, not tested
-    public void inviteUser(String email) throws SQLException, EmailException {
+    public void inviteUser(String email) throws SQLException, EmailException, Exception {
  Properties props = System.getProperties();
 
         props.setProperty("mail.smtp.user", "phdplatformunisa@gmail.com");
@@ -547,7 +549,7 @@ public class AccountManager {
         props.put("mail.smtp.socketFactory.fallback", "false");
         props.setProperty("mail.smtp.quitwait", "false");
         try {
-
+            testSecondaryEmail(email);
             Session session = Session.getInstance(props, new Authenticator() {
 
                 protected PasswordAuthentication getPasswordAuthentication() {
@@ -583,8 +585,7 @@ public class AccountManager {
             transport.sendMessage(message,message.getAllRecipients());
             transport.close();
             
-        } catch (Exception e) {
-            e.printStackTrace();
+        } finally{
         }        
     }
 
@@ -783,7 +784,7 @@ public class AccountManager {
      * @throws EmailException
      */
     public String testSecondaryEmail(String email) throws EmailException {
-        if (email.isEmpty() || (email.length() < 10) || (email.length() > 50) || !email.contains("@")) {
+        if ((email.length() > 50) || email.isEmpty() || email==null || (email.length() < 10) || !email.contains("@")) {
             throw new EmailException();
         }
         return email;
@@ -801,6 +802,17 @@ public class AccountManager {
         if ((pass.length() > 16) || (pass.length() < 8)) {
             throw new PasswordException();
         }
+        int l=pass.length();
+        int contL=0;
+        int contN=0;
+        for(int i=0;i<l;i++){
+            if(Character.isLetter(pass.charAt(i)))
+                    contL++;
+            if(Character.isDigit(pass.charAt(i)))
+                    contN++;
+        }
+        if(contN==0 || contL==0)
+            throw new PasswordException();
         return pass;
     }
 

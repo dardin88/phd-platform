@@ -144,7 +144,7 @@ public class AccountManagerTest {
         String key="dinucci@unisa.it";
         PhdStudent w=new PhdStudent();
         w.setAdmin(true);
-        w.setPassword("provaaaa12");
+        w.setPassword("provaaaa102");
         w.setSurname("cognomeProva");
         w.setName("NomeProva");
         w.setSecondaryEmail("okemaildiprova@hormail.it");
@@ -602,7 +602,7 @@ public class AccountManagerTest {
     @Test
     public void testChangeTypeOk() {
         String newType="phdstudent";
-        String em="test@hotmail.it";
+        String em="rossi@unisa.it";
         try{
             instance.changeType(em, newType);
             assertTrue(true);

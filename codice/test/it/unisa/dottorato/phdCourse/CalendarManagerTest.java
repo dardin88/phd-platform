@@ -5,7 +5,11 @@
  */
 package it.unisa.dottorato.phdCourse;
 
+import java.io.IOException;
+import java.sql.SQLException;
 import java.util.Date;
+import java.util.logging.Level;
+import java.util.logging.Logger;
 import org.junit.After;
 import org.junit.AfterClass;
 import org.junit.Before;
@@ -421,7 +425,7 @@ public class CalendarManagerTest {
    
     
     @Test
-    public void testInsertLessonok() throws Exception {
+    public void testInsertLessonok(){
       
         les.setIdLesson(5);    
         les.setDate(new java.sql.Date(2015,10,12));       
@@ -657,7 +661,7 @@ public class CalendarManagerTest {
     
     @Test
     public void testUpdateLessonok(){
-           int oldId = 1;
+        int oldId = 1;
         les.setIdLesson(1);    
         les.setDate(new java.sql.Date(2015,10,12));
         les.setStartTime("12:00");
@@ -964,7 +968,7 @@ public class CalendarManagerTest {
     //////////////
     
      @Test
-    public void testUpdateSeminarok() throws Exception {
+    public void testUpdateSeminarok(){
        int oldId = 1;
         sem.setIdSeminar(1);
         sem.setDate(new java.sql.Date(2015,10,12));
@@ -1259,7 +1263,7 @@ public class CalendarManagerTest {
    
     
     @Test
-    public void testDeleteSeminarok() throws Exception {
+    public void testDeleteSeminarok(){
         sem.setIdSeminar(1);
         sem.setDate(new java.sql.Date(2015,10,12));
         sem.setStartTime("12:00");
@@ -1272,7 +1276,10 @@ public class CalendarManagerTest {
         try{
             instance.insert_seminar(sem);
         }catch(Exception e){}
-        int c=instance.nextNumberSeminar()-1;
+        int c=0;
+        try {
+            c = instance.nextNumberSeminar()-1;
+        } catch (Exception ex) {}
         try{
             instance.delete_seminar(""+c);
             assertTrue(true);
