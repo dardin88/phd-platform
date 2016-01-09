@@ -46,18 +46,32 @@ function getCycleList()
  
  function insertCourse(){
      
-     idCorso = $("#numCorso").val();
      ciclo = $("#CycleList option:selected").val();
      cv = $("#curriculum option:selected").val();
      nome = $("#nameCourse").val();
      descrizione = $("#description").val();
      datainizio = $("#startdate").val();
      datafine = $("#enddate").val();
-     if(idCorso!=="" && ciclo!=="default" && cv!=="default" && nome!=="" && descrizione!==""){
-             $.getJSON("AddCourseServlet", {idCourse: idCorso, cycle: ciclo, curriculum: cv, name: nome, description: descrizione, starttime: datainizio, endtime: datafine}, function (data) {
+     if(ciclo!=="default" && cv!=="default" && nome!=="" && descrizione!==""){
+             $.getJSON("AddCourseServlet", {cycle: ciclo, curriculum: cv, name: nome, description: descrizione, starttime: datainizio, endtime: datafine}, function (data) {
                    
                     if(data.result){
-                        confirm("corso inserito!");
+                        $("#titleInfo").html("");
+                        $("#descriptionInfo").html("");
+                        $("#infoDialog").modal();
+                        $("#titleInfo").html("Operazione eseguita con successo!");
+                        $("#descriptionInfo").html("Il corso è stato aggiunto.");
+                    
+                    }
+                    else
+                    {
+                        
+                        $("#titleInfo").html("");
+                        $("#descriptionInfo").html("");
+                        $("#infoDialog").modal();
+                        $("#titleInfo").html("Errore inserimento corso!");
+                        $("#descriptionInfo").html("Il corso non è stato aggiunto, riprova.");
+                    
                     }
              });
      }

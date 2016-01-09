@@ -50,7 +50,7 @@ public class AddLessonServlet extends HttpServlet {
             response.setContentType("text/html;charset=UTF-8");
             
             //conserviamo gli attributi da settare nelle variabili
-            String idlesson = request.getParameter("id");
+            
             String date = request.getParameter("data");
             String startTime = request.getParameter("starttime");
             String starttime = startTime.substring(0,5);
@@ -68,7 +68,7 @@ public class AddLessonServlet extends HttpServlet {
             Lesson lesson = new Lesson();
             
             //inseriamo nell'oggetto corso i valori passati come parametri precedentemente
-            lesson.setIdLesson(Integer.parseInt(idlesson));
+           
             lesson.setDate(java.sql.Date.valueOf(date));
             lesson.setStartTime(starttime);
             lesson.setEndTime(endtime);

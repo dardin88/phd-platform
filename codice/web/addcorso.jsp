@@ -48,6 +48,20 @@
             };
         </script>
     </head>
+    <div id="infoDialog" class="modal fade">
+        <div class="modal-dialog">
+            <div class="modal-content">
+                <div class="modal-header">
+                    <button type="button" class="close" data-dismiss="modal" onclick="history.go(-1);">&times;</button>
+                    <h4 class="modal-title" id="titleInfo"></h4>
+                </div>
+                
+                <div class="modal-body" id="descriptionInfo">
+                </div>
+            
+            </div>
+        </div>
+    </div>
     <body class="page-body">
 
         <!-- Inclusione della pagina contenente il menù superiore -->
@@ -75,16 +89,6 @@
                                     <div class="form-group">
                                         <table width="90%" align="center">
                                             <tr><td>
-                                                   
-                                                    
-                                                    
-                                                    <p>Id Corso:</p>
-                                                    <div class="input-group">
-                                                        <span class="input-group-addon"></span>
-                                                        <input class="form-control" name="idCourse" type="text" id="numCorso" required>
-                                                    </div>
-                                                    <br>
-                                                    <br>
                                                   <p>Ciclo:</p>
                                                      <div class="input-group">
                                                         
@@ -161,6 +165,21 @@
                 </div>
             </div>
         </div>
+        <script src="assets/js/bootstrap.min.js"></script>
+        <script src="assets/js/TweenMax.min.js"></script>
+        <script src="assets/js/resizeable.js"></script>
+        <script src="assets/js/joinable.js"></script>
+        <script src="assets/js/xenon-api.js"></script>
+        <script src="assets/js/xenon-toggles.js"></script>
+        <script src="assets/js/jquery-ui/jquery-ui.min.js"></script>
 
+        <!-- Imported scripts on this page -->
+        <script src="assets/js/tocify/jquery.tocify.min.js"></script>
+
+        <!-- Imported scripts on this page -->
+        <script src="assets/js/jquery-validate/jquery.validate.min.js"></script>
+
+        <!-- JavaScripts initializations and stuff -->
+        <script src="assets/js/xenon-custom.js"></script>
     </body>
 </html>

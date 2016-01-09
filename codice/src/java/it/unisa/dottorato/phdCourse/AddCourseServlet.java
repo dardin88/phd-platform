@@ -52,7 +52,7 @@ public class AddCourseServlet extends HttpServlet {
             response.setContentType("text/html;charset=UTF-8");
             
             //conserviamo gli attributi da settare nelle variabili
-            String id = request.getParameter("idCourse");
+            
             String curriculum = request.getParameter("curriculum");
             String cycle = request.getParameter("cycle");
             String name = request.getParameter("name");
@@ -71,7 +71,7 @@ public class AddCourseServlet extends HttpServlet {
             Course course = new Course();
             
             //inseriamo nell'oggetto corso i valori passati come parametri precedentemente
-            course.setIdCourse(Integer.parseInt(id));
+            
             course.setFkCurriculum(curriculum);
             course.setFkCycle(Integer.parseInt(cycle));
             course.setName(name);

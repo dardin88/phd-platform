@@ -39,6 +39,20 @@
         <![endif]-->
 
     </head>
+    <div id="infoDialog" class="modal fade">
+        <div class="modal-dialog">
+            <div class="modal-content">
+                <div class="modal-header">
+                    <button type="button" class="close" data-dismiss="modal" onclick="history.go(-1);"->&times;</button>
+                    <h4 class="modal-title" id="titleInfo"></h4>
+                </div>
+                
+                <div class="modal-body" id="descriptionInfo">
+                </div>
+            
+            </div>
+        </div>
+    </div>
     <body class="page-body">
 
         <!-- Inclusione della pagina contenente il menù superiore -->
@@ -78,14 +92,6 @@
                                                                     <div class="panel-heading">
                                                                          Nuova lezione                      
                                                                     </div>
-                                                                    <p>Id Lezione:</p>
-                                                                    <div class="input-group">
-                                                                        <span class="input-group-addon"></span>
-                                                                        <input class="form-control" name="idLesson" type="text" id ="idlezione" required>
-                                                                    </div>
-                                                                    <br>
-                                                                    <br>
-                                                                    
                                                                     <p>Nome Lezione:</p>
                                                                     <div class="input-group">
                                                                         <span class="input-group-addon"></span>
@@ -158,14 +164,6 @@
                                                             Nuovo seminario
                                                                                          
                                                             </div>
-                                                            
-                                                            <p>Id Seminario:</p>
-                                                            <div class="input-group">
-                                                                <span class="input-group-addon"></span>
-                                                                <input class="form-control" name="idSeminar" type="text" id="idseminar" required>
-                                                            </div>
-                                                            <br>
-                                                            <br>
                                                             <p>Nome Seminario:</p>
                                                             <div class="input-group">
                                                                 <span class="input-group-addon"></span>
@@ -251,5 +249,20 @@
                 </div>
             </div>    
     </body>
- 
+    <script src="assets/js/bootstrap.min.js"></script>
+        <script src="assets/js/TweenMax.min.js"></script>
+        <script src="assets/js/resizeable.js"></script>
+        <script src="assets/js/joinable.js"></script>
+        <script src="assets/js/xenon-api.js"></script>
+        <script src="assets/js/xenon-toggles.js"></script>
+        <script src="assets/js/jquery-ui/jquery-ui.min.js"></script>
+
+        <!-- Imported scripts on this page -->
+        <script src="assets/js/tocify/jquery.tocify.min.js"></script>
+
+        <!-- Imported scripts on this page -->
+        <script src="assets/js/jquery-validate/jquery.validate.min.js"></script>
+
+        <!-- JavaScripts initializations and stuff -->
+        <script src="assets/js/xenon-custom.js"></script>
 </html>

@@ -45,7 +45,7 @@ function selectedTypeEvent(){
  }
  
  function insertLesson(){
-     idLezione = $("#idlezione").val();
+     
      nomeLezione = $("#nomelezione").val();
      classe = $("#class").val();
      course = $("#courselist1 option:selected").val();
@@ -53,17 +53,28 @@ function selectedTypeEvent(){
      dataLezione = $("#date").val();
      orainizio = $("#timepicker1").val();
      orafine = $("#timepicker2").val();
-     if(idLezione !== "" && nomeLezione !== "" && course!=="default" && descrizione !== ""){
-         $.getJSON("AddLessonServlet",{id: idLezione, name: nomeLezione, classroom: classe, course: course, description: descrizione, data: dataLezione, starttime: orainizio, endtime: orafine },function(data){
+     if(nomeLezione !== "" && course!=="default" && descrizione !== ""){
+         $.getJSON("AddLessonServlet",{name: nomeLezione, classroom: classe, course: course, description: descrizione, data: dataLezione, starttime: orainizio, endtime: orafine },function(data){
                 if(data.result){
-                        confirm("lezione inserita!");
+                        $("#titleInfo").html("");
+                        $("#descriptionInfo").html("");
+                        $("#infoDialog").modal();
+                        $("#titleInfo").html("Operazione eseguita con successo!");
+                        $("#descriptionInfo").html("L'evento è stato aggiunto.");
+                    }
+                    else{
+                        $("#titleInfo").html("");
+                        $("#descriptionInfo").html("");
+                        $("#infoDialog").modal();
+                        $("#titleInfo").html("Errore inserimento evento!");
+                        $("#descriptionInfo").html("L'evento non è stato aggiunto, riprova.");
                     }
          });
      }
  }
  
  function insertSeminar(){
-     idSeminario = $("#idseminar").val();
+     
      nomeSeminario = $("#nameseminar").val();
      nomespeacker = $("#nomespeacker").val();
      course = $("#courselist2 option:selected").val();
@@ -72,10 +83,21 @@ function selectedTypeEvent(){
      dataSeminario = $("#dateseminar").val();
      orainizio = $("#timepicker3").val();
      orafine = $("#timepicker4").val();
-     if(idSeminario !== "" && nomeSeminario !== "" && nomespeacker !== "" && course!=="default" && descrizione !== "" ){
-         $.getJSON("AddSeminarServlet",{id: idSeminario, name: nomeSeminario, place: place, course: course, description: descrizione, data: dataSeminario, starttime: orainizio, endtime: orafine, namespeacker: nomespeacker},function(data){
+     if(nomeSeminario !== "" && nomespeacker !== "" && course!=="default" && descrizione !== "" ){
+         $.getJSON("AddSeminarServlet",{name: nomeSeminario, place: place, course: course, description: descrizione, data: dataSeminario, starttime: orainizio, endtime: orafine, namespeacker: nomespeacker},function(data){
                 if(data.result){
-                        confirm("seminario inserito!");
+                        $("#titleInfo").html("");
+                        $("#descriptionInfo").html("");
+                        $("#infoDialog").modal();
+                        $("#titleInfo").html("Operazione eseguita con successo!");
+                        $("#descriptionInfo").html("L'evento è stato aggiunto.");
+                    }
+                    else{
+                        $("#titleInfo").html("");
+                        $("#descriptionInfo").html("");
+                        $("#infoDialog").modal();
+                        $("#titleInfo").html("Errore inserimento evento!");
+                        $("#descriptionInfo").html("L'evento non è stato aggiunto, riprova.");
                     }
          });
      }
