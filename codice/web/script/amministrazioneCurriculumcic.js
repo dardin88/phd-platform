@@ -351,6 +351,7 @@ function closeModifyORaddDiv()
 
 function closeSezioneCurriculum()
 {
+    $("#StudentiCurriculumDiv").hide();
     selectedItem();
 }
 
