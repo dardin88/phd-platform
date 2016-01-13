@@ -42,6 +42,56 @@
                     <% Account loggedPerson = ((Account) session.getAttribute("account"));
                         if (loggedPerson.isAdmin()) {
                     %> 
+                    
+    <div id="ModificaDialog" class="modal fade">
+        <div class="modal-dialog">
+            <div class="modal-content ">
+                <div class="modal-header  ">
+                    <button type="button" class="close" data-dismiss="modal">&times;</button>
+                    <h4 class="modal-title"> <span class="glyphicon glyphicon-ok  " style="color: #00e367"   aria-hidden="true"></span>Operazione effettuata con successo.</h4>
+                </div>
+                <div class="modal-body ">
+                    <p>
+                        La modifica è avvenuta con successo.<br>
+                    </p>
+                </div>
+            </div>
+        </div>
+    </div>
+                    
+    <div id="CancellazioneDialog" class="modal fade">
+        <div class="modal-dialog">
+            <div class="modal-content ">
+                <div class="modal-header  ">
+                    <button type="button" class="close" data-dismiss="modal">&times;</button>
+                    <h4 class="modal-title"> <span class="glyphicon glyphicon-ok  " style="color: #00e367"    aria-hidden="true"></span>Operazione effettuata con successo.</h4>
+                </div>
+                <div class="modal-body ">
+                    <p>
+                        La cancellazione è avvenuta con successo.<br>
+                    </p>
+                </div>
+            </div>
+        </div>
+    </div> 
+           
+    <div id="ErroreDialog" class="modal fade">
+        <div class="modal-dialog">
+            <div class="modal-content ">
+                <div class="modal-header  ">
+                    <button type="button" class="close" data-dismiss="modal">&times;</button>
+                    <h4 class="modal-title"> <span class="glyphicon glyphicon glyphicon-warning-sign" style="color: #FFA54E"   aria-hidden="true"></span>Attenzione!</h4>
+                </div>
+                <div class="modal-body ">
+                    <p>
+                        Hai selezionato il tutor attuale.<br>
+                    </p>
+                </div>
+            </div>
+        </div>
+    </div>
+                    
+                    
     <body class="page-body">
         <!-- Inclusione della pagina contenente il menù superiore -->
         <jsp:include page="barraMenu.jsp"/><!--da modificare con la nuova -->

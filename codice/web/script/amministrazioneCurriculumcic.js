@@ -450,11 +450,11 @@ function selectedProfessortoAdd()
 function selectedStudentToAdd()
 {
     selectedStudentToAddVar = $("#StudentsSelectebleList option:selected").val();
-    alert(selectedStudentToAddVar);
+    //alert(selectedStudentToAddVar);
     
     //servlet per inserire lo studente selezionato
     $.getJSON("InsertPhdstudent", {fkCycle: selectedCycle, fkCurriculum: selectedDescriptionCurriculum, fkPhdstudent: selectedStudentToAddVar}, function (data) {
-        alert("siamo nella servlet");
+        //alert("siamo nella servlet");
         $("#StudentsSelectebleList option").remove();
         $("#CurriculumStudentiTableList tr").remove();
         selectedItem();
