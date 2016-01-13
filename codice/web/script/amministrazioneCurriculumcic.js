@@ -7,6 +7,7 @@
 $(document).ready(function () {
     $("#sezioneCiclo").hide();
     getCycleList();
+    
 });
 
 function getCycleList()
@@ -26,7 +27,7 @@ function getCycleList()
 
 function selectedItem()
 {
-    $("#TutorNameField").html("nessun tutor");
+    $("#TutorNameField").html("nessun coordinatore");
     $("#sezioneCurriculum").hide();
     $("#removeTutorButton").hide();
     $("#addCurriculumButton").hide();
@@ -130,6 +131,7 @@ function addCycleButton()
         // Invio dati alla servlet per l'inserimento del ciclo
         $.getJSON("InsertCycle",
                 {description: $("#cycleDescription").val(), year: $("#cycleYearField").val()}, function (data) {
+            $("#InserimentoDialog").modal();
             // alert("ciclo aggiunto correttamente");
             $("#descriptionPanel").hide();
             //$("#CurriculumList option").remove();
@@ -146,6 +148,7 @@ function removeCycleButton() {
     $("#curriculumsDiv").hide();
 
     $.getJSON("DeleteCycle", {number: selectedCycle}, function (data) {
+        $("#CancellazioneDialog").modal();
         $("#CycleList option").remove();
         getCycleList();
         $("#CycleList").val('default');
@@ -163,6 +166,9 @@ function viewCollegio()
     $("#sezioneCurriculum").hide();
     $("#buttonCloseSezioneCurriculum").hide();
     $("#StudentiCurriculumDiv").hide();
+    $("#selectCurriculum option").remove();
+            
+            
 
 }
 
@@ -181,10 +187,11 @@ function addTutorButton(newProfessorkey)
     //in tutorKey abbiamo la mail del professore gia selezionato come tutor , se c'è (serve nel caso dobbiamo rimuoverlo)
 
     tutorName = $("#TutorNameField").html();
-    if (tutorName === 'nessun tutor') { //non c'è un tutor assegnato, dobbiamo soltanto aggiungercelo
+    if (tutorName === 'nessun coordinatore') { //non c'è un tutor assegnato, dobbiamo soltanto aggiungercelo
 
         //servlet per fare inserire il nuovo coordinatore
         $.getJSON("InsertCycleCoordinator", {number: selectedCycle, fkProfessor: newProfessorkey}, function (data) {
+            $("#InserimentoDialog").modal();
             selectedItem();
         });
 
@@ -192,7 +199,7 @@ function addTutorButton(newProfessorkey)
     else { //c'è gia un tutor assegnato: dobbiamo  aggiornarlo
         if (tutorKey === newProfessorkey)
         {
-            alert("Hai selezionato il tutor attuale");
+           $("#TutorErroreDialog").modal(); 
         }
         else {
 
@@ -203,6 +210,7 @@ function addTutorButton(newProfessorkey)
 
             //servlet per fare inserire il nuovo coordinatore
             $.getJSON("InsertCycleCoordinator", {number: selectedCycle, fkProfessor: newProfessorkey}, function (data) {
+                $("#InserimentoDialog").modal();
                 selectedItem();
             });
         }
@@ -216,7 +224,8 @@ function removeTutorButton()
     //servlet per rimuovere il coordinatore assegnato 
     $.getJSON("DeleteCycleCoordinator", {number: selectedCycle}, function (data) {
         $("#removeTutorButton").hide();
-        $("#TutorNameField").html("nessun tutor");
+        $("#TutorNameField").html("nessun coordinatore");
+        $("#CancellazioneDialog").modal();
         selectedItem();
     });
 }
@@ -310,6 +319,7 @@ function removeCurriculumButton(id)
     //servlet per rimuovere il curriculum selezionato
     $.getJSON("DeleteCurriculumcic", {number: selectedCycle, name: id}, function (data) {
         $("#selectCurriculum option").remove();
+        $("#CancellazioneDialog").modal();
         selectedItem();
     });
 }
@@ -330,12 +340,15 @@ function addCurriculuminCicButton()
     });
 
     $("#addCurriculumtoCicButton").show();
+    
     $("#addCurriculumtoCicButton").click(function () {
         selectedCurriculum = $("#CurriculumSelectebleList option:selected").val();
-
+        //alert(selectedCurriculum);
         //servlet per inserire il curriculum selezionato
         $.getJSON("InsertCurriculumcic", {number: selectedCycle, name: selectedCurriculum}, function (data) {
+            //alert("siamo nella servlet");
             $("#selectCurriculum option").remove();
+            location.reload();
             selectedItem();
         });
     });
@@ -366,6 +379,7 @@ function addCurriculumTutorButton(id)
         //servlet per fare inserire il nuovo coordinatore
         $.getJSON("InsertCurriculumcicCoordinator", {fkCycle: selectedCycle, fkCurriculum: selectedDescriptionCurriculum, fkProfessor: id}, function (data) {
             //alert("siamo nella servlet");
+            $("#InserimentoDialog").modal();
             selectedItem();
             viewCurriculumButton(selectedDescriptionCurriculum);
         });
@@ -374,7 +388,7 @@ function addCurriculumTutorButton(id)
     else { //c'è gia un tutor assegnato: dobbiamo  aggiornarlo
         if (CurriculumtutorKey === id)
         {
-            alert("Hai selezionato il tutor attuale");
+             $("#TutorErroreDialog").modal();   
         }
         else {
             // da IMPLEMENTARE e provare ancora PERCHE SERVE UN ALTRO PROFESSORE
@@ -386,6 +400,7 @@ function addCurriculumTutorButton(id)
             //servlet per fare inserire il nuovo coordinatore
             $.getJSON("InsertCurriculumcicCoordinator", {fkCycle: selectedCycle, fkCurriculum: selectedDescriptionCurriculum, fkProfessor: id}, function (data) {
                 //alert("siamo nella servlet");
+                $("#InserimentoDialog").modal();
                 selectedItem();
                 viewCurriculumButton(selectedDescriptionCurriculum);
             });
@@ -397,11 +412,12 @@ function addCurriculumTutorButton(id)
 function removeCurriculumTutorButton()
 
 {
-    alert(CurriculumtutorKey);
+    //alert(CurriculumtutorKey);
 
     //servlet per eliminare il coordinatore del curriculum all'interno del ciclo
     $.getJSON("DeleteCurriculumcicCoordinatorServlet", {fkCycle: selectedCycle, fkCurriculum: selectedDescriptionCurriculum}, function (data) {
         // alert("siamo nella servlet");
+        $("#CancellazioneDialog").modal();
         selectedItem();
         viewCurriculumButton(selectedDescriptionCurriculum);
     });
@@ -413,6 +429,7 @@ function removeProfessorFromCurriculum(id)
 //servlet per eliminare un professore da un curriculum all'interno di un ciclo
     $.getJSON("DeleteProfessor", {fkCycle: selectedCycle, fkCurriculum: selectedDescriptionCurriculum, teach:id}, function (data) {
         // alert("siamo nella servlet");
+        $("#CancellazioneDialog").modal();
         selectedItem();
         viewCurriculumButton(selectedDescriptionCurriculum);
     });
@@ -425,6 +442,7 @@ function removeStudentFromCurriculum (id)
     //servlet per eliminare uno studente da un curriculum all'interno di un ciclo
     $.getJSON("DeletePhdstudent", {fkPhdstudent :id}, function (data) {
         // alert("siamo nella servlet");
+        $("#CancellazioneDialog").modal();
         selectedItem();
         viewCurriculumButton(selectedDescriptionCurriculum);
     });
@@ -441,6 +459,7 @@ function selectedProfessortoAdd()
     $.getJSON("InsertProfessor", {fkCycle: selectedCycle, fkCurriculum: selectedDescriptionCurriculum, teach: selectedProfessorToAdd}, function (data) {
         $("#ProfessorsSelectebleList option").remove();
         $("#CurriculumDocentiTableList tr").remove();
+        $("#InserimentoDialog").modal();
         selectedItem();
         viewCurriculumButton(selectedDescriptionCurriculum);
     });
@@ -455,9 +474,13 @@ function selectedStudentToAdd()
     //servlet per inserire lo studente selezionato
     $.getJSON("InsertPhdstudent", {fkCycle: selectedCycle, fkCurriculum: selectedDescriptionCurriculum, fkPhdstudent: selectedStudentToAddVar}, function (data) {
         //alert("siamo nella servlet");
+        
         $("#StudentsSelectebleList option").remove();
         $("#CurriculumStudentiTableList tr").remove();
+        $("#InserimentoDialog").modal();
         selectedItem();
         viewCurriculumButton(selectedDescriptionCurriculum);
+        
+         
     });
 }
