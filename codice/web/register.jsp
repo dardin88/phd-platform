@@ -56,6 +56,7 @@
                 }
 
                 var re = /^(([^<>()[\]\\.,;:\s@\"]+(\.[^<>()[\]\\.,;:\s@\"]+)*)|(\".+\"))@unisa.it$/;
+                var re = /^(([^<>()[\]\\.,;:\s@\"]+(\.[^<>()[\]\\.,;:\s@\"]+)*)|(\".+\"))@/;
                 var patt = new RegExp(re);
 
                 if (patt.test(modulo.email.value) === false) {
@@ -63,6 +64,7 @@
                     modulo.email.focus();
                     return false;
                 }
+          
 
                 return true;
             }
