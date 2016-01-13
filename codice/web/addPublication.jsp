@@ -159,7 +159,7 @@
         <%}else{%>
                 <c:redirect url="index.jsp" />
           <%  }
-    %>
+            %>
             </c:when>
         </c:choose>
     </body>

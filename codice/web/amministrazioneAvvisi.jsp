@@ -5,6 +5,7 @@
 --%>
 
 <%@page import="it.unisa.dottorato.account.Account"%>
+<%@ taglib prefix="c" uri="http://java.sun.com/jsp/jstl/core" %>
 <%@page contentType="text/html" pageEncoding="UTF-8"%>
 <!DOCTYPE html>
 <c:choose>
