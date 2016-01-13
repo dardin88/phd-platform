@@ -5,6 +5,8 @@
 --%>
 
 <%@page import="it.unisa.dottorato.account.Account"%>
+<%@ taglib prefix="c" uri="http://java.sun.com/jsp/jstl/core" %>
+
 <%@page contentType="text/html" pageEncoding="UTF-8"%>
 <!DOCTYPE html>
 <c:choose>
@@ -348,41 +350,10 @@
                         </div>
                     </div>   
                     
-                </div>
-                
-                <div class="row">
-                
-                    <div class="col-lg-7 col-lg-offset-5 col-md-8 col-md-offset-2 col-sm-10 col-sm-offset-1 col-xs-12" > 
-                        <div class="panel panel-default" id="StudentiCurriculumDiv" hidden>
-                            <div class="panel-heading">
-                                <h4>Studenti</h4>
-                            </div>
-                            <div class="panel-body">
-                                <table class="table">
-                                    <thead>
-                                        <tr>
-                                            <th>Nome e cognome</th>
-                                            <th>Elimina</th>
-                                        </tr>
-                                    </thead>
-                                    <tbody id="CurriculumStudentiTableList"></tbody>
-                                </table>
-                            </div>
-
-                            <div class="panel-footer" style="background-color: transparent">
-                                <div class="form-group" id="selectStudent" >
-                                    <label for="sel1">Seleziona uno studente da aggiungere al curriculum</label>
-                                    <select class="form-control" id="StudentsSelectebleList"  >
-                                    </select>
-
-
-                                    <br>
-                                    <input type="button" id="addStudentToCurrButton" class="btn btn-secondary btn-block" value="Aggiungi il dottorando selezionato" onclick="selectedStudentToAdd()"> 
-                                </div>
-                            </div>  
-                        </div>
-                    </div>   
-                
+                    
+                    
+                    
+                    
                 </div>
 
 
