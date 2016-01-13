@@ -175,7 +175,7 @@ public class PresenceManager {
              * Prepariamo la stringa SQL per la ricerca dei record 
              * nella tabella presence
            */
-            String tSql = "SELECT  account.name, account.surname, account.secondaryEmail" +
+            String tSql = "SELECT distinct  account.name, account.surname, account.secondaryEmail" +
         " FROM presence, account, lesson " +
         " where presence.fkPhdstudent = account.secondaryEmail " +
          " and presence.fkLesson = lesson.idLesson " +
