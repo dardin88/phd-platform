@@ -16,6 +16,7 @@
 </c:choose>
 <html lang="en">
     <head>
+        
         <meta charset="utf-8">
         <meta http-equiv="X-UA-Compatible" content="IE=edge">
         
@@ -37,6 +38,7 @@
         <link rel="stylesheet" href="style/dottorato.css">
         
         
+        
         <style>
             #bodyTable {
                 color:black;
@@ -49,6 +51,10 @@
             #spanSpace {
                visibility: hidden;
             }
+            
+            #space {
+                visibility:hidden;
+            }
         </style>
         
         <script src="assets/js/jquery-1.11.1.min.js"></script>
@@ -56,6 +62,22 @@
                 
                                                                                  
     </head>
+    <div id="modifiedModal" class="modal fade">
+        <div class="modal-dialog">
+            <div class="modal-content ">
+                <div class="modal-header  ">
+                    <button type="button" class="close" data-dismiss="modal">&times;</button>
+                    <h4 class="modal-title"> <span class="glyphicon glyphicon glyphicon-ok-circle" style="color: #FFA54E"   aria-hidden="true"><span id = "space">sfas</span> </span>Conferma Avvenuta Modifica</h4>
+                </div>
+                <div class="modal-body ">
+                    <p>
+                        La modifica è stata effettuata.<br>
+                    </p>
+                </div>
+            </div>
+        </div>
+    </div>
+                   
     <c:choose>
         <c:when test="${sessionScope.account != null}">
                     <% Account loggedPerson = ((Account) session.getAttribute("account"));
@@ -78,6 +100,8 @@
                     </div>    
                     
             <!-- Barra per filtrare la ricerca -->  
+            
+    
             
                     <div class="row" style="margin-top: 5px;">
                          <div class="col-lg-6">
@@ -126,7 +150,7 @@
                                      <h2>Invita Utente</h2>
                                      
                                      <form action="InviteUserServlet"> <!-- da fixare il servlet !-->
-                                         <input id ="emailInput" type="text" name="email" placeholder="Email privata dell'utente"/>
+                                         <input id ="emailInput" type="text" name="email" placeholder="Email privata dell'utente" required pattern="[a-z0-9._%+-]+@[a-z0-9.-]+\.[a-z]{2,3}$"/>
                                          <span id = "spanSpace" >asdasjsdfij      </span>
                                          <input class="btn btn-blue" type="submit" value="Invita"></input>
                                      </form>
