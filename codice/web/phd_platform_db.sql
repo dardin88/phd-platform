@@ -32,10 +32,10 @@ INSERT INTO account (secondaryEmail,email,surname,name,password,typeAccount,isAd
 ('buonocore@hotmail.it','buonocore@unisa.it', 'Buonocore', 'Anna', 'testtest4','professor',false),
 ('adelucia@hotmail.it','adelucia@unisa.it', 'DeLucia', 'Andrea', 'testtest5','professor',true),
 ('ajeje@hotmail.it','brazzorf@unisa.it', 'Brazzorf', 'Ajeje', 'testtest12','phdstudent',false),
-('elisa@hotmail.it','deugenio@unisa.it', 'D\'Eugenio', 'Elisa', 'testtest30L','phdstudent',false),
+('elisa@hotmail.it','fedele@unisa.it', 'Fedele', 'Elisa', 'testtest30L','phdstudent',false),
 ('minichiello@hotmail.it','minichiello@unisa.it', 'Minichiello', 'Tommaso', 'testtest94','phdstudent',false),
 ('ariemma@hotmail.it','ariemma@unisa.it', 'Ariemma', 'Armando', 'testtest87','phdstudent',false),
-('dinucci@hotmail.it','dinucci@unisa.it','Dario','Dinucci','testtest6','phdstudent',false);
+('dinucci@hotmail.it','dinucci@unisa.it','Di Nucci','Dario','testtest6','phdstudent',false);
 
 -- creo la tabella  dei professori
 create table if not exists professor(

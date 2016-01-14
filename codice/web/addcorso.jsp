@@ -58,7 +58,7 @@
         <div class="modal-dialog">
             <div class="modal-content">
                 <div class="modal-header">
-                    <button type="button" class="close" data-dismiss="modal" onclick="history.go(-1);">&times;</button>
+                    <button type="button" class="close" data-dismiss="modal" onclick="calendario.jsp">&times;</button>
                     <h4 class="modal-title" id="titleInfo"></h4>
                 </div>
                 

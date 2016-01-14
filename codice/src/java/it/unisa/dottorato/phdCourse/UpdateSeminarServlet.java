@@ -19,8 +19,9 @@ import javax.servlet.http.HttpSession;
 import org.json.JSONException;
 import org.json.JSONObject;
 
-
-/**Servlet incaricata ad effettuare la richiesta di aggiornamento di un seminario
+/**
+ * Servlet incaricata ad effettuare la richiesta di aggiornamento di un
+ * seminario
  *
  * @author Giuseppe
  */
@@ -31,51 +32,52 @@ public class UpdateSeminarServlet extends HttpServlet {
      * Processes requests for both HTTP <code>GET</code> and <code>POST</code>
      * methods.
      *
-     * @param request oggetto request per accedere ai parametri inviati attraverso
-     * il metodo getParameter per ottenere la data, l'ora di inizio e di fine,
-     * il nome, il nome dello speaker e la descrizione del seminario, il posto
-     * e il corso a cui il seminario e' associato per effettuare la richiesta di
-     * modifica di un seminario
+     * @param request oggetto request per accedere ai parametri inviati
+     * attraverso il metodo getParameter per ottenere la data, l'ora di inizio e
+     * di fine, il nome, il nome dello speaker e la descrizione del seminario,
+     * il posto e il corso a cui il seminario e' associato per effettuare la
+     * richiesta di modifica di un seminario
      * @param response servlet response
      * @throws ServletException if a servlet-specific error occurs
      * @throws IOException if an I/O error occurs
      */
     protected void processRequest(HttpServletRequest request, HttpServletResponse response)
-            throws ServletException, IOException,IdException , DescriptionException , NameException , SpeakerException , PlaceException , DateException {
+            throws ServletException, IOException, IdException, DescriptionException, NameException, SpeakerException, PlaceException, DateException {
 
         JSONObject result = new JSONObject();
         PrintWriter out = response.getWriter();
 
-        
-            try {
-                response.setContentType("text/html;charset=UTF-8");
+        try {
+            response.setContentType("text/html;charset=UTF-8");
 
-                int seminarID = Integer.parseInt("" + request.getSession().getAttribute("idSeminar"));
-                String date = request.getParameter("data");
-                String starttime = request.getParameter("starttime");
-                String endtime = request.getParameter("endtime");
-                String name = request.getParameter("name");
-                String namespeacker = request.getParameter("namespeacker");
-                String description = request.getParameter("description");
-                String place = request.getParameter("place");
-                String course = request.getParameter("course");
+            int seminarID = Integer.parseInt(request.getParameter("id"));
+            String date = request.getParameter("date");
+            String startTime = request.getParameter("startTime");
+            String starttime = startTime.substring(0, 5);
+            String endTime = request.getParameter("endTime");
+            String endtime = endTime.substring(0, 5);
+            String name = request.getParameter("name");
+            String namespeacker = request.getParameter("nameSpeacker");
+            String description = request.getParameter("description");
+            String place = request.getParameter("place");
+            String course = request.getParameter("fkCourse");
 
-                HttpSession session = request.getSession();
-                Professor loggedPerson = (Professor) session.getAttribute("professor");
+            HttpSession session = request.getSession();
+            Professor loggedPerson = (Professor) session.getAttribute("professor");
 
-                Seminar seminar = new Seminar();
+            Seminar seminar = new Seminar();
 
-                //inseriamo nell'oggetto corso i valori passati come parametri precedentemente
-                seminar.setDate(java.sql.Date.valueOf(date));
-                seminar.setStartTime((starttime));
-                seminar.setEndTime((endtime));
-                seminar.setName(name);
-                seminar.setNameSpeacker(namespeacker);
-                seminar.setDescription(description);
-                seminar.setPlace((place));
-                seminar.setFK_course(Integer.parseInt(course));
+            //inseriamo nell'oggetto corso i valori passati come parametri precedentemente
+            seminar.setDate(java.sql.Date.valueOf(date));
+            seminar.setStartTime((starttime));
+            seminar.setEndTime((endtime));
+            seminar.setName(name);
+            seminar.setNameSpeacker(namespeacker);
+            seminar.setDescription(description);
+            seminar.setPlace((place));
+            seminar.setFK_course(Integer.parseInt(course));
 
-                 result.put("result", true);
+            result.put("result", true);
 
             try {
                 CalendarManager.getInstance().update_seminar(seminarID, seminar);
@@ -85,7 +87,10 @@ public class UpdateSeminarServlet extends HttpServlet {
                 Logger.getLogger(UpdateLessonServlet.class.getName()).log(Level.SEVERE, null, ex);
             }
 
-            out.write(result.toString());
+            String redirectCalendar = "<script>\n"
+                    + " location.pathname = '/codice/calendario.jsp';\n"
+                    + " </script>";
+            out.write(redirectCalendar);
 
         } catch (JSONException ex) {
             Logger.getLogger(UpdateLessonServlet.class.getName()).log(Level.SEVERE, null, ex);
@@ -106,21 +111,19 @@ public class UpdateSeminarServlet extends HttpServlet {
     @Override
     protected void doGet(HttpServletRequest request, HttpServletResponse response)
             throws ServletException, IOException {
-        
+
         try {
             processRequest(request, response);
         } catch (IdException | NameException | DateException ex) {
             Logger.getLogger(AddLessonServlet.class.getName()).log(Level.SEVERE, null, ex);
-        }
-        catch (DescriptionException ex) {
+        } catch (DescriptionException ex) {
             Logger.getLogger(AddCourseServlet.class.getName()).log(Level.SEVERE, null, ex);
+        } catch (PlaceException ex) {
+            Logger.getLogger(AddSeminarServlet.class.getName()).log(Level.SEVERE, null, ex);
+        } catch (SpeakerException ex) {
+            Logger.getLogger(AddSeminarServlet.class.getName()).log(Level.SEVERE, null, ex);
         }
-         catch (PlaceException ex) {
-             Logger.getLogger(AddSeminarServlet.class.getName()).log(Level.SEVERE, null, ex);
-         } catch (SpeakerException ex) {
-             Logger.getLogger(AddSeminarServlet.class.getName()).log(Level.SEVERE, null, ex);
-         }
-       
+
     }
 
     /**
@@ -134,19 +137,17 @@ public class UpdateSeminarServlet extends HttpServlet {
     @Override
     protected void doPost(HttpServletRequest request, HttpServletResponse response)
             throws ServletException, IOException {
-       try {
+        try {
             processRequest(request, response);
         } catch (IdException | NameException | DateException ex) {
             Logger.getLogger(AddLessonServlet.class.getName()).log(Level.SEVERE, null, ex);
-        }
-        catch (DescriptionException ex) {
+        } catch (DescriptionException ex) {
             Logger.getLogger(AddCourseServlet.class.getName()).log(Level.SEVERE, null, ex);
+        } catch (PlaceException ex) {
+            Logger.getLogger(AddSeminarServlet.class.getName()).log(Level.SEVERE, null, ex);
+        } catch (SpeakerException ex) {
+            Logger.getLogger(AddSeminarServlet.class.getName()).log(Level.SEVERE, null, ex);
         }
-         catch (PlaceException ex) {
-             Logger.getLogger(AddSeminarServlet.class.getName()).log(Level.SEVERE, null, ex);
-         } catch (SpeakerException ex) {
-             Logger.getLogger(AddSeminarServlet.class.getName()).log(Level.SEVERE, null, ex);
-         }
     }
 
     /**

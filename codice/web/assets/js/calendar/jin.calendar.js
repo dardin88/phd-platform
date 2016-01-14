@@ -75,8 +75,9 @@ jinCalendar.getScheduleDate1= function() {
                             day : startDay,
                             type : '1',
                             title: 'Lezione di '+value1.name + '<br> classe: '+value1.classroom ,
-                            text : value1.description + '<br> Inizio Lezione: '+ inizio + '<br> Fine lezione: '+fine
-                        }];
+                            text : value1.description + '<br> Inizio Lezione: '+ inizio + '<br> Fine lezione: '+fine,
+                            idLesson : value1.idLesson
+                           }];
                         
                         jinCalendar.setScheduleLesson();
                         
@@ -109,7 +110,8 @@ jinCalendar.getScheduleDate1= function() {
                     day : startDay,
                     type : '2',
                     title: 'Seminario di '+value.name,
-                    text : value.description + '<br> luogo: '+value.place
+                    text : value.description + '<br> luogo: '+value.place,
+                    idSeminar : value.idSeminar
                 }];
             jinCalendar.setScheduleSeminar();
                 
@@ -175,7 +177,8 @@ jinCalendar.getScheduleDate2= function() {
                                 day : startDay,
                                 type : '1',
                                 title: 'Lezione di '+value.name + '<br> classe: '+value.classroom ,
-                                text : value.description + '<br> Inizio Lezione: '+ inizio + '<br> Fine lezione: '+fine
+                                text : value.description + '<br> Inizio Lezione: '+ inizio + '<br> Fine lezione: '+fine,
+                                idLesson : value.idLesson
                              }];
                              jinCalendar.setScheduleLesson();
                         
@@ -201,7 +204,9 @@ jinCalendar.getScheduleDate2= function() {
                             day : startDay,
                             type : '2',
                             title: 'Seminario di '+value.name,
-                            text : value.desription + '<br> luogo: '+value.place
+                            text : value.desription + '<br> luogo: '+value.place,
+                            idSeminar : value.idSeminar
+
                          }];
                         jinCalendar.setScheduleSeminar();
                 
@@ -366,13 +371,13 @@ jinCalendar.setScheduleLesson = function() {
 	for ( var n in obj) {
 		var item = obj[n];
 
-		var html = '<button type="button" class="btn {TYPE} standard-description-lesson btn-xs" data-toggle="tooltip" data-placement="top" title="{TEXT}" descr="{TITLE}">{TITLE}</button>';
+		var html = '<button type="button" class="btn {TYPE} standard-description-lesson btn-xs" data-toggle="tooltip" data-placement="top" title="{TEXT}" descr="{TITLE}" idLesson="{IDLESS}">{TITLE}</button>';
 
 		html = html.replace('{TITLE}',
 				item.title).replace('{TYPE}',
 				sType[item.type])
 				.replace('{TEXT}', item.text).replace('{TITLE}',
-				item.title);
+				item.title).replace('{IDLESS}', item.idLesson);
                 var data = date1.getFullYear() + '' + FormatMe(date1.getMonth() + 1) + '';
                 
                 if(data===item.yyyymm){
@@ -383,13 +388,16 @@ jinCalendar.setScheduleLesson = function() {
 	}
      ///CLICK SULLA LEZIONE
    $('.standard-description-lesson').click(function() {
-                $("#titleInfo").html("");
-                $("#descriptionInfo").html("");
-                $("#infoDialog").modal();
+                $("#titleInfo1").html("");
+                $("#descriptionInfo1").html("");
+                $("#infoDialog1").modal();
                 title = $(this).attr('descr');
                 text = $(this).attr('title');
-                $("#titleInfo").html(title);
-                $("#descriptionInfo").html(text);
+                idLesson = $(this).attr('idLesson');
+                document.getElementById('idLess').value = idLesson;
+                document.getElementById('idLess2').value = idLesson;
+                $("#titleInfo1").html(title);
+                $("#descriptionInfo1").html(text);
 	});
 
 	$("td>div").css({
@@ -409,13 +417,13 @@ jinCalendar.setScheduleSeminar = function() {
 	for ( var n in obj) {
 		var item = obj[n];
 
-		var html = '<button type="button" class="btn {TYPE} standard-description-seminar btn-xs" data-toggle="tooltip" data-placement="top" title="{TEXT}"  descr="{TITLE}">{TITLE}</button>';
+		var html = '<button type="button" class="btn {TYPE} standard-description-seminar btn-xs" data-toggle="tooltip" data-placement="top" title="{TEXT}"  descr="{TITLE}" idSeminar="{IDSEMI}">{TITLE}</button>';
 
 		html = html.replace('{TITLE}',
 				item.title).replace('{TYPE}',
 				sType[item.type])
 				.replace('{TEXT}', item.text).replace('{TITLE}',
-				item.title);;
+				item.title).replace('{IDSEMI}', item.idSeminar);;
                 var data = date1.getFullYear() + '' + FormatMe(date1.getMonth() + 1) + '';
                 
                 if(data===item.yyyymm){
@@ -426,13 +434,16 @@ jinCalendar.setScheduleSeminar = function() {
          
        ///CLICK SUL SEMINARIO
    $('.standard-description-seminar').click(function() {
-                 $("#titleInfo").html("");
-                $("#descriptionInfo").html("");
-                $("#infoDialog").modal();
+                 $("#titleInfo2").html("");
+                $("#descriptionInfo2").html("");
+                $("#infoDialog2").modal();
                 title = $(this).attr('descr');
                 text = $(this).attr('title');
-                $("#titleInfo").html(title);
-                $("#descriptionInfo").html(text);
+                idSeminar= $(this).attr('idSeminar');
+                document.getElementById('idSemi').value = idSeminar;
+                document.getElementById('idSemi2').value = idSeminar;
+                $("#titleInfo2").html(title);
+                $("#descriptionInfo2").html(text);
 	});
 
 	$("td>div").css({

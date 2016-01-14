@@ -48,6 +48,7 @@
   
     
     </head>
+    <!-- MODAL PER CORSI -->
     <div id="infoDialog" class="modal fade">
         <div class="modal-dialog">
             <div class="modal-content">
@@ -58,6 +59,59 @@
                 
                 <div class="modal-body" id="descriptionInfo">
                 </div>
+            </div>
+        </div>
+    </div>
+    <!-- MODAL PER LEZIONI -->
+    <div id="infoDialog1" class="modal fade">
+        <div class="modal-dialog">
+            <div class="modal-content">
+                <div class="modal-header">
+                    <button type="button" class="close" data-dismiss="modal">&times;</button>
+                    <h4 class="modal-title" id="titleInfo1"></h4>
+                </div>
+                
+                <div class="modal-body" id="descriptionInfo1">
+                </div>
+                <% Account loggedPerson = ((Account) session.getAttribute("account"));
+                        if (loggedPerson.isAdmin() || loggedPerson.getTypeAccount().equals("professor")) {
+                         %>
+                          <form class="form-inline" name ="lessonform" method="GET" action="editLesson.jsp">
+                              <input type='hidden' name="idLesson" id="idLess" >
+                              <input type="submit" class="btn btn-blue" value="Modifica">
+                          </form>
+                          <form class="form-inline" name ="lessonform2" method="GET" action="deleteLesson.jsp">
+                              <input type='hidden' name="idLesson2" id="idLess2" >
+                              <input type="submit" class="btn btn-white" value="Elimina">
+                          </form>
+                        <% } %>
+            
+            </div>
+        </div>
+    </div>
+    <!-- MODAL PER SEMINARI -->
+    <div id="infoDialog2" class="modal fade">
+        <div class="modal-dialog">
+            <div class="modal-content">
+                <div class="modal-header">
+                    <button type="button" class="close" data-dismiss="modal">&times;</button>
+                    <h4 class="modal-title" id="titleInfo2"></h4>
+                </div>
+                
+                <div class="modal-body" id="descriptionInfo2">
+                </div>
+                <% 
+                        if (loggedPerson.isAdmin() || loggedPerson.getTypeAccount().equals("professor")) {
+                         %>
+                          <form class="form-inline" name ="seminarform" method="GET" action="editSeminar.jsp">
+                              <input type='hidden' name="idSeminar" id="idSemi" >
+                              <input type="submit" class="btn btn-blue" value="Modifica">
+                          </form>
+                          <form class="form-inline" name ="seminarform2" method="GET" action="deleteSeminar.jsp">
+                              <input type='hidden' name="idSeminar2" id="idSemi2" >
+                              <input type="submit" class="btn btn-white" value="Elimina">
+                          </form>
+                        <% } %>
             
             </div>
         </div>
@@ -71,7 +125,7 @@
                     <div class="panel panel-default">
                     <div class="panel-heading">
                         <h1>Calendario </h1> 
-                        <% Account loggedPerson = ((Account) session.getAttribute("account"));
+                        <%
                         if (loggedPerson.isAdmin() || loggedPerson.getTypeAccount().equals("professor")) {
                          %>  
                         <ul class="nav navbar-nav">
