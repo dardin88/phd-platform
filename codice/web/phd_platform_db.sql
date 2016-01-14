@@ -9,7 +9,10 @@ description        text not null);
 -- popolo la tabella news
 INSERT INTO news (idNews,title,description)VALUES
 (1,'avviso1','Avviso: corsi di is2 interrotti perchè il gatto si è ferito una gamba'),
-(2,'new1','News:il direttore procederà a conferire il premio');
+(2,'new1','News:il direttore procederà a conferire il premio'),
+(3,'Avviso Esame TSW','Avviso: L esame di TSW tenuto dal prof. parente si terrà il giorno 19 Gennaio'),
+(4,'news Mensa','News:La mensa riapre il 04/012016'),
+(5,'Avviso Bando erasmus','Il bando per l erusmas è stato prorogato fino al 21/05/2016');
 
 -- creo la tabella degli account
 create table IF not EXIsts account(
@@ -26,9 +29,13 @@ INSERT INTO account (secondaryEmail,email,surname,name,password,typeAccount,isAd
 ('test@hotmail.it','rossi@unisa.it', 'Rossi', 'Mario', 'testtest0','basic',false),
 ('ballo@hotmail.it','ballo@unisa.it', 'Conti','Carlo', 'testtest1','phdstudent',false),
 ('wrestler@hotmail.it','wrestler@unisa.it', 'Cena', 'John', 'testtest3','professor',false),
-('dracula@hotmail.it','dracula@unisa.it', 'Conte', 'Dracula', 'testtest4','professor',true),
+('buonocore@hotmail.it','buonocore@unisa.it', 'Buonocore', 'Anna', 'testtest4','professor',false),
 ('adelucia@hotmail.it','adelucia@unisa.it', 'DeLucia', 'Andrea', 'testtest5','professor',true),
-('dinucci@hotmail.it','dinucci@unisa.it','Dario','Dinucci','testtest6','phdstudent',false);
+('ajeje@hotmail.it','brazzorf@unisa.it', 'Brazzorf', 'Ajeje', 'testtest12','phdstudent',false),
+('elisa@hotmail.it','fedele@unisa.it', 'Fedele', 'Elisa', 'testtest30L','phdstudent',false),
+('minichiello@hotmail.it','minichiello@unisa.it', 'Minichiello', 'Tommaso', 'testtest94','phdstudent',false),
+('ariemma@hotmail.it','ariemma@unisa.it', 'Ariemma', 'Armando', 'testtest87','phdstudent',false),
+('dinucci@hotmail.it','dinucci@unisa.it','Di Nucci','Dario','testtest6','phdstudent',false);
 
 -- creo la tabella  dei professori
 create table if not exists professor(
@@ -39,8 +46,8 @@ foreign key(fkAccount) references account(secondaryEmail) on delete cascade on u
 
 -- popolo la tabella  dei professori
 INSERT INTO professor (fkAccount,link,department)VALUES
-('wrestler@hotmail.it','https://it.wikipedia.org/wiki/John_Cena','Dipartimento di Mazzate'),
-('dracula@hotmail.it','https://it.wikipedia.org/wiki/Conte_Dracula','Dipartimento di Giurisprudenza'),
+('wrestler@hotmail.it','https://it.wikipedia.org/wiki/John_Cena','Dipartimento di WWE'),
+('buonocore@hotmail.it','https://it.wikipedia.org/wiki/Buonocore_Anna','Dipartimento di Informatica'),
 ('adelucia@hotmail.it','http://www.unisa.it/docenti/andreadelucia/index','Dipartimento di Informatica');
 
 
@@ -55,7 +62,7 @@ INSERT INTO curriculum (name,description)VALUES
  aziendale, del marketing e della comunicazione. 
  Le tematiche scientifiche del curriculum includono:
  Project managementSoftware quality assuranceMetodi per 
- la stima dei costiSistemi a supporto delle decisioni e business intelligenceData warehousingBig dataOpen dataDocument and content managementWorkflow and process managementModellazione e analisi delle prestazioni dei processiBusiness process reengineeringWeb engineeringSistemi cloud-basedIngegneria dei requisiti e progettazione di sistemi softwareManutenzione ed evoluzione di sistemi softwareAnalisi e testing del softwareIngegneria del software empiricaMetodi e strumenti per il lavoro collaborativoLinguaggi visuali e interazione uomo-macchinaComputer graphics e realtà virtualeInterfacce web avanzate, immersive, 3D e apticheDomotica e sistemi di videosorveglianza intelligenti.Interfacce per sistemi domoticiRiconoscimento di immagini e sistemi biometriciComputational intelligenceInformation retrievalTecniche di clustering e data mining, machine learning e classificazioneSistemi informativi geografici e territorialiE-learning e tecnologie per la didattica a distanzaModelli matematici e ottimizzazioneModellazione ed analisi di prestazioni e affidabilità dei sistemiIl Dottore di Ricerca con curriculum in Informatica, Sistemi Informativi e Tecnologie del Software potrà avere diversi sbocchi professionali, che non si fermano a quello di ricercatore accademico o nei centri di ricerca di organizzazioni ed aziende. Infatti, grazie anche alle competenze acquisite con la formazione di tipo manageriale acquisita durante il corso di dottorato, il Dottore di Ricerca potrà ricoprire ruoli di consulente ed esperto di innovazione e trasferimento tecnologico per le aziende del comparto ICT, nonché ruoli di direzione di progetti di ricerca e funzioni direzionali in aziende del comparto ICT.'),
+ la stima dei costiSistemi a supporto delle decisioni e business intelligenceData warehousingBig dataOpen dataDocument and Buonocorent managementWorkflow and process managementModellazione e analisi delle prestazioni dei processiBusiness process reengineeringWeb engineeringSistemi cloud-basedIngegneria dei requisiti e progettazione di sistemi softwareManutenzione ed evoluzione di sistemi softwareAnalisi e testing del softwareIngegneria del software empiricaMetodi e strumenti per il lavoro collaborativoLinguaggi visuali e interazione uomo-macchinaComputer graphics e realtà virtualeInterfacce web avanzate, immersive, 3D e apticheDomotica e sistemi di videosorveglianza intelligenti.Interfacce per sistemi domoticiRiconoscimento di immagini e sistemi biometriciComputational intelligenceInformation retrievalTecniche di clustering e data mining, machine learning e classificazioneSistemi informativi geografici e territorialiE-learning e tecnologie per la didattica a distanzaModelli matematici e ottimizzazioneModellazione ed analisi di prestazioni e affidabilità dei sistemiIl Dottore di Ricerca con curriculum in Informatica, Sistemi Informativi e Tecnologie del Software potrà avere diversi sbocchi professionali, che non si fermano a quello di ricercatore accademico o nei centri di ricerca di organizzazioni ed aziende. Infatti, grazie anche alle competenze acquisite con la formazione di tipo manageriale acquisita durante il corso di dottorato, il Dottore di Ricerca potrà ricoprire ruoli di consulente ed esperto di innovazione e trasferimento tecnologico per le aziende del comparto ICT, nonché ruoli di direzione di progetti di ricerca e funzioni direzionali in aziende del comparto ICT.'),
  
  ('Marketing e Comunicazione',
  'Il curriculum “Marketing e Comunicazione” mira 
@@ -101,7 +108,7 @@ fkProfessor			varchar(50),
 foreign key (fkProfessor) references professor(fkAccount) on delete set null on update cascade);
 
 INSERT INTO cycle (number,description,year, fkProfessor)VALUES
-(15, 'Il corso di Dottorato di Ricerca in Management 
+(15, 'Il ciclo 15esimo comincia il 21/10/2015 e termina 19/07/2016. Il corso di Dottorato di Ricerca in Management 
  & Information Technology ha come obiettivo la formazione
  di specialisti della ricerca in ambito economico-aziendale
  ed informatico. Il corso è strutturato in tre curricula, 
@@ -110,7 +117,7 @@ INSERT INTO cycle (number,description,year, fkProfessor)VALUES
  Informatica, Sistemi Informativi e Tecnologie del Software. Attraverso i tre curricula, il corso di Dottorato intende formare figure professionali diverse, ma che riescano ad interagire per la soluzione di problemi complessi in ambito economico-aziendale, grazie all''utilizzo di tecnologie dell''informazione innovative e ad un approccio inter-disciplinare che favorisca la reciproca condivisione di idee e competenze. Il primo curriculum mira a formare specialisti nel settore del management di enti, istituzioni ed aziende afferenti al settore pubblico, con conoscenze relative a principi, teorie e modelli di gestione dei processi di innovazione nella Pubblica Amministrazione. Il secondo curriculum mira a formare specialisti in grado di utilizzare le più avanzate, innovative ed affidabili metodologie di ricerca scientifica in campo economico-sociale, con particolare riferimento al marketing ed alla comunicazione. Infine, il terzo curriculum mira a formare specialisti nel settore dell''Informatica, con conoscenza degli aspetti teorici, metodologici e sperimentali dei sistemi informativi, dell''ingegneria del software, dei dati e della conoscenza, dell''elaborazione di immagini e dell''interazione uomo-macchina, con applicazioni in particolare alla economia e alla gestione aziendale.Il completamento del Corso di Dottorato ed il superamento dell''esame finale consente per tutti e tre i curricula lo svolgimento di attività di ricerca in ambito accademico, nei settori dell''economia aziendale e dell''informatica, costituendo un titolo legalmente riconosciuto nei concorsi universitari, nonché in enti di ricerca e nelle divisioni ricerca e sviluppo di aziende. Inoltre, la qualità del percorso formativo e le competenze specialistiche acquisite consentono l''inserimento dei dottori di ricerca anche nel mondo del lavoro e delle professioni, nella Pubblica Amministrazione e nelle aziende.',
  '2015', 'adelucia@hotmail.it'),
  
-(16, 'Il corso di Dottorato di Ricerca in Management &
+(16, 'Il ciclo 16esimo comincia il 21/10/2016 e termina 19/07/2017.Il corso di Dottorato di Ricerca in Management &
  Information Technology ha come obiettivo la formazione
  di specialisti della ricerca in ambito economico-aziendale
  ed informatico. Il corso è strutturato in tre curricula,
@@ -144,7 +151,7 @@ INSERT INTO cycle (number,description,year, fkProfessor)VALUES
  dell''informatica, costituendo un
  titolo legalmente riconosciuto nei concorsi universitari, 
  nonché in enti di ricerca e nelle divisioni ricerca e sviluppo di aziende. Inoltre, la qualità del percorso formativo e le competenze specialistiche acquisite consentono l''inserimento dei dottori di ricerca anche nel mondo del lavoro e delle professioni, nella Pubblica Amministrazione e nelle aziende.'
- , '2015', 'dracula@hotmail.it');
+ , '2015', 'buonocore@hotmail.it');
 
  
 create table if not exists curriculumcic(
@@ -156,7 +163,8 @@ foreign key (fkCurriculum) references curriculum(name) on delete cascade on upda
 foreign key (fkCycle) references cycle(number) on delete cascade on update cascade,
 foreign key (fkProfessor) references professor(fkAccount) on delete set null on update cascade);
 
-
+INSERT INTO curriculumcic (fkCurriculum,fkCycle,fkProfessor)VALUES
+('Informatica, Sistemi Informativi e Tecnologie del Software',16,'buonocore@hotmail.it');
 INSERT INTO curriculumcic (fkCurriculum,fkCycle,fkProfessor)VALUES
 ('Informatica, Sistemi Informativi e Tecnologie del Software',15,'adelucia@hotmail.it');
 INSERT INTO curriculumcic (fkCurriculum,fkCycle,fkProfessor)VALUES
@@ -172,7 +180,11 @@ foreign key (fkCycle) references curriculumcic(fkCycle) on delete cascade on upd
 foreign key (fkProfessor) references professor(fkAccount) on delete no action on update cascade);
 
 INSERT INTO teach (fkCurriculum,fkCycle,fkProfessor	)VALUES
-('Informatica, Sistemi Informativi e Tecnologie del Software',15,'adelucia@hotmail.it');
+('Informatica, Sistemi Informativi e Tecnologie del Software',15,'adelucia@hotmail.it'),
+('Marketing e Comunicazione',15,'adelucia@hotmail.it'),
+('Marketing e Comunicazione',15,'buonocore@hotmail.it'),
+('Informatica, Sistemi Informativi e Tecnologie del Software',16,'buonocore@hotmail.it'),
+('Informatica, Sistemi Informativi e Tecnologie del Software',16,'adelucia@hotmail.it');
 
 create table if not exists course(
 idCourse				integer	primary key,
@@ -188,7 +200,12 @@ foreign key (fkCycle) references curriculumcic(fkCycle) on delete cascade on upd
 
 
 INSERT INTO course (idCourse,fkCurriculum,fkCycle,name,description,startDate,endDate)VALUES
-(1,'Informatica, Sistemi Informativi e Tecnologie del Software',15,'IS2','descrizione del corso','2015-01-01','2015-09-10');
+(1,'Informatica, Sistemi Informativi e Tecnologie del Software',15,'IS2',
+'descrizione del corso di IS2','2015-01-05','2015-07-10'),
+(2,'Informatica, Sistemi Informativi e Tecnologie del Software',16,'IS3',
+'descrizione del corso di IS2','2016-01-05','2016-07-10'),
+(3,'Informatica, Sistemi Informativi e Tecnologie del Software',16,'TSW',
+'descrizione del corso di TSW','2016-01-05','2016-07-10');
 
 -- creiamo la tabella studente
 create table IF not EXIsts phdstudent(
@@ -207,8 +224,11 @@ foreign key (fkCycle) references curriculumcic(fkCycle) on delete set null on up
 
 -- inseriamo il phdstudent
 INSERT INTO phdstudent(fkAccount,telephone,link,department,researchInterest,fkCycle,fkCurriculum,fkProfessor)VALUES
-('ballo@hotmail.it','3881144567',null,'Informatica',null,15,'Informatica, Sistemi Informativi e Tecnologie del Software','adelucia@hotmail.it'),
-
+('ballo@hotmail.it','3843444567',null,'Informatica',null,15,'Informatica, Sistemi Informativi e Tecnologie del Software','buonocore@hotmail.it'),
+('ajeje@hotmail.it','3881334567',null,'Informatica',null,15,'Informatica, Sistemi Informativi e Tecnologie del Software','adelucia@hotmail.it'),
+('elisa@hotmail.it','3881222567',null,'Informatica',null,15,'Informatica, Sistemi Informativi e Tecnologie del Software','buonocore@hotmail.it'),
+('minichiello@hotmail.it','38813414567',null,'Informatica',null,16,'Informatica, Sistemi Informativi e Tecnologie del Software','adelucia@hotmail.it'),
+('ariemma@hotmail.it','38813434567',null,'Informatica',null,16,'Informatica, Sistemi Informativi e Tecnologie del Software',null),
 ('dinucci@hotmail.it','3881144567','http://www.sesa.unisa.it/people/ddinucci/','Informatica','He is
  an open-source enthusiast who likes to work on challenging project. In 2014 he completed the 10th edition 
  of Google Summer of Code working on Gnome Maps and GraphHopper.',15,'Informatica, Sistemi Informativi e Tecnologie del Software',null);
@@ -229,7 +249,17 @@ foreign key (fkPhdstudent) references phdstudent(fkAccount) on delete cascade on
 
 
 INSERT INTO publication(idPublication,title,publicationIssue,year,numberPage,link,type,otherAuthors,abstract,fkPhdstudent )VALUES
-(1,'ICSE 2015 Trip Summary','ICSE 2015 SIGSOFT CAPS Report','2015',1,'http://www.sesa.unisa.it/people/ddinucci/pdf/3_trip-report_SEN.pdf',
+(1,'ICSE 2015','ICSE 2015 SIGSOFT CAPS Report','2015',1,'http://www.sesa.unisa.it/people/ddinucci/pdf/3_trip-report_SEN.pdf',
+ 'Ricerca',null,
+ 'Abstract ICSE 2015 has been my first conference and in my opinion it hasbeen amazing! My agenda in the period 16th
+- 22th of May has been
+full of very interesting talks and keynotes.
+For my PhD studies, I am working on Search Based Software Testing
+and Mining Software Repositories. Thus, the formula MSR +
+SBST + ICSE was perfect for quickly approaching problems and
+meet top researchers in these fields.
+In this paper I am going to summarize my experience in brief','dinucci@hotmail.it'),
+(2,'ICSE 2016','ICSE 2015 SIGSOFT CAPS Report','2015',1,'http://www.sesa.unisa.it/people/ddinucci/pdf/3_trip-report_SEN.pdf',
  'Ricerca',null,
  'Abstract ICSE 2015 has been my first conference and in my opinion it has
 been amazing! My agenda in the period 16th
@@ -239,7 +269,7 @@ For my PhD studies, I am working on Search Based Software Testing
 and Mining Software Repositories. Thus, the formula MSR +
 SBST + ICSE was perfect for quickly approaching problems and
 meet top researchers in these fields.
-In this paper I am going to summarize my experience in brief','dinucci@hotmail.it');
+In this paper I am going to summarize my experience in brief','ballo@hotmail.it');
 
 
 create table IF not EXIsts mission(
@@ -253,7 +283,8 @@ fkPhdstudent 		varchar(50) not null,
 foreign key (fkPhdstudent) references phdstudent(fkAccount) on delete cascade on update cascade);
 
 INSERT INTO mission (idMission,description,startDate,endDate,reference,place,fkPhdstudent)VALUES
-(1,'la ricerca dei numeri primi','2016-05-25','2017-06-25',null,'Roma','dinucci@hotmail.it');
+(1,'la ricerca dei numeri primi','2016-05-25','2017-06-25',null,'Roma','dinucci@hotmail.it'),
+(2,'la ricerca dei numeri secondi','2016-05-25','2017-06-25',null,'Roma','ballo@hotmail.it');
 
 
 create table IF not EXIsts collaboration(
@@ -266,7 +297,8 @@ fkPhdstudent 		varchar(50) not null,
 foreign key (fkPhdstudent) references phdstudent(fkAccount) on delete cascade on update cascade);
 
 INSERT INTO collaboration (idCollaboration,description,startDate,endDate,istitution,fkPhdstudent)VALUES
-(1,'Studio dei bit al contrario','2016-05-25','2017-06-25','Dipartimento di Informatica','dinucci@hotmail.it')       ;
+(1,'Studio dei bit al contrario','2016-05-25','2017-06-25','Dipartimento di Informatica','dinucci@hotmail.it'),
+(2,'Studio dei bit al contrario','2016-05-25','2017-06-25','Dipartimento di Informatica','ballo@hotmail.it');
 
 
 create table IF not EXIsts seminar(
@@ -284,8 +316,13 @@ foreign key (fkCourse) references course(idCourse) on delete cascade on update c
 INSERT INTO seminar (idSeminar,date,startTime,endTime,name,nameSpeacker,desription,place,fkCourse)VALUES
 (1,'2016-05-28','10:15','15:10','Come prepararsi ad un colloquio','Gerardo Gallesi','Consigli su 
 come prepararsi ad un colloqui nel migliore dei modi',
+'Aula P16',1 ),
+(2,'2016-05-24','10:15','15:10','Come prepararsi ad un colloquio','Gerardo Gallesi','Consigli su 
+come prepararsi ad un colloqui nel migliore dei modi',
+'Aula P16',2 ),
+(3,'2015-05-28','10:15','15:10','Come prepararsi ad un colloquio','Gerardo Gallesi','Consigli su 
+come prepararsi ad un colloqui nel migliore dei modi',
 'Aula P16',1 );
-
 
 create table IF not EXIsts lesson(
 idLesson	 		integer	primary key,
@@ -299,8 +336,12 @@ fkCourse			integer not null,
 foreign key (fkCourse) references course(idCourse) on delete cascade on update cascade);
 
 INSERT INTO lesson (idLesson,date,startTime,endTime	,name,classroom,desription,fkCourse)VALUES
-(1,'2016-05-2','9:10','12:10','ISTS','P12','introduzione al corso',1);
-
+(1,'2016-05-2','9:10','12:10','ISTS','P12','introduzione al corso',1),
+(2,'2016-05-5','9:10','12:10','ISTS','P12','introduzione al corso',1),
+(3,'2016-05-8','9:10','12:10','ISTS','P12','introduzione al corso',1),
+(4,'2016-05-2','9:10','12:10','ISTS','P12','introduzione al corso',1),
+(5,'2016-05-5','9:10','12:10','ISTS','P12','introduzione al corso',2),
+(6,'2016-05-8','9:10','12:10','ISTS','P12','introduzione al corso',3);
 
 create table IF not EXIsts keep(
 fkProfessor			varchar(50) not null,
@@ -310,7 +351,13 @@ foreign key (fkProfessor) references professor(fkAccount) on delete no action on
 foreign key (fkLesson) references lesson(idLesson) on delete cascade on update cascade);
 
 INSERT INTO keep (fkProfessor,fkLesson)VALUES
-('adelucia@hotmail.it',1) ;
+('adelucia@hotmail.it',1),
+('buonocore@hotmail.it',2),
+('adelucia@hotmail.it',3),
+('buonocore@hotmail.it',4),
+('adelucia@hotmail.it',5),
+('buonocore@hotmail.it',6);
+
 
 
 create table IF not EXIsts presence(
@@ -322,4 +369,11 @@ foreign key (fkPhdstudent) references phdstudent(fkAccount) on delete no action 
 foreign key (fkLesson) references lesson(idLesson) on delete cascade on update cascade);
 
 INSERT INTO presence (fkPhdstudent,fkLesson,isPresent)VALUES
-('dinucci@hotmail.it',1,false);
+('dinucci@hotmail.it',1,false),
+('dinucci@hotmail.it',2,true),
+('dinucci@hotmail.it',3,true),
+('dinucci@hotmail.it',4,true),
+('elisa@hotmail.it',1,false),
+('elisa@hotmail.it',2,false),
+('elisa@hotmail.it',3,true),
+('elisa@hotmail.it',4,true);

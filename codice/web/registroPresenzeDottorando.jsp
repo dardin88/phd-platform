@@ -66,22 +66,16 @@
                            
                             <div class="form-group">
                                 
-                                 <% 
- 
-      
-    List<Course> corsi = CalendarManager.getInstance().getAllCourse();
-            %>
-
+              
      <FORM ACTION="Submit" METHOD="POST"> 
                                 <label  > Seleziona un corso</label>
                                 
                                 <select name="Corsoprofessore" class="form-control" id="Corsoprofessore"  onchange="selectedItemDot()" >
- <option value="default"  >  - selezionate il vostro  corso  -  </option>
-                                    <% for (Course corso : corsi) {%>
+                       
+                                    <option value="default"  >  - selezionate il vostro  corso  -  </option>
+                                    
                
-                 
-                 <option value=<%= corso.getIdCourse() %> > <%=corso.getName() %>  </option>
-                 <% } %>
+           
                                 </select>
                              
            

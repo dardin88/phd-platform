@@ -315,7 +315,7 @@ public class CurriculumcicManager {
             connect = DBConnection.getConnection();
             connect1 = DBConnection.getConnection();
             testCurriculucic(pCurriculumcic);
-            String t="select fkCycle from phdstudent where fkAccount='"+fkPhdstudent;
+            String t="select fkCycle from phdstudent where fkAccount='"+fkPhdstudent+"'";
             ResultSet s=Utility.queryOperation(connect1, t);
             if(s.next()){
                 if(s.getInt("fkCycle")>0)

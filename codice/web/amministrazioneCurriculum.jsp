@@ -48,6 +48,74 @@
                     <% Account loggedPerson = ((Account) session.getAttribute("account"));
                         if (loggedPerson.isAdmin()) {
                     %> 
+                    
+    <div id="InserimentoDialog" class="modal fade">
+        <div class="modal-dialog">
+            <div class="modal-content ">
+                <div class="modal-header  ">
+                    <button type="button" class="close" data-dismiss="modal">&times;</button>
+                    <h4 class="modal-title"> <span class="glyphicon glyphicon-ok  " style="color: #00e367"   aria-hidden="true"></span>Operazione effettuata con successo.</h4>
+                </div>
+                <div class="modal-body ">
+                    <p>
+                        L'inserimento è avvenuto con successo.<br>
+                    </p>
+                </div>
+            </div>
+        </div>
+    </div>
+                    
+    <div id="ModificaDialog" class="modal fade">
+        <div class="modal-dialog">
+            <div class="modal-content ">
+                <div class="modal-header  ">
+                    <button type="button" class="close" data-dismiss="modal">&times;</button>
+                    <h4 class="modal-title"> <span class="glyphicon glyphicon-ok  " style="color: #00e367"   aria-hidden="true"></span>Operazione effettuata con successo.</h4>
+                </div>
+                <div class="modal-body ">
+                    <p>
+                        La modifica è avvenuta con successo.<br>
+                    </p>
+                </div>
+            </div>
+        </div>
+    </div>
+                    
+    <div id="CancellazioneDialog" class="modal fade">
+        <div class="modal-dialog">
+            <div class="modal-content ">
+                <div class="modal-header  ">
+                    <button type="button" class="close" data-dismiss="modal">&times;</button>
+                    <h4 class="modal-title"> <span class="glyphicon glyphicon-ok  " style="color: #00e367"    aria-hidden="true"></span>Operazione effettuata con successo.</h4>
+                </div>
+                <div class="modal-body ">
+                    <p>
+                        La cancellazione è avvenuta con successo.<br>
+                    </p>
+                </div>
+            </div>
+        </div>
+    </div>
+                    
+    <div id="ErroreDialog" class="modal fade">
+        <div class="modal-dialog">
+            <div class="modal-content ">
+                <div class="modal-header  ">
+                    <button type="button" class="close" data-dismiss="modal">&times;</button>
+                    <h4 class="modal-title"> <span class="glyphicon glyphicon glyphicon-remove" style="color: #c43c35"   aria-hidden="true"></span>Errore nell'inserimento.</h4>
+                </div>
+                <div class="modal-body ">
+                    <p>
+                        L'operazione non è andata a buon fine.<br>
+                        Controlla che i campi siano inseriti correttamente.
+                    </p>
+                </div>
+            </div>
+        </div>
+    </div>
+                    
+                    
+                    
     <body class="page-body">
         <!-- Inclusione della pagina contenente il menù superiore -->
         <jsp:include page="barraMenu.jsp"/><!--da modificare con la nuova -->
@@ -82,7 +150,6 @@
                         </button> 
                     </div>
                 </div>
-                <div class="alert alert-success" role="alert" id="successAlert" hidden><b>Perfetto!</b> Operazione avvenuta con successo</div>
                     
                 <div>    
                     <div class="well-small col-lg-12 col-lg-offset-0 col-md-8 col-md-offset-6 col-sm-10 col-sm-offset-1 col-xs-12">
@@ -148,7 +215,6 @@
                                         <input type="button" id="savePhdCurriculumModify" class="btn btn-blue" value="Salva" hidden> 
                                         <input type="reset" id="resetCurriculumButton" class="btn btn-white" value="Reset">
                                     </div>
-                                    <div class="alert alert-danger" role="alert" hidden id="errorAlert"><b>Attenzione!</b> Ricontrolla i campi inseriti</div>
                                 </form >
                             </div>
                         </div>

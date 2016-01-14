@@ -549,8 +549,8 @@ public class CycleManager {
             if(re.next())
                 ei=re.getInt("num");
             System.out.println(""+ei);
-            if(ei==i)
-                throw new Exception();
+            if(ei==i);
+               // throw new Exception();
                 
             connect.commit();
             connect1.commit();

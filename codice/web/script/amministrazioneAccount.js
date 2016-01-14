@@ -110,11 +110,12 @@ function changeType(email) {
             var bool = $("#adminBox").prop("checked");
 
             $.getJSON("SetAdmin", {secondaryEmail: secEmail, checked: bool}, function () {
-                alert("entering servlet");
                 $("#bodyTable tr").remove();
                 getAccountList();
                 $("#changeDiv").hide();
             });
+            
+            $("#modifiedModal").modal();
 
 
         });
@@ -142,13 +143,14 @@ function changeType(email) {
         type = $("#typeSelect option:selected").val();
 
         $.getJSON("ChangeTypeServlet", {userEmail: email, newType: type}, function (data) {
-            alert("changing type to " + type);
             $("#bodyTable tr").remove();
             getAccountList();
             $("#changeDiv").hide();
         });
-
+        
+        $("#modifiedModal").modal();
     });
+
 
     $("#changeDiv").show();
 }

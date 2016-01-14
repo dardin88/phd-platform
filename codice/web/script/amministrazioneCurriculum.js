@@ -31,7 +31,6 @@ function getCurriculumsList()
 
 function selectedItem()
 {
-    $("#successAlert").hide();
     $("#removeButtonSpace button").remove();
     $("#modifyButtonSpace button").remove();
     $("#divPanelAddORModify").hide();
@@ -59,7 +58,6 @@ function selectedItem()
 
 function modifyButtonSelected(curriculumName)
 {
-    $("#errorAlert").hide();
     this.curriculumName = curriculumName;
     //in curriculumName abbiamo il nome del curriculum che vogliamo modificare
     //in curriculumDescription abbiamo la descrizione del curriculum che vogliamo modificare
@@ -76,7 +74,7 @@ function modifyButtonSelected(curriculumName)
 
         nome = $("#phdCurriculumName").val();
         if (($("#phdCurriculumName").val() === "") || (($.inArray(nome, nomi) !== -1))) {
-            $("#errorAlert").slideDown();
+            $("#ErroreDialog").modal();
         }
         else {
             // Invio dati alla servlet per l'inserimento del curriculum
@@ -84,10 +82,10 @@ function modifyButtonSelected(curriculumName)
                     {oldNameCurriculum: curriculumName, newNameCurriculum: $("#phdCurriculumName").val(), description: $("#phdCurriculumDescription").val()}, function (data) {
                 $("#descriptionPanel").hide();
                 $("#CurriculumList option").remove();
+                $("#ModificaDialog").modal();
                 getCurriculumsList();
                 selectedItem();
-                $("#successAlert").slideDown();
-            });
+             });
         }
     });
 
@@ -108,22 +106,21 @@ function addCurriculumButton()
     curriculumName = $("#phdCurriculumName").val();
 
     $("#savePhdCurriculumAdd").click(function () {
+        
+        nome = $("#phdCurriculumName").val();
+        if (($("#phdCurriculumName").val() === "") || (($.inArray(nome, nomi) !== -1))) {
+            $("#ErroreDialog").modal();
+        }
+        else{
         // Invio dati alla servlet per l'inserimento del curriculum
         $.getJSON("InsertCurriculum",
                 {name: $("#phdCurriculumName").val(), description: $("#phdCurriculumDescription").val()}, function (data) {
-            alert("curriculum agiunto correttamente");
+            $("#InserimentoDialog").modal();
             $("#descriptionPanel").hide();
             $("#CurriculumList option").remove();
-            getCurriculumsList();
-
-            var theText = curriculumName;
-            $("#CurriculumList option:contains(" + theText + ")").attr('selected', 'selected');
-            //$("#CurriculumList option:contains(" + curriculumName + ")").attr('selected', 'selected');
-            // DA FINIRE
-            //$('#CurriculumList option:contains('+curriculumName+')').attr("selected",true);
-            //$('#CurriculumList').find('option:contains('+ curriculumName +')').attr("selected",true);
-            selectedItem();
-        });
+            location.reload();
+         });
+    }
     });
 }
 
@@ -135,14 +132,15 @@ function removeButtonSelected(curriculumName)
     // Servlet per la rimozione del curriculum
 
     $.getJSON("DeleteCurriculum", {nameCurriculum: curriculumName}, function (data) {
-        alert("curriculum eliminato correttamente");
         $("#descriptionPanel").hide();
         $("#CurriculumList option").remove();
+        $("#CancellazioneDialog").modal();
         getCurriculumsList();
         selectedItem();
     });
 }
 
+/*
 function removeButtonSelected(curriculumName)
 {
     this.curriculumName = curriculumName;
@@ -158,6 +156,7 @@ function removeButtonSelected(curriculumName)
                         selectedItem();
                     });
 }
+*/
 
 //per il bottone X 
 function closeModifyORaddDiv()

@@ -47,13 +47,10 @@ public class InsertPresenceServlet extends HttpServlet {
             
             
             
-            String  email = request.getParameter("fkPhdStudent");
-          int number= Integer.parseInt(request.getParameter("fkLesson"));
-         
+           
+          int number= Integer.parseInt(request.getParameter("number"));
+         int fkCourse= Integer.parseInt(request.getParameter("fkCourse"));
             
-           Presence presenza = new Presence();
-            presenza.setFkPhdstudent(email);
-             presenza.setFkLesson(number);
           
            
             
@@ -61,7 +58,7 @@ public class InsertPresenceServlet extends HttpServlet {
             result.put("result", true);
             
             try {
-                PresenceManager.getInstance().insertPresence(presenza);
+                PresenceManager.getInstance().insertPresence(number,fkCourse);
             } catch (SQLException ex) {
                 result.put("result", false);
                 Logger.getLogger(InsertPresenceServlet.class.getName()).log(Level.SEVERE, null, ex);

@@ -68,6 +68,7 @@ function addTutorButton(newProfessorkey)
 
         //servlet per assegnare il tutor  
         $.getJSON("InsertStudentTutor", {idStudent: studentMail, idProfessor: newProfessorkey}, function (data) {
+            $("#ModificaDialog").modal();
             selectedItem();
         });
 
@@ -75,11 +76,12 @@ function addTutorButton(newProfessorkey)
     else { //c'è gia un tutor assegnato: dobbiamo  aggiornarlo
         if (tutorKey === newProfessorkey)
         {
-            alert("Hai selezionato il tutor attuale");
+            $("#ErroreDialog").modal();
         }
         else {
             //servlet per fare l'update del tutor
             $.getJSON("UpdateTutorServlet", {idProfessor: newProfessorkey, idStudent: studentMail}, function (data) {
+                $("#ModificaDialog").modal();
                 selectedItem();
             });
         }
@@ -92,6 +94,7 @@ function removeTutorButton()
     var studentMail = $("#phdStudentsList option:selected").val();
     //servlet per rimuovere il tutor assegnato 
     $.getJSON("DeleteTutorServlet", {idStudent: studentMail}, function (data) {
+        $("#CancellazioneDialog").modal();
         $("#removeTutorButton").hide();
         $("#TutorNameField").html("nessun tutor");
     });

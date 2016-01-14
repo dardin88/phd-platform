@@ -45,6 +45,89 @@
                     <% Account loggedPerson = ((Account) session.getAttribute("account"));
                         if (loggedPerson.isAdmin()) {
                     %> 
+                    
+    
+                    
+       <div id="InserimentoDialog" class="modal fade">
+        <div class="modal-dialog">
+            <div class="modal-content ">
+                <div class="modal-header  ">
+                    <button type="button" class="close" data-dismiss="modal">&times;</button>
+                    <h4 class="modal-title"> <span class="glyphicon glyphicon-ok  " style="color: #00e367"   aria-hidden="true"></span>Operazione effettuata con successo.</h4>
+                </div>
+                <div class="modal-body ">
+                    <p>
+                        L'inserimento è avvenuto con successo.<br>
+                    </p>
+                </div>
+            </div>
+        </div>
+    </div>
+                    
+    <div id="ModificaDialog" class="modal fade">
+        <div class="modal-dialog">
+            <div class="modal-content ">
+                <div class="modal-header  ">
+                    <button type="button" class="close" data-dismiss="modal">&times;</button>
+                    <h4 class="modal-title"> <span class="glyphicon glyphicon-ok  " style="color: #00e367"   aria-hidden="true"></span>Operazione effettuata con successo.</h4>
+                </div>
+                <div class="modal-body ">
+                    <p>
+                        La modifica è avvenuta con successo.<br>
+                    </p>
+                </div>
+            </div>
+        </div>
+    </div>
+                    
+    <div id="CancellazioneDialog" class="modal fade">
+        <div class="modal-dialog">
+            <div class="modal-content ">
+                <div class="modal-header  ">
+                    <button type="button" class="close" data-dismiss="modal">&times;</button>
+                    <h4 class="modal-title"> <span class="glyphicon glyphicon-ok  " style="color: #00e367"    aria-hidden="true"></span>Operazione effettuata con successo.</h4>
+                </div>
+                <div class="modal-body ">
+                    <p>
+                        La cancellazione è avvenuta con successo.<br>
+                    </p>
+                </div>
+            </div>
+        </div>
+    </div>
+                    
+    <div id="TutorErroreDialog" class="modal fade">
+        <div class="modal-dialog">
+            <div class="modal-content ">
+                <div class="modal-header  ">
+                    <button type="button" class="close" data-dismiss="modal">&times;</button>
+                    <h4 class="modal-title"> <span class="glyphicon glyphicon glyphicon-warning-sign" style="color: #FFA54E"   aria-hidden="true"></span>Attenzione!</h4>
+                </div>
+                <div class="modal-body ">
+                    <p>
+                        Hai selezionato il tutor attuale.<br>
+                    </p>
+                </div>
+            </div>
+        </div>
+    </div>
+                    
+    <div id="StudentErroreDialog" class="modal fade">
+        <div class="modal-dialog">
+            <div class="modal-content ">
+                <div class="modal-header  ">
+                    <button type="button" class="close" data-dismiss="modal">&times;</button>
+                    <h4 class="modal-title"> <span class="glyphicon glyphicon glyphicon-remove" style="color: #c43c35"   aria-hidden="true"></span>Errore nell'inserimento.</h4>
+                </div>
+                <div class="modal-body ">
+                    <p>
+                        Il dottorando è gia assegnato ad un altro curriculum.<br>
+                    </p>
+                </div>
+            </div>
+        </div>
+    </div>
+                    
     <body class="page-body">
         <!-- Inclusione della pagina contenente il menù superiore -->
         <jsp:include page="barraMenu.jsp"/><!--da modificare con la nuova -->
@@ -252,7 +335,7 @@
 
                                 <div class="form-group" id="selectCurriculum" hidden>
                                     <label for="sel1">Seleziona uno dei curriculum attivi nel dottorato di ricerca</label>
-                                    <select class="form-control" id="CurriculumSelectebleList" onclick="selectedCurriculumtoAdd()" >
+                                    <select class="form-control" id="CurriculumSelectebleList"  >
                                     </select>
 
 
@@ -351,7 +434,40 @@
                     </div>   
                     
                     
-                    
+                    </div>
+                
+                <div class="row">
+                
+                    <div class="col-lg-7 col-lg-offset-5 col-md-8 col-md-offset-2 col-sm-10 col-sm-offset-1 col-xs-12" > 
+                        <div class="panel panel-default" id="StudentiCurriculumDiv" hidden>
+                            <div class="panel-heading">
+                                <h4>Studenti</h4>
+                            </div>
+                            <div class="panel-body">
+                                <table class="table">
+                                    <thead>
+                                        <tr>
+                                            <th>Nome e cognome</th>
+                                            <th>Elimina</th>
+                                        </tr>
+                                    </thead>
+                                    <tbody id="CurriculumStudentiTableList"></tbody>
+                                </table>
+                            </div>
+
+                            <div class="panel-footer" style="background-color: transparent">
+                                <div class="form-group" id="selectStudent" >
+                                    <label for="sel1">Seleziona uno studente da aggiungere al curriculum</label>
+                                    <select class="form-control" id="StudentsSelectebleList"  >
+                                    </select>
+
+
+                                    <br>
+                                    <input type="button" id="addStudentToCurrButton" class="btn btn-secondary btn-block" value="Aggiungi il dottorando selezionato" onclick="selectedStudentToAdd()"> 
+                                </div>
+                            </div>  
+                        </div>
+                   </div>   
                     
                     
                 </div>
