@@ -116,7 +116,7 @@
                             <div class="panel-heading">
                                 Avvisi
                             </div>
-                            <div class="panel-body">
+                            <div class="panel-heading">
                                <% for(News rnotizie : notizie) {
                                String news = new String (rnotizie.getDescription());
                                int idNews= rnotizie.getId();

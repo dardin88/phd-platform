@@ -378,7 +378,7 @@ public class CalendarManager {
                 lesson.setEndTime(result.getString("endTime"));
                 lesson.setName(result.getString("name"));
                 lesson.setClassroom(result.getString("classroom"));
-                lesson.setDescription(result.getString("description"));
+                lesson.setDescription(result.getString("desription"));
                 lesson.setFK_course(result.getInt("fkCourse"));
             }
 
@@ -426,7 +426,7 @@ public class CalendarManager {
                 seminar.setEndTime(("endTime"));
                 seminar.setName(result.getString("name"));
                 seminar.setNameSpeacker(result.getString("namespeacker"));
-                seminar.setDescription(result.getString("description"));
+                seminar.setDescription(result.getString("desription"));
                 seminar.setPlace(result.getString("place"));
                 seminar.setFK_course(result.getInt("fkCourse"));
             }else{

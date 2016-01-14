@@ -49,7 +49,7 @@
         <div class="modal-dialog">
             <div class="modal-content">
                 <div class="modal-header">
-                    <button type="button" class="close" data-dismiss="modal" onclick="history.go(-1);"->&times;</button>
+                    <button type="button" class="close" data-dismiss="modal" onclick="calendario.jsp">&times;</button>
                     <h4 class="modal-title" id="titleInfo"></h4>
                 </div>
                 
@@ -62,7 +62,7 @@
      <c:choose>
         <c:when test="${sessionScope.account != null}">
                     <% Account loggedPerson = ((Account) session.getAttribute("account"));
-                        if (loggedPerson.isAdmin()) {
+                        if (loggedPerson.isAdmin() || loggedPerson.getTypeAccount().equals("professor")) {
                     %> 
     <body class="page-body">
 

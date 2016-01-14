@@ -106,8 +106,8 @@ public class PresenceManager {
     */
   public void insertPresence(Presence dottorando) throws SQLException, PhdStudentexception, IdException{
         //connessione al database
-        Connection connect = DBConnection.getConnection();
-     try {
+        
+     try (Connection connect = DBConnection.getConnection()) {
             /*
              *stringa SQL per effettuare l'inserimento nella 
              * tabella news
@@ -125,11 +125,8 @@ public class PresenceManager {
             
             System.out.println(tSql);
             //esecuzione query
-            Statement stmt = connect.createStatement();
-            stmt.executeUpdate(tSql);
+            Utility.executeOperation(connect, tSql);
             connect.commit();
-        }finally {
-            DBConnection.releaseConnection(connect);
         }
     }
 

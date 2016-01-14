@@ -236,7 +236,9 @@ public class AccountManager {
             DBConnection.releaseConnection(connect);
         }
     }
-
+    
+    
+    
     /**
      * Metodo della classe incaricato di ricercare tutti gli account dei
      * professori presenti nella piattaforma

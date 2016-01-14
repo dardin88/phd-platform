@@ -39,12 +39,13 @@ public class InsertPresenceServlet extends HttpServlet {
      */
     protected void processRequest(HttpServletRequest request, HttpServletResponse response)
             throws ServletException, IOException, PhdStudentexception, IdException {
-
+        
+        JSONObject result = new JSONObject();
+        PrintWriter out = response.getWriter();
          try {
             response.setContentType("text/html;charset=UTF-8");
             
-            PrintWriter out = response.getWriter();
-            JSONObject result = new JSONObject();
+            
             
             String  email = request.getParameter("fkPhdStudent");
           int number= Integer.parseInt(request.getParameter("fkLesson"));

@@ -14,7 +14,8 @@ import javax.servlet.http.HttpServletResponse;
 import org.json.JSONException;
 import org.json.JSONObject;
 
-/**Servlet incaricata ad effettuare la richiesta di cancellazione di una lezione
+/**
+ * Servlet incaricata ad effettuare la richiesta di cancellazione di una lezione
  *
  * @author Giuseppe Picciocchi
  */
@@ -25,9 +26,9 @@ public class DeleteLessonServlet extends HttpServlet {
      * Processes requests for both HTTP <code>GET</code> and <code>POST</code>
      * methods.
      *
-     * @param request oggetto request per accedere ai parametri inviati attraverso
-     * il metodo getParameter per ottenere l'id della lezione idLesson per 
-     * effettuare la richiesta di cancellazione di una lezione
+     * @param request oggetto request per accedere ai parametri inviati
+     * attraverso il metodo getParameter per ottenere l'id della lezione
+     * idLesson per effettuare la richiesta di cancellazione di una lezione
      * @param response servlet response
      * @throws ServletException if a servlet-specific error occurs
      * @throws IOException if an I/O error occurs
@@ -35,12 +36,12 @@ public class DeleteLessonServlet extends HttpServlet {
     protected void processRequest(HttpServletRequest request, HttpServletResponse response)
             throws ServletException, IOException, JSONException, IdException {
         response.setContentType("text/html;charset=UTF-8");
-       PrintWriter out = response.getWriter();
+        PrintWriter out = response.getWriter();
         try {
 
             JSONObject result = new JSONObject();
-            String idLesson = request.getParameter("idLesson");
-            
+            String idLesson = request.getParameter("id");
+
             result.put("result", true);
 
             try {
@@ -49,12 +50,14 @@ public class DeleteLessonServlet extends HttpServlet {
                 result.put("result", false);
                 Logger.getLogger(DeleteLessonServlet.class.getName()).log(Level.SEVERE, null, ex);
             }
-            
-            out.write(result.toString());
+            String redirectCalendar = "<script>\n"
+                    + " location.pathname = '/codice/calendario.jsp';\n"
+                    + " </script>";
+            out.write(redirectCalendar);
 
         } catch (JSONException ex) {
             Logger.getLogger(DeleteLessonServlet.class.getName()).log(Level.SEVERE, null, ex);
-        }finally {
+        } finally {
             out.close();
         }
 
@@ -108,4 +111,3 @@ public class DeleteLessonServlet extends HttpServlet {
     }// </editor-fold>
 
 }
-
