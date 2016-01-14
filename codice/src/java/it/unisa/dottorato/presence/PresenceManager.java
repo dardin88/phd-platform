@@ -104,7 +104,7 @@ public class PresenceManager {
     * @param dottorando
     * @throws SQLException 
     */
-  public void insertPresence(Presence dottorando) throws SQLException, PhdStudentexception, IdException{
+  public void insertPresence(int numbercic,int fkCourse) throws SQLException, PhdStudentexception, IdException{
         //connessione al database
         Connection connect = DBConnection.getConnection();
      try {
@@ -112,17 +112,13 @@ public class PresenceManager {
              *stringa SQL per effettuare l'inserimento nella 
              * tabella news
              */
-             String tSql = "INSERT INTO "
-                    + PresenceManager.TABLE_Presence
-                    + "(fkPhdstudent,fkLesson,isPresent)"
-                    + " VALUES ('"
-                    + testDottorando(dottorando.getFkPhdstudent())
-                    + "',"
-                    + testid(dottorando.getFkLesson())
-                    + ","
-                    + " false "
-                    + ")";      
-            
+             String tSql = "insert IGNORE presence (fkPhdstudent,fkLesson,isPresent) " +
+         " select distinct phdstudent.fkAccount ,lesson.idLesson,false " +
+         " from phdstudent,lesson,course,cycle " +
+        " where phdstudent.fkCycle = " +numbercic
+          +
+          " and lesson.fkCourse= "+fkCourse;
+             
             System.out.println(tSql);
             //esecuzione query
             Statement stmt = connect.createStatement();
@@ -175,7 +171,7 @@ public class PresenceManager {
              * Prepariamo la stringa SQL per la ricerca dei record 
              * nella tabella presence
            */
-            String tSql = "SELECT  account.name, account.surname, account.secondaryEmail" +
+            String tSql = "SELECT distinct  account.name, account.surname, account.secondaryEmail" +
         " FROM presence, account, lesson " +
         " where presence.fkPhdstudent = account.secondaryEmail " +
          " and presence.fkLesson = lesson.idLesson " +

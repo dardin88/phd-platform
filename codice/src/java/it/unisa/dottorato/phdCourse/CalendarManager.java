@@ -654,7 +654,9 @@ public class CalendarManager {
             String tSql = "SELECT * FROM "
                     + CalendarManager.TABLE_LESSON
                     + " WHERE fkCourse = "
-                    + testid(idcourse); //da modificare ancora
+                    + testid(idcourse)
+                    +" order by date";
+                         //da modificare ancora
 
             //Inviamo la Query al DataBase
             ResultSet result = Utility.queryOperation(connect, tSql);

@@ -6,24 +6,28 @@
 
 $(document).ready(function () {
  
-    //getCorsoList();
+    getCorsoList();
     //getLesson();
 });
 
 
-/*function getCorsoList()
+function getCorsoList()
 {
  //servlet per richiamare la lista dei nomi lezioni
    $.getJSON("GetAllCourse", function (data) {
     $.each(data.course, function (index, value) {
         
            corso = "<option value="+value.idCourse+" > " + value.name + "  </option> ";
-        
-        $("#Corsoprofessore").append(corso);
+          var  cic=value.fkCycle;
+          var cour=value.idCourse;
+            $.getJSON("InsertPresence",{number:cic ,fkCourse:cour}, function (data) {
+             
+          });
+          $("#Corsoprofessore").append(corso);
         });
     });
     
-}*/
+}
 //metodo per chiamare tutt ele lezioni
 function selectedItem()
 
