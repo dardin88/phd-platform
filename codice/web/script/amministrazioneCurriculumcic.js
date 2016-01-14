@@ -7,7 +7,7 @@
 $(document).ready(function () {
     $("#sezioneCiclo").hide();
     getCycleList();
-    
+
 });
 
 function getCycleList()
@@ -39,7 +39,7 @@ function selectedItem()
     $("#DocentiCurriculumDiv").hide();
     $("#CurriculumDocentiTableList tr").remove();
     $("#CurriculumStudentiTableList tr").remove();
-        
+
 
     selectedCycle = $("#CycleList option:selected").val(); // la chiave primaria di ciclo
     if (selectedCycle !== "default")
@@ -167,8 +167,8 @@ function viewCollegio()
     $("#buttonCloseSezioneCurriculum").hide();
     $("#StudentiCurriculumDiv").hide();
     $("#selectCurriculum option").remove();
-            
-            
+
+
 
 }
 
@@ -199,7 +199,7 @@ function addTutorButton(newProfessorkey)
     else { //c'è gia un tutor assegnato: dobbiamo  aggiornarlo
         if (tutorKey === newProfessorkey)
         {
-           $("#TutorErroreDialog").modal(); 
+            $("#TutorErroreDialog").modal();
         }
         else {
 
@@ -301,7 +301,7 @@ function viewCurriculumButton(id)
             $("#CurriculumStudentiTableList").append(studente);
         });
     });
-    
+
     //servlet per richiamare la lista degli studenti all'interno della select per aggiungere un nuovo studente al curriculum
     $.getJSON("GetPhdStudentList", function (data) {
         $.each(data.account, function (index, value) {
@@ -309,7 +309,7 @@ function viewCurriculumButton(id)
             $("#StudentsSelectebleList").append(studentToAppend);
         });
     });
-    
+
 }
 
 function removeCurriculumButton(id)
@@ -340,7 +340,7 @@ function addCurriculuminCicButton()
     });
 
     $("#addCurriculumtoCicButton").show();
-    
+
     $("#addCurriculumtoCicButton").click(function () {
         selectedCurriculum = $("#CurriculumSelectebleList option:selected").val();
         //alert(selectedCurriculum);
@@ -388,7 +388,7 @@ function addCurriculumTutorButton(id)
     else { //c'è gia un tutor assegnato: dobbiamo  aggiornarlo
         if (CurriculumtutorKey === id)
         {
-             $("#TutorErroreDialog").modal();   
+            $("#TutorErroreDialog").modal();
         }
         else {
             // da IMPLEMENTARE e provare ancora PERCHE SERVE UN ALTRO PROFESSORE
@@ -425,9 +425,9 @@ function removeCurriculumTutorButton()
 
 function removeProfessorFromCurriculum(id)
 {
-   // alert(id);
+    // alert(id);
 //servlet per eliminare un professore da un curriculum all'interno di un ciclo
-    $.getJSON("DeleteProfessor", {fkCycle: selectedCycle, fkCurriculum: selectedDescriptionCurriculum, teach:id}, function (data) {
+    $.getJSON("DeleteProfessor", {fkCycle: selectedCycle, fkCurriculum: selectedDescriptionCurriculum, teach: id}, function (data) {
         // alert("siamo nella servlet");
         $("#CancellazioneDialog").modal();
         selectedItem();
@@ -435,18 +435,18 @@ function removeProfessorFromCurriculum(id)
     });
 }
 
-function removeStudentFromCurriculum (id)
+function removeStudentFromCurriculum(id)
 {
     //alert(id);
-    
+
     //servlet per eliminare uno studente da un curriculum all'interno di un ciclo
-    $.getJSON("DeletePhdstudent", {fkPhdstudent :id}, function (data) {
+    $.getJSON("DeletePhdstudent", {fkPhdstudent: id}, function (data) {
         // alert("siamo nella servlet");
         $("#CancellazioneDialog").modal();
         selectedItem();
         viewCurriculumButton(selectedDescriptionCurriculum);
     });
-    
+
 }
 
 function selectedProfessortoAdd()
@@ -470,17 +470,14 @@ function selectedStudentToAdd()
 {
     selectedStudentToAddVar = $("#StudentsSelectebleList option:selected").val();
     //alert(selectedStudentToAddVar);
-    
+
     //servlet per inserire lo studente selezionato
     $.getJSON("InsertPhdstudent", {fkCycle: selectedCycle, fkCurriculum: selectedDescriptionCurriculum, fkPhdstudent: selectedStudentToAddVar}, function (data) {
         //alert("siamo nella servlet");
-        
+
         $("#StudentsSelectebleList option").remove();
         $("#CurriculumStudentiTableList tr").remove();
-        $("#InserimentoDialog").modal();
         selectedItem();
         viewCurriculumButton(selectedDescriptionCurriculum);
-        
-         
     });
 }
