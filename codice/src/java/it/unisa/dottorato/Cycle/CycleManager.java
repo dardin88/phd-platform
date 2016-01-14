@@ -527,7 +527,7 @@ public class CycleManager {
                 i=result1.getInt("num");
                   
             
-            System.out.println(""+i);
+            
             CurriculumcicManager.getInstance().testCurriculucic(pCurriculumcic);
             /*
              * Prepariamo la stringa SQL per inserire un nuovo record 
@@ -541,14 +541,14 @@ public class CycleManager {
                     + "',"
                     + testNumber(pCurriculumcic.getfkCycle())
                     + ",null)";
-            System.out.println(tSql);
+            
             //Inviamo la Query al DataBase
             Utility.executeOperation(connect, tSql);
             ResultSet re = Utility.queryOperation(connect2, t);
             int ei=0;
             if(re.next())
                 ei=re.getInt("num");
-            System.out.println(""+ei);
+            
             if(ei==i);
                // throw new Exception();
                 
@@ -601,6 +601,14 @@ public class CycleManager {
         }
     }
     
+    /** Metodo della classe incaricato di verificare che il numero del ciclo
+     * selezionato sia l'ultimo
+     * 
+     * @param number numero del ciclo selezionato   
+     * @return restituisce true se verifica la condizione, false altrimenti
+     * @throws SQLException
+     * @throws IOException 
+     */
     public boolean isLast(int number) throws SQLException, IOException{
         int tmp=number+1;
         return nextNumber()==tmp;
@@ -735,32 +743,7 @@ public class CycleManager {
         return year;
     }
     
-     /** Metodo della classe incaricato di verificare l'esistenza di un ciclo
-     * 
-     * @param number
-     * @return 
-     * @throws ClassNotFoundException
-     * @throws SQLException
-     * @throws IOException 
-     */
-    /* public boolean existCycle(int number)throws ClassNotFoundException, SQLException, IOException{
-        Connection connect = null;
-        try {         
-            connect = DBConnection.getConnection();
-            
-            String tSql = "SELECT * FROM "
-                    + CycleManager.TABLE_CYCLE
-                    + " WHERE number = "
-                    + number;
-            //Inviamo la Query al DataBase
-            ResultSet result = Utility.queryOperation(connect, tSql);
-            connect.commit();
-            return result.next();
-        } finally {
-            DBConnection.releaseConnection(connect);
-        }
-    }
-    */ 
+     
     /** Metodo della classe per il testing di un ciclo; verifica che il ciclo non 
      * sia <code>null</code>
      * 

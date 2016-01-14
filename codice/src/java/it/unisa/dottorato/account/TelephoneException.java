@@ -5,12 +5,16 @@
  */
 package it.unisa.dottorato.account;
 
-/**
+/**Classe per la gestione delle eccezioni sui numeri di telefono
  *
  * @author Tommaso
  */
 public class TelephoneException extends Exception{
 
+    /**Metodo della classe incaricato di ritornare alla superclasse
+     * Exception il messaggio 'il numero è sbagliato'
+     * 
+     */
     public TelephoneException() {
         super("il numero è sbagliato");
     }   

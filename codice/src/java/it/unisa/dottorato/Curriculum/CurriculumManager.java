@@ -254,6 +254,12 @@ public class CurriculumManager {
         }
     }
 
+    /** Metodo per il testing di un curriculum; verifica che la l'oggetto non
+     * sia <code>null</code>
+     * 
+     * @param c il curriculum da testare
+     * @throws CurriculumException 
+     */
     public void testCurriculum(Curriculum c) throws CurriculumException {
         if (c == null) {
             throw new CurriculumException();

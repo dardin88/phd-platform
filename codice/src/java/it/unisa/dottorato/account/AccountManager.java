@@ -229,7 +229,7 @@ public class AccountManager {
                 temp.setPassword(result.getString("password"));
                 temp.setAdmin(result.getBoolean("isAdministrator"));
                 students.add(temp);
-                System.out.println(temp);
+                
             }
             return students;
         } finally {
@@ -283,6 +283,13 @@ public class AccountManager {
         }
     }
 
+    /** Metodo della classe incaricato di aggiornare l'attributo isAdmin
+     * 
+     * @param secondaryEmail email dell'account
+     * @param var nuovo booleano da testare
+     * @throws SQLException
+     * @throws EmailException 
+     */
     public void updateIsAdmin(String secondaryEmail, boolean var) throws SQLException, EmailException {
         Connection conn = null;
         Statement stmt = null;
@@ -293,7 +300,7 @@ public class AccountManager {
 
             conn = DBConnection.getConnection();
             stmt = conn.createStatement();
-            System.out.println(sql);
+            
 
             stmt.execute(sql);
             conn.commit();
@@ -310,6 +317,7 @@ public class AccountManager {
      * @return restituisce un array list di account di tutti gli utenti trovati,
      * lancia un'eccezione altrimenti
      * @throws SQLException
+     * @throws ProfileException
      */
     public ArrayList<Account> searchUser(String search) throws SQLException, ProfileException {
         Connection connect = null;
@@ -495,7 +503,7 @@ public class AccountManager {
             if (newType.equals("phdstudent") && pAccount.getTypeAccount().equals("basic")) {
                 //esecuzione delle query
 
-                System.out.println(toPhdSql);
+                
                 Utility.executeOperation(connect, toPhdSql); //diventa un dottorando
                 Utility.executeOperation(connect, changeTypeSql); //cambia tipo in account
 
@@ -895,6 +903,13 @@ public class AccountManager {
         return name;
     }
 
+    /** Metodo per il testing del link; verifica che la sua lunghezza non sia 
+     * maggiore di 150 caratteri
+     * 
+     * @param link link da testare
+     * @return restituisce la stringa se valida, lancia un'eccezione altrimenti
+     * @throws NameException 
+     */
     public String testLink(String link) throws NameException {
         if ((link.length() > 150)) {
             throw new NameException();
@@ -902,13 +917,27 @@ public class AccountManager {
         return link;
     }
 
-    public String testDepartment(String link) throws NameException {
-        if ((link.length() > 50) || (link.isEmpty()) || link.equals("")) {
+    /** Metodo per il testing del dipartimento; verifica che la stringa non sia
+     * di lunghezza maggiore di 50 caratteri, che non sia una stringa vuota 
+     * 
+     * @param dep stringa da testare
+     * @return restituisce la stringa se valida, lancia un'eccezione altrimenti
+     * @throws NameException 
+     */
+    public String testDepartment(String dep) throws NameException {
+        if ((dep.length() > 50) || (dep.isEmpty()) || dep.equals("")) {
             throw new NameException();
         }
-        return link;
+        return dep;
     }
 
+    /** Metodo per il testing del tipo di account; verifica che la stringa 
+     * sia uguale a basic, phdstudent , professor o phd
+     * 
+     * @param type stringa da testare
+     * @return restituisce la stringa se corretta, lancia un'eccezione altrimenti
+     * @throws NameException 
+     */
     public String testType(String type) throws NameException {
         if (!type.equals("basic") && !type.equals("phdstudent") && !type.equals("professor") && !type.equals("phd")) {
             throw new NameException();
@@ -916,10 +945,17 @@ public class AccountManager {
         return type;
     }
 
-    public String testResearchInterest(String link) throws NameException {
-        if ((link.length() > 65536)) {
+    /** Metodo per il testing degli interessi di ricerca; verifica che la stringa
+     * non sia maggiore di 65536 caratteri
+     * 
+     * @param resInt stringa da testare
+     * @return restituisce la stringa se valida, lancia un'eccezione altrimenti
+     * @throws NameException 
+     */
+    public String testResearchInterest(String resInt) throws NameException {
+        if ((resInt.length() > 65536)) {
             throw new NameException();
         }
-        return link;
+        return resInt;
     }
 }

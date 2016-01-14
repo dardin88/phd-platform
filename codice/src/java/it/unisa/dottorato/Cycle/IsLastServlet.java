@@ -13,8 +13,8 @@ import javax.servlet.http.HttpServletResponse;
 import org.json.JSONException;
 import org.json.JSONObject;
 
-/** Servlet incaricata ad effettuare la richiesta di cancellazione di un 
- * ciclo
+/** Servlet incaricata ad effettuare la richiesta di verifica del numero di un
+ * ciclo; controlla se è l'ultimo ciclo inserito (quello attivo)
  *
  * @author Tommaso Minichiello
  */
@@ -27,7 +27,7 @@ public class IsLastServlet extends HttpServlet {
      *
      * @param request oggetto request per accedere ai parametri inviati attraverso
      * il metodo getParameter per ottenere il numero del ciclo <code>number</code> 
-     * per effettuare la cancellazione di un coppia ciclo
+     * per effettuare la verifica
      * @param response servlet response
      * @throws ServletException if a servlet-specific error occurs
      * @throws IOException if an I/O error occurs
