@@ -132,7 +132,7 @@
                                                     <p>Password:</p>
                                                     <div class="input-group">
                                                         <span class="input-group-addon"></span>
-                                                        <input class="form-control phd-required company-required student-required professor-required" name="password" type="password" value="<%= loggedPerson.getPassword()%>" required pattern="(?=.*\d)(?=.*[a-z]).{8,}$"/>
+                                                        <input class="form-control phd-required company-required student-required professor-required" name="password" type="password" value="<%= loggedPerson.getPassword()%>" required pattern="(?=.*\d)(?=.*[a-z]).{8,}$" title="Almeno 8 caratteri ed un numero"/>
                                                     </div>
                                                     <br>
                                                     <br>
@@ -147,7 +147,7 @@
                                                     <p>Email Secondaria:</p>
                                                     <div class="input-group">
                                                         <span class="input-group-addon"></span>
-                                                        <input class="form-control" name="secondaryEmail" type="text" value="<%= loggedPerson.getSecondaryEmail()%>" required pattern="[a-z0-9._%+-]+@[a-z0-9.-]+\.[a-z]{2,3}$">
+                                                        <input class="form-control" name="secondaryEmail" type="text" value="<%= loggedPerson.getSecondaryEmail()%>" required pattern="[a-z0-9._%+-]+@[a-z0-9.-]+\.[a-z]{2,3}$" title="Indirizzo email valido">
                                                     </div>
                                                     <br>
                                                     <br>
@@ -160,7 +160,7 @@
                                                     <p>Web Page:</p>
                                                     <div class="input-group">
                                                         <span class="input-group-addon"></span>
-                                                        <input class="form-control" name="link" type="text" value="<%= ((Professor) loggedPerson).getLink()%>" >
+                                                        <input class="form-control" name="link" type="text" value="<%= ((Professor) loggedPerson).getLink()%>" required pattern="https?://.+" title="Includi http://" >
                                                     </div>
                                                     <br>
                                                     <br>
@@ -183,7 +183,7 @@
                                                     <p>Web Page:</p>
                                                     <div class="input-group">
                                                         <span class="input-group-addon"></span>
-                                                        <input class="form-control" name="link" type="text" value="<%= ((PhdStudent) loggedPerson).getLink()%>" >
+                                                        <input class="form-control" name="link" type="text" value="<%= ((PhdStudent) loggedPerson).getLink()%>" required pattern="https?://.+" title="Includi http://" >
                                                     </div>
                                                     <br>
                                                     <br>

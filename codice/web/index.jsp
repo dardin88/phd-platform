@@ -73,7 +73,7 @@
                             </div>
                             <div class="form-group">
                                 <label for="sel1">Seleziona uno dei cicli del dottorato di ricerca</label>
-                                    <select class="form-control" id="CycleList" onchange="getCurriculumCicList()" onchange="getInfoCycle()">
+                                    <select class="form-control" id="CycleList" onchange="getCurriculumCicList(); getInfoCycle();">
                                         
                                     </select>
                             </div>

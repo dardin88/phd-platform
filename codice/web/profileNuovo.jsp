@@ -231,7 +231,7 @@
                                             %>
                                             <br>
                                             <br>
-                                            <a href="tesi\<%= loggedPerson.getEmail() + ".pdf"%>" download><b>Download Tesi</b></a>
+                                            <a href="tesi/<%= loggedPerson.getEmail() + ".pdf"%>" download><b>Download Tesi</b></a>
                                          <%} %>
                                             <br>
                                             <h3 id = "diocane"> Attività di ricerca </h3> <br>
@@ -281,13 +281,13 @@
 
                                                             <% session.setAttribute("idPublication" + publications.indexOf(publication),publication.getIdPublication());%>
 
-                                                            <td width="20px"> <button type="button" class="btn btn-white" title="modifica">
-                                                                    <span class="glyphicon glyphicon-cog" aria-hidden="true" onclick="location.href = '<%= "editPublication.jsp?id=" + publication.getIdPublication()%>'" ></span>
+                                                            <td width="20px"> <button type="button" class="btn btn-white" title="modifica" onclick="location.href = '<%= "editPublication.jsp?id=" + publication.getIdPublication()%>'">
+                                                                    <span class="glyphicon glyphicon-cog" aria-hidden="true"  ></span>
                                                                 </button>
                                                             </td>
                                                             <td width="20px">
-                                                                <button type="button" class="btn btn-white"title="delete">
-                                                                    <span class="glyphicon glyphicon-remove" aria-hidden="true" onclick="location.href = '<%= "DeletePublicationServlet?id=" + publication.getIdPublication()%>'" ></span>
+                                                                <button type="button" class="btn btn-white"title="delete" onclick="location.href = '<%= "DeletePublicationServlet?id=" + publication.getIdPublication()%>'">
+                                                                    <span class="glyphicon glyphicon-remove" aria-hidden="true"  ></span>
                                                                 </button>
                                                             </td>
                                                         </tr>
@@ -316,13 +316,13 @@
 
                                                             <% session.setAttribute("idCollaboration" + collaborations.indexOf(collaboration), collaboration.getIdCollaboration());%>
 
-                                                            <td width="20px"> <button type="button" class="btn btn-white" title="modifica">
-                                                                    <span class="glyphicon glyphicon-cog" aria-hidden="true" onclick="location.href = '<%= "editCollaboration.jsp?id=" + collaboration.getIdCollaboration()%>'" ></span>
+                                                            <td width="20px"> <button type="button" class="btn btn-white" title="modifica" onclick="location.href = '<%= "editCollaboration.jsp?id=" + collaboration.getIdCollaboration()%>'">
+                                                                    <span class="glyphicon glyphicon-cog" aria-hidden="true"  ></span>
                                                                 </button>
                                                             </td>
                                                             <td width="20px">
-                                                                <button type="button" class="btn btn-white" title="delete">
-                                                                    <span class="glyphicon glyphicon-remove" aria-hidden="true" onclick="location.href = '<%= "DeleteCollaborationServlet?id=" + collaboration.getIdCollaboration()%>'" ></span>
+                                                                <button type="button" class="btn btn-white" title="delete" onclick="location.href = '<%= "DeleteCollaborationServlet?id=" + collaboration.getIdCollaboration()%>'">
+                                                                    <span class="glyphicon glyphicon-remove" aria-hidden="true"  ></span>
                                                                 </button>
                                                             </td>
                                                         </tr>
@@ -355,13 +355,13 @@
 
 
 
-                                                            <td width="20px"> <button type="button" class="btn btn-white" title="modifica">
-                                                                    <span class="glyphicon glyphicon-cog" aria-hidden="true"onclick="location.href = '<%= "editMission.jsp?id=" + mission.getIdMission()%>'" ></span>
+                                                            <td width="20px"> <button type="button" class="btn btn-white" title="modifica" onclick="location.href = '<%= "editMission.jsp?id=" + mission.getIdMission()%>'">
+                                                                    <span class="glyphicon glyphicon-cog" aria-hidden="true" ></span>
                                                                 </button>
                                                             </td>
                                                             <td width="20px">
-                                                                <button type="button" class="btn btn-white"title="delete">
-                                                                    <span class="glyphicon glyphicon-remove" aria-hidden="true" onclick="location.href = '<%= "DeleteMissionServlet?id=" + mission.getIdMission()%>'" ></span>
+                                                                <button type="button" class="btn btn-white"title="delete" onclick="location.href = '<%= "DeleteMissionServlet?id=" + mission.getIdMission()%>'">
+                                                                    <span class="glyphicon glyphicon-remove" aria-hidden="true"  ></span>
                                                                 </button>
                                                             </td>
                                                         </tr>

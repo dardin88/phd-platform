@@ -150,7 +150,7 @@
                                      <h2>Invita Utente</h2>
                                      
                                      <form action="InviteUserServlet"> <!-- da fixare il servlet !-->
-                                         <input id ="emailInput" type="text" name="email" placeholder="Email privata dell'utente" required pattern="[a-z0-9._%+-]+@[a-z0-9.-]+\.[a-z]{2,3}$"/>
+                                         <input id ="emailInput" type="text" name="email" placeholder="Email privata dell'utente" required pattern="[a-z0-9._%+-]+@[a-z0-9.-]+\.[a-z]{2,3}$" title="Indirizzo email valido"/>
                                          <span id = "spanSpace" >asdasjsdfij      </span>
                                          <input class="btn btn-blue" type="submit" value="Invita"></input>
                                      </form>

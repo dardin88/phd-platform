@@ -387,9 +387,9 @@ public class AccountManager {
              */
             String sql = "UPDATE account "
                     + "set name = '"
-                    + testname(pAccount.getName())
+                    + addSlashes(testname(pAccount.getName()))
                     + "', surname = '"
-                    + testname(addSlashes(pAccount.getSurname()))
+                    + addSlashes(testname(pAccount.getSurname()))
                     + "', password = '"
                     + testPassword(addSlashes(pAccount.getPassword()))
                     + "', secondaryEmail = '"
@@ -896,7 +896,7 @@ public class AccountManager {
         char c;
         for (int i = 0; i < n; i++) {
             c = name.substring(i, i + 1).charAt(0);
-            if (!Character.isLetter(c) && !Character.isSpaceChar(c)) {
+            if (!Character.isLetter(c) && !Character.isSpaceChar(c) && c !=('\'')) {
                 throw new NameException();
             }
         }

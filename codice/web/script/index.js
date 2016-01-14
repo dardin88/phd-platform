@@ -30,6 +30,7 @@ function getInfoCycle(){
         $.getJSON("GetCyclebyNumber", {number: numerociclo}, function(data){
             descrizione = data.Description;
             
+            $("#descrizioneCiclo").html("");
             $("#descrizioneCiclo").append(descrizione);
         });
         
@@ -39,6 +40,7 @@ function getInfoCycle(){
         $.getJSON("GetCycleList",function(data){
             $.each(data.cycles, function (index, value) {
                 descrizione = value.description;
+               $("#descrizioneCiclo").html("");
                $("#descrizioneCiclo").append(descrizione);
                return false;
        });
