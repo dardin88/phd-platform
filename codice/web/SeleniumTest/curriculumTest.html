@@ -1,0 +1,117 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Strict//EN" "http://www.w3.org/TR/xhtml1/DTD/xhtml1-strict.dtd">
+<html xmlns="http://www.w3.org/1999/xhtml" xml:lang="en" lang="en">
+<head profile="http://selenium-ide.openqa.org/profiles/test-case">
+<meta http-equiv="Content-Type" content="text/html; charset=UTF-8" />
+<link rel="selenium.base" href="http://localhost:8080/codice/amministrazioneCurriculum.jsp" />
+<title>testSeleniumCurriculum</title>
+</head>
+<body>
+<table cellpadding="1" cellspacing="1" border="1">
+<thead>
+<tr><td rowspan="1" colspan="3">testSeleniumCurriculum</td></tr>
+</thead><tbody>
+<tr>
+	<td>open</td>
+	<td>/codice/amministrazioneCurriculum.jsp</td>
+	<td></td>
+</tr>
+<tr>
+	<td>click</td>
+	<td>xpath=(//button[@type='button'])[5]</td>
+	<td></td>
+</tr>
+<tr>
+	<td>type</td>
+	<td>id=phdCurriculumName</td>
+	<td>test selenium</td>
+</tr>
+<tr>
+	<td>type</td>
+	<td>id=phdCurriculumDescription</td>
+	<td>test descrizione</td>
+</tr>
+<tr>
+	<td>clickAndWait</td>
+	<td>id=savePhdCurriculumAdd</td>
+	<td></td>
+</tr>
+<tr>
+	<td>click</td>
+	<td>id=CurriculumList</td>
+	<td></td>
+</tr>
+<tr>
+	<td>select</td>
+	<td>id=CurriculumList</td>
+	<td>label=test selenium</td>
+</tr>
+<tr>
+	<td>click</td>
+	<td>//option[@value='test selenium']</td>
+	<td></td>
+</tr>
+<tr>
+	<td>assertText</td>
+	<td>css=#CurriculumNameField &gt; b</td>
+	<td>test selenium</td>
+</tr>
+<tr>
+	<td>click</td>
+	<td>xpath=(//button[@id='test selenium'])[2]</td>
+	<td></td>
+</tr>
+<tr>
+	<td>type</td>
+	<td>id=phdCurriculumName</td>
+	<td>test selenium MODIFICA</td>
+</tr>
+<tr>
+	<td>click</td>
+	<td>id=savePhdCurriculumModify</td>
+	<td></td>
+</tr>
+<tr>
+	<td>click</td>
+	<td>css=#ModificaDialog &gt; div.modal-dialog &gt; div.modal-content. &gt; div.modal-header.&nbsp;&nbsp;&gt; button.close</td>
+	<td></td>
+</tr>
+<tr>
+	<td>click</td>
+	<td>id=CurriculumList</td>
+	<td></td>
+</tr>
+<tr>
+	<td>select</td>
+	<td>id=CurriculumList</td>
+	<td>label=test selenium MODIFICA</td>
+</tr>
+<tr>
+	<td>click</td>
+	<td>//option[@value='test selenium MODIFICA']</td>
+	<td></td>
+</tr>
+<tr>
+	<td>assertText</td>
+	<td>css=#CurriculumNameField &gt; b</td>
+	<td>test selenium MODIFICA</td>
+</tr>
+<tr>
+	<td>click</td>
+	<td>id=test selenium MODIFICA</td>
+	<td></td>
+</tr>
+<tr>
+	<td>click</td>
+	<td>css=#CancellazioneDialog &gt; div.modal-dialog &gt; div.modal-content. &gt; div.modal-header.&nbsp;&nbsp;&gt; button.close</td>
+	<td></td>
+</tr>
+<tr>
+	<td>assertTextNotPresent</td>
+	<td>id=CurriculumList</td>
+	<td>test selenium MODIFICA</td>
+</tr>
+
+</tbody></table>
+</body>
+</html>
