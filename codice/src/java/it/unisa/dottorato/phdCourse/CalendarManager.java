@@ -61,6 +61,12 @@ public class CalendarManager {
      * 
      * @param pCourse il nuovo corso da inserire
      * @throws SQLException 
+     * @throws it.unisa.dottorato.exception.IdException 
+     * @throws it.unisa.dottorato.exception.DescriptionException 
+     * @throws it.unisa.dottorato.exception.NameException 
+     * @throws it.unisa.dottorato.exception.DateException 
+     * @throws it.unisa.dottorato.phdCourse.CourseException 
+     * @throws java.io.IOException 
      */
     public synchronized void insert_course(Course pCourse) throws SQLException ,IdException , DescriptionException , NameException , DateException,CourseException, IOException{
        
@@ -104,6 +110,12 @@ public class CalendarManager {
      * 
      * @param pLesson la nuova lezione da inserire
      * @throws SQLException 
+     * @throws it.unisa.dottorato.exception.IdException 
+     * @throws it.unisa.dottorato.exception.DescriptionException 
+     * @throws it.unisa.dottorato.exception.DateException 
+     * @throws it.unisa.dottorato.exception.NameException 
+     * @throws java.io.IOException 
+     * @throws it.unisa.dottorato.phdCourse.ClassroomException 
      */
     public synchronized void insert_lesson(Lesson pLesson) throws SQLException,IdException , DescriptionException , DateException, NameException , ClassroomException, IOException {
         try (Connection connect = DBConnection.getConnection()) {
@@ -133,8 +145,7 @@ public class CalendarManager {
                     + testid(pLesson.getFK_course()) // int
                     + ")";
 
-            System.out.println("La query: " +tSql);
-            //Inviamo la Query al DataBase
+           
             Utility.executeOperation(connect, tSql);
 
             connect.commit();
@@ -146,6 +157,13 @@ public class CalendarManager {
     * 
     * @param pSeminar il nuovo seminario da inserire
     * @throws SQLException 
+     * @throws it.unisa.dottorato.exception.IdException 
+     * @throws it.unisa.dottorato.exception.DescriptionException 
+     * @throws it.unisa.dottorato.phdCourse.PlaceException 
+     * @throws it.unisa.dottorato.exception.DateException 
+     * @throws it.unisa.dottorato.phdCourse.SpeakerException 
+     * @throws it.unisa.dottorato.exception.NameException 
+     * @throws java.io.IOException 
     */
     public synchronized void insert_seminar(Seminar pSeminar) throws SQLException,IdException , NameException , PlaceException , DescriptionException , SpeakerException , DateException, IOException{
         try (Connection connect = DBConnection.getConnection()) {
@@ -177,8 +195,7 @@ public class CalendarManager {
                     + testid(pSeminar.getFK_course())
                     + ")";
 
-            System.out.println("La query: " +tSql);
-            //Inviamo la Query al DataBase
+            
             Utility.executeOperation(connect, tSql);
 
             connect.commit();
@@ -193,6 +210,11 @@ public class CalendarManager {
      * @throws ClassNotFoundException
      * @throws SQLException
      * @throws IOException 
+     * @throws it.unisa.dottorato.exception.IdException 
+     * @throws it.unisa.dottorato.exception.NameException 
+     * @throws it.unisa.dottorato.phdCourse.ClassroomException 
+     * @throws it.unisa.dottorato.exception.DescriptionException 
+     * @throws it.unisa.dottorato.exception.DateException 
      */
      public synchronized void update_lesson(int oldLessonID, Lesson pLesson) throws 
              ClassNotFoundException, SQLException, IOException,IdException , NameException , ClassroomException , DescriptionException , DateException {
@@ -237,6 +259,12 @@ public class CalendarManager {
       * @throws ClassNotFoundException
       * @throws SQLException
       * @throws IOException 
+     * @throws it.unisa.dottorato.exception.IdException 
+     * @throws it.unisa.dottorato.exception.DescriptionException 
+     * @throws it.unisa.dottorato.exception.NameException 
+     * @throws it.unisa.dottorato.phdCourse.SpeakerException 
+     * @throws it.unisa.dottorato.phdCourse.PlaceException 
+     * @throws it.unisa.dottorato.exception.DateException 
       */
      public synchronized void update_seminar(int oldSeminarID, Seminar pSeminar) throws 
              ClassNotFoundException, SQLException, IOException,IdException , 
@@ -284,6 +312,7 @@ public class CalendarManager {
       * @throws ClassNotFoundException
       * @throws SQLException
       * @throws IOException 
+     * @throws it.unisa.dottorato.exception.IdException 
       */
      public synchronized void delete_lesson(String idLesson) throws ClassNotFoundException, SQLException, IOException,IdException {
         Connection connect = null;
@@ -316,6 +345,7 @@ public class CalendarManager {
       * @throws ClassNotFoundException
       * @throws SQLException
       * @throws IOException 
+     * @throws it.unisa.dottorato.exception.IdException 
       */
      public synchronized void delete_seminar(String idSeminar) throws ClassNotFoundException, SQLException, IOException,IdException {
         Connection connect = null;
@@ -439,7 +469,14 @@ public class CalendarManager {
             DBConnection.releaseConnection(connect);
         }
     }
-       
+    /** Metodo della classe che ritorna i corsi
+     * 
+     * @return ritorna l' elenco dei corsi
+     * @throws ClassNotFoundException
+     * @throws SQLException
+     * @throws IOException
+     * @throws IdException 
+     */   
      public synchronized ArrayList<Course> getAllCourse() throws 
              ClassNotFoundException, SQLException, IOException, IdException {
       
@@ -482,7 +519,15 @@ public class CalendarManager {
             DBConnection.releaseConnection(connection);
         }
      }
-     
+     /** Metodo della classe che ritorna la lista degli id dei corsi
+      * 
+      * @param cycle 
+      * @param curriculum
+      * @return
+      * @throws ClassNotFoundException
+      * @throws SQLException
+      * @throws IOException 
+      */
      public synchronized ArrayList<Integer> getCourseListId(int cycle, String curriculum) throws ClassNotFoundException, SQLException, IOException {
         Connection connect = null;
         ArrayList<Integer> courses = new ArrayList<>();
@@ -512,7 +557,14 @@ public class CalendarManager {
         }
          return courses;
     }
-    
+    /** Metodo della classe che ritorna i seminari
+     * 
+     * @return ritorna l' elenco dei seminari
+     * @throws ClassNotFoundException
+     * @throws SQLException
+     * @throws IOException
+     * @throws IdException 
+     */   
      public synchronized ArrayList<Seminar> getAllSeminar() throws ClassNotFoundException, SQLException, IOException, IdException {
       
     
@@ -684,8 +736,23 @@ public class CalendarManager {
         
         return lessons;
     }
+      /** Metodo della classe che ritorna i seminari di un corso
+     * 
+     * @return ritorna l' elenco dei corsi
+     * @throws ClassNotFoundException
+     * @throws SQLException
+     * @throws IOException
+     * @throws IdException 
+     */   
       
-      public synchronized ArrayList<Seminar> getAllSeminarOf(int idcourse) throws SQLException, IdException { //da modificare dato Person
+    /**
+     * Metodo della classe che ritorna i seminari di un corso
+     * @param idcourse l' id del corso di cui mi voglio fa restituire tutti i seminari
+     * @return ritorna l' elenco dei corsi
+     * @throws SQLException
+     * @throws IdException
+     */
+    public synchronized ArrayList<Seminar> getAllSeminarOf(int idcourse) throws SQLException, IdException { //da modificare dato Person
           ArrayList<Seminar> seminars = new ArrayList<Seminar>();
         
         Connection connect = null;

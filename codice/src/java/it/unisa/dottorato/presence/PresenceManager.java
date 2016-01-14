@@ -9,13 +9,8 @@ import java.io.IOException;
 import java.sql.Connection;
 import java.sql.ResultSet;
 import java.sql.SQLException;
-import java.sql.Statement;
 import java.util.ArrayList;
-import java.util.HashMap;
-import java.util.List;
-import java.util.Map;
-import java.util.logging.Level;
-import java.util.logging.Logger;
+
 
 /** Classe per la gestione delle presenze
  *
@@ -59,8 +54,8 @@ public class PresenceManager {
     * Metodo della classe incaricato di inserire la presenza  di un dottorando  una lezione
     * 
      * @param Professor
-     * @return 
-    * @throws SQLException 
+     * @return ArrayList dei Corsi in cui insegna il Professore preso in considerazione
+     * @throws SQLException 
      * @throws it.unisa.dottorato.presence.PhdStudentexception 
     */
    public ArrayList<Course> getCourseByProfessor(String Professor) throws SQLException, PhdStudentexception{
@@ -101,8 +96,12 @@ public class PresenceManager {
    /**
     * Metodo della classe incaricato di inserire la presenza  di un dottorando  una lezione
     * 
-    * @param dottorando
+    * 
+     * @param numbercic
+     * @param fkCourse
     * @throws SQLException 
+     * @throws it.unisa.dottorato.presence.PhdStudentexception 
+     * @throws it.unisa.dottorato.exception.IdException 
     */
   public void insertPresence(int numbercic,int fkCourse) throws SQLException, PhdStudentexception, IdException{
         //connessione al database
@@ -119,8 +118,6 @@ public class PresenceManager {
           +
           " and lesson.fkCourse= "+fkCourse;
              
-            System.out.println(tSql);
-            //esecuzione query
             Utility.executeOperation(connect, tSql);
             connect.commit();
         }
@@ -196,7 +193,7 @@ public class PresenceManager {
         
     }
   /** metodo che passando il dottorando e il id corso restituisce 
-   * le lezioni e le presenze a queste lezioni
+   * le presenze a queste lezioni del dottorando
    * 
    * @param dottorando
    * @param idCorso
@@ -205,6 +202,7 @@ public class PresenceManager {
    * @throws SQLException
    * @throws IOException
    * @throws IdException 
+     * @throws it.unisa.dottorato.presence.PhdStudentexception 
    */
    public synchronized ArrayList<Presence> getPresenceToLesson(String dottorando,int idCorso) throws 
            ClassNotFoundException, SQLException, IOException, IdException, PhdStudentexception {
@@ -250,7 +248,10 @@ public class PresenceManager {
    /**  Metodo della classe incaricato di modificare una presenza
     *  @param dottorando
     *  @param  idLesson
+     * @throws java.sql.SQLException
+     * @throws it.unisa.dottorato.presence.PhdStudentexception
     * @throws IdException
+     * @throws java.io.IOException
     */
    public void modifyPresence(String dottorando,int idLesson ) throws 
            SQLException, PhdStudentexception, IdException, IOException {
@@ -281,26 +282,42 @@ public class PresenceManager {
             DBConnection.releaseConnection(connect);
         }
    }
-   
-   
-   public String testDottorando(String title) throws PhdStudentexception{
-        if((title.length()<10) || (title.length()>50) || (!title.contains("@"))){
+   /** Metodo della classe incaricato di testare il parametro email del dottorando
+    *
+     * @param email email da testare
+     * @return ritorna l' email del dottorando se non ci sono errori sul test del paramentro
+     * @throws it.unisa.dottorato.presence.PhdStudentexception
+   */
+   public String testDottorando(String email) throws PhdStudentexception{
+        if((email.length()<10) || (email.length()>50) || (!email.contains("@"))){
             
             throw new PhdStudentexception("l'email del dottorando e' sbagliata "); 
         }
-        return title;
+        return email;
     }
-  
+   /**
+    * 
+    * @param id id della presenza da testare
+    * @return ritorna l' id de non trova eccezioni
+    * @throws IdException 
+    */
    public int testid(int id) throws IdException {
         if(id<0 || id>999999){
             throw new IdException("l'id non puo' essere minore di 0");
         }
         return id;
     }  
-/** metodo incaricato di cambiare la presenza di un  dottorando  ad una lezione
- * 
- *
- */
+    /** Metodo della classe che verifica se una presenza da parte di un dottorando ad 
+     * una lezione è tru o false
+     * 
+     * @param dottorando email del dottornado di cui bisogna cambiare la presenza
+     * @param idLesson lezione alla quale bisogna cambiare la presenza
+     * @return ritorna true se la presenza è false o ritorna false se la presenza è true
+     * @throws SQLException
+     * @throws IOException
+     * @throws PhdStudentexception
+     * @throws IdException 
+     */
     private  boolean changeSignatura(String dottorando,int idLesson)  throws SQLException, IOException, PhdStudentexception, IdException {
           boolean controllo=false;
         try (Connection connect = DBConnection.getConnection()) {
