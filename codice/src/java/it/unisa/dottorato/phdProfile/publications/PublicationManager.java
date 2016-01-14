@@ -20,8 +20,6 @@ import java.sql.ResultSet;
 import java.sql.SQLException;
 import java.util.ArrayList;
 import java.util.List;
-import java.util.logging.Level;
-import java.util.logging.Logger;
 
 /**Classe per la gestione delle pubblicazioni
  *
@@ -65,6 +63,18 @@ public class PublicationManager {
      * 
      * @param pPublication la nuova pubblicazione da inserire
      * @throws SQLException 
+     * @throws java.io.IOException 
+     * @throws it.unisa.dottorato.exception.PublicationException 
+     * @throws it.unisa.dottorato.exception.TitleException 
+     * @throws it.unisa.dottorato.exception.PublicationIssueException 
+     * @throws it.unisa.dottorato.exception.YearException 
+     * @throws it.unisa.dottorato.exception.NumberPageException 
+     * @throws it.unisa.dottorato.exception.ReferenceException 
+     * @throws it.unisa.dottorato.exception.LinkException 
+     * @throws it.unisa.dottorato.exception.TypeException 
+     * @throws it.unisa.dottorato.exception.OtherAuthorsException 
+     * @throws it.unisa.dottorato.exception.pAbstractException 
+     * @throws it.unisa.dottorato.exception.IdException 
      */
     public synchronized void insert(Publication pPublication) throws SQLException, IOException ,PublicationException , TitleException , PublicationIssueException , YearException , NumberPageException , ReferenceException , LinkException , TypeException , OtherAuthorsException , pAbstractException , IdException{
         try (Connection connect = DBConnection.getConnection()) {
@@ -112,6 +122,16 @@ public class PublicationManager {
      * @throws ClassNotFoundException
      * @throws SQLException
      * @throws IOException 
+     * @throws it.unisa.dottorato.exception.IdException 
+     * @throws it.unisa.dottorato.exception.PublicationException 
+     * @throws it.unisa.dottorato.exception.pAbstractException 
+     * @throws it.unisa.dottorato.exception.TitleException 
+     * @throws it.unisa.dottorato.exception.PublicationIssueException 
+     * @throws it.unisa.dottorato.exception.YearException 
+     * @throws it.unisa.dottorato.exception.LinkException 
+     * @throws it.unisa.dottorato.exception.TypeException 
+     * @throws it.unisa.dottorato.exception.OtherAuthorsException 
+     * @throws it.unisa.dottorato.exception.NumberPageException 
      */
     public synchronized void update(int oldPublicationID, Publication pPublication) throws ClassNotFoundException, SQLException, IOException,IdException ,PublicationException , TitleException , PublicationIssueException , YearException , NumberPageException , LinkException , TypeException , OtherAuthorsException , pAbstractException,Exception {
         try (Connection connect = DBConnection.getConnection()) {
@@ -154,6 +174,7 @@ public class PublicationManager {
      * @throws ClassNotFoundException
      * @throws SQLException
      * @throws IOException 
+     * @throws it.unisa.dottorato.exception.IdException 
      */
     public synchronized void delete(String idPublication) throws ClassNotFoundException, SQLException, IOException,IdException, Exception {
         Connection connect = null;
@@ -189,6 +210,7 @@ public class PublicationManager {
      * @throws ClassNotFoundException
      * @throws SQLException
      * @throws IOException 
+     * @throws it.unisa.dottorato.exception.IdException 
      */
     public synchronized Publication getPublicationById(int pPublicationID) throws ClassNotFoundException, SQLException, IOException,IdException, Exception {
         Connection connect = null;

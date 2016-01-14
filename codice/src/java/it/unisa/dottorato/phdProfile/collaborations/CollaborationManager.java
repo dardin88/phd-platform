@@ -97,8 +97,7 @@ public class CollaborationManager {
                     + CollaborationManager.getInstance().testfkPhdStudent(pCollaboration.getFkPhdstudent())
                     + "')";
 
-            System.out.println("La query: " +tSql);
-            //Inviamo la Query al DataBase
+           
             Utility.executeOperation(connect, tSql);
 
             connect.commit();
@@ -148,8 +147,7 @@ public class CollaborationManager {
                     + "' WHERE idCollaboration = "
                     + oldCollaborationID;           
 
-            System.out.println(tSql);
-            //Inviamo la Query al DataBase
+           
             if(Utility.executeOperation(connect, tSql)==0)
                 throw new Exception();
 
@@ -165,6 +163,7 @@ public class CollaborationManager {
      * @throws ClassNotFoundException
      * @throws SQLException
      * @throws IOException 
+     * @throws it.unisa.dottorato.exception.IdException 
      */
     public synchronized void delete(int idCollaboration) throws ClassNotFoundException, 
             SQLException, IOException, IdException, Exception {
@@ -387,7 +386,14 @@ public class CollaborationManager {
         }
         return fkPhdstudent;
     }
-    
+    /**
+     * Metodo della classe incaricato di calcolare il numero della prossima collaborazione da inserire
+     * 
+     * @return restituisce il prossimo numero
+     * @throws java.sql.SQLException
+     * @throws java.io.IOException
+     * 
+     */
     
      public synchronized int nextNumber() throws SQLException, IOException {
         int c=1;

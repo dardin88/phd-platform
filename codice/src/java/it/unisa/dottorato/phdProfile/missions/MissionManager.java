@@ -11,15 +11,12 @@ import it.unisa.dottorato.exception.ReferenceException;
 import it.unisa.dottorato.utility.Utility;
 import it.unisa.integrazione.database.DBConnection;
 import java.io.IOException;
-import static java.lang.Integer.parseInt;
 import java.sql.Connection;
 import java.sql.ResultSet;
 import java.sql.SQLException;
 import java.util.ArrayList;
 import java.util.Date;
 import java.util.List;
-import java.util.logging.Level;
-import java.util.logging.Logger;
 
 /** Classe della gestione delle missioni
  *
@@ -63,6 +60,14 @@ public class MissionManager {
      * 
      * @param pMission la nuova missione da inserire
      * @throws SQLException 
+     * @throws it.unisa.dottorato.exception.MissionException 
+     * @throws it.unisa.dottorato.exception.DescriptionException 
+     * @throws it.unisa.dottorato.exception.DateException 
+     * @throws it.unisa.dottorato.exception.ReferenceException 
+     * @throws it.unisa.dottorato.exception.PlaceException 
+     * @throws it.unisa.dottorato.exception.ReferenceAttributeException 
+     * @throws it.unisa.dottorato.exception.IdException 
+     * @throws java.io.IOException 
      */
     public synchronized void insert(Mission pMission) throws SQLException,MissionException , DescriptionException , DateException , ReferenceException , PlaceException , ReferenceAttributeException , IdException , IOException {
         try (Connection connect = DBConnection.getConnection()) {
@@ -91,8 +96,7 @@ public class MissionManager {
                     + MissionManager.getInstance().testfkPhdStudent(pMission.getFkPhdstudent())
                     + "')";
 
-            System.out.println("La query: " +tSql);
-            //Inviamo la Query al DataBase
+          
             Utility.executeOperation(connect, tSql);
 
             connect.commit();
@@ -137,8 +141,6 @@ public class MissionManager {
                     + "' WHERE idMission = "
                     + oldMissionID;           
 
-            System.out.println(tSql);
-            //Inviamo la Query al DataBase
             if(Utility.executeOperation(connect, tSql)==0)
                 throw new Exception();
 
@@ -152,6 +154,7 @@ public class MissionManager {
      * @throws ClassNotFoundException
      * @throws SQLException
      * @throws IOException 
+     * @throws it.unisa.dottorato.exception.IdException 
      */
     public synchronized void delete(int idMission) throws ClassNotFoundException, SQLException, IOException, IdException, Exception {
         Connection connect = null;
@@ -184,6 +187,7 @@ public class MissionManager {
      * @throws ClassNotFoundException
      * @throws SQLException
      * @throws IOException 
+     * @throws it.unisa.dottorato.exception.IdException 
      */
     public synchronized Mission getMissionById(int pMissionID) throws ClassNotFoundException, SQLException, IOException,IdException, Exception {
         Connection connect = null;

@@ -166,6 +166,9 @@ public class LoginManager  {
    * @param pAccount account da registrare
    * @throws SQLException
    * @throws NullAccountException 
+     * @throws it.unisa.dottorato.autenticazione.EmailException 
+     * @throws it.unisa.dottorato.autenticazione.PasswordException 
+     * @throws it.unisa.dottorato.account.NameException 
    */
   public void register(Account pAccount) throws SQLException, NullAccountException, EmailException, PasswordException, NameException, Exception {
       //connessione al database  
