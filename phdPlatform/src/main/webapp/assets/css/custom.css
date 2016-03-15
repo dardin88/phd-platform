@@ -1,0 +1,13 @@
+/**
+ *
+ * Apply your custom CSS here
+ *
+*/
+
+body {	
+}
+
+a.link:visited {
+    text-decoration: underline;
+    color:blue;
+}
