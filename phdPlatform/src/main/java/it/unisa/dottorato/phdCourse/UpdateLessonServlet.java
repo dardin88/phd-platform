@@ -87,7 +87,7 @@ public class UpdateLessonServlet extends HttpServlet {
 
             String redirectCalendar = "<script>\n"
                     + " location.pathname = '/phd-platform/index.jsp/calendario.jsp';\n"
-                    + " </script>";
+                    + " </script>"; 
             out.write(redirectCalendar);
 
         } catch (JSONException ex) {
