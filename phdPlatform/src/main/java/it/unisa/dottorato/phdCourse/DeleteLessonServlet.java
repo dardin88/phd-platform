@@ -51,7 +51,7 @@ public class DeleteLessonServlet extends HttpServlet {
                 Logger.getLogger(DeleteLessonServlet.class.getName()).log(Level.SEVERE, null, ex);
             }
             String redirectCalendar = "<script>\n"
-                    + " location.pathname = '/codice/calendario.jsp';\n"
+                    + " location.pathname = '/phd-platform/index.jsp/calendario.jsp';\n"
                     + " </script>";
             out.write(redirectCalendar);
 
