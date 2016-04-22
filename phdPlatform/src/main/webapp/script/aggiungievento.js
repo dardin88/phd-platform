@@ -87,12 +87,12 @@ function insertSeminar() {
     nomespeacker = $("#nomespeacker").val();
     course = $("#courselist2 option:selected").val();
     place = $("#place").val();
-    descrizione = $("#description").val();
+    descrizione = $("#descriptionseminar").val();
     dataSeminario = $("#dateseminar").val();
     orainizio = $("#timepicker3").val();
     orafine = $("#timepicker4").val();
     if (nomeSeminario !== "" && nomespeacker !== "" && course !== "default" && descrizione !== "") {
-        $.getJSON("AddSeminarServlet", {name: nomeSeminario, place: place, course: course, desription: descrizione, data: dataSeminario, starttime: orainizio, endtime: orafine, namespeacker: nomespeacker}, function (data) {
+        $.getJSON("AddSeminarServlet", {name: nomeSeminario, place: place, course: course, description: descrizione, data: dataSeminario, starttime: orainizio, endtime: orafine, namespeacker: nomespeacker}, function (data) {
             if (data.result) {
                 $("#titleInfo").html("");
                 $("#descriptionInfo").html("");

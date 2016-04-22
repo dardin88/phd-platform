@@ -53,7 +53,7 @@ public class DeleteSeminarServlet extends HttpServlet {
             }
 
             String redirectCalendar = "<script>\n"
-                    + " location.pathname = '/phd-platform/index.jsp/calendario.jsp;\n"
+                    + " location.pathname = '/phd-platform/index.jsp/calendario.jsp';\n"
                     + " </script>";
             out.write(redirectCalendar);
 

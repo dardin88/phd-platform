@@ -185,7 +185,7 @@
                                                             <p>Descrizione del Seminario:</p>
                                                             <div class="input-group">
                                                                 <span class="input-group-addon"></span>
-                                                                <textarea class="form-control" name="description" id="description" rows="5" cols="40"> </textarea>
+                                                                <textarea class="form-control" name="description" id="descriptionseminar" rows="5" cols="40"> </textarea>
                                                             </div>
                                                             <br>                      
                                                             <br>
