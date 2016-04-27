@@ -342,4 +342,59 @@ public class PresenceManager {
             return controllo;
         }
     }
+    
+    
+    /*Metodo che restituisce i corsi a cui un dottorando è iscritto*/
+      public synchronized ArrayList<Course> getCorsobyDottorando(String idDottorando) throws 
+           ClassNotFoundException, SQLException, IOException, IdException, PhdStudentexception {
+        Connection connect = null;
+        Connection connect2 = null;
+        Course corso= null;
+       ArrayList<Course> classList =null;
+    
+        try {
+            connect2 = DBConnection.getConnection();
+            classList = new ArrayList <>();
+            String t="select * from presence where presence.fkPhdstudent="+idDottorando;
+            ResultSet result2 = Utility.queryOperation(connect2, t);
+
+            if(!result2.next())
+                throw new IdException();
+            
+        // Otteniamo una Connessione al DataBase
+            connect = DBConnection.getConnection();
+
+            /*
+             * Prepariamo la stringa SQL per la ricerca dei record 
+             * nella tabella presence
+           */
+            String tSql =
+                    " SELECT DISTINCT course.name"+
+                 "  FROM presence, account, lesson, course"+
+       "  where presence.fkPhdstudent =" +testDottorando(idDottorando)+
+        "  and presence.fkLesson = lesson.idLesson "+
+        "   and lesson.fkCourse= course.idCourse";
+            //Inviamo la Query al DataBase
+            ResultSet result = Utility.queryOperation(connect, tSql);
+
+       while (result.next()) {
+                
+              corso =new Course();
+                
+          
+                corso.setName(result.getString("name"));
+                classList.add(corso);
+            }
+
+           
+        }  finally {
+            DBConnection.releaseConnection(connect);
+            DBConnection.releaseConnection(connect2);
+        }
+        return classList;
+        
+    }
+    
+    
+    
 }
