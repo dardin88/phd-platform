@@ -1,5 +1,7 @@
 package it.unisa.dottorato.phdCourse;
 
+import it.unisa.dottorato.account.Account;
+import it.unisa.dottorato.account.Professor;
 import it.unisa.dottorato.exception.DateException;
 import it.unisa.dottorato.exception.DescriptionException;
 import it.unisa.dottorato.exception.IdException;
@@ -117,18 +119,20 @@ public class CalendarManager {
      * @throws java.io.IOException 
      * @throws it.unisa.dottorato.phdCourse.ClassroomException 
      */
-    public synchronized void insert_lesson(Lesson pLesson) throws SQLException,IdException , DescriptionException , DateException, NameException , ClassroomException, IOException {
+    public synchronized void insert_lesson(Lesson pLesson,Professor professor) throws SQLException,IdException , DescriptionException , DateException, NameException , ClassroomException, IOException {
         try (Connection connect = DBConnection.getConnection()) {
 
             /*
              * Prepariamo la stringa SQL per inserire un nuovo record 
              * nella tabella lesson
              */
+            int id= testid(nextNumberLesson());
+            
             String tSql = "INSERT INTO "
                     + CalendarManager.TABLE_LESSON
                     + " ( idLesson, date, startTime, endTime, name, classroom, desription, fkCourse)"
                     + " VALUES ("
-                    + testid(nextNumberLesson()) // int
+                    + id // int
                     + ",'"
                     + testStartData(pLesson.getData()) // Date
                     + "','"
@@ -147,7 +151,20 @@ public class CalendarManager {
 
            
             Utility.executeOperation(connect, tSql);
-
+            
+            /*
+             * Prepariamo la stringa SQL per inserire un nuovo record 
+             * nella tabella keep
+             */
+            tSql = "INSERT INTO keep"
+                    + " ( fkProfessor, fkLesson)"
+                    + " VALUES ('"
+                    + professor.getSecondaryEmail() // int
+                    + "',"
+                    + id // int
+                    + ")";
+           
+            Utility.executeOperation(connect, tSql);
             connect.commit();
         } 
     }

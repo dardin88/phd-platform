@@ -63,11 +63,13 @@ public class AddLessonServlet extends HttpServlet {
             String course = request.getParameter("course");
             
             HttpSession session = request.getSession();
-            Professor loggedPerson = (Professor) session.getAttribute("professor");
+            
+            //inseriamo nell'oggetto loggedPerson i valori dell'account che ha fatto l'accesso
+            Professor loggedPerson = (Professor) session.getAttribute("account");
             
             Lesson lesson = new Lesson();
             
-            //inseriamo nell'oggetto corso i valori passati come parametri precedentemente
+            //inseriamo nell'oggetto lesson i valori passati come parametri precedentemente
            
             lesson.setDate(java.sql.Date.valueOf(date));
             lesson.setStartTime(starttime);
@@ -80,7 +82,7 @@ public class AddLessonServlet extends HttpServlet {
            result.put("result", true);
 
         try {
-            CalendarManager.getInstance().insert_lesson(lesson);
+            CalendarManager.getInstance().insert_lesson(lesson,loggedPerson);
         } catch (SQLException ex)  {
             result.put("result", false);
             Logger.getLogger(AddLessonServlet.class.getName()).log(Level.SEVERE, null, ex);

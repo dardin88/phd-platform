@@ -333,6 +333,7 @@ name				varchar(70) not null,
 classroom			varchar(30) not null,
 desription 			text not null,
 fkCourse			integer not null,
+closed                          boolean default false,
 foreign key (fkCourse) references course(idCourse) on delete cascade on update cascade);
 
 INSERT INTO lesson (idLesson,date,startTime,endTime	,name,classroom,desription,fkCourse)VALUES
