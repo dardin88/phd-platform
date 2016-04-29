@@ -14,6 +14,10 @@ public class Presence implements Serializable {
     private String fkPhdstudent ;
     private  int fkLesson;
     public boolean isPresent=false;
+    private int Totale;
+    private int PresenzeEff;
+    private int Assenze;
+    
 /** Metodo della classe incaricato di settare l'id della lezione
      * 
      * @param fkLesson 
@@ -67,6 +71,29 @@ public class Presence implements Serializable {
       */
     public void setIsPresent(boolean isSigned) {
         this.isPresent = isSigned;
+    }
+
+    public int getPresenzeEff() {
+        return PresenzeEff;
+    }
+
+    public int getAssenze() {
+        return Assenze;
+    }
+
+    public void setPresenzeEff(int PresenzeEff) {
+        this.PresenzeEff = PresenzeEff;
+    }
+
+    public void setAssenze() {
+        this.Assenze =this.Totale-this.PresenzeEff;
+    }
+    
+      public void setTotalPresence(int Total) {
+        this.Totale =Total;    }
+      
+      public int getTotalPresence() {
+        return Totale;
     }
 
     
