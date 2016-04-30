@@ -30,6 +30,8 @@ public class CalendarManager {
     private static final String TABLE_COURSE = "course";
     private static final String TABLE_LESSON = "lesson";
     private static final String TABLE_SEMINAR = "seminar";
+    private static final String TABLE_STUDENT = "phdstudent";
+    private static final String TABLE_PRESENCE = "presence";
     
      //	 istanza della classe
     private static CalendarManager instance;
@@ -126,13 +128,14 @@ public class CalendarManager {
              * Prepariamo la stringa SQL per inserire un nuovo record 
              * nella tabella lesson
              */
-            int id= testid(nextNumberLesson());
+            int idLesson= testid(nextNumberLesson());
+            int idCourse= testid(pLesson.getFK_course());
             
             String tSql = "INSERT INTO "
                     + CalendarManager.TABLE_LESSON
                     + " ( idLesson, date, startTime, endTime, name, classroom, desription, fkCourse)"
                     + " VALUES ("
-                    + id // int
+                    + idLesson // int
                     + ",'"
                     + testStartData(pLesson.getData()) // Date
                     + "','"
@@ -146,7 +149,7 @@ public class CalendarManager {
                       + "','"
                     + Utility.Replace(testDescriptionLesson(pLesson.getDescription())) // String
                       + "',"
-                    + testid(pLesson.getFK_course()) // int
+                    + idCourse // int
                     + ")";
 
            
@@ -159,12 +162,19 @@ public class CalendarManager {
             tSql = "INSERT INTO keep"
                     + " ( fkProfessor, fkLesson)"
                     + " VALUES ('"
-                    + professor.getSecondaryEmail() // int
+                    + professor.getSecondaryEmail()
                     + "',"
-                    + id // int
+                    + idLesson // int
                     + ")";
            
             Utility.executeOperation(connect, tSql);
+            
+            int cycle=this.getCycle(idCourse, connect);
+            
+            ResultSet student = this.getStudent(cycle, connect);
+            
+            this.setPresence(idLesson, connect, student);
+            
             connect.commit();
         } 
     }
@@ -241,6 +251,9 @@ public class CalendarManager {
              * Prepariamo la stringa SQL per modificare un record 
              * nella tabella lesson
              */
+            
+            int newCourseID=testid(pLesson.getFK_course());
+            
             String tSql = "UPDATE "
                     + CalendarManager.TABLE_LESSON
                     + " set date = '"
@@ -256,18 +269,99 @@ public class CalendarManager {
                     + "', desription = '"
                     + Utility.Replace(testDescriptionLesson(pLesson.getDescription()))
                     + "', fkCourse = "
-                    + testid(pLesson.getFK_course())
+                    + newCourseID
                     + " WHERE idLesson = "
                     + oldLessonID;           
-
+            
+           
+            /*
+             * Prepariamo la stringa SQL per ricavare il ciclo
+             * del corso inserito
+             */
+            String oldCourse = "SELECT fkCourse FROM " 
+                   + CalendarManager.TABLE_LESSON
+                   + " WHERE idLesson = " 
+                   + oldLessonID;
+            
+            ResultSet rs = Utility.queryOperation(connect, oldCourse); 
+            rs.next();
+            int oldCourseID=rs.getInt(1);
             
             if(Utility.executeOperation(connect, tSql)==0)
                 throw new NameException();
+            
+            if(oldCourseID != newCourseID){
+                        
+                tSql = "DELETE FROM "
+                    + CalendarManager.TABLE_PRESENCE
+                    + " WHERE fkLesson = "
+                    + oldLessonID;
 
+                //Inviamo la Query al DataBase
+                Utility.executeOperation(connect, tSql);
+                
+                int cycle=this.getCycle(newCourseID, connect);
+                
+                ResultSet student = this.getStudent(cycle, connect);
+            
+                this.setPresence(oldLessonID, connect, student);
+                
+            }
             connect.commit();
         } 
     }
      
+    private int getCycle(int idCourse, Connection con) throws SQLException{
+        
+            /* Prepariamo la stringa SQL per ricavare il ciclo
+             * del corso inserito
+             */
+            
+            String cycle = "SELECT fkCycle FROM " 
+                   + CalendarManager.TABLE_COURSE
+                   + " WHERE idCourse = " 
+                   + idCourse;
+            
+            ResultSet rs = Utility.queryOperation(con, cycle); 
+            rs.next();    
+            return(rs.getInt(1));
+    }
+    
+    private ResultSet getStudent(int cycle, Connection con) throws SQLException{
+        
+            /*
+             * Prepariamo la stringa SQL per ricavare gli studenti
+             * che fanno parte del ciclo in esame
+             */
+            
+            String student =  "SELECT fkAccount FROM "  
+                             + CalendarManager.TABLE_STUDENT
+                             + " WHERE fkCycle = " 
+                             + cycle;
+            
+            ResultSet rs = Utility.queryOperation(con, student);
+            return(rs);        
+    }
+    
+    private void setPresence(int idLesson, Connection con, ResultSet rs) throws SQLException{
+            /*
+             * Prepariamo le stringhe SQL per riempire
+             * lassociazione presence ed eseguiamo
+             */
+             
+            while(rs.next()){
+                String tSql = "INSERT INTO "
+                             + CalendarManager.TABLE_PRESENCE
+                             + " ( fkPhdstudent, fkLesson)"
+                             + " VALUES ('"
+                             + rs.getString(1)
+                             + "',"
+                             + idLesson
+                             + ")";
+                
+                Utility.executeOperation(con, tSql);
+            }        
+    }
      
      /** Metodo della classe incaricato di modificare un seminario
       * 
@@ -724,7 +818,7 @@ public class CalendarManager {
                     + CalendarManager.TABLE_LESSON
                     + " WHERE fkCourse = "
                     + testid(idcourse)
-                    +" order by date";
+                    +" order by date, idLesson";
                          //da modificare ancora
 
             //Inviamo la Query al DataBase
@@ -820,7 +914,7 @@ public class CalendarManager {
         return seminars;
     }
       
-       public synchronized ArrayList<Lesson> getAllLessonOfProfessor() throws SQLException, IdException { //da modificare dato Person
+     public synchronized ArrayList<Lesson> getAllLessonOfProfessor() throws SQLException, IdException { //da modificare dato Person
         ArrayList<Lesson> lessons = new ArrayList<>();
         
         Connection connect = null;
@@ -855,6 +949,7 @@ public class CalendarManager {
         
         return lessons;
     }
+    
        public synchronized int getAllLessonOfCourse() throws SQLException, IdException { //da modificare dato Person
        int numerLezio=0;
         
@@ -1133,5 +1228,52 @@ public class CalendarManager {
             return c;
         } 
      }
+
+    public synchronized  ArrayList<Lesson> getLessonsOfProfessor(int fkCourse, Professor loggedPerson) throws SQLException, IOException {
+        
+        ArrayList<Lesson> lessons = new ArrayList<Lesson>();
+        
+        try (Connection connect = DBConnection.getConnection()){
+           String fkProfessor=loggedPerson.getSecondaryEmail();
+           
+            /*
+             * Prepariamo la stringa SQL per ricercare uno o piu' record 
+             * nella tabella lesson
+             */
+           
+           
+            String tSql = "SELECT * FROM "
+                          + CalendarManager.TABLE_LESSON
+                          + " JOIN keep ON "
+                          + CalendarManager.TABLE_LESSON
+                          + ".idLesson = keep.fkLesson WHERE keep.fkProfessor = '"
+                          + fkProfessor
+                          + "' and " 
+                          + CalendarManager.TABLE_LESSON + ".fkCourse = "
+                          + fkCourse
+                          + " ORDER BY "
+                          + CalendarManager.TABLE_LESSON + ".date, " 
+                          + CalendarManager.TABLE_LESSON + ".idLesson";
+           
+            ResultSet result = Utility.queryOperation(connect, tSql);
+           
+            while (result.next()) {
+                
+                Lesson lesson = new Lesson();
+                lesson.setIdLesson(result.getInt("idLesson"));
+                lesson.setDate(result.getDate("date"));
+                lesson.setStartTime(result.getString("startTime"));
+                lesson.setEndTime(result.getString("endTime"));
+                lesson.setName(result.getString("name"));
+                lesson.setClassroom(result.getString("classroom"));
+                lesson.setDescription(result.getString("desription"));                             
+                lesson.setFK_course(result.getInt("fkCourse"));
+                
+                lessons.add(lesson);
+            }
+           
+            return lessons;
+        }
+    }
 }
 

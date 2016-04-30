@@ -153,7 +153,7 @@ public class PresenceManager {
         try {
             connect2 = DBConnection.getConnection();
             classList = new ArrayList <>();
-            String t="select * from lesson where lesson.fkCourse="+idCorso;
+            String t="select * from lesson where lesson.fkCourse="+idCorso+" order by date, idLesson";
             ResultSet result2 = Utility.queryOperation(connect2, t);
             if(!result2.next())
                 throw new IdException();
@@ -225,7 +225,7 @@ public class PresenceManager {
                             " FROM presence, lesson " +
                             " where presence.fkLesson = lesson.idLesson " +
                             " and lesson.fkCourse ="+testid(idCorso) +" and presence.fkPhdstudent = '"
-                            +testDottorando(dottorando)+"'";
+                            +testDottorando(dottorando)+"' order by date, idLesson";
             //Inviamo la Query al DataBase
             ResultSet result = Utility.queryOperation(connect, tSql);
 

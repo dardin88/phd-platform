@@ -336,13 +336,22 @@ fkCourse			integer not null,
 closed                          boolean default false,
 foreign key (fkCourse) references course(idCourse) on delete cascade on update cascade);
 
-INSERT INTO lesson (idLesson,date,startTime,endTime	,name,classroom,desription,fkCourse)VALUES
-(1,'2016-05-2','9:10','12:10','ISTS','P12','introduzione al corso',1),
-(2,'2016-05-5','9:10','12:10','ISTS','P12','introduzione al corso',1),
-(3,'2016-05-8','9:10','12:10','ISTS','P12','introduzione al corso',1),
-(4,'2016-05-2','9:10','12:10','ISTS','P12','introduzione al corso',1),
-(5,'2016-05-5','9:10','12:10','ISTS','P12','introduzione al corso',2),
-(6,'2016-05-8','9:10','12:10','ISTS','P12','introduzione al corso',3);
+INSERT INTO lesson (idLesson,date,startTime,endTime	,name,classroom,desription,fkCourse,closed)VALUES
+(1, '2016-05-03', '9:10', '12:10', 'SITS', 'P12', 'introduzione al corso', 1, 0),
+(2, '2016-05-07', '9:10', '12:10', 'SI', 'P15', 'introduzione al corso', 2, 0),
+(3, '2016-05-10', '9:10', '12:10', 'SB', 'P10', 'introduzione al corso', 3, 0),
+(4, '2016-04-30', '8:30', '10:30', 'Informatica Applicata I', ' P1', ' Introduzione', 1, 0),
+(5, '2016-04-30', '8:30', '10:30', 'Informatica Applicata II', ' P1', ' Introduzione', 2, 0),
+(6, '2016-04-30', '8:30', '10:30', 'Informatica Applicata III', ' P1', ' Introduzione', 3, 0),
+(7, '2016-04-25', '8:30', '9:30', 'BD', ' P3', ' Introduzione', 1, 0),
+(8, '2016-05-12', '8:30', '9:30', 'BD 2', ' P3', ' Introduzione', 3, 0),
+(9, '2016-05-10', '10:30', '12:30', 'IS I', ' F5', ' Introduzione', 1, 0),
+(10, '2016-05-14', '10:30', '12:30', 'IS II', ' F5', ' Introduzione', 2, 0),
+(11, '2016-05-24', '10:30', '12:30', 'IS III', ' F5', ' Introduzione', 3, 0),
+(12, '2016-05-06', '12:45', '2:45', 'Test I', ' P15', ' Introduzione', 1, 0),
+(13, '2016-05-08', '12:45', '2:45', 'Test II', ' P15', ' Introduzione', 2, 0),
+(14, '2016-05-13', '12:45', '2:45', 'Test III', ' P15', ' Introduzione', 3, 0),
+(15, '2016-05-25', '12:45', '2:45', 'Test IIII', ' P15', ' Introduzione', 3, 0);
 
 create table IF not EXIsts keep(
 fkProfessor			varchar(50) not null,
@@ -352,14 +361,21 @@ foreign key (fkProfessor) references professor(fkAccount) on delete no action on
 foreign key (fkLesson) references lesson(idLesson) on delete cascade on update cascade);
 
 INSERT INTO keep (fkProfessor,fkLesson)VALUES
-('adelucia@hotmail.it',1),
-('buonocore@hotmail.it',2),
-('adelucia@hotmail.it',3),
-('buonocore@hotmail.it',4),
-('adelucia@hotmail.it',5),
-('buonocore@hotmail.it',6);
-
-
+('adelucia@hotmail.it', 1),
+('buonocore@hotmail.it', 2),
+('adelucia@hotmail.it', 3),
+('wrestler@hotmail.it', 4),
+('wrestler@hotmail.it', 5),
+('wrestler@hotmail.it', 6),
+('wrestler@hotmail.it', 7),
+('wrestler@hotmail.it', 8),
+('adelucia@hotmail.it', 9),
+('adelucia@hotmail.it', 10),
+('adelucia@hotmail.it', 11),
+('buonocore@hotmail.it', 12),
+('buonocore@hotmail.it', 13),
+('buonocore@hotmail.it', 14),
+('buonocore@hotmail.it', 15);
 
 create table IF not EXIsts presence(
 fkPhdstudent			varchar(50) not null,
@@ -369,12 +385,45 @@ primary key(fkPhdstudent, fkLesson),
 foreign key (fkPhdstudent) references phdstudent(fkAccount) on delete no action on update cascade,
 foreign key (fkLesson) references lesson(idLesson) on delete cascade on update cascade);
 
+
 INSERT INTO presence (fkPhdstudent,fkLesson,isPresent)VALUES
-('dinucci@hotmail.it',1,false),
-('dinucci@hotmail.it',2,true),
-('dinucci@hotmail.it',3,true),
-('dinucci@hotmail.it',4,true),
-('elisa@hotmail.it',1,false),
-('elisa@hotmail.it',2,false),
-('elisa@hotmail.it',3,true),
-('elisa@hotmail.it',4,true);
+('ajeje@hotmail.it', 1, 0),
+('ajeje@hotmail.it', 4, 1),
+('ajeje@hotmail.it', 7, 1),
+('ajeje@hotmail.it', 9, 1),
+('ajeje@hotmail.it', 12, 1),
+('ariemma@hotmail.it', 2, 1),
+('ariemma@hotmail.it', 3, 1),
+('ariemma@hotmail.it', 5, 1),
+('ariemma@hotmail.it', 6, 0),
+('ariemma@hotmail.it', 8, 1),
+('ariemma@hotmail.it', 10, 0),
+('ariemma@hotmail.it', 11, 0),
+('ariemma@hotmail.it', 13, 0),
+('ariemma@hotmail.it', 14, 1),
+('ariemma@hotmail.it', 15, 1),
+('ballo@hotmail.it', 1, 0),
+('ballo@hotmail.it', 4, 1),
+('ballo@hotmail.it', 7, 0),
+('ballo@hotmail.it', 9, 0),
+('ballo@hotmail.it', 12, 0),
+('dinucci@hotmail.it', 1, 1),
+('dinucci@hotmail.it', 4, 0),
+('dinucci@hotmail.it', 7, 1),
+('dinucci@hotmail.it', 9, 0),
+('dinucci@hotmail.it', 12, 1),
+('elisa@hotmail.it', 1, 1),
+('elisa@hotmail.it', 4, 1),
+('elisa@hotmail.it', 7, 0),
+('elisa@hotmail.it', 9, 0),
+('elisa@hotmail.it', 12, 0),
+('minichiello@hotmail.it', 2, 0),
+('minichiello@hotmail.it', 3, 0),
+('minichiello@hotmail.it', 5, 0),
+('minichiello@hotmail.it', 6, 1),
+('minichiello@hotmail.it', 8, 1),
+('minichiello@hotmail.it', 10, 1),
+('minichiello@hotmail.it', 11, 1),
+('minichiello@hotmail.it', 13, 1),
+('minichiello@hotmail.it', 14, 0),
+('minichiello@hotmail.it', 15, 1);

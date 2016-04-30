@@ -71,7 +71,7 @@
      
                                 <label  > Seleziona un corso</label>
                                 
-                                <select name="Corsoprofessore" class="form-control" id="Corsoprofessore"  onchange="selectedItem()" >
+                                <select name="Corsoprofessore" class="form-control" id="Corsoprofessore"  onchange="selectedItem2()" >
                                
                                     <option value="default"  >  - selezionate il vostro  corso  -  </option>
                                     
@@ -110,6 +110,10 @@
                                         <tbody id="resultbody">
                                             <tr> </tr>
                                         </tbody>
+                                         
+                                        <tfoot id="resultfoot">
+                                            <tr> </tr>
+                                        </tfoot>
                                     </table>
  
                                 </div>
