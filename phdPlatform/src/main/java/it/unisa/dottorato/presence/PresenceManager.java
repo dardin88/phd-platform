@@ -381,7 +381,7 @@ public class PresenceManager {
                 
               corso =new Course();
                 
-          
+        
                 corso.setName(result.getString("name"));
                 classList.add(corso);
             }
@@ -395,6 +395,58 @@ public class PresenceManager {
         
     }
     
+      public synchronized ArrayList<Presence> getTotalLesson(String idDottorando, String CourseName) throws 
+           ClassNotFoundException, SQLException, IOException, IdException, PhdStudentexception {
+        Connection connect = null;
+        Connection connect2 = null;
+        Presence presenze= null;
+       ArrayList<Presence> classList =null;
     
+        try {
+            connect2 = DBConnection.getConnection();
+            classList = new ArrayList <>();
+            String t="select * from presence where presence.fkPhdstudent="+idDottorando;
+            ResultSet result2 = Utility.queryOperation(connect2, t);
+
+            if(!result2.next())
+                throw new IdException();
+            
+        // Otteniamo una Connessione al DataBase
+            connect = DBConnection.getConnection();
+
+            /*
+             * Prepariamo la stringa SQL per la ricerca dei record 
+             * nella tabella presence
+           */
+            String tSql =
+                    " SELECT COUNT(isPresent) AS presenceCount," +
+                    "sum(case when isPresent = 1 then 1 else 0 end) PresenzeEff" +
+"                   FROM presence, lesson, course" +
+"       where presence.fkPhdstudent ="+testDottorando(idDottorando)+ 
+"         and presence.fkLesson = lesson.idLesson" +
+"          and lesson.fkCourse= Course.idCourse" +
+"          and Course.name="+CourseName;
+            //Inviamo la Query al DataBase
+            ResultSet result = Utility.queryOperation(connect, tSql);
+
+       while (result.next()) {
+                
+              presenze =new Presence();
+                
+          
+                presenze.setTotalPresence(result.getInt("presenceCount"));
+                presenze.setPresenzeEff(result.getInt("PresenzeEff"));
+                presenze.setAssenze();
+                classList.add(presenze);
+            }
+
+           
+        }  finally {
+            DBConnection.releaseConnection(connect);
+            DBConnection.releaseConnection(connect2);
+        }
+        return classList;
+        
+    }
     
 }
