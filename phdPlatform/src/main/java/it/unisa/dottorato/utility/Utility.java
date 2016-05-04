@@ -88,5 +88,13 @@ public class Utility {
             return "";
         }
     }
-
+/**
+ * Restituisce la stringa con l'aggiunta degli apici per la ricerca nel database
+ * @param pStr stringa di input
+ * @return stringa modificata con l'aggiunta di apici
+ */
+     static public String AppendQuote(String pStr) {
+        return "'"+pStr+"'";
+    }
+    
 }
