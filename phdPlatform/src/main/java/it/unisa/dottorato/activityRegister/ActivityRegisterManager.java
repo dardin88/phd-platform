@@ -5,8 +5,13 @@
  */
 package it.unisa.dottorato.activityRegister;
 
+import it.unisa.dottorato.utility.Utility;
+import it.unisa.integrazione.database.DBConnection;
 import java.io.IOException;
 import java.sql.Connection;
+import java.sql.Date;
+import java.sql.SQLException;
+import java.util.concurrent.TimeUnit;
 
 /**
  *
@@ -14,7 +19,7 @@ import java.sql.Connection;
  */
 public class ActivityRegisterManager {
     private static ActivityRegisterManager instance;
-    
+     private static final String TABLE_ACTIVITY = "activity";
      /**
      * Il costruttore della classe e' dichiarato privato, per evitare
      * l'istanziazione di oggetti della classe .
@@ -38,5 +43,46 @@ public class ActivityRegisterManager {
         return instance;
 
     }
+    public void insertActvity(Activity activity) throws 
+           SQLException, IOException {
+       Connection connect = null;
+            try{
+                connect = DBConnection.getConnection();
+           
+            String stingSQL = "INSERT INTO "
+                    + ActivityRegisterManager.TABLE_ACTIVITY 
+                    + "(name, description, startDateTime, endDateTime, totalTime, typology, fkPhdStudent)"
+                    + "VALUES ("
+                    + "'"+activity.getName()+"'," 
+                    + "'"+activity.getDescription()+"'," 
+                    + "'"+activity.getStartDateTime()+"'," 
+                    + "'"+activity.getEndDateTime()+"'," 
+                    + "'"+calculateTotTime(activity.getStartDateTime(),activity.getEndDateTime())+"'," 
+                    + "'"+activity.getTypology()+"'," 
+                    + "'"+activity.getFkPhdStudent()+"'" 
+                    + ")";
+            
+            
+            //esegue query
+            Utility.executeOperation(connect, stingSQL);
+
+            connect.commit();
+        }finally {
+            DBConnection.releaseConnection(connect);
+        }
+   }
+
+    /**
+     * Calcolo delle ore dedicate ad una attivita'
+     * @param startDateTime 
+     * @param endDateTime 
+     * @return durate del'attività
+     */
+    private float calculateTotTime(java.util.Date startDateTime, java.util.Date endDateTime) {
+        long diffInMillies = startDateTime.getTime() - endDateTime.getTime();
+        return TimeUnit.MINUTES.convert(diffInMillies,TimeUnit.MILLISECONDS);
+    }
     
+
+   
  }
