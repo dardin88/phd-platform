@@ -66,23 +66,14 @@
                            
                             <div class="form-group">
                                 
-             
-
-     
-                                <label  > Seleziona un corso</label>
-                                
-                                <select name="Corsoprofessore" class="form-control" id="Corsoprofessore"  onchange="selectedItem2()" >
+                                <select style="width:350px;"  name="Corsoprofessore" class="form-control" id="Corsoprofessore"  onchange="selectedItem2()" >
                                
-                                    <option value="default"  >  - selezionate il vostro  corso  -  </option>
-                                    
-               
-               
-       
+                                    <option value="default"  >  - Seleziona un corso  -  </option>
+                                             
                                 </select>
-                             
-           
-    
-                                 
+                                
+                                <div id="sessione">  </div> 
+                                
                             </div>
                         </div>
  
@@ -99,23 +90,24 @@
  
                                 <div id="results" >
                               
-            
                                     <table id="resultst" class="table">
                                        
                                         <thead id="resulthead">
                                     
-                                             
-
                                         </thead>
+                                        
                                         <tbody id="resultbody">
-                                            <tr> </tr>
+                                            
                                         </tbody>
                                          
-                                        <tfoot id="resultfoot">
-                                            <tr> </tr>
+                                        <tfoot>
+                                            
+                                            <tr id="resultBotton"> </tr>
+                                            
                                         </tfoot>
+                                        
                                     </table>
- 
+                                     
                                 </div>
                             </div>
                         </div>

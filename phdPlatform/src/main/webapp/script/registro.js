@@ -152,41 +152,53 @@ function selectedItemDot(){
     }
 
 //Metodo utilizzato per chiamare tutte le lezioni create da un determinato Professore per il corso selezionato
-function selectedItem2()
-
-{  $("#panelDiv").hide();
+function selectedItem2(){  
+    var nButtons=0;
+    $("#panelDiv").hide();
     $("#resulthead th").remove();
     $("#resultbody tr").remove();
+    $("#sessione label").remove();
     selected = $("#Corsoprofessore option:selected").val();
     if (selected !== "default") //se il valore della select Ã¨ default non mostriamo il div contenente le informazioni delle date delle lezioni
     { $("#resulthead th").remove();
        $("#resultbody tr").remove();
+       $("#resultBotton td").remove();
+       $("#sessione").append("<label><input id='sessioni' type='checkbox' name='sessione' checked onchange='changeSessioni()'> Visualizza le sessioni chiuse</label>");
+       $("#resultBotton").append("<td> </td>");
         selected = $("#Corsoprofessore option:selected").val();
         $("#panelDiv").show();
+        
         //metodo per stampare le date
-        var isLessons;
-         $.getJSON("GetLessonsProfessor", {fkCourse : selected}, function (data1) {
-             dot="<th> Dottorandi </th>"
+        var isLessons;           
+        $.getJSON("GetLessonsProfessor", {fkCourse : selected}, function (data1) {
+             dot="<th style='text-align:left; font-size: 20px;'> Dottorandi </th>";
                $("#resulthead ").append(dot);
                isLessons = data1;
-            $.each(data1.lessons, function (index, value5) {
-                                        
+               $.each(data1.lessons, function (index, value5) {
+                            
                     data1=value5.data;
-                    dottorando11 = " <th> " +data1 + " </th>  ";
+                    if(value5.closed){
+                        dottorando11 = " <th class='archiviata'> " +data1 + "<p>"+value5.name+"</p></th>  ";
+                    }
+                    else
+                    {
+                        dottorando11 = " <th class='"+value5.idLesson+"'> " +data1 + "<p>"+value5.name+"</p></th>  ";
+                    }
                     $("#resulthead ").append(dottorando11);
-                              
+                    nButtons++;
+                         
             });
         });
-      
+                
         $.getJSON("GetPresenceDottorandi", {idCourse: selected}, function (data) {
             $.each(data.presence, function (index, value) {
-                dottorando = "<tr id=" + index + "> <td> " + value.name + " " + value.surname + " </td>  </tr>";
+                dottorando = "<tr id=" + index + "> <td class='students'> " + value.name + " " + value.surname + " </td>  </tr>";
                 id = value.secondaryEmail;
-                         
+                        
                 $("#resultbody ").append(dottorando);
-  
-$.getJSON("GetPresenceToLesson", {idCourse: selected, fkPhdstudent: id}, function (data) {
-    
+                
+                $.getJSON("GetPresenceToLesson", {idCourse: selected, fkPhdstudent: id}, function (data) {
+                                   
                     $.each(data.presence, function (index2, value2) {
                         flag = false;
                         lezione = value2.fkLesson;
@@ -195,33 +207,54 @@ $.getJSON("GetPresenceToLesson", {idCourse: selected, fkPhdstudent: id}, functio
                             if(isLessons.lessons[p].idLesson==lezione)
                             {
                                flag = true;
+                               isClosed = isLessons.lessons[p].closed;
                                break;
                             }
                         }
                         if(flag){
+                            if(nButtons>0)
+                            {
+                                nButtons--;
+                                if(isClosed)
+                                {
+                                    $("#resultBotton ").append("<td class='archiviata'> </td>");
+                                }
+                                else
+                                {
+                                    app = "<td class='" + lezione + " celle'> <input type = 'button' id = " + lezione + " onclick = 'archiviaPresenze(" + 'id' + ")' value = 'Chiudi Sessione' class = 'btn btn-blue'> </td>";                                
+                                    $("#resultBotton ").append(app);
+                                }                                                          
+                            }
+                            
                             td = value2.fkPhdstudent;
-                            dottorandopre = "<td> <input type='checkbox' value=" + true + "   id=" + td + " onclick='changePresenza(" + 'id' + "," + lezione + ")' class='checkboxclass'  ";
-
-                           if (value2.isPresent === true) {
-                               dottorandopre += "checked";
-                           }
-
+                            if (isClosed) {
+                               dottorandopre = "<td class='celle archiviata'><input type='checkbox' value='true'   id=" + td + " onclick='changePresenza(" + 'id' + "," + lezione + ")' class='checkboxclass' disabled ";
+                            }
+                            else{
+                                dottorandopre = "<td class='" + lezione + " celle'><input type='checkbox' value='true'   id=" + td + " onclick='changePresenza(" + 'id' + "," + lezione + ")' class='checkboxclass' ";
+                            }
+                                                 
+                            if (value2.isPresent === true) {
+                               dottorandopre += " checked";
+                           }                           
+                           
                            dottorandopre += "></td>";
                            $("#" + index).append(dottorandopre);
- 
+                                                    
                         }
-                         
+                        
                     });
- 
+                    
                 });
- 
-            });
-        });
- 
- 
+                    
+            });                   
+        });  
+        
     }
- 
+    
 }
+
+
 function get_Date( giorno, ora)
 {
     if(ora.length ===7) 
