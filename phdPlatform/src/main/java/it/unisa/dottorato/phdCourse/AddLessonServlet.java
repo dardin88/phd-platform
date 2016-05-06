@@ -53,9 +53,9 @@ public class AddLessonServlet extends HttpServlet {
             
             String date = request.getParameter("data");
             String startTime = request.getParameter("starttime");
-            String starttime = startTime.substring(0,5);
+            //String starttime = startTime.substring(0,5);
             String endTime = request.getParameter("endtime");
-            String endtime = endTime.substring(0,5);
+           // String endtime = endTime.substring(0,5);
             String name = request.getParameter("name");
             String classroom = request.getParameter("classroom");
             String description = request.getParameter("description");
@@ -72,8 +72,8 @@ public class AddLessonServlet extends HttpServlet {
             //inseriamo nell'oggetto lesson i valori passati come parametri precedentemente
            
             lesson.setDate(java.sql.Date.valueOf(date));
-            lesson.setStartTime(starttime);
-            lesson.setEndTime(endtime);
+            lesson.setStartTime(startTime);
+            lesson.setEndTime(endTime);
             lesson.setName(name);
             lesson.setClassroom(classroom);
             lesson.setDescription(description);

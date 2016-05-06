@@ -5,6 +5,8 @@
  */
 package it.unisa.dottorato.phdCourse;
 
+import it.unisa.dottorato.account.Account;
+import it.unisa.dottorato.account.PhdStudent;
 import it.unisa.dottorato.exception.IdException;
 import java.io.IOException;
 import java.io.PrintWriter;
@@ -21,6 +23,7 @@ import javax.servlet.http.HttpSession;
 import org.json.JSONArray;
 import org.json.JSONException;
 import org.json.JSONObject;
+import java.util.Iterator;
 /**
  *
  * @author Rembor
@@ -48,9 +51,28 @@ public class GetAllCourseServlet  extends HttpServlet {
             try {
                 
                 HttpSession session = request.getSession();
+                Account acc= (Account) session.getAttribute("account");
+                CalendarManager mng=CalendarManager.getInstance();
+                ArrayList<Course> course= new ArrayList();
+                if(acc.getTypeAccount().equals("phdstudent"))
+                {
+                    PhdStudent loggedPerson=(PhdStudent) acc;
+                    ArrayList<Integer> IdCourse= mng.getCourseListId(loggedPerson.getfkCycle(), loggedPerson.getfkCurriculum());
+                    Iterator<Integer> myIteretor = IdCourse.iterator();
+                    while (myIteretor.hasNext())
+                    {
+                        Integer id = myIteretor.next();
+                        course.add(mng.getCourseById(id));
+                        
+                    }
+   
+                }
+                else
+                {
+                    course =  mng.getAllCourse(); // da modificare ancora
+                }
                 
-              
-                ArrayList<Course> course =  CalendarManager.getInstance().getAllCourse(); // da modificare ancora
+                
                 JSONArray resultArray = new JSONArray(course);
                 result.put("course", resultArray);
                 out.write(result.toString());
