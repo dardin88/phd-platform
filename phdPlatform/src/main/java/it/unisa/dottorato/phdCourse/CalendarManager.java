@@ -1275,5 +1275,43 @@ public class CalendarManager {
             return lessons;
         }
     }
+     /** Metodo della classe che ritorna la lista dei nomi dei corsi di un dato ciclo e curriculum
+      * 
+      * @param cycle 
+      * @param curriculum
+      * @return
+      * @throws ClassNotFoundException
+      * @throws SQLException
+      * @throws IOException 
+      */
+     public synchronized ArrayList<String> getCourseListName(int cycle, String curriculum) throws ClassNotFoundException, SQLException, IOException {
+        Connection connect = null;
+        ArrayList<String> courses = new ArrayList<>();
+        try {
+            
+            // Otteniamo una Connessione al DataBase
+            connect = DBConnection.getConnection();
+
+            /*
+             * Prepariamo la stringa SQL per modificare un record 
+             * nella tabella phdCycle
+             */
+            String tSql = "SELECT * FROM course "
+                    + " WHERE fkCycle ="+cycle+" AND fkCurriculum='"+curriculum+"'";
+
+            //Inviamo la Query al DataBase
+            ResultSet result = Utility.queryOperation(connect, tSql);
+            connect.commit();
+            while (result.next()) {
+                courses.add(result.getString("name"));
+            }
+
+           
+
+        } finally {
+            DBConnection.releaseConnection(connect);
+        }
+         return courses;
+    }
 }
 

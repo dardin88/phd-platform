@@ -53,9 +53,9 @@ public class UpdateSeminarServlet extends HttpServlet {
             int seminarID = Integer.parseInt(request.getParameter("id"));
             String date = request.getParameter("date");
             String startTime = request.getParameter("startTime");
-            String starttime = startTime.substring(0, 5);
+            //String starttime = startTime.substring(0, 5);
             String endTime = request.getParameter("endTime");
-            String endtime = endTime.substring(0, 5);
+            //String endtime = endTime.substring(0, 5);
             String name = request.getParameter("name");
             String namespeacker = request.getParameter("nameSpeacker");
             String description = request.getParameter("description");
@@ -69,8 +69,8 @@ public class UpdateSeminarServlet extends HttpServlet {
 
             //inseriamo nell'oggetto corso i valori passati come parametri precedentemente
             seminar.setDate(java.sql.Date.valueOf(date));
-            seminar.setStartTime((starttime));
-            seminar.setEndTime((endtime));
+            seminar.setStartTime((startTime));
+            seminar.setEndTime((endTime));
             seminar.setName(name);
             seminar.setNameSpeacker(namespeacker);
             seminar.setDescription(description);

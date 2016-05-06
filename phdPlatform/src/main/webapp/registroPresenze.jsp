@@ -141,7 +141,7 @@
         <script src="assets/js/xenon-custom.js"></script>    
     </body>
     <%}else{%>
-                <c:redirect url="index.jsp" />
+                <c:redirect url="registroPresenzeDottorando.jsp" />
           <%  }
     %>
             </c:when>

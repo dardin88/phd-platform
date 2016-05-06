@@ -48,7 +48,7 @@ public class GetAllLessonServlet extends HttpServlet {
                  int number = Integer.parseInt(request.getParameter("fkCourse"));// mi semplifico la cosa mi asso l'intero di id
                
                 ArrayList<Lesson> lessons = (ArrayList<Lesson>) CalendarManager.getInstance().getAllLessonOf(number); // da modificare ancora
-                if(lessons.size()==0){
+                if(lessons.isEmpty()){
                     result.put("result", false);
                     out.write(result.toString());
                 }
@@ -56,6 +56,7 @@ public class GetAllLessonServlet extends HttpServlet {
                     result.put("result", true);
                     JSONArray resultArray = new JSONArray(lessons);
                     result.put("lessons", resultArray);
+                    //Logger.getLogger(GetAllLessonServlet.class.getName()).info(result.toString());
                     out.write(result.toString());
                 }
                 

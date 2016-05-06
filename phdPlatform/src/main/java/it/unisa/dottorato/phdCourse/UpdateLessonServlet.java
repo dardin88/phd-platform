@@ -53,9 +53,9 @@ public class UpdateLessonServlet extends HttpServlet {
 
             String date = request.getParameter("date");
             String startTime = request.getParameter("startTime");
-            String starttime = startTime.substring(0, 5);
+            //String starttime = startTime.substring(0, 5);
             String endTime = request.getParameter("endTime");
-            String endtime = endTime.substring(0, 5);
+            //String endtime = endTime.substring(0, 5);
             String name = request.getParameter("name");
             String classroom = request.getParameter("class");
             String description = request.getParameter("description");
@@ -68,8 +68,8 @@ public class UpdateLessonServlet extends HttpServlet {
             Lesson lesson = new Lesson();
 
             lesson.setDate(java.sql.Date.valueOf(date));
-            lesson.setStartTime(starttime);
-            lesson.setEndTime(endtime);
+            lesson.setStartTime(startTime);
+            lesson.setEndTime(endTime);
             lesson.setName(name);
             lesson.setClassroom(classroom);
             lesson.setDescription(description);

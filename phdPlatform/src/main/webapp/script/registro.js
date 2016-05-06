@@ -5,7 +5,7 @@
  */
 
 $(document).ready(function () {
- 
+    
     getCorsoList();
     //getLesson();
 });
@@ -149,8 +149,7 @@ function selectedItemDot(){
  
  
     }
-
-}
+    }
 
 //Metodo utilizzato per chiamare tutte le lezioni create da un determinato Professore per il corso selezionato
 function selectedItem2()
@@ -222,4 +221,33 @@ $.getJSON("GetPresenceToLesson", {idCourse: selected, fkPhdstudent: id}, functio
  
     }
  
+}
+function get_Date( giorno, ora)
+{
+    if(ora.length ===7) 
+    {
+        ora="0"+ora;
+        
+    }
+    var ore=parseInt(ora.substring(0,2));
+    var minuti=parseInt(ora.substring(3));
+    
+    if(ora.substring(6)==="PM")
+    {
+        ore=ore+12;
+    }
+    
+    var data=new Date(giorno);
+    data.setHours(ore);
+    data.setMinutes(minuti);
+  
+    return data;
+}
+
+function isAfterNow(data)
+{
+    var now=new Date().getTime();
+    if(data.getTime() < now)
+        return false;
+    else return true; 
 }
