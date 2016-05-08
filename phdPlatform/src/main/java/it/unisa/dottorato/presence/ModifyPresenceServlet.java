@@ -49,9 +49,11 @@ public class ModifyPresenceServlet extends HttpServlet{
            PresenceManager.getInstance().modifyPresence(fkPhdstudent,idLesson);
             
        result.put("result",true);
+       out.write(result.toString());
            
         }catch (SQLException ex) {
                 result.put("result", false);
+                out.write(result.toString());
                 Logger.getLogger(ModifyPresenceServlet.class.getName()).log(Level.SEVERE, null, ex);
             }
    

@@ -89,9 +89,22 @@ $.getJSON("GetPresenceToLesson", {idCourse: selected, fkPhdstudent: id}, functio
 
 function changePresenza(id,lezione) {
     
-   alert("firma inserita");
-    $.getJSON("ModifyPresence",{fkPhdstudent:id,fkLesson:lezione}, function (data) { 
-    
+   $.getJSON("ModifyPresence",{fkPhdstudent:id,fkLesson:lezione}, function (data) { 
+        
+        if (data.result) {
+                $("#titleInfo").html("");
+                $("#descriptionInfo").html("");
+                $("#infoDialog").modal();
+                $("#titleInfo").html("Operazione eseguita con successo!");
+                $("#descriptionInfo").html("Presenza modificata.");
+            } else {
+                $("#titleInfo").html("");
+                $("#descriptionInfo").html("");
+                $("#infoDialog").modal();
+                $("#titleInfo").html("Errore esecuzione operazione!");
+                $("#descriptionInfo").html("Errore nella modifica della presenza.");
+            }
+        
     });
     
 }
@@ -193,11 +206,11 @@ function selectedItem2(){
                             
                     data1=value5.data;
                     if(value5.closed){
-                        dottorando11 = " <th class='archiviata'> " +data1 + "<p>"+value5.name+"</p></th>  ";
+                        dottorando11 = " <th class='archiviata'> " + date_format(data1) + "<p>"+value5.name+"</p></th>  ";
                     }
                     else
                     {
-                        dottorando11 = " <th class='"+value5.idLesson+"'> " +data1 + "<p>"+value5.name+"</p></th>  ";
+                        dottorando11 = " <th class='"+value5.idLesson+"'> " + date_format(data1) + "<p>"+value5.name+"</p></th>  ";
                     }
                     $("#resulthead ").append(dottorando11);
                     nButtons++;
@@ -266,6 +279,73 @@ function selectedItem2(){
         });  
         
     }
+    
+}
+
+/* Mmetodo per nascondere/visualizzare 
+ * le sessioni chiuse(archiviate)
+ */
+
+function changeSessioni() {  
+   if(document.getElementById("sessioni").checked){
+       
+       var x = document.getElementsByClassName("archiviata");
+       
+       for (i = 0; i < x.length; i++) {
+            x[i].style.display = "";
+        }
+   }
+   else
+   {
+       var x = document.getElementsByClassName("archiviata");
+       
+       for (i = 0; i < x.length; i++) {
+            x[i].style.display = "none";
+        }
+   }
+}
+
+/* Metodo per archiviare le presenze a seguito
+ * della chiusura della sessione di una lezione
+ * @idLesson 
+ */
+
+function archiviaPresenze(idLesson) { 
+ //servlet per effettuare l'archiviazione delle presenze
+   
+   $.getJSON("SetClosedLesson", {idLesson: idLesson}, function (data) { 
+    
+        if (data.result) {
+                $("#titleInfo").html("");
+                $("#descriptionInfo").html("");
+                $("#infoDialog").modal();
+                $("#titleInfo").html("Operazione eseguita con successo!");
+                $("#descriptionInfo").html("Sessione chiusa - presenze archiviate.");
+                
+                var x = document.getElementsByClassName(idLesson);
+       
+                for (i = 0; i < x.length; i++) {
+                    
+                    oldClass = x[i].getAttribute("class");
+                    newClass = oldClass+" archiviata";
+                    x[i].className = newClass;
+                    $("#"+idLesson).remove();
+                    if(x[i].tagName === "TD"){                        
+                        x[i].childNodes[0].disabled = true;  
+                    } 
+                }
+                
+                changeSessioni();
+                
+            } else {
+                $("#titleInfo").html("");
+                $("#descriptionInfo").html("");
+                $("#infoDialog").modal();
+                $("#titleInfo").html("Errore chiusura sessione!");
+                $("#descriptionInfo").html("Errore nella chiusura della sessione.");
+            }
+     
+      });
     
 }
 

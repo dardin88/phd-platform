@@ -4,10 +4,11 @@ import java.io.Serializable;
 import java.util.Date;
 /** Classe dell'oggetto Lesson; rappresenta una lezione del calendario
  * Ha come attributi idLesson, data, startTime, endTime, name, classroom,
- * description, cycle, curriculum e FK_course che rappresentano rispettivamente
+ * description, cycle, curriculum, FK_course e closed che rappresentano rispettivamente
  * l'id della lezione, la data, l'ora di inizio e di fine, il nome della lezione, 
  * la classe, la descrizione della lezione, il ciclo e il curriculum ad esso associato, 
- * ed il corso di cui fa parte (chiave esterna a course)
+ * il corso di cui fa parte (chiave esterna a course), e lo stato della lezione 
+ * cioè se è aperta(false)/chiusa(true)
  *
  * @author Giuseppe Picciocchi
  */
@@ -21,7 +22,8 @@ public class Lesson implements Serializable{
     private String name; 
     private String classroom;
     private String description;
-    private int FK_course;    
+    private int FK_course;  
+    private boolean closed;                          
     
    /**Metodo della classe incaricato di ritornare l'id della lezione
     * 
@@ -154,6 +156,22 @@ public class Lesson implements Serializable{
      */
     public void setFK_course(int chiave_course){
         this.FK_course = chiave_course;
+    }
+    
+    /**Metodo della classe incaricato di ritornare lo stato della lezione cioè se è aperta(false) o chiusa(true)
+    * 
+    * @return restituisce lo stato della lezione
+    */
+    public boolean getClosed(){
+        return closed;            
+    }
+    
+   /** Metodo della classe incaricato di settare lo stato della lezione - aperta(false)/chiusa(true)
+    * 
+    * @param stato 
+    */
+    public void setClosed(boolean stato){
+        this.closed = stato;
     }
  }
     

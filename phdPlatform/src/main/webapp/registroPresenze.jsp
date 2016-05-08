@@ -39,12 +39,25 @@
         <link rel="stylesheet" href="assets/css/xenon-components.css">
         <link rel="stylesheet" href="assets/css/xenon-skins.css">
         <link rel="stylesheet" href="assets/css/custom.css">
+        <link rel="stylesheet" href="assets/css/registroPresenze.css">
  
         <script src="assets/js/jquery-1.11.1.min.js"></script>
         <script type="text/javascript" src="script/registro.js"></script>
  
  
     </head>
+    
+    <div id="infoDialog" class="modal fade">
+        <div class="modal-dialog">
+            <div class="modal-content">
+                <div class="modal-header">
+                    <button type="button" class="close" data-dismiss="modal">&times;</button>
+                    <div class="modal-title" id="titleInfo"></div>
+                </div>
+                <div class="modal-body" id="descriptionInfo"></div>
+            </div>
+        </div>
+    </div>
  
     <c:choose>
                 <c:when test="${sessionScope.account != null}">
