@@ -37,27 +37,36 @@ public class GetPresenceToLessonServlet extends HttpServlet{
      * @param response servlet response
      * @throws ServletException if a servlet-specific error occurs
      * @throws IOException if an I/O error occurs
+     * @throws PhdStudentexception 
      * 
      */
      protected void processRequest(HttpServletRequest request, HttpServletResponse response)
             throws ServletException, IOException, PhdStudentexception {
-PrintWriter out = response.getWriter();
+    
+            PrintWriter out = response.getWriter();
 
-        try {
-             JSONObject result = new JSONObject();
-        int idCorso = Integer.parseInt(request.getParameter("idCourse"));
-        String dottorando=request.getParameter("fkPhdstudent");
+            try 
+            {
+                JSONObject result = new JSONObject();
+                int idCorso = Integer.parseInt(request.getParameter("idCourse"));
+                String dottorando=request.getParameter("fkPhdstudent");
                 ArrayList<Presence> presence = PresenceManager.getInstance().getPresenceToLesson(dottorando, idCorso);
                 JSONArray resultArray = new JSONArray(presence);
                 result.put("presence", resultArray);
                 out.write(result.toString());
-            } catch (SQLException | JSONException ex) {
+            } 
+            catch (SQLException | JSONException ex)
+            {
                 Logger.getLogger(GetPresenceToLessonServlet.class.getName()).log(Level.SEVERE, null, ex);
-            } catch (IdException ex) {
+            } 
+            catch (IdException ex) 
+            {
              Logger.getLogger(GetPresenceToLessonServlet.class.getName()).log(Level.SEVERE, null, ex);
-         } catch (ClassNotFoundException ex) {
+            }
+            catch (ClassNotFoundException ex) 
+            {
              Logger.getLogger(GetPresenceToLessonServlet.class.getName()).log(Level.SEVERE, null, ex);
-         }
+            }
 
         }
      

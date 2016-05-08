@@ -96,60 +96,75 @@ function changePresenza(id,lezione) {
     
 }
   
-function selectedItemDot(){
+function selectedItemDot()
+{
     $("#panelDiv").hide();
-  $("#resulthead th").remove();
-    $("#resultbody tr").remove();
-    selected = $("#Corsoprofessore option:selected").val();
-    if (selected !== "default") //se il valore della select Ã¨ default non mostriamo il div contenente le informazioni delle date delle lezioni
-    { $("#resulthead th").remove();
+    $("#resulthead th").remove();
     $("#resultbody tr").remove();
         selected = $("#Corsoprofessore option:selected").val();
-        $("#panelDiv").show();
-        //metodo per stampare le date
-        $.getJSON("GetAllLessonServlet", {fkCourse: selected}, function (data1) {
-             dot="<th> Dottorandi </th>"
-               $("#resulthead ").append(dot);
-            $.each(data1.lessons, function (index, value5) {
-              
-              data1=value5.data;
-              
-               dottorando11 = " <th> " +data1 + " </th>  ";
-              
-                         
-                $("#resulthead").append(dottorando11)
-                
-                
-                
-                ;});});
-        $.getJSON("GetPresenceDottorandi", {idCourse: selected}, function (data) {
-            $.each(data.presence, function (index, value) {
-                dottorando = "<tr id=" + index + "> <td> " + value.name + " " + value.surname + " </td>  </tr>";
-                $("#resultbody ").append(dottorando);
-                id = value.secondaryEmail;
- 
-                $.getJSON("GetPresenceToLesson", {idCourse: selected, fkPhdstudent: id}, function (data) {
-                    $.each(data.presence, function (index2, value2) {
-                        lezione = value2.fkLesson;
-                        dottorandopre = "<td> <input type='checkbox' value=" + true + "   id=" + id + "  class='checkboxclass'  ";
- 
-                        if (value2.isPresent === true) {
-                            dottorandopre += "checked";
-                        }
+        if (selected !== "default") //se il valore della select è default non mostriamo il div contenente le informazioni delle date delle lezioni
+        { 
+            $("#resulthead th").remove();
+            $("#resultbody tr").remove();   
+            selected = $("#Corsoprofessore option:selected").val();
+            $("#panelDiv").show();
+            //metodo per stampare le date
+             var opened_lesson;
+             var closed_lesson;
+             var id_Phd;
+             /*
+              * con la chiamata alla servlet GetAllLessonServlet recupero tutte le lezioni del corso selezionato. In più ottengo anche l'id dell'attore che effettua la chiamata
+              * nel ciclo effetto la costruzione della tabella filtrando le lezioni in base al loro stato(in corso/terminata)
+              * Inizialmente l'attore è presente a tutte le lezioni. Infatti con la chiamata alla Servlet GetPresenceToLesson effettuo l'operazione di filtraggio
+              * 
+              */ 
+            $.getJSON("GetAllLessonServlet", {fkCourse: selected}, function (data1) 
+            {
+                var head="<tr><th> Lezioni Aperte: </th><th>Data</th><th>Aula</th><th>Presenza</th></tr>";
+                closed_lesson="<tr><th> Lezioni Chiuse: </th></tr>";
+                id_Phd=data1.dottorando;
+                $("#resulthead ").append(head);
+                today=new Date();
+                $.each(data1.lessons, function (index, value5) 
+                {
+                    lesson_id=value5.idLesson; 
+                    lesson_name=value5.name;
+                    lesson_class=value5.classroom;
+                    lesson_date=value5.data;
+                    lesson_start=value5.startTime;
+                    lesson_end=value5.endTime;
+                    lesson_start_date=get_Date(lesson_date,lesson_start);
+                    lesson_end_date=get_Date(lesson_date,lesson_end);
+                    result_line="<tr><td>"+lesson_name+"</td><td>"+date_format(lesson_date)+" "+lesson_start+"-"+lesson_end+"</td><td>"+lesson_class+"</td>";
+                    checkbox="<td> <input type='checkbox' value='"+id_Phd+ "'   id='" + lesson_id+ "' class='checkboxclass' onchange='changePresenza("+'value'+","+lesson_id+")' checked ";//></td></tr>";
+                    result_line=result_line+checkbox;                                             
+                    if(!isAfterNow(lesson_start_date) && isAfterNow(lesson_end_date))
+                    {
+                        opened_lesson=opened_lesson+result_line+"></td></tr>";
                        
-                        dottorandopre += " disabled></td>";
-                        $("#" + index).append(dottorandopre);
- 
+                    }
+                    else closed_lesson=closed_lesson+result_line+"disabled></td></tr>";
+                    
+                
+                });
+                body=opened_lesson+closed_lesson;
+                $("#resultbody ").append(body);
+                $.getJSON("GetPresenceToLesson", {idCourse: selected, fkPhdstudent: id_Phd}, function (data)
+                {
+                    $.each(data.presence, function (index2, value2) 
+                    {
+                        lez_id = value2.fkLesson;
+                        if (!value2.isPresent === true) 
+                        {
+                             $("#"+lez_id).removeAttr("checked");
+                        } 
                     });
  
-                });
- 
-            });
-        });
- 
- 
-    }
-    }
+                });                
+            });             
+        }
+}
+    
 
 //Metodo utilizzato per chiamare tutte le lezioni create da un determinato Professore per il corso selezionato
 function selectedItem2(){  
@@ -254,7 +269,11 @@ function selectedItem2(){
     
 }
 
-
+/* metodo per la gestione delle date.
+ * crea una data partendo da due stringhe
+ * @giorno 
+ * @ora 
+ */
 function get_Date( giorno, ora)
 {
     if(ora.length ===7) 
@@ -277,10 +296,25 @@ function get_Date( giorno, ora)
     return data;
 }
 
+/*
+ * Confronta la data con quella attuale
+ * @data
+ * return true se la data attuale è minore di quella passata 
+ * false altrimenti
+ */
 function isAfterNow(data)
 {
     var now=new Date().getTime();
     if(data.getTime() < now)
         return false;
     else return true; 
+}
+/*
+ * metodo che permette di visualizzare la data nel formato italiano
+ */
+function date_format(date)
+{
+    var month= date.substring(5,7);
+    var day=date.substring(8);
+    return day+"-"+month+"-"+date.substring(0,4);
 }
