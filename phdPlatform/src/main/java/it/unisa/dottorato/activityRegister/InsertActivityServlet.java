@@ -47,12 +47,10 @@ public class InsertActivityServlet extends HttpServlet {
         PrintWriter out = response.getWriter();
         
         try {
-            String name = request.getParameter("name");
-            String activityId = request.getParameter("activityId");
+            String name = request.getParameter("name");            
             String description =  request.getParameter("description");
             String startDateTime = request.getParameter("startDateTime");
             String endDateTime = request.getParameter("endDateTime");
-            String totalTime = request.getParameter("totalTime");
             String typology = request.getParameter("typology");
             String fkPhdStudent = request.getParameter("fkPhdStudent");
 
@@ -69,11 +67,10 @@ public class InsertActivityServlet extends HttpServlet {
             java.sql.Timestamp endTime = new Timestamp(formatter.parse(endDateTime).getTime());
             activity.setStartDateTime(startTime);
             activity.setEndDateTime(endTime);
-            activity.setTotalTime(Float.parseFloat(totalTime));
             activity.setTypology(typology);
             activity.setFkPhdStudent(fkPhdStudent);
 
-            ActivityRegisterManager.getInstance().updateActivity(activity, activityId);
+            ActivityRegisterManager.getInstance().insertActivity(activity);
             result.put("result", true);
 
             out.println("<script type=\"text/javascript\">");

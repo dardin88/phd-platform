@@ -27,7 +27,7 @@ import org.json.JSONObject;
  *
  * @author Ernesto
  */
-@WebServlet(name = "UpdateActivityServlet", urlPatterns = {"/UpdateActivityServlet"})
+@WebServlet(name = "UpdateActivity", urlPatterns = {"/UpdateActivity"})
 public class UpdateActivityServlet extends HttpServlet {
 
     /**
@@ -50,12 +50,12 @@ public class UpdateActivityServlet extends HttpServlet {
         
         try {
             String name = request.getParameter("name");
+            int idActivity = Integer.parseInt(request.getParameter("idActivity"));
             String description =  request.getParameter("description");
             String startDateTime = request.getParameter("startDateTime");
             String endDateTime = request.getParameter("endDateTime");
             String totalTime = request.getParameter("totalTime");
             String typology = request.getParameter("typology");
-            String fkPhdStudent = request.getParameter("fkPhdStudent");
 
 
             HttpSession session = request.getSession();
@@ -70,11 +70,9 @@ public class UpdateActivityServlet extends HttpServlet {
             java.sql.Timestamp endTime = new Timestamp(formatter.parse(endDateTime).getTime());
             activity.setStartDateTime(startTime);
             activity.setEndDateTime(endTime);
-            activity.setTotalTime(Float.parseFloat(totalTime));
             activity.setTypology(typology);
-            activity.setFkPhdStudent(fkPhdStudent);
 
-            ActivityRegisterManager.getInstance().updateActvity(activity);
+            ActivityRegisterManager.getInstance().updateActivity(idActivity, activity);
             result.put("result", true);
 
             out.println("<script type=\"text/javascript\">");
