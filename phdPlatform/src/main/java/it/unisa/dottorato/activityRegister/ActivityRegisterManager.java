@@ -11,6 +11,7 @@ import java.io.IOException;
 import java.sql.Connection;
 import java.sql.ResultSet;
 import java.sql.SQLException;
+import java.sql.Timestamp;
 import java.util.ArrayList;
 import java.util.concurrent.TimeUnit;
 
@@ -50,7 +51,7 @@ public class ActivityRegisterManager {
      * @throws SQLException
      * @throws IOException 
      */
-    public void insertActvity(Activity activity) throws SQLException, IOException {
+    public void insertActivity(Activity activity) throws SQLException, IOException {
        Connection connect = null;
        try{
               connect = DBConnection.getConnection();
@@ -68,7 +69,7 @@ public class ActivityRegisterManager {
                     + "'"+activity.getFkPhdStudent()+"'" 
                     + ")";
             
-            System.out.println(stingSQL);
+            //System.out.println(stingSQL);
             //esegue query
             Utility.executeOperation(connect, stingSQL);
 
@@ -95,7 +96,7 @@ public class ActivityRegisterManager {
               String stringSQL = "SELECT * FROM " 
                     + ActivityRegisterManager.TABLE_ACTIVITY 
                     + " WHERE fkPhdStudent='"+idStudent+"'";            
-            System.out.println(stringSQL);
+            //System.out.println(stringSQL);
            
             //esegue query
             ResultSet result = Utility.queryOperation(connect, stringSQL);
@@ -141,10 +142,10 @@ public class ActivityRegisterManager {
                       + "description ='" + newActivity.getDescription() +"',"
                        + "startDateTime ='" + newActivity.getStartDateTime() +"',"
                         + "endDateTime ='" + newActivity.getEndDateTime() +"'," 
-                        + "totalTime ='" + newActivity.getTotalTime() +"',"
+                        + "totalTime ='" + calculateTotTime(newActivity.getStartDateTime(),newActivity.getEndDateTime())+"',"
                          + "typology ='" + newActivity.getTypology() +"' "
                          + "WHERE idActivity = " + oldActivityID;
-             System.out.println(stringSQL);
+            //System.out.println(stringSQL);
 
             Utility.executeOperation(connect, stringSQL);
 
@@ -168,7 +169,7 @@ public class ActivityRegisterManager {
                 String stringSQL = "DELETE FROM " 
                         + ActivityRegisterManager.TABLE_ACTIVITY 
                         + " WHERE idActivity = " + idActivity;
-                 System.out.println(stringSQL);
+               //System.out.println(stringSQL);
 
                 if(Utility.executeOperation(connect, stringSQL) == 0)
                     throw new Exception();
@@ -184,11 +185,8 @@ public class ActivityRegisterManager {
      * @param endDateTime 
      * @return durate del'attività
      */
-    private float calculateTotTime(java.util.Date startDateTime, java.util.Date endDateTime) {
+    private float calculateTotTime(Timestamp startDateTime, Timestamp endDateTime) {
         long diffInMillies = endDateTime.getTime() - startDateTime.getTime();
         return TimeUnit.MINUTES.convert(diffInMillies,TimeUnit.MILLISECONDS);
-    }
-    
-
-   
+    }  
  }

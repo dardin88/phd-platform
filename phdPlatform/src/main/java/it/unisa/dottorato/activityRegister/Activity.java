@@ -47,7 +47,7 @@ public class Activity {
         this.description = description;
     }
 
-    public Date getStartDateTime() {
+    public Timestamp getStartDateTime() {
         return startDateTime;
     }
 
@@ -55,7 +55,7 @@ public class Activity {
         this.startDateTime = startDateTime;
     }
 
-    public Date getEndDateTime() {
+    public Timestamp getEndDateTime() {
         return endDateTime;
     }
 
