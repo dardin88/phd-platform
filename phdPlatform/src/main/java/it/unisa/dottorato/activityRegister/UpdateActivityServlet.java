@@ -4,10 +4,14 @@
  * and open the template in the editor.
  */
 package it.unisa.dottorato.activityRegister;
+
 import it.unisa.dottorato.account.PhdStudent;
 import java.io.IOException;
 import java.io.PrintWriter;
 import java.sql.SQLException;
+import java.sql.Timestamp;
+import java.text.ParseException;
+import java.text.SimpleDateFormat;
 import java.util.logging.Level;
 import java.util.logging.Logger;
 import javax.servlet.ServletException;
@@ -18,16 +22,14 @@ import javax.servlet.http.HttpServletResponse;
 import javax.servlet.http.HttpSession;
 import org.json.JSONException;
 import org.json.JSONObject;
-import java.sql.Timestamp;
-import java.text.ParseException;
-import java.text.SimpleDateFormat;
 
-/**Servlet incaricata a inserire un'attività nel registro delle attività di un dottorando
+/**Servlet incaricata a modificare un'attività nel registro delle attività di un dottorando
  *
  * @author Ernesto
  */
-@WebServlet(name = "InsertActivity", urlPatterns = {"/InsertActivity"})
-public class InsertActivityServlet extends HttpServlet {
+@WebServlet(name = "UpdateActivityServlet", urlPatterns = {"/UpdateActivityServlet"})
+public class UpdateActivityServlet extends HttpServlet {
+
     /**
      * Processes requests for both HTTP <code>GET</code> and <code>POST</code>
      * methods.
@@ -36,11 +38,11 @@ public class InsertActivityServlet extends HttpServlet {
      * @param response servlet response
      * @throws ServletException if a servlet-specific error occurs
      * @throws IOException if an I/O error occurs
-     * @throws java.sql.SQLException
      * @throws java.text.ParseException
+     * @throws java.sql.SQLException
      */
     protected void processRequest(HttpServletRequest request, HttpServletResponse response)
-            throws ServletException, IOException, SQLException, ParseException{
+            throws ServletException, IOException, ParseException, SQLException {
         
         response.setContentType("text/html;charset=UTF-8");
         JSONObject result = new JSONObject();
@@ -48,7 +50,6 @@ public class InsertActivityServlet extends HttpServlet {
         
         try {
             String name = request.getParameter("name");
-            String activityId = request.getParameter("activityId");
             String description =  request.getParameter("description");
             String startDateTime = request.getParameter("startDateTime");
             String endDateTime = request.getParameter("endDateTime");
@@ -73,7 +74,7 @@ public class InsertActivityServlet extends HttpServlet {
             activity.setTypology(typology);
             activity.setFkPhdStudent(fkPhdStudent);
 
-            ActivityRegisterManager.getInstance().updateActivity(activity, activityId);
+            ActivityRegisterManager.getInstance().updateActvity(activity);
             result.put("result", true);
 
             out.println("<script type=\"text/javascript\">");
@@ -87,8 +88,8 @@ public class InsertActivityServlet extends HttpServlet {
             Logger.getLogger(InsertActivityServlet.class.getName()).log(Level.SEVERE, null, ex);
         }
     }
-    
-// <editor-fold defaultstate="collapsed" desc="HttpServlet methods. Click on the + sign on the left to edit the code.">
+
+    // <editor-fold defaultstate="collapsed" desc="HttpServlet methods. Click on the + sign on the left to edit the code.">
     /**
      * Handles the HTTP <code>GET</code> method.
      *
@@ -102,8 +103,8 @@ public class InsertActivityServlet extends HttpServlet {
             throws ServletException, IOException {
         try {
             processRequest(request, response);
-        } catch (SQLException | ParseException ex) {
-            Logger.getLogger(InsertActivityServlet.class.getName()).log(Level.SEVERE, null, ex);
+        } catch (ParseException | SQLException ex) {
+            Logger.getLogger(UpdateActivityServlet.class.getName()).log(Level.SEVERE, null, ex);
         }
     }
 
@@ -120,8 +121,8 @@ public class InsertActivityServlet extends HttpServlet {
             throws ServletException, IOException {
         try {
             processRequest(request, response);
-        } catch (SQLException | ParseException ex) {
-            Logger.getLogger(InsertActivityServlet.class.getName()).log(Level.SEVERE, null, ex);
+        } catch (ParseException | SQLException ex) {
+            Logger.getLogger(UpdateActivityServlet.class.getName()).log(Level.SEVERE, null, ex);
         }
     }
 
