@@ -1268,6 +1268,7 @@ public class CalendarManager {
                 lesson.setClassroom(result.getString("classroom"));
                 lesson.setDescription(result.getString("desription"));                             
                 lesson.setFK_course(result.getInt("fkCourse"));
+                lesson.setClosed(result.getBoolean("closed"));
                 
                 lessons.add(lesson);
             }
@@ -1312,6 +1313,29 @@ public class CalendarManager {
             DBConnection.releaseConnection(connect);
         }
          return courses;
+    }
+     
+     public synchronized void setClosedLesson(int idLesson) throws SQLException {
+        Connection connect=null;
+        try{
+            connect = DBConnection.getConnection();
+            /*
+             * Prepariamo la stringa SQL per modificare un record 
+             * nella tabella seminar
+             */
+            String tSql = "UPDATE "
+                    + CalendarManager.TABLE_LESSON
+                    + " set closed = " 
+                    + true
+                    + " WHERE idLesson = "
+                    + idLesson;           
+
+            Utility.executeOperation(connect, tSql);
+            connect.commit();
+            
+        }finally {
+            DBConnection.releaseConnection(connect);
+        } 
     }
 }
 

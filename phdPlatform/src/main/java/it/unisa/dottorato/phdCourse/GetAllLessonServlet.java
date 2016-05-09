@@ -1,6 +1,7 @@
 package it.unisa.dottorato.phdCourse;
 
-//import it.unisa.integrazione.model.Person;
+import it.unisa.dottorato.account.Account;
+import it.unisa.dottorato.account.PhdStudent;
 import it.unisa.dottorato.exception.IdException;
 import java.io.IOException;
 import java.io.PrintWriter;
@@ -45,18 +46,25 @@ public class GetAllLessonServlet extends HttpServlet {
             try {
                 
                 HttpSession session = request.getSession();
-                 int number = Integer.parseInt(request.getParameter("fkCourse"));// mi semplifico la cosa mi asso l'intero di id
+                Account acc= (Account) session.getAttribute("account");
+                int number = Integer.parseInt(request.getParameter("fkCourse"));// mi semplifico la cosa mi asso l'intero di id
                
                 ArrayList<Lesson> lessons = (ArrayList<Lesson>) CalendarManager.getInstance().getAllLessonOf(number); // da modificare ancora
                 if(lessons.isEmpty()){
                     result.put("result", false);
                     out.write(result.toString());
                 }
-                else{
+                else
+                {
                     result.put("result", true);
                     JSONArray resultArray = new JSONArray(lessons);
                     result.put("lessons", resultArray);
                     //Logger.getLogger(GetAllLessonServlet.class.getName()).info(result.toString());
+                    if(acc.getTypeAccount().equals("phdstudent"))
+                    {
+                        PhdStudent loggedPerson=(PhdStudent) acc;
+                        result.put("dottorando", loggedPerson.getSecondaryEmail());
+                    }
                     out.write(result.toString());
                 }
                 

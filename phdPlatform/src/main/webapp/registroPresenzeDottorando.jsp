@@ -67,7 +67,7 @@
                             <div class="form-group">
                                 
               
-     <FORM ACTION="Submit" METHOD="POST"> 
+     <!--<FORM ACTION="Submit" METHOD="POST"> -->
                                 <label  > Seleziona un corso</label>
                                 
                                 <select name="Corsoprofessore" class="form-control" id="Corsoprofessore"  onchange="selectedItemDot()" >
@@ -79,7 +79,7 @@
                                 </select>
                              
            
-     </form>
+    <!-- </form>-->
                                  
                             </div>
                         </div>
@@ -135,7 +135,7 @@
         <script src="assets/js/xenon-custom.js"></script>    
     </body>
     <%}else{%>
-                <c:redirect url="index.jsp" />
+                <c:redirect url="registroPresenze.jsp" />
           <%  }
     %>
             </c:when>
