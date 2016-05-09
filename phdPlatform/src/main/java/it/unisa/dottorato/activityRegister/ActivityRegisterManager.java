@@ -9,21 +9,22 @@ import it.unisa.dottorato.utility.Utility;
 import it.unisa.integrazione.database.DBConnection;
 import java.io.IOException;
 import java.sql.Connection;
-import java.sql.Date;
+import java.sql.ResultSet;
 import java.sql.SQLException;
+import java.util.ArrayList;
 import java.util.concurrent.TimeUnit;
 
 /**
  *
- * @author Liliana
+ * @author Liliana Annunziata
  */
 public class ActivityRegisterManager {
     private static ActivityRegisterManager instance;
-     private static final String TABLE_ACTIVITY = "activity";
-     /**
-     * Il costruttore della classe e' dichiarato privato, per evitare
-     * l'istanziazione di oggetti della classe .
-     */
+    private static final String TABLE_ACTIVITY = "activity";
+    /**
+    * Il costruttore della classe e' dichiarato privato, per evitare
+    * l'istanziazione di oggetti della classe .
+    */
     private ActivityRegisterManager(){
         super();
     }
@@ -43,13 +44,18 @@ public class ActivityRegisterManager {
         return instance;
 
     }
-    public void insertActvity(Activity activity) throws 
-           SQLException, IOException {
+    /**
+     * Metodo che inserisce un'attività nel regitro
+     * @param activity attività da inserire
+     * @throws SQLException
+     * @throws IOException 
+     */
+    public void insertActvity(Activity activity) throws SQLException, IOException {
        Connection connect = null;
-            try{
-                connect = DBConnection.getConnection();
-           
-            String stingSQL = "INSERT INTO "
+       try{
+              connect = DBConnection.getConnection();
+           //preparazione query per inserimento
+               String stingSQL = "INSERT INTO "
                     + ActivityRegisterManager.TABLE_ACTIVITY 
                     + "(name, description, startDateTime, endDateTime, totalTime, typology, fkPhdStudent)"
                     + "VALUES ("
@@ -62,16 +68,116 @@ public class ActivityRegisterManager {
                     + "'"+activity.getFkPhdStudent()+"'" 
                     + ")";
             
-            
+            System.out.println(stingSQL);
             //esegue query
             Utility.executeOperation(connect, stingSQL);
 
             connect.commit();
         }finally {
-            DBConnection.releaseConnection(connect);
+           DBConnection.releaseConnection(connect);
         }
    }
+/**
+ * metodo che restituisce il registro delle attività di uno studente
+ * @param idStudent id dello studente 
+ * @return lista delle attività del registro
+ * @throws SQLException
+ * @throws IOException 
+ */
+    public ArrayList<Activity> getActivityRegisterOf(String idStudent) throws SQLException, IOException {
+       
+       Connection connect = null;
+       ArrayList<Activity> activityList = new ArrayList<Activity>();
+       
+       try{
+              connect = DBConnection.getConnection();
+              //Preparazione query per recupero della lista delle attività di un utente
+              String stringSQL = "SELECT * FROM " 
+                    + ActivityRegisterManager.TABLE_ACTIVITY 
+                    + " WHERE fkPhdStudent='"+idStudent+"'";            
+            System.out.println(stringSQL);
+           
+            //esegue query
+            ResultSet result = Utility.queryOperation(connect, stringSQL);
+           
+            while (result.next()) {
+                
+                Activity activity = new Activity();
+                activity.setIdActivity(result.getInt("idActivity"));
+                activity.setName(result.getString("name"));
+                activity.setDescription(result.getString("description"));
+                activity.setStartDateTime(result.getTimestamp("startDateTime"));
+                activity.setEndDateTime(result.getTimestamp("endDateTime"));
+                activity.setTotalTime(result.getFloat("totalTime"));
+                activity.setTypology(result.getString("typology"));
+                activity.setFkPhdStudent(result.getString("fkPhdStudent"));
 
+                activityList.add(activity);
+            }
+           
+          }finally {
+           DBConnection.releaseConnection(connect);
+        } 
+       return activityList;
+    }
+
+    /**
+     * aggiorna i campi dell'attività che l'utente desidera modificato
+     * @param oldActivityID id dell'attività da modificare
+     * @param newActivity attività con i campi modificati
+     * @throws SQLException
+     * @throws IOException 
+     */
+    public void updateActivity(int oldActivityID, Activity newActivity) throws SQLException, IOException{
+        Connection connect = null;
+            try{
+              connect = DBConnection.getConnection();
+           
+            //preparazione query per aggiornamento
+            String stringSQL = "UPDATE " 
+                    + ActivityRegisterManager.TABLE_ACTIVITY 
+                    + " SET "
+                     + "name ='" + newActivity.getName() +"',"
+                      + "description ='" + newActivity.getDescription() +"',"
+                       + "startDateTime ='" + newActivity.getStartDateTime() +"',"
+                        + "endDateTime ='" + newActivity.getEndDateTime() +"'," 
+                        + "totalTime ='" + newActivity.getTotalTime() +"',"
+                         + "typology ='" + newActivity.getTypology() +"' "
+                         + "WHERE idActivity = " + oldActivityID;
+             System.out.println(stringSQL);
+
+            Utility.executeOperation(connect, stringSQL);
+
+            connect.commit();
+            }finally {
+                DBConnection.releaseConnection(connect);
+        }
+    }
+    /**
+     * Cancella un'attvità dal registro dell'utente
+     * @param idActivity id dell'attività da modificare
+     * @throws SQLException
+     * @throws Exception lancia un'eccezione se non viene cancellata nessuna attività
+     */
+    public void deleteActivity(int idActivity) throws SQLException, Exception{
+        Connection connect = null;
+            try{
+                connect = DBConnection.getConnection();
+
+                //Preparazione query per la cancellazione
+                String stringSQL = "DELETE FROM " 
+                        + ActivityRegisterManager.TABLE_ACTIVITY 
+                        + " WHERE idActivity = " + idActivity;
+                 System.out.println(stringSQL);
+
+                if(Utility.executeOperation(connect, stringSQL) == 0)
+                    throw new Exception();
+               
+                connect.commit();
+            }finally {
+                DBConnection.releaseConnection(connect);
+        }
+    }
     /**
      * Calcolo delle ore dedicate ad una attivita'
      * @param startDateTime 
@@ -79,7 +185,7 @@ public class ActivityRegisterManager {
      * @return durate del'attività
      */
     private float calculateTotTime(java.util.Date startDateTime, java.util.Date endDateTime) {
-        long diffInMillies = startDateTime.getTime() - endDateTime.getTime();
+        long diffInMillies = endDateTime.getTime() - startDateTime.getTime();
         return TimeUnit.MINUTES.convert(diffInMillies,TimeUnit.MILLISECONDS);
     }
     

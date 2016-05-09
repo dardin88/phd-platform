@@ -5,7 +5,7 @@
  */
 package it.unisa.dottorato.activityRegister;
 
-import java.io.Serializable;
+import java.sql.Timestamp;
 import java.util.Date;
 
 /**
@@ -17,8 +17,8 @@ public class Activity {
     private int idActivity;
     private String name;
     private String description;
-    private Date startDateTime;
-    private Date endDateTime;
+    private Timestamp startDateTime;
+    private Timestamp endDateTime;
     private float totalTime;
     private String typology;
     private String fkPhdStudent;    
@@ -51,7 +51,7 @@ public class Activity {
         return startDateTime;
     }
 
-    public void setStartDateTime(Date startDateTime) {
+    public void setStartDateTime(Timestamp startDateTime) {
         this.startDateTime = startDateTime;
     }
 
@@ -59,7 +59,7 @@ public class Activity {
         return endDateTime;
     }
 
-    public void setEndDateTime(Date endDateTime) {
+    public void setEndDateTime(Timestamp endDateTime) {
         this.endDateTime = endDateTime;
     }
 
@@ -87,5 +87,15 @@ public class Activity {
         this.fkPhdStudent = fkPhdStudent;
     }
     
-
+    @Override
+    public String toString(){
+        return this.getIdActivity() 
+                +" " + this.getName()
+                +" " + this.getDescription()
+                +" " + this.getStartDateTime()
+                +" " + this.getEndDateTime()
+                +" " + this.getTotalTime()
+                +" " + this.getTypology()
+                +" " + this.getFkPhdStudent();
+    }
 }
