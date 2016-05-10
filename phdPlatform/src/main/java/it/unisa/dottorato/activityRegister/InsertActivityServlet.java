@@ -40,50 +40,52 @@ public class InsertActivityServlet extends HttpServlet {
      * @throws java.text.ParseException
      */
     protected void processRequest(HttpServletRequest request, HttpServletResponse response)
-            throws ServletException, IOException, SQLException, ParseException{
-        
+            throws ServletException, IOException{
+         
         response.setContentType("text/html;charset=UTF-8");
         JSONObject result = new JSONObject();
         PrintWriter out = response.getWriter();
-        
+                        
         try {
-            String name = request.getParameter("name");            
-            String description =  request.getParameter("description");
-            String startDateTime = request.getParameter("startDateTime");
-            String endDateTime = request.getParameter("endDateTime");
-            String typology = request.getParameter("typology");
-            String fkPhdStudent = request.getParameter("fkPhdStudent");
+            try{
+                String name = request.getParameter("name");
+                String description =  request.getParameter("description");
+                String startDateTime = request.getParameter("startDateTime");
+                String endDateTime = request.getParameter("endDateTime");
+                String typology = request.getParameter("typology");
+
+                HttpSession session = request.getSession();
+                PhdStudent loggedPerson = (PhdStudent) session.getAttribute("account");  // da verificare
+
+                Activity activity = new Activity();
 
 
-            HttpSession session = request.getSession();
-            PhdStudent loggedPerson = (PhdStudent) session.getAttribute("account");  // da verificare
+                SimpleDateFormat formatter = new SimpleDateFormat("yyyy-MM-dd HH:mm");
+                java.sql.Timestamp startTime = new Timestamp(formatter.parse(startDateTime).getTime());
+                java.sql.Timestamp endTime = new Timestamp(formatter.parse(endDateTime).getTime());
 
-            Activity activity = new Activity();
-            activity.setName(name);
-            activity.setDescription(description);
-            
-            SimpleDateFormat formatter = new SimpleDateFormat("yyyy-MM-dd HH:mm");
-            java.sql.Timestamp startTime = new Timestamp(formatter.parse(startDateTime).getTime());
-            java.sql.Timestamp endTime = new Timestamp(formatter.parse(endDateTime).getTime());
-            activity.setStartDateTime(startTime);
-            activity.setEndDateTime(endTime);
-            activity.setTypology(typology);
-            activity.setFkPhdStudent(fkPhdStudent);
+                activity.setName(name);
+                activity.setDescription(description);
+                activity.setStartDateTime(startTime);
+                activity.setEndDateTime(endTime);
+                activity.setTypology(typology);
+                activity.setFkPhdStudent(loggedPerson.getfkAccount());
 
-            ActivityRegisterManager.getInstance().insertActivity(activity);
-            result.put("result", true);
+                ActivityRegisterManager.getInstance().insertActivity(activity);
 
-            out.println("<script type=\"text/javascript\">");
-            out.println("alert('L'attività è stata inserita.');");
-            out.println("location='profileNuovo.jsp';");
-            out.println("</script>");
+                result.put("result", true);
 
+                System.out.println(result.toString());
+            } catch (JSONException | SQLException | ParseException ex) {
+                     Logger.getLogger(InsertActivityServlet.class.getName()).log(Level.SEVERE, null, ex);
+                     result.put("result", false);
+            } 
             out.write(result.toString());
-
-        } catch (JSONException ex) {
-            Logger.getLogger(InsertActivityServlet.class.getName()).log(Level.SEVERE, null, ex);
+        } catch (JSONException ex1) {
+                     Logger.getLogger(InsertActivityServlet.class.getName()).log(Level.SEVERE, null, ex1);
         }
-    }
+    } 
+
     
 // <editor-fold defaultstate="collapsed" desc="HttpServlet methods. Click on the + sign on the left to edit the code.">
     /**
@@ -97,11 +99,8 @@ public class InsertActivityServlet extends HttpServlet {
     @Override
     protected void doGet(HttpServletRequest request, HttpServletResponse response)
             throws ServletException, IOException {
-        try {
             processRequest(request, response);
-        } catch (SQLException | ParseException ex) {
-            Logger.getLogger(InsertActivityServlet.class.getName()).log(Level.SEVERE, null, ex);
-        }
+        
     }
 
     /**
@@ -115,11 +114,7 @@ public class InsertActivityServlet extends HttpServlet {
     @Override
     protected void doPost(HttpServletRequest request, HttpServletResponse response)
             throws ServletException, IOException {
-        try {
             processRequest(request, response);
-        } catch (SQLException | ParseException ex) {
-            Logger.getLogger(InsertActivityServlet.class.getName()).log(Level.SEVERE, null, ex);
-        }
     }
 
     /**
