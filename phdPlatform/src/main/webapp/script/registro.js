@@ -178,7 +178,6 @@ function selectedItemDot()
         }
 }
     
-
 //Metodo utilizzato per chiamare tutte le lezioni create da un determinato Professore per il corso selezionato
 function selectedItem2(){  
     var nButtons=0;
@@ -229,13 +228,14 @@ function selectedItem2(){
                                    
                     $.each(data.presence, function (index2, value2) {
                         flag = false;
-                        lezione = value2.fkLesson;
+                        lezione = value2.fkLesson;                        
                         for(var p=0;p<isLessons.lessons.length;p++)
                         {
-                            if(isLessons.lessons[p].idLesson==lezione)
+                            if(isLessons.lessons[p].idLesson === lezione)
                             {
                                flag = true;
                                isClosed = isLessons.lessons[p].closed;
+                               endDate = get_Date(isLessons.lessons[p].data,isLessons.lessons[p].endTime);
                                break;
                             }
                         }
@@ -249,7 +249,15 @@ function selectedItem2(){
                                 }
                                 else
                                 {
-                                    app = "<td class='" + lezione + " celle'> <input type = 'button' id = " + lezione + " onclick = 'archiviaPresenze(" + 'id' + ")' value = 'Chiudi Sessione' class = 'btn btn-blue'> </td>";                                
+                                    app = "<td class='" + lezione + " celle'> <input type = 'button' id = " + lezione + " onclick = 'archiviaPresenze(" + 'id' + ")' value = 'Chiudi Sessione' class = 'btn btn-blue' ";                                
+                                    if(isAfterNow(endDate))
+                                    {
+                                        app += "disabled > </td>";
+                                    }
+                                    else
+                                    {
+                                        app += "> </td>";
+                                    }                                    
                                     $("#resultBotton ").append(app);
                                 }                                                          
                             }
@@ -260,6 +268,10 @@ function selectedItem2(){
                             }
                             else{
                                 dottorandopre = "<td class='" + lezione + " celle'><input type='checkbox' value='true'   id=" + td + " onclick='changePresenza(" + 'id' + "," + lezione + ")' class='checkboxclass' ";
+                                if(isAfterNow(endDate))
+                                    {
+                                        dottorandopre += "disabled ";
+                                    }
                             }
                                                  
                             if (value2.isPresent === true) {
@@ -287,21 +299,17 @@ function selectedItem2(){
  */
 
 function changeSessioni() {  
-   if(document.getElementById("sessioni").checked){
-       
-       var x = document.getElementsByClassName("archiviata");
-       
-       for (i = 0; i < x.length; i++) {
-            x[i].style.display = "";
-        }
+    
+    if($("#sessioni").is(':checked')){       
+       $(".archiviata").each(function(index,elem){
+           $(elem).css("display","");
+       });
    }
    else
    {
-       var x = document.getElementsByClassName("archiviata");
-       
-       for (i = 0; i < x.length; i++) {
-            x[i].style.display = "none";
-        }
+       $(".archiviata").each(function(index,elem){
+           $(elem).css("display","none");
+       });       
    }
 }
 
@@ -322,18 +330,26 @@ function archiviaPresenze(idLesson) {
                 $("#titleInfo").html("Operazione eseguita con successo!");
                 $("#descriptionInfo").html("Sessione chiusa - presenze archiviate.");
                 
-                var x = document.getElementsByClassName(idLesson);
-       
-                for (i = 0; i < x.length; i++) {
+                $("."+idLesson).each(function(index,elem){
                     
-                    oldClass = x[i].getAttribute("class");
+                    oldClass = $(elem).attr("class");
                     newClass = oldClass+" archiviata";
-                    x[i].className = newClass;
-                    $("#"+idLesson).remove();
-                    if(x[i].tagName === "TD"){                        
-                        x[i].childNodes[0].disabled = true;  
+                    $(elem).attr("class",newClass);
+                    
+                    if($(elem).prop("tagName") === "TD"){
+                        
+                        if($(elem).find("INPUT").attr("id") === idLesson)
+                        {
+                            $(elem).find("INPUT").css("display","none");
+                        }
+                        else
+                        {
+                           $(elem).find("INPUT").attr("disabled",true); 
+                        }
+                        
                     } 
-                }
+                                        
+                });
                 
                 changeSessioni();
                 
