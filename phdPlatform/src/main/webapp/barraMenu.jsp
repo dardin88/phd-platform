@@ -66,8 +66,17 @@
                     </ul>
 
                     
-                                     
-
+                          <%}  if (loggedPerson.getTypeAccount().equals("phdstudent")) { %>           
+     <ul class="navbar-nav">
+                    <li id="funzionalitaBase">
+                          <a href="StatsStudent.jsp">
+                          <i class="linecons-wallet"></i>
+                             <span class="title">Statistiche Studente</span>
+                          </a>
+                    </li>
+                    </ul>
+                          
+                          
 
                     <%}  if (loggedPerson.isAdmin()) { %>
                     <ul class="navbar-nav">
