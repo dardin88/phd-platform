@@ -40,12 +40,18 @@
                                 alert('Attività '+idActivity+' eliminata');
                         }
                     );                
-                $("#mytable").find("tr:gt(0)").remove();
+                //$("#mytable").find("tr:gt(0)").remove();
+                $('#mytable tbody').remove();
                 getActivityRegister(email);    
             }
             
+            function redirectToInsert(){
+                sessionStorage.setItem("insertFlag", true);
+                location.href = 'insertEditActivity.jsp';
+            }
+            
             function redirectToEdit(string){
-                
+                sessionStorage.setItem("insertFlag", false);
                 sessionStorage.setItem("name", string.split(',')[0]);
                 sessionStorage.setItem("description", string.split(',')[1]);
                 sessionStorage.setItem("startDateTime", string.split(',')[2]);
@@ -63,9 +69,9 @@
                             var table = $('#mytable');                           
                             
                             $.each(data.activities, function(rowIndex, r) {
-                                var row = $("<tr/>");                             
+                                var row = $("<tr/></tbody>");                             
                                                                 
-                                row.append($("<td/>").text(r.name));
+                                row.append($("<tbody><td/>").text(r.name));
                                 row.append($("<td/>").text(r.description));
                                 row.append($("<td/>").text(r.startDateTime));
                                 row.append($("<td/>").text(r.endDateTime));
@@ -118,20 +124,24 @@
                                 <h1> Registro attività di <%= loggedPerson.getName()%> <%= loggedPerson.getSurname()%> </h1>                                    
                             </div>
                             <div class="panel-body">
-                                <table id="mytable" width="98%" align="center" > 
-                                    <th width="15%">Nome</th>
-                                    <th width="28%">Descrizione</th>
-                                    <th width="15%">Inizio</th>
-                                    <th width="15%">Fine</th>
-                                    <th width="10%">Durata (min)</th>
-                                    <th width="10%">Tipologia</th>
+                                <table id="mytable" width="98%" align="center" >
+                                    <thead>
+                                        <th width="15%">Nome</th>
+                                        <th width="28%">Descrizione</th>
+                                        <th width="15%">Inizio</th>
+                                        <th width="15%">Fine</th>
+                                        <th width="10%">Durata (min)</th>
+                                        <th width="10%">Tipologia</th>
+                                    </thead>
                                 </table>
                             </div>
                         </div>
-                    </div>
-
-                    <div class="col-sm-1"></div>
-
+                    </div>                    
+                        <div class="col-sm-1">
+                            <button type="button" class="btn btn-xs" aria-label="Left Align" onclick="redirectToInsert()">
+                                <span id="showArrow" class="glyphicon glyphicon-plus" aria-hidden="true"> </span> Aggiungi attività
+                            </button>
+                        </div>
                 </div>
             </div>
 
