@@ -51,28 +51,74 @@ function convertTo24Hours(ora)
     
     return ore+":"+minuti;
 }
-/*
+
 function updateActivity(){
-   
-   
+    idActivity = sessionStorage.getItem('idActivity');
+    name= $("#name").val();
+    description = $("#description").val();
+    startDateTime = $("#dateActivity").val() + " " +convertTo24Hours($("#startTimeActivity").val());
+    endDateTime = $("#dateActivity").val() + " " +convertTo24Hours($("#endTimeActivity").val());
+    typology = $("#typology option:selected").val();
+    if (name !== "" && typology !== "default" && description !== "") {
+        $.getJSON("UpdateActivity", {idActivity:idActivity, name:name, description:description,startDateTime:startDateTime,endDateTime:endDateTime,typology:typology}, 
+        function (data) {
+            console.log(data)
+           if (data.result) {
+                $("#titleInfo").html("");
+                $("#descriptionInfo").html("");
+                $("#infoDialog").modal();
+                $("#titleInfo").html("Operazione eseguita con successo!");
+                $("#descriptionInfo").html("L'attività è stata aggiunta.");
+            } else {
+                $("#titleInfo").html("");
+                $("#descriptionInfo").html("");
+                $("#infoDialog").modal();
+                $("#titleInfo").html("Errore inserimento evento!");
+                $("#descriptionInfo").html("L'attività NON è stata aggiunta, riprova.");
+            }
+        });
+    }else {
+        alert("Compilare tutti i campi!");
+    }
 }
 
 function fillField(){
-     $("#name").val();
-    $("#description").val("afasfasfsfasffassfafsfas");
-    $("#dateActivity").val("2016-05-10 09:00 AM".substring(0,10));
-    $("#startTimeActivity").val("2016-05-10 18:00:00".substring(12,20))
+    $("#name").val(sessionStorage.getItem('name'));
+    $("#description").val(sessionStorage.getItem('description'));
+    $("#dateActivity").val((sessionStorage.getItem('startDateTime')).substring(0,10));
+    $("#startTimeActivity").val(convertToAmPm(sessionStorage.getItem('startDateTime').substring(11,20)));
+    $("#endTimeActivity").val(convertToAmPm(sessionStorage.getItem('endDateTime').substring(11,20)));
+    $("#typology option[value='"+sessionStorage.getItem('typology')+"']").attr('selected','selected');
 }
 
 function convertToAmPm(ora)
 {
     var ore=parseInt(ora.substring(0,2));
-    var minuti=ora.substring(4,6);
-    
-    if(ore > 12)
+        console.log(ore);
+
+    var minuti=ora.substring(3,5);
+        console.log(minuti);
+
+    if(ore <= 12)
     {
+        ore = ore +":"+minuti + " AM";
+    } 
+    else{
         ore=ore-12;
+        ore = ore +":"+minuti + " PM";
     }
+    return ore;
+}
+
+function updateFunction(){
+    fillField();
+    $("#Intestazione").html('<h1>Modifica Attività nel Registro</h1>');
+   $("#bottoneInsUpdate").html("<input  type='submit' class='btn btn-blue' value='Modifica' onclick='updateActivity()'>");
     
-    return ore+":"+minuti;
-}*/
+}
+
+function insertFunction(){
+   $("#Intestazione").html('<h1> Inserisci Attività nel Registro </h1>');
+    $("#bottoneInsUpdate").html("<input  type='submit' class='btn btn-blue' value='Inserisci' onclick='insertActivity()'>");
+
+}
