@@ -30,7 +30,6 @@
         <link rel="stylesheet" href="assets/css/custom.css">  
         <link rel="stylesheet" href="//code.jquery.com/ui/1.11.4/themes/smoothness/jquery-ui.css">
         <link rel="stylesheet" href="style/dottorato.css">
-        <link rel="stylesheet" href="/resources/demos/style.css">
         <script src="assets/js/jquery-1.11.1.min.js"></script>
         
         <script type="text/javascript">   
@@ -38,18 +37,29 @@
             function deleteActivity(idActivity) {
                 $.getJSON("DeleteActivity", {idActivity: idActivity},
                         function (data) {
-                                console.log(data.result);
+                                alert('Attività '+idActivity+' eliminata');
                         }
                     );                
                 $("#mytable").find("tr:gt(0)").remove();
-                getActivityRegister();    
+                getActivityRegister(email);    
             }
             
-            function getActivityRegister(){
-                $.getJSON("GetActivityRegister", {fkPhdStudent: 'dinucci@hotmail.it'},
+            function redirectToEdit(string){
+                
+                sessionStorage.setItem("name", string.split(',')[0]);
+                sessionStorage.setItem("description", string.split(',')[1]);
+                sessionStorage.setItem("startDateTime", string.split(',')[2]);
+                sessionStorage.setItem("endDateTime", string.split(',')[3]);
+                sessionStorage.setItem("typology", string.split(',')[4]);
+                sessionStorage.setItem("idActivity", string.split(',')[5]);
+                sessionStorage.setItem("fkPhdStudent", string.split(',')[6]);
+                location.href = 'insertEditActivity.jsp';
+            }
+            
+            function getActivityRegister(email){
+                $.getJSON("GetActivityRegister", {fkPhdStudent: email},
                 
                         function (data) { 
-                            console.log(data);
                             var table = $('#mytable');                           
                             
                             $.each(data.activities, function(rowIndex, r) {
@@ -61,8 +71,9 @@
                                 row.append($("<td/>").text(r.endDateTime));
                                 row.append($("<td/>").text(r.totalTime));
                                 row.append($("<td/>").text(r.typology));
-                                row.append('<td width="20px"> <button type="button" class="btn btn-white" title="modifica">' +
-                                                    '<span class="glyphicon glyphicon-cog" aria-hidden="true" onclick="location.href = "insertEditActivity.jsp?activity='+JSON.stringify(r)+'" ></span>' +
+                                row.append('<td width="20px">'+
+                                                '<button type="button" class="btn btn-white" title="modifica">'+
+                                                    '<span class="glyphicon glyphicon-cog" aria-hidden="true" onclick="redirectToEdit(\''+ r.name+ ','  +r.description+ ',' +r.startDateTime+ ',' +r.endDateTime+ ',' +r.typology+ ',' +r.idActivity+ ',' +r.fkPhdStudent +'\')" ></span>' +
                                                 '</button>' +
                                             '</td>');
                                 row.append('<td width="20px">' +
@@ -78,10 +89,10 @@
                );
             }
             
-            $(document).ready(function(){ 
-                
-                <% Account loggedPerson = ((Account) session.getAttribute("account"));%>                        
-                getActivityRegister();
+            $(document).ready(function(){                 
+                <% Account loggedPerson = ((Account) session.getAttribute("account"));%> 
+                email = '<%= loggedPerson.getSecondaryEmail()%>';
+                getActivityRegister(email);
             });
         </script>
     </head>
