@@ -31,6 +31,22 @@
         <link rel="stylesheet" href="//code.jquery.com/ui/1.11.4/themes/smoothness/jquery-ui.css">
         <link rel="stylesheet" href="style/dottorato.css">
         <script src="assets/js/jquery-1.11.1.min.js"></script>
+        <script src="assets/js/bootstrap.min.js"></script>
+        <script src="assets/js/TweenMax.min.js"></script>
+        <script src="assets/js/resizeable.js"></script>
+        <script src="assets/js/joinable.js"></script>
+        <script src="assets/js/xenon-api.js"></script>
+        <script src="assets/js/xenon-toggles.js"></script>
+        <script src="assets/js/jquery-ui/jquery-ui.min.js"></script>
+
+        <!-- Imported scripts on this page -->
+        <script src="assets/js/tocify/jquery.tocify.min.js"></script>
+
+        <!-- Imported scripts on this page -->
+        <script src="assets/js/jquery-validate/jquery.validate.min.js"></script>
+
+        <!-- JavaScripts initializations and stuff -->
+        <script src="assets/js/xenon-custom.js"></script>
         
         <script src="assets/js/jsPDF-1.2.60/dist/jspdf.min.js"></script>        
         <script type="text/javascript">   
@@ -132,6 +148,13 @@
                                 sessionStorage.setItem("insertFlag", true);
                                 location.href = 'insertEditActivity.jsp'; 
                             }
+                            else{
+                                $("#titleInfo").html("");
+                                $("#descriptionInfo").html("");
+                                $("#infoDialog").modal();
+                                $("#titleInfo").html("Errore inserimento evento!");
+                                $("#descriptionInfo").html("Hai raggiunto il limite di 1500 ore annue.");
+                            }
                         }
                 );    
             }
@@ -189,7 +212,20 @@
             });
         </script>
     </head>
-    
+    <div id="infoDialog" class="modal fade">
+        <div class="modal-dialog">
+            <div class="modal-content">
+                <div class="modal-header">
+                    <button type="button" class="close" data-dismiss="modal" >&times;</button>
+                    <h4 class="modal-title" id="titleInfo"></h4>
+                </div>
+                
+                <div class="modal-body" id="descriptionInfo">
+                </div>
+            
+            </div>
+        </div>
+    </div>
     <body class="page-body">
 
         <!-- Inclusione della pagina contenente il menù superiore --> 
