@@ -49,12 +49,7 @@ public class DeleteActivityServlet extends HttpServlet {
             PhdStudent loggedPerson = (PhdStudent) session.getAttribute("account");  // da verificare
 
             ActivityRegisterManager.getInstance().deleteActivity(idActivity);
-            result.put("result", true);
-
-            out.println("<script type=\"text/javascript\">");
-            out.println("alert('L'attività è stata rimossa.');");
-            out.println("location='profileNuovo.jsp';");
-            out.println("</script>");
+            result.put("result", true);           
 
             out.write(result.toString());
 

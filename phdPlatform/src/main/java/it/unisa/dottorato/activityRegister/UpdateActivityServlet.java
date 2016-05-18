@@ -75,11 +75,6 @@ public class UpdateActivityServlet extends HttpServlet {
             ActivityRegisterManager.getInstance().updateActivity(idActivity, activity);
             result.put("result", true);
 
-            out.println("<script type=\"text/javascript\">");
-            out.println("alert('L'attività è stata inserita.');");
-            out.println("location='profileNuovo.jsp';");
-            out.println("</script>");
-
             out.write(result.toString());
 
         } catch (JSONException ex) {
