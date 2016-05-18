@@ -4,7 +4,7 @@
  * and open the template in the editor.
  */
 
-/* global d3, svg, options, ctx */
+/* global d3, svg, options, ctx, Chart */
 
 $(document).ready(function () {
 
@@ -106,7 +106,7 @@ function getPresenze()
         }]
 };
 
-//selezione degli elemnti della pgina html dove verrano stampati i graific
+//selezione degli elementi della pagina html dove verrano stampati i grafici
      var ctx = document.getElementById("chart").getContext('2d');
      var ctx1 = document.getElementById("chart2").getContext('2d');
 
@@ -118,7 +118,7 @@ var myBarChart = new Chart(ctx1, {
   
   
    options: {
-
+       
         scales: {
                 
             yAxes: [{
@@ -130,15 +130,30 @@ var myBarChart = new Chart(ctx1, {
     }
     });
     
+   
     
-
-
+    
 //costruzione grafico a ciambella
 var myDoughnutChart = new Chart(ctx, {
     type: 'doughnut',
     data: dataDonut,
-    responsive: true
-
+    responsive: true,
+    
+options:{
+  
+    tooltips: {
+        
+              callbacks: {
+                  label: function(tooltipItem, dataDonut) {
+                      var value = dataDonut.datasets[0].data[tooltipItem.index];
+                      var label = dataDonut.labels[tooltipItem.index];
+                      var percentage = Math.round(value / data.presenze * 100);
+                      return label + ' ' + percentage + '%';
+                  }
+              }
+          }
+       
+}
 });
 
     });

@@ -20,7 +20,7 @@
            <script src="assets/js/jquery-1.11.1.min.js"></script>
           <script type="text/javascript" src="script/getStats.js"></script>
            	<script type='text/javascript' src='//code.jquery.com/jquery-1.9.1.js'></script>   
-        <script type='text/javascript' src="https://raw.githubusercontent.com/nnnick/Chart.js/v2.0-dev/dist/Chart.js"></script>
+        <script type='text/javascript' src="https://rawgit.com/nnnick/Chart.js/v2.0-dev/dist/Chart.js"></script>
         
         
 

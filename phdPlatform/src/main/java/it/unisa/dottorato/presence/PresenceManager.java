@@ -425,7 +425,8 @@ public class PresenceManager {
 "       where presence.fkPhdstudent ="+testDottorando(idDottorando)+ 
 "         and presence.fkLesson = lesson.idLesson" +
 "          and lesson.fkCourse= Course.idCourse" +
-"          and Course.name="+CourseName;
+"          and Course.name="+CourseName+
+            "and lesson.closed=1";
             //Inviamo la Query al DataBase
             ResultSet result = Utility.queryOperation(connect, tSql);
 
