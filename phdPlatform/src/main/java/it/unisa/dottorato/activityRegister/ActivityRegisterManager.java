@@ -69,7 +69,7 @@ public class ActivityRegisterManager {
                     + "'"+activity.getFkPhdStudent()+"'" 
                     + ")";
             
-            //System.out.println(stingSQL);
+            System.out.println(stingSQL);
             //esegue query
             Utility.executeOperation(connect, stingSQL);
 
