@@ -146,12 +146,13 @@ function selectedItemDot()
                     lesson_date=value5.data;
                     lesson_start=value5.startTime;
                     lesson_end=value5.endTime;
+                    lesson_status=value5.status;
                     lesson_start_date=get_Date(lesson_date,lesson_start);
                     lesson_end_date=get_Date(lesson_date,lesson_end);
                     result_line="<tr><td>"+lesson_name+"</td><td>"+date_format(lesson_date)+" "+lesson_start+"-"+lesson_end+"</td><td>"+lesson_class+"</td>";
                     checkbox="<td> <input type='checkbox' value='"+id_Phd+ "'   id='" + lesson_id+ "' class='checkboxclass' onchange='changePresenza("+'value'+","+lesson_id+")' checked ";//></td></tr>";
-                    result_line=result_line+checkbox;                                             
-                    if(!isAfterNow(lesson_start_date) && isAfterNow(lesson_end_date))
+                    result_line=result_line+checkbox;    
+                    if(lesson_status==='aperta' && !isAfterNow(lesson_start_date) && isAfterNow(lesson_end_date))
                     {
                         opened_lesson=opened_lesson+result_line+"></td></tr>";
                        

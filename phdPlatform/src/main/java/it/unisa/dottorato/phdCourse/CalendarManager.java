@@ -835,7 +835,7 @@ public class CalendarManager {
                 lesson.setClassroom(result.getString("classroom"));
                 lesson.setDescription(result.getString("desription"));                             
                 lesson.setFK_course(result.getInt("fkCourse"));
-                
+                lesson.setStatus(result.getString("status"));
                 lessons.add(lesson);
             }
 
@@ -1268,7 +1268,7 @@ public class CalendarManager {
                 lesson.setClassroom(result.getString("classroom"));
                 lesson.setDescription(result.getString("desription"));                             
                 lesson.setFK_course(result.getInt("fkCourse"));
-                lesson.setClosed(result.getBoolean("closed"));
+                lesson.setStatus(result.getString("status"));
                 
                 lessons.add(lesson);
             }

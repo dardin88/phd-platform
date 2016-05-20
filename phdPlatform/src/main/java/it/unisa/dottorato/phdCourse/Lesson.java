@@ -8,7 +8,7 @@ import java.util.Date;
  * l'id della lezione, la data, l'ora di inizio e di fine, il nome della lezione, 
  * la classe, la descrizione della lezione, il ciclo e il curriculum ad esso associato, 
  * il corso di cui fa parte (chiave esterna a course), e lo stato della lezione 
- * cioè se è aperta(false)/chiusa(true)
+ * cioè se è in programma(in_programma),se la sessione è aperta(aperta) i dottorandi possono inserire la presenza oppure chiusa(chiusa) e i dottorandi non possono modificare le presenze
  *
  * @author Giuseppe Picciocchi
  */
@@ -23,7 +23,7 @@ public class Lesson implements Serializable{
     private String classroom;
     private String description;
     private int FK_course;  
-    private boolean closed;                          
+    private String status;                          
     
    /**Metodo della classe incaricato di ritornare l'id della lezione
     * 
@@ -158,20 +158,20 @@ public class Lesson implements Serializable{
         this.FK_course = chiave_course;
     }
     
-    /**Metodo della classe incaricato di ritornare lo stato della lezione cioè se è aperta(false) o chiusa(true)
+    /**Metodo della classe incaricato di ritornare lo stato della lezione cioè in_programma, aperta o chiusa
     * 
     * @return restituisce lo stato della lezione
     */
-    public boolean getClosed(){
-        return closed;            
+    public String getStatus(){
+        return status;            
     }
     
-   /** Metodo della classe incaricato di settare lo stato della lezione - aperta(false)/chiusa(true)
+   /** Metodo della classe incaricato di settare lo stato della lezione - in programma, aperta o chiusa
     * 
     * @param stato 
     */
-    public void setClosed(boolean stato){
-        this.closed = stato;
+    public void setStatus(String stato){
+        this.status = stato;
     }
  }
     
