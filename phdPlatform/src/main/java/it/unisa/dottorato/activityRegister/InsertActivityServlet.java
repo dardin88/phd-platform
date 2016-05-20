@@ -22,7 +22,7 @@ import java.sql.Timestamp;
 import java.text.ParseException;
 import java.text.SimpleDateFormat;
 
-/**Servlet incaricata a inserire un'attività nel registro delle attività di un dottorando
+/**Servlet incaricata a inserire un'attività nel registro delle attività
  *
  * @author Ernesto
  */
@@ -70,12 +70,12 @@ public class InsertActivityServlet extends HttpServlet {
                 activity.setEndDateTime(endTime);
                 activity.setTypology(typology);
                 activity.setFkPhdStudent(loggedPerson.getfkAccount());
+                System.out.println(activity.toString());
 
                 ActivityRegisterManager.getInstance().insertActivity(activity);
 
                 result.put("result", true);
 
-                System.out.println(result.toString());
             } catch (JSONException | SQLException | ParseException ex) {
                      Logger.getLogger(InsertActivityServlet.class.getName()).log(Level.SEVERE, null, ex);
                      result.put("result", false);

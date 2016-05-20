@@ -23,7 +23,7 @@ import javax.servlet.http.HttpSession;
 import org.json.JSONException;
 import org.json.JSONObject;
 
-/**Servlet incaricata a modificare un'attività nel registro delle attività di un dottorando
+/**Servlet incaricata a modificare un'attività nel registro delle attività
  *
  * @author Ernesto
  */
@@ -59,7 +59,7 @@ public class UpdateActivityServlet extends HttpServlet {
 
 
             HttpSession session = request.getSession();
-            PhdStudent loggedPerson = (PhdStudent) session.getAttribute("account");  // da verificare
+            PhdStudent loggedPerson = (PhdStudent) session.getAttribute("account");
 
             Activity activity = new Activity();
             activity.setName(name);
@@ -72,7 +72,7 @@ public class UpdateActivityServlet extends HttpServlet {
             activity.setEndDateTime(endTime);
             activity.setTypology(typology);
 
-            ActivityRegisterManager.getInstance().updateActivity(idActivity, activity);
+            ActivityRegisterManager.getInstance().updateActivity(idActivity, activity, loggedPerson.getfkAccount());
             result.put("result", true);
 
             out.write(result.toString());

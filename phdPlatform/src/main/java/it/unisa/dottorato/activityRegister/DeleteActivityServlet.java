@@ -19,7 +19,7 @@ import javax.servlet.http.HttpSession;
 import org.json.JSONException;
 import org.json.JSONObject;
 
-/**Servlet incaricata a cancellare un'attività dal registro delle attività di un dottorando
+/**Servlet incaricata a cancellare un'attività dal registro delle attività
  *
  * @author Ernesto
  */
@@ -43,12 +43,11 @@ public class DeleteActivityServlet extends HttpServlet {
         PrintWriter out = response.getWriter();
         
         try {
-            int idActivity = Integer.parseInt(request.getParameter("idActivity"));    
-
+            int idActivity = Integer.parseInt(request.getParameter("idActivity"));  
             HttpSession session = request.getSession();
-            PhdStudent loggedPerson = (PhdStudent) session.getAttribute("account");  // da verificare
+            PhdStudent loggedPerson = (PhdStudent) session.getAttribute("account");
 
-            ActivityRegisterManager.getInstance().deleteActivity(idActivity);
+            ActivityRegisterManager.getInstance().deleteActivity(idActivity, loggedPerson.getfkAccount());
             result.put("result", true);           
 
             out.write(result.toString());

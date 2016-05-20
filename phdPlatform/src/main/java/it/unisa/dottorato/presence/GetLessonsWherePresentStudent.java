@@ -3,9 +3,11 @@
  * To change this template file, choose Tools | Templates
  * and open the template in the editor.
  */
-package it.unisa.dottorato.activityRegister;
+package it.unisa.dottorato.presence;
 
 import it.unisa.dottorato.account.PhdStudent;
+import it.unisa.dottorato.activityRegister.Activity;
+import it.unisa.dottorato.activityRegister.ActivityRegisterManager;
 import java.io.IOException;
 import java.io.PrintWriter;
 import java.sql.SQLException;
@@ -22,12 +24,12 @@ import org.json.JSONArray;
 import org.json.JSONException;
 import org.json.JSONObject;
 
-/**Servlet incaricata a scaricare l'intero registro delle attività
+/**Servlet incaricata di scaricare le lezioni alle quali un dottorando è presente
  *
  * @author Ernesto
  */
-@WebServlet(name = "GetActivityRegister", urlPatterns = {"/GetActivityRegister"})
-public class GetActivityRegisterServlet extends HttpServlet {
+@WebServlet(name = "GetLessonsWherePresentStudent", urlPatterns = {"/GetLessonsWherePresentStudent"})
+public class GetLessonsWherePresentStudent extends HttpServlet {
 
     /**
      * Processes requests for both HTTP <code>GET</code> and <code>POST</code>
@@ -47,11 +49,11 @@ public class GetActivityRegisterServlet extends HttpServlet {
         try (PrintWriter out = response.getWriter()) {
             
             HttpSession session = request.getSession();
-            PhdStudent loggedPerson = (PhdStudent) session.getAttribute("account");           
+            PhdStudent loggedPerson = (PhdStudent) session.getAttribute("account");        
                     
-            ArrayList<Activity> activities = (ArrayList<Activity>) ActivityRegisterManager.getInstance().getActivityRegisterOf(loggedPerson.getfkAccount());
-                JSONArray resultArray = new JSONArray(activities);
-                result.put("activities", resultArray);
+            ArrayList<Activity> lessons = (ArrayList<Activity>) ActivityRegisterManager.getInstance().getLessonsWherePresentStudent(loggedPerson.getfkAccount());
+                JSONArray resultArray = new JSONArray(lessons);
+                result.put("lessons", resultArray);
                 out.write(result.toString());
         }
     }
@@ -71,7 +73,7 @@ public class GetActivityRegisterServlet extends HttpServlet {
         try {
             processRequest(request, response);
         } catch (SQLException | JSONException ex) {
-            Logger.getLogger(GetActivityRegisterServlet.class.getName()).log(Level.SEVERE, null, ex);
+            Logger.getLogger(GetLessonsWherePresentStudent.class.getName()).log(Level.SEVERE, null, ex);
         }
     }
 
@@ -89,7 +91,7 @@ public class GetActivityRegisterServlet extends HttpServlet {
         try {
             processRequest(request, response);
         } catch (SQLException | JSONException ex) {
-            Logger.getLogger(GetActivityRegisterServlet.class.getName()).log(Level.SEVERE, null, ex);
+            Logger.getLogger(GetLessonsWherePresentStudent.class.getName()).log(Level.SEVERE, null, ex);
         }
     }
 
