@@ -6,8 +6,7 @@
 package it.unisa.dottorato.presence;
 
 import it.unisa.dottorato.account.PhdStudent;
-import it.unisa.dottorato.activityRegister.Activity;
-import it.unisa.dottorato.activityRegister.ActivityRegisterManager;
+import it.unisa.dottorato.phdCourse.Lesson;
 import java.io.IOException;
 import java.io.PrintWriter;
 import java.sql.SQLException;
@@ -51,7 +50,7 @@ public class GetLessonsWherePresentStudent extends HttpServlet {
             HttpSession session = request.getSession();
             PhdStudent loggedPerson = (PhdStudent) session.getAttribute("account");        
                     
-            ArrayList<Activity> lessons = (ArrayList<Activity>) ActivityRegisterManager.getInstance().getLessonsWherePresentStudent(loggedPerson.getfkAccount());
+            ArrayList<Lesson> lessons = (ArrayList<Lesson>) PresenceManager.getInstance().getLessonsWherePresentStudent(loggedPerson.getfkAccount());
                 JSONArray resultArray = new JSONArray(lessons);
                 result.put("lessons", resultArray);
                 out.write(result.toString());
