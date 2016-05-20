@@ -5,6 +5,7 @@
  */
 package it.unisa.dottorato.activityRegister;
 
+import it.unisa.dottorato.phdCourse.Lesson;
 import it.unisa.dottorato.utility.Utility;
 import it.unisa.integrazione.database.DBConnection;
 import java.io.IOException;
@@ -126,10 +127,11 @@ public class ActivityRegisterManager {
      * aggiorna i campi dell'attività che l'utente desidera modificato
      * @param oldActivityID id dell'attività da modificare
      * @param newActivity attività con i campi modificati
+     * @param fkPhdStudent
      * @throws SQLException
      * @throws IOException 
      */
-    public void updateActivity(int oldActivityID, Activity newActivity) throws SQLException, IOException{
+    public void updateActivity(int oldActivityID, Activity newActivity, String fkPhdStudent) throws SQLException, IOException{
         Connection connect = null;
             try{
               connect = DBConnection.getConnection();
@@ -144,8 +146,8 @@ public class ActivityRegisterManager {
                         + "endDateTime ='" + newActivity.getEndDateTime() +"'," 
                         + "totalTime ='" + calculateTotTime(newActivity.getStartDateTime(),newActivity.getEndDateTime())+"',"
                          + "typology ='" + newActivity.getTypology() +"' "
-                         + "WHERE idActivity = " + oldActivityID;
-            //System.out.println(stringSQL);
+                         + "WHERE idActivity = " + oldActivityID + " AND fkPhdStudent='"+fkPhdStudent+"'";
+            System.out.println(stringSQL);
 
             Utility.executeOperation(connect, stringSQL);
 
@@ -157,10 +159,11 @@ public class ActivityRegisterManager {
     /**
      * Cancella un'attvità dal registro dell'utente
      * @param idActivity id dell'attività da modificare
+     * @param fkPhdStudent
      * @throws SQLException
      * @throws Exception lancia un'eccezione se non viene cancellata nessuna attività
      */
-    public void deleteActivity(int idActivity) throws SQLException, Exception{
+    public void deleteActivity(int idActivity, String fkPhdStudent) throws SQLException, Exception{
         Connection connect = null;
             try{
                 connect = DBConnection.getConnection();
@@ -168,7 +171,7 @@ public class ActivityRegisterManager {
                 //Preparazione query per la cancellazione
                 String stringSQL = "DELETE FROM " 
                         + ActivityRegisterManager.TABLE_ACTIVITY 
-                        + " WHERE idActivity = " + idActivity;
+                        + " WHERE idActivity = " + idActivity + " AND fkPhdStudent='"+fkPhdStudent+"'";
                //System.out.println(stringSQL);
 
                 if(Utility.executeOperation(connect, stringSQL) == 0)
@@ -179,6 +182,8 @@ public class ActivityRegisterManager {
                 DBConnection.releaseConnection(connect);
         }
     }
+    
+    
     /**
      * Calcolo delle ore dedicate ad una attivita'
      * @param startDateTime 
@@ -188,5 +193,6 @@ public class ActivityRegisterManager {
     private float calculateTotTime(Timestamp startDateTime, Timestamp endDateTime) {
         long diffInMillies = endDateTime.getTime() - startDateTime.getTime();
         return TimeUnit.MINUTES.convert(diffInMillies,TimeUnit.MILLISECONDS);
-    }  
+    } 
+    
  }
