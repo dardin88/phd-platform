@@ -449,5 +449,38 @@ public class PresenceManager {
         return classList;
         
     }
-    
+         public ArrayList<Lesson> getLessonsWherePresentStudent(String idStudent) throws SQLException, IOException {
+       
+       Connection connect = null;
+       ArrayList<Lesson> lessonList = new ArrayList<Lesson>();
+       
+       try{
+              connect = DBConnection.getConnection();
+              //Preparazione query per recupero della lista delle attività di un utente
+              String stringSQL = "SELECT lesson.name,lesson.date, lesson.startTime, lesson.endTime, lesson.desription"
+                      +" FROM "+ PresenceManager.TABLE_Lesson + "," + PresenceManager.TABLE_Presence
+                      + " WHERE fkPhdStudent='"+idStudent+"'"
+                      +" AND isPresent = 1 AND fkLesson = lesson.idLesson" ;                                
+            System.out.println(stringSQL);
+           
+            //esegue query
+            ResultSet result = Utility.queryOperation(connect, stringSQL);
+           
+            while (result.next()) {
+                
+                Lesson lesson = new Lesson();
+                lesson.setDate(result.getDate("date"));
+                lesson.setStartTime(result.getString("startTime"));
+                lesson.setEndTime(result.getString("endTime"));
+                lesson.setName(result.getString("name"));
+                lesson.setDescription(result.getString("desription"));
+System.out.println(lesson.toString());
+                lessonList.add(lesson);
+            }
+           
+          }finally {
+           DBConnection.releaseConnection(connect);
+        } 
+       return lessonList;
+    }
 }
