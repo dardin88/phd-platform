@@ -22,8 +22,8 @@ import org.json.JSONObject;
  *
  * @author Raffaele Costantino
  */
-@WebServlet(name = "SetClosedLesson", urlPatterns = {"/SetClosedLesson"})
-public class SetClosedLessonServlet extends HttpServlet {
+@WebServlet(name = "SetStatusLesson", urlPatterns = {"/SetStatusLesson"})
+public class SetStatusLessonServlet extends HttpServlet {
 
     /**
      * Processes requests for both HTTP <code>GET</code> and <code>POST</code>
@@ -42,8 +42,9 @@ public class SetClosedLessonServlet extends HttpServlet {
             response.setContentType("text/html;charset=UTF-8");
 
             int idLesson = Integer.parseInt(request.getParameter("idLesson"));
+            String status = request.getParameter("status");
 
-            CalendarManager.getInstance().setClosedLesson(idLesson);
+            CalendarManager.getInstance().setStatusLesson(idLesson,status);
             
             result.put("result", true);
             out.write(result.toString());
@@ -52,7 +53,7 @@ public class SetClosedLessonServlet extends HttpServlet {
             
             result.put("result", false);
             out.write(result.toString());
-            Logger.getLogger(SetClosedLessonServlet.class.getName()).log(Level.SEVERE, null, ex);
+            Logger.getLogger(SetStatusLessonServlet.class.getName()).log(Level.SEVERE, null, ex);
             
         } 
     }
@@ -72,9 +73,9 @@ public class SetClosedLessonServlet extends HttpServlet {
         try {        
             processRequest(request, response);
         } catch (JSONException ex) {
-            Logger.getLogger(SetClosedLessonServlet.class.getName()).log(Level.SEVERE, null, ex);
+            Logger.getLogger(SetStatusLessonServlet.class.getName()).log(Level.SEVERE, null, ex);
         } catch (SQLException ex) {
-            Logger.getLogger(SetClosedLessonServlet.class.getName()).log(Level.SEVERE, null, ex);
+            Logger.getLogger(SetStatusLessonServlet.class.getName()).log(Level.SEVERE, null, ex);
         }
     }
 
@@ -92,9 +93,9 @@ public class SetClosedLessonServlet extends HttpServlet {
         try {
             processRequest(request, response);
         } catch (JSONException ex) {
-            Logger.getLogger(SetClosedLessonServlet.class.getName()).log(Level.SEVERE, null, ex);
+            Logger.getLogger(SetStatusLessonServlet.class.getName()).log(Level.SEVERE, null, ex);
         } catch (SQLException ex) {
-            Logger.getLogger(SetClosedLessonServlet.class.getName()).log(Level.SEVERE, null, ex);
+            Logger.getLogger(SetStatusLessonServlet.class.getName()).log(Level.SEVERE, null, ex);
         }
         
     }
