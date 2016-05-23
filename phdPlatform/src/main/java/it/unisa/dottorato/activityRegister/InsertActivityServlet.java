@@ -18,9 +18,6 @@ import javax.servlet.http.HttpServletResponse;
 import javax.servlet.http.HttpSession;
 import org.json.JSONException;
 import org.json.JSONObject;
-import java.sql.Timestamp;
-import java.text.ParseException;
-import java.text.SimpleDateFormat;
 
 /**Servlet incaricata a inserire un'attività nel registro delle attività
  *
@@ -59,15 +56,10 @@ public class InsertActivityServlet extends HttpServlet {
 
                 Activity activity = new Activity();
 
-
-                SimpleDateFormat formatter = new SimpleDateFormat("yyyy-MM-dd HH:mm");
-                java.sql.Timestamp startTime = new Timestamp(formatter.parse(startDateTime).getTime());
-                java.sql.Timestamp endTime = new Timestamp(formatter.parse(endDateTime).getTime());
-
                 activity.setName(name);
                 activity.setDescription(description);
-                activity.setStartDateTime(startTime);
-                activity.setEndDateTime(endTime);
+                activity.setStartDateTime(startDateTime);
+                activity.setEndDateTime(endDateTime);
                 activity.setTypology(typology);
                 activity.setFkPhdStudent(loggedPerson.getfkAccount());
                 System.out.println(activity.toString());
@@ -76,7 +68,7 @@ public class InsertActivityServlet extends HttpServlet {
 
                 result.put("result", true);
 
-            } catch (JSONException | SQLException | ParseException ex) {
+            } catch (JSONException | SQLException ex) {
                      Logger.getLogger(InsertActivityServlet.class.getName()).log(Level.SEVERE, null, ex);
                      result.put("result", false);
             } 

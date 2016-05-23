@@ -4,10 +4,6 @@
  * and open the template in the editor.
  */
 package it.unisa.dottorato.activityRegister;
-
-import java.sql.Timestamp;
-import java.util.Date;
-
 /**
  *
  * @author Ernesto Pizza
@@ -17,8 +13,8 @@ public class Activity {
     private int idActivity;
     private String name;
     private String description;
-    private Timestamp startDateTime;
-    private Timestamp endDateTime;
+    private String startDateTime;
+    private String endDateTime;
     private float totalTime;
     private String typology;
     private String fkPhdStudent;    
@@ -47,19 +43,19 @@ public class Activity {
         this.description = description;
     }
 
-    public Timestamp getStartDateTime() {
+    public String getStartDateTime() {
         return startDateTime;
     }
 
-    public void setStartDateTime(Timestamp startDateTime) {
+    public void setStartDateTime(String startDateTime) {
         this.startDateTime = startDateTime;
     }
 
-    public Timestamp getEndDateTime() {
+    public String getEndDateTime() {
         return endDateTime;
     }
 
-    public void setEndDateTime(Timestamp endDateTime) {
+    public void setEndDateTime(String endDateTime) {
         this.endDateTime = endDateTime;
     }
 

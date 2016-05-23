@@ -9,9 +9,7 @@ import it.unisa.dottorato.account.PhdStudent;
 import java.io.IOException;
 import java.io.PrintWriter;
 import java.sql.SQLException;
-import java.sql.Timestamp;
 import java.text.ParseException;
-import java.text.SimpleDateFormat;
 import java.util.logging.Level;
 import java.util.logging.Logger;
 import javax.servlet.ServletException;
@@ -53,8 +51,7 @@ public class UpdateActivityServlet extends HttpServlet {
             int idActivity = Integer.parseInt(request.getParameter("idActivity"));
             String description =  request.getParameter("description");
             String startDateTime = request.getParameter("startDateTime");
-            String endDateTime = request.getParameter("endDateTime");
-            String totalTime = request.getParameter("totalTime");
+            String endDateTime = request.getParameter("endDateTime");            
             String typology = request.getParameter("typology");
 
 
@@ -63,13 +60,10 @@ public class UpdateActivityServlet extends HttpServlet {
 
             Activity activity = new Activity();
             activity.setName(name);
-            activity.setDescription(description);
+            activity.setDescription(description);            
             
-            SimpleDateFormat formatter = new SimpleDateFormat("yyyy-MM-dd HH:mm");
-            java.sql.Timestamp startTime = new Timestamp(formatter.parse(startDateTime).getTime());
-            java.sql.Timestamp endTime = new Timestamp(formatter.parse(endDateTime).getTime());
-            activity.setStartDateTime(startTime);
-            activity.setEndDateTime(endTime);
+            activity.setStartDateTime(startDateTime);
+            activity.setEndDateTime(endDateTime);
             activity.setTypology(typology);
 
             ActivityRegisterManager.getInstance().updateActivity(idActivity, activity, loggedPerson.getfkAccount());

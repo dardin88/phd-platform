@@ -53,7 +53,7 @@
             
             function printPDF(){
                 
-                $.getJSON("GetActivityRegister", {fkPhdStudent: email},
+                $.getJSON("GetActivityRegister", {},
                 
                         function (data) { 
                             
@@ -64,6 +64,7 @@
                                 var splitTitle = doc.splitTextToSize("Descrizione: "+ activity.description, 180);
                                 
                                 switch(true){  
+                                    //primo elemento della prima pagina
                                     case i === 0:
                                         doc.setFont('times','italic');
                                         doc.setFontSize(9);
@@ -77,13 +78,14 @@
                                         doc.setFontSize(14);
                                         doc.text(20,50, splitTitle);
                                         doc.text(20,(activity.description.length > 120 ? 70 : 60),"Tipologia: " + activity.typology + '\n\n'+
-                                            "Inizio: " + activity.startDateTime + '\n\n'+
-                                            "Fine: " + activity.endDateTime + '\n\n'+
-                                            "Tempo impiegato: " + activity.totalTime + '\n\n'+
+                                            "Inizio: " + activity.startDateTime.replace(':00.0','') + '\n\n'+
+                                            "Fine: " + activity.endDateTime.replace(':00.0','') + '\n\n'+
+                                            "Tempo impiegato: " + activity.totalTime + ' minuti' + '\n\n'+
                                             "Firma: _____________________"
                                         );
                                         top = 120;
                                         break;
+                                    //primo elemento di ogni pagina successiva
                                     case (i % 3) === 0 && i > 0:
                                         page++;                                        
                                         doc.addPage(); 
@@ -96,13 +98,14 @@
                                         doc.setFontSize(14);
                                         doc.text(20,40, splitTitle);
                                         doc.text(20,(activity.description.length > 120 ? 60 : 50),"Tipologia: " + activity.typology + '\n\n'+
-                                            "Inizio: " + activity.startDateTime + '\n\n'+
-                                            "Fine: " + activity.endDateTime + '\n\n'+
-                                            "Tempo impiegato: " + activity.totalTime + '\n\n'+
+                                            "Inizio: " + activity.startDateTime.replace(':00.0','') + '\n\n'+
+                                            "Fine: " + activity.endDateTime.replace(':00.0','') + '\n\n'+
+                                            "Tempo impiegato: " + activity.totalTime + ' minuti' + '\n\n'+
                                             "Firma: _____________________"
                                         );
                                         top = 120;
                                         break;
+                                    //tutti gli altri elementi
                                     default:
                                         doc.setFont('times','italic');
                                         doc.setFontSize(16);
@@ -111,9 +114,9 @@
                                         doc.setFontSize(14);
                                         doc.text(20,(top+10), splitTitle);
                                         doc.text(20,(top+(activity.description.length > 120 ? 30 : 20)),"Tipologia: " + activity.typology + '\n\n'+
-                                            "Inizio: " + activity.startDateTime + '\n\n'+
-                                            "Fine: " + activity.endDateTime + '\n\n'+
-                                            "Tempo impiegato: " + activity.totalTime + '\n\n'+
+                                            "Inizio: " + activity.startDateTime.replace(':00.0','') + '\n\n'+
+                                            "Fine: " + activity.endDateTime.replace(':00.0','') + '\n\n'+
+                                            "Tempo impiegato: " + activity.totalTime + ' minuti' + '\n\n'+
                                             "Firma: _____________________"
                                         );
                                         top = top+90;
@@ -123,7 +126,6 @@
                             doc.save('Registro Attività.pdf');
                         }); 
             }
-            
             function deleteActivity(idActivity) {
                 $.getJSON("DeleteActivity", {idActivity: idActivity},
                         function (data) {                                
@@ -135,14 +137,15 @@
             }
             
             function redirectToInsert(){
-                $.getJSON("GetActivityRegister", {fkPhdStudent: email},
+                $.getJSON("GetActivityRegister", {},
                 
                         function (data) {
+                            //calcolo i minuti totali del registro da passare alla jsp di inserimento
                             var totalMinutes = 0;
                             data.activities.forEach(function(activity, i){
                                 totalMinutes = totalMinutes + activity.totalTime;
                             });
-                            var totalHours = totalMinutes/60; 
+                            var totalHours = totalMinutes/60;
                             if(totalHours < 1500){
                                 sessionStorage.setItem("totalHours", totalHours);
                                 sessionStorage.setItem("insertFlag", true);
@@ -160,6 +163,7 @@
             }
             
             function redirectToEdit(string){
+                //setto i parametri da passare alla jsp di modifica
                 sessionStorage.setItem("insertFlag", false);
                 sessionStorage.setItem("name", string.split(',')[0]);
                 sessionStorage.setItem("description", string.split(',')[1]);
@@ -171,21 +175,21 @@
                 location.href = 'insertEditActivity.jsp';
             }
             
-            function getActivityRegister(email){
-                $.getJSON("GetActivityRegister", {fkPhdStudent: email},
+            function getActivityRegister(){
+                table = $('#mytable');            
                 
-                        function (data) { 
-                            var table = $('#mytable');                           
-                            
-                            $.each(data.activities, function(rowIndex, r) {
-                                var row = $("<tr/></tbody>");                             
-                                                                
-                                row.append($("<td/>").text(r.name));
-                                row.append($("<td/>").text(r.description));
-                                row.append($("<td/>").text(r.startDateTime));
-                                row.append($("<td/>").text(r.endDateTime));
-                                row.append($("<td/>").text(r.totalTime));
-                                row.append($("<td/>").text(r.typology));
+                                
+                $.getJSON("GetActivityRegister", {},                
+                    function (data) {
+                        $.each(data.activities, function(rowIndex, r) {
+                            var row = $("<tr/></tbody>");         
+                            row.append($("<td/>").text(r.name));
+                            row.append($("<td/>").text(r.description));
+                            row.append($("<td/>").text(r.startDateTime.replace(':00.0','')));
+                            row.append($("<td/>").text(r.endDateTime.replace(':00.0','')));
+                            row.append($("<td/>").text(r.totalTime));
+                            row.append($("<td/>").text(r.typology));
+                            if(r.typology !== 'Lezione'){
                                 row.append('<td width="20px">'+
                                                 '<button type="button" class="btn btn-white" title="modifica">'+
                                                     '<span class="glyphicon glyphicon-cog" aria-hidden="true" onclick="redirectToEdit(\''+ r.name+ ','  +r.description+ ',' +r.startDateTime+ ',' +r.endDateTime+ ',' +r.typology+ ',' +r.idActivity+ ',' +r.fkPhdStudent +'\')" ></span>' +
@@ -196,19 +200,19 @@
                                                         '<span class="glyphicon glyphicon-remove" aria-hidden="true" onclick="deleteActivity('+ r.idActivity +')" ></span>' +
                                                     '</button>' +
                                                 '</td>');
-                                
-                                table.append(row);
-                                
-                            }); 
-                        }    
+                            }                                
+                            table.append(row);
+
+                        });
+                    }    
                );
             }
             
+            //sull'onReady recupero le informazioni dell'utente loggato
             $(document).ready(function(){                 
                 <% Account loggedPerson = ((Account) session.getAttribute("account"));%> 
-                email = '<%= loggedPerson.getSecondaryEmail()%>';
                 firstLastName = '<%= loggedPerson.getName()%> <%= loggedPerson.getSurname()%>';
-                getActivityRegister(email);
+                getActivityRegister();
             });
         </script>
     </head>
@@ -249,7 +253,7 @@
                                     <span id="showArrow" class="glyphicon glyphicon-plus" aria-hidden="true"> </span> Aggiungi attività
                                 </button>
                                 <button type="button" class="btn btn-xs" aria-label="Left Align" onclick="printPDF()">
-                                    <span id="showArrow" class="glyphicon glyphicon-plus" aria-hidden="true"> </span> Stampa PDF
+                                    <span id="showArrow" class="glyphicon glyphicon-download-alt" aria-hidden="true"> </span> Stampa PDF
                                 </button>
                             </div>
                             <div class="panel-body">
