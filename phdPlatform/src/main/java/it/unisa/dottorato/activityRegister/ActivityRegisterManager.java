@@ -9,16 +9,16 @@ import it.unisa.dottorato.utility.Utility;
 import it.unisa.integrazione.database.DBConnection;
 import java.io.IOException;
 import java.sql.Connection;
-import java.sql.Date;
 import java.sql.ResultSet;
 import java.sql.SQLException;
-import java.sql.Timestamp;
+import java.text.DateFormat;
 import java.text.ParseException;
 import java.text.SimpleDateFormat;
 import java.util.ArrayList;
 import java.util.concurrent.TimeUnit;
 import java.util.logging.Level;
 import java.util.logging.Logger;
+import java.util.Date;
 
 /**
  *
@@ -76,7 +76,7 @@ public class ActivityRegisterManager {
                     + "'"+activity.getFkPhdStudent()+"'" 
                     + ")";
             
-            System.out.println(stingSQL);
+            //System.out.println(stingSQL);
             //esegue query
             Utility.executeOperation(connect, stingSQL);
 
@@ -114,8 +114,8 @@ public class ActivityRegisterManager {
                 activity.setIdActivity(result.getInt("idActivity"));
                 activity.setName(result.getString("name"));
                 activity.setDescription(result.getString("description"));
-                activity.setStartDateTime(result.getTimestamp("startDateTime"));
-                activity.setEndDateTime(result.getTimestamp("endDateTime"));
+                activity.setStartDateTime(result.getString("startDateTime"));
+                activity.setEndDateTime(result.getString("endDateTime"));
                 activity.setTotalTime(result.getFloat("totalTime"));
                 activity.setTypology(result.getString("typology"));
                 activity.setFkPhdStudent(result.getString("fkPhdStudent"));
@@ -139,14 +139,16 @@ public class ActivityRegisterManager {
                 lesson.setName(result.getString("name"));
                 lesson.setDescription(result.getString("desription"));
                 
-                String startTime = result.getString("startTime");
-                String endTime = result.getString("endTime");
                // checkTime(startTime, endTime);
-                Timestamp startDateTime =convertStringToTimestamp(result.getDate("date"),startTime);
-                Timestamp endDateTime = convertStringToTimestamp(result.getDate("date"),endTime);
-                
+               // Date startDateTime =convertStringToDate(result.getDate("date"),result.getString("startTime"));
+              //  String tmp = "12AM";
+                //String startTime = result.getString("startTime").contains(tmp.replace(": ","")  ? "12:00 AM" : convertTo24(result.getString("startTime"));
+         //       String endTime = result.getString("endTime").contains(tmp)  ? tmp: convertTo24(result.getString("endTime"));
+                String startDateTime = result.getString("date") +" "+convertTo24(result.getString("startTime"));
+                String endDateTime = result.getString("date") +" "+convertTo24(result.getString("endTime"));
                 lesson.setStartDateTime(startDateTime);
                 lesson.setEndDateTime(endDateTime);
+               System.out.println("get"+startDateTime +" "+ endDateTime+" "+", "+result.getString("endTime")+' '+calculateTotTime(startDateTime,endDateTime));
                 lesson.setTotalTime(calculateTotTime(startDateTime,endDateTime));
                
                 lesson.setTypology("Lezione");
@@ -227,20 +229,43 @@ public class ActivityRegisterManager {
      * @param endDateTime 
      * @return durate del'attività
      */
-    private float calculateTotTime(Timestamp startDateTime, Timestamp endDateTime) {
-        long diffInMillies = endDateTime.getTime() - startDateTime.getTime();
-        return TimeUnit.MINUTES.convert(diffInMillies,TimeUnit.MILLISECONDS);
+    private float calculateTotTime(String startDateTime, String endDateTime) {
+        try {
+           // System.out.println(startDateTime);
+            Date startDateParse = new SimpleDateFormat("yyyy-MM-dd HH:mm").parse(startDateTime);
+            Date endDateParse = new SimpleDateFormat("yyyy-MM-dd HH:mm").parse(endDateTime);
+            long diffInMillies = endDateParse.getTime() - startDateParse.getTime();
+            return TimeUnit.MINUTES.convert(diffInMillies,TimeUnit.MILLISECONDS);
+        } catch (ParseException ex) {
+            Logger.getLogger(ActivityRegisterManager.class.getName()).log(Level.SEVERE, null, ex);
+            return 0;
+        }
     } 
 
     /**
-     * data una date e le ore restituisce il Timestamp
+     * data una date e le ore restituisce il Date
      * @param date
      * @param time
-     * @return Timestamp
-     */
-    private Timestamp convertStringToTimestamp(Date date, String time) {
-        String dateStringa = date + " " + time+":00.0";
-        Timestamp timeStampDate = Timestamp.valueOf(dateStringa);
-        return timeStampDate;
-    }
+     * @return Date
+    */
+    private String convertTo24(String date) {
+         if(date.contains("AM")){
+            date = date.replace("AM", "");
+            String[] timeArr = date.split(":");
+            if(timeArr[0].equals("12")){
+                timeArr[0] = "12";
+            }
+            date = timeArr[0]+":"+timeArr[1];
+        }
+        else if(date.contains("PM")){
+            date = date.replace("PM", "");
+            String[] timeArr = date.split(":");
+            if(!timeArr[0].equals("12")){
+                timeArr[0] = Integer.toString(Integer.parseInt(timeArr[0])+12);
+            }
+            date = timeArr[0]+":"+timeArr[1];
+        }   
+         return date;
+   }
+ 
 }
