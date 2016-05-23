@@ -5,16 +5,20 @@
  */
 package it.unisa.dottorato.activityRegister;
 
-import it.unisa.dottorato.phdCourse.Lesson;
 import it.unisa.dottorato.utility.Utility;
 import it.unisa.integrazione.database.DBConnection;
 import java.io.IOException;
 import java.sql.Connection;
+import java.sql.Date;
 import java.sql.ResultSet;
 import java.sql.SQLException;
 import java.sql.Timestamp;
+import java.text.ParseException;
+import java.text.SimpleDateFormat;
 import java.util.ArrayList;
 import java.util.concurrent.TimeUnit;
+import java.util.logging.Level;
+import java.util.logging.Logger;
 
 /**
  *
@@ -23,6 +27,8 @@ import java.util.concurrent.TimeUnit;
 public class ActivityRegisterManager {
     private static ActivityRegisterManager instance;
     private static final String TABLE_ACTIVITY = "activity";
+    private static final String TABLE_LESSON="lesson";
+    private static final String TABLE_PRESENCE="presence";
     /**
     * Il costruttore della classe e' dichiarato privato, per evitare
     * l'istanziazione di oggetti della classe .
@@ -97,7 +103,7 @@ public class ActivityRegisterManager {
               String stringSQL = "SELECT * FROM " 
                     + ActivityRegisterManager.TABLE_ACTIVITY 
                     + " WHERE fkPhdStudent='"+idStudent+"'";            
-            //System.out.println(stringSQL);
+            System.out.println(stringSQL);
            
             //esegue query
             ResultSet result = Utility.queryOperation(connect, stringSQL);
@@ -117,6 +123,37 @@ public class ActivityRegisterManager {
                 activityList.add(activity);
             }
            
+            stringSQL = "SELECT lesson.idLesson, lesson.name, lesson.desription, lesson.date, lesson.startTime, lesson.endTime, presence.fkPhdStudent"
+                      + " FROM "+ ActivityRegisterManager.TABLE_LESSON+ "," + ActivityRegisterManager.TABLE_PRESENCE
+                      + " WHERE fkPhdStudent='"+idStudent+"'"
+                      + " AND isPresent = 1 AND fkLesson = lesson.idLesson" ;                                
+            System.out.println(stringSQL);
+
+            //esegue query
+            result = Utility.queryOperation(connect, stringSQL);
+           
+            while (result.next()) {
+                
+                Activity lesson = new Activity();
+                lesson.setIdActivity(Integer.parseInt(result.getString("idLesson")));
+                lesson.setName(result.getString("name"));
+                lesson.setDescription(result.getString("desription"));
+                
+                String startTime = result.getString("startTime");
+                String endTime = result.getString("endTime");
+               // checkTime(startTime, endTime);
+                Timestamp startDateTime =convertStringToTimestamp(result.getDate("date"),startTime);
+                Timestamp endDateTime = convertStringToTimestamp(result.getDate("date"),endTime);
+                
+                lesson.setStartDateTime(startDateTime);
+                lesson.setEndDateTime(endDateTime);
+                lesson.setTotalTime(calculateTotTime(startDateTime,endDateTime));
+               
+                lesson.setTypology("Lezione");
+                lesson.setFkPhdStudent(result.getString("fkPhdStudent"));
+               
+                activityList.add(lesson);    
+            }
           }finally {
            DBConnection.releaseConnection(connect);
         } 
@@ -194,5 +231,16 @@ public class ActivityRegisterManager {
         long diffInMillies = endDateTime.getTime() - startDateTime.getTime();
         return TimeUnit.MINUTES.convert(diffInMillies,TimeUnit.MILLISECONDS);
     } 
-    
- }
+
+    /**
+     * data una date e le ore restituisce il Timestamp
+     * @param date
+     * @param time
+     * @return Timestamp
+     */
+    private Timestamp convertStringToTimestamp(Date date, String time) {
+        String dateStringa = date + " " + time+":00.0";
+        Timestamp timeStampDate = Timestamp.valueOf(dateStringa);
+        return timeStampDate;
+    }
+}
