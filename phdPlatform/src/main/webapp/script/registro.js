@@ -133,8 +133,9 @@ function selectedItemDot()
               */ 
             $.getJSON("GetAllLessonServlet", {fkCourse: selected}, function (data1) 
             {
-                var head="<tr><th> Lezioni Aperte: </th><th>Data</th><th>Aula</th><th>Presenza</th></tr>";
-                closed_lesson="<tr><th> Lezioni Chiuse: </th></tr>";
+                var checklesson=true;
+                var head="<tr><th style='color:#0066cc'> Lezioni Aperte: </th><th style='color:#0066cc'>Data</th><th style='color:#0066cc'>Aula</th><th style='color:#0066cc'>Presenza</th></tr>";
+                closed_lesson="<tr><th style='color:#0066cc'> Lezioni Chiuse: </th></tr>";
                 id_Phd=data1.dottorando;
                 $("#resulthead ").append(head);
                 today=new Date();
@@ -155,12 +156,17 @@ function selectedItemDot()
                     if(lesson_status==='aperta' && !isAfterNow(lesson_start_date) && isAfterNow(lesson_end_date))
                     {
                         opened_lesson=opened_lesson+result_line+"></td></tr>";
+                        checklesson=false;
                        
                     }
                     else closed_lesson=closed_lesson+result_line+"disabled></td></tr>";
                     
                 
                 });
+                if(checklesson)
+                {
+                    opened_lesson="<tr><td colspan='4' style='text-align: center; font-weight: bold;'> ***** Al momento non sono presenti sessioni aperte *****</td></tr>";
+                }
                 body=opened_lesson+closed_lesson;
                 $("#resultbody ").append(body);
                 $.getJSON("GetPresenceToLesson", {idCourse: selected, fkPhdstudent: id_Phd}, function (data)
