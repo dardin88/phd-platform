@@ -16,7 +16,7 @@ and open the template in the editor.
 }
 #resulthead th p{
     font-size: large;
-    color: red;
+    color: #0066cc;
     text-transform: capitalize;
 }
 #panelDiv{

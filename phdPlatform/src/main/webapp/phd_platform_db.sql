@@ -333,25 +333,25 @@ name				varchar(70) not null,
 classroom			varchar(30) not null,
 desription 			text not null,
 fkCourse			integer not null,
-closed                          boolean default false,
+status                          varchar(12) default 'in_programma',
 foreign key (fkCourse) references course(idCourse) on delete cascade on update cascade);
 
-INSERT INTO lesson (idLesson,date,startTime,endTime	,name,classroom,desription,fkCourse,closed)VALUES
-(1, '2016-05-03', '9:10 AM', '12:10 AM', 'SITS', 'P12', 'introduzione al corso', 1, 0),
-(2, '2016-05-07', '9:10 AM', '12:10 AM', 'SI', 'P15', 'introduzione al corso', 2, 0),
-(3, '2016-05-10', '9:10 AM', '12:10 AM', 'SB', 'P10', 'introduzione al corso', 3, 0),
-(4, '2016-04-30', '8:30 AM', '10:30 AM', 'Informatica Applicata I', ' P1', ' Introduzione', 1, 0),
-(5, '2016-04-30', '8:30 AM', '10:30 AM', 'Informatica Applicata II', ' P1', ' Introduzione', 2, 0),
-(6, '2016-04-30', '8:30 AM', '10:30 AM', 'Informatica Applicata III', ' P1', ' Introduzione', 3, 0),
-(7, '2016-04-25', '8:30 AM', '9:30 AM', 'BD', ' P3', ' Introduzione', 1, 0),
-(8, '2016-05-12', '8:30 AM', '9:30 AM', 'BD 2', ' P3', ' Introduzione', 3, 0),
-(9, '2016-05-10', '10:30 AM', '12:30 AM', 'IS I', ' F5', ' Introduzione', 1, 0),
-(10, '2016-05-14', '10:30 AM', '12:30 AM', 'IS II', ' F5', ' Introduzione', 2, 0),
-(11, '2016-05-24', '10:30 AM', '12:30 AM', 'IS III', ' F5', ' Introduzione', 3, 0),
-(12, '2016-05-06', '12:45 AM', '2:45 PM', 'Test I', ' P15', ' Introduzione', 1, 0),
-(13, '2016-05-08', '12:45 AM', '2:45 PM', 'Test II', ' P15', ' Introduzione', 2, 0),
-(14, '2016-05-13', '12:45 AM', '2:45 PM', 'Test III', ' P15', ' Introduzione', 3, 0),
-(15, '2016-05-25', '12:45 AM', '2:45 PM', 'Test IIII', ' P15', ' Introduzione', 3, 0);
+INSERT INTO lesson (idLesson,date,startTime,endTime	,name,classroom,desription,fkCourse,status) VALUES
+(1, '2016-05-03', '9:10 AM', '12:10 AM', 'SITS', 'P12', 'introduzione al corso', 1,'in_programma' ),
+(2, '2016-05-07', '9:10 AM', '12:10 AM', 'SI', 'P15', 'introduzione al corso', 2, 'in_programma'),
+(3, '2016-05-10', '9:10 AM', '12:10 AM', 'SB', 'P10', 'introduzione al corso', 3, 'in_programma'),
+(4, '2016-06-30', '8:30 AM', '10:30 AM', 'Informatica Applicata I', ' P1', ' Introduzione', 1, 'in_programma'),
+(5, '2016-06-30', '8:30 AM', '10:30 AM', 'Informatica Applicata II', ' P1', ' Introduzione', 2, 'in_programma'),
+(6, '2016-06-30', '8:30 AM', '10:30 AM', 'Informatica Applicata III', ' P1', ' Introduzione', 3, 'in_programma'),
+(7, '2016-06-25', '8:30 AM', '9:30 AM', 'BD', ' P3', ' Introduzione', 1, 'in_programma'),
+(8, '2016-06-12', '8:30 AM', '9:30 AM', 'BD 2', ' P3', ' Introduzione', 3, 'in_programma'),
+(9, '2016-06-10', '10:30 AM', '12:30 AM', 'IS I', ' F5', ' Introduzione', 1, 'in_programma'),
+(10, '2016-06-14', '10:30 AM', '12:30 AM', 'IS II', ' F5', ' Introduzione', 2, 'in_programma'),
+(11, '2016-05-30', '10:30 AM', '12:30 AM', 'IS III', ' F5', ' Introduzione', 3, 'in_programma'),
+(12, '2016-06-06', '12:45 AM', '2:45 PM', 'Test I', ' P15', ' Introduzione', 1, 'in_programma'),
+(13, '2016-06-08', '12:45 AM', '2:45 PM', 'Test II', ' P15', ' Introduzione', 2, 'in_programma'),
+(14, '2016-05-30', '12:45 AM', '2:45 PM', 'Test III', ' P15', ' Introduzione', 3, 'in_programma'),
+(15, '2016-05-25', '12:45 AM', '2:45 PM', 'Test IIII', ' P15', ' Introduzione', 3, 'in_programma');
 
 create table IF not EXIsts keep(
 fkProfessor			varchar(50) not null,

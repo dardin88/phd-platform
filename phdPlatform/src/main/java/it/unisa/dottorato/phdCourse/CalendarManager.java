@@ -835,7 +835,7 @@ public class CalendarManager {
                 lesson.setClassroom(result.getString("classroom"));
                 lesson.setDescription(result.getString("desription"));                             
                 lesson.setFK_course(result.getInt("fkCourse"));
-                
+                lesson.setStatus(result.getString("status"));
                 lessons.add(lesson);
             }
 
@@ -1268,7 +1268,7 @@ public class CalendarManager {
                 lesson.setClassroom(result.getString("classroom"));
                 lesson.setDescription(result.getString("desription"));                             
                 lesson.setFK_course(result.getInt("fkCourse"));
-                lesson.setClosed(result.getBoolean("closed"));
+                lesson.setStatus(result.getString("status"));
                 
                 lessons.add(lesson);
             }
@@ -1315,19 +1315,19 @@ public class CalendarManager {
          return courses;
     }
      
-     public synchronized void setClosedLesson(int idLesson) throws SQLException {
+    public synchronized void setStatusLesson(int idLesson,String status) throws SQLException {
         Connection connect=null;
         try{
             connect = DBConnection.getConnection();
             /*
              * Prepariamo la stringa SQL per modificare un record 
-             * nella tabella seminar
+             * nella tabella lesson
              */
             String tSql = "UPDATE "
                     + CalendarManager.TABLE_LESSON
-                    + " set closed = " 
-                    + true
-                    + " WHERE idLesson = "
+                    + " set status = '" 
+                    + status
+                    + "' WHERE idLesson = "
                     + idLesson;           
 
             Utility.executeOperation(connect, tSql);
