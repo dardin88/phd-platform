@@ -210,11 +210,11 @@ function selectedItem2(){
                $.each(data1.lessons, function (index, value5) {     
                     data1=value5.data;
                     if(value5.status === "chiusa"){
-                        dottorando11 = " <th class='chiusa' style=' display: none'> " + date_format(data1) + "<p>"+value5.name+"</p></th>  ";
+                        dottorando11 = " <th class='chiusa' style=' display: none'> <span>" + value5.name + "</span></br><span>" + date_format(data1) + "</br>" + value5.startTime + " - " + value5.endTime + "</span></th>  ";
                     }
                     else
                     {
-                        dottorando11 = " <th class='"+value5.idLesson+"'> " + date_format(data1) + "<p>"+value5.name+"</p></th>  ";
+                        dottorando11 = " <th class='"+value5.idLesson+"'> <span>" + value5.name + "</span></br><span>" + date_format(data1) + "</br>" + value5.startTime + " - " + value5.endTime + "</span></th>  ";
                     }
                     $("#resulthead ").append(dottorando11);
                     nButtons++;
@@ -435,5 +435,5 @@ function date_format(date)
 {
     var month= date.substring(5,7);
     var day=date.substring(8);
-    return day+"-"+month+"-"+date.substring(0,4);
+    return day+"/"+month+"/"+date.substring(0,4);
 }

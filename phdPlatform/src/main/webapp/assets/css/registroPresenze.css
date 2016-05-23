@@ -14,10 +14,14 @@ and open the template in the editor.
     text-align: center;
     word-wrap: break-word;
 }
-#resulthead th p{
-    font-size: large;
+#resulthead th span:first-child{
+    font-size: 19px;
     color: #0066cc;
     text-transform: capitalize;
+}
+#resulthead th span{
+    font-size: 14px;
+    color: #707277;
 }
 #panelDiv{
     overflow: scroll;
@@ -29,9 +33,8 @@ and open the template in the editor.
     font-size: 14px;
 }
 .celle{
-    min-width: 115px;
-    max-width: 180px;
     text-align: center;
+    min-width: 175px;
 }
 .form-group{
     float:left;
