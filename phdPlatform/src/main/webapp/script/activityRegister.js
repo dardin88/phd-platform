@@ -3,11 +3,21 @@
  * To change this template file, choose Tools | Templates
  * and open the template in the editor.
  */
-
 const MAX_HOURS = 1500;
 
-function insertActivity() {
-    var name= $("#name").val(),
+/**
+ * metodo che permette l'inserimento o la modifica di un'attività
+ * effettua i seguenti controlli:
+ * i campi non sono vuoti
+ * l'ora iniziale è minore di quella finale
+ * il numero di ore raggiunte è minore di 1500
+ * @param {type} servlet nome della servlet da invocare
+ * @returns {undefined}
+ */
+function insertEditActivity(servlet) {
+
+    var idActivity = sessionStorage.getItem('idActivity'),
+        name= $("#name").val(),
         description = $("#description").val(), 
         typology = $("#typology option:selected").val(),
         date = $("#dateActivity").val(),
@@ -18,11 +28,18 @@ function insertActivity() {
        
     if (name !== "" && typology !== "default" && description !== "" && date !=="" ) {
         if(checkTime(d1,d2)){
-            if(calculateTotHours(d1,d2)){
-                 $.getJSON("InsertActivity", {name:name,description:description,startDateTime:startDateTime,endDateTime:endDateTime,typology:typology}, 
+            if(checkTotHours(d1,d2)){
+                 $.getJSON(servlet, {
+                     idActivity:idActivity,
+                     name:name,
+                     description:description,
+                     startDateTime:startDateTime,
+                     endDateTime:endDateTime,
+                     typology:typology}, 
                     function (data) {
-                        console.log(data);
-                       if (data.result) {
+                        if (data.result) {
+                            //location.href = "activityRegister.jsp"; 
+
                             $("#titleInfo").html("");
                             $("#descriptionInfo").html("");
                             $("#infoDialog").modal();
@@ -38,11 +55,18 @@ function insertActivity() {
                     });
             }else{
                 $("#infoDialog").modal();
-                $("#titleInfo").html("Ore maggiori di 1500");
+                  $("#titleInfo").html("Ore maggiori di 1500");
+                
             }
         }else{
-            $("#infoDialog").modal();
-            $("#titleInfo").html("L'ora iniziale è maggiore della finale");
+           // $("#infoDialog").modal();
+            //$("#titleInfo").html("L'ora iniziale è maggiore della finale");
+             $("#startTimeActivity").css("border", "2px red solid");
+             $("#endTimeActivity").css("border", "2px red solid");
+             setTimeout(function(){
+                  $("#startTimeActivity").css("border", "1px solid #e4e4e4");
+                  $("#endTimeActivity").css("border", "1px solid #e4e4e4");
+             },1500);
         }
     } else {
         $("#infoDialog").modal();
@@ -56,13 +80,22 @@ function insertActivity() {
  * @returns {Boolean} true se l'ora di fine è maggiore di quella di inizio
  */
 function checkTime(startTime,endTime){
+    console.log(startTime+" "+endTime)
      if(startTime.getHours() < endTime.getHours() )
          return true;
      else
          return false;
 }
 
-function calculateTotHours(timeStart,timeEnd) {
+/**
+ * considerando due date calcola la differenza e delle ore passate 
+ * e le somma al totale delle ore calcolate fino a quel momento.
+ * e verifica se minore di 1500
+ * @param {type} timeStart 
+ * @param {type} timeEnd
+ * @returns {Boolean} true se il nuemro di ore è minore di 1500, false altrimenti
+ */
+function checkTotHours(timeStart,timeEnd) {
     //get values
     var diff = timeEnd.getTime() - timeStart.getTime();
     var msec = diff;
@@ -72,6 +105,9 @@ function calculateTotHours(timeStart,timeEnd) {
     msec -= mm * 1000 * 60;
     var ss = Math.floor(msec / 1000);
     msec -= ss * 1000;
+  
+    console.log("TotalH "+sessionStorage.getItem('totalHours'));
+
   
     var tot = hh + parseInt(sessionStorage.getItem('totalHours'));
     console.log(tot +" "+sessionStorage.getItem('totalHours'));
@@ -106,33 +142,11 @@ function convertTo24Hours(ora)
     return ore+":"+minuti;
 }
 
-function updateActivity(){
-    var idActivity = sessionStorage.getItem('idActivity'),
-        name= $("#name").val(),
-        description = $("#description").val(),
-        startDateTime = $("#dateActivity").val() + " " +convertTo24Hours($("#startTimeActivity").val()),
-        endDateTime = $("#dateActivity").val() + " " +convertTo24Hours($("#endTimeActivity").val()),
-        typology = $("#typology option:selected").val();
-    if (name !== "" && typology !== "default" && description !== "") {
-        $.getJSON("UpdateActivity", {idActivity:idActivity, name:name, description:description,startDateTime:startDateTime,endDateTime:endDateTime,typology:typology}, 
-        function (data) {
-            console.log(data)
-           if (data.result) {
-                $("#infoDialog").modal();
-                $("#titleInfo").html("Operazione eseguita con successo!");
-                $("#descriptionInfo").html("L'attività è stata aggiunta.");
-            } else {
-                $("#infoDialog").modal();
-                $("#titleInfo").html("Errore inserimento evento!");
-                $("#descriptionInfo").html("L'attività NON è stata aggiunta, riprova.");
-            }
-        });
-    }else {
-        alert("Compilare tutti i campi!");
-    }
-}
-
-
+/**
+ * converte l'ora in formato 24 ore in formato AM o PM
+ * @param {type} ora
+ * @returns {Number|String}
+ */
 function convertToAmPm(ora)
 {
     var ore=parseInt(ora.substring(0,2));
@@ -152,6 +166,10 @@ function convertToAmPm(ora)
     return ore;
 }
 
+/**
+ * modifica l'interfaccia utente per la modifica di un'attività compilando i campi.
+ * @returns {undefined}
+ */
 function updateFunction(){
     $("#name").val(sessionStorage.getItem('name'));
     $("#description").val(sessionStorage.getItem('description'));
@@ -161,12 +179,15 @@ function updateFunction(){
     $("#typology option[value='"+sessionStorage.getItem('typology')+"']").attr('selected','selected');
 
     $("#Intestazione").html('<h1>Modifica Attività nel Registro</h1>');
-    $("#bottoneInsUpdate").html("<input  type='submit' class='btn btn-blue' value='Modifica' onclick='updateActivity()'>");
+    $("#bottoneInsUpdate").html("<input  type='submit' class='btn btn-blue' value='Modifica' onclick=\"insertEditActivity('UpdateActivity')\">");
     
 }
 
+/**
+ * modifica l'interfaccia utente per l'inserimento
+ * @returns {undefined}
+ */
 function insertFunction(){
    $("#Intestazione").html('<h1> Inserisci Attività nel Registro </h1>');
-    $("#bottoneInsUpdate").html("<input  type='submit' class='btn btn-blue' value='Inserisci' onclick='insertActivity()'>");
+   $("#bottoneInsUpdate").html("<input  type='submit' class='btn btn-blue' value='Inserisci' onclick=\"insertEditActivity( 'InsertActivity')\">");
 }
-
