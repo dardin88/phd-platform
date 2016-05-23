@@ -427,3 +427,19 @@ INSERT INTO presence (fkPhdstudent,fkLesson,isPresent)VALUES
 ('minichiello@hotmail.it', 13, 0),
 ('minichiello@hotmail.it', 14, 0),
 ('minichiello@hotmail.it', 15, 0);
+
+CREATE TABLE IF NOT EXISTS activity (
+  idActivity int(11) NOT NULL auto_increment primary key,
+  name varchar(50) NOT NULL,
+  description text,
+  startDateTime datetime NOT NULL,
+  endDateTime datetime NOT NULL,
+  totalTime float,
+  typology varchar(50) NOT NULL,
+  fkPhdStudent varchar(50) NOT NULL,
+  foreign key (fkPhdStudent) references phdstudent(fkAccount) on delete cascade on update cascade
+);
+
+INSERT INTO activity(name, description, startDateTime, endDateTime,totalTime, typology,  fkPhdStudent)
+	VALUES ('studio derivate', 'ho studiato le derivate', '2016-04-28 09:00', '2016-04-28 11:00','120', 'Studio Individuale', 'dinucci@hotmail.it'),
+		   ('turorato triennale', 'ho fatto tutorato al corso di reti wireless della magistrale', '2016-04-28 11:00', '2016-04-28 14:00','180', 'Tutorato', 'dinucci@hotmail.it')
