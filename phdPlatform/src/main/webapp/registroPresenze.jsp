@@ -120,6 +120,23 @@
                                         </tfoot>
                                         
                                     </table>
+                                    <table id="resultst2" class="table" style="display: none">
+                                       
+                                        <thead id="resulthead2">
+                                    
+                                        </thead>
+                                        
+                                        <tbody id="resultbody2">
+                                            
+                                        </tbody>
+                                         
+                                        <tfoot>
+                                            
+                                            <tr id="resultBotton2"> </tr>
+                                            
+                                        </tfoot>
+                                        
+                                    </table>
                                      
                                 </div>
                             </div>

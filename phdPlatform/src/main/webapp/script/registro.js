@@ -121,7 +121,6 @@ function selectedItemDot()
             $("#resultbody tr").remove();   
             selected = $("#Corsoprofessore option:selected").val();
             $("#panelDiv").show();
-            //metodo per stampare le date
              var opened_lesson;
              var closed_lesson;
              var id_Phd;
@@ -191,7 +190,7 @@ function selectedItemDot()
  * la funzionalità "Gestione Presenze".
  */
 
-function selectedItem2(){  
+function selectedItem3(){  
     var nButtons=0;
     $("#panelDiv").hide();
     $("#resulthead th").remove();
@@ -324,6 +323,7 @@ function selectedItem2(){
     
 }
 
+
 /* Mmetodo per nascondere/visualizzare 
  * le sessioni chiuse
  */
@@ -442,4 +442,92 @@ function date_format(date)
     var month= date.substring(5,7);
     var day=date.substring(8);
     return day+"/"+month+"/"+date.substring(0,4);
+}
+
+function selectedItem2()
+{
+    $("#panelDiv").hide();
+    $("#resulthead th").remove();
+    $("#resultbody tr").remove();
+    $("#sessione label").remove();
+    selected = $("#Corsoprofessore option:selected").val();
+       
+        if (selected !== "default") //se il valore della select è default non mostriamo il div contenente le informazioni delle date delle lezioni
+        { 
+            $("#resulthead th").remove();
+            $("#resultbody tr").remove(); 
+            $("#resulthead2 th").remove();
+            $("#resultbody2 tr").remove(); 
+            
+            selected = $("#Corsoprofessore option:selected").val();
+            $("#sessione").append("<label><input id='sessioni' type='checkbox' name='sessione' onchange='mostraSessioni()'> Visualizza le sessioni chiuse</label>");
+            $("#panelDiv").show();
+             var opened_lesson;
+             var closed_lesson;
+             var id_Phd;
+             /*
+              * con la chiamata alla servlet GetAllLessonServlet recupero tutte le lezioni del corso selezionato. In più ottengo anche l'id dell'attore che effettua la chiamata
+              * nel ciclo effetto la costruzione della tabella filtrando le lezioni in base al loro stato(in corso/terminata)
+              * Inizialmente l'attore è presente a tutte le lezioni. Infatti con la chiamata alla Servlet GetPresenceToLesson effettuo l'operazione di filtraggio
+              * 
+              */ 
+            $.getJSON("GetAllLessonServlet", {fkCourse: selected}, function (data1) 
+            {
+                var checklesson=true;
+                var head="<tr><th style='color:#0066cc'> Lezioni Aperte: </th><th style='color:#0066cc'>Data</th><th style='color:#0066cc'>Aula</th><th style='color:#0066cc'>Presenza</th><th></th></tr>";
+                var head2="<tr><th style='color:#0066cc'> Lezioni Chiuse: </th><th style='color:#0066cc'>Data</th><th style='color:#0066cc'>Aula</th><th style='color:#0066cc'>Presenza</th><th></th></tr>";
+                id_Phd=data1.dottorando;
+                $("#resulthead ").append(head);
+                $("#resulthead2").append(head2);
+                today=new Date();
+                $.each(data1.lessons, function (index, value5) 
+                {
+                    lesson_id=value5.idLesson; 
+                    lesson_name=value5.name;
+                    lesson_class=value5.classroom;
+                    lesson_date=value5.data;
+                    lesson_start=value5.startTime;
+                    lesson_end=value5.endTime;
+                    lesson_status=value5.status;
+                    lesson_start_date=get_Date(lesson_date,lesson_start);
+                    lesson_end_date=get_Date(lesson_date,lesson_end);
+                    result_line="<tr><td>"+lesson_name+"</td><td>"+date_format(lesson_date)+" "+lesson_start+"-"+lesson_end+"</td><td>"+lesson_class+"</td>";
+                    checkbox="<td> <input type='checkbox' value='"+id_Phd+ "'   id='" + lesson_id+ "' class='checkboxclass' onchange='changePresenza("+'value'+","+lesson_id+")' checked ";//></td></tr>";
+                    result_line=result_line+checkbox;    
+                    if(lesson_status==='aperta' && !isAfterNow(lesson_start_date) && isAfterNow(lesson_end_date))
+                    {
+                        opened_lesson=opened_lesson+result_line+"></td><td id='resultButton_"+lesson_id+"'</tr>";
+                        checklesson=false;
+                       
+                    }
+                    else closed_lesson=closed_lesson+result_line+"disabled></td><td id='resultButton_"+lesson_id+"'</tr>";
+                    
+                
+                });
+                if(checklesson)
+                {
+                    opened_lesson="<tr><td colspan='4' style='text-align: center; font-weight: bold;'> ***** Al momento non sono presenti sessioni aperte *****</td></tr>";
+                }
+                body1=opened_lesson;
+                body2=closed_lesson;
+                $("#resultbody ").append(body1);
+                $("#resultbody2").append(body2);
+               
+            });             
+        }
+}
+function mostraSessioni()
+{  
+    
+    if($("#sessioni").is(':checked'))
+    {       
+       $("#resultst").css("display","none");
+       $("#resultst2").css("display","");
+    }
+    else
+    {
+       $("#resultst2").css("display","none");
+       $("#resultst").css("display","");
+    }       
+   
 }
