@@ -77,15 +77,17 @@
  
                         <div class="col-sm-10">
                            
-                            <div class="form-group">
+                            <div>
                                 
-                                <select style="width:350px;"  name="Corsoprofessore" class="form-control" id="Corsoprofessore"  onchange="selectedItem2()" >
+                                <span>
+                                <select style="width:350px;"  name="Corsoprofessore" id="Corsoprofessore"  onchange="selectedItem2()" >
                                
                                     <option value="default"  >  - Seleziona un corso  -  </option>
                                              
-                                </select>
+                                </select> 
+                                    &nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp; <input type="radio" name="lezioni" id="lez_aperte" value="aperta" onclick="mostraSessioni()" checked> Sessioni Aperte &nbsp;&nbsp;&nbsp;<input type="radio" name="lezioni" id="lez_chiuse" value="chiusa"  onclick="mostraSessioni()"> Sessioni Chiuse <br><br>
+                                </span>
                                 
-                                <div id="sessione">  </div> 
                                 
                             </div>
                         </div>
@@ -120,7 +122,7 @@
                                         </tfoot>
                                         
                                     </table>
-                                    <table id="resultst2" class="table" style="display: none">
+                                    <table id="resultst2" class="table" style="display:none">
                                        
                                         <thead id="resulthead2">
                                     
@@ -133,6 +135,23 @@
                                         <tfoot>
                                             
                                             <tr id="resultBotton2"> </tr>
+                                            
+                                        </tfoot>
+                                        
+                                    </table>
+                                    <table id="resultst3" class="table">
+                                       
+                                        <thead id="resulthead3">
+                                    
+                                        </thead>
+                                        
+                                        <tbody id="resultbody3">
+                                            
+                                        </tbody>
+                                         
+                                        <tfoot>
+                                            
+                                            <tr id="resultBotton3"> </tr>
                                             
                                         </tfoot>
                                         
