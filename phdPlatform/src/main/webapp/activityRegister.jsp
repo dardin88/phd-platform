@@ -136,34 +136,24 @@
                 location.reload();
             }
             
-            function redirectToInsert(){
-                $.getJSON("GetActivityRegister", {},
-                
-                        function (data) {
-                            //calcolo i minuti totali del registro da passare alla jsp di inserimento
-                            var totalMinutes = 0;
-                            data.activities.forEach(function(activity, i){
-                                totalMinutes = totalMinutes + activity.totalTime;
-                            });
-                            var totalHours = totalMinutes/60;
-                            if(totalHours < 1500){
-                                sessionStorage.setItem("totalHours", totalHours);
-                                sessionStorage.setItem("insertFlag", true);
-                                location.href = 'insertEditActivity.jsp'; 
-                            }
-                            else{
-                                $("#titleInfo").html("");
-                                $("#descriptionInfo").html("");
-                                $("#infoDialog").modal();
-                                $("#titleInfo").html("Errore inserimento evento!");
-                                $("#descriptionInfo").html("Hai raggiunto il limite di 1500 ore annue.");
-                            }
-                        }
-                );    
+            function redirectToInsert(){ 
+                if(totalHours < 1500){
+                    sessionStorage.setItem("totalHours", totalHours);
+                    sessionStorage.setItem("insertFlag", true);
+                    location.href = 'insertEditActivity.jsp'; 
+                }
+                else{
+                    $("#titleInfo").html("");
+                    $("#descriptionInfo").html("");
+                    $("#infoDialog").modal();
+                    $("#titleInfo").html("Errore inserimento evento!");
+                    $("#descriptionInfo").html("Hai raggiunto il limite di 1500 ore annue.");
+                }
             }
             
-            function redirectToEdit(string){
+            function redirectToEdit(string){                
                 //setto i parametri da passare alla jsp di modifica
+                sessionStorage.setItem("totalHours", totalHours);
                 sessionStorage.setItem("insertFlag", false);
                 sessionStorage.setItem("name", string.split(',')[0]);
                 sessionStorage.setItem("description", string.split(',')[1]);
@@ -181,6 +171,23 @@
                                 
                 $.getJSON("GetActivityRegister", {},                
                     function (data) {
+                        //calcolo i minuti totali del registro e per tipologia
+                        var totalMinutes = 0;                        
+                        data.activities.forEach(function(activity){                            
+                            totalMinutes = totalMinutes + activity.totalTime;
+                            //se la tipologia è già mostrata faccio la somma delle ore altrimenti aggiungo la nuova tipologia
+                            var result = findTypology(activity.typology);
+                            if(!result)
+                                activitiesHours.push({'typology':activity.typology, 'totalTime':activity.totalTime/60});
+                            else{
+                                //cerco l'elemento nell'array nel quale caricare le nuove ore
+                                var items = $.grep(activitiesHours, function(e){ return e.typology === activity.typology; });
+                                items[0].totalTime = items[0].totalTime + activity.totalTime/60;
+                            }
+                        });
+                                                
+                        totalHours = totalMinutes/60;
+                            
                         $.each(data.activities, function(rowIndex, r) {
                             var row = $("<tr/></tbody>");         
                             row.append($("<td/>").text(r.name));
@@ -207,9 +214,29 @@
                     }    
                );
             }
+            //funzione di supporto per la funzione showSummary
+            function findTypology(arrEl) {
+                for (var i = 0, len = activitiesHours.length; i < len; i++) {
+                    if (activitiesHours[i].typology === arrEl)
+                        return activitiesHours[i].totalTime;
+                }
+                return null;
+            }
             
-            //sull'onReady recupero le informazioni dell'utente loggato
-            $(document).ready(function(){                 
+            function showSummary(){
+                var customHtml = '';
+                activitiesHours.forEach(function(activity){   
+                    customHtml = customHtml+activity.typology+': '+activity.totalTime+(activity.totalTime === 1 ? ' ora<br>' : ' ore<br>');
+                });
+                $("#infoDialog").modal();
+                $("#titleInfo").html("Ore correnti: "+totalHours);    
+                $("#descriptionInfo").html(customHtml);
+            }
+            
+            //sull'onReady recupero le informazioni dell'utente loggato ed il registro attività
+            $(document).ready(function(){  
+                //array globale contenente le ore per tipologia
+                activitiesHours = [];
                 <% Account loggedPerson = ((Account) session.getAttribute("account"));%> 
                 firstLastName = '<%= loggedPerson.getName()%> <%= loggedPerson.getSurname()%>';
                 getActivityRegister();
@@ -254,6 +281,9 @@
                                 </button>
                                 <button type="button" class="btn btn-xs" aria-label="Left Align" onclick="printPDF()">
                                     <span id="showArrow" class="glyphicon glyphicon-download-alt" aria-hidden="true"> </span> Stampa PDF
+                                </button>
+                                <button type="button" class="btn btn-xs" aria-label="Left Align" onclick="showSummary()">
+                                    <span id="showArrow" class="glyphicon glyphicon glyphicon-info-sign" aria-hidden="true"> </span> Mostra summary
                                 </button>
                             </div>
                             <div class="panel-body">
