@@ -395,7 +395,7 @@ public class PresenceManager {
         
     }
     
-      public synchronized ArrayList<Presence> getTotalLesson(String idDottorando, String CourseName) throws 
+      public synchronized ArrayList<Presence> getTotalLesson(String idDottorando, String CourseName, int CycleNumber) throws 
            ClassNotFoundException, SQLException, IOException, IdException, PhdStudentexception {
         Connection connect = null;
         Connection connect2 = null;
@@ -421,12 +421,13 @@ public class PresenceManager {
             String tSql =
                     " SELECT COUNT(isPresent) AS presenceCount," +
                     "sum(case when isPresent = 1 then 1 else 0 end) PresenzeEff" +
-"                   FROM presence, lesson, course" +
+"                   FROM presence, lesson, course, cycle" +
 "       where presence.fkPhdstudent ="+testDottorando(idDottorando)+ 
 "         and presence.fkLesson = lesson.idLesson" +
 "          and lesson.fkCourse= Course.idCourse" +
 "          and Course.name="+CourseName+
-            "and lesson.closed=1";
+            "and lesson.status= 'chiusa'"+
+                    "and cycle.number="+CycleNumber;
             //Inviamo la Query al DataBase
             ResultSet result = Utility.queryOperation(connect, tSql);
 

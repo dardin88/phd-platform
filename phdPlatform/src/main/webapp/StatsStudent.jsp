@@ -18,9 +18,9 @@
 <html>
     <head>
            <script src="assets/js/jquery-1.11.1.min.js"></script>
-          <script type="text/javascript" src="script/getStats.js"></script>
+          <script type="text/javascript" src="script/StatsChart.js"></script>
            	<script type='text/javascript' src='//code.jquery.com/jquery-1.9.1.js'></script>   
-        <script type='text/javascript' src="https://rawgit.com/nnnick/Chart.js/v2.0-dev/dist/Chart.js"></script>
+        <script type='text/javascript' src="https://cdnjs.cloudflare.com/ajax/libs/Chart.js/2.1.3/Chart.min.js"></script>
         
         
 
@@ -59,11 +59,11 @@
                            
                             <div class="form-group">
    <FORM ACTION="Submit" METHOD="POST"> 
-                                <label  > Seleziona uno dei corsi seguiti</label>
+                                <label  > Seleziona il ciclo di studi</label>
                                 
-                                <select name="Corsoseguito" class="form-control" id="Corsoseguito" onchange="getPresenze()">
+                                <select name="Ciclo" class="form-control" id="Ciclo" onchange="getStatsPresenze()">
                        
-                                    <option value="default"  >  - selezionate il vostro  corso  -  </option>
+                                    <option value="default"  >  - selezionate il vostro  ciclo di studi  -  </option>
                                     
                
   
@@ -96,6 +96,7 @@
     </div>
         
     </body>
+    
     <%}else{%>
                 <c:redirect url="index.jsp" />
           <%  }
