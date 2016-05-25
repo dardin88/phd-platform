@@ -6,7 +6,9 @@ import java.io.Serializable;
 /**Classe dell'oggetto Presence; rappresenta la presenza di un dottorando ad una lezione
  * Ha come attributi fkPhdstudent, fkLesson, isPresent, setPermission che rappresentano
  * rispettivamente l'email principale del dottorando, l'id della lezione, e due valori 
- * booleani per indicare se si è presenti o no alla lezione
+ * booleani per indicare se si è presenti o no alla lezione, name e surname che indicano 
+ * rispettivamente Nome e Cognome del dottorando.
+ * 
  * @author Rembor
  */
 public class Presence implements Serializable {
@@ -17,6 +19,8 @@ public class Presence implements Serializable {
     private int Totale;
     private int PresenzeEff;
     private int Assenze;
+    private String name;
+    private String surname;
     
 /** Metodo della classe incaricato di settare l'id della lezione
      * 
@@ -95,6 +99,22 @@ public class Presence implements Serializable {
       public int getTotalPresence() {
         return Totale;
     }
+      
+    public String getName() {
+        return name;
+    }
+
+    public void setName(String Name) {
+        this.name = Name;
+    }
+
+    public String getSurname() {
+        return surname;
+    }
+
+    public void setSurname(String Surname) {
+        this.surname = Surname;
+    }  
 
     
 }

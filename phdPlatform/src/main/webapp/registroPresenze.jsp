@@ -52,7 +52,7 @@
             <div class="modal-content">
                 <div class="modal-header">
                     <button type="button" class="close" data-dismiss="modal">&times;</button>
-                    <div class="modal-title" id="titleInfo"></div>
+                    <h4 class="modal-title" id="titleInfo"></h4>
                 </div>
                 <div class="modal-body" id="descriptionInfo"></div>
             </div>
@@ -77,19 +77,23 @@
  
                         <div class="col-sm-10">
                            
-                            <div>
-                                
-                                <span>
-                                <select style="width:350px;"  name="Corsoprofessore" id="Corsoprofessore"  onchange="selectedItem2()" >
+                            <table>                                
+                                <tr>
+                                    <td>
+                                        <select style="width:350px;"  name="Corsoprofessore" class="form-control" id="Corsoprofessore"  onchange="selectedItem2()" >
                                
-                                    <option value="default"  >  - Seleziona un corso  -  </option>
+                                            <option value="default"  >  - Seleziona un corso  -  </option>
                                              
-                                </select> 
-                                    &nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp; <input type="radio" name="lezioni" id="lez_aperte" value="aperta" onclick="mostraSessioni()" checked> Sessioni Aperte &nbsp;&nbsp;&nbsp;<input type="radio" name="lezioni" id="lez_chiuse" value="chiusa"  onclick="mostraSessioni()"> Sessioni Chiuse <br><br>
-                                </span>
-                                
-                                
-                            </div>
+                                        </select>
+                                    </td>
+                                    <td style="padding-left: 20px; padding-top: 6px;">
+                                        <label> <input type="radio" name="radioLesson" id="lez_aperte" value="aperta" onclick="mostraSessioni()" checked> Sessioni Aperte &nbsp;&nbsp;</label> 
+                                        <label> <input type="radio" name="radioLesson" id="lez_chiuse" value="chiusa"  onclick="mostraSessioni()"> Sessioni Chiuse &nbsp;&nbsp;</label>                                      
+                                    </td>
+                                </tr>           
+                            </table>
+                            </br></br>
+                            
                         </div>
  
                         <div class="col-sm-1" ></div>
@@ -114,14 +118,9 @@
                                         <tbody id="resultbody">
                                             
                                         </tbody>
-                                         
-                                        <tfoot>
-                                            
-                                            <tr id="resultBotton"> </tr>
-                                            
-                                        </tfoot>
                                         
                                     </table>
+                                    
                                     <table id="resultst2" class="table" style="display:none">
                                        
                                         <thead id="resulthead2">
@@ -131,14 +130,9 @@
                                         <tbody id="resultbody2">
                                             
                                         </tbody>
-                                         
-                                        <tfoot>
-                                            
-                                            <tr id="resultBotton2"> </tr>
-                                            
-                                        </tfoot>
                                         
                                     </table>
+                                    
                                     <table id="resultst3" class="table">
                                        
                                         <thead id="resulthead3">
@@ -149,9 +143,7 @@
                                             
                                         </tbody>
                                          
-                                        <tfoot>
-                                            
-                                            <tr id="resultBotton3"> </tr>
+                                        <tfoot id="resultfoot3">
                                             
                                         </tfoot>
                                         

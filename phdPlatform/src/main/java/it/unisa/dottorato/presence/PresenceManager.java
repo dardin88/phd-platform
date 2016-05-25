@@ -24,6 +24,8 @@ public class PresenceManager {
   private static final String TABLE_Lesson="lesson";
   private static final String TABLE_Presence="presence";
   private static final String TABLE_Course="course";
+  private static final String TABLE_Account="account";
+  
   private static PresenceManager instance;
    Presence checkPermission;
   /**
@@ -483,4 +485,69 @@ System.out.println(lesson.toString());
         } 
        return lessonList;
     }
+
+/** Metodo che restituisce informazioni sui dottorandi presenti 
+   * a una determinata lezione
+   * 
+   * @param fkLesson
+   * @return
+   * @throws ClassNotFoundException
+   * @throws SQLException
+   * @throws IOException
+   * @throws IdException  
+   */
+   public synchronized ArrayList<Presence> getPresencesLesson(int fkLesson) throws 
+           ClassNotFoundException, SQLException, IOException, IdException, PhdStudentexception {
+       
+       Connection connect = null;
+       Presence presente= null;
+       ArrayList<Presence> classList = null;
+       
+       try
+       {
+           classList=new ArrayList<>();
+           
+           // Otteniamo una Connessione al DataBase
+           connect = DBConnection.getConnection();
+
+            /*
+             * Prepariamo la stringa SQL per la ricerca dei dottorandi presenti 
+             * e assenti alla lezione specifica
+            */
+            
+            String tSql = "SELECT secondaryEmail,name,surname,isPresent FROM "
+                          + PresenceManager.TABLE_Presence
+                          + " JOIN "
+                          + PresenceManager.TABLE_Account
+                          + " ON "
+                          + PresenceManager.TABLE_Presence
+                          + ".fkPhdstudent = " 
+                          + PresenceManager.TABLE_Account
+                          + ".secondaryEmail WHERE "
+                          + PresenceManager.TABLE_Presence
+                          + ".fkLesson = "
+                          + fkLesson
+                          + " ORDER BY name,surname";
+    
+            //Inviamo la Query al DataBase
+            ResultSet result = Utility.queryOperation(connect, tSql);
+
+            while (result.next()) {
+                
+                presente =new Presence();
+                presente.setFkPhdstudent(result.getString("secondaryEmail"));
+                presente.setName(result.getString("name"));
+                presente.setSurname(result.getString("surname"));
+                presente.setIsPresent(result.getBoolean("isPresent"));
+                
+                classList.add(presente);
+            }
+           
+        }finally {
+            DBConnection.releaseConnection(connect);
+        }
+        return classList;
+        
+    }     
 }
+

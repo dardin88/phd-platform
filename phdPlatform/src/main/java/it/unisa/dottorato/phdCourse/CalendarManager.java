@@ -1253,7 +1253,7 @@ public class CalendarManager {
                           + fkCourse
                           + " ORDER BY "
                           + CalendarManager.TABLE_LESSON + ".date, " 
-                          + CalendarManager.TABLE_LESSON + ".idLesson";
+                          + CalendarManager.TABLE_LESSON + ".name";
            
             ResultSet result = Utility.queryOperation(connect, tSql);
            
