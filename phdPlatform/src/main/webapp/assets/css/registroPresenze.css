@@ -10,9 +10,13 @@ and open the template in the editor.
 
 #resulthead th{
     font-weight: bold;
-    font-size: medium;
-    text-align: center;
     word-wrap: break-word;
+    color: #0066cc;
+}
+#resulthead2 th{
+    font-weight: bold;
+    word-wrap: break-word;
+    color: #0066cc;
 }
 #resulthead th span:first-child{
     font-size: 19px;
@@ -22,9 +26,6 @@ and open the template in the editor.
 #resulthead th span{
     font-size: 14px;
     color: #707277;
-}
-#panelDiv{
-    overflow: scroll;
 }
 .students{
     word-wrap: break-word;

@@ -240,15 +240,15 @@
                                             </p>
 
                                             <p class="text-justify"> 
-                                            <h3>Registro attività: <span id ="showArrow" class="glyphicon glyphicon-chevron-down pointer" aria-hidden="true" onclick="show();"></span></h3>
+                                            <h3>Attività: <span id ="showArrow" class="glyphicon glyphicon-chevron-down pointer" aria-hidden="true" onclick="show();"></span></h3>
                                             </p>
                                             <div id="rawr">
                                                 <div class="panel-heading">
-                                                    <ul class="nav nav-tabs" >
-                                                        <li class="bottoni" role="presentation" onclick="location.href = 'activityRegister.jsp'"><a>Vai al registro</a></li>
+                                                    <ul class="nav nav-tabs" >                                                        
                                                         <li class="bottoni" role="presentation" onclick="display('table-pub')"><a>Pubblicazioni</a></li>
                                                         <li class="bottoni" role="presentation" onclick="display('table-coll')"><a>Collaborazioni</a></li>
                                                         <li class="bottoni" role="presentation" onclick="display('table-miss')"><a>Mission</a></li>
+                                                        <li class="bottoni" role="presentation" onclick="location.href = 'activityRegister.jsp'"><a>Vai al registro</a></li>
                                                     </ul>
                                                     <br>
 
