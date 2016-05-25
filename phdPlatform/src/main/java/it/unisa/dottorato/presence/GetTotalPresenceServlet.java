@@ -11,6 +11,7 @@ import it.unisa.dottorato.phdCourse.Course;
 import it.unisa.dottorato.utility.Utility;
 import java.io.IOException;
 import java.io.PrintWriter;
+import static java.lang.Integer.parseInt;
 import java.sql.SQLException;
 import java.util.ArrayList;
 import java.util.logging.Level;
@@ -48,21 +49,32 @@ PrintWriter out = response.getWriter();
 
         try {
               HttpSession session = request.getSession();
-             JSONObject result = new JSONObject();
+            
                PhdStudent student = (PhdStudent) session.getAttribute("account");
  
  String dottorando = student.getfkAccount();
-       String coursename=request.getParameter("Coursename");
-     
-     
- 
-                ArrayList<Presence> presenze = PresenceManager.getInstance().getTotalLesson((Utility.AppendQuote(dottorando)), (Utility.AppendQuote(coursename)));
-                JSONArray resultArray = new JSONArray(presenze);
-                
+ int cyclenumber=parseInt(request.getParameter("Ciclo"));
+
+     //  String coursename=request.getParameter("Coursename");
+     ArrayList<Course> courses=PresenceManager.getInstance().getCorsobyDottorando(Utility.AppendQuote(dottorando));
+         JSONArray resultArray = new JSONArray();
+     for(Course i: courses){
+          JSONObject result = new JSONObject();
+                ArrayList<Presence> presenze = PresenceManager.getInstance().getTotalLesson((Utility.AppendQuote(dottorando)), (Utility.AppendQuote(i.getName())),cyclenumber);
+            
+               
+                result.put("nome", i.getName());
                 result.put("presenze", presenze.get(0).getTotalPresence());
                 result.put("presenzeEff", presenze.get(0).getPresenzeEff()); 
                 result.put("Assenze", presenze.get(0).getAssenze()); 
-                out.write(result.toString());
+                 resultArray.put(result);
+             
+                 
+       
+     }
+    
+      out.write(resultArray.toString());
+      
             } catch (SQLException | JSONException ex) {
                 Logger.getLogger(GetPresenceToLessonServlet.class.getName()).log(Level.SEVERE, null, ex);
             } catch (IdException ex) {
