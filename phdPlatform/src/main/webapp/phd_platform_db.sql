@@ -337,21 +337,21 @@ status                          varchar(12) default 'in_programma',
 foreign key (fkCourse) references course(idCourse) on delete cascade on update cascade);
 
 INSERT INTO lesson (idLesson,date,startTime,endTime	,name,classroom,desription,fkCourse,status) VALUES
-(1, '2016-05-03', '9:10 AM', '12:10 AM', 'SITS', 'P12', 'introduzione al corso', 1,'in_programma' ),
-(2, '2016-05-07', '9:10 AM', '12:10 AM', 'SI', 'P15', 'introduzione al corso', 2, 'in_programma'),
-(3, '2016-05-10', '9:10 AM', '12:10 AM', 'SB', 'P10', 'introduzione al corso', 3, 'in_programma'),
+(1, '2016-05-03', '9:10 AM', '12:10 PM', 'SITS', 'P12', 'introduzione al corso', 1,'in_programma' ),
+(2, '2016-05-07', '9:10 AM', '12:10 PM', 'SI', 'P15', 'introduzione al corso', 2, 'in_programma'),
+(3, '2016-05-10', '9:10 AM', '12:10 PM', 'SB', 'P10', 'introduzione al corso', 3, 'in_programma'),
 (4, '2016-06-30', '8:30 AM', '10:30 AM', 'Informatica Applicata I', ' P1', ' Introduzione', 1, 'in_programma'),
 (5, '2016-06-30', '8:30 AM', '10:30 AM', 'Informatica Applicata II', ' P1', ' Introduzione', 2, 'in_programma'),
 (6, '2016-06-30', '8:30 AM', '10:30 AM', 'Informatica Applicata III', ' P1', ' Introduzione', 3, 'in_programma'),
 (7, '2016-06-25', '8:30 AM', '9:30 AM', 'BD', ' P3', ' Introduzione', 1, 'in_programma'),
 (8, '2016-06-12', '8:30 AM', '9:30 AM', 'BD 2', ' P3', ' Introduzione', 3, 'in_programma'),
-(9, '2016-06-10', '10:30 AM', '12:30 AM', 'IS I', ' F5', ' Introduzione', 1, 'in_programma'),
-(10, '2016-06-14', '10:30 AM', '12:30 AM', 'IS II', ' F5', ' Introduzione', 2, 'in_programma'),
-(11, '2016-05-30', '10:30 AM', '12:30 AM', 'IS III', ' F5', ' Introduzione', 3, 'in_programma'),
-(12, '2016-06-06', '12:45 AM', '2:45 PM', 'Test I', ' P15', ' Introduzione', 1, 'in_programma'),
-(13, '2016-06-08', '12:45 AM', '2:45 PM', 'Test II', ' P15', ' Introduzione', 2, 'in_programma'),
-(14, '2016-05-30', '12:45 AM', '2:45 PM', 'Test III', ' P15', ' Introduzione', 3, 'in_programma'),
-(15, '2016-05-25', '12:45 AM', '2:45 PM', 'Test IIII', ' P15', ' Introduzione', 3, 'in_programma');
+(9, '2016-06-10', '10:30 AM', '12:30 PM', 'IS I', ' F5', ' Introduzione', 1, 'in_programma'),
+(10, '2016-06-14', '10:30 AM', '12:30 PM', 'IS II', ' F5', ' Introduzione', 2, 'in_programma'),
+(11, '2016-05-30', '10:30 AM', '12:30 PM', 'IS III', ' F5', ' Introduzione', 3, 'in_programma'),
+(12, '2016-06-06', '12:45 PM', '2:45 PM', 'Test I', ' P15', ' Introduzione', 1, 'in_programma'),
+(13, '2016-06-08', '12:45 PM', '2:45 PM', 'Test II', ' P15', ' Introduzione', 2, 'in_programma'),
+(14, '2016-05-30', '12:45 PM', '2:45 PM', 'Test III', ' P15', ' Introduzione', 3, 'in_programma'),
+(15, '2016-05-25', '12:45 PM', '2:45 PM', 'Test IIII', ' P15', ' Introduzione', 3, 'in_programma');
 
 create table IF not EXIsts keep(
 fkProfessor			varchar(50) not null,
@@ -428,6 +428,7 @@ INSERT INTO presence (fkPhdstudent,fkLesson,isPresent)VALUES
 ('minichiello@hotmail.it', 14, 0),
 ('minichiello@hotmail.it', 15, 0);
 
+-- crazione tabella che contiene le attivita' di un utente
 CREATE TABLE IF NOT EXISTS activity (
   idActivity int(11) NOT NULL auto_increment primary key,
   name varchar(50) NOT NULL,
@@ -440,6 +441,16 @@ CREATE TABLE IF NOT EXISTS activity (
   foreign key (fkPhdStudent) references phdstudent(fkAccount) on delete cascade on update cascade
 );
 
+-- popolo la tabella activity
 INSERT INTO activity(name, description, startDateTime, endDateTime,totalTime, typology,  fkPhdStudent)
 	VALUES ('studio derivate', 'ho studiato le derivate', '2016-04-28 09:00', '2016-04-28 11:00','120', 'Studio Individuale', 'dinucci@hotmail.it'),
 		   ('turorato triennale', 'ho fatto tutorato al corso di reti wireless della magistrale', '2016-04-28 11:00', '2016-04-28 14:00','180', 'Tutorato', 'dinucci@hotmail.it')
+
+-- creazione della tabella che contiente le tipologie predefinite per le attivita' di dottorato
+CREATE TABLE IF NOT EXISTS typology (
+  idTypology int(11) NOT NULL auto_increment primary key,
+  name varchar(50) NOT NULL
+);
+-- popolo la tabella typology
+INSERT INTO typology(name)
+	VALUES ('Laboratorio'),('Biblioteca'),('Studio Individuale'),('Tutorato'),('Seminario')

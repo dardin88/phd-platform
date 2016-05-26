@@ -55,20 +55,24 @@
         <!-- JavaScripts initializations and stuff -->
         <script src="assets/js/xenon-custom.js"></script>
 
-        <!-- HTML5 shim and Respond.js IE8 support of HTML5 elements and media queries -->
-        <!--[if lt IE 9]>
-                <script src="https://oss.maxcdn.com/html5shiv/3.7.2/html5shiv.min.js"></script>
-                <script src="https://oss.maxcdn.com/respond/1.4.2/respond.min.js"></script>
-        <![endif]-->
-
         <script type="text/javascript"> 
             $(document).ready(function(){
+                getTypology();
                 if(sessionStorage.getItem('insertFlag') === 'true')
                     insertFunction();
                 else
                     updateFunction();
             })
+            
         </script>
+        <style>
+            p {padding: 5px;}
+            .select-editable { position:relative; background-color:white;  width:130px; height:18px; }
+            .select-editable select { position:absolute; top:0px; left:0px; font-size:14px; width:135px; margin:0; height:25px;}
+            .select-editable input { position:absolute; top:0px; left:0px; width:118px; height:25px; padding:1px; font-size:13px; color:black;}
+            .select-editable select:focus, .select-editable input:focus { outline:none; }
+
+        </style>
     </head>
      <div id="infoDialog" class="modal fade">
         <div class="modal-dialog">
@@ -93,11 +97,9 @@
 
             <!-- Inclusione della pagina contenente il menù superiore -->
             <jsp:include page="barraMenu.jsp" flush="true"/>
+            <!-- Contenuto della pagina -->
             <div class="page-container">
-            <!-- Inclusione della pagina contenente il menù laterale -->
-
-                <!-- Contenuto della pagina -->
-                <div class="main-content" id="content">
+               <div class="main-content" id="content">
                     <div class="row">
                         <div class="col-sm-1"></div>
                         <div class="col-sm-10">
@@ -106,7 +108,7 @@
 
                                 </div>
                                 <div class="panel-body">
-                                    <!--<form class="form-horizontal" method="POST" action="AddCourseServlet">-->
+                                    <!-- Form per inserimento e modifica di un'attività -->
                                     <div class="form-group">
                                         <table width="90%" align="center">
                                                 <tr>
@@ -134,10 +136,10 @@
                                                             </div>
                                                            
                                                             <p> Orario di Inizio:</p>
-                                                            <div class="input-group bootstrap-timepicker timepicker">
+                                                           
+                                                            <div class="input-group bootstrap-timepicker timepicker" >
                                                                  <input id="startTimeActivity" name="startTime" type="text" class="form-control input-small">
-                                                            </div>
-                                                            
+                                                            </div> 
                                                             <p> Orario di Fine:</p>
                                                                 <div class="input-group bootstrap-timepicker timepicker">
                                                                     <input id="endTimeActivity" name ="endTime" type="text" class="form-control input-small">
@@ -149,16 +151,15 @@
                                                                             $('#endTimeActivity').timepicker();
                                                                     </script>
                                                                         
-                                                            <label for="sel1">Seleziona il tipologia</label>
-                                                            <select class="form-control" id="typology">
-                                                                <option class='optionItem' value='default' >  - seleziona -   </option>
-                                                                <option class='optionItem' value='Laboratorio/Biblioteca' >   Laboratorio/Biblioteca   </option>
-                                                                <option class='optionItem' value='Studio Individuale' >   Studio Individuale   </option>
-                                                                <option class='optionItem' value='Tutorato' >   Tutorato   </option>
-                                                                <option class='optionItem' value='Seminario' >   Seminario   </option>
-                                                            </select>                             
-                                                            <div id="bottoneInsUpdate">
-                                                               
+                                                            <p>Seleziona la tipologia</p>
+                                                            
+                                                            <div class="select-editable">                                                               
+                                                                <select id="typologySelect" onchange="this.nextElementSibling.value=this.value">
+                                                                </select>  
+                                                                <input type="text" id="typology" name="format" value="" placeholder="-seleziona tipologia-"/>
+                                                            </div>
+                                                            <div style="margin-top: 40px" id="bottoneInsUpdate">
+
                                                             </div>
                                                        </div>
                                                     </div>

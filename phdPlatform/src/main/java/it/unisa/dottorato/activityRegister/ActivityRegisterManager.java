@@ -11,7 +11,6 @@ import java.io.IOException;
 import java.sql.Connection;
 import java.sql.ResultSet;
 import java.sql.SQLException;
-import java.text.DateFormat;
 import java.text.ParseException;
 import java.text.SimpleDateFormat;
 import java.util.ArrayList;
@@ -29,31 +28,31 @@ public class ActivityRegisterManager {
     private static final String TABLE_ACTIVITY = "activity";
     private static final String TABLE_LESSON="lesson";
     private static final String TABLE_PRESENCE="presence";
+    private static final String TABLE_TYPOLOGY = "typology";
+ 
     /**
     * Il costruttore della classe e' dichiarato privato, per evitare
-    * l'istanziazione di oggetti della classe .
+    * l'istanziazione di oggetti della classe.
     */
     private ActivityRegisterManager(){
         super();
     }
+    
     /**
-     * metodo deve essere chiamato per restituire l'istanza del Singleton.
+     * Metodo viene chiamato per restituire l'istanza del Singleton.
      * L'oggetto Singleton sara' istanziato solo alla prima invocazione del
      * metodo. Nelle successive invocazioni, invece, sara' restituito un
      * riferimento allo stesso oggetto.
-     *
      * @return L'istanza della classe
      */
     public static synchronized ActivityRegisterManager getInstance() {
-
         if (instance == null) {
             instance = new ActivityRegisterManager();
         }
         return instance;
-
     }
     /**
-     * Metodo che inserisce un'attività nel regitro
+     * Inserimento di un'attività nel registro
      * @param activity attività da inserire
      * @throws SQLException
      * @throws IOException 
@@ -76,7 +75,6 @@ public class ActivityRegisterManager {
                     + "'"+activity.getFkPhdStudent()+"'" 
                     + ")";
             
-            //System.out.println(stingSQL);
             //esegue query
             Utility.executeOperation(connect, stingSQL);
 
@@ -86,7 +84,7 @@ public class ActivityRegisterManager {
         }
    }
 /**
- * metodo che restituisce il registro delle attività di uno studente
+ * Recupera il registro delle attività di uno studente
  * @param idStudent id dello studente 
  * @return lista delle attività del registro
  * @throws SQLException
@@ -139,18 +137,12 @@ public class ActivityRegisterManager {
                 lesson.setName(result.getString("name"));
                 lesson.setDescription(result.getString("desription"));
                 
-               // checkTime(startTime, endTime);
-               // Date startDateTime =convertStringToDate(result.getDate("date"),result.getString("startTime"));
-              //  String tmp = "12AM";
-                //String startTime = result.getString("startTime").contains(tmp.replace(": ","")  ? "12:00 AM" : convertTo24(result.getString("startTime"));
-         //       String endTime = result.getString("endTime").contains(tmp)  ? tmp: convertTo24(result.getString("endTime"));
                 String startDateTime = result.getString("date") +" "+convertTo24(result.getString("startTime"));
                 String endDateTime = result.getString("date") +" "+convertTo24(result.getString("endTime"));
+                
                 lesson.setStartDateTime(startDateTime);
                 lesson.setEndDateTime(endDateTime);
-               System.out.println("get"+startDateTime +" "+ endDateTime+" "+", "+result.getString("endTime")+' '+calculateTotTime(startDateTime,endDateTime));
                 lesson.setTotalTime(calculateTotTime(startDateTime,endDateTime));
-               
                 lesson.setTypology("Lezione");
                 lesson.setFkPhdStudent(result.getString("fkPhdStudent"));
                
@@ -163,10 +155,10 @@ public class ActivityRegisterManager {
     }
 
     /**
-     * aggiorna i campi dell'attività che l'utente desidera modificato
+     * Aggiorna le attività del registro
      * @param oldActivityID id dell'attività da modificare
      * @param newActivity attività con i campi modificati
-     * @param fkPhdStudent
+     * @param fkPhdStudent id dello studente
      * @throws SQLException
      * @throws IOException 
      */
@@ -222,16 +214,14 @@ public class ActivityRegisterManager {
         }
     }
     
-    
-    /**
-     * Calcolo delle ore dedicate ad una attivita'
+     /**
+     * Calcolo dei minuti dedicati ad una attivita'
      * @param startDateTime 
      * @param endDateTime 
      * @return durate del'attività
      */
     private float calculateTotTime(String startDateTime, String endDateTime) {
         try {
-           // System.out.println(startDateTime);
             Date startDateParse = new SimpleDateFormat("yyyy-MM-dd HH:mm").parse(startDateTime);
             Date endDateParse = new SimpleDateFormat("yyyy-MM-dd HH:mm").parse(endDateTime);
             long diffInMillies = endDateParse.getTime() - startDateParse.getTime();
@@ -243,17 +233,16 @@ public class ActivityRegisterManager {
     } 
 
     /**
-     * data una date e le ore restituisce il Date
-     * @param date
-     * @param time
-     * @return Date
-    */
+     * Converte una data dal formato AM-PM in formato 24 ore
+     * @param date in formato AM-PM
+     * @return stringa della data in formato 24 ore
+     */
     private String convertTo24(String date) {
          if(date.contains("AM")){
             date = date.replace("AM", "");
             String[] timeArr = date.split(":");
             if(timeArr[0].equals("12")){
-                timeArr[0] = "12";
+                timeArr[0] = "00";
             }
             date = timeArr[0]+":"+timeArr[1];
         }
@@ -268,4 +257,35 @@ public class ActivityRegisterManager {
          return date;
    }
  
+    /**
+     * Recupera dal database le diverse tipologie delle attività
+     * @return insieme di tipologie
+     * @throws SQLException 
+     */
+    public ArrayList<Typology> getTypology() throws SQLException{
+        Connection connect = null;
+        ArrayList<Typology> typologyList = new ArrayList<Typology>();
+       
+        try{
+            connect = DBConnection.getConnection();
+            //Preparazione query per recupero della lista delle tipologie
+            String stringSQL = "SELECT idTypology, name FROM " 
+                    + ActivityRegisterManager.TABLE_TYPOLOGY;            
+            System.out.println(stringSQL);
+           
+            //esegue query
+            ResultSet result = Utility.queryOperation(connect, stringSQL);
+           
+            while (result.next()) {
+                Typology typology = new Typology();
+                typology.setId(Integer.parseInt(result.getString("idTypology")));
+                typology.setName(result.getString("name"));
+                
+                typologyList.add(typology);
+            }
+        }finally {
+           DBConnection.releaseConnection(connect);
+        } 
+       return typologyList;
+    }
 }
