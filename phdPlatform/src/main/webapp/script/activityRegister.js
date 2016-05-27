@@ -7,44 +7,38 @@ const MAX_HOURS = 1500;
 
 /**
  * metodo che permette l'inserimento o la modifica di un'attività
- * effettua i seguenti controlli:
- * i campi non sono vuoti
- * l'ora iniziale è minore di quella finale
- * il numero di ore raggiunte è minore di 1500
  * @param {type} servlet nome della servlet da invocare
  * @returns {undefined}
  */
 function insertEditActivity(servlet) {
 
+    //recupera i campi della form
     var idActivity = sessionStorage.getItem('idActivity'),
         name= $("#name").val(),
         description = $("#description").val(), 
-        typology = $("#typology option:selected").val(),
+        typology = $("#typology").val(),
         date = $("#dateActivity").val(),
         startDateTime = date + " " + convertTo24Hours($("#startTimeActivity").val()),
         endDateTime = date + " " + convertTo24Hours($("#endTimeActivity").val()),
         d1 = new Date(startDateTime), 
         d2 = new Date(endDateTime) ;
-       
-    if (name !== "" && typology !== "default" && description !== "" && date !=="" ) {
+
+    //Controllo sui campi. Non devono essere vuoti
+    if (name !== "" && typology !== "" && description !== "" && date !=="" ) {
+        //controllo se l'ora di fine viene dopo l'ora di inizio
         if(checkTime(d1,d2)){
+            //controllo se l'aggiunta delle ore delle nuove attività non è maggiore di 1500
             if(checkTotHours(d1,d2)){
                  $.getJSON(servlet, {
-                     idActivity:idActivity,
-                     name:name,
-                     description:description,
-                     startDateTime:startDateTime,
-                     endDateTime:endDateTime,
-                     typology:typology}, 
+                    idActivity:idActivity,
+                    name:name,
+                    description:description,
+                    startDateTime:startDateTime,
+                    endDateTime:endDateTime,
+                    typology:typology}, 
                     function (data) {
                         if (data.result) {
-                            //location.href = "activityRegister.jsp"; 
-
-                            $("#titleInfo").html("");
-                            $("#descriptionInfo").html("");
-                            $("#infoDialog").modal();
-                            $("#titleInfo").html("Operazione eseguita con successo!");
-                            $("#descriptionInfo").html("L'attività è stata aggiunta.");
+                            location.href = "activityRegister.jsp"; 
                         } else {
                             $("#titleInfo").html("");
                             $("#descriptionInfo").html("");
@@ -55,12 +49,9 @@ function insertEditActivity(servlet) {
                     });
             }else{
                 $("#infoDialog").modal();
-                  $("#titleInfo").html("Ore maggiori di 1500");
-                
+                $("#titleInfo").html("Ore maggiori di 1500");
             }
         }else{
-           // $("#infoDialog").modal();
-            //$("#titleInfo").html("L'ora iniziale è maggiore della finale");
              $("#startTimeActivity").css("border", "2px red solid");
              $("#endTimeActivity").css("border", "2px red solid");
              setTimeout(function(){
@@ -74,55 +65,43 @@ function insertEditActivity(servlet) {
     }
 }
 /**
- * confronto tra l'ora di inizio e di fine dell'attività
+ * confronto tra l'ora di inizio e l'ora di fine dell'attività
+ * l'attività di inizio deve essere minore dell'attività di fine
  * @param {type} startTime
  * @param {type} endTime
  * @returns {Boolean} true se l'ora di fine è maggiore di quella di inizio
  */
 function checkTime(startTime,endTime){
-    console.log(startTime+" "+endTime)
-     if(startTime.getHours() < endTime.getHours() )
+     if(startTime < endTime )
          return true;
      else
          return false;
 }
 
 /**
- * considerando due date calcola la differenza e delle ore passate 
- * e le somma al totale delle ore calcolate fino a quel momento.
- * e verifica se minore di 1500
+ * il totale dei minuti passati come parametro viene sommato alle ore delle attività attuali 
+ * e restituisce true se è minore di 1500, false altrimenti
  * @param {type} timeStart 
  * @param {type} timeEnd
  * @returns {Boolean} true se il nuemro di ore è minore di 1500, false altrimenti
  */
 function checkTotHours(timeStart,timeEnd) {
-    //get values
     var diff = timeEnd.getTime() - timeStart.getTime();
-    var msec = diff;
-    var hh = Math.floor(msec / 1000 / 60 / 60);
-    msec -= hh * 1000 * 60 * 60;
-    var mm = Math.floor(msec / 1000 / 60);
-    msec -= mm * 1000 * 60;
-    var ss = Math.floor(msec / 1000);
-    msec -= ss * 1000;
-  
-    console.log("TotalH "+sessionStorage.getItem('totalHours'));
-
-  
+    var hh = Math.floor(diff / 1000 / 60 / 60);
+    
     var tot = hh + parseInt(sessionStorage.getItem('totalHours'));
-    console.log(tot +" "+sessionStorage.getItem('totalHours'));
-    if(tot < MAX_HOURS)
-        return true;
+    //console.log(tot +" "+sessionStorage.getItem('totalHours'));
+    
+    if(tot <= MAX_HOURS)
+       return true;
     else
-        return false;
-  //;
+       return false;
 }
 
 /**
- * converte la stringa con l'ora rappresentata con AM e PM
- * in 24 ore
- * @param {type} ora
- * @returns {String}
+ * converte l'ora dal formato AM-PM in formato 24 ore
+ * @param {type} ora in formato AM-PM
+ * @returns {String} ora in 24 ore
  */
 function convertTo24Hours(ora)
 {
@@ -136,29 +115,29 @@ function convertTo24Hours(ora)
     
     if(ora.substring(6)==="PM")
     {
-        ore=ore+12;
+        if(ore === 12)
+            ore = 12;
+        else
+            ore=ore+12;
     }
-    
     return ore+":"+minuti;
 }
 
 /**
- * converte l'ora in formato 24 ore in formato AM o PM
- * @param {type} ora
- * @returns {Number|String}
+ * converte l'ora dal formato 24 ore nel formato AM o PM
+ * @param {type} ora in 24 ore
+ * @returns {Number|String} ora in AM-PM
  */
 function convertToAmPm(ora)
 {
     var ore=parseInt(ora.substring(0,2));
-        console.log(ore);
-
     var minuti=ora.substring(3,5);
-        console.log(minuti);
 
-    if(ore <= 12)
+    if(ore < 12)
     {
         ore = ore +":"+minuti + " AM";
-    } 
+    } else if(ore === 12)
+        ore = ore +":"+minuti + " PM";
     else{
         ore=ore-12;
         ore = ore +":"+minuti + " PM";
@@ -167,7 +146,7 @@ function convertToAmPm(ora)
 }
 
 /**
- * modifica l'interfaccia utente per la modifica di un'attività compilando i campi.
+ * modifica l'interfaccia utente per la modifica di un'attività. I campi sono precompilati.
  * @returns {undefined}
  */
 function updateFunction(){
@@ -176,18 +155,34 @@ function updateFunction(){
     $("#dateActivity").val((sessionStorage.getItem('startDateTime')).substring(0,10));
     $("#startTimeActivity").val(convertToAmPm(sessionStorage.getItem('startDateTime').substring(11,20)));
     $("#endTimeActivity").val(convertToAmPm(sessionStorage.getItem('endDateTime').substring(11,20)));
-    $("#typology option[value='"+sessionStorage.getItem('typology')+"']").attr('selected','selected');
+    $("#typology").val(sessionStorage.getItem('typology'));
 
     $("#Intestazione").html('<h1>Modifica Attività nel Registro</h1>');
-    $("#bottoneInsUpdate").html("<input  type='submit' class='btn btn-blue' value='Modifica' onclick=\"insertEditActivity('UpdateActivity')\">");
-    
+    $("#bottoneInsUpdate").html("<input  type='submit' class='btn btn-blue' value='Modifica' onclick=\"insertEditActivity('UpdateActivity')\">"); 
 }
 
 /**
- * modifica l'interfaccia utente per l'inserimento
+ * modifica l'interfaccia utente adattandola all'inserimento
  * @returns {undefined}
  */
 function insertFunction(){
    $("#Intestazione").html('<h1> Inserisci Attività nel Registro </h1>');
    $("#bottoneInsUpdate").html("<input  type='submit' class='btn btn-blue' value='Inserisci' onclick=\"insertEditActivity( 'InsertActivity')\">");
+}
+
+/**
+ * popola la select delle tipologie presenti nel database
+ * @returns {undefined}
+ */
+ function getTypology(){
+     $.getJSON("GetTypology", {},  
+        function (data) {
+            console.log(data);
+            var options = $("#typologySelect");
+            options.append($("<option />").val("").text("-seleziona tipologia-"));
+            $.each(data.typologyList, function(index,typology) {
+                    options.append($("<option />").val(typology.name).text(typology.name));
+            });
+        }    
+    );
 }

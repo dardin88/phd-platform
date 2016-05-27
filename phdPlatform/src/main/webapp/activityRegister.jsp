@@ -48,9 +48,63 @@
         <!-- JavaScripts initializations and stuff -->
         <script src="assets/js/xenon-custom.js"></script>
         
-        <script src="assets/js/jsPDF-1.2.60/dist/jspdf.min.js"></script>        
+        <script src="assets/js/jsPDF-1.2.60/dist/jspdf.min.js"></script>
+        <script src="assets/js/jsPDF-1.2.60/autotablePlugin.js"></script>        
         <script type="text/javascript">   
             
+            function printPDF(){   
+                $.getJSON("GetActivityRegister", {},
+                
+                        function (data) {
+                            var columns = [
+                                    {title: "Nome", dataKey: "name"},
+                                    {title: "Descrizione", dataKey: "description"}, 
+                                    {title: "Tipologia", dataKey: "typology"},
+                                    {title: "Giorno", dataKey: "startDate"},
+                                    {title: "Ora Inizio", dataKey: "startHour"},
+                                    {title: "Ora Fine", dataKey: "endHour"},
+                                    {title: "Firma", dataKey: "signature"}
+                                    
+                                ];
+                                var rows = [];
+                            data.activities.forEach(function(activity){   
+                                var startDate = activity.startDateTime.split(' ')[0],
+                                    startHour = activity.startDateTime.split(' ')[1].replace(':00.0',''),
+                                    endHour = activity.endDateTime.split(' ')[1].replace(':00.0','');
+                                rows.push({'name':activity.name, 'description':activity.description,
+                                           'typology':activity.typology, 'startDate':startDate,
+                                           'startHour':startHour, 'endHour':endHour,
+                                           'signature':'___________'});
+                            });
+
+                            // Only pt supported (not mm or in)
+                            var doc = new jsPDF('p', 'pt');
+                            doc.autoTable(columns, rows, {
+                                theme: 'striped',  
+                                columnStyles: {
+                                    typology: {columnWidth:'wrap'},
+                                    name: {columnWidth:'wrap'}
+                                },
+                                margin: {top: 30},
+                                beforePageContent: function(data) {
+                                    doc.setFontSize(22);
+                                    doc.text("Registro Attività di "+firstLastName, 40, 30);
+                                    doc.setFontSize(18);
+                                    doc.text("Ore totali delle attività:  "+totalHours, 40, 150);
+                                    var typologyHours = '';
+                                    activitiesHours.forEach(function(activity){   
+                                        typologyHours = typologyHours+activity.typology+': '+activity.totalTime+(activity.totalTime === 1 ? ' ora\n\n' : ' ore\n\n');
+                                    });
+                                    doc.setFontSize(14);
+                                    doc.text(typologyHours, 40, 190);
+                                    doc.addPage();                                    
+                                }
+                            });
+                            doc.save('Registro - '+firstLastName+'.pdf');  
+                        }
+                    );
+            }            
+            /*
             function printPDF(){
                 
                 $.getJSON("GetActivityRegister", {},
@@ -126,6 +180,7 @@
                             doc.save('Registro Attività.pdf');
                         }); 
             }
+            */
             function deleteActivity(idActivity) {
                 $.getJSON("DeleteActivity", {idActivity: idActivity},
                         function (data) {                                
