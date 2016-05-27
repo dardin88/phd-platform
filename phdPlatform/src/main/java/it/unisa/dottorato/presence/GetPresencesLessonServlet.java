@@ -42,15 +42,23 @@ public class GetPresencesLessonServlet extends HttpServlet {
             throws ServletException, IOException, PhdStudentexception {
     
             PrintWriter out = response.getWriter();
-
+            
             try 
             {
                 JSONObject result = new JSONObject();
                 int fkLesson = Integer.parseInt(request.getParameter("idLesson"));
                 ArrayList<Presence> presence = PresenceManager.getInstance().getPresencesLesson(fkLesson);
                 JSONArray resultArray = new JSONArray(presence);
-                result.put("presence", resultArray);
-                out.write(result.toString());
+                
+                if(presence.size() == 0){
+                    result.put("result", false);
+                    out.write(result.toString());
+                }
+                else{
+                    result.put("result", true);                
+                    result.put("presence", resultArray);
+                    out.write(result.toString());
+                }
             } 
             catch (SQLException | JSONException | IdException | ClassNotFoundException ex)
             {

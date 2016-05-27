@@ -7,9 +7,19 @@
 $(document).ready(function () {
     
     getCorsoList();
-    //getLesson();
+    if(sessionStorage.getItem('idSelect') !== null){
+        
+        setTimeout(function(){        
+        
+            $('#Corsoprofessore').find("option[value='" + sessionStorage.getItem('idSelect') + "']").attr("selected",true);
+            $("" + sessionStorage.getItem('sessionLesson')).attr('checked','checked');
+            sessionStorage.removeItem('idSelect');  
+            changeSession();
+            selectedItem2();
+                     
+        }, 150);         
+    }    
 });
-
 
 function getCorsoList()
 {
@@ -23,6 +33,7 @@ function getCorsoList()
         });
     }); 
 }
+
 //metodo per chiamare tutt ele lezioni
 function selectedItem()
 
@@ -184,83 +195,27 @@ function selectedItemDot()
         }
 }
 
-/* Metodo utilizzato per ricercare le presenze dei dottorandi per una 
+/* Metodo utilizzato per avviara la ricerca delle presenze dei dottorandi per una 
  * determinata lezione.
- * Tale metedo inoltre si occupa della costruzione della tabella.
  */
 
-function selectedItem3(idLesson,nameLesson){  
+function selectedItem3(idLesson,nameLesson){
     
-    changeLesson(1);
-    $("#resultbody3 tr").remove();
-    $("#resulthead3 tr").remove();
-    $("#resultfoot3 tr").remove();
-        
-    var student;        
-    head = "<tr id = thPresence><th colspan='2'>"+ nameLesson +"</th></tr>"; 
-    head += "<tr><th> Dottorando </th><th> Presenza </th></tr>";
-    $("#resulthead3").append(head);
-        
-    $.getJSON("GetPresencesLesson", {idLesson: idLesson}, function (data) {
-    
-        $.each(data.presence, function (index, value) {
-            
-            student = " <tr><td class='students'> " + value.name + " " + value.surname + " </td>";
-            student += "<td style = 'text-indent: 37px;'><input type='checkbox'  id=" + value.fkPhdstudent + " onclick='changePresenza(" + 'id' + "," + idLesson + ")' ";
-            if (value.isPresent === true) 
-            {
-                student += " checked";
-            }                           
-            student += "></td></tr>";
-            $("#resultbody3").append(student);
-        });        
-    });
-        
-    $("#resultfoot3").append("<tr><td colspan = '2' style = 'text-align:center'></br><input type = 'button' onclick = 'changeLesson(0)' value = 'Torna alla lista delle Lezioni' class = 'btn btn-blue'></td></tr>");
-}
-
-/* Mmetodo per nascondere/visualizzare la sezione presenze per una lezione.
- * La variabile isEntry indica se si sta procedendo con fase di
- * visualizzazzione delle presenze per una lezione(1) o si sta 
- * ritornando alla lista delle lezioni(0). 
- * 
- * @ingresso
- */
-
-function changeLesson(isEntry) {
-    
-    if(isEntry)
-    {
-        $("input[name='radioLesson']").attr('disabled','disabled');
-        $("#Corsoprofessore").attr('disabled','disabled');
-        
-        $("#resultst3").css("display","");
-        
-        if($("#lez_aperte").is(':checked'))
-        {
-            $("#resultst").css("display","none");           
-        }
-        else if($("#lez_chiuse").is(':checked'))
-        {
-            $("#resultst2").css("display","none");          
-        } 
+    sessionStorage.setItem('idLesson', idLesson);
+    sessionStorage.setItem('nameLesson', nameLesson);
+    sessionStorage.setItem('idSelect', $("#Corsoprofessore option:selected").val());
+    sessionStorage.setItem('nameCourse', $("#Corsoprofessore option:selected").text());
+       
+    if($("#openLessons").is(':checked'))
+    {       
+       sessionStorage.setItem('sessionLesson', '#openLessons');
     }
-    else
+    else if($("#closedLessons").is(':checked'))
     {
-        $("#resultst3").css("display","none");
+        sessionStorage.setItem('sessionLesson', '#closedLessons');
+    }
     
-        if($("#lez_aperte").is(':checked'))
-        {
-            $("#resultst").css("display","");             
-        }
-        else if($("#lez_chiuse").is(':checked'))
-        {
-            $("#resultst2").css("display","");             
-        }
-        
-        $("input[name='radioLesson']").removeAttr('disabled');
-        $("#Corsoprofessore").removeAttr('disabled');
-    }        
+    location.href = 'registroGestionePresenze.jsp';
 }
 
 /* Metodo per cambiare lo stato della lezione
@@ -303,7 +258,7 @@ function changeStates(idLesson, status ,flagMex) {
                
                if($("#resultbody tr").size() === 0)
                {
-                   $("#resultbody").append("<tr><td colspan='4' style='text-align: center; font-weight: bold; font-size: 15px;'> ***** Al momento non sono presenti sessioni aperte *****</td></tr>");
+                   $("#resultbody").append("<tr><td colspan='4' style='text-align: center; font-weight: bold; font-size: 15px;'> ***** Al momento non sono presenti sessioni in Programmazione *****</td></tr>");
                }               
                
             }                            
@@ -385,7 +340,8 @@ function selectedItem2()
     $("#resulthead2 th").remove();
     $("#resultbody2 tr").remove();
         
-    selected = $("#Corsoprofessore option:selected").val();
+    var selected = $("#Corsoprofessore option:selected").val();
+    
     
     if (selected !== "default") //se il valore della select è default non mostriamo il div contenente le informazioni delle date delle lezioni
     { 
@@ -394,8 +350,6 @@ function selectedItem2()
         $("#resulthead2 th").remove();
         $("#resultbody2 tr").remove();
         
-                    
-        selected = $("#Corsoprofessore option:selected").val();
         $("#panelDiv").show();
         
         var opened_lesson = "";
@@ -408,7 +362,7 @@ function selectedItem2()
         
         $.getJSON("GetLessonsProfessor", {fkCourse : selected}, function (data1)
         {
-            var head="<tr><th> Lezioni Aperte: </th><th>Data</th><th>Aula</th><th></th></tr>";
+            var head="<tr><th> Lezioni in Programmazione: </th><th>Data</th><th>Aula</th><th></th></tr>";
             var head2="<tr><th> Lezioni Chiuse: </th><th>Data</th><th>Aula</th></tr>";
             $("#resulthead").append(head);
             $("#resulthead2").append(head2);
@@ -446,18 +400,17 @@ function selectedItem2()
                     }    
                     else if(lesson_status === "in_programma")
                     {
-                        result_line += "<td id = '" + lesson_id + "_cell' style = 'text-align:center'><button type = 'button' id = '" + lesson_id + "_open' onclick = 'changeStates(" + lesson_id + ", \"aperta\", 1)' class = 'btn btn-default btn-secondary' ";                                
                         if(isAfterNow(lesson_start_date))
                         {
-                            result_line += "disabled > ";
+                            result_line += "<td></td></tr>";
                         }
                         else
                         {
-                            result_line += "> ";
+                            result_line += "<td id = '" + lesson_id + "_cell' style = 'text-align:center'><button type = 'button' id = '" + lesson_id + "_open' onclick = 'changeStates(" + lesson_id + ", \"aperta\", 1)' class = 'btn btn-default btn-secondary'>";
+                            result_line += "<span class='glyphicon glyphicon-pencil'></span> Apri Sessione</button> "; 
+                            result_line += "<button type = 'button' id = '" + lesson_id + "_closed' onclick = 'changeStates(" + lesson_id + ", \"chiusa\", 1)' class = 'btn btn-red' style=' display: none'>";                                
+                            result_line += "<span class='glyphicon glyphicon-remove'></span> Chiudi Sessione</button></td></tr>";
                         }
-                        result_line += "<span class='glyphicon glyphicon-pencil'></span> Apri Sessione</button> "; 
-                        result_line += "<button type = 'button' id = '" + lesson_id + "_closed' onclick = 'changeStates(" + lesson_id + ", \"chiusa\", 1)' class = 'btn btn-red' style=' display: none'>";                                
-                        result_line += "<span class='glyphicon glyphicon-remove'></span> Chiudi Sessione</button></td></tr>";
                     }
                     else if(lesson_status === "aperta")
                     {
@@ -483,7 +436,7 @@ function selectedItem2()
             
             if(opened_lesson === "")
             {
-                opened_lesson="<tr><td colspan='4' style='text-align: center; font-weight: bold; font-size: 15px;'> ***** Al momento non sono presenti sessioni aperte *****</td></tr>";
+                opened_lesson="<tr><td colspan='4' style='text-align: center; font-weight: bold; font-size: 15px;'> ***** Al momento non sono presenti sessioni in Programmazione *****</td></tr>";
             }
             if(closed_lesson === "")
             {
@@ -496,15 +449,15 @@ function selectedItem2()
     }
 }
 
-function mostraSessioni()
+function changeSession()
 {  
     
-    if($("#lez_aperte").is(':checked'))
+    if($("#openLessons").is(':checked'))
     {       
        $("#resultst2").css("display","none");
        $("#resultst").css("display","");
     }
-    else if($("#lez_chiuse").is(':checked'))
+    else if($("#closedLessons").is(':checked'))
     {
        $("#resultst").css("display","none");
        $("#resultst2").css("display","");
