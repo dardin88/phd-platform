@@ -8,7 +8,7 @@ and open the template in the editor.
     Author     : Raffaele Costantino
 */
 
-#resulthead th, #resulthead2 th, #resulthead3 th{
+#resulthead th, #resulthead2 th{
     font-weight: bold;
     font-size: 19px;
     word-wrap: break-word;
@@ -16,15 +16,15 @@ and open the template in the editor.
 }
 
 .stLesson{
-    font-size: 17px;
+    font-size: 18px;
     font-weight: bold;
     text-transform: capitalize;
 }
 
 .stLesson_hover:hover{
-    text-decoration: underline;
     color: #0066cc;
-    text-shadow: 4px 3px 7px #86bbe9;
+    text-shadow: 4px 3px 4px #A1A1A1;
+    cursor: pointer;
 }
 
 #thPresence th{
@@ -41,4 +41,12 @@ and open the template in the editor.
     font-size: 15px;
     text-transform: capitalize;
     text-indent: 10px;
+}
+
+#titleCourse p{
+    text-align: center;
+    font-weight: bold;
+    text-transform: capitalize;
+    font-size: 30px;
+    color: black;
 }
