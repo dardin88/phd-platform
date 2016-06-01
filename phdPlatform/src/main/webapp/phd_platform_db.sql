@@ -444,7 +444,7 @@ CREATE TABLE IF NOT EXISTS activity (
 -- popolo la tabella activity
 INSERT INTO activity(name, description, startDateTime, endDateTime,totalTime, typology,  fkPhdStudent)
 	VALUES ('studio derivate', 'ho studiato le derivate', '2016-04-28 09:00', '2016-04-28 11:00','120', 'Studio Individuale', 'dinucci@hotmail.it'),
-		   ('turorato triennale', 'ho fatto tutorato al corso di reti wireless della magistrale', '2016-04-28 11:00', '2016-04-28 14:00','180', 'Tutorato', 'dinucci@hotmail.it')
+		   ('turorato triennale', 'ho fatto tutorato al corso di reti wireless della magistrale', '2016-04-28 11:00', '2016-04-28 14:00','180', 'Tutorato', 'dinucci@hotmail.it');
 
 -- creazione della tabella che contiente le tipologie predefinite per le attivita' di dottorato
 CREATE TABLE IF NOT EXISTS typology (
@@ -453,7 +453,7 @@ CREATE TABLE IF NOT EXISTS typology (
 );
 -- popolo la tabella typology
 INSERT INTO typology(name)
-	VALUES ('Laboratorio'),('Biblioteca'),('Studio Individuale'),('Tutorato'),('Seminario')
+	VALUES ('Laboratorio'),('Biblioteca'),('Studio Individuale'),('Tutorato'),('Seminario');
 
 
 CREATE TABLE IF NOT EXISTS seminar_activity(
