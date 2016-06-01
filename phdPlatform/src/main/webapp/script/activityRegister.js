@@ -6,6 +6,31 @@
 const MAX_HOURS = 1500;
 
 /**
+ * modifica l'interfaccia utente per la modifica di un'attività. I campi sono precompilati.
+ * @returns {undefined}
+ */
+function updateFunction(){
+    $("#name").val(sessionStorage.getItem('name'));
+    $("#description").val(sessionStorage.getItem('description'));
+    $("#dateActivity").val((sessionStorage.getItem('startDateTime')).substring(0,10));
+    $("#startTimeActivity").val(convertToAmPm(sessionStorage.getItem('startDateTime').substring(11,20)));
+    $("#endTimeActivity").val(convertToAmPm(sessionStorage.getItem('endDateTime').substring(11,20)));
+    $("#typology").val(sessionStorage.getItem('typology'));
+
+    $("#Intestazione").html('<h1>Modifica Attività nel Registro</h1>');
+    $("#bottoneInsUpdate").html("<input  type='submit' class='btn btn-blue' value='Modifica' onclick=\"insertEditActivity('UpdateActivity')\">"); 
+}
+
+/**
+ * modifica l'interfaccia utente adattandola all'inserimento
+ * @returns {undefined}
+ */
+function insertFunction(){
+   $("#Intestazione").html('<h1> Inserisci Attività nel Registro </h1>');
+   $("#bottoneInsUpdate").html("<input  type='submit' class='btn btn-blue' value='Inserisci' onclick=\"insertEditActivity( 'InsertActivity')\">");
+}
+
+/**
  * metodo che permette l'inserimento o la modifica di un'attività
  * @param {type} servlet nome della servlet da invocare
  * @returns {undefined}
@@ -14,17 +39,20 @@ function insertEditActivity(servlet) {
 
     //recupera i campi della form
     var idActivity = sessionStorage.getItem('idActivity'),
-        name= $("#name").val(),
-        description = $("#description").val(), 
+        name= "",
+        description = $("#description").val().substring(0,30), 
         typology = $("#typology").val(),
+        name = typology !=="Seminario" ?$("#name").val(): $("#seminarSelect :selected").text() ,
         date = $("#dateActivity").val(),
         startDateTime = date + " " + convertTo24Hours($("#startTimeActivity").val()),
         endDateTime = date + " " + convertTo24Hours($("#endTimeActivity").val()),
         d1 = new Date(startDateTime), 
-        d2 = new Date(endDateTime) ;
+        d2 = new Date(endDateTime),
+        idSeminar = "", 
+        idSeminar = typology !=="Seminario" ? "N/A": $("#seminarSelect :selected").val() ;
 
     //Controllo sui campi. Non devono essere vuoti
-    if (name !== "" && typology !== "" && description !== "" && date !=="" ) {
+    if (name !== "" && typology !== "" && description !== "" && date !=="" && name !=="seleziona seminario") {
         //controllo se l'ora di fine viene dopo l'ora di inizio
         if(checkTime(d1,d2)){
             //controllo se l'aggiunta delle ore delle nuove attività non è maggiore di 1500
@@ -35,7 +63,8 @@ function insertEditActivity(servlet) {
                     description:description,
                     startDateTime:startDateTime,
                     endDateTime:endDateTime,
-                    typology:typology}, 
+                    typology:typology,
+                    idSeminar: idSeminar}, 
                     function (data) {
                         if (data.result) {
                             location.href = "activityRegister.jsp"; 
@@ -145,30 +174,6 @@ function convertToAmPm(ora)
     return ore;
 }
 
-/**
- * modifica l'interfaccia utente per la modifica di un'attività. I campi sono precompilati.
- * @returns {undefined}
- */
-function updateFunction(){
-    $("#name").val(sessionStorage.getItem('name'));
-    $("#description").val(sessionStorage.getItem('description'));
-    $("#dateActivity").val((sessionStorage.getItem('startDateTime')).substring(0,10));
-    $("#startTimeActivity").val(convertToAmPm(sessionStorage.getItem('startDateTime').substring(11,20)));
-    $("#endTimeActivity").val(convertToAmPm(sessionStorage.getItem('endDateTime').substring(11,20)));
-    $("#typology").val(sessionStorage.getItem('typology'));
-
-    $("#Intestazione").html('<h1>Modifica Attività nel Registro</h1>');
-    $("#bottoneInsUpdate").html("<input  type='submit' class='btn btn-blue' value='Modifica' onclick=\"insertEditActivity('UpdateActivity')\">"); 
-}
-
-/**
- * modifica l'interfaccia utente adattandola all'inserimento
- * @returns {undefined}
- */
-function insertFunction(){
-   $("#Intestazione").html('<h1> Inserisci Attività nel Registro </h1>');
-   $("#bottoneInsUpdate").html("<input  type='submit' class='btn btn-blue' value='Inserisci' onclick=\"insertEditActivity( 'InsertActivity')\">");
-}
 
 /**
  * popola la select delle tipologie presenti nel database
@@ -177,12 +182,104 @@ function insertFunction(){
  function getTypology(){
      $.getJSON("GetTypology", {},  
         function (data) {
-            console.log(data);
+            
             var options = $("#typologySelect");
-            options.append($("<option />").val("").text("-seleziona tipologia-"));
+            //options.append($("<option />").val("").text("seleziona tipologia"));
             $.each(data.typologyList, function(index,typology) {
                     options.append($("<option />").val(typology.name).text(typology.name));
             });
         }    
     );
+}
+
+/**
+ * invocata nell'onready e recupera tutti i seminari e li inserisce nella select riguardanti i seminari
+ * @returns {undefined}
+ */
+function getSeminar(){
+     $.getJSON("GetAllSeminarServlet", {},  
+        function (data) {
+            var options = $("#seminarSelect");
+            options.append($("<option />").val("").text("seleziona seminario"));
+            window.allSeminars=data.seminar;
+
+            $.each(data.seminar, function(index,seminar) {
+                    options.append($("<option />").val(seminar.idSeminar).text(seminar.name));
+            });
+        }    
+    );
+}
+
+/**
+ * Una volta selezionato un seminario, i campi vengono riempiti con le informazioni relative al seminario presente nel DB
+ * e i camoi non sono modificabili
+ * @returns {undefined}
+ */
+function onChangeSeminar(){
+    //controllo che se non viene selezionato un seminario ripulisce i campi
+    if($("#seminarSelect :selected").text() !== "seleziona seminario"){
+        var seminarId = $("#seminarSelect :selected").val();
+
+        for(var i=0; i<window.allSeminars.length; i++ ){
+            if(window.allSeminars[i].idSeminar == seminarId){
+                var seminar = window.allSeminars[i];
+                $("#description").val(seminar.description);
+                $("#description").attr("disabled","disabled");
+                
+                $("#dateActivity").val(seminar.data);
+                $("#dateActivity").attr("disabled","disabled");
+
+                $("#startTimeActivity").val(seminar.startTime);
+                $("#startTimeActivity").attr("disabled","disabled");
+
+                $("#endTimeActivity").val(seminar.endTime);
+                $("#endTimeActivity").attr("disabled","disabled");
+                break;
+           }
+       }  
+    }else
+        clearAll();
+ }
+/**
+ * Se la tipologia selezionata dall'utente è seminario, mostrerà nella select tutti i seminari
+ * altrimenti da la possibilità all'utente di inserire il nome dell'attività.
+ * @param {type} typology
+ * @returns {undefined}
+ */
+function onSelectChange(typology){
+    clearAll();
+
+    if(typology ==="Seminario"){
+        $("#seminarSelect").css( "visibility","visible" );
+        $("#name").css("visibility","hidden");
+    }else{
+        $("#seminarSelect").css( "visibility","hidden" );
+        $("#name").css("visibility","visible");
+    }
+}
+
+/**
+ * ripulisce i campi se erano riempiti
+ * @returns {undefined}
+ */
+function clearAll(){
+    $("#description").val("");
+    $("#description").attr("disabled",false);
+    
+    $("#dateActivity").val("");
+    $("#dateActivity").attr("disabled",false);
+    
+    $("#startTimeActivity").attr("disabled",false);
+    $("#endTimeActivity").attr("disabled",false);
+}
+
+/**
+ * controlla se la tipologia inserita dall'utente è "Seminario" 
+ * viene sostituita con un'altra stinga
+ * @returns {undefined}
+ */
+function checkSeminarTypology(){
+    if($("#typology").val() === "Seminario"){
+        $("#typology").val("Altro Seminario");
+    }
 }

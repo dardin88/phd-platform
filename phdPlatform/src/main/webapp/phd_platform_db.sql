@@ -320,7 +320,7 @@ come prepararsi ad un colloqui nel migliore dei modi',
 (2,'2016-05-24','10:15 AM','3:10 PM','Come prepararsi ad un colloquio','Gerardo Gallesi','Consigli su 
 come prepararsi ad un colloqui nel migliore dei modi',
 'Aula P16',2 ),
-(3,'2015-05-28','10:15 AM','15:10 PM','Come prepararsi ad un colloquio','Gerardo Gallesi','Consigli su 
+(3,'2015-05-28','10:15 AM','3:10 PM','Come prepararsi ad un colloquio','Gerardo Gallesi','Consigli su 
 come prepararsi ad un colloqui nel migliore dei modi',
 'Aula P16',1 );
 
@@ -454,3 +454,11 @@ CREATE TABLE IF NOT EXISTS typology (
 -- popolo la tabella typology
 INSERT INTO typology(name)
 	VALUES ('Laboratorio'),('Biblioteca'),('Studio Individuale'),('Tutorato'),('Seminario')
+
+
+CREATE TABLE IF NOT EXISTS seminar_activity(
+    fkActivity int(11) NOT NULL,
+    fkSeminar  int(11) NOT NULL,
+primary key (fkActivity,fkSeminar),
+foreign key (fkActivity) references activity(idActivity) on delete cascade on update cascade,
+foreign key (fkSeminar) references seminar(idSeminar) on delete no action on update cascade);

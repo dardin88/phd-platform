@@ -5,6 +5,9 @@
  */
 package it.unisa.dottorato.activityRegister;
 
+import static com.sun.org.apache.xalan.internal.lib.ExsltDatetime.dateTime;
+import it.unisa.dottorato.phdCourse.Course;
+import it.unisa.dottorato.phdCourse.Seminar;
 import it.unisa.dottorato.utility.Utility;
 import it.unisa.integrazione.database.DBConnection;
 import java.io.IOException;
@@ -14,6 +17,7 @@ import java.sql.SQLException;
 import java.text.ParseException;
 import java.text.SimpleDateFormat;
 import java.util.ArrayList;
+import java.util.Calendar;
 import java.util.concurrent.TimeUnit;
 import java.util.logging.Level;
 import java.util.logging.Logger;
@@ -54,10 +58,11 @@ public class ActivityRegisterManager {
     /**
      * Inserimento di un'attività nel registro
      * @param activity attività da inserire
+     * @param idSeminar
      * @throws SQLException
      * @throws IOException 
      */
-    public void insertActivity(Activity activity) throws SQLException, IOException {
+    public void insertActivity(Activity activity,String idSeminar) throws SQLException, IOException {
        Connection connect = null;
        try{
               connect = DBConnection.getConnection();
@@ -78,6 +83,14 @@ public class ActivityRegisterManager {
             //esegue query
             Utility.executeOperation(connect, stingSQL);
 
+            if(!idSeminar.equalsIgnoreCase("N/A")){
+                stingSQL = "INSERT INTO seminar_activity(fkActivity,fkSeminar) "
+                        + "SELECT MAX(idActivity),"+idSeminar+" FROM "+ ActivityRegisterManager.TABLE_ACTIVITY;
+            
+            //esegue query
+            Utility.executeOperation(connect, stingSQL);
+          
+            }
             connect.commit();
         }finally {
            DBConnection.releaseConnection(connect);
@@ -86,11 +99,12 @@ public class ActivityRegisterManager {
 /**
  * Recupera il registro delle attività di uno studente
  * @param idStudent id dello studente 
+     * @param annoInizio 
  * @return lista delle attività del registro
  * @throws SQLException
  * @throws IOException 
  */
-    public ArrayList<Activity> getActivityRegisterOf(String idStudent) throws SQLException, IOException {
+    public ArrayList<Activity> getActivityRegisterOf(String idStudent,String annoInizio) throws SQLException, IOException {
        
        Connection connect = null;
        ArrayList<Activity> activityList = new ArrayList<Activity>();
@@ -98,11 +112,15 @@ public class ActivityRegisterManager {
        try{
               connect = DBConnection.getConnection();
               //Preparazione query per recupero della lista delle attività di un utente
+              
               String stringSQL = "SELECT * FROM " 
                     + ActivityRegisterManager.TABLE_ACTIVITY 
-                    + " WHERE fkPhdStudent='"+idStudent+"'";            
+                    + " WHERE fkPhdStudent='"+idStudent+"'"
+                    + "AND "
+                    + "startDateTime >= '"+datetimeFormat(annoInizio)+"' " 
+                    + "AND " 
+                    + "endDateTime <= '" +datetimeFormat(endYear(annoInizio))+ "' ";            
             System.out.println(stringSQL);
-           
             //esegue query
             ResultSet result = Utility.queryOperation(connect, stringSQL);
            
@@ -122,9 +140,13 @@ public class ActivityRegisterManager {
             }
            
             stringSQL = "SELECT lesson.idLesson, lesson.name, lesson.desription, lesson.date, lesson.startTime, lesson.endTime, presence.fkPhdStudent"
-                      + " FROM "+ ActivityRegisterManager.TABLE_LESSON+ "," + ActivityRegisterManager.TABLE_PRESENCE
-                      + " WHERE fkPhdStudent='"+idStudent+"'"
-                      + " AND isPresent = 1 AND fkLesson = lesson.idLesson" ;                                
+                    + " FROM "+ ActivityRegisterManager.TABLE_LESSON+ "," + ActivityRegisterManager.TABLE_PRESENCE
+                    + " WHERE fkPhdStudent='"+idStudent+"'"
+                    + " AND isPresent = 1 AND fkLesson = lesson.idLesson "
+                    + "AND "
+                    + "lesson.date >= '"+dateFormat(annoInizio)+"' " 
+                    + "AND " 
+                    + "lesson.date <= '" +dateFormat(endYear(annoInizio))+ "' ";                                 
             System.out.println(stringSQL);
 
             //esegue query
@@ -178,7 +200,6 @@ public class ActivityRegisterManager {
                         + "totalTime ='" + calculateTotTime(newActivity.getStartDateTime(),newActivity.getEndDateTime())+"',"
                          + "typology ='" + newActivity.getTypology() +"' "
                          + "WHERE idActivity = " + oldActivityID + " AND fkPhdStudent='"+fkPhdStudent+"'";
-            System.out.println(stringSQL);
 
             Utility.executeOperation(connect, stringSQL);
 
@@ -203,7 +224,6 @@ public class ActivityRegisterManager {
                 String stringSQL = "DELETE FROM " 
                         + ActivityRegisterManager.TABLE_ACTIVITY 
                         + " WHERE idActivity = " + idActivity + " AND fkPhdStudent='"+fkPhdStudent+"'";
-               //System.out.println(stringSQL);
 
                 if(Utility.executeOperation(connect, stringSQL) == 0)
                     throw new Exception();
@@ -213,7 +233,115 @@ public class ActivityRegisterManager {
                 DBConnection.releaseConnection(connect);
         }
     }
+    /**
+     * recupera tutti seminari seguiti da uno studente e che quindi appartengono al registro delle attività
+     * @param fkPhdStudent
+     * @param annoInizio
+     * @return 
+     */
+    public ArrayList<Seminar> getSeminarActivitiesByStudent(String fkPhdStudent, String annoInizio){
+          
+       Connection connect = null;
+       ArrayList<Seminar> seminarList = new ArrayList<Seminar>();
+       
+       try{
+              connect = DBConnection.getConnection();
+              //Preparazione query per recupero della lista delle attività di un utente
+              String stringSQL ="SELECT seminar.idSeminar, seminar.name ,seminar.date,seminar.startTime,seminar.endTime,seminar.desription,seminar.place, seminar.namespeacker, seminar.fkCourse "
+                                + "FROM activity, seminar, seminar_activity " 
+                                + "where seminar.idSeminar=seminar_activity.fkSeminar " 
+                                + "AND " 
+                                + "seminar_activity.fkActivity = activity.idActivity " 
+                                + "AND "
+                                + "activity.fkPhdStudent='"+fkPhdStudent+"'"
+                                + "AND "
+                                + "seminar.date >= '"+dateFormat(annoInizio)+"' " 
+                                + "AND " 
+                                + "seminar.date <= '" +dateFormat(endYear(annoInizio))+ "' ";            
+           System.out.println(stringSQL);
+            //esegue query
+            ResultSet result = Utility.queryOperation(connect, stringSQL);
+           
+            while (result.next()) {
+                
+                Seminar seminar = new Seminar();
+                seminar.setIdSeminar(result.getInt("idSeminar"));
+                seminar.setDate(result.getDate("date"));
+                seminar.setStartTime(result.getString("startTime"));
+                seminar.setEndTime(result.getString("endTime"));
+                seminar.setName(result.getString("name"));
+                seminar.setNameSpeacker(result.getString("namespeacker"));
+                seminar.setDescription(result.getString("desription"));
+                seminar.setPlace(result.getString("place"));
+                seminar.setFK_course(result.getInt("fkCourse"));
+
+                
+                seminarList.add(seminar);    
+            }
+          } catch (SQLException ex) {
+            Logger.getLogger(ActivityRegisterManager.class.getName()).log(Level.SEVERE, null, ex);
+          }finally {
+           DBConnection.releaseConnection(connect);
+        } 
+       return seminarList;
+    }
     
+    
+/**
+ * recupera tutti i corsi relativi ai seminari seguiti da uno studente e che quindi appartengono al registro delle attività
+ * @param fkPhdStudent
+ * @param annoInizio
+ * @return 
+ */    
+    public ArrayList<Course> getSeminarCoursesOfStudent(String fkPhdStudent,String annoInizio){
+          
+       Connection connect = null;
+       ArrayList<Course> courseList = new ArrayList<Course>();
+       
+       try{
+              connect = DBConnection.getConnection();
+              //Preparazione query per recupero della lista delle attività di un utente
+              String stringSQL ="SELECT course.name, course.idCourse, course.fkCurriculum, course.fkCycle,course.description, course.startDate, course.endDate "
+                       + "FROM activity, seminar, seminar_activity,course, lesson " 
+                       + "WHERE " 
+                       + "activity.fkPhdStudent='"+fkPhdStudent+"' " 
+                       + "AND " 
+                       + "seminar.idSeminar=seminar_activity.fkSeminar " 
+                       + "AND " 
+                       + "seminar_activity.fkActivity = activity.idActivity " 
+                       + "AND " 
+                       + "lesson.idLesson=seminar_activity.fkSeminar " 
+                       + "AND " 
+                       + "lesson.fkCourse=course.idCourse " 
+                       + "AND "
+                       + "course.startDate >= '"+dateFormat(annoInizio)+"' " 
+                       + "AND " 
+                       + "course.endDate   <= '" +dateFormat(endYear(annoInizio))+ "' "
+                       + "group by course.idCourse\n";
+           System.out.println(stringSQL);
+            //esegue query
+            ResultSet result = Utility.queryOperation(connect, stringSQL);
+           
+            while (result.next()) {
+                
+                Course course = new Course();
+                course.setIdCourse(result.getInt("idCourse"));
+                course.setName(result.getString("name"));
+                course.setFkCurriculum(result.getString("fkCurriculum"));
+                course.setFkCycle(result.getInt("fkCycle"));
+                course.setDescription(result.getString("description"));
+                course.setStartDate(result.getDate("startDate"));
+                course.setEndDate(result.getDate("endDate"));
+               
+                courseList.add(course);    
+            }
+          } catch (SQLException ex) {
+            Logger.getLogger(ActivityRegisterManager.class.getName()).log(Level.SEVERE, null, ex);
+          }finally {
+           DBConnection.releaseConnection(connect);
+        } 
+       return courseList;
+    } 
      /**
      * Calcolo dei minuti dedicati ad una attivita'
      * @param startDateTime 
@@ -271,7 +399,6 @@ public class ActivityRegisterManager {
             //Preparazione query per recupero della lista delle tipologie
             String stringSQL = "SELECT idTypology, name FROM " 
                     + ActivityRegisterManager.TABLE_TYPOLOGY;            
-            System.out.println(stringSQL);
            
             //esegue query
             ResultSet result = Utility.queryOperation(connect, stringSQL);
@@ -288,4 +415,67 @@ public class ActivityRegisterManager {
         } 
        return typologyList;
     }
-}
+    
+    private Date convertStringToDate(String annoInizio){
+        try {
+            Date startDateParse = new SimpleDateFormat("yyyy-MM-dd HH:mm").parse(annoInizio+"-09-01 00:00");
+            return startDateParse;
+        } catch (ParseException ex) {
+            Logger.getLogger(ActivityRegisterManager.class.getName()).log(Level.SEVERE, null, ex);
+            return null;
+        }
+    }
+    /**
+     * aggiunge un anno all'anno dato come parametro
+     * @param dataInizio
+     * @return 
+     */
+    private String endYear(String dataInizio){
+        try {
+            SimpleDateFormat dateFormat = new SimpleDateFormat("yyyy");
+            Calendar cal = Calendar.getInstance();
+            cal.setTime(dateFormat.parse(dataInizio));
+            cal.add( Calendar.YEAR, 1 );
+            String convertedDate=dateFormat.format(cal.getTime());
+            return convertedDate;
+        } catch (ParseException ex) {
+            Logger.getLogger(ActivityRegisterManager.class.getName()).log(Level.SEVERE, null, ex);
+            return null;
+        }
+    }
+/**
+ * converte in formato datetime una stringa
+ * l'anno viene modificato come inizio anno del dottorato
+ * 
+ * @param dataString
+ * @return 
+ */
+    private String datetimeFormat(String dataString) {
+        SimpleDateFormat formatter = new SimpleDateFormat("yyyy-MM-dd HH:mm");
+        Date date=null;
+        try {
+            date = formatter.parse(dataString+"-09-01 00:00");
+        } catch (ParseException ex) {
+            Logger.getLogger(ActivityRegisterManager.class.getName()).log(Level.SEVERE, null, ex);
+        }
+        return formatter.format(date);
+    }
+    
+    /**
+     * converte in formato yyyy-MM-dd l'anno dato in input 
+     * l'anno viene modificato come inizio anno del dottorato
+     * 
+     * @param dataString
+     * @return 
+     */
+     private String dateFormat(String dataString) {
+        SimpleDateFormat formatter = new SimpleDateFormat("yyyy-MM-dd");
+        Date date=null;
+        try {
+            date = formatter.parse(dataString+"-09-01");
+        } catch (ParseException ex) {
+            Logger.getLogger(ActivityRegisterManager.class.getName()).log(Level.SEVERE, null, ex);
+        }
+        return formatter.format(date);
+    }
+} 
