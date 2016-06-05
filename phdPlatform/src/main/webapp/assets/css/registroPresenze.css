@@ -41,6 +41,20 @@ and open the template in the editor.
     font-size: 15px;
     text-transform: capitalize;
     text-indent: 10px;
+    min-width: 200px;
+}
+
+.presences{
+    text-align: center;
+    min-width: 190px;
+}
+
+.space{
+    margin: 7px;    
+}
+
+#panelDiv{
+    min-width: 450px;
 }
 
 #titleCourse p{

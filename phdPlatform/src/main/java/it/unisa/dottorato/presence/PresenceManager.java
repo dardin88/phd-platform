@@ -549,6 +549,41 @@ System.out.println(lesson.toString());
         }
         return classList;
         
-    }     
+    }
+   
+   /**  Metodo della classe che setta tutte le presenze di una lezione
+    * @param  idLesson
+    * @param isPresent
+    * @throws java.sql.SQLException
+    * @throws it.unisa.dottorato.presence.PhdStudentexception
+    * @throws IdException
+    * @throws java.io.IOException
+    */
+   public void changeAllPresencesLesson(int fkLesson, int isPresent) throws 
+           SQLException, PhdStudentexception, IdException, IOException {
+        Connection connect = null;
+        try{
+            connect = DBConnection.getConnection();
+            /*
+             * Prepariamo la stringa SQL per modificare le presenze 
+             * di una lezione nella tabella presenze
+             */
+            String tSql = "UPDATE "
+                + PresenceManager.TABLE_Presence
+                + " set isPresent = "
+                + isPresent
+                + " WHERE fkLesson = "
+                + fkLesson;       
+
+            //Inviamo la Query al DataBase
+            if(Utility.executeOperation(connect, tSql)==0)
+                throw new PhdStudentexception();
+
+            connect.commit();
+            
+        }finally {
+            DBConnection.releaseConnection(connect);
+        }
+   }
 }
 
