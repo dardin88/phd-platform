@@ -320,7 +320,7 @@ come prepararsi ad un colloqui nel migliore dei modi',
 (2,'2016-05-24','10:15 AM','3:10 PM','Come prepararsi ad un colloquio','Gerardo Gallesi','Consigli su 
 come prepararsi ad un colloqui nel migliore dei modi',
 'Aula P16',2 ),
-(3,'2015-05-28','10:15 AM','15:10 PM','Come prepararsi ad un colloquio','Gerardo Gallesi','Consigli su 
+(3,'2015-05-28','10:15 AM','3:10 PM','Come prepararsi ad un colloquio','Gerardo Gallesi','Consigli su 
 come prepararsi ad un colloqui nel migliore dei modi',
 'Aula P16',1 );
 
@@ -444,7 +444,7 @@ CREATE TABLE IF NOT EXISTS activity (
 -- popolo la tabella activity
 INSERT INTO activity(name, description, startDateTime, endDateTime,totalTime, typology,  fkPhdStudent)
 	VALUES ('studio derivate', 'ho studiato le derivate', '2016-04-28 09:00', '2016-04-28 11:00','120', 'Studio Individuale', 'dinucci@hotmail.it'),
-		   ('turorato triennale', 'ho fatto tutorato al corso di reti wireless della magistrale', '2016-04-28 11:00', '2016-04-28 14:00','180', 'Tutorato', 'dinucci@hotmail.it')
+		   ('turorato triennale', 'ho fatto tutorato al corso di reti wireless della magistrale', '2016-04-28 11:00', '2016-04-28 14:00','180', 'Tutorato', 'dinucci@hotmail.it');
 
 -- creazione della tabella che contiente le tipologie predefinite per le attivita' di dottorato
 CREATE TABLE IF NOT EXISTS typology (
@@ -453,4 +453,12 @@ CREATE TABLE IF NOT EXISTS typology (
 );
 -- popolo la tabella typology
 INSERT INTO typology(name)
-	VALUES ('Laboratorio'),('Biblioteca'),('Studio Individuale'),('Tutorato'),('Seminario')
+	VALUES ('Laboratorio'),('Biblioteca'),('Studio Individuale'),('Tutorato'),('Seminario');
+
+
+CREATE TABLE IF NOT EXISTS seminar_activity(
+    fkActivity int(11) NOT NULL,
+    fkSeminar  int(11) NOT NULL,
+primary key (fkActivity,fkSeminar),
+foreign key (fkActivity) references activity(idActivity) on delete cascade on update cascade,
+foreign key (fkSeminar) references seminar(idSeminar) on delete no action on update cascade);
