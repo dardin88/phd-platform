@@ -258,7 +258,6 @@ public class ActivityRegisterManager {
                                 + "seminar.date >= '"+dateFormat(annoInizio)+"' " 
                                 + "AND " 
                                 + "seminar.date <= '" +dateFormat(endYear(annoInizio))+ "' ";            
-           System.out.println(stringSQL);
             //esegue query
             ResultSet result = Utility.queryOperation(connect, stringSQL);
            
@@ -317,8 +316,7 @@ public class ActivityRegisterManager {
                        + "course.startDate >= '"+dateFormat(annoInizio)+"' " 
                        + "AND " 
                        + "course.endDate   <= '" +dateFormat(endYear(annoInizio))+ "' "
-                       + "group by course.idCourse\n";
-           System.out.println(stringSQL);
+                       + "group by course.idCourse ";
             //esegue query
             ResultSet result = Utility.queryOperation(connect, stringSQL);
            
@@ -464,7 +462,6 @@ public class ActivityRegisterManager {
     /**
      * converte in formato yyyy-MM-dd l'anno dato in input 
      * l'anno viene modificato come inizio anno del dottorato
-     * 
      * @param dataString
      * @return 
      */
