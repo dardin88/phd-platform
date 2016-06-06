@@ -37,12 +37,12 @@
         
         <script src="assets/js/jquery-1.11.1.min.js"></script>
         <script type="text/javascript" src="script/amministrazioneAvvisi.js"></script> <!-- da modificare -->
-                                                                                 
+        
     </head>
     <c:choose>
         <c:when test="${sessionScope.account != null}">
                     <% Account loggedPerson = ((Account) session.getAttribute("account"));
-                        if (loggedPerson.isAdmin()) {
+                        if (loggedPerson.isAdmin() || loggedPerson.getTypeAccount().equals("professor")) {
                     %> 
         <body class="page-body">
             <!-- Inclusione della pagina contenente il menù superiore  -->
@@ -58,40 +58,40 @@
                             <h1>Gestione Avvisi</h1> 
                         </div>
                     </div>
-                    
+
                     
                     <div class="row">
                         
                         <div class="panel panel-default" id="tableDiv" hidden>
-                            <!-- Default panel contents -->
-                            <div class="panel-heading">
-                                   
-                            <button type="button" class="btn btn-default btn-secondary " onclick="addNewsButton()" >
-                                <span class="glyphicon glyphicon-plus" aria-hidden="true" ></span>
-                                Aggiungi Avviso
-                            </button> 
-                    
+                                <!-- Default panel contents -->
+                                <div class="panel-heading">
+
+                                <button type="button" class="btn btn-default btn-secondary " onclick="addNewsButton()" >
+                                    <span class="glyphicon glyphicon-plus" aria-hidden="true" ></span>
+                                    Aggiungi Avviso
+                                </button> 
+
+                                </div>
+                                     <div class="panel-body">
+                                     <!-- Table -->
+                                        <table class="table">
+                                            <thead>
+                                                    <tr>
+                                                        <th>Titolo Avviso</th>
+                                                        <th>Visualizza</th>
+                                                        <th>Modifica</th>
+                                                        <th>Elimina</th>
+                                                    </tr>
+                                            </thead>
+                                            <tbody id="accountListTable"> </tbody>
+                                        </table>
+                                     </div>
+
                             </div>
-                                 <div class="panel-body">
-                                 <!-- Table -->
-                                    <table class="table">
-                                        <thead>
-                                                <tr>
-                                                    <th>Titolo Avviso</th>
-                                                    <th>Visualizza</th>
-                                                    <th>Modifica</th>
-                                                    <th>Elimina</th>
-                                                </tr>
-                                        </thead>
-                                        <tbody id="accountListTable"> </tbody>
-                                    </table>
-                                 </div>
-                                 
-                        </div>
-                    </div> <!-- chiusura riga -->
+                        </div> <!-- chiusura riga -->
+
                     
-                    
-                    
+                              
                     <div class="row">
                        
                             <div class="panel panel-default" id="divPanelAddORModify" hidden>
@@ -101,9 +101,44 @@
                             </div>
                             <div class="panel-body">
 
-                                <!-- Form contenenti i campi dei curriculum di dottorato -->
+                                <!-- Campo per la selezione della tipologia d'invio dell'avviso -->
                                 <form id="curriculum_form" action="#" method="post">
-
+                                    <div class="form-group">
+                                        <label>Tipologia avviso</label>
+                                        <div class="input-group">
+                                            <span class="input-group-addon"> </span>
+                                              <input type="radio" name="gender" value="news" onclick="optionContact(this.value)"> News
+                                              <input type="radio" name="gender" value="avviso" onclick="optionContact(this.value)"> Avviso<br>
+                                        </div>
+                                    </div>
+                                    <div class="form-group" id="DivSenderContact">
+                                        <label>Filtra per:</label>
+                                            <div class="input-group">
+                                                <span class="input-group-addon"></span>
+                                                <select  name="Cicli-curriculum" class="form-control" id="Cicli-curriculum"  onclick="selectioned()"  >
+                                                    <option value="Select" selected disabled>Select</option>
+                                                    <option value="Cicli">Cicli</option>
+                                                    <option value="Curriculum">Curriculum</option>
+                                                    <option value="Cicli-curriculum">Cicli-curriculum</option>
+                                                </select>        
+                                            </div>
+                                        <br>
+                                        <div class="input-group">
+                                                <span class="input-group-addon"></span>
+                                                <select  name="Select-CC" class="form-control" id="Select-CC"  onclick="selectedcourse()"  >
+                                                    <option value="Select" selected disabled>Select</option>
+                                                </select>        
+                                            </div>
+                                        <div class="form-group">
+                                            <br>
+                                            <div id="resulthead">                
+                                            </div>
+                                        </div>  
+                                    </div>
+                                     
+                                        
+                                      
+                                    
                                     <!-- Campo di testo relativo al nome di un curriculum -->
                                     <div class="form-group">
                                         <label>Titolo Avviso:</label>
