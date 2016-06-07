@@ -125,7 +125,7 @@
                                         <br>
                                         <div class="input-group">
                                                 <span class="input-group-addon"></span>
-                                                <select  name="Select-CC" class="form-control" id="Select-CC"  onclick="selectedcourse()"  >
+                                                <select  name="Select-CC" class="form-control" id="Select-CC" onclick="StudentCheck()">
                                                     <option value="Select" selected disabled>Select</option>
                                                 </select>        
                                             </div>
