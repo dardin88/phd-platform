@@ -249,6 +249,7 @@
                                                         <li class="bottoni" role="presentation" onclick="display('table-coll')"><a>Collaborazioni</a></li>
                                                         <li class="bottoni" role="presentation" onclick="display('table-miss')"><a>Mission</a></li>
                                                         <li class="bottoni" role="presentation" onclick="location.href = 'activityRegister.jsp'"><a>Vai al registro</a></li>
+                                                        <li class="bottoni" role="presentation" onclick="location.href = 'yearlySummary.jsp'"><a>Relazione di fine anno</a></li>
                                                     </ul>
                                                     <br>
 

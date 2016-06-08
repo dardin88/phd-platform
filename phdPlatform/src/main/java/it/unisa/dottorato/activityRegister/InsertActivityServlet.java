@@ -33,49 +33,46 @@ public class InsertActivityServlet extends HttpServlet {
      * @param response servlet response
      * @throws ServletException if a servlet-specific error occurs
      * @throws IOException if an I/O error occurs
-     * @throws java.sql.SQLException
-     * @throws java.text.ParseException
      */
     protected void processRequest(HttpServletRequest request, HttpServletResponse response)
-            throws ServletException, IOException{
+            throws ServletException, IOException, JSONException{
          
         response.setContentType("text/html;charset=UTF-8");
         JSONObject result = new JSONObject();
-        PrintWriter out = response.getWriter();
-                        
+        PrintWriter out = response.getWriter();                        
+        
+        String name = request.getParameter("name");
+        String description =  request.getParameter("description");
+        String startDateTime = request.getParameter("startDateTime");
+        String endDateTime = request.getParameter("endDateTime");
+        String typology = request.getParameter("typology");
+        String idSeminar = request.getParameter("idSeminar");
+
+        HttpSession session = request.getSession();
+        PhdStudent loggedPerson = (PhdStudent) session.getAttribute("account");  // da verificare
+
+        Activity activity = new Activity();
+
+        activity.setName(name);
+        activity.setDescription(description);
+        activity.setStartDateTime(startDateTime);
+        activity.setEndDateTime(endDateTime);
+        activity.setTypology(typology);
+        activity.setFkPhdStudent(loggedPerson.getfkAccount());
+        System.out.println(activity.toString());
+
         try {
-            try{
-                String name = request.getParameter("name");
-                String description =  request.getParameter("description");
-                String startDateTime = request.getParameter("startDateTime");
-                String endDateTime = request.getParameter("endDateTime");
-                String typology = request.getParameter("typology");
-
-                HttpSession session = request.getSession();
-                PhdStudent loggedPerson = (PhdStudent) session.getAttribute("account");  // da verificare
-
-                Activity activity = new Activity();
-
-                activity.setName(name);
-                activity.setDescription(description);
-                activity.setStartDateTime(startDateTime);
-                activity.setEndDateTime(endDateTime);
-                activity.setTypology(typology);
-                activity.setFkPhdStudent(loggedPerson.getfkAccount());
-                System.out.println(activity.toString());
-
-                ActivityRegisterManager.getInstance().insertActivity(activity);
-
-                result.put("result", true);
-
-            } catch (JSONException | SQLException ex) {
-                     Logger.getLogger(InsertActivityServlet.class.getName()).log(Level.SEVERE, null, ex);
-                     result.put("result", false);
-            } 
-            out.write(result.toString());
-        } catch (JSONException ex1) {
-                     Logger.getLogger(InsertActivityServlet.class.getName()).log(Level.SEVERE, null, ex1);
+            ActivityRegisterManager.getInstance().insertActivity(activity, idSeminar);
+        } catch (SQLException ex) {
+            Logger.getLogger(InsertActivityServlet.class.getName()).log(Level.SEVERE, null, ex);
         }
+        try {
+            result.put("result", true);
+        } catch (JSONException ex) {
+            result.put("result", false);
+            Logger.getLogger(InsertActivityServlet.class.getName()).log(Level.SEVERE, null, ex);
+        }
+        out.write(result.toString());
     } 
 
     
@@ -91,7 +88,11 @@ public class InsertActivityServlet extends HttpServlet {
     @Override
     protected void doGet(HttpServletRequest request, HttpServletResponse response)
             throws ServletException, IOException {
+        try {
             processRequest(request, response);
+        } catch (JSONException ex) {
+            Logger.getLogger(InsertActivityServlet.class.getName()).log(Level.SEVERE, null, ex);
+        }
         
     }
 
@@ -106,7 +107,11 @@ public class InsertActivityServlet extends HttpServlet {
     @Override
     protected void doPost(HttpServletRequest request, HttpServletResponse response)
             throws ServletException, IOException {
+        try {
             processRequest(request, response);
+        } catch (JSONException ex) {
+            Logger.getLogger(InsertActivityServlet.class.getName()).log(Level.SEVERE, null, ex);
+        }
     }
 
     /**
