@@ -3,8 +3,9 @@
  * To change this template file, choose Tools | Templates
  * and open the template in the editor.
  */
-package it.unisa.dottorato.activityRegister;
-import it.unisa.dottorato.account.PhdStudent;
+package it.unisa.dottorato.account;
+
+import it.unisa.dottorato.autenticazione.EmailException;
 import java.io.IOException;
 import java.io.PrintWriter;
 import java.sql.SQLException;
@@ -15,16 +16,15 @@ import javax.servlet.annotation.WebServlet;
 import javax.servlet.http.HttpServlet;
 import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpServletResponse;
-import javax.servlet.http.HttpSession;
-import org.json.JSONException;
 import org.json.JSONObject;
 
-/**Servlet incaricata a inserire un'attività nel registro delle attività
+/**
  *
- * @author Ernesto
+ * @author Rafolo
  */
-@WebServlet(name = "InsertActivity", urlPatterns = {"/InsertActivity"})
-public class InsertActivityServlet extends HttpServlet {
+@WebServlet(name = "EmailForwarded", urlPatterns = {"/EmailForwarded"})
+public class EmailForwarded extends HttpServlet {
+
     /**
      * Processes requests for both HTTP <code>GET</code> and <code>POST</code>
      * methods.
@@ -35,48 +35,26 @@ public class InsertActivityServlet extends HttpServlet {
      * @throws IOException if an I/O error occurs
      */
     protected void processRequest(HttpServletRequest request, HttpServletResponse response)
-            throws ServletException, IOException, JSONException{
-         
+            throws ServletException, IOException, SQLException, EmailException, Exception {
         response.setContentType("text/html;charset=UTF-8");
+        PrintWriter out = response.getWriter();
+        AccountManager manager = AccountManager.getInstance();
         JSONObject result = new JSONObject();
-        PrintWriter out = response.getWriter();                        
+       
+        String email = request.getParameter("email");
+        String oggetto = request.getParameter("newsTitle");
+        String testo = request.getParameter("newsDescription");
+        manager.sendMail(email,oggetto,testo);
+        System.out.println("ss");
         
-        String name = request.getParameter("name");
-        String description =  request.getParameter("description");
-        String startDateTime = request.getParameter("startDateTime");
-        String endDateTime = request.getParameter("endDateTime");
-        String typology = request.getParameter("typology");
-        String idSeminar = request.getParameter("idSeminar");
-
-        HttpSession session = request.getSession();
-        PhdStudent loggedPerson = (PhdStudent) session.getAttribute("account");  // da verificare
-
-        Activity activity = new Activity();
-
-        activity.setName(name);
-        activity.setDescription(description);
-        activity.setStartDateTime(startDateTime);
-        activity.setEndDateTime(endDateTime);
-        activity.setTypology(typology);
-        activity.setFkPhdStudent(loggedPerson.getfkAccount());
-        System.out.println(activity.toString());
-
-        try {
-            ActivityRegisterManager.getInstance().insertActivity(activity, idSeminar);
-        } catch (SQLException ex) {
-            Logger.getLogger(InsertActivityServlet.class.getName()).log(Level.SEVERE, null, ex);
-        }
-        try {
-            result.put("result", true);
-        } catch (JSONException ex) {
-            result.put("result", false);
-            Logger.getLogger(InsertActivityServlet.class.getName()).log(Level.SEVERE, null, ex);
-        }
+        result.put("result", true); 
         out.write(result.toString());
-    } 
-
+       
+        
     
-// <editor-fold defaultstate="collapsed" desc="HttpServlet methods. Click on the + sign on the left to edit the code.">
+    }
+
+    // <editor-fold defaultstate="collapsed" desc="HttpServlet methods. Click on the + sign on the left to edit the code.">
     /**
      * Handles the HTTP <code>GET</code> method.
      *
@@ -90,10 +68,13 @@ public class InsertActivityServlet extends HttpServlet {
             throws ServletException, IOException {
         try {
             processRequest(request, response);
-        } catch (JSONException ex) {
-            Logger.getLogger(InsertActivityServlet.class.getName()).log(Level.SEVERE, null, ex);
+        } catch (SQLException ex) {
+            Logger.getLogger(InviteUserServlet.class.getName()).log(Level.SEVERE, null, ex);
+        } catch (EmailException ex) {
+            Logger.getLogger(InviteUserServlet.class.getName()).log(Level.SEVERE, null, ex);
+        } catch (Exception ex) {
+            Logger.getLogger(InviteUserServlet.class.getName()).log(Level.SEVERE, null, ex);
         }
-        
     }
 
     /**
@@ -109,8 +90,12 @@ public class InsertActivityServlet extends HttpServlet {
             throws ServletException, IOException {
         try {
             processRequest(request, response);
-        } catch (JSONException ex) {
-            Logger.getLogger(InsertActivityServlet.class.getName()).log(Level.SEVERE, null, ex);
+        } catch (SQLException ex) {
+            Logger.getLogger(InviteUserServlet.class.getName()).log(Level.SEVERE, null, ex);
+        } catch (EmailException ex) {
+            Logger.getLogger(InviteUserServlet.class.getName()).log(Level.SEVERE, null, ex);
+        } catch (Exception ex) {
+            Logger.getLogger(InviteUserServlet.class.getName()).log(Level.SEVERE, null, ex);
         }
     }
 

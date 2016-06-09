@@ -599,6 +599,68 @@ public class AccountManager {
         }        
     }
 
+        /**
+     * Metodo della classe per l'invio delle email
+     *
+     * @param email email a cui inviare l'invito
+     * @param oggetto oggetto dell'email
+     * @param testo corpo dell'email
+     * @throws SQLException
+     * @throws EmailException
+     */
+   
+    public void sendMail(String email,String oggetto,String testo) throws SQLException, EmailException, Exception {
+ Properties props = System.getProperties();
+
+        props.setProperty("mail.smtp.user", "phdplatformunisa@gmail.com");
+        props.setProperty("mail.transport.protocol", "smtp");
+        props.setProperty("mail.host", "smtp.gmail.com");
+        props.put("mail.smtp.socketFactory.port", "465");
+        props.put("mail.smtp.starttls.enable","true");
+        props.put("mail.smtp.auth", "true");
+        props.put("mail.smtp.socketFactory.class", "javax.net.ssl.SSLSocketFactory");
+        props.put("mail.smtp.socketFactory.fallback", "false");
+        props.setProperty("mail.smtp.quitwait", "false");
+        try {
+            testSecondaryEmail(email);
+            Session session = Session.getInstance(props, new Authenticator() {
+
+                protected PasswordAuthentication getPasswordAuthentication() {
+
+                    return new PasswordAuthentication(
+                            "phdplatformunisa@gmail.com",
+                            "unisaunisa");
+
+                }
+            });
+
+            Message message = new MimeMessage(session);
+            Address fromAdd = new InternetAddress(
+                   "phdplatformunisa@gmail.com");
+            Address toAdd = new InternetAddress(email);
+            message.setFrom(fromAdd);
+            message.setRecipient(Message.RecipientType.TO, toAdd);
+            message.setSubject(oggetto);
+
+            MimeBodyPart messagePart = new MimeBodyPart();
+            MimeMultipart multipart = new MimeMultipart();
+            multipart.addBodyPart(messagePart);  // adding message part    
+
+            //Setting the Email Encoding
+            messagePart.setText(testo);
+            messagePart.setHeader("Content-Type", "text/html; charset=\"utf-8\"");
+            messagePart.setHeader("Content-Transfer-Encoding", "quoted-printable");
+            message.setContent(multipart);
+            message.setSentDate(new Date());
+            
+            Transport transport = session.getTransport("smtps");
+            transport.connect("smtp.gmail.com", 465, "phdplatformunisa@gmail.com","unisaunisa");
+            transport.sendMessage(message,message.getAllRecipients());
+            transport.close();
+            
+        } finally{
+        }        
+    }
     /**
      * Metodo della classe incaricato dell'inserimento di una nuova entita'
      * nella tabella professor_student del database.
