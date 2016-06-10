@@ -121,7 +121,7 @@ function getStudentbyCycle(){
   
      
    $.getJSON("GetPhdStudentsCoursebyProfessor" ,{Ciclo: selected}, function (data){
-        console.log(data);
+        
         var i = 0;
  $.each(data, function(nomeCorso, studenti){
     
