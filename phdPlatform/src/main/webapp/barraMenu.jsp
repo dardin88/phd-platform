@@ -76,7 +76,15 @@
                     </li>
                     </ul>
                           
-                          
+                           <%}  if (loggedPerson.getTypeAccount().equals("professor")) { %>           
+     <ul class="navbar-nav">
+                    <li id="funzionalitaBase">
+                          <a href="CourseStats.jsp">
+                          <i class="linecons-wallet"></i>
+                             <span class="title">Statistiche Corsi</span>
+                          </a>
+                    </li>
+                    </ul>
 
                     <%}  if (loggedPerson.isAdmin()) { %>
                     <ul class="navbar-nav">

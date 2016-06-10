@@ -1,6 +1,6 @@
 <%-- 
-    Document   : TestPres
-    Created on : 26-apr-2016, 16.41.04
+    Document   : CourseStats
+    Created on : 25-mag-2016, 17.43.25
     Author     : cadav
 --%>
 
@@ -26,7 +26,7 @@
 
         
         <meta http-equiv="Content-Type" content="text/html; charset=UTF-8">
-        <title>Statistiche studente</title>
+        <title>Statistiche corsi</title>
            <link rel="stylesheet" href="http://fonts.googleapis.com/css?family=Arimo:400,700,400italic">
         <link rel="stylesheet" href="assets/css/fonts/linecons/css/linecons.css">
         <link rel="stylesheet" href="assets/css/fonts/fontawesome/css/font-awesome.min.css">
@@ -41,7 +41,7 @@
         <c:choose>
                 <c:when test="${sessionScope.account != null}">
                     <% Account loggedPerson = ((Account) session.getAttribute("account"));
-                        if (loggedPerson.getTypeAccount().equals("phdstudent")) {
+                        if (loggedPerson.getTypeAccount().equals("professor")) {
                     %> 
                     
     <body class="page-body">
@@ -61,7 +61,7 @@
    <FORM ACTION="Submit" METHOD="POST"> 
                                 <label  > Seleziona il ciclo di studi</label>
                                 
-                                <select name="Ciclo" class="form-control" id="Ciclo" onchange="getStatsPresenze()">
+                                <select name="Ciclo" class="form-control" id="Ciclo" onchange="getStudentbyCycle()">
                        
                                     <option value="default"  >  - selezionate il vostro  ciclo di studi  -  </option>
                                     
@@ -80,20 +80,29 @@
                
            </p>
                                              
-                                        </div>
-        
-        <div id ="grafico" class="graphic" > 
-               <canvas id="chart2" >
+          </div>
+
+          
+             <div id="grid">
+        <div id="grafico" class="graphic" > 
+            
+             
+               <canvas id="chart2">
  
 </canvas>
+         
         </div>
-        
-      
-<div class="graphic">
+              
+             </div>
+             
+             
+<div class="graphic" id="grafico2">
              <canvas id="chart" >
  
 </canvas>
+    
     </div>
+             
         
     </body>
     

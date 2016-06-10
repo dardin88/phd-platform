@@ -226,7 +226,7 @@ public class AccountManager {
                 temp.setfkProfessor(result.getString("fkProfessor"));
                 temp.setSecondaryEmail(result.getString("secondaryEmail"));
                 temp.setTypeAccount(result.getString("typeAccount"));
-                temp.setPassword(result.getString("password"));
+                //temp.setPassword(result.getString("password"));
                 temp.setAdmin(result.getBoolean("isAdministrator"));
                 students.add(temp);
                 
@@ -958,4 +958,54 @@ public class AccountManager {
         }
         return resInt;
     }
+    
+    /** Metodo per ottenere i corsi di interesse di un professore e i dottorandi 
+     * che seguono questi corsi
+     * 
+     * @param ciclo anno del ciclo di studio
+     * @param professor nome del professore
+     * @return restituisce la stringa se valida, lancia un'eccezione altrimenti
+     * @throws SQLException
+     */
+         public ArrayList<PhdStudent> getPhdStudentsCoursebyProfessor(String professor, int ciclo) throws SQLException{
+      Connection connect = null;
+      try {
+ ArrayList<PhdStudent> students = new ArrayList<>();
+            //Connessione al database
+            connect = DBConnection.getConnection();
+            
+            String sql="SELECT distinct course.name as corsonome, account.name, account.surname, account.secondaryEmail "+
+          " FROM course, account, lesson, keep, presence "+
+         " JOIN (SELECT idCourse  from course  "+
+           " JOIN lesson ON lesson.fkCourse=course.idCourse"+
+           " JOIN keep ON lesson.idLesson=keep.fkLesson "+
+                " and lesson.fkCourse=course.idCourse" +
+           	" WHERE keep.fkProfessor= "+Utility.AppendQuote(professor)+
+           " AND course.fkCycle= " + ciclo
+                    + " ) AS corsi "+
+          "  JOIN lesson as lezioni ON lezioni.fkCourse=corsi.idCourse "+
+        " JOIN keep as gu ON lezioni.idLesson=gu.fkLesson "+
+        "    WHERE course.idCourse = corsi.idCourse "+
+         "   and presence.fkPhdstudent = account.secondaryEmail "+
+       " and presence.fkLesson = lezioni.idLesson "+
+       "  and gu.fkProfessor= " +Utility.AppendQuote(professor);
+                    
+                  
+           ResultSet result = Utility.queryOperation(connect, sql);
+           
+                  while (result.next()) {
+                PhdStudent temp = new PhdStudent();
+                temp.setName(result.getString("name"));
+                temp.setSurname(result.getString("surname"));
+                temp.setLink(result.getString("corsonome"));
+   temp.setSecondaryEmail(result.getString("secondaryEmail"));
+                students.add(temp);
+
+            }
+            return students;
+        } finally {
+            DBConnection.releaseConnection(connect);
+        }
+     }
 }
+

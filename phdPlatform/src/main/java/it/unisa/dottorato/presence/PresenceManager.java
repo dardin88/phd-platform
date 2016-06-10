@@ -345,7 +345,7 @@ public class PresenceManager {
     
     
     /*Metodo che restituisce i corsi a cui un dottorando è iscritto*/
-      public synchronized ArrayList<Course> getCorsobyDottorando(String idDottorando) throws 
+      public synchronized ArrayList<Course> getCorsobyDottorando(String idDottorando, int ciclo) throws 
            ClassNotFoundException, SQLException, IOException, IdException, PhdStudentexception {
         Connection connect = null;
         Connection connect2 = null;
@@ -373,7 +373,8 @@ public class PresenceManager {
                  "  FROM presence, account, lesson, course"+
        "  where presence.fkPhdstudent =" +testDottorando(idDottorando)+
         "  and presence.fkLesson = lesson.idLesson "+
-        "   and lesson.fkCourse= course.idCourse";
+        "   and lesson.fkCourse= course.idCourse "+
+                    " and course.fkCycle= "+ciclo;
             //Inviamo la Query al DataBase
             ResultSet result = Utility.queryOperation(connect, tSql);
 
@@ -398,18 +399,18 @@ public class PresenceManager {
       public synchronized ArrayList<Presence> getTotalLesson(String idDottorando, String CourseName, int CycleNumber) throws 
            ClassNotFoundException, SQLException, IOException, IdException, PhdStudentexception {
         Connection connect = null;
-        Connection connect2 = null;
+        //Connection connect2 = null;
         Presence presenze= null;
        ArrayList<Presence> classList =null;
     
         try {
-            connect2 = DBConnection.getConnection();
+           // connect2 = DBConnection.getConnection();
             classList = new ArrayList <>();
-            String t="select * from presence where presence.fkPhdstudent="+idDottorando;
+         /*  String t="select * from presence where presence.fkPhdstudent="+idDottorando;
             ResultSet result2 = Utility.queryOperation(connect2, t);
 
             if(!result2.next())
-                throw new IdException();
+                throw new IdException();*/
             
         // Otteniamo una Connessione al DataBase
             connect = DBConnection.getConnection();
@@ -445,7 +446,7 @@ public class PresenceManager {
            
         }  finally {
             DBConnection.releaseConnection(connect);
-            DBConnection.releaseConnection(connect2);
+          //  DBConnection.releaseConnection(connect2);
         }
         return classList;
         
@@ -484,4 +485,153 @@ System.out.println(lesson.toString());
         } 
        return lessonList;
     }
+          /** Metodo della classe che restituisce i corsi di un professore
+           * 
+     * @param Professor email del professore
+     * @param cycle anno del ciclo di studi
+     * @return ritorna true se la presenza è false o ritorna false se la presenza è true
+     * @throws SQLException
+     *
+     * @throws PhdStudentexception
+     *
+     */
+         public ArrayList<Course> getProfessorCourse(String Professor, int cycle) throws SQLException, PhdStudentexception{
+        //connessione al database
+        Connection connect = DBConnection.getConnection();
+        ArrayList<Course> corsi=null;
+     try {
+            /*
+             *stringa SQL per effettuare l'inserimento nella 
+             * tabella news
+             */
+            corsi=new ArrayList<>();
+             String tSql = "SELECT course.* FROM course " +
+             " JOIN lesson ON lesson.fkCourse=course.idCourse" +
+            " JOIN keep ON lesson.idLesson=keep.fkLesson " +
+            " and lesson.fkCourse=course.idCourse" +
+            " WHERE keep.fkProfessor= "+Utility.AppendQuote(Professor)+
+                     "and course.fkCycle="+ cycle;
+                     
+                  
+            
+            ResultSet result = Utility.queryOperation(connect, tSql);
+
+            while (result.next()) {
+                Course corso=new Course();
+             
+                corso.setName(result.getString("name"));
+                corso.setDescription(result.getString("description"));
+                corso.setStartDate(result.getDate("startDate"));
+                corso.setEndDate(result.getDate("endDate"));
+                corso.setFkCycle(result.getInt("fkCycle"));
+                corso.setIdCourse(result.getInt("idCourse"));
+                corsi.add(corso);
+            }
+            return corsi;
+        }finally {
+            DBConnection.releaseConnection(connect);
+        }
+    }
+         
+          /** Metodo che restituisce le ore di lezione a cui uno studente ha partecipato
+     * 
+     * @param idStudent email dello studente
+     * @param courseName nome del corso di studi
+     * @param cycle anno del ciclo di studi
+     * @return ritorna true se la presenza è false o ritorna false se la presenza è true
+     * @throws SQLException
+     * @throws IOException
+     * 
+     */
+      public ArrayList<Lesson> getLessonsHours(String idStudent, int cycle, String courseName) throws SQLException, IOException {
+       
+       Connection connect = null;
+       ArrayList<Lesson> lessonList = new ArrayList<Lesson>();
+       
+       try{
+              connect = DBConnection.getConnection();
+              //Preparazione query per recupero della lista delle attività di un utente
+              String stringSQL = "SELECT distinct lesson.name, lesson.date, lesson.startTime, lesson.endTime"+
+                       " FROM  lesson, presence, course "+
+                       " WHERE fkPhdStudent= "+ idStudent+
+                      " AND isPresent = 1 "+
+                       " AND fkLesson = lesson.idLesson "+
+                       " AND course.fkCycle = " + cycle+
+                      " AND lesson.fkCourse= course.idCourse "+
+                      "AND course.name= "+ courseName;
+           
+           
+           
+            //esegue query
+            ResultSet result = Utility.queryOperation(connect, stringSQL);
+           
+            while (result.next()) {
+                
+                Lesson lesson = new Lesson();
+                lesson.setDate(result.getDate("date"));
+                lesson.setStartTime(result.getString("startTime"));
+                lesson.setEndTime(result.getString("endTime"));
+            
+                
+
+                lessonList.add(lesson);
+            }
+           
+          }finally {
+           DBConnection.releaseConnection(connect);
+        } 
+       return lessonList;
+    }
+      
+          /** Metodo che restituisce le ore di lezione totali di un corso
+     * 
+     * 
+     * @param courseName nome del corso di studi
+     * @param cycle anno del ciclo di studi
+     * @return ritorna true se la presenza è false o ritorna false se la presenza è true
+     * @throws SQLException
+     * @throws IOException
+     *
+     */
+        public ArrayList<Lesson> getLessonsHoursTotal(String courseName, int cycle) throws SQLException, IOException {
+       
+       Connection connect = null;
+       ArrayList<Lesson> lessonList = new ArrayList<Lesson>();
+       
+       try{
+              connect = DBConnection.getConnection();
+              //Preparazione query per recupero della lista delle attività di un utente
+              String stringSQL = "SELECT  DISTINCT lesson.name, lesson.date, lesson.startTime, lesson.endTime"+
+                       " FROM  lesson, presence, course "+
+                        " WHERE course.name= " +courseName+
+                        "AND presence.fkLesson = lesson.idLesson "+
+                        " AND course.fkCycle = " + cycle+
+                     "  AND lesson.fkCourse=course.idCourse";
+           
+           
+           
+            //esegue query
+            ResultSet result = Utility.queryOperation(connect, stringSQL);
+           
+            while (result.next()) {
+                
+                Lesson lesson = new Lesson();
+                lesson.setDate(result.getDate("date"));
+                lesson.setStartTime(result.getString("startTime"));
+                lesson.setEndTime(result.getString("endTime"));
+            
+                
+
+                lessonList.add(lesson);
+            }
+           
+          }finally {
+           DBConnection.releaseConnection(connect);
+        } 
+       return lessonList;
+    } 
+      
 }
+
+
+
