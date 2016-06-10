@@ -86,10 +86,10 @@
                     </li>
                     </ul>
 
-                    <%}  if (loggedPerson.isAdmin()) { %>
+                    <%}  if (loggedPerson.isAdmin() || loggedPerson.getTypeAccount().equals("professor")) { %>
                     <ul class="navbar-nav">
                     <li id="funzionalita3Permission_0">
-                        <a href="amministrazioneCurriculum.jsp">
+                        <a href="amministrazioneAvvisi.jsp">
                             <i class="linecons-key"></i>
                             <span class="title">Pannello amministratore</span>
                         </a>

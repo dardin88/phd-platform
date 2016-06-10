@@ -55,20 +55,27 @@
         <!-- JavaScripts initializations and stuff -->
         <script src="assets/js/xenon-custom.js"></script>
 
-        <!-- HTML5 shim and Respond.js IE8 support of HTML5 elements and media queries -->
-        <!--[if lt IE 9]>
-                <script src="https://oss.maxcdn.com/html5shiv/3.7.2/html5shiv.min.js"></script>
-                <script src="https://oss.maxcdn.com/respond/1.4.2/respond.min.js"></script>
-        <![endif]-->
-
         <script type="text/javascript"> 
             $(document).ready(function(){
+                window.allSeminars=[];
+                getTypology();
                 if(sessionStorage.getItem('insertFlag') === 'true')
                     insertFunction();
                 else
                     updateFunction();
+                
+                getSeminar();//inserito qua così viene caricato 1 sola volta
             })
+            
         </script>
+        <style>
+            p {padding: 10px;}
+            .select-editable { position:relative; background-color:white;  width:130px; height:18px; margin-bottom: 10px; }
+            .select-editable select { position:absolute; top:0px; left:0px; font-size:14px; width:135px; margin:0; height:25px; margin-bottom: 10px;}
+            .select-editable input { position:absolute; top:0px; left:0px; width:118px; height:25px; padding:1px; font-size:13px; color:black; margin-bottom: 10px;}
+            .select-editable select:focus, .select-editable input:focus { outline:none; }
+
+        </style>
     </head>
      <div id="infoDialog" class="modal fade">
         <div class="modal-dialog">
@@ -93,11 +100,9 @@
 
             <!-- Inclusione della pagina contenente il menù superiore -->
             <jsp:include page="barraMenu.jsp" flush="true"/>
+            <!-- Contenuto della pagina -->
             <div class="page-container">
-            <!-- Inclusione della pagina contenente il menù laterale -->
-
-                <!-- Contenuto della pagina -->
-                <div class="main-content" id="content">
+               <div class="main-content" id="content">
                     <div class="row">
                         <div class="col-sm-1"></div>
                         <div class="col-sm-10">
@@ -106,37 +111,45 @@
 
                                 </div>
                                 <div class="panel-body">
-                                    <!--<form class="form-horizontal" method="POST" action="AddCourseServlet">-->
+                                    <!-- Form per inserimento e modifica di un'attività -->
                                     <div class="form-group">
                                         <table width="90%" align="center">
                                                 <tr>
                                                     <div class="input-group">
                                                        <div class="panel panel-default " style="margin-top: 5px">
-                                                            <div class="panel-heading">
-                                                                Nuova Attività
+                                                           
+                                                            <h1> Nuova Attività</h1>
+                                                           
+                                                            <p>Seleziona la tipologia</p>
+                                                            <div class="select-editable">                                                               
+                                                                <select id="typologySelect" onchange="this.nextElementSibling.value=this.value;onSelectChange(this.value)">
+                                                                </select>  
+                                                                
+                                                                <input type="text" id="typology" onkeyup="checkSeminarTypology()" name="format" value="" placeholder="seleziona tipologia" maxlength="30"/>
                                                             </div>
+                                                           
                                                            <p>Nome Attività</p>
                                                            <div class="input-group">
-                                                               <span class="input-group-addon"></span>
-                                                               <input id="name" name="name" type="text" class="form-control" required>
+                                                               <select id="seminarSelect" style="visibility:hidden; width:250px;" onchange="onChangeSeminar()">
+                                                               </select>  
+                                                               
+                                                               <input id="name" name="name" maxlength="30" type="text" class="form-control" required>
                                                            </div>
 
                                                            <p>Descrizione:</p>
                                                             <div class="input-group">
-                                                                 <span class="input-group-addon"></span>
-                                                                 <textarea id="description" name="description" rows="5" cols="40" class="form-control" > </textarea>
+                                                                 <textarea id="description" name="description" maxlength="60" rows="5" cols="50" class="form-control" > </textarea>
                                                             </div>
  
                                                            <p>Data :</p>
                                                             <div class="input-group">
-                                                                <span class="input-group-addon"></span>
                                                                 <input id="dateActivity" name="date" type='date' placeholder="aaaa-mm-gg"  class="form-control" required>
                                                             </div>
                                                            
                                                             <p> Orario di Inizio:</p>
-                                                            <div class="input-group bootstrap-timepicker timepicker">
+                                                            <div class="input-group bootstrap-timepicker timepicker" >
                                                                  <input id="startTimeActivity" name="startTime" type="text" class="form-control input-small">
-                                                            </div>
+                                                            </div> 
                                                             
                                                             <p> Orario di Fine:</p>
                                                                 <div class="input-group bootstrap-timepicker timepicker">
@@ -148,17 +161,10 @@
                                                                     <script type="text/javascript">
                                                                             $('#endTimeActivity').timepicker();
                                                                     </script>
-                                                                        
-                                                            <label for="sel1">Seleziona il tipologia</label>
-                                                            <select class="form-control" id="typology">
-                                                                <option class='optionItem' value='default' >  - seleziona -   </option>
-                                                                <option class='optionItem' value='Laboratorio/Biblioteca' >   Laboratorio/Biblioteca   </option>
-                                                                <option class='optionItem' value='Studio Individuale' >   Studio Individuale   </option>
-                                                                <option class='optionItem' value='Tutorato' >   Tutorato   </option>
-                                                                <option class='optionItem' value='Seminario' >   Seminario   </option>
-                                                            </select>                             
-                                                            <div id="bottoneInsUpdate">
-                                                               
+                                                           
+                                                            <!--Div che contiene il bottone di Inserisci o Modifica attività-->
+                                                            <div style="margin-top: 40px" id="bottoneInsUpdate">
+
                                                             </div>
                                                        </div>
                                                     </div>

@@ -705,8 +705,8 @@ public class CalendarManager {
                 Seminar seminar = new Seminar();
                 seminar.setIdSeminar(result.getInt("idSeminar"));
                 seminar.setDate(result.getDate("date"));
-                seminar.setStartTime(("startTime"));
-                seminar.setEndTime(("endTime"));
+                seminar.setStartTime(result.getString("startTime"));
+                seminar.setEndTime(result.getString("endTime"));
                 seminar.setName(result.getString("name"));
                 seminar.setNameSpeacker(result.getString("nameSpeacker"));
                 seminar.setDescription(result.getString("desription"));
@@ -1253,7 +1253,7 @@ public class CalendarManager {
                           + fkCourse
                           + " ORDER BY "
                           + CalendarManager.TABLE_LESSON + ".date, " 
-                          + CalendarManager.TABLE_LESSON + ".idLesson";
+                          + CalendarManager.TABLE_LESSON + ".name";
            
             ResultSet result = Utility.queryOperation(connect, tSql);
            

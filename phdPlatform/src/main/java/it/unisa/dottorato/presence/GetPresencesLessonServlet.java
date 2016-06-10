@@ -3,14 +3,13 @@
  * To change this template file, choose Tools | Templates
  * and open the template in the editor.
  */
-package it.unisa.dottorato.activityRegister;
+package it.unisa.dottorato.presence;
 
-import it.unisa.dottorato.account.PhdStudent;
+import it.unisa.dottorato.exception.IdException;
 import java.io.IOException;
 import java.io.PrintWriter;
 import java.sql.SQLException;
 import java.util.ArrayList;
-import java.util.Calendar;
 import java.util.logging.Level;
 import java.util.logging.Logger;
 import javax.servlet.ServletException;
@@ -18,17 +17,16 @@ import javax.servlet.annotation.WebServlet;
 import javax.servlet.http.HttpServlet;
 import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpServletResponse;
-import javax.servlet.http.HttpSession;
 import org.json.JSONArray;
 import org.json.JSONException;
 import org.json.JSONObject;
 
-/**Servlet incaricata a scaricare l'intero registro delle attività
+/**
  *
- * @author Ernesto
+ * @author Raffaele Costantino
  */
-@WebServlet(name = "GetActivityRegister", urlPatterns = {"/GetActivityRegister"})
-public class GetActivityRegisterServlet extends HttpServlet {
+@WebServlet(name = "GetPresencesLesson", urlPatterns = {"/GetPresencesLesson"})
+public class GetPresencesLessonServlet extends HttpServlet {
 
     /**
      * Processes requests for both HTTP <code>GET</code> and <code>POST</code>
@@ -38,26 +36,35 @@ public class GetActivityRegisterServlet extends HttpServlet {
      * @param response servlet response
      * @throws ServletException if a servlet-specific error occurs
      * @throws IOException if an I/O error occurs
+     * @throws it.unisa.dottorato.presence.PhdStudentexception
      */
     protected void processRequest(HttpServletRequest request, HttpServletResponse response)
-            throws ServletException, IOException {
-        try {
-            response.setContentType("text/html;charset=UTF-8");        
-            JSONObject result = new JSONObject();
-            PrintWriter out = response.getWriter();            
+            throws ServletException, IOException, PhdStudentexception {
+    
+            PrintWriter out = response.getWriter();
+            
+            try 
+            {
+                JSONObject result = new JSONObject();
+                int fkLesson = Integer.parseInt(request.getParameter("idLesson"));
+                ArrayList<Presence> presence = PresenceManager.getInstance().getPresencesLesson(fkLesson);
+                JSONArray resultArray = new JSONArray(presence);
+                
+                if(presence.size() == 0){
+                    result.put("result", false);
+                    out.write(result.toString());
+                }
+                else{
+                    result.put("result", true);                
+                    result.put("presence", resultArray);
+                    out.write(result.toString());
+                }
+            } 
+            catch (SQLException | JSONException | IdException | ClassNotFoundException ex)
+            {
+                Logger.getLogger(GetPresenceToLessonServlet.class.getName()).log(Level.SEVERE, null, ex);
+            }
 
-            String startYear = ""+ (Calendar.getInstance().get(Calendar.YEAR)-1);
-            HttpSession session = request.getSession();
-            PhdStudent loggedPerson = (PhdStudent) session.getAttribute("account");           
-
-            ArrayList<Activity> activities;        
-            activities = (ArrayList<Activity>) ActivityRegisterManager.getInstance().getActivityRegisterOf(loggedPerson.getfkAccount(), startYear);
-            JSONArray resultArray = new JSONArray(activities);
-            result.put("activities", resultArray);
-            out.write(result.toString());
-        } catch (SQLException | JSONException ex) {
-            Logger.getLogger(GetActivityRegisterServlet.class.getName()).log(Level.SEVERE, null, ex);
-        }
     }
 
     // <editor-fold defaultstate="collapsed" desc="HttpServlet methods. Click on the + sign on the left to edit the code.">
@@ -72,7 +79,11 @@ public class GetActivityRegisterServlet extends HttpServlet {
     @Override
     protected void doGet(HttpServletRequest request, HttpServletResponse response)
             throws ServletException, IOException {
-        processRequest(request, response);
+        try {
+            processRequest(request, response);
+        } catch (PhdStudentexception ex) {
+            Logger.getLogger(GetPresencesLessonServlet.class.getName()).log(Level.SEVERE, null, ex);
+        }
     }
 
     /**
@@ -86,7 +97,11 @@ public class GetActivityRegisterServlet extends HttpServlet {
     @Override
     protected void doPost(HttpServletRequest request, HttpServletResponse response)
             throws ServletException, IOException {
-        processRequest(request, response);
+        try {
+            processRequest(request, response);
+        } catch (PhdStudentexception ex) {
+            Logger.getLogger(GetPresencesLessonServlet.class.getName()).log(Level.SEVERE, null, ex);
+        }
     }
 
     /**

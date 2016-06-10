@@ -7,9 +7,19 @@
 $(document).ready(function () {
     
     getCorsoList();
-    //getLesson();
+    if(sessionStorage.getItem('idSelect') !== null){
+        
+        setTimeout(function(){        
+        
+            $('#Corsoprofessore').find("option[value='" + sessionStorage.getItem('idSelect') + "']").attr("selected",true);
+            $("" + sessionStorage.getItem('sessionLesson')).attr('checked','checked');
+            sessionStorage.removeItem('idSelect');  
+            changeSession();
+            selectedItem2();
+                     
+        }, 150);         
+    }    
 });
-
 
 function getCorsoList()
 {
@@ -23,6 +33,7 @@ function getCorsoList()
         });
     }); 
 }
+
 //metodo per chiamare tutt ele lezioni
 function selectedItem()
 
@@ -149,7 +160,7 @@ function selectedItemDot()
                     lesson_status=value5.status;
                     lesson_start_date=get_Date(lesson_date,lesson_start);
                     lesson_end_date=get_Date(lesson_date,lesson_end);
-                    result_line="<tr><td>"+lesson_name+"</td><td>"+date_format(lesson_date)+" "+lesson_start+"-"+lesson_end+"</td><td>"+lesson_class+"</td>";
+                    result_line="<tr><td>"+lesson_name+"</td><td>"+date_format(lesson_date)+" "+lesson_start+" - "+lesson_end+"</td><td>"+lesson_class+"</td>";
                     checkbox="<td> <input type='checkbox' value='"+id_Phd+ "'   id='" + lesson_id+ "' class='checkboxclass' onchange='changePresenza("+'value'+","+lesson_id+")' checked ";//></td></tr>";
                     result_line=result_line+checkbox;    
                     if(lesson_status==='aperta' && !isAfterNow(lesson_start_date) && isAfterNow(lesson_end_date))
@@ -184,165 +195,27 @@ function selectedItemDot()
         }
 }
 
-/* Metodo utilizzato per ricercare le lezioni create da un determinato professore,
- * per il corso selezionato.
- * Inoltre tale metedo si occupa della creazione della tabella per 
- * la funzionalità "Gestione Presenze".
+/* Metodo utilizzato per avviara la ricerca delle presenze dei dottorandi per una 
+ * determinata lezione.
  */
 
-function selectedItem3(id,nome)
-{ 
-    alert(id+"    "+nome);
-    var nButtons=0;
-    $("#panelDiv").hide();
-    $("#resulthead th").remove();
-    $("#resultbody tr").remove();
-    $("#sessione label").remove();
-    selected = $("#Corsoprofessore option:selected").val();
-    if (selected !== "default") //se il valore della select Ã¨ default non mostriamo il div contenente le informazioni delle date delle lezioni
-    { $("#resulthead th").remove();
-       $("#resultbody tr").remove();
-       $("#resultBotton td").remove();
-       $("#sessione").append("<label><input id='sessioni' type='checkbox' name='sessione' onchange='changeSessioni()'> Visualizza le sessioni chiuse</label>");
-       $("#resultBotton").append("<td> </td>");
-        selected = $("#Corsoprofessore option:selected").val();
-        $("#panelDiv").show();
-        
-        //metodo per stampare le date
-        var isLessons;           
-        $.getJSON("GetLessonsProfessor", {fkCourse : selected}, function (data1) {
-             dot="<th style='text-align:left; font-size: 20px;'> Dottorandi </th>";
-               $("#resulthead ").append(dot);
-               isLessons = data1;
-               $.each(data1.lessons, function (index, value5) {     
-                    data1=value5.data;
-                    if(value5.status === "chiusa"){
-                        dottorando11 = " <th class='chiusa' style=' display: none'> <span>" + value5.name + "</span></br><span>" + date_format(data1) + "</br>" + value5.startTime + " - " + value5.endTime + "</span></th>  ";
-                    }
-                    else
-                    {
-                        dottorando11 = " <th class='"+value5.idLesson+"'> <span>" + value5.name + "</span></br><span>" + date_format(data1) + "</br>" + value5.startTime + " - " + value5.endTime + "</span></th>  ";
-                    }
-                    $("#resulthead ").append(dottorando11);
-                    nButtons++;
-                         
-            });
-        });
-                
-        $.getJSON("GetPresenceDottorandi", {idCourse: selected}, function (data) {
-            $.each(data.presence, function (index, value) {
-                dottorando = "<tr id=" + index + "> <td class='students'> " + value.name + " " + value.surname + " </td>  </tr>";
-                id = value.secondaryEmail;
-                        
-                $("#resultbody ").append(dottorando);
-                
-                $.getJSON("GetPresenceToLesson", {idCourse: selected, fkPhdstudent: id}, function (data) {
-                                   
-                    $.each(data.presence, function (index2, value2) {
-                        flag = false;
-                        lezione = value2.fkLesson;                        
-                        for(var p=0;p<isLessons.lessons.length;p++)
-                        {
-                            if(isLessons.lessons[p].idLesson === lezione)
-                            {
-                               flag = true;
-                               status = isLessons.lessons[p].status;
-                               startDate = get_Date(isLessons.lessons[p].data, isLessons.lessons[p].startTime);
-                               endDate = get_Date(isLessons.lessons[p].data, isLessons.lessons[p].endTime);
-                               break;
-                            }
-                        }
-                        if(flag){
-                            if(nButtons>0)
-                            {
-                                nButtons--;
-                                app = "<td class='" + lezione + " celle'>";
-                                
-                                if((!isAfterNow(endDate))&&(status !== "chiusa"))
-                                {
-                                    $("#resultBotton ").append("<td class='chiusa' style=' display: none'> </td>");
-                                    cambiaStato(lezione , "chiusa", 0);
-                                }    
-                                else if(status === "in_programma")
-                                {
-                                    app += " <button type = 'button' id = '" + lezione + "_aperta' onclick = 'cambiaStato(" + lezione + ", \"aperta\", 1)' class = 'btn btn-default btn-secondary' ";                                
-                                    if(isAfterNow(startDate))
-                                    {
-                                        app += "disabled > ";
-                                    }
-                                    else
-                                    {
-                                        app += "> ";
-                                    }
-                                    app += "<span class='glyphicon glyphicon-pencil'></span> Apri Sessione</button> "; 
-                                    app += "<button type = 'button' id = '" + lezione + "_chiusa' onclick = 'cambiaStato(" + lezione + ", \"chiusa\", 1)' class = 'btn btn-red' style=' display: none'>";                                
-                                    app += "<span class='glyphicon glyphicon-remove'></span> Chiudi Sessione</button></td>";
-                    
-                                    $("#resultBotton ").append(app);
-                                }
-                                else if(status === "aperta")
-                                {
-                                    app += "<button type = 'button' id = '" + lezione + "_chiusa' onclick = 'cambiaStato(" + lezione + ", \"chiusa\", 1)' class = 'btn btn-red' >";                                
-                                    app += "<span class='glyphicon glyphicon-remove'></span> Chiudi Sessione</button></td>";
-                                    $("#resultBotton ").append(app);
-                                }
-                                else if(status === "chiusa")
-                                {
-                                    $("#resultBotton ").append("<td class='chiusa' style=' display: none'> </td>");                                    
-                                }
-                            }
-                            
-                            td = value2.fkPhdstudent;
-                            if (status === "chiusa") {
-                               dottorandopre = "<td class='celle chiusa' style=' display: none'><input type='checkbox' value='true'   id=" + td + " onclick='changePresenza(" + 'id' + "," + lezione + ")' class='checkboxclass' ";
-                            }
-                            else{
-                                dottorandopre = "<td class='" + lezione + " celle'><input type='checkbox' value='true'   id=" + td + " onclick='changePresenza(" + 'id' + "," + lezione + ")' class='checkboxclass' ";
-                            }
-                                                       
-                            if(isAfterNow(startDate))
-                            {
-                                dottorandopre += "disabled ";
-                            }
-                                                 
-                            if (value2.isPresent === true) {
-                               dottorandopre += " checked";
-                           }                           
-                           
-                           dottorandopre += "></td>";
-                           $("#" + index).append(dottorandopre);
-                                                    
-                        }
-                        
-                    });
-                    
-                });
-                    
-            });                   
-        });  
-        
+function selectedItem3(idLesson,nameLesson){
+    
+    sessionStorage.setItem('idLesson', idLesson);
+    sessionStorage.setItem('nameLesson', nameLesson);
+    sessionStorage.setItem('idSelect', $("#Corsoprofessore option:selected").val());
+    sessionStorage.setItem('nameCourse', $("#Corsoprofessore option:selected").text());
+       
+    if($("#openLessons").is(':checked'))
+    {       
+       sessionStorage.setItem('sessionLesson', '#openLessons');
+    }
+    else if($("#closedLessons").is(':checked'))
+    {
+        sessionStorage.setItem('sessionLesson', '#closedLessons');
     }
     
-}
-
-
-/* Mmetodo per nascondere/visualizzare 
- * le sessioni chiuse
- */
-
-function changeSessioni() {  
-    
-    if($("#sessioni").is(':checked')){       
-       $(".chiusa").each(function(index,elem){
-           $(elem).css("display","");
-       });
-   }
-   else
-   {
-       $(".chiusa").each(function(index,elem){
-           $(elem).css("display","none");
-       });       
-   }
+    location.href = 'registroGestionePresenze.jsp';
 }
 
 /* Metodo per cambiare lo stato della lezione
@@ -351,7 +224,7 @@ function changeSessioni() {
  * @flagMex
  */
 
-function cambiaStato(idLesson, status ,flagMex) { 
+function changeStates(idLesson, status ,flagMex) { 
     
    $.getJSON("SetStatusLesson", {idLesson: idLesson, status: status}, function (data) { 
     
@@ -367,22 +240,27 @@ function cambiaStato(idLesson, status ,flagMex) {
                 
             if(status === "aperta")
             {
-                $("#"+idLesson+"_aperta").css("display","none");
-                $("#"+idLesson+"_chiusa").css("display","");          
+                $("#"+idLesson+"_open").css("display","none");
+                $("#"+idLesson+"_closed").css("display","");          
             }
             else
-            {
-                $("."+idLesson).each(function(index,elem){
-                                   
-                    oldClass = $(elem).attr("class");
-                    newClass = oldClass+" chiusa";
-                    $(elem).attr("class",newClass);
-                        
-                });
-                    
-                $("#"+idLesson+"_chiusa").css("display","none");
-                    
-                changeSessioni();
+            {                    
+               $("#"+idLesson+"_cell").remove();
+               
+               if($("#resultbody2 tr").attr('name') === 'mex')
+               {
+                   $("#resultbody2 tr").remove();
+               }               
+              
+               $("#resultbody2").append("<tr>" + $("#"+idLesson+"_row").html() + "</tr>"); 
+               
+               $("#"+idLesson+"_row").remove();
+               
+               if($("#resultbody tr").size() === 0)
+               {
+                   $("#resultbody").append("<tr><td colspan='4' style='text-align: center; font-weight: bold; font-size: 15px;'> ***** Al momento non sono presenti sessioni in Programmazione *****</td></tr>");
+               }               
+               
             }                            
         }else 
         {
@@ -401,7 +279,7 @@ function cambiaStato(idLesson, status ,flagMex) {
  * @giorno 
  * @ora 
  */
-function get_Date( giorno, ora)
+function get_Date(giorno, ora)
 {
     if(ora.length ===7) 
     {
@@ -411,11 +289,11 @@ function get_Date( giorno, ora)
     var ore=parseInt(ora.substring(0,2));
     var minuti=parseInt(ora.substring(3));
     
-    if(ora.substring(6)==="PM")
+    if((ora.substring(6)==="PM")&&(ore !== 12))
     {
         ore=ore+12;
     }
-    
+
     var data=new Date(giorno);
     data.setHours(ore);
     data.setMinutes(minuti);
@@ -446,46 +324,52 @@ function date_format(date)
     return day+"/"+month+"/"+date.substring(0,4);
 }
 
+/* Metodo utilizzato per ricercare le lezioni create da un determinato professore,
+ * per il corso selezionato.
+ * Inoltre tale metedo si occupa della costruzione della tabella con le lezioni
+ * in stato aperto o chiuse per la funzionalità "Gestione Presenze".
+ */
+
 function selectedItem2()
 {
+    var result_line;
+    
     $("#panelDiv").hide();
     $("#resulthead th").remove();
     $("#resultbody tr").remove();
     $("#resulthead2 th").remove();
     $("#resultbody2 tr").remove();
-    $("#sessione label").remove();
-    selected = $("#Corsoprofessore option:selected").val();
-       
-        if (selected !== "default") //se il valore della select è default non mostriamo il div contenente le informazioni delle date delle lezioni
-        { 
-            $("#resulthead th").remove();
-            $("#resultbody tr").remove(); 
-            $("#resulthead2 th").remove();
-            $("#resultbody2 tr").remove(); 
+        
+    var selected = $("#Corsoprofessore option:selected").val();
+    
+    
+    if (selected !== "default") //se il valore della select è default non mostriamo il div contenente le informazioni delle date delle lezioni
+    { 
+        $("#resulthead th").remove();
+        $("#resultbody tr").remove(); 
+        $("#resulthead2 th").remove();
+        $("#resultbody2 tr").remove();
+        
+        $("#panelDiv").show();
+        
+        var opened_lesson = "";
+        var closed_lesson = "";
+             
+        /*
+        * Con la chiamata alla servlet GetAllLessonProfessor recupero tutte le lezioni del corso selezionato
+        * in base al professore loggato.        * 
+        */  
+        
+        $.getJSON("GetLessonsProfessor", {fkCourse : selected}, function (data1)
+        {
+            var head="<tr><th> Lezioni in Programmazione: </th><th>Data</th><th>Aula</th><th></th></tr>";
+            var head2="<tr><th> Lezioni Chiuse: </th><th>Data</th><th>Aula</th></tr>";
+            $("#resulthead").append(head);
+            $("#resulthead2").append(head2);
             
-            selected = $("#Corsoprofessore option:selected").val();
-       
-            $("#panelDiv").show();
-             var opened_lesson;
-             var closed_lesson;
-             var id_Phd;
-             var parametri;
-             /*
-              * con la chiamata alla servlet GetAllLessonServlet recupero tutte le lezioni del corso selezionato. In più ottengo anche l'id dell'attore che effettua la chiamata
-              * nel ciclo effetto la costruzione della tabella filtrando le lezioni in base al loro stato(in corso/terminata)
-              * Inizialmente l'attore è presente a tutte le lezioni. Infatti con la chiamata alla Servlet GetPresenceToLesson effettuo l'operazione di filtraggio
-              * 
-              */ 
-            $.getJSON("GetAllLessonServlet", {fkCourse: selected}, function (data1) 
+            if(data1.result)
             {
-                var checklesson=true;
-                var head="<tr><th> Lezioni Aperte: </th><th>Data</th><th>Aula</th></tr>";
-                var head2="<tr><th> Lezioni Chiuse: </th><th>Data</th><th>Aula</th></tr>";
-                id_Phd=data1.dottorando;
-                $("#resulthead ").append(head);
-                $("#resulthead2").append(head2);
-                today=new Date();
-                $.each(data1.lessons, function (index, value5) 
+                $.each(data1.lessons, function (index, value5)
                 {
                     lesson_id=value5.idLesson; 
                     lesson_name=value5.name;
@@ -497,38 +381,83 @@ function selectedItem2()
                     lesson_start_date=get_Date(lesson_date,lesson_start);
                     lesson_end_date=get_Date(lesson_date,lesson_end);
                     
-                    result_line="<tr><td> <label onclick=\"selectedItem3("+lesson_id+",lesson_name)\">"+lesson_name+"</label></td><td>"+date_format(lesson_date)+" "+lesson_start+"-"+lesson_end+"</td><td>"+lesson_class+"</td>";   
-                    if(lesson_status!=='chiusa')
+                    if(isAfterNow(lesson_start_date))
                     {
-                        opened_lesson=opened_lesson+result_line+"<td id='resultButton_"+lesson_id+"'</td></tr>";
-                        checklesson=false;
-                       
+                        result_line = "<tr id = '" + lesson_id + "_row'><td class = 'stLesson'>";
                     }
-                    else closed_lesson=closed_lesson+result_line+"<td id='resultButton_"+lesson_id+"'</tr>";
-                    
-                
+                    else
+                    {
+                        result_line = "<tr id = '" + lesson_id + "_row'><td onclick = \"selectedItem3(" + lesson_id + ",'" + lesson_name + "')\" class = 'stLesson stLesson_hover'>";                        
+                    }
+                        
+                    result_line += lesson_name+"</td><td>"+date_format(lesson_date)+" &nbsp;&nbsp; "+lesson_start+" - "+lesson_end+"</td><td>"+lesson_class+"</td>";
+
+                    if((!isAfterNow(lesson_end_date))&&(lesson_status !== "chiusa"))
+                    {
+                        result_line += "<td></td></tr>";
+                        changeStates(lesson_id , "chiusa", 0);
+                        lesson_status = "chiusa";
+                    }    
+                    else if(lesson_status === "in_programma")
+                    {
+                        if(isAfterNow(lesson_start_date))
+                        {
+                            result_line += "<td></td></tr>";
+                        }
+                        else
+                        {
+                            result_line += "<td id = '" + lesson_id + "_cell' style = 'text-align:center'><button type = 'button' id = '" + lesson_id + "_open' onclick = 'changeStates(" + lesson_id + ", \"aperta\", 1)' class = 'btn btn-default btn-secondary'>";
+                            result_line += "<span class='glyphicon glyphicon-pencil'></span> Apri Sessione</button> "; 
+                            result_line += "<button type = 'button' id = '" + lesson_id + "_closed' onclick = 'changeStates(" + lesson_id + ", \"chiusa\", 1)' class = 'btn btn-red' style=' display: none'>";                                
+                            result_line += "<span class='glyphicon glyphicon-remove'></span> Chiudi Sessione</button></td></tr>";
+                        }
+                    }
+                    else if(lesson_status === "aperta")
+                    {
+                        result_line += "<td id = '" + lesson_id + "_cell' style = 'text-align:center'><button type = 'button' id = '" + lesson_id + "_closed' onclick = 'changeStates(" + lesson_id + ", \"chiusa\", 1)' class = 'btn btn-red' >";                                
+                        result_line += "<span class='glyphicon glyphicon-remove'></span> Chiudi Sessione</button></td></tr>";
+                    }
+                    else if(lesson_status === "chiusa")
+                    {
+                        result_line += "</tr>";
+                    }        
+
+                    if(lesson_status !== 'chiusa')
+                    {
+                        opened_lesson += result_line;
+                    }
+                    else
+                    {
+                        closed_lesson += result_line;
+                    }
+
                 });
-                if(checklesson)
-                {
-                    opened_lesson="<tr><td colspan='3' style='text-align: center; font-weight: bold;'> ***** Al momento non sono presenti sessioni aperte *****</td></tr>";
-                }
-                body1=opened_lesson;
-                body2=closed_lesson;
-                $("#resultbody ").append(body1);
-                $("#resultbody2").append(body2);
-               
-            });             
-        }
+            }
+            
+            if(opened_lesson === "")
+            {
+                opened_lesson="<tr><td colspan='4' style='text-align: center; font-weight: bold; font-size: 15px;'> ***** Al momento non sono presenti sessioni in Programmazione *****</td></tr>";
+            }
+            if(closed_lesson === "")
+            {
+                closed_lesson="<tr name='mex'><td colspan='4' style='text-align: center; font-weight: bold; font-size: 15px;'> ***** Al momento non sono presenti sessioni chiuse *****</td></tr>";
+            }
+                      
+            $("#resultbody ").append(opened_lesson);
+            $("#resultbody2").append(closed_lesson);
+        });             
+    }
 }
-function mostraSessioni()
+
+function changeSession()
 {  
     
-    if($("#lez_aperte").is(':checked'))
+    if($("#openLessons").is(':checked'))
     {       
        $("#resultst2").css("display","none");
        $("#resultst").css("display","");
     }
-    else if($("#lez_chiuse").is(':checked'))
+    else if($("#closedLessons").is(':checked'))
     {
        $("#resultst").css("display","none");
        $("#resultst2").css("display","");

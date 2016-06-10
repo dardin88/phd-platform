@@ -50,7 +50,7 @@ var tut="Tutti";
           
             $("#resultbody tr").remove();
               $.getJSON("GetPhdStudentList", function (data) {
-    
+    console.log(data);
         $.each(data.account, function (index, value) {
             var nuovoType = value.typeAccount;
             var realType;

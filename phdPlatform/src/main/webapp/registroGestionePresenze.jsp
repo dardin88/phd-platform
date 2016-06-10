@@ -1,9 +1,9 @@
-<%--
-    Document   : RegistroPresenze
-    Created on : 23-dic-2015, 1.24.09
-    Author     : Rembor
+<%-- 
+    Document   : registroGestionePresenze
+    Created on : 26-mag-2016, 10.05.12
+    Author     : Raffaele Costantino
 --%>
- 
+
 <%@page import="it.unisa.dottorato.phdCourse.Course"%>
 <%@page import="it.unisa.dottorato.phdCourse.CalendarManager"%>
 <%@page import="it.unisa.dottorato.phdCourse.Lesson"%>
@@ -20,6 +20,7 @@
         <c:redirect url="login.jsp" />
     </c:when>
 </c:choose>
+
 <html>
     <head>
         <meta charset="utf-8">
@@ -42,8 +43,7 @@
         <link rel="stylesheet" href="assets/css/registroPresenze.css">
  
         <script src="assets/js/jquery-1.11.1.min.js"></script>
-        <script type="text/javascript" src="script/registro.js"></script>
- 
+        <script type="text/javascript" src="script/presence.js"></script>
  
     </head>
     
@@ -77,23 +77,8 @@
  
                         <div class="col-sm-10">
                            
-                            <table>                                
-                                <tr>
-                                    <td>
-                                        <select style="width:350px;"  name="Corsoprofessore" class="form-control" id="Corsoprofessore"  onchange="selectedItem2()" >
-                               
-                                            <option value="default">  - Seleziona un corso  -  </option>
-                                             
-                                        </select>
-                                    </td>
-                                    <td style="padding-left: 20px; padding-top: 6px;">
-                                        <label> <input type="radio" name="radioLesson" id="openLessons" value="aperta" onclick="changeSession()" checked> Sessioni in Programmazione &nbsp;&nbsp;</label> 
-                                        <label> <input type="radio" name="radioLesson" id="closedLessons" value="chiusa"  onclick="changeSession()"> Sessioni Chiuse &nbsp;&nbsp;</label>                                      
-                                    </td>
-                                </tr>           
-                            </table>
-                            </br></br>
-                            
+                                      
+                                                   
                         </div>
  
                         <div class="col-sm-1" ></div>
@@ -105,10 +90,16 @@
                         <div class="col-sm-1"></div>
  
                         <div class="col-sm-10">
-                            <div class="panel panel-default" id="panelDiv" hidden>
+                            
+                            <div id="titleCourse">
+                                    
+                            </div>
+                            </br>
+                            
+                            <div class="panel panel-default" id="panelDiv">
  
-                                <div id="results" >
-                              
+                                <div id="results">
+                                                                  
                                     <table id="resultst" class="table">
                                        
                                         <thead id="resulthead">
@@ -118,18 +109,10 @@
                                         <tbody id="resultbody">
                                             
                                         </tbody>
-                                        
-                                    </table>
-                                    
-                                    <table id="resultst2" class="table" style="display:none">
-                                       
-                                        <thead id="resulthead2">
-                                    
-                                        </thead>
-                                        
-                                        <tbody id="resultbody2">
+                                         
+                                        <tfoot id="resultfoot">
                                             
-                                        </tbody>
+                                        </tfoot>
                                         
                                     </table>
                                      
@@ -157,10 +140,8 @@
         <!-- JavaScripts initializations and stuff -->
         <script src="assets/js/xenon-custom.js"></script>    
     </body>
-    <%}else{%>
-                <c:redirect url="registroPresenzeDottorando.jsp" />
-          <%  }
-    %>
-            </c:when>
-        </c:choose>
+    
+    <%}%>
+        </c:when>
+    </c:choose>
 </html>

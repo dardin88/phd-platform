@@ -6,9 +6,10 @@
 package it.unisa.dottorato.activityRegister;
 
 import it.unisa.dottorato.account.PhdStudent;
+import it.unisa.dottorato.phdCourse.Course;
+import it.unisa.dottorato.phdCourse.Seminar;
 import java.io.IOException;
 import java.io.PrintWriter;
-import java.sql.SQLException;
 import java.util.ArrayList;
 import java.util.Calendar;
 import java.util.logging.Level;
@@ -23,12 +24,14 @@ import org.json.JSONArray;
 import org.json.JSONException;
 import org.json.JSONObject;
 
-/**Servlet incaricata a scaricare l'intero registro delle attività
- *
- * @author Ernesto
+/**
+ * Servlet che restituisce tutti i seminari e il corso a cui appartengono.
+ * la selezione avviene in base all'anno corrente. vengono restituiti tutti i seminari
+ * che si sono tenuti nell'anno accademico che va da settembre a settembre
+ * @author Liliana
  */
-@WebServlet(name = "GetActivityRegister", urlPatterns = {"/GetActivityRegister"})
-public class GetActivityRegisterServlet extends HttpServlet {
+@WebServlet(name = "GetSeminarOfCourseOfStudent", urlPatterns = {"/GetSeminarOfCourseOfStudent"})
+public class GetSeminarOfCourseOfStudentServlet extends HttpServlet {
 
     /**
      * Processes requests for both HTTP <code>GET</code> and <code>POST</code>
@@ -41,22 +44,46 @@ public class GetActivityRegisterServlet extends HttpServlet {
      */
     protected void processRequest(HttpServletRequest request, HttpServletResponse response)
             throws ServletException, IOException {
-        try {
-            response.setContentType("text/html;charset=UTF-8");        
-            JSONObject result = new JSONObject();
-            PrintWriter out = response.getWriter();            
+        response.setContentType("text/html;charset=UTF-8");
+               
+        JSONObject result = new JSONObject();
 
-            String startYear = ""+ (Calendar.getInstance().get(Calendar.YEAR)-1);
+        try (PrintWriter out = response.getWriter()) {
+            
             HttpSession session = request.getSession();
-            PhdStudent loggedPerson = (PhdStudent) session.getAttribute("account");           
+            PhdStudent loggedPerson = (PhdStudent) session.getAttribute("account");
+            String startYear = ""+ (Calendar.getInstance().get(Calendar.YEAR)-1);
+           
+            ArrayList<Seminar> seminar = (ArrayList<Seminar>)ActivityRegisterManager.getInstance().getSeminarActivitiesByStudent(loggedPerson.getfkAccount(),startYear); 
+    
+            ArrayList<Course> courses = (ArrayList<Course>)ActivityRegisterManager.getInstance().getSeminarCoursesOfStudent(loggedPerson.getfkAccount(),startYear);   
 
-            ArrayList<Activity> activities;        
-            activities = (ArrayList<Activity>) ActivityRegisterManager.getInstance().getActivityRegisterOf(loggedPerson.getfkAccount(), startYear);
-            JSONArray resultArray = new JSONArray(activities);
-            result.put("activities", resultArray);
+           JSONArray resultArray = new JSONArray();
+           
+            for (int i = 0; i < courses.size(); i++)
+                for(int j=0; j < seminar.size(); j++)
+                    if(courses.get(i).getIdCourse() == seminar.get(j).getFK_course()){
+                        
+                        JSONObject jo = new JSONObject();
+                        jo.put("idSeminar", seminar.get(j).getIdSeminar());
+                        jo.put("name", seminar.get(j).getName());
+                        jo.put("date", seminar.get(j).getData());
+                        jo.put("startTime", seminar.get(j).getStartTime());
+                        jo.put("endTime", seminar.get(j).getEndTime());
+                        jo.put("nameSpeacker", seminar.get(j).getNameSpeacker());
+                        jo.put("description", seminar.get(j).getDescription());
+                        jo.put("place", seminar.get(j).getPlace());
+                        jo.put("fkCourse", seminar.get(j).getFK_course());
+
+                        jo.put("courseName", courses.get(i).getName());
+
+                        resultArray.put(jo);
+                    }
+            
+            result.put("seminarsOfCourse", resultArray);
             out.write(result.toString());
-        } catch (SQLException | JSONException ex) {
-            Logger.getLogger(GetActivityRegisterServlet.class.getName()).log(Level.SEVERE, null, ex);
+        } catch (JSONException ex) {
+                Logger.getLogger(GetSeminarOfCourseOfStudentServlet.class.getName()).log(Level.SEVERE, null, ex);
         }
     }
 

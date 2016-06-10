@@ -5,12 +5,10 @@
  */
 package it.unisa.dottorato.activityRegister;
 
-import it.unisa.dottorato.account.PhdStudent;
 import java.io.IOException;
 import java.io.PrintWriter;
 import java.sql.SQLException;
 import java.util.ArrayList;
-import java.util.Calendar;
 import java.util.logging.Level;
 import java.util.logging.Logger;
 import javax.servlet.ServletException;
@@ -18,17 +16,16 @@ import javax.servlet.annotation.WebServlet;
 import javax.servlet.http.HttpServlet;
 import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpServletResponse;
-import javax.servlet.http.HttpSession;
 import org.json.JSONArray;
 import org.json.JSONException;
 import org.json.JSONObject;
 
-/**Servlet incaricata a scaricare l'intero registro delle attività
- *
- * @author Ernesto
+/**
+ * Servelt che permette il recupero delle tipologie di un'attività
+ * @author Liliana
  */
-@WebServlet(name = "GetActivityRegister", urlPatterns = {"/GetActivityRegister"})
-public class GetActivityRegisterServlet extends HttpServlet {
+@WebServlet(name = "GetTypology", urlPatterns = {"/GetTypology"})
+public class GetTypologyServlet extends HttpServlet {
 
     /**
      * Processes requests for both HTTP <code>GET</code> and <code>POST</code>
@@ -41,22 +38,19 @@ public class GetActivityRegisterServlet extends HttpServlet {
      */
     protected void processRequest(HttpServletRequest request, HttpServletResponse response)
             throws ServletException, IOException {
-        try {
-            response.setContentType("text/html;charset=UTF-8");        
-            JSONObject result = new JSONObject();
-            PrintWriter out = response.getWriter();            
-
-            String startYear = ""+ (Calendar.getInstance().get(Calendar.YEAR)-1);
-            HttpSession session = request.getSession();
-            PhdStudent loggedPerson = (PhdStudent) session.getAttribute("account");           
-
-            ArrayList<Activity> activities;        
-            activities = (ArrayList<Activity>) ActivityRegisterManager.getInstance().getActivityRegisterOf(loggedPerson.getfkAccount(), startYear);
-            JSONArray resultArray = new JSONArray(activities);
-            result.put("activities", resultArray);
+        
+        response.setContentType("text/html;charset=UTF-8");
+        JSONObject result = new JSONObject();
+        try (PrintWriter out = response.getWriter()) {
+            //Recupera dal database tutte le tipoogie di attività
+            ArrayList<Typology> typologyList = ActivityRegisterManager.getInstance().getTypology();
+            JSONArray resultArray = new JSONArray(typologyList);
+            result.put("typologyList", resultArray);
+            
+            //invia i dati ottenuti alla jsp
             out.write(result.toString());
         } catch (SQLException | JSONException ex) {
-            Logger.getLogger(GetActivityRegisterServlet.class.getName()).log(Level.SEVERE, null, ex);
+            Logger.getLogger(GetTypologyServlet.class.getName()).log(Level.SEVERE, null, ex);
         }
     }
 

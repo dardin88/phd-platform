@@ -46,12 +46,23 @@ public class GetTutorServlet extends HttpServlet {
             JSONObject result = new JSONObject();
             try {
                 Professor aPerson = AccountManager.getInstance().getTutor(aStudent);
-                result.put("fkAccount", aPerson.getSecondaryEmail());
-                result.put("name", aPerson.getName());
-                result.put("surname", aPerson.getSurname());
+
+                if(aPerson != null){
+                    result.put("fkAccount", aPerson.getSecondaryEmail());
+                    result.put("name", aPerson.getName());
+                    result.put("surname", aPerson.getSurname()); 
+                    result.put("result",true);                  
+                }else
+                     result.put("result",false);
                 out.write(result.toString());
+                
             } catch (SQLException | JSONException | ClassNotFoundException ex) {
                 Logger.getLogger(GetTutorServlet.class.getName()).log(Level.SEVERE, null, ex);
+                try {
+                    result.put("result",false);
+                } catch (JSONException ex1) {
+                    Logger.getLogger(GetTutorServlet.class.getName()).log(Level.SEVERE, null, ex1);
+                }
 
             } 
         }

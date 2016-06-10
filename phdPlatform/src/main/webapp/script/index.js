@@ -1,5 +1,6 @@
 // Funzione per la gestione del menù
 $(document).ready(function () {
+    sessionStorage.removeItem('idSelect');
     getCycleList();
     getInfoCycle();
     getCurriculumCicList();

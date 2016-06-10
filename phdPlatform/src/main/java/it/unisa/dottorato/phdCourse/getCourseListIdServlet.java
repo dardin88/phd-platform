@@ -44,6 +44,7 @@ public class getCourseListIdServlet extends HttpServlet {
             throws ServletException, IOException, ClassNotFoundException, SQLException {
         response.setContentType("text/html;charset=UTF-8");
         try (PrintWriter out = response.getWriter()) {
+            
             int cycle = Integer.parseInt(request.getParameter("cycle"));
             String curriculum = request.getParameter("curriculum");
             

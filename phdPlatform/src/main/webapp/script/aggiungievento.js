@@ -8,6 +8,7 @@
 $(document).ready(function () {
     selectedCourse1();
     selectedCourse2();
+    selectedSpeakerName();
   
 });
 
@@ -84,7 +85,7 @@ function insertLesson() {
 function insertSeminar() {
 
     nomeSeminario = $("#nameseminar").val();
-    nomespeacker = $("#nomespeacker").val();
+    nomespeacker = $("#speakerName option:selected").text();
     course = $("#courselist2 option:selected").val();
     place = $("#place").val();
     descrizione = $("#descriptionseminar").val();
@@ -109,5 +110,15 @@ function insertSeminar() {
         });
     }
 
+}
+function selectedSpeakerName() {
+  
+     $.getJSON("GetProfessorsList", function (data) {
+         
+           $.each(data.account, function (index, value) {
+            professor = "<option class='optionItem' value='"+value.name+ "'> " + value.name +" "+ value.surname+"  </option> ";
+            $("#speakerName").append(professor);
+        });
+     });
 }
 

@@ -8,44 +8,59 @@ and open the template in the editor.
     Author     : Raffaele Costantino
 */
 
-#resulthead th{
+#resulthead th, #resulthead2 th{
     font-weight: bold;
-    word-wrap: break-word;
-    color: #0066cc;
-}
-#resulthead2 th{
-    font-weight: bold;
-    word-wrap: break-word;
-    color: #0066cc;
-}
-#resulthead th span:first-child{
     font-size: 19px;
+    word-wrap: break-word;
     color: #0066cc;
+}
+
+.stLesson{
+    font-size: 18px;
+    font-weight: bold;
     text-transform: capitalize;
 }
-#resulthead th span{
-    font-size: 14px;
-    color: #707277;
+
+.stLesson_hover:hover{
+    color: #0066cc;
+    text-shadow: 4px 3px 4px #A1A1A1;
+    cursor: pointer;
 }
+
+#thPresence th{
+    font-weight: bold;
+    font-size: 27px;
+    text-transform: capitalize;
+    color: #0066cc;
+    padding-bottom: 25px;
+}
+
 .students{
     word-wrap: break-word;
     font-weight: bold;
-    min-width: 170px;
-    font-size: 14px;
+    font-size: 15px;
+    text-transform: capitalize;
+    text-indent: 10px;
+    min-width: 200px;
 }
-.celle{
+
+.presences{
     text-align: center;
-    min-width: 175px;
+    min-width: 190px;
 }
-.form-group{
-    float:left;
+
+.space{
+    margin: 7px;    
 }
-#titleInfo{
+
+#panelDiv{
+    min-width: 450px;
+}
+
+#titleCourse p{
+    text-align: center;
     font-weight: bold;
-    font-size: 20px; 
-    color: black;
-}
-#descriptionInfo{
-    font-size: 16px;
+    text-transform: capitalize;
+    font-size: 30px;
     color: black;
 }
