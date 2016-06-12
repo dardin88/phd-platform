@@ -190,12 +190,9 @@
                                                             <br>                      
                                                             <br>
                                                             
-                                                                   
-                                                            <p>Nome Speaker:</p>
-                                                            <div class="input-group">
-                                                                <span class="input-group-addon"></span>
-                                                                <input class="form-control" name="nameSpeacker" id="nomespeacker" type="text" required>
-                                                            </div>
+                                                                  <p>Nome Speaker:</p> 
+                                                            <select id="speakerName" class="form-control">Nome Speaker:</select>
+                                                    
                                                             <br>
                                                             <br>     
                                                             <p>Nome Luogo:</p>

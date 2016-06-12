@@ -4,6 +4,7 @@
     Author     : Liliana
 --%>
 
+<%@page import="it.unisa.dottorato.account.PhdStudent"%>
 <%@page import="it.unisa.dottorato.account.Account"%>
 <%@page contentType="text/html" pageEncoding="UTF-8"%>
 <!DOCTYPE html>
@@ -71,7 +72,7 @@
     </head>
     <c:choose>
         <c:when test="${sessionScope.account != null}">
-            <% Account loggedPerson = ((Account) session.getAttribute("account"));
+            <% PhdStudent loggedPerson = ((PhdStudent) session.getAttribute("account"));
                 if (loggedPerson.getTypeAccount().equals("phdstudent")) {
             %>
             <body class="page-body">
@@ -85,7 +86,7 @@
                             <div class="col-sm-10">
                                 <div class="panel panel-default">
                                     <div class="panel-heading">
-                                        <h1> Relazione di Fino Anno</h1>
+                                        <h1> Relazione di Fino Anno <span id="year"></span></h1>
                                     </div>
                                     <div class="panel-body">
                                         <div>
@@ -133,7 +134,7 @@
                                                     </table>
                                             </div>
                                             <p style ='text-align: center;margin-top: 10%'>
-                                                <button type="button" class="btn btn-white" onclick="createPDFJson()">
+                                                <button type="button" class="btn btn-white" onclick="createPDFJson('<%= loggedPerson.getName()%>','<%= loggedPerson.getSurname()%>','<%= loggedPerson.getSecondaryEmail()%>','<%= loggedPerson.getfkCurriculum()%>')">
                                                     <span id="showArrow" class="glyphicon glyphicon-download-alt" aria-hidden="true"> Stampa PDF </span> 
                                                 </button>
                                             </p>

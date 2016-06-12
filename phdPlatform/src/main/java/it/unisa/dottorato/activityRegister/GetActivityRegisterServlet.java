@@ -10,6 +10,7 @@ import java.io.IOException;
 import java.io.PrintWriter;
 import java.sql.SQLException;
 import java.util.ArrayList;
+import java.util.Calendar;
 import java.util.logging.Level;
 import java.util.logging.Logger;
 import javax.servlet.ServletException;
@@ -37,22 +38,25 @@ public class GetActivityRegisterServlet extends HttpServlet {
      * @param response servlet response
      * @throws ServletException if a servlet-specific error occurs
      * @throws IOException if an I/O error occurs
-     * @throws java.sql.SQLException
-     * @throws org.json.JSONException
      */
     protected void processRequest(HttpServletRequest request, HttpServletResponse response)
-            throws ServletException, IOException, SQLException, JSONException {
-        response.setContentType("text/html;charset=UTF-8");
-        JSONObject result = new JSONObject();
-        try (PrintWriter out = response.getWriter()) {
-            
+            throws ServletException, IOException {
+        try {
+            response.setContentType("text/html;charset=UTF-8");        
+            JSONObject result = new JSONObject();
+            PrintWriter out = response.getWriter();            
+
+            String startYear = ""+ (Calendar.getInstance().get(Calendar.YEAR)-1);
             HttpSession session = request.getSession();
             PhdStudent loggedPerson = (PhdStudent) session.getAttribute("account");           
-                    
-            ArrayList<Activity> activities = (ArrayList<Activity>) ActivityRegisterManager.getInstance().getActivityRegisterOf(loggedPerson.getfkAccount());
-                JSONArray resultArray = new JSONArray(activities);
-                result.put("activities", resultArray);
-                out.write(result.toString());
+
+            ArrayList<Activity> activities;        
+            activities = (ArrayList<Activity>) ActivityRegisterManager.getInstance().getActivityRegisterOf(loggedPerson.getfkAccount(), startYear);
+            JSONArray resultArray = new JSONArray(activities);
+            result.put("activities", resultArray);
+            out.write(result.toString());
+        } catch (SQLException | JSONException ex) {
+            Logger.getLogger(GetActivityRegisterServlet.class.getName()).log(Level.SEVERE, null, ex);
         }
     }
 
@@ -68,11 +72,7 @@ public class GetActivityRegisterServlet extends HttpServlet {
     @Override
     protected void doGet(HttpServletRequest request, HttpServletResponse response)
             throws ServletException, IOException {
-        try {
-            processRequest(request, response);
-        } catch (SQLException | JSONException ex) {
-            Logger.getLogger(GetActivityRegisterServlet.class.getName()).log(Level.SEVERE, null, ex);
-        }
+        processRequest(request, response);
     }
 
     /**
@@ -86,11 +86,7 @@ public class GetActivityRegisterServlet extends HttpServlet {
     @Override
     protected void doPost(HttpServletRequest request, HttpServletResponse response)
             throws ServletException, IOException {
-        try {
-            processRequest(request, response);
-        } catch (SQLException | JSONException ex) {
-            Logger.getLogger(GetActivityRegisterServlet.class.getName()).log(Level.SEVERE, null, ex);
-        }
+        processRequest(request, response);
     }
 
     /**

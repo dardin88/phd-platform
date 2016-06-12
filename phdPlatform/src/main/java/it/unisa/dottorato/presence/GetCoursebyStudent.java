@@ -13,6 +13,7 @@ import it.unisa.dottorato.phdCourse.Course;
 import it.unisa.dottorato.utility.Utility;
 import java.io.IOException;
 import java.io.PrintWriter;
+import static java.lang.Integer.parseInt;
 import java.sql.SQLException;
 import java.util.ArrayList;
 import java.util.Enumeration;
@@ -52,10 +53,10 @@ PrintWriter out = response.getWriter();
             HttpSession session = request.getSession();
              JSONObject result = new JSONObject();
              PhdStudent student = (PhdStudent) session.getAttribute("account");
- 
+   int cyclenumber=parseInt(request.getParameter("Ciclo"));
  String dottorando = student.getfkAccount();
 
-                ArrayList<Course> presence = PresenceManager.getInstance().getCorsobyDottorando(Utility.AppendQuote(dottorando));
+                ArrayList<Course> presence = PresenceManager.getInstance().getCorsobyDottorando(Utility.AppendQuote(dottorando), cyclenumber);
                 JSONArray resultArray = new JSONArray(presence);
                 result.put("presence", resultArray);
                 out.write(result.toString());

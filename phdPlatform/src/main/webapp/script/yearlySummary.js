@@ -3,8 +3,11 @@
  * To change this template file, choose Tools | Templates
  * and open the template in the editor.
  */
-
+var curriculumYear;
 $(document).ready(function(){ 
+    var year = new Date().getFullYear();
+    curriculumYear = (year-1) + "/"+year;
+    $("#year").html(curriculumYear);
     //Servlet che riempie il campo con i seminari dei corsi seguiti dallo studente di un determinato corso
     $.getJSON("GetSeminarOfCourseOfStudent", {}, 
         function (data) {
@@ -117,10 +120,13 @@ function tableEditable(elementHeader,idTable){
 }
 
 /**
- * Crea un array degli oggetti che sono stati selezionati dall'utente 
+ * Crea un array degli oggetti che sono stati selezionati dall'utente
+ * @param {type} name
+ * @param {type} surname
+ * @param {type} email
  * @returns {undefined}
  */
-function createPDFJson(){
+function createPDFJson(name,surname,email,curriculum){
     var jsonArray = [];//array di oggetti
     
     //itera su tutti gli elementi checked
@@ -153,6 +159,17 @@ function createPDFJson(){
         });
         jsonArray.push(jsonObj);
     });
-    console.log(jsonArray);  
-    printPDF(jsonArray);
+   // console.log(jsonArray); 
+    
+    
+    var nameProf="";  
+    var nameSurnameStudent = name + " " + surname;
+    $.getJSON("GetTutorServlet", {fkAccount:email}, 
+        function (data) {
+            if(data.result)
+                nameProf=data.name +" "+data.surname; 
+      console.log(nameSurnameStudent+" "+curriculumYear+" "+nameProf+" "+curriculum);
+      printPDF(nameSurnameStudent, curriculumYear, nameProf, curriculum, jsonArray);
+
+    });
 }
