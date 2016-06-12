@@ -1,4 +1,4 @@
-/* 
+/*   
  * To change this license header, choose License Headers in Project Properties.
  * To change this template file, choose Tools | Templates
  * and open the template in the editor.
@@ -32,6 +32,7 @@ function optionContact(controllo)
     if(controllo==="avviso")
     {
         $("#DivSenderContact").show();
+        ComponentsLoad();
         }
         else
         {
@@ -51,77 +52,56 @@ function Crealista()
         });
     });
 }
-
-function svuotalista()
+function Svuotalista()
+{  
+    $.getJSON("GetPhdStudentList", function (data) {
+        $.each(data.account, function (index) {
+            $("#ris"+index).hide();            
+        });
+    });
+}
+//Metodo per caricare i cicli e i curriculum
+function ComponentsLoad()
 {
-    var i=0;
-    while(i<lista_student.length){           
-        $("#ris"+i).hide();
-        i++;
-    }
-}      
-
-//Metodo per caricare i cicli/curriculum/ciclo-curriculum selezionati dall utente
-function selectioned()
-{
-    selected = $("#Cicli-curriculum option:selected");
-    $("#Select-CC option").remove();
-    all= "<option class='optionItem' value='TuttiAll'>  Tutti </option> ";
-    $("#Select-CC").append(all);
-    switch (selected.val()){
-        case "Cicli":
             $.getJSON("GetCyclesListNumers", function (data) {
                 $.each(data.cyclesIds, function (index, value) {
-                    cycles = "<option class='optionItem' value='" + value + "'> " + value + "  </option> ";
-                    $("#Select-CC").append(cycles);
+                    cycles = "<input type='checkbox' name='cbox[]' value='" + value + "' onclick='StudentCheck()'> " + value +" " ;
+                    $("#CicliCheckbox").append(cycles);
                 });
             });
-            
-        break;
-        case "Curriculum":
             $.getJSON("GetCurriculumsNames", function (data) {
                 $.each(data.curriculumNames, function (index, value) {
-                    curriculum = "<option class='optionItem' value='" + value.name + "'> " + value.name + "  </option> ";
-                    $("#Select-CC").append(curriculum);
+                    curriculum = "<input type='checkbox' name='cbox[]' value='" + value.name + "'onclick='StudentCheck()'> " + value.name +" " ;
+                    $("#CurriculumCheckbox").append(curriculum);
                 });
             });
-        break;
-        case "Cicli-curriculum":
             $.getJSON("GetCyclesListNumers", function (data) {
                 $.each(data.cyclesIds, function (index, value) {
                     $.getJSON("GetCurriculumcicList", {number: value}, function (data) {
                         $.each(data.curriculumcicList, function (index, value2) {
-                            curriculum = "<option class='optionItem' value='" + value + value2.name + "'> " + value + " - " + value2.name + " </option> ";
-                            $("#Select-CC").append(curriculum);
+                            curriculum = "<input type='checkbox' name='cbox[]' value='" + value + value2.name + "' onclick='StudentCheck()'> " + value + " - " + value2.name + " ";
+                            $("#CicloCurriculumCheckbox").append(curriculum);
                         });
                     });
                 });
             });
-        break;
-    }
 }
-
 //Metodo che visualizza a schermo le checkbox relative alla scelta dei curriculum/cicli/ciclo-curriculum
-function StudentCheck()
-{
-    svuotalista();
-    selected = $("#Select-CC option:selected"); 
-    $.getJSON("GetPhdStudentList", function (data) {
-        $.each(data.account, function (index, value) {
-            $.getJSON("GetAccountbyEmail", {index: value.email}, function (data) {
-                if(data.fkCycle==selected.val()) 
-                        $("#ris"+index).show();
-                if(data.fkCurriculum==selected.val())
-                        $("#ris"+index).show();
-                if((data.fkCycle+data.fkCurriculum)==selected.val())
-                        $("#ris"+index).show();
-                    if("TuttiAll"==selected.val()) 
-                        $("#ris"+index).show();
-                    
+function StudentCheck(sel)
+{  
+    Svuotalista();
+    [].slice.call(document.querySelectorAll("[name='cbox[]']")).filter(function(e) { 
+        $.getJSON("GetPhdStudentList", function (data) {
+            $.each(data.account, function (index, value) {
+                $.getJSON("GetAccountbyEmail", {index: value.email}, function (data) {
+                    if((data.fkCycle==e.value || data.fkCurriculum==e.value || "TuttiAll"==e.value || (data.fkCycle+data.fkCurriculum)==e.value)&& e.checked){     
+                           $ ("#ris"+index).show();        
+                    }
+                });
             });
-        });
+        });       
     });
-    
+            
 }
 
 
@@ -144,24 +124,23 @@ function addNewsButton()
         newsTitle = $("#newsTitle").val();
         newsDescription = $("#newsDescription").val();
         
-        // Invio dati alla servlet per l'inserimento della news
-        
-        email=$("#resulthead input:checked");
-        if($( "#curriculum_form input:checked" ).val()=="avviso"){
-            var n = $("#resulthead input:checked").length;
-            if (n > 0){
-                $("#resulthead input:checked").each(function(){         
-                    $.getJSON("EmailForwarded",
-                      {email:$(this).val() ,newsTitle:newsTitle,newsDescription:newsDescription}, function (data) {
-                        if(data.result){
-                           $( "#curriculum_form input:checked" ).removeAttr('checked');
-                        }                 
-                    });
-                    alert("email inviata");
-                });
-            }
-        } 
+        // Invio dati alla servlet per l'inserimento della news nel caso in cui i form siano compilati e vi sia almento 
         if($("#newsTitle").val()!="" && $("#newsDescription").val()!=""){
+            email=$("#resulthead input:checked");
+            if($( "#curriculum_form input:checked" ).val()=="avviso"){
+                var n = $("#resulthead input:checked").length;
+                if (n > 0){
+                    $("#resulthead input:checked").each(function(){         
+                        $.getJSON("EmailForwarded",
+                          {email:$(this).val() ,newsTitle:newsTitle,newsDescription:newsDescription}, function (data) {
+                            if(data.result){
+                               $( "#curriculum_form input:checked" ).removeAttr('checked');
+                            }                 
+                        });
+                        alert("email inviata");
+                    });
+                }
+            }       
             $("#divPanelAddORModify").hide();
             $("#accountListTable tr").remove();
             $.getJSON("InsertNews",
@@ -170,7 +149,9 @@ function addNewsButton()
                 $("#accountListTable tr").remove();
                 location.reload();
             });
-        }else{alert("Inserire i dati richiesti nella form");}
+        }else{
+            alert("Inserire i dati richiesti nella form");
+        }
     });
 
 }
