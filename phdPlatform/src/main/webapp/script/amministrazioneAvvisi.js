@@ -8,6 +8,7 @@ $(document).ready(function () {
 
     getNewsList();
     Crealista();
+    ComponentsLoad();
 });
 
 function getNewsList()
@@ -32,12 +33,11 @@ function optionContact(controllo)
     if(controllo==="avviso")
     {
         $("#DivSenderContact").show();
-        ComponentsLoad();
-        }
-        else
-        {
-            $("#DivSenderContact").hide();       
-            }
+    }
+    else
+    {
+        $("#DivSenderContact").hide();       
+    }
 }
 
 //viene creata una lista che contiene tutti la checkbox di tutti gli studenti 
@@ -63,31 +63,50 @@ function Svuotalista()
 //Metodo per caricare i cicli e i curriculum
 function ComponentsLoad()
 {
-            $.getJSON("GetCyclesListNumers", function (data) {
-                $.each(data.cyclesIds, function (index, value) {
-                    cycles = "<input type='checkbox' name='cbox[]' value='" + value + "' onclick='StudentCheck()'> " + value +" " ;
-                    $("#CicliCheckbox").append(cycles);
+    $.getJSON("GetCyclesListNumers", function (data) {
+        $.each(data.cyclesIds, function (index, value) {
+            cycles = "<input type='checkbox' name='cbox[]' class='s0' value='" + value + "' onclick='StudentCheck()'> " + value +" " ;
+            $("#CicliCheckbox").append(cycles);
+        });
+    });
+    $.getJSON("GetCurriculumsNames", function (data) {
+        $.each(data.curriculumNames, function (index, value) {
+            curriculum = "<input type='checkbox' name='cbox[]' class='s1' value='" + value.name + "'onclick='StudentCheck()'> " + value.name +" " ;
+            $("#CurriculumCheckbox").append(curriculum);
+        });
+    });
+    $.getJSON("GetCyclesListNumers", function (data) {
+        $.each(data.cyclesIds, function (index, value) {
+            $.getJSON("GetCurriculumcicList", {number: value}, function (data) {
+                $.each(data.curriculumcicList, function (index, value2) {
+                    curriculum = "<input type='checkbox' name='cbox[]' class='s2' value='" + value + value2.name + "' onclick='StudentCheck()'> " + value + " - " + value2.name + " ";
+                    $("#CicloCurriculumCheckbox").append(curriculum);
                 });
             });
-            $.getJSON("GetCurriculumsNames", function (data) {
-                $.each(data.curriculumNames, function (index, value) {
-                    curriculum = "<input type='checkbox' name='cbox[]' value='" + value.name + "'onclick='StudentCheck()'> " + value.name +" " ;
-                    $("#CurriculumCheckbox").append(curriculum);
-                });
-            });
-            $.getJSON("GetCyclesListNumers", function (data) {
-                $.each(data.cyclesIds, function (index, value) {
-                    $.getJSON("GetCurriculumcicList", {number: value}, function (data) {
-                        $.each(data.curriculumcicList, function (index, value2) {
-                            curriculum = "<input type='checkbox' name='cbox[]' value='" + value + value2.name + "' onclick='StudentCheck()'> " + value + " - " + value2.name + " ";
-                            $("#CicloCurriculumCheckbox").append(curriculum);
-                        });
-                    });
-                });
-            });
+        });
+    });
+    var all = "<input type='checkbox' name='SelezionaTutti' class='SelezionaTutti' value='TuttiAll' onclick='AllCheck(";
+    all2 = "),StudentCheck()'> Tutti " ;
+    $("#CicliCheckbox").append(all + "0" + all2);
+    $("#CurriculumCheckbox").append(all+"1"+all2);
+    $("#CicloCurriculumCheckbox").append(all+"2"+all2);
+}
+
+//metodo per attivare/disattivare tutte le scelte dei curriculum/cicli/ciclo-curriculum
+function AllCheck(valore){
+    if($('.SelezionaTutti')[valore].checked) {
+	$('.s'+valore).each(function(j){
+            $('.s'+valore)[j].checked=true;
+        });
+    }else{
+      $('.s'+valore).each(function(j){
+            $('.s'+valore)[j].checked=false;
+        });  
+    }
+    
 }
 //Metodo che visualizza a schermo le checkbox relative alla scelta dei curriculum/cicli/ciclo-curriculum
-function StudentCheck(sel)
+function StudentCheck()
 {  
     Svuotalista();
     [].slice.call(document.querySelectorAll("[name='cbox[]']")).filter(function(e) { 
