@@ -44,9 +44,7 @@ public class EmailForwarded extends HttpServlet {
         String email = request.getParameter("email");
         String oggetto = request.getParameter("newsTitle");
         String testo = request.getParameter("newsDescription");
-        manager.sendMail(email,oggetto,testo);
-        System.out.println("ss");
-        
+        manager.sendMail(email,oggetto,testo);        
         result.put("result", true); 
         out.write(result.toString());
        
