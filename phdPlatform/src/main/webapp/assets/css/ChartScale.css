@@ -14,13 +14,14 @@ div.graphic {
     width:700px ;
     margin-left: 20%;
     margin-right: auto;
-    margin-top:3%;
+    
 
     
 },
 div canvas{
     height: 700px;
     width: 700px ;
+
 }
 table{
     width: 640px;
@@ -73,4 +74,8 @@ hr {
     
     width: 100%; 
     margin-left: 5%;
+}
+
+div.tabe {
+    margin-bottom:15%;
 }
