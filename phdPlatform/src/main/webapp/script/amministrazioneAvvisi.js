@@ -1,4 +1,4 @@
-/* 
+/*   
  * To change this license header, choose License Headers in Project Properties.
  * To change this template file, choose Tools | Templates
  * and open the template in the editor.
@@ -7,7 +7,8 @@
 $(document).ready(function () {
 
     getNewsList();
-    Crealista();
+    createsList();
+    componentsLoad();
 });
 
 function getNewsList()
@@ -26,102 +27,97 @@ function getNewsList()
 
     });
 }
-//funzione per controllare se l'utente vuole inserire un avviso o una news
+/** funzione per controllare se l'utente vuole inserire un avviso o una news **/
 function optionContact(controllo)
 {
     if(controllo==="avviso")
     {
         $("#DivSenderContact").show();
-        }
-        else
-        {
-            $("#DivSenderContact").hide();       
-            }
+    }
+    else
+    {
+        $("#DivSenderContact").hide();       
+    }
 }
 
-//viene creata una lista che contiene tutti la checkbox di tutti gli studenti 
-function Crealista()
+/**viene creata una lista che contiene tutti la checkbox di tutti gli studenti **/
+function createsList()
 {
-    lista_student = [];    
+    listStudent = [];    
     $.getJSON("GetPhdStudentList", function (data) {
         $.each(data.account, function (index, value) {
-            lista_student[index]="<div id='ris"+index+"'><input type='checkbox' value='"+value.secondaryEmail+"'> "+value.surname +" "+value.name+"</div>";
-            $("#resulthead").append(lista_student[index]);
+            listStudent[index]="<div id='ris"+index+"'><input type='checkbox' value='"+value.secondaryEmail+"'> "+value.surname +" "+value.name+"</div>";
+            $("#resulthead").append(listStudent[index]);
             $("#ris"+index).hide();            
         });
     });
 }
-
-function svuotalista()
-{
-    var i=0;
-    while(i<lista_student.length){           
-        $("#ris"+i).hide();
-        i++;
-    }
-}      
-
-//Metodo per caricare i cicli/curriculum/ciclo-curriculum selezionati dall utente
-function selectioned()
-{
-    selected = $("#Cicli-curriculum option:selected");
-    $("#Select-CC option").remove();
-    all= "<option class='optionItem' value='TuttiAll'>  Tutti </option> ";
-    $("#Select-CC").append(all);
-    switch (selected.val()){
-        case "Cicli":
-            $.getJSON("GetCyclesListNumers", function (data) {
-                $.each(data.cyclesIds, function (index, value) {
-                    cycles = "<option class='optionItem' value='" + value + "'> " + value + "  </option> ";
-                    $("#Select-CC").append(cycles);
-                });
-            });
-            
-        break;
-        case "Curriculum":
-            $.getJSON("GetCurriculumsNames", function (data) {
-                $.each(data.curriculumNames, function (index, value) {
-                    curriculum = "<option class='optionItem' value='" + value.name + "'> " + value.name + "  </option> ";
-                    $("#Select-CC").append(curriculum);
-                });
-            });
-        break;
-        case "Cicli-curriculum":
-            $.getJSON("GetCyclesListNumers", function (data) {
-                $.each(data.cyclesIds, function (index, value) {
-                    $.getJSON("GetCurriculumcicList", {number: value}, function (data) {
-                        $.each(data.curriculumcicList, function (index, value2) {
-                            curriculum = "<option class='optionItem' value='" + value + value2.name + "'> " + value + " - " + value2.name + " </option> ";
-                            $("#Select-CC").append(curriculum);
-                        });
-                    });
-                });
-            });
-        break;
-    }
-}
-
-//Metodo che visualizza a schermo le checkbox relative alla scelta dei curriculum/cicli/ciclo-curriculum
-function StudentCheck()
-{
-    svuotalista();
-    selected = $("#Select-CC option:selected"); 
+function emptyList()
+{  
     $.getJSON("GetPhdStudentList", function (data) {
-        $.each(data.account, function (index, value) {
-            $.getJSON("GetAccountbyEmail", {index: value.email}, function (data) {
-                if(data.fkCycle==selected.val()) 
-                        $("#ris"+index).show();
-                if(data.fkCurriculum==selected.val())
-                        $("#ris"+index).show();
-                if((data.fkCycle+data.fkCurriculum)==selected.val())
-                        $("#ris"+index).show();
-                    if("TuttiAll"==selected.val()) 
-                        $("#ris"+index).show();
-                    
+        $.each(data.account, function (index) {
+            $("#ris"+index).hide();            
+        });
+    });
+}
+/** Metodo per caricare i cicli e i curriculum **/
+function componentsLoad()
+{
+    $.getJSON("GetCyclesListNumers", function (data) {
+        $.each(data.cyclesIds, function (index, value) {
+            cycles = "<input type='checkbox' name='cbox[]' class='s0' value='" + value + "' onclick='studentCheck()'> " + value +" " ;
+            $("#CicliCheckbox").append(cycles);
+        });
+    });
+    $.getJSON("GetCurriculumsNames", function (data) {
+        $.each(data.curriculumNames, function (index, value) {
+            curriculum = "<input type='checkbox' name='cbox[]' class='s1' value='" + value.name + "'onclick='studentCheck()'> " + value.name +" " ;
+            $("#CurriculumCheckbox").append(curriculum);
+        });
+    });
+    $.getJSON("GetCyclesListNumers", function (data) {
+        $.each(data.cyclesIds, function (index, value) {
+            $.getJSON("GetCurriculumcicList", {number: value}, function (data) {
+                $.each(data.curriculumcicList, function (index, value2) {
+                    curriculum = "<input type='checkbox' name='cbox[]' class='s2' value='" + value + value2.name + "' onclick='studentCheck()'> " + value + " - " + value2.name + " ";
+                    $("#CicloCurriculumCheckbox").append(curriculum);
+                });
             });
         });
     });
-    
+    var all = "<input type='checkbox' name='SelezionaTutti' class='SelezionaTutti' value='TuttiAll' onclick='allCheck(";
+    all2 = "),studentCheck()'> Tutti " ;
+    $("#CicliCheckbox").append(all + "0" + all2);
+    $("#CurriculumCheckbox").append(all+"1"+all2);
+    $("#CicloCurriculumCheckbox").append(all+"2"+all2);
+}
+
+/** Metodo per attivare/disattivare tutte le scelte dei curriculum/cicli/ciclo-curriculum **/
+function allCheck(valore){
+	$('.s'+valore).each(function(j){
+            if($('.SelezionaTutti')[valore].checked) {
+                $('.s'+valore)[j].checked=true;
+            }else{
+                $('.s'+valore)[j].checked=false; 
+            }
+        });  
+}
+/** Metodo che visualizza a schermo le checkbox relative alla scelta dei curriculum/cicli/ciclo-curriculum **/
+function studentCheck()
+{  
+    emptyList();
+    [].slice.call(document.querySelectorAll("[name='cbox[]']")).filter(function(e) { 
+        $.getJSON("GetPhdStudentList", function (data) {
+            $.each(data.account, function (index, value) {
+                $.getJSON("GetAccountbyEmail", {index: value.email}, function (data) {
+                    if((data.fkCycle==e.value || data.fkCurriculum==e.value || "TuttiAll"==e.value || (data.fkCycle+data.fkCurriculum)==e.value)&& e.checked){     
+                           $ ("#ris"+index).show();        
+                    }
+                });
+            });
+        });       
+    });
+            
 }
 
 
@@ -144,24 +140,23 @@ function addNewsButton()
         newsTitle = $("#newsTitle").val();
         newsDescription = $("#newsDescription").val();
         
-        // Invio dati alla servlet per l'inserimento della news
-        
-        email=$("#resulthead input:checked");
-        if($( "#curriculum_form input:checked" ).val()=="avviso"){
-            var n = $("#resulthead input:checked").length;
-            if (n > 0){
-                $("#resulthead input:checked").each(function(){         
-                    $.getJSON("EmailForwarded",
-                      {email:$(this).val() ,newsTitle:newsTitle,newsDescription:newsDescription}, function (data) {
-                        if(data.result){
-                           $( "#curriculum_form input:checked" ).removeAttr('checked');
-                        }                 
-                    });
-                    alert("email inviata");
-                });
-            }
-        } 
+        /** Invio dati alla servlet per l'inserimento della news e l'invio dell'email**/
         if($("#newsTitle").val()!="" && $("#newsDescription").val()!=""){
+            email=$("#resulthead input:checked");
+            if($( "#curriculum_form input:checked" ).val()=="avviso"){
+                var n = $("#resulthead input:checked").length;
+                if (n > 0){
+                    $("#resulthead input:checked").each(function(){         
+                        $.getJSON("EmailForwarded",
+                          {email:$(this).val() ,newsTitle:newsTitle,newsDescription:newsDescription}, function (data) {
+                            if(data.result){
+                               $( "#curriculum_form input:checked" ).removeAttr('checked');
+                            }                 
+                        });
+                        alert("email inviata");
+                    });
+                }
+            }       
             $("#divPanelAddORModify").hide();
             $("#accountListTable tr").remove();
             $.getJSON("InsertNews",
@@ -170,7 +165,9 @@ function addNewsButton()
                 $("#accountListTable tr").remove();
                 location.reload();
             });
-        }else{alert("Inserire i dati richiesti nella form");}
+        }else{
+            alert("Inserire i dati richiesti nella form");
+        }
     });
 
 }
@@ -185,14 +182,14 @@ function modifyNewsButton(id)
     $("#tableDiv").hide();
     $("#divPanelAddORModify").show();
 
-    //servlet per richiamare le informazioni sulla news selezionata
+    /** Servlet per richiamare le informazioni sulla news selezionata **/
     $.getJSON("GetNewsbyId", {idNews: id}, function (data) {
         $("#newsTitle").val(data.title);
         $("#newsDescription").val(data.description);
     });
 
     $("#saveNewsModify").click(function () {
-        // Invio dati alla servlet per la modifica della news
+        /** Invio dati alla servlet per la modifica della news **/
         $.getJSON("ModifyNews",
                 {idNews: id, title: $("#newsTitle").val(), description: $("#newsDescription").val()}, function (data) {
             location.reload();
@@ -208,7 +205,7 @@ function removeNewsButton(id)
 {
     $("#descriptionPanel").hide();
 
-    // Servlet per la rimozione della news
+    /** Servlet per la rimozione della news **/
     $.getJSON("DeleteNews", {idNews: id}, function (data) {
         $("#accountListTable tr").remove();
         $("#tableDiv").hide();

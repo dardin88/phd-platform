@@ -112,23 +112,31 @@
                                         </div>
                                     </div>
                                     <div class="form-group" id="DivSenderContact">
-                                        <label>Filtra per:</label>
-                                            <div class="input-group">
-                                                <span class="input-group-addon"></span>
-                                                <select  name="Cicli-curriculum" class="form-control" id="Cicli-curriculum"  onclick="selectioned()"  >
-                                                    <option value="Select" selected disabled>Select</option>
-                                                    <option value="Cicli">Cicli</option>
-                                                    <option value="Curriculum">Curriculum</option>
-                                                    <option value="Cicli-curriculum">Cicli-curriculum</option>
-                                                </select>        
-                                            </div>
-                                        <br>
                                         <div class="input-group">
-                                                <span class="input-group-addon"></span>
-                                                <select  name="Select-CC" class="form-control" id="Select-CC" onclick="StudentCheck()">
-                                                    <option value="Select" selected disabled>Select</option>
-                                                </select>        
-                                            </div>
+                                            <label>Seleziona Ciclo:</label>
+                                        </div> 
+                                        <div class="input-group">
+                                            <span class="input-group-addon"></span>
+                                            <div id="CicliCheckbox"></div>
+                                        </div>
+                                        <div class="input-group">
+                                            <br>
+                                            <label>Seleziona Curriculum:</label>
+                                        </div> 
+                                        <div class="input-group">
+                                            <span class="input-group-addon"></span>
+                                            <div id="CurriculumCheckbox"></div>
+                                        </div>
+                                        <div class="input-group">
+                                            <br>
+                                            <label>Seleziona Ciclo-Curriculum:</label>
+                                        </div> 
+                                        <div class="input-group">
+                                            <span class="input-group-addon"></span>
+                                            <div id="CicloCurriculumCheckbox"></div>
+                                        </div>
+                                        <br>
+                                        
                                         <div class="form-group">
                                             <br>
                                             <div id="resulthead">                
