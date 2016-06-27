@@ -521,6 +521,7 @@ public class CalendarManager {
                 lesson.setClassroom(result.getString("classroom"));
                 lesson.setDescription(result.getString("desription"));
                 lesson.setFK_course(result.getInt("fkCourse"));
+                lesson.setStatus(result.getString("status"));
             }
 
             return lesson;
