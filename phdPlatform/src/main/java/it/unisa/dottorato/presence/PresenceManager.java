@@ -320,7 +320,7 @@ public class PresenceManager {
      * @throws PhdStudentexception
      * @throws IdException 
      */
-    private  boolean changeSignatura(String dottorando,int idLesson)  throws SQLException, IOException, PhdStudentexception, IdException {
+    public  boolean changeSignatura(String dottorando,int idLesson)  throws SQLException, IOException, PhdStudentexception, IdException {
           boolean controllo=false;
         try (Connection connect = DBConnection.getConnection()) {
            

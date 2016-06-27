@@ -87,32 +87,28 @@ public class PresenceManagerTest {
     /**
      * Test of getPresenceToLesson method, of class PresenceManager.
      */
-    @Test @Ignore
+    @Test 
     public void testGetPresenceToLesson() throws Exception {
         System.out.println("getPresenceToLesson");
-        String dottorando = "";
-        int idCorso = 0;
-        PresenceManager instance = null;
-        ArrayList<Presence> expResult = null;
-        ArrayList<Presence> result = instance.getPresenceToLesson(dottorando, idCorso);
-        assertEquals(expResult, result);
-        // TODO review the generated test code and remove the default call to fail.
-        fail("The test case is a prototype.");
+        String dottorando = "ariemma@hotmail.it";
+        int idCorso = 3;
+        ArrayList<Presence> list = result.getPresenceToLesson(dottorando, idCorso);
+        assertNotNull(list);
     }
 
     /**
      * Test of modifyPresence method, of class PresenceManager.
      */
-    @Test @Ignore
+    @Test 
     public void testModifyPresence() throws Exception {
         System.out.println("modifyPresence");
-        String dottorando = "";
-        int idLesson = 0;
-        PresenceManager instance = null;
-        instance.modifyPresence(dottorando, idLesson);
-        // TODO review the generated test code and remove the default call to fail.
-        fail("The test case is a prototype.");
-    }
+        String dottorando = "ariemma@hotmail.it";
+        int idLesson = 2;
+        boolean stato_in=result.changeSignatura(dottorando, idLesson);
+        result.modifyPresence(dottorando, idLesson);
+        boolean stato_out=result.changeSignatura(dottorando, idLesson);
+        assertNotEquals(stato_in,stato_out);
+    } 
 
     /**
      * Test of testDottorando method, of class PresenceManager.
@@ -224,28 +220,31 @@ public class PresenceManagerTest {
     /**
      * Test of getPresencesLesson method, of class PresenceManager.
      */
-    @Test @Ignore
+    @Test 
     public void testGetPresencesLesson() throws Exception {
         System.out.println("getPresencesLesson");
-        int fkLesson = 0;
-        PresenceManager instance = null;
-        ArrayList<Presence> expResult = null;
+        int fkLesson = 2;
         ArrayList<Presence> list = result.getPresencesLesson(fkLesson);
-        
+        assertNotNull(list);
     }
 
     /**
      * Test of changeAllPresencesLesson method, of class PresenceManager.
      */
-    @Test @Ignore
+    @Test 
     public void testChangeAllPresencesLesson() throws Exception {
         System.out.println("changeAllPresencesLesson");
-        int fkLesson = 0;
+        int fkLesson = 2;
         int isPresent = 0;
-        PresenceManager instance = null;
-        instance.changeAllPresencesLesson(fkLesson, isPresent);
-        // TODO review the generated test code and remove the default call to fail.
-        fail("The test case is a prototype.");
+        result.changeAllPresencesLesson(fkLesson, isPresent);
+        ArrayList<Presence> presenze= result.getPresencesLesson(fkLesson);
+        int flag=0;
+        for (Presence p:presenze)
+        {
+            if(p.isIsPresent()) flag= 1;
+        }
+        assertEquals(flag,isPresent);
+        
     }
     
 }
