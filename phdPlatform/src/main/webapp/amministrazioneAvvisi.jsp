@@ -107,7 +107,7 @@
                                         <label>Tipologia avviso</label>
                                         <div class="input-group">
                                             <span class="input-group-addon"> </span>
-                                              <input type="radio" name="gender" value="news" onclick="optionContact(this.value)"> News
+                                              <input type="radio" name="gender" value="news" onclick="optionContact(this.value)" checked> News
                                               <input type="radio" name="gender" value="avviso" onclick="optionContact(this.value)"> Avviso<br>
                                         </div>
                                     </div>

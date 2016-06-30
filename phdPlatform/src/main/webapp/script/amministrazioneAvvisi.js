@@ -139,39 +139,62 @@ function addNewsButton()
 
         newsTitle = $("#newsTitle").val();
         newsDescription = $("#newsDescription").val();
-        
-        /** Invio dati alla servlet per l'inserimento della news e l'invio dell'email**/
-        if($("#newsTitle").val()!="" && $("#newsDescription").val()!=""){
+        /** Invio dati alla servlet per l'inserimento della news e l'invio dell'email con relativi controlli sui parametri immessi**/
+        if(controlError(newsTitle) && controlError(newsDescription)){ 
             email=$("#resulthead input:checked");
             if($( "#curriculum_form input:checked" ).val()=="avviso"){
                 var n = $("#resulthead input:checked").length;
-                if (n > 0){
-                    $("#resulthead input:checked").each(function(){         
-                        $.getJSON("EmailForwarded",
-                          {email:$(this).val() ,newsTitle:newsTitle,newsDescription:newsDescription}, function (data) {
-                            if(data.result){
-                               $( "#curriculum_form input:checked" ).removeAttr('checked');
-                            }                 
+                    if (n > 0){
+                        $("#resulthead input:checked").each(function(){         
+                            $.getJSON("EmailForwarded",
+                             {email:$(this).val() ,newsTitle:newsTitle,newsDescription:newsDescription}, function (data) {
+                                if(data.result){
+                                    $( "#curriculum_form input:checked" ).removeAttr('checked');
+                                }                 
+                            });
+                            alert("email inviata");
                         });
-                        alert("email inviata");
-                    });
-                }
+                    }
             }       
             $("#divPanelAddORModify").hide();
             $("#accountListTable tr").remove();
             $.getJSON("InsertNews",
-              {title: newsTitle, description: newsDescription}, function (data) {
+             {title: newsTitle, description: newsDescription}, function (data) {
                 $("#divPanelAddORModify").hide();
                 $("#accountListTable tr").remove();
                 location.reload();
-            });
-        }else{
-            alert("Inserire i dati richiesti nella form");
+            });        
         }
     });
-
 }
 
+function controlError(element){
+    var iChars = "!@#$%^&*()+=-[]\\\';,./{}|\":<>?";
+    for (var i = 0; i < $("#newsTitle").val().length; i++) {
+        if (iChars.indexOf($("#newsTitle").val().substring(i, i+1)) != -1) {
+            alert("Il titolo contiene caratteri speciali. \nRimuovili e riprova")
+            return false;                      
+        }
+    }    
+    switch(element){
+        case "":
+            alert("Inserire i dati richiesti nella form");
+            return false; 
+            break;
+        case $("#newsTitle").val():
+            if(element.length >=5 && element.length <=50 )
+                return true;
+            alert("il titolo deve contenere un numero di carattari compresi nell'intervallo che va da 5 a 50 ");
+            return false; 
+            break;
+        case $("#newsDescription").val():
+            if(element.length >=1 && element.length <=65535 )
+                return true;
+            alert("la descrizione deve contenere un numero di carattari compresi nell'intervallo che va da 1 a 65535 ");
+            return false; 
+            break;       
+    }
+}
 function modifyNewsButton(id)
 {
     $("#saveNewsAdd").hide();
@@ -189,13 +212,13 @@ function modifyNewsButton(id)
     });
 
     $("#saveNewsModify").click(function () {
+                if(controlError($("#newsTitle").val()) && controlError($("#newsDescription").val())){ 
         /** Invio dati alla servlet per la modifica della news **/
         $.getJSON("ModifyNews",
                 {idNews: id, title: $("#newsTitle").val(), description: $("#newsDescription").val()}, function (data) {
             location.reload();
         });
-
-
+    }
     });
 
 }
