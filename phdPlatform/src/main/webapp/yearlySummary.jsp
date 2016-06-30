@@ -54,9 +54,11 @@
         <!-- JavaScripts initializations and stuff -->
         <script src="assets/js/xenon-custom.js"></script>
                  
+        <script src="assets/js/jsPDF-1.2.60/dist/jspdf.min.js"></script>
+        <script src="assets/js/jsPDF-1.2.60/autotablePlugin.js"></script>
         <script type="text/javascript" src="script/yearlySummaryPDF.js"></script>
         <script type="text/javascript" src="script/yearlySummary.js"></script>
- 
+        
         <style> 
         .scrollableContainer {
             height: 300px; 
