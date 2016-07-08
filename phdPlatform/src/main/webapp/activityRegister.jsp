@@ -106,7 +106,7 @@
                                     doc.text("________________________", 40, 405);
                                     var typologyHours = '';
                                     activitiesHours.forEach(function(activity){   
-                                        typologyHours = typologyHours+activity.typology+': '+activity.totalTime+(activity.totalTime === 1 ? ' ora\n\n' : ' ore\n\n');
+                                        typologyHours = typologyHours+activity.typology+': '+Math.round(activity.totalTime)+(activity.totalTime === 1 ? ' ora\n\n' : ' ore\n\n');
                                     });
                                     doc.setFontSize(12);
                                     doc.text(typologyHours, 40, 440);
@@ -177,7 +177,7 @@
                             }
                         });
                                                 
-                        totalHours = totalMinutes/60;
+                        totalHours = Math.round(totalMinutes/60);
                             
                         $.each(data.activities, function(rowIndex, r) {
                             var row = $("<tr/></tbody>");         
@@ -219,7 +219,7 @@
             function showSummary(){
                 var customHtml = '';
                 activitiesHours.forEach(function(activity){   
-                    customHtml = customHtml+activity.typology+': '+activity.totalTime+(activity.totalTime === 1 ? ' ora<br>' : ' ore<br>');
+                    customHtml = customHtml+activity.typology+': '+ Math.round(activity.totalTime)+(activity.totalTime === 1 ? ' ora<br>' : ' ore<br>');
                 });
                 $("#infoDialog").modal();
                 $("#titleInfo").html("Ore correnti: "+totalHours);    

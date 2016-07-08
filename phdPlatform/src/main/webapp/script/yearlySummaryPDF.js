@@ -40,7 +40,7 @@ function printPDF(firstLastName, anno, tutori, curriculum, activities){
         ],
         rows = [];
     activities.forEach(function(activity){ 
-        if(activity.typology === 'corso' || activity.typology === 'seminario'){
+        if(activity.typology === 'courseSeminar'){
             rows.push({'Nome Corso':activity['Nome Corso'], 'typology':activity.typology,
                        'Ora Inizio':activity['Ora Inizio'], 'Ora Fine':activity['Ora Fine'],
                        'Data': activity.Data, 'Luogo': activity.Luogo,

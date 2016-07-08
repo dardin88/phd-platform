@@ -130,10 +130,10 @@
                                                            
                                                            <p>Nome Attività</p>
                                                            <div class="input-group">
-                                                               <select id="seminarSelect" style="visibility:hidden; width:250px;" onchange="onChangeSeminar()">
+                                                               <select id="seminarSelect" style="visibility:hidden; width:250px;" onchange="onChangeSeminar()" >
                                                                </select>  
                                                                
-                                                               <input id="name" name="name" maxlength="30" type="text" class="form-control" required>
+                                                               <input id="name" name="name" maxlength="30" type="text" class="form-control" onblur="checkCharacter(this.value)" onfocus="changeColor()" required>
                                                            </div>
 
                                                            <p>Descrizione:</p>

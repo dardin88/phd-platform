@@ -52,7 +52,7 @@ function insertEditActivity(servlet) {
         idSeminar = typology !=="Seminario" ? "N/A": $("#seminarSelect :selected").val() ;
 
     //Controllo sui campi. Non devono essere vuoti
-    if (name !== "" && typology !== "" && description !== "" && date !=="" && name !=="seleziona seminario") {
+    if (name !== "" && typology !== "" && description !== "" && date !=="" && name !=="seleziona seminario" && checkChar) {
         //controllo se l'ora di fine viene dopo l'ora di inizio
         if(checkTime(d1,d2)){
             //controllo se l'aggiunta delle ore delle nuove attività non è maggiore di 1500
@@ -193,7 +193,7 @@ function convertToAmPm(ora)
 }
 
 /**
- * invocata nell'onready e recupera tutti i seminari e li inserisce nella select riguardanti i seminari
+ * recupera tutti i seminari e li inserisce nella select riguardanti i seminari
  * @returns {undefined}
  */
 function getSeminar(){
@@ -273,6 +273,20 @@ function clearAll(){
     $("#endTimeActivity").attr("disabled",false);
 }
 
+function checkCharacter(toCheck){
+    var patt = /^([a-zA-Z]+\s)*[a-zA-Z]+$/;
+    var result = patt.test(toCheck);
+    console.log(toCheck);
+    if(!result){
+        $("#name").css("border", "2px red solid");
+        checkChar = false;
+    }else
+        checkChar = true;
+    console.log(checkChar);
+}
+function changeColor(){
+    $("#name").css("border", "1px solid #e4e4e4");
+}
 /**
  * controlla se la tipologia inserita dall'utente è "Seminario" 
  * viene sostituita con un'altra stinga
