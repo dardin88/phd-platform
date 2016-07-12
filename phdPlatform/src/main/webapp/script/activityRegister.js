@@ -4,7 +4,7 @@
  * and open the template in the editor.
  */
 const MAX_HOURS = 1500;
-
+checkChar = true;
 /**
  * modifica l'interfaccia utente per la modifica di un'attività. I campi sono precompilati.
  * @returns {undefined}
