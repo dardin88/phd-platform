@@ -7,7 +7,11 @@ package it.unisa.dottorato.activityRegister;
 
 import it.unisa.dottorato.phdCourse.Course;
 import it.unisa.dottorato.phdCourse.Seminar;
+import java.io.IOException;
+import java.sql.SQLException;
 import java.util.ArrayList;
+import java.util.logging.Level;
+import java.util.logging.Logger;
 import org.junit.After;
 import org.junit.AfterClass;
 import org.junit.Before;
@@ -23,12 +27,54 @@ import org.junit.Ignore;
 public class ActivityRegisterManagerTest {
     
     private ActivityRegisterManager instance;
+    private String fkPhdStudent,annoInizio;
+    private Activity activity;
+    private int idActivity;
     
     @Before
     public void setUp() {
-        instance = ActivityRegisterManager.getInstance();
+        try {
+            
+            fkPhdStudent = "dinucci@hotmail.it";
+            annoInizio = "2015";
+            
+            //inserimento attività nel DB
+            instance = ActivityRegisterManager.getInstance();
+            
+            activity = new Activity();
+            activity.setName("Test");
+            activity.setDescription("UnitTest");
+            activity.setStartDateTime("2016-06-28 09:00:00");
+            activity.setEndDateTime("2016-06-28 11:00:00");
+            activity.setTypology("Test");
+            activity.setFkPhdStudent("dinucci@hotmail.it");
+            
+            
+            instance.insertActivity(activity, "N/A");
+            
+            //Recupero ultima attività inserita
+            ArrayList<Activity> result = instance.getActivityRegisterOf(fkPhdStudent,annoInizio);
+            int max = 0;
+            for(int i=0; i< result.size();i++){
+                if(max < result.get(i).getIdActivity() && !result.get(i).getTypology().equalsIgnoreCase("Lezione"))
+                    max = result.get(i).getIdActivity();
+            }
+            System.out.println("max:"+max);
+            idActivity = max;
+            
+        } catch (Exception ex) {
+            Logger.getLogger(ActivityRegisterManagerTest.class.getName()).log(Level.SEVERE, null, ex);
+        }
     }
  
+    @After
+     public void tearDown(  ) {
+        try {   
+            instance.deleteActivity(idActivity, fkPhdStudent);
+        } catch (Exception ex) {
+            Logger.getLogger(ActivityRegisterManagerTest.class.getName()).log(Level.SEVERE, null, ex);
+        }
+    }
     /**
      * Test of getInstance method, of class ActivityRegisterManager.
      */
@@ -42,18 +88,10 @@ public class ActivityRegisterManagerTest {
     /**
      * Test of insertActivity method, of class ActivityRegisterManager.
      */
-    @Test @Ignore
+    @Test @Ignore 
     public void testInsertActivity() throws Exception {
         System.out.println("insertActivity");
-        Activity activity = new Activity();
-        activity.setName("Test");
-        activity.setDescription("UnitTest");
-        activity.setStartDateTime("2016-06-28 09:00:00");
-        activity.setEndDateTime("2016-06-28 11:00:00");
-        activity.setTypology("Test");
-        activity.setFkPhdStudent("dinucci@hotmail.it");
-        String idSeminar = "N/A";
-        instance.insertActivity(activity, idSeminar);
+        instance.insertActivity(activity, "N/A");
     }
 
     /**
@@ -61,25 +99,33 @@ public class ActivityRegisterManagerTest {
      */
     @Test
     public void testGetActivityRegisterOf() throws Exception {
-        System.out.println("getActivityRegisterOf");
-        String idStudent = "dinucci@hotmail.it";
-        String annoInizio = "2015";
-        ArrayList<Activity> result = instance.getActivityRegisterOf(idStudent, annoInizio);
+        System.out.println("getActivityRegisterOf");      
+        ArrayList<Activity> result = instance.getActivityRegisterOf(fkPhdStudent, annoInizio);
         assertNotNull(result);
     }
 
     /**
      * Test of updateActivity method, of class ActivityRegisterManager.
      */
-    @Test @Ignore
+    @Test
     public void testUpdateActivity() throws Exception {
         System.out.println("updateActivity");
-        int oldActivityID = 0;
-        Activity newActivity = null;
-        String fkPhdStudent = "";
-        instance.updateActivity(oldActivityID, newActivity, fkPhdStudent);
-        // TODO review the generated test code and remove the default call to fail.
-        fail("The test case is a prototype.");
+        
+        Activity newactivity = new Activity();
+            newactivity.setName("NameChangeByTest");
+            newactivity.setDescription("UnitTest");
+            newactivity.setStartDateTime("2016-06-28 09:00:00");
+            newactivity.setEndDateTime("2016-06-28 11:00:00");
+            newactivity.setTypology("Test");
+            newactivity.setFkPhdStudent("dinucci@hotmail.it");
+        instance.updateActivity(idActivity, newactivity, fkPhdStudent);
+        
+        ArrayList<Activity> result = instance.getActivityRegisterOf(fkPhdStudent,annoInizio);
+            for(int i=0; i< result.size();i++){
+                if(idActivity == result.get(i).getIdActivity()){
+                    System.out.println(result.get(i).getName()+" "+result.get(i).getIdActivity());
+                    assertEquals(result.get(i).getName(),"NameChangeByTest");}
+            }
     }
 
     /**
@@ -101,11 +147,9 @@ public class ActivityRegisterManagerTest {
     @Test
     public void testGetSeminarActivitiesByStudent() {
         System.out.println("getSeminarActivitiesByStudent");
-        String fkPhdStudent = "dinucci@hotmail.it";
-        String annoInizio = "2015";
         ArrayList<Seminar> result = instance.getSeminarActivitiesByStudent(fkPhdStudent, annoInizio);
         assertNotNull(result);
-     }
+    }
 
     /**
      * Test of getSeminarCoursesOfStudent method, of class ActivityRegisterManager.
@@ -113,8 +157,6 @@ public class ActivityRegisterManagerTest {
     @Test
     public void testGetSeminarCoursesOfStudent() {
         System.out.println("getSeminarCoursesOfStudent");
-        String fkPhdStudent = "dinucci@hotmail.it";
-        String annoInizio = "2015";
         ArrayList<Course> result = instance.getSeminarCoursesOfStudent(fkPhdStudent, annoInizio);
         assertNotNull(result);
     }
