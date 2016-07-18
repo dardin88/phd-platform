@@ -610,7 +610,7 @@ public class AccountManager {
      */
    
     public void sendMail(String email,String oggetto,String testo) throws SQLException, EmailException, Exception {
- Properties props = System.getProperties();
+        Properties props = System.getProperties();
 
         props.setProperty("mail.smtp.user", "phdplatformunisa@gmail.com");
         props.setProperty("mail.transport.protocol", "smtp");
@@ -655,7 +655,6 @@ public class AccountManager {
             
             Transport transport = session.getTransport("smtps");
             transport.connect("smtp.gmail.com", 465, "phdplatformunisa@gmail.com","unisaunisa");
-            transport.sendMessage(message,message.getAllRecipients());
             transport.close();
             
         } finally{

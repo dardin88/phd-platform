@@ -48,12 +48,15 @@ public class InsertNewsServlet extends HttpServlet {
             int number = NewsManager.getInstance().nextNumber();
             String  title = request.getParameter("title");
             String description= request.getParameter("description");
+            String recipients= request.getParameter("recipients");
+
          
             
             News anews = new News();
             anews.setId(number);
-             anews.setTitle(title);
+            anews.setTitle(title);
             anews.setDescription(description);
+            anews.setRecipients(recipients);
            
             
             

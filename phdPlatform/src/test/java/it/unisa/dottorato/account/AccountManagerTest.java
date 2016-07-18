@@ -184,16 +184,15 @@ public class AccountManagerTest {
     /**
      * Test of sendMail method, of class AccountManager.
      */
-    @Test @Ignore
+    @Test
     public void testSendMail() throws Exception {
         System.out.println("sendMail");
-        String email = "";
-        String oggetto = "";
-        String testo = "";
+        String email = "fwwfjjj@hotmail.it";
+        String oggetto = "dddd";
+        String testo = "fffffnnff";
         AccountManager instance = new AccountManager();
         instance.sendMail(email, oggetto, testo);
         // TODO review the generated test code and remove the default call to fail.
-        fail("The test case is a prototype.");
     }
 
     /**
@@ -420,7 +419,7 @@ public class AccountManagerTest {
     /**
      * Test of getPhdStudentsCoursebyProfessor method, of class AccountManager.
      */
-    @Test 
+    @Test @Ignore
     public void testGetPhdStudentsCoursebyProfessor() throws Exception {
         System.out.println("getPhdStudentsCoursebyProfessor");
         String professor = "adelucia@hotmail.it";

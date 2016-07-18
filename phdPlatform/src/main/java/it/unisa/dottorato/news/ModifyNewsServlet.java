@@ -50,11 +50,12 @@ public class ModifyNewsServlet extends HttpServlet {
            int oldIDNewsAvviso = Integer.parseInt(request.getParameter("idNews"));
             String title= request.getParameter("title");
             String description = request.getParameter("description");
-
+            String recipients = request.getParameter("recipients");
             News avviso = new News();
             avviso.setId(oldIDNewsAvviso);
             avviso.setTitle(title);
             avviso.setDescription(description);
+            avviso.setRecipients(recipients);
 
             result.put("result", true);
 

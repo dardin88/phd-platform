@@ -70,13 +70,15 @@ private static final String TABLE_News = "news";
              */
              String tSql = "INSERT INTO "
                     + NewsManager.TABLE_News
-                    + " (idNews,title,description)"
+                    + " (idNews,title,description,recipients)"
                     + " VALUES ("
                     + testid(nextNumber())
                     + ",'"
                     + Utility.Replace(testTitle(anews.getTitle()))
                     + "','"
                     + Utility.Replace(testDescription(anews.getDescription()))
+                    + "','"
+                    + Utility.Replace(anews.getRecipients())
                     + "')";      
             Statement stmt = connect.createStatement();
             stmt.executeUpdate(tSql);
@@ -125,6 +127,7 @@ private static final String TABLE_News = "news";
                 anews.setId(rs.getInt("idnews"));
                 anews.setTitle(rs.getString("title"));
                 anews.setDescription(rs.getString("description"));
+                anews.setRecipients(rs.getString("recipients"));
             }else{
                 throw new Exception();
             }
@@ -195,7 +198,9 @@ private static final String TABLE_News = "news";
                     + " set title = '"
                     + Utility.Replace(testTitle(pNews.getTitle()))
                     + "', description = '"
-                    +Utility.Replace(testDescription(pNews.getDescription()))
+                    + Utility.Replace(testDescription(pNews.getDescription()))
+                    + "', recipients = '"
+                    + Utility.Replace(pNews.getRecipients())
                     + "' WHERE idNews = "
                     + testid(oldNewsId);           
             //esecuzione query
@@ -243,7 +248,8 @@ private static final String TABLE_News = "news";
                 avviso.setId(rs.getInt("idNews"));
                 avviso.setTitle(rs.getString("title"));
                 avviso.setDescription(rs.getString("description"));
-                               
+                avviso.setRecipients(rs.getString("recipients"));
+           
                listAvviso.add(avviso);
 
             }

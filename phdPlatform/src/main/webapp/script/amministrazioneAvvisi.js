@@ -46,7 +46,7 @@ function createsList()
     listStudent = [];    
     $.getJSON("GetPhdStudentList", function (data) {
         $.each(data.account, function (index, value) {
-            listStudent[index]="<div id='ris"+index+"'><input type='checkbox' value='"+value.secondaryEmail+"'> "+value.surname +" "+value.name+"</div>";
+            listStudent[index]="<div id='ris"+index+"'><input type='checkbox' value='"+value.secondaryEmail+"' name='"+value.surname +" "+value.name+"'> "+value.surname +" "+value.name+"</div>";
             $("#resulthead").append(listStudent[index]);
             $("#ris"+index).hide();            
         });
@@ -136,7 +136,7 @@ function addNewsButton()
     $("#newsDescription").val("");
 
     $("#saveNewsAdd").click(function () {
-
+        newsEmailString=" ";
         newsTitle = $("#newsTitle").val();
         newsDescription = $("#newsDescription").val();
         /** Invio dati alla servlet per l'inserimento della news e l'invio dell'email con relativi controlli sui parametri immessi**/
@@ -145,9 +145,10 @@ function addNewsButton()
             if($( "#curriculum_form input:checked" ).val()=="avviso"){
                 var n = $("#resulthead input:checked").length;
                     if (n > 0){
-                        $("#resulthead input:checked").each(function(){         
+                        $("#resulthead input:checked").each(function(){  
+                            newsEmailString=newsEmailString+$(this).attr("name")+"; ";
                             $.getJSON("EmailForwarded",
-                             {email:$(this).val() ,newsTitle:newsTitle,newsDescription:newsDescription}, function (data) {
+                             {email:$(this).val(),newsTitle:newsTitle,newsDescription:newsDescription}, function (data) {
                                 if(data.result){
                                     $( "#curriculum_form input:checked" ).removeAttr('checked');
                                 }                 
@@ -159,7 +160,7 @@ function addNewsButton()
             $("#divPanelAddORModify").hide();
             $("#accountListTable tr").remove();
             $.getJSON("InsertNews",
-             {title: newsTitle, description: newsDescription}, function (data) {
+             {title: newsTitle, description: newsDescription, recipients:newsEmailString}, function (data) {
                 $("#divPanelAddORModify").hide();
                 $("#accountListTable tr").remove();
                 location.reload();
@@ -212,10 +213,27 @@ function modifyNewsButton(id)
     });
 
     $("#saveNewsModify").click(function () {
-                if(controlError($("#newsTitle").val()) && controlError($("#newsDescription").val())){ 
+        newsEmailString=" ";
+        if(controlError($("#newsTitle").val()) && controlError($("#newsDescription").val())){ 
+            email=$("#resulthead input:checked");
+            if($( "#curriculum_form input:checked" ).val()=="avviso"){
+                var n = $("#resulthead input:checked").length;
+                    if (n > 0){
+                        $("#resulthead input:checked").each(function(){  
+                            newsEmailString=newsEmailString+$(this).attr("name")+"; ";
+                            $.getJSON("EmailForwarded",
+                             {email:$(this).val(),newsTitle:$("#newsTitle").val(),newsDescription:$("#newsDescription").val()}, function (data) {
+                                if(data.result){
+                                    $( "#curriculum_form input:checked" ).removeAttr('checked');
+                                }                 
+                            });
+                            alert("email inviata");
+                        });
+                    }
+            }       
         /** Invio dati alla servlet per la modifica della news **/
         $.getJSON("ModifyNews",
-                {idNews: id, title: $("#newsTitle").val(), description: $("#newsDescription").val()}, function (data) {
+                {idNews: id, title: $("#newsTitle").val(), description: $("#newsDescription").val(), recipients:newsEmailString}, function (data) {
             location.reload();
         });
     }
@@ -254,6 +272,9 @@ function viewNewsButton(id)
     //servlet per richiamare le informazioni sulla news selezionato
     $.getJSON("GetNewsbyId", {idNews: id}, function (data) {
         $("#NewsNameField").html(" <b> " + data.title + "  </b> ");
+        if(data.recipients!=" ")        
+        data.description=" <b> Avviso inviato a: </b> "+data.recipients+" <br> <br>"+data.description;
+
         $("#newsDescriptionField").html(data.description);
     });
 }

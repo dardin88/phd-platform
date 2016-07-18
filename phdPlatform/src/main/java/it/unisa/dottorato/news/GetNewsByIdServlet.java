@@ -42,7 +42,8 @@ public class GetNewsByIdServlet extends HttpServlet{
                 result.put("idNews", avviso.getId());
                 result.put("title", avviso.getTitle());
                 result.put("description", avviso.getDescription());
-                
+                result.put("recipients", avviso.getRecipients());
+
                 out.write(result.toString());
             } catch (SQLException | JSONException | ConnectionException | ClassNotFoundException ex) {
                 Logger.getLogger(GetNewsByIdServlet.class.getName()).log(Level.SEVERE, null, ex);

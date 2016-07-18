@@ -11,7 +11,9 @@ import java.io.Serializable;
 public class News implements Serializable{
     private int id;
     private String title;
-  private String description;
+    private String description;
+    private String recipients;
+  
   
   /**Metodo della classe incaricato di settare la descrizione della news
    * 
@@ -62,6 +64,22 @@ public class News implements Serializable{
         this.id = pd;
     }
 
-   
+    /**Metodo della classe incaricato di ritornare l'id della news
+     * 
+     * @return restituisce i destinatari dell'avviso
+     */
+    public String getRecipients() {
+        return recipients;
+        
+    }
+
+    /** Metodo della classe incaricato di settare i destinatari dell'avviso
+     * 
+     * @param recipients 
+     */
+    public void setRecipients(String recipients) {
+        this.recipients = recipients;
+    }
+
     
 }
