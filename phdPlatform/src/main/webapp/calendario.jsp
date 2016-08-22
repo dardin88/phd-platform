@@ -84,7 +84,17 @@
                               <input type='hidden' name="idLesson2" id="idLess2" >
                               <input type="submit" class="btn btn-white" value="Elimina">
                           </form>
-                        <% } %>
+							<div id="uploadForm" class="panel-footer">
+								<h2>Seleziona il file:</h2>
+								<form class="form-group" action="UploadFile"
+									enctype="multipart/form-data" method="post">
+									<input type="file" name="tesi" accept=".pdf" /> <br> <input
+										type="submit" class="btn btn-blue" value="Upload" />
+								</form>
+							</div>
+			<%
+				}
+			%>
             
             </div>
         </div>
