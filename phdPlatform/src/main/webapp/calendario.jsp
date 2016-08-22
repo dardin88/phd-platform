@@ -86,10 +86,11 @@
                           </form>
 							<div id="uploadForm" class="panel-footer">
 								<h2>Seleziona il file:</h2>
-								<form class="form-group" action="UploadFile"
+								<form class="form-group" action="fileUpload"
 									enctype="multipart/form-data" method="post">
-									<input type="file" name="tesi" accept=".pdf" /> <br> <input
+									<input type="file" name="course" /> <br> <input
 										type="submit" class="btn btn-blue" value="Upload" />
+									<input type='hidden' name="courseDetails" id="courseDetails">
 								</form>
 							</div>
 			<%
