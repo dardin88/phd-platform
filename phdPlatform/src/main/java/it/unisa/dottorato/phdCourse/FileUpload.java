@@ -9,10 +9,12 @@ import java.util.logging.Logger;
 
 import javax.servlet.ServletException;
 import javax.servlet.annotation.MultipartConfig;
+import javax.servlet.annotation.WebInitParam;
 import javax.servlet.annotation.WebServlet;
 import javax.servlet.http.HttpServlet;
 import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpServletResponse;
+import javax.servlet.http.HttpSession;
 
 import org.apache.commons.fileupload.FileItem;
 import org.apache.commons.fileupload.FileUploadException;
@@ -24,7 +26,6 @@ import org.apache.commons.fileupload.servlet.ServletFileUpload;
  *
  * @author Vincenzo
  */
-@SuppressWarnings("serial")
 @WebServlet(name = "FileUpload", urlPatterns = {"/fileUpload"})
 @MultipartConfig
 public class FileUpload extends HttpServlet {
@@ -40,7 +41,7 @@ public class FileUpload extends HttpServlet {
     protected void processRequest(HttpServletRequest request,
             HttpServletResponse response) throws ServletException, IOException, FileUploadException, Exception {
 
-        PrintWriter out = response.getWriter();
+    	PrintWriter out = response.getWriter();
         if (!ServletFileUpload.isMultipartContent(request)) {
             PrintWriter writer = response.getWriter();
             writer.println("Error: Form must has enctype=multipart/form-data.");
@@ -51,15 +52,16 @@ public class FileUpload extends HttpServlet {
         factory.setSizeThreshold(MEMORY_THRESHOLD);
         factory.setRepository(new File(System.getProperty("java.io.tmpdir")));
         
-        String courseId = request.getParameter("courseDetails");
-
+        request.getSession();
         ServletFileUpload upload = new ServletFileUpload(factory);
 
+        HttpSession session = request.getSession();
+        String id = session.getAttribute("idLesson").toString();
         upload.setFileSizeMax(MAX_FILE_SIZE);
         upload.setSizeMax(MAX_REQUEST_SIZE);
         String uploadPath = getServletContext().getRealPath("")
                 + File.separator + UPLOAD_DIRECTORY;
-        File uploadDir = new File(uploadPath+"/"+courseId);
+        File uploadDir = new File(uploadPath + '/' + id);
         if (!uploadDir.exists()) {
             uploadDir.mkdir();
         }
@@ -87,6 +89,7 @@ public class FileUpload extends HttpServlet {
             
             
         } catch (Exception ex) {
+        	ex.printStackTrace();
         }
 
     }
@@ -125,6 +128,7 @@ public class FileUpload extends HttpServlet {
             processRequest(request, response);
         } catch (Exception ex) {
             Logger.getLogger(FileUpload.class.getName()).log(Level.SEVERE, null, ex);
+            ex.printStackTrace();
         }
     }
 

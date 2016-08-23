@@ -396,7 +396,6 @@ jinCalendar.setScheduleLesson = function() {
                 idLesson = $(this).attr('idLesson');
                 document.getElementById('idLess').value = idLesson;
                 document.getElementById('idLess2').value = idLesson;
-                document.getElementById('courseDetails').value = idLesson;
                 $("#titleInfo1").html(title);
                 $("#descriptionInfo1").html(text);
 	});
