@@ -159,13 +159,13 @@
 							</div>
 							
 							</form>
+							
+							
 
 							<div id="uploadForm" class="panel-footer">
 								<h2>Seleziona il file:</h2>
 								<form class="form-group" action="fileUpload" enctype="multipart/form-data" method="post">
-									<%
-				session.setAttribute("idLesson",request.getParameter("idLesson"));
-			%>
+									<%session.setAttribute("idLesson",request.getParameter("idLesson"));%>
 									<input type="file" name="fileUpload" /> <br> 
 									<input type="submit" class="btn btn-blue" value="Upload" /> 
 								</form>

@@ -6,8 +6,10 @@
 --%>
 
 <%@page import="it.unisa.dottorato.account.*"%>
+<%@ page import="java.io.*"%>
 <%@page contentType="text/html" pageEncoding="UTF-8"%>
 <%@ taglib prefix="c" uri="http://java.sun.com/jsp/jstl/core"%>
+
 
 <!DOCTYPE html>
 <c:choose>
@@ -76,11 +78,12 @@
 			</div>
 
 			<div class="modal-body" id="descriptionInfo1"></div>
+
 			<%
 				Account loggedPerson = ((Account) session.getAttribute("account"));
 				if (loggedPerson.isAdmin() || loggedPerson.getTypeAccount().equals("professor")) {
 			%>
-			<form class="form-inline" name="lessonform" method="GET"
+	<form class="form-inline" name="lessonform" method="GET"
 				action="editLesson.jsp">
 				<input type='hidden' name="idLesson" id="idLess"> <input
 					type="submit" class="btn btn-blue" value="Modifica">
@@ -93,6 +96,11 @@
 			<%
 				}
 			%>
+			
+			<form class="form-inline" method="GET" action="resourcesLesson.jsp">
+				<input type='hidden' name="idLesson3" id="idLess3"> 
+				<input type="submit" class="btn btn-blue" value="Visualizza risorse">
+			</form>
 
 		</div>
 	</div>

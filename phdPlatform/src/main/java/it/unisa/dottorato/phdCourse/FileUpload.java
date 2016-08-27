@@ -24,7 +24,7 @@ import org.apache.commons.fileupload.servlet.ServletFileUpload;
 /**
  * Servlet incaricata ad effettuare la richiesta di Upload File
  *
- * @author Vincenzo
+ * @author Vincenzo Vicidomini (vincenzo.vicidomini@gmail.com)
  */
 @WebServlet(name = "FileUpload", urlPatterns = {"/fileUpload"})
 @MultipartConfig
@@ -60,10 +60,11 @@ public class FileUpload extends HttpServlet {
         upload.setFileSizeMax(MAX_FILE_SIZE);
         upload.setSizeMax(MAX_REQUEST_SIZE);
         String uploadPath = getServletContext().getRealPath("")
-                + File.separator + UPLOAD_DIRECTORY;
-        File uploadDir = new File(uploadPath + '/' + id);
+                + File.separator + UPLOAD_DIRECTORY + File.separator + id;
+        File uploadDir = new File(uploadPath);
         if (!uploadDir.exists()) {
-            uploadDir.mkdir();
+            Boolean a = uploadDir.mkdirs();
+            System.out.println(a);
         }
         try {
             @SuppressWarnings("unchecked")
@@ -72,9 +73,7 @@ public class FileUpload extends HttpServlet {
             if (formItems != null && formItems.size() > 0) {
                 for (FileItem item : formItems) {
                     if (!item.isFormField()) {
-                        String[] fileNameSplits = item.getName().split("\\.");
-                        int extIndex = fileNameSplits.length - 1;
-                        String fileName = fileNameSplits[extIndex];
+                        String fileName = item.getName();
                         String filePath = uploadPath + File.separator + fileName;
                         File storeFile = new File(filePath);
                         item.write(storeFile);
