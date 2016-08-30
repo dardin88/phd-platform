@@ -394,8 +394,11 @@ jinCalendar.setScheduleLesson = function() {
                 title = $(this).attr('descr');
                 text = $(this).attr('title');
                 idLesson = $(this).attr('idLesson');
-                document.getElementById('idLess').value = idLesson;
-                document.getElementById('idLess2').value = idLesson;
+                try{
+	                document.getElementById('idLess').value = idLesson;
+	                document.getElementById('idLess2').value = idLesson;
+                } catch(e){}
+                document.getElementById('idLess3').value = idLesson;
                 $("#titleInfo1").html(title);
                 $("#descriptionInfo1").html(text);
 	});
